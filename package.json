@@ -1,5 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
+  "module": "./index.js",
+  "main": "./index.js",
   "version": "1.0.0",
   "description": "Component library for Carismar",
   "author": "Lars Johansson",
@@ -12,6 +14,7 @@
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "lint-commit": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
+    "create-index-files": "node ./scripts/create-index-files.js",
     "create-component": "node ./scripts/create-component.js"
   },
   "lint-staged": {
