@@ -29,7 +29,7 @@ function generateFilesContent() {
     exports.push(exportLine);
   }
   const contentIndexJs =
-    `// Auto-generated file by create-index-files.js. Do not edit manually\n` +
+    `/* eslint-disable */\n// Auto-generated file by create-index-files.js. Do not edit manually\n` +
     imports.join("\n") +
     "\n\n" +
     "export {\n" +
