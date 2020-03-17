@@ -1,7 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
+  "type": "module",
   "module": "./index.js",
-  "main": "./index.js",
   "version": "1.0.0",
   "description": "Component library for Carismar",
   "author": "Lars Johansson",
@@ -27,7 +27,8 @@
     }
   },
   "dependencies": {
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "nuxt-i18n": "^6.6.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
