@@ -1,11 +1,16 @@
 <template>
   <div class="ca-logo">
-    <h1>{{ $t("greeting") }}</h1>
+    <h1>{{ $t("greeting") }} {{ message }}</h1>
   </div>
 </template>
 <script>
 export default {
-  name: "CaLogo"
+  name: "CaLogo",
+  data() {
+    return {
+      message: process.env.DB_HOST
+    };
+  }
 };
 </script>
 <style lang="scss">
