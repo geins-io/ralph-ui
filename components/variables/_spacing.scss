@@ -1,0 +1,8 @@
+@import "../helpers/rem-calc";
+// spacing
+:root {
+  --spacing-xs: rem-calc(10px);
+  --spacing-s: rem-calc(16px);
+  --spacing-m: rem-calc(20px);
+  --spacing-xl: rem-calc(34px);
+}

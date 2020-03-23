@@ -1,6 +1,6 @@
 <template>
   <div class="ca-logo">
-    <h1>{{ $t("greeting") }} {{ message }}</h1>
+    <h1>{{ $t("GREETING_HELLO") }} {{ message }}</h1>
   </div>
 </template>
 <script>

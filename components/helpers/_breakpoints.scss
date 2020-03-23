@@ -1,31 +1,49 @@
-$mobile-max: 767px;
-$tablet-min: 768px;
-$tablet-max: 1023px;
-$desktop-min: 1024px;
-$desktop-l-min: 1200px;
-$desktop-xl-min: 1440px;
-$desktop-xxl-min: 1920px;
+$break-small: 767px;
+$break-medium: 990px;
+$break-middle: 1023px;
+$break-large: 1250px;
 
-// Media mixins
-@mixin for-mobile {
-  @media (max-width: $desktop-min) {
-    @content;
-  }
-}
-@mixin for-desktop {
-  @media (min-width: $desktop-min) {
-    @content;
-  }
-}
-
-// Visibility helpers
-.mobile-only {
-  @include for-desktop {
-    display: none !important;
-  }
-}
-.desktop-only {
-  @include for-mobile {
-    display: none !important;
+@mixin bp($media) {
+  @if $media == max-small {
+    @media only screen and (max-width: $break-small) {
+      @content;
+    }
+  } @else if $media == min-small {
+    @media only screen and (min-width: $break-small + 1) {
+      @content;
+    }
+  } @else if $media == max-medium {
+    @media only screen and (max-width: $break-medium) {
+      @content;
+    }
+  } @else if $media == min-medium {
+    @media screen and (min-width: $break-medium + 1) {
+      @content;
+    }
+  } @else if $media == max-middle {
+    @media screen and (max-width: $break-middle) {
+      @content;
+    }
+  } @else if $media == min-middle {
+    @media screen and (min-width: $break-middle + 1) {
+      @content;
+    }
+  } @else if $media == max-large {
+    @media screen and (max-width: $break-large) {
+      @content;
+    }
+  } @else if $media == min-large {
+    @media screen and (min-width: $break-large + 1) {
+      @content;
+    }
+  } @else if $media == x2 {
+    @media screen and (-webkit-min-device-pixel-ratio: 2),
+      screen and (min--moz-device-pixel-ratio: 2) {
+      @content;
+    }
+  } @else {
+    @media screen and ($media) {
+      @content;
+    }
   }
 }
