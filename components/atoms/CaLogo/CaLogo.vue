@@ -6,6 +6,12 @@
 <script>
 export default {
   name: "CaLogo",
+  props: {
+    someProp: {
+      type: String,
+      default: "TOP"
+    }
+  },
   data() {
     return {
       message: process.env.DB_HOST

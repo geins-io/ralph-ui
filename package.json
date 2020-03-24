@@ -15,7 +15,9 @@
     "lint-commit": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
     "create-index-files": "node ./scripts/create-index-files.js",
-    "create-component": "node ./scripts/create-component.js"
+    "create-component": "node ./scripts/create-component.js",
+    "documentation": "vuese gen",
+    "documentation-serve": "vuese gen && vuese serve --open"
   },
   "lint-staged": {
     "*.{js,vue}": "npm run lint-commit",
@@ -30,11 +32,15 @@
     "nuxt": "^2.12.0",
     "nuxt-i18n": "^6.6.1"
   },
+  "vuese": {
+    "outDir": "documentation"
+  },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/stylelint-module": "^3.1.0",
     "@vue/test-utils": "^1.0.0-beta.27",
+    "@vuese/cli": "^2.8.3",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",
