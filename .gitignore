@@ -88,3 +88,8 @@ sw.*
 
 # Vim swap files
 *.swp
+
+.vs/
+.vscode/
+.gitattributes
+*.workspace

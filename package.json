@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Component library for Carismar",
   "author": "Lars Johansson",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
