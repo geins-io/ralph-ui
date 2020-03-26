@@ -3,6 +3,7 @@
   <div class="ComponentNameKebabCase"></div>
 </template>
 <script>
+// @vuese
 export default {
   name: "ComponentNameCamelCase",
   components: {},
