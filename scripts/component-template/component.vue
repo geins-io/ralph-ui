@@ -1,13 +1,14 @@
-// @group ComponentType
 <template>
   <div class="ComponentNameKebabCase"></div>
 </template>
 <script>
+// @group ComponentType
 // @vuese
 export default {
-  name: "ComponentNameCamelCase",
+  name: 'ComponentNameCamelCase',
   components: {},
   mixins: [],
+  props: {},
   data: () => ({}),
   computed: {},
   watch: {},
@@ -16,5 +17,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../helpers";
+@import '../helpers';
 </style>

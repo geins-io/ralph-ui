@@ -1,27 +1,35 @@
 <template>
   <div class="ca-logo">
-    <h1>{{ $t("GREETING_HELLO") }} {{ message }}</h1>
+    <img class="ca-logo__img" :src="filename" />
   </div>
 </template>
 <script>
+// @group Atoms
+// This component displays a svg or png logo
 export default {
-  name: "CaLogo",
+  name: 'CaLogo',
+  components: {},
+  mixins: [],
   props: {
-    someProp: {
+    // Filetype of the logo
+    filetype: {
+      // 'svg', 'png'
       type: String,
-      default: "TOP"
+      default: 'svg',
+      validator(value) {
+        return ['svg', 'png'].includes(value);
+      }
     }
   },
-  data() {
-    return {
-      message: process.env.DB_HOST
-    };
-  }
+  data: () => ({}),
+  computed: {
+    filename() {
+      return require('~/assets/logo.' + this.filetype);
+    }
+  },
+  watch: {},
+  mounted() {},
+  methods: {}
 };
 </script>
-<style lang="scss">
-@import "../../helpers";
-.ca-logo {
-  background-color: red;
-}
-</style>
+<style lang="scss"></style>
