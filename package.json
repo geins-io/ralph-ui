@@ -20,7 +20,7 @@
     "documentation-serve": "vuese gen && vuese serve --open"
   },
   "lint-staged": {
-    "*.{js,vue}": "npm run lint-commit",
+    "*.{js,vue}": "npm run lint",
     "*.{css,vue}": "stylelint"
   },
   "husky": {
