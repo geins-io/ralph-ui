@@ -1,6 +1,6 @@
 # CaLogo
 
-The component blblbla
+This component displays a svg or png logo
 
 ## Props
 

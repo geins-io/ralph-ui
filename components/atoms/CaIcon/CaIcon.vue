@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <span class="ca-icon" v-html="svgFile"> </span>
 </template>
 <script>
@@ -26,4 +27,14 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.ca-icon {
+  font-size: inherit;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 1em;
+  }
+}
+</style>
