@@ -34,7 +34,7 @@ export default {
   justify-content: center;
   align-items: center;
   svg {
-    width: 1em;
+    width: 1.1em;
   }
 }
 </style>

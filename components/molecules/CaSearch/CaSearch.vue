@@ -1,11 +1,11 @@
 <template>
-  <div class="ComponentNameKebabCase"></div>
+  <div class="ca-search"></div>
 </template>
 <script>
-// @group ComponentType
+// @group Molecules
 // @vuese
 export default {
-  name: 'ComponentNameCamelCase',
+  name: 'CaSearch',
   components: {},
   mixins: [],
   props: {},
@@ -17,6 +17,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.ComponentNameKebabCase {
+.ca-search {
 }
 </style>

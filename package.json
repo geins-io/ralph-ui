@@ -12,7 +12,6 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "lint-commit": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
     "create-index-files": "node ./scripts/create-index-files.js",
     "create-component": "node ./scripts/create-component.js",

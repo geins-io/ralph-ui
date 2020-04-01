@@ -7,7 +7,7 @@ Used to place a text together with an icon
 <!-- @vuese:CaIconAndText:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|iconName|If you are using default icon setup, any name from [Feather icons](https://feathericons.com/) works. Otherwise use name of svg-file (without '.svg') in assets/icons library|`String`|`true`|-|
+|iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`true`|-|
 |iconPosition|The position of the icon|'left', 'right', 'top'|`false`|left|
 
 <!-- @vuese:CaIconAndText:props:end -->

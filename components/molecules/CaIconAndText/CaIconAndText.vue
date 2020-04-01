@@ -18,7 +18,7 @@ export default {
   },
   mixins: [],
   props: {
-    // If you are using default icon setup, any name from [Feather icons](https://feathericons.com/) works. Otherwise use name of svg-file (without '.svg') in assets/icons library
+    // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
       required: true
