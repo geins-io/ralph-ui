@@ -1,7 +1,9 @@
 <template>
   <div class="ca-mini-cart">
-    <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
-    <CaNotificationBadge class="ca-minicart__qty" :number="cartQty" />
+    <div class="ca-mini-cart__wrap">
+      <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
+      <CaNotificationBadge class="ca-minicart__qty" :number="cartQty" />
+    </div>
     <div class="ca-mini-cart__value only-desktop">{{ cartValue }}</div>
   </div>
 </template>
@@ -30,4 +32,22 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.ca-mini-cart {
+  margin-right: $px4;
+  @include bp(laptop) {
+    display: flex;
+    align-items: center;
+  }
+  &__wrap {
+    position: relative;
+  }
+  &__icon {
+    font-size: 24px;
+  }
+  &__value {
+    font-weight: $font-weight-bold;
+    margin-left: $px12;
+  }
+}
+</style>

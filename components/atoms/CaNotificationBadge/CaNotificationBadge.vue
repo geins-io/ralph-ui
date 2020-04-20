@@ -35,6 +35,7 @@ $c-notification-badge-txt: $c-text-inverse !default;
   width: 1.8em;
   height: 1.8em;
   font-weight: $font-weight-bold;
+  font-size: $font-size-xs;
   position: absolute;
   top: 0;
   right: 0;

@@ -2,9 +2,12 @@
   <NuxtLink to="/" class="ca-favorites">
     <CaIcon name="heart" class="ca-favorites__icon" />
     <span class="ca-favorites__text only-desktop">
-      My favorites ({{ favoritesQty }})
+      {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})
     </span>
-    <CaNotificationBadge class="ca-favorites__qty" :number="favoritesQty" />
+    <CaNotificationBadge
+      class="ca-favorites__qty only-mobile"
+      :number="favoritesQty"
+    />
   </NuxtLink>
 </template>
 <script>
@@ -32,5 +35,18 @@ export default {
 </script>
 <style lang="scss">
 .ca-favorites {
+  position: relative;
+  margin-right: $px20;
+  @include bp(laptop) {
+    display: flex;
+    align-items: center;
+  }
+  &__icon {
+    font-size: 24px;
+    @include bp(laptop) {
+      font-size: 1em;
+      margin-right: $px4;
+    }
+  }
 }
 </style>

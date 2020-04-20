@@ -40,4 +40,16 @@ export default {
   }
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.ca-vat-toggle {
+  display: flex;
+  &__link {
+    &:not(:last-child) {
+      margin-right: $px8;
+    }
+    &--active {
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+</style>
