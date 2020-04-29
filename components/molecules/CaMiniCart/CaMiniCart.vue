@@ -36,8 +36,7 @@ export default {
 .ca-mini-cart {
   margin-right: $px4;
   @include bp(laptop) {
-    display: flex;
-    align-items: center;
+    @include flex-valign;
   }
   &__wrap {
     position: relative;

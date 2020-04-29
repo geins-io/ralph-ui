@@ -38,8 +38,7 @@ export default {
   position: relative;
   margin-right: $px20;
   @include bp(laptop) {
-    display: flex;
-    align-items: center;
+    @include flex-valign;
   }
   &__icon {
     font-size: 24px;

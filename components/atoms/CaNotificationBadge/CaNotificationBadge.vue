@@ -26,9 +26,7 @@ export default {
 $c-notification-badge-bg: $c-dark-gray !default;
 $c-notification-badge-txt: $c-text-inverse !default;
 .ca-notification-badge {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-calign;
   background: $c-notification-badge-bg;
   color: $c-notification-badge-txt;
   border-radius: 50%;
