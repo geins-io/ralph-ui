@@ -5,6 +5,7 @@ import CaFlag from "./components/atoms/CaFlag/CaFlag.vue";
 import CaIcon from "./components/atoms/CaIcon/CaIcon.vue";
 import CaLogo from "./components/atoms/CaLogo/CaLogo.vue";
 import CaNotificationBadge from "./components/atoms/CaNotificationBadge/CaNotificationBadge.vue";
+import CaProductMeta from "./components/atoms/CaProductMeta/CaProductMeta.vue";
 import CaVatToggle from "./components/atoms/CaVatToggle/CaVatToggle.vue";
 import CaButton from "./components/molecules/CaButton/CaButton.vue";
 import CaFavorites from "./components/molecules/CaFavorites/CaFavorites.vue";
@@ -20,6 +21,7 @@ export {
   CaIcon,
   CaLogo,
   CaNotificationBadge,
+  CaProductMeta,
   CaVatToggle,
   CaButton,
   CaFavorites,
