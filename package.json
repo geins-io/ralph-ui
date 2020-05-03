@@ -1,6 +1,5 @@
 {
   "name": "@ralph/ralph-ui",
-  "type": "module",
   "module": "./index.js",
   "version": "1.0.0",
   "description": "Component library for Carismar",
@@ -13,8 +12,8 @@
     "generate": "nuxt generate",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "create-index-files": "node ./scripts/create-index-files.js",
-    "create-component": "node ./scripts/create-component.js",
+    "create-index-files": "node ./scripts/create-index-files.cjs",
+    "create-component": "node ./scripts/create-component.cjs",
     "documentation": "vuese gen",
     "documentation-serve": "vuese gen && vuese serve --open"
   },
@@ -30,29 +29,29 @@
   "dependencies": {
     "flag-icon-css": "^3.4.6",
     "hooper": "^0.3.4",
-    "nuxt": "^2.12.0",
-    "nuxt-i18n": "^6.6.1"
+    "nuxt": "^2.12.2",
+    "nuxt-i18n": "^6.11.0"
   },
   "vuese": {
     "outDir": "documentation"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
-    "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/eslint-module": "^1.2.0",
     "@nuxtjs/stylelint-module": "^3.1.0",
-    "@vue/test-utils": "^1.0.0-beta.27",
-    "@vuese/cli": "^2.8.3",
+    "@vue/test-utils": "^1.0.0-beta.33",
+    "@vuese/cli": "^2.10.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-nuxt": ">=0.4.2",
-    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-nuxt": "^0.5.2",
+    "eslint-plugin-prettier": "^3.1.3",
     "file-save": "^0.2.0",
-    "husky": "^4.0.0",
+    "husky": "^4.2.5",
     "jest": "^24.1.0",
-    "lint-staged": "^10.0.0",
-    "node-sass": "^4.13.1",
+    "lint-staged": "^10.2.2",
+    "node-sass": "^4.14.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
     "stylelint": "^10.1.0",
