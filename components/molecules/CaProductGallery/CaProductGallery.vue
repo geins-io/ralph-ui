@@ -15,7 +15,7 @@
       >
         <img class="ca-product-galler__image" :src="image" />
       </Slide>
-      <hooper-pagination slot="hooper-addons"></hooper-pagination>
+      <HooperPagination slot="hooper-addons"></HooperPagination>
     </Hooper>
   </div>
 </template>
@@ -23,7 +23,7 @@
 import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
 import 'hooper/dist/hooper.css';
 // @group Molecules
-// @vuese
+// The product page gallery
 export default {
   name: 'CaProductGallery',
   components: { Hooper, Slide, HooperPagination },
