@@ -11,36 +11,63 @@
 </template>
 <script>
 // @group Molecules
-// @vuese
+// A button for click events or links
 export default {
   name: 'CaButton',
   components: {},
   mixins: [],
   props: {
+    // Set this to link button somewhere
     href: {
       type: String,
       default: ''
     },
+    // Use to disable button
     disabled: {
       type: Boolean,
+      // false
       default: false
+    },
+    // The size of the button
+    size: {
+      // 's', 'm', 'l'
+      type: String,
+      default: 'm',
+      validator(value) {
+        return ['s', 'm', 'l'].includes(value);
+      }
+    },
+    type: {
+      // 'default', 'full-width'
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'full-width'].includes(value);
+      }
     }
   },
   data: () => ({}),
   computed: {
+    hasLink() {
+      return this.href !== '';
+    },
     baseTag() {
-      return this.href === '' ? 'button' : 'a';
+      if (this.hasLink) {
+        return this.href.includes('http') ? 'a' : 'NuxtLink';
+      } else return 'button';
     },
     attributes() {
-      return this.href !== ''
-        ? {
-            href: this.href
-          }
-        : '';
+      if (this.hasLink) {
+        return this.href.includes('http')
+          ? { href: this.href, target: '_blank', rel: 'noopener' }
+          : { to: this.href };
+      } else return '';
     },
     modifiers() {
       return {
-        'ca-button--disabled': this.disabled
+        'ca-button--disabled': this.disabled,
+        'ca-button--small': this.size === 's',
+        'ca-button--full-width': this.type === 'full-width'
       };
     }
   },
@@ -51,5 +78,14 @@ export default {
 </script>
 <style lang="scss">
 .ca-button {
+  display: inline-block;
+  background: $c-button-main-bg;
+  color: $c-button-main-txt;
+  font-size: $font-size-s;
+  text-transform: uppercase;
+  padding: 1.1em 2.4em;
+  &--full-width {
+    width: 100%;
+  }
 }
 </style>

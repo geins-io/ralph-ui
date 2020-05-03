@@ -9,6 +9,7 @@ import CaVatToggle from "./components/atoms/CaVatToggle/CaVatToggle.vue";
 import CaButton from "./components/molecules/CaButton/CaButton.vue";
 import CaFavorites from "./components/molecules/CaFavorites/CaFavorites.vue";
 import CaIconAndText from "./components/molecules/CaIconAndText/CaIconAndText.vue";
+import CaIconButton from "./components/molecules/CaIconButton/CaIconButton.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
 import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
 import CaSearch from "./components/molecules/CaSearch/CaSearch.vue";
@@ -23,6 +24,7 @@ export {
   CaButton,
   CaFavorites,
   CaIconAndText,
+  CaIconButton,
   CaMiniCart,
   CaProductGallery,
   CaSearch
