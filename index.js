@@ -6,9 +6,11 @@ import CaIcon from "./components/atoms/CaIcon/CaIcon.vue";
 import CaLogo from "./components/atoms/CaLogo/CaLogo.vue";
 import CaNotificationBadge from "./components/atoms/CaNotificationBadge/CaNotificationBadge.vue";
 import CaVatToggle from "./components/atoms/CaVatToggle/CaVatToggle.vue";
+import CaButton from "./components/molecules/CaButton/CaButton.vue";
 import CaFavorites from "./components/molecules/CaFavorites/CaFavorites.vue";
 import CaIconAndText from "./components/molecules/CaIconAndText/CaIconAndText.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
+import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
 import CaSearch from "./components/molecules/CaSearch/CaSearch.vue";
 
 export {
@@ -18,8 +20,10 @@ export {
   CaLogo,
   CaNotificationBadge,
   CaVatToggle,
+  CaButton,
   CaFavorites,
   CaIconAndText,
   CaMiniCart,
+  CaProductGallery,
   CaSearch
 };
