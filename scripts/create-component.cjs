@@ -15,7 +15,7 @@ const uppercamelcase = require('uppercamelcase');
 const glob = require('glob');
 const prompts = require('prompts');
 
-const ATOMIC_TYPE = ['atoms', 'molecules', 'organisms'];
+const ATOMIC_TYPE = ['atoms', 'molecules', 'organisms', 'mixins'];
 
 const questions = [
   {
@@ -75,8 +75,22 @@ const questions = [
     }
 
     fs.readdirSync(fwFolder).forEach(file => {
-      const fileName = file.replace('component', ComponentNameCamelCase);
+      console.log(file, componentFolder);
+      console.log(!file.includes('.vue'), componentFolder === 'mixins');
 
+      if (file.includes('.vue') && componentFolder === 'mixins') {
+        return;
+      }
+
+      if (file.includes('.mixin.js') && componentFolder !== 'mixins') {
+        return;
+      }
+
+      let fileName = file.replace('component', ComponentNameCamelCase);
+      if (file.includes('.mixin.js') && componentFolder === 'mixins') {
+        fileName = fileName.replace('.mixin.js', '.js');
+        fileName = fileName.replace(/^Ca/, 'Mix');
+      }
       let content = fs.readFileSync(fwFolder + file, 'utf8');
       content = content.replace(/ComponentFolder/g, componentFolder);
       content = content.replace(
@@ -92,7 +106,7 @@ const questions = [
 
       fileSave(path.join(PackagePath, fileName))
         .write(content, 'utf8')
-        .end('\n');
+        .end();
     });
   }
 })();

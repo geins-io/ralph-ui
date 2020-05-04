@@ -11,7 +11,10 @@ const pathVueComponentsRoot = path.resolve(__dirname, '..', 'components');
 const pathsVueComponents = glob.sync('*/*/Ca*.vue', {
   cwd: pathVueComponentsRoot
 });
-
+const pathsVueMixins = glob.sync('*/*/Mix*.js', {
+  cwd: pathVueComponentsRoot
+});
+const pathsVueAll = pathsVueComponents.concat(pathsVueMixins);
 function createIndexFiles() {
   const filesContent = generateFilesContent();
   saveIndexJs(filesContent.contentIndexJs);
@@ -21,8 +24,9 @@ function createIndexFiles() {
 function generateFilesContent() {
   const imports = [];
   const exports = [];
-  for (const pathComponentVue of pathsVueComponents) {
-    const caComponentName = pathComponentVue.replace(/.*\/(Ca.+)\.vue/, '$1');
+  for (const pathComponentVue of pathsVueAll) {
+    let caComponentName = pathComponentVue.replace(/.*\/(Ca.+)\.vue/, '$1');
+    caComponentName = caComponentName.replace(/.*\/(Mix.+)\.js/, '$1');
     const importLine = `import ${caComponentName} from "./components/${pathComponentVue}";`;
     imports.push(importLine);
     const exportLine = '  ' + caComponentName;
