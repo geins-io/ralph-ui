@@ -81,9 +81,10 @@ export default {
   display: inline-block;
   background: $c-button-main-bg;
   color: $c-button-main-txt;
-  font-size: $font-size-s;
+  font-size: $font-size-m;
+  font-weight: $font-weight-bold;
   text-transform: uppercase;
-  padding: 1.1em 2.4em;
+  padding: 1em 2.4em;
   &--full-width {
     width: 100%;
   }
