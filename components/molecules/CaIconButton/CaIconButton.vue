@@ -1,5 +1,9 @@
 <template>
-  <button class="ca-icon-button" @click="$emit('clicked')">
+  <button
+    class="ca-icon-button"
+    :aria-label="ariaLabel"
+    @click="$emit('clicked')"
+  >
     <CaIcon :name="iconName" />
   </button>
 </template>
@@ -14,6 +18,11 @@ export default {
   props: {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
+      type: String,
+      required: true
+    },
+    // Required to add aria label for the button since it has no text content
+    ariaLabel: {
       type: String,
       required: true
     }

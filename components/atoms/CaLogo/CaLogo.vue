@@ -1,6 +1,6 @@
 <template>
   <div class="ca-logo">
-    <img class="ca-logo__img" :src="filename" />
+    <img class="ca-logo__img" :src="filename" :alt="alt" />
   </div>
 </template>
 <script>
@@ -19,6 +19,11 @@ export default {
       validator(value) {
         return ['svg', 'png'].includes(value);
       }
+    },
+    // The alt-text for the logo
+    alt: {
+      type: String,
+      required: true
     }
   },
   data: () => ({}),

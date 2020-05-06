@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <span class="ca-icon" v-html="svgFile"> </span>
+  <span class="ca-icon" v-html="svgFile"></span>
 </template>
 <script>
 // @group Atoms
