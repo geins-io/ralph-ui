@@ -94,6 +94,7 @@ export default {
 <style lang="scss">
 .ca-product-gallery {
   margin: 0 -#{$default-spacing/2};
+  overflow: hidden;
   @include bp(laptop) {
     margin: 0 0 $px20;
   }

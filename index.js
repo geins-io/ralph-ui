@@ -14,6 +14,7 @@ import CaIconButton from "./components/molecules/CaIconButton/CaIconButton.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
 import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
 import CaSearch from "./components/molecules/CaSearch/CaSearch.vue";
+import MixNumberFormat from "./components/mixins/CaNumberFormat/MixNumberFormat.js";
 
 export {
   CaContainer,
@@ -29,5 +30,6 @@ export {
   CaIconButton,
   CaMiniCart,
   CaProductGallery,
-  CaSearch
+  CaSearch,
+  MixNumberFormat
 };
