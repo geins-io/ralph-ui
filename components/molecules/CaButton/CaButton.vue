@@ -88,5 +88,9 @@ export default {
   &--full-width {
     width: 100%;
   }
+  &--disabled {
+    opacity: 0.7;
+    pointer-events: none;
+  }
 }
 </style>
