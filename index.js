@@ -3,6 +3,7 @@
 import CaContainer from "./components/atoms/CaContainer/CaContainer.vue";
 import CaFlag from "./components/atoms/CaFlag/CaFlag.vue";
 import CaIcon from "./components/atoms/CaIcon/CaIcon.vue";
+import CaImage from "./components/atoms/CaImage/CaImage.vue";
 import CaLogo from "./components/atoms/CaLogo/CaLogo.vue";
 import CaNotificationBadge from "./components/atoms/CaNotificationBadge/CaNotificationBadge.vue";
 import CaProductMeta from "./components/atoms/CaProductMeta/CaProductMeta.vue";
@@ -20,6 +21,7 @@ export {
   CaContainer,
   CaFlag,
   CaIcon,
+  CaImage,
   CaLogo,
   CaNotificationBadge,
   CaProductMeta,

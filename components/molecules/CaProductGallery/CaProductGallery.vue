@@ -2,41 +2,65 @@
   <div class="ca-product-gallery">
     <Hooper
       v-if="images.length > 0 && imageLoaded"
-      ref="navSlider"
+      ref="nav"
       class="ca-product-gallery__nav only-desktop"
       :settings="hooperSettingsNav"
+      :infinite-scroll="navReachedSlideAmount"
+      :mouse-drag="navReachedSlideAmount"
+      @slide="slideGallery"
     >
       <Slide
         v-for="(image, index) in images"
         :key="index"
         class="ca-product-gallery__nav-slide"
       >
-        <img class="ca-product-gallery__nav-image" :src="image" />
+        <a href="javascript:;" @click="slideToIndex(index)">
+          <CaImage
+            class="ca-product-gallery__nav-image"
+            size="200f200"
+            type="product"
+            :filename="image"
+            :placeholder="imagePlaceholder"
+          />
+        </a>
       </Slide>
-      <HooperNavigation slot="hooper-addons"></HooperNavigation>
+      <HooperNavigation
+        v-if="navReachedSlideAmount"
+        slot="hooper-addons"
+      ></HooperNavigation>
     </Hooper>
     <Hooper
       v-if="images.length > 0"
-      ref="slider"
+      ref="gallery"
       class="ca-product-gallery__slider"
       :settings="hooperSettings"
+      :infinite-scroll="galleryReachedSlideAmount"
+      :mouse-drag="galleryReachedSlideAmount"
+      @slide="slideNav"
     >
       <Slide
         v-for="(image, index) in images"
         :key="index"
         class="ca-product-gallery__slide"
       >
-        <img
+        <CaImage
           class="ca-product-gallery__image"
-          :src="image"
-          @load="() => (imageLoaded = true)"
+          size="600f600"
+          type="product"
+          :filename="image"
+          :placeholder="imagePlaceholder"
+          @loaded="() => (imageLoaded = true)"
         />
       </Slide>
-      <HooperPagination slot="hooper-addons"></HooperPagination>
+      <HooperPagination
+        v-if="imageLoaded && galleryReachedSlideAmount"
+        slot="hooper-addons"
+      ></HooperPagination>
     </Hooper>
   </div>
 </template>
 <script>
+import { CaImage } from '@ralph/ralph-ui';
 import {
   Hooper,
   Slide,
@@ -48,7 +72,7 @@ import 'hooper/dist/hooper.css';
 // The product page gallery
 export default {
   name: 'CaProductGallery',
-  components: { Hooper, Slide, HooperPagination, HooperNavigation },
+  components: { Hooper, Slide, HooperPagination, HooperNavigation, CaImage },
   mixins: [],
   props: {
     images: {
@@ -58,11 +82,11 @@ export default {
   },
   data: () => ({
     imageLoaded: false,
+    imagePlaceholder: require('~/assets/placeholders/product-image-square.png'),
     hooperSettings: {
       group: 'productGallery',
       itemsToShow: 1.4,
       centerMode: true,
-      infiniteScroll: true,
       wheelControl: false,
       breakpoints: {
         480: {
@@ -81,18 +105,37 @@ export default {
       group: 'productGallery',
       itemsToShow: 5,
       vertical: true,
-      infiniteScroll: true,
       wheelControl: false
     }
   }),
-  computed: {},
+  computed: {
+    galleryReachedSlideAmount() {
+      return this.images.length > this.hooperSettings.itemsToShow;
+    },
+    navReachedSlideAmount() {
+      return this.images.length > this.hooperSettingsNav.itemsToShow;
+    }
+  },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    slideToIndex(index) {
+      this.$refs.gallery.slideTo(index);
+    },
+    slideNav(payload) {
+      if (this.$refs.nav && this.navReachedSlideAmount)
+        this.$refs.nav.slideTo(payload.currentSlide);
+    },
+    slideGallery(payload) {
+      if (this.$refs.gallery && this.galleryReachedSlideAmount)
+        this.$refs.gallery.slideTo(payload.currentSlide);
+    }
+  }
 };
 </script>
 <style lang="scss">
 .ca-product-gallery {
+  $block: &;
   margin: 0 -#{$default-spacing/2};
   overflow: hidden;
   @include bp(laptop) {
@@ -102,6 +145,9 @@ export default {
     height: auto;
     width: 13.74%;
     margin: -14px 0;
+  }
+  &__nav-image {
+    cursor: pointer;
   }
   &__nav-slide {
     padding: 14px 0;
@@ -118,32 +164,36 @@ export default {
     transition: opacity 200ms ease;
     @include bp(laptop) {
       padding: 0;
+      opacity: 1;
     }
     &.is-current {
       opacity: 1;
     }
   }
-  .hooper-navigation {
-    &.is-vertical {
-      .hooper-prev,
-      .hooper-next {
-        width: 100%;
-        padding: 0;
-        height: 20px;
-        background: $c-overlay;
-        fill: $c-white;
-        @include flex-calign;
-        .icon {
-          width: 20px;
-        }
-      }
-      .hooper-prev {
-        top: 14px;
-      }
-      .hooper-next {
-        bottom: 14px;
+}
+.hooper-navigation {
+  &.is-vertical {
+    .hooper-prev,
+    .hooper-next {
+      width: 100%;
+      padding: 0;
+      height: 20px;
+      background: $c-overlay;
+      fill: $c-white;
+      @include flex-calign;
+      .icon {
+        width: 20px;
       }
     }
+    .hooper-prev {
+      top: 14px;
+    }
+    .hooper-next {
+      bottom: 14px;
+    }
   }
+}
+.hooper-indicator {
+  background: $c-light-gray;
 }
 </style>
