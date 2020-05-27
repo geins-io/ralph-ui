@@ -1,6 +1,6 @@
 <template>
   <span class="ca-icon-and-text" :class="positionClass">
-    <ca-icon class="ca-icon-and-text__icon" :name="iconName" />
+    <CaIcon class="ca-icon-and-text__icon" :name="iconName" />
     <span class="ca-icon-and-text__text">
       <slot></slot>
     </span>
@@ -13,9 +13,7 @@ import { CaIcon } from '@ralph/ralph-ui';
 // Used to place a text together with an icon
 export default {
   name: 'CaIconAndText',
-  components: {
-    CaIcon
-  },
+  components: { CaIcon },
   mixins: [],
   props: {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.

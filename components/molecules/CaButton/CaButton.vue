@@ -85,6 +85,10 @@ export default {
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   padding: 1em 2.4em;
+  white-space: nowrap;
+  &--small {
+    padding: 0.3em 0.65em;
+  }
   &--full-width {
     width: 100%;
   }

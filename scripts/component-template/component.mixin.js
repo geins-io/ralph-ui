@@ -1,3 +1,5 @@
+// @group ComponentType
+// @vuese
 export default {
   components: {},
   mixins: [],

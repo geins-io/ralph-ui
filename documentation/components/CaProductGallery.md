@@ -1,5 +1,7 @@
 # CaProductGallery
 
+The product page gallery
+
 ## Props
 
 <!-- @vuese:CaProductGallery:props:start -->
