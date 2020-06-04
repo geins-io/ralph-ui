@@ -1,14 +1,18 @@
 <template>
   <div class="ca-input-select" :class="modifiers">
-    <label class="ca-input-select__label">
+    <label v-if="label !== ''" class="ca-input-select__label">
       {{ label }}
       <span v-if="!required" class="ca-input-select__optional">
         (optional)
       </span>
     </label>
-    <div class="ca-input-select__container">
+    <div
+      v-if="$store.getters.viewportLaptop"
+      class="ca-input-select__container"
+    >
       <div class="ca-input-select__selected" @click="toggleOptions">
-        {{ selected.title || placeholder }}
+        {{ selected.label || placeholder }}
+        <CaIcon class="ca-input-select__arrow" name="chevron-down" />
       </div>
       <SlideUpDown
         class="ca-input-select__options"
@@ -20,11 +24,27 @@
           v-for="(option, index) in options"
           :key="index"
           class="ca-input-select__option"
-          @click="selectOption(option.value, option.title)"
+          @click="selectOption(option.value, option.label)"
         >
-          {{ option.title }}
+          {{ option.label }}
         </li>
       </SlideUpDown>
+    </div>
+    <div v-else class="ca-input-select__select-wrap">
+      <select
+        v-model="selected.value"
+        class="ca-input-select__select"
+        @change="selectOption($event.target.value)"
+      >
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+      <CaIcon class="ca-input-select__arrow" name="chevron-down" />
     </div>
     <div v-if="description !== ''" class="ca-input-select__description">
       {{ description }}
@@ -33,37 +53,46 @@
 </template>
 <script>
 import SlideUpDown from 'vue-slide-up-down';
+import { CaIcon } from '@ralph/ralph-ui';
 // @group Atoms
 // @vuese
+// A select input that works with v-model and has a native behavior on mobile devices
 export default {
   name: 'CaInputSelect',
-  components: { SlideUpDown },
+  components: { SlideUpDown, CaIcon },
   mixins: [],
   props: {
+    // Should be an array of objects containing 'label' and 'value' for every option
     options: {
       type: Array,
       required: true
     },
+    // The from element label
     label: {
       type: String,
       default: ''
     },
+    // Use v-model to bind value
     value: {
       type: [String, Number],
       required: true
     },
+    // Placeholder if no option is chosen
     placeholder: {
       type: String,
       default: ''
     },
+    // Add a description under the select
     description: {
       type: String,
       default: ''
     },
+    // Is it required
     required: {
       type: Boolean,
       default: true
     },
+    // Used to disable the input
     disabled: {
       type: Boolean,
       default: false
@@ -72,7 +101,7 @@ export default {
   data: () => ({
     selected: {
       value: null,
-      title: ''
+      label: ''
     },
     open: false
   }),
@@ -87,23 +116,121 @@ export default {
   mounted() {
     if (this.value) {
       const chosenOption = this.options.find(item => item.value === this.value);
-      this.selectOption(chosenOption.value, chosenOption.title);
+      this.selectOption(chosenOption.value, chosenOption.label);
     }
   },
   methods: {
-    selectOption(value, title) {
-      this.selected.title = title;
+    selectOption(value, label = null) {
+      if (!label) label = this.getLabel(value);
+      this.selected.label = label;
       this.selected.value = value;
       this.$emit('input', value);
       this.open = false;
     },
     toggleOptions() {
       this.open = !this.open;
+    },
+    getLabel(val) {
+      return this.options.find(item => item.value === val).label;
     }
   }
 };
 </script>
 <style lang="scss">
 .ca-input-select {
+  $block: &;
+  position: relative;
+  width: 165px;
+  &__container {
+  }
+  &__label {
+    left: 10px;
+    font-size: $font-size-xs;
+    transition: all 150ms ease;
+    pointer-events: none;
+    padding: 2px 5px;
+    background: #fff;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 0;
+    z-index: 10;
+  }
+
+  &__selected,
+  &__select-wrap {
+    padding: 0px 43px 0px 15px;
+    line-height: 38px;
+    height: 40px;
+    border: $border-light;
+    background: $c-lightest-gray;
+    transition: border-color 200ms ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  &__select-wrap {
+    padding: 0;
+  }
+  &__select {
+    padding: 0px 43px 0px 15px;
+    width: 100%;
+    height: 100%;
+  }
+  &__arrow {
+    @include valign;
+    right: 14px;
+    font-size: 16px;
+  }
+  &__options {
+    border: $border-light;
+    position: absolute;
+    margin-top: 2px;
+    width: 100%;
+    z-index: 15;
+    background: $c-lightest-gray;
+    overflow: hidden;
+  }
+
+  &__option {
+    line-height: 40px;
+    padding: 0px 15px;
+    cursor: pointer;
+    background: $c-lightest-gray;
+    transition: all 200ms ease;
+
+    &:hover {
+      background: $c-dark-gray;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-xs;
+    color: $c-text-secondary;
+    margin: 5px 0px 0px 15px;
+  }
+  &__optional {
+    font-size: 0.9em;
+    color: $c-text-secondary;
+    margin-left: 2px;
+  }
+
+  &--disabled {
+    color: $c-text-secondary;
+  }
+
+  &--open {
+    #{$block}__label {
+      font-weight: $font-weight-bold;
+      color: $c-darkest-gray;
+    }
+
+    #{$block}__selected {
+      border: 1px solid $c-dark-gray;
+
+      &:before {
+        transform: translateY(-50%) rotate(-180deg);
+      }
+    }
+  }
 }
 </style>
