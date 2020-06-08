@@ -112,14 +112,21 @@ export default {
       };
     }
   },
-  watch: {},
-  mounted() {
-    if (this.value) {
-      const chosenOption = this.options.find(item => item.value === this.value);
-      this.selectOption(chosenOption.value, chosenOption.label);
+  watch: {
+    value(newVal, oldVal) {
+      if (oldVal === '' && newVal !== '') {
+        this.setInitialValue();
+      }
     }
   },
+  mounted() {
+    this.setInitialValue();
+  },
   methods: {
+    setInitialValue() {
+      const chosenOption = this.options.find(item => item.value === this.value);
+      this.selectOption(chosenOption.value, chosenOption.label);
+    },
     selectOption(value, label = null) {
       if (!label) label = this.getLabel(value);
       this.selected.label = label;
