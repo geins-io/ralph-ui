@@ -11,6 +11,8 @@ import CaProductMeta from "./components/atoms/CaProductMeta/CaProductMeta.vue";
 import CaVatToggle from "./components/atoms/CaVatToggle/CaVatToggle.vue";
 import CaButton from "./components/molecules/CaButton/CaButton.vue";
 import CaFavorites from "./components/molecules/CaFavorites/CaFavorites.vue";
+import CaFilterMulti from "./components/molecules/CaFilterMulti/CaFilterMulti.vue";
+import CaFilterRange from "./components/molecules/CaFilterRange/CaFilterRange.vue";
 import CaIconAndText from "./components/molecules/CaIconAndText/CaIconAndText.vue";
 import CaIconButton from "./components/molecules/CaIconButton/CaIconButton.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
@@ -32,6 +34,8 @@ export {
   CaVatToggle,
   CaButton,
   CaFavorites,
+  CaFilterMulti,
+  CaFilterRange,
   CaIconAndText,
   CaIconButton,
   CaMiniCart,

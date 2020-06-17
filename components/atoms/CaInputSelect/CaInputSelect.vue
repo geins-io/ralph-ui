@@ -113,8 +113,8 @@ export default {
     }
   },
   watch: {
-    value(newVal, oldVal) {
-      if (oldVal === '' && newVal !== '') {
+    value() {
+      if (this.label === '') {
         this.setInitialValue();
       }
     }
@@ -148,8 +148,6 @@ export default {
   $block: &;
   position: relative;
   width: 165px;
-  &__container {
-  }
   &__label {
     left: 10px;
     font-size: $font-size-xs;
@@ -162,7 +160,6 @@ export default {
     top: 0;
     z-index: 10;
   }
-
   &__selected,
   &__select-wrap {
     padding: 0px 43px 0px 15px;
@@ -206,7 +203,7 @@ export default {
     transition: all 200ms ease;
 
     &:hover {
-      background: $c-dark-gray;
+      background: $c-light-gray;
     }
   }
 
