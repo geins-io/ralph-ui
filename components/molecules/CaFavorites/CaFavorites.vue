@@ -12,7 +12,9 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import { CaIcon, CaNotificationBadge } from '@ralph/ralph-ui';
+import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
+import CaNotificationBadge from '../../atoms/CaNotificationBadge/CaNotificationBadge.vue';
+
 // @group Molecules
 // @vuese
 // Displaying number of favorites with a link to favorites-page

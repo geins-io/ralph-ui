@@ -19,6 +19,11 @@ import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
 import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
 import CaReadMore from "./components/molecules/CaReadMore/CaReadMore.vue";
 import CaSearch from "./components/molecules/CaSearch/CaSearch.vue";
+import CaWidget from "./components/molecules/CaWidget/CaWidget.vue";
+import CaWidgetArea from "./components/molecules/CaWidgetArea/CaWidgetArea.vue";
+import CaWidgetContainer from "./components/molecules/CaWidgetContainer/CaWidgetContainer.vue";
+import CaWidgetImage from "./components/molecules/CaWidgetImage/CaWidgetImage.vue";
+import CaWidgetText from "./components/molecules/CaWidgetText/CaWidgetText.vue";
 import MixListPageFunctions from "./components/mixins/CaListPageFunctions/MixListPageFunctions.js";
 import MixNumberFormat from "./components/mixins/CaNumberFormat/MixNumberFormat.js";
 import MixPrice from "./components/mixins/CaPrice/MixPrice.js";
@@ -43,6 +48,11 @@ export {
   CaProductGallery,
   CaReadMore,
   CaSearch,
+  CaWidget,
+  CaWidgetArea,
+  CaWidgetContainer,
+  CaWidgetImage,
+  CaWidgetText,
   MixListPageFunctions,
   MixNumberFormat,
   MixPrice

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { CaIconAndText } from '@ralph/ralph-ui';
+import CaIconAndText from '../../molecules/CaIconAndText/CaIconAndText.vue';
 // @group Molecules
 // @vuese
 export default {

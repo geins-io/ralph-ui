@@ -60,7 +60,6 @@
   </div>
 </template>
 <script>
-import { CaImage } from '@ralph/ralph-ui';
 import {
   Hooper,
   Slide,
@@ -68,6 +67,8 @@ import {
   Navigation as HooperNavigation
 } from 'hooper';
 import 'hooper/dist/hooper.css';
+
+import CaImage from '../../atoms/CaImage/CaImage.vue';
 // @group Molecules
 // The product page gallery
 export default {

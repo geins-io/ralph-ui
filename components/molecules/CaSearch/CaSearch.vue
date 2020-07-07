@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import { CaIcon } from '@ralph/ralph-ui';
+import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
 // @group Molecules
 // The search including search results
 export default {
