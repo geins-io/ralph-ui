@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import CaWidget from '../../molecules/CaWidget/CaWidget.vue';
+import CaWidget from 'CaWidget';
 
 // @group Molecules
 // @vuese

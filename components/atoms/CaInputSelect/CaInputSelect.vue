@@ -53,7 +53,7 @@
 </template>
 <script>
 import SlideUpDown from 'vue-slide-up-down';
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
+import CaIcon from 'CaIcon';
 // @group Atoms
 // @vuese
 // A select input that works with v-model and has a native behavior on mobile devices

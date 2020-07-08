@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import CaImage from '../../atoms/CaImage/CaImage.vue';
+import CaImage from 'CaImage';
 // @group Molecules
 // @vuese
 export default {

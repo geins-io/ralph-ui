@@ -30,6 +30,7 @@
     "outDir": "documentation"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.0.0",
     "@vue/test-utils": "^1.0.3",
     "@vuese/cli": "^2.13.1",
     "babel-eslint": "^10.0.1",

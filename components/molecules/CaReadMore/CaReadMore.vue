@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import CaIconAndText from '../../molecules/CaIconAndText/CaIconAndText.vue';
+import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
 export default {

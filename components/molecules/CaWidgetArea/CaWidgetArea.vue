@@ -11,7 +11,7 @@
 </template>
 <script>
 import gql from 'graphql-tag';
-import CaWidgetContainer from '../../molecules/CaWidgetContainer/CaWidgetContainer.vue';
+import CaWidgetContainer from 'CaWidgetContainer';
 // @group Molecules
 // @vuese
 export default {

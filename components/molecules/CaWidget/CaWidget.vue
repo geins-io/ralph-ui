@@ -8,9 +8,9 @@
   </component>
 </template>
 <script>
-import CaWidgetText from '../../molecules/CaWidgetText/CaWidgetText.vue';
-import CaWidgetImage from '../../molecules/CaWidgetImage/CaWidgetImage.vue';
-import CaWidgetProductList from '../../molecules/CaWidgetProductList/CaWidgetProductList.vue';
+import CaWidgetText from 'CaWidgetText';
+import CaWidgetImage from 'CaWidgetImage';
+import CaWidgetProductList from 'CaWidgetProductList';
 // @group Molecules
 // @vuese
 export default {

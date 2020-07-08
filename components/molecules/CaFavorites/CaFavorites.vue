@@ -12,8 +12,8 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
-import CaNotificationBadge from '../../atoms/CaNotificationBadge/CaNotificationBadge.vue';
+import CaIcon from 'CaIcon';
+import CaNotificationBadge from 'CaNotificationBadge';
 
 // @group Molecules
 // @vuese

@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
-import CaNotificationBadge from '../../atoms/CaNotificationBadge/CaNotificationBadge.vue';
+import CaIcon from 'CaIcon';
+import CaNotificationBadge from 'CaNotificationBadge';
 // @group Molecules
 // The cart displayed in the header
 export default {

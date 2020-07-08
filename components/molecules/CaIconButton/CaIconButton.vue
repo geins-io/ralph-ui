@@ -8,7 +8,7 @@
   </button>
 </template>
 <script>
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
+import CaIcon from 'CaIcon';
 // @group Molecules
 // A clickable icon
 export default {

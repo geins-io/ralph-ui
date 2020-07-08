@@ -7,7 +7,7 @@
   </span>
 </template>
 <script>
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
+import CaIcon from 'CaIcon';
 
 // @group Molecules
 // Used to place a text together with an icon

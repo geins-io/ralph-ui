@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import CaIcon from '../../atoms/CaIcon/CaIcon.vue';
+import CaIcon from 'CaIcon';
 // @group Molecules
 // @vuese
 export default {

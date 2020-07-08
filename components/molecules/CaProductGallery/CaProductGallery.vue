@@ -68,7 +68,7 @@ import {
 } from 'hooper';
 import 'hooper/dist/hooper.css';
 
-import CaImage from '../../atoms/CaImage/CaImage.vue';
+import CaImage from 'CaImage';
 // @group Molecules
 // The product page gallery
 export default {
