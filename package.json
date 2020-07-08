@@ -6,7 +6,6 @@
   "author": "Lars Johansson",
   "private": false,
   "scripts": {
-    "build": "node ./scripts/create-index-files.cjs",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
     "create-index-files": "node ./scripts/create-index-files.cjs",
