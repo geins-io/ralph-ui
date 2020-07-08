@@ -27,36 +27,31 @@
     }
   },
   "dependencies": {
-    "flag-icon-css": "^3.4.6",
-    "hooper": "^0.3.4",
-    "nuxt": "^2.12.2",
-    "nuxt-i18n": "^6.11.0"
+    "flag-icon-css": "^3.5.0",
+    "hooper": "^0.3.4"
   },
   "vuese": {
     "outDir": "documentation"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^2.0.0",
-    "@nuxtjs/eslint-module": "^1.2.0",
-    "@nuxtjs/stylelint-module": "^3.1.0",
-    "@vue/test-utils": "^1.0.0-beta.33",
-    "@vuese/cli": "^2.10.0",
+    "@vue/test-utils": "^1.0.3",
+    "@vuese/cli": "^2.13.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-nuxt": "^0.5.2",
-    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
     "file-save": "^0.2.0",
     "husky": "^4.2.5",
     "jest": "^24.1.0",
-    "lint-staged": "^10.2.2",
-    "node-sass": "^4.14.0",
+    "lint-staged": "^10.2.11",
+    "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
     "stylelint": "^10.1.0",
     "svg-inline-loader": "^0.8.2",
     "uppercamelcase": "^3.0.0",
-    "vue-jest": "^4.0.0-0"
+    "vue-jest": "^4.0.0-beta.3"
   }
 }
