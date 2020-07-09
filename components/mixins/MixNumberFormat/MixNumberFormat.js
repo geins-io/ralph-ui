@@ -1,3 +1,5 @@
+// @group Mixins
+// @vuese
 export default {
   components: {},
   mixins: [],
@@ -5,7 +7,7 @@ export default {
   data: () => ({
     langCode: 'sv-SE',
     currency: 'SEK',
-    currencyDisplay: 'code',
+    currencyDisplay: 'symbol',
     minDecimals: 0,
     maxDecimals: 0
   }),

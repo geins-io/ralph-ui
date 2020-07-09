@@ -2,20 +2,31 @@
   <div class="ca-mini-cart">
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
-      <CaNotificationBadge class="ca-minicart__qty" :number="cartQty" />
+      <CaNotificationBadge
+        v-if="$store.getters.cartSum > 0"
+        class="ca-minicart__qty"
+        :number="$store.getters.cartSum"
+      />
     </div>
-    <div class="ca-mini-cart__value only-desktop">{{ cartValue }}</div>
+    <div
+      v-if="$store.getters.cartSum > 0"
+      class="ca-mini-cart__value only-desktop"
+    >
+      {{ formatCurrency($store.getters.cartTotal) }}
+    </div>
   </div>
 </template>
 <script>
 import CaIcon from 'CaIcon';
 import CaNotificationBadge from 'CaNotificationBadge';
+import MixNumberFormat from 'MixNumberFormat';
+
 // @group Molecules
 // The cart displayed in the header
 export default {
   name: 'CaMiniCart',
   components: { CaIcon, CaNotificationBadge },
-  mixins: [],
+  mixins: [MixNumberFormat],
   props: {
     // Name for the icon to be used. See documentation for [CaIcon](/components/CaIcon) to learn more.
     cartIcon: {
@@ -23,10 +34,7 @@ export default {
       default: 'shopping-bag'
     }
   },
-  data: () => ({
-    cartValue: '399 kr',
-    cartQty: 2
-  }),
+  data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
