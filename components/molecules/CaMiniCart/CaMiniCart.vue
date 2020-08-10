@@ -1,5 +1,5 @@
 <template>
-  <div class="ca-mini-cart">
+  <NuxtLink to="/checkout" class="ca-mini-cart">
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
       <CaNotificationBadge
@@ -14,7 +14,7 @@
     >
       {{ formatCurrency($store.getters.cartTotal) }}
     </div>
-  </div>
+  </NuxtLink>
 </template>
 <script>
 import CaIcon from 'CaIcon';
@@ -44,6 +44,7 @@ export default {
 <style lang="scss">
 .ca-mini-cart {
   margin-right: $px4;
+  display: block;
   @include bp(laptop) {
     @include flex-valign;
   }
