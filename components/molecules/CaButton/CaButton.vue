@@ -37,12 +37,22 @@ export default {
         return ['s', 'm', 'l'].includes(value);
       }
     },
+    // Type of button
     type: {
       // 'default', 'full-width'
       type: String,
       default: 'default',
       validator(value) {
         return ['default', 'full-width'].includes(value);
+      }
+    },
+    // Color of button
+    color: {
+      // 'default', 'secondary'
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'secondary'].includes(value);
       }
     }
   },
@@ -67,7 +77,8 @@ export default {
       return {
         'ca-button--disabled': this.disabled,
         'ca-button--small': this.size === 's',
-        'ca-button--full-width': this.type === 'full-width'
+        'ca-button--full-width': this.type === 'full-width',
+        'ca-button--secondary': this.color === 'secondary'
       };
     }
   },
@@ -81,7 +92,7 @@ export default {
   display: inline-block;
   background: $c-button-main-bg;
   color: $c-button-main-txt;
-  font-size: $font-size-m;
+  font-size: $font-size-s;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   padding: 1em 2.4em;
@@ -95,6 +106,11 @@ export default {
   &--disabled {
     opacity: 0.7;
     pointer-events: none;
+  }
+  &--secondary {
+    background: $c-button-secondary-bg;
+    color: $c-button-secondary-txt;
+    border: $c-button-secondary-border;
   }
 }
 </style>
