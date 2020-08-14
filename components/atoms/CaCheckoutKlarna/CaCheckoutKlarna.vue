@@ -24,7 +24,7 @@ export default {
   methods: {
     fetchKlarnaData() {
       // replace `getPost` with your data fetching util / API wrapper
-      fetch('http://localhost:3000/api/klarna-checkout-orders/')
+      fetch('/api/klarna-checkout-orders/')
         .then(response => response.json())
         .then(data => {
           this.klarnaResponse = data;
