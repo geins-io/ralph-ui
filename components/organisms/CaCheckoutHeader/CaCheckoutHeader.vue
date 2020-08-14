@@ -8,7 +8,7 @@
       <CaIcon name="chevron-left" />
     </button>
     <NuxtLink to="/">
-      <CaLogo class="ca-checkout-header__logo" />
+      <CaLogo class="ca-checkout-header__logo" alt="Logo" />
     </NuxtLink>
     <h1 class="ca-checkout-header__title">{{ title }}</h1>
     <CaButton

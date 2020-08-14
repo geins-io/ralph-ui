@@ -30,7 +30,6 @@ export default {
           this.klarnaResponse = data;
           setTimeout(() => {
             this.initializeKlarnaScript();
-            this.$store.commit('setCartId', this.klarnaResponse.order_id);
           }, 50);
         });
     },

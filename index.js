@@ -1,6 +1,7 @@
 /* eslint-disable */
 // Auto-generated file by create-index-files.js. Do not edit manually
 import CaCheckoutKlarna from "./components/atoms/CaCheckoutKlarna/CaCheckoutKlarna.vue";
+import CaCheckoutSection from "./components/atoms/CaCheckoutSection/CaCheckoutSection.vue";
 import CaContainer from "./components/atoms/CaContainer/CaContainer.vue";
 import CaFlag from "./components/atoms/CaFlag/CaFlag.vue";
 import CaIcon from "./components/atoms/CaIcon/CaIcon.vue";
@@ -30,12 +31,15 @@ import CaWidgetText from "./components/molecules/CaWidgetText/CaWidgetText.vue";
 import CaCart from "./components/organisms/CaCart/CaCart.vue";
 import CaCheckout from "./components/organisms/CaCheckout/CaCheckout.vue";
 import CaCheckoutHeader from "./components/organisms/CaCheckoutHeader/CaCheckoutHeader.vue";
+import MixAddToCart from "./components/mixins/MixAddToCart/MixAddToCart.js";
+import MixGlobalInit from "./components/mixins/MixGlobalInit/MixGlobalInit.js";
 import MixListPageFunctions from "./components/mixins/MixListPageFunctions/MixListPageFunctions.js";
 import MixNumberFormat from "./components/mixins/MixNumberFormat/MixNumberFormat.js";
 import MixPrice from "./components/mixins/MixPrice/MixPrice.js";
 
 export {
   CaCheckoutKlarna,
+  CaCheckoutSection,
   CaContainer,
   CaFlag,
   CaIcon,
@@ -65,6 +69,8 @@ export {
   CaCart,
   CaCheckout,
   CaCheckoutHeader,
+  MixAddToCart,
+  MixGlobalInit,
   MixListPageFunctions,
   MixNumberFormat,
   MixPrice

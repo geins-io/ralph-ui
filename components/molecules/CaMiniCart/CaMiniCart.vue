@@ -12,21 +12,19 @@
       v-if="$store.getters.cartSum > 0"
       class="ca-mini-cart__value only-desktop"
     >
-      {{ formatCurrency($store.getters.cartTotal) }}
+      {{ $store.getters.cartTotal }}
     </div>
   </NuxtLink>
 </template>
 <script>
 import CaIcon from 'CaIcon';
 import CaNotificationBadge from 'CaNotificationBadge';
-import MixNumberFormat from 'MixNumberFormat';
 
 // @group Molecules
 // The cart displayed in the header
 export default {
   name: 'CaMiniCart',
   components: { CaIcon, CaNotificationBadge },
-  mixins: [MixNumberFormat],
   props: {
     // Name for the icon to be used. See documentation for [CaIcon](/components/CaIcon) to learn more.
     cartIcon: {

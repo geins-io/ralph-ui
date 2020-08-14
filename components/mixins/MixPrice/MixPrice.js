@@ -1,4 +1,4 @@
-// @group ComponentType
+// @group Micins
 // @vuese
 // Displays product price
 export default {
@@ -12,11 +12,24 @@ export default {
       required: true,
       validator(value) {
         return (
+          Object.prototype.hasOwnProperty.call(value, '__typename') &&
           Object.prototype.hasOwnProperty.call(value, 'isDiscounted') &&
-          Object.prototype.hasOwnProperty.call(value, 'sellingPriceIncVat') &&
-          Object.prototype.hasOwnProperty.call(value, 'sellingPriceExVat') &&
-          Object.prototype.hasOwnProperty.call(value, 'regularPriceIncVat') &&
-          Object.prototype.hasOwnProperty.call(value, 'regularPriceExVat')
+          Object.prototype.hasOwnProperty.call(
+            value,
+            'sellingPriceIncVatFormatted'
+          ) &&
+          Object.prototype.hasOwnProperty.call(
+            value,
+            'sellingPriceExVatFormatted'
+          ) &&
+          Object.prototype.hasOwnProperty.call(
+            value,
+            'regularPriceIncVatFormatted'
+          ) &&
+          Object.prototype.hasOwnProperty.call(
+            value,
+            'regularPriceExVatFormatted'
+          )
         );
       }
     }
@@ -30,13 +43,13 @@ export default {
     },
     sellingPrice() {
       return this.$store.state.VATincluded
-        ? this.price.sellingPriceIncVat
-        : this.price.sellingPriceExVat;
+        ? this.price.sellingPriceIncVatFormatted
+        : this.price.sellingPriceExVatFormatted;
     },
     regularPrice() {
       return this.$store.state.VATincluded
-        ? this.price.regularPriceIncVat
-        : this.price.regularPriceExVat;
+        ? this.price.regularPriceIncVatFormatted
+        : this.price.regularPriceExVatFormatted;
     }
   },
   watch: {},
