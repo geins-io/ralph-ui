@@ -3,13 +3,13 @@
     <CaCheckoutHeader :title="$t('CHECKOUT')" />
     <CaCheckoutSection>
       <template v-slot:title>
-        Kundvagn ({{ $store.state.cart.items.length }})
+        {{ $t('CART') }} ({{ $store.getters.cartSum }})
       </template>
       <CaCart />
     </CaCheckoutSection>
     <CaCheckoutSection>
       <template v-slot:title>
-        Slutför köp
+        {{ $t('COMPLETE_ORDER') }}
       </template>
       <CaCheckoutKlarna />
     </CaCheckoutSection>

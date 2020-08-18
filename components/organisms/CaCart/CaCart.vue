@@ -3,6 +3,7 @@
     <CaCartProduct
       v-for="(product, index) in cartItems"
       :key="index"
+      class="ca-cart__product"
       :product="product"
     />
   </div>
@@ -29,5 +30,10 @@ export default {
 </script>
 <style lang="scss">
 .ca-cart {
+  &__product {
+    &:not(:last-child) {
+      margin-bottom: $px12;
+    }
+  }
 }
 </style>

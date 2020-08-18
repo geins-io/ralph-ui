@@ -2,6 +2,7 @@
   <button
     class="ca-icon-button"
     :aria-label="ariaLabel"
+    :disabled="disabled"
     @click="$emit('clicked')"
   >
     <CaIcon :name="iconName" />
@@ -25,6 +26,11 @@ export default {
     ariaLabel: {
       type: String,
       required: true
+    },
+    // Used to disable button
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),

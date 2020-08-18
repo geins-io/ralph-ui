@@ -44,7 +44,7 @@ export default {
     padding: $px20 $px12;
     position: relative;
 
-    @include bp(laptop) {
+    @include bp(tablet) {
       padding: $px32;
     }
   }

@@ -1,7 +1,6 @@
 // @group Mixins
 // @vuese
 import gql from 'graphql-tag';
-
 export default {
   components: {},
   mixins: [],
@@ -11,20 +10,20 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    addToCart(prodAlias, prodQuantity) {
-      const itemToAdd = {
+    updateCart(prodAlias, prodQuantity) {
+      const updateItem = {
         alias: prodAlias,
         quantity: prodQuantity
       };
       this.$apollo
         .mutate({
           mutation: gql`
-            mutation addToCart(
+            mutation updateCartItem(
               $apiKey: String!
               $id: String!
               $item: CartItemInputType!
             ) {
-              addToCart(apiKey: $apiKey, id: $id, item: $item) {
+              updateCartItem(apiKey: $apiKey, id: $id, item: $item) {
                 id
                 total {
                   sellingPriceIncVatFormatted
@@ -57,11 +56,11 @@ export default {
           variables: {
             apiKey: this.$store.getters.currentApiKey,
             id: this.$store.state.cartId,
-            item: itemToAdd
+            item: updateItem
           }
         })
         .then(result => {
-          this.$store.commit('updateCart', result.data.addToCart);
+          this.$store.commit('updateCart', result.data.updateCartItem);
         })
         .catch(error => {
           console.log(error);

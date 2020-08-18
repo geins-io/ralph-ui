@@ -17,6 +17,8 @@ export default {
               brandName
               name
               quantity
+              images
+              alias
               price {
                 isDiscounted
                 regularPriceIncVatFormatted
@@ -24,8 +26,13 @@ export default {
                 regularPriceExVatFormatted
                 sellingPriceExVatFormatted
               }
-              images
-              alias
+              total {
+                isDiscounted
+                regularPriceIncVatFormatted
+                sellingPriceIncVatFormatted
+                regularPriceExVatFormatted
+                sellingPriceExVatFormatted
+              }
             }
           }
         }

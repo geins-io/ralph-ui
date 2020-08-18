@@ -20,6 +20,7 @@ import CaIconAndText from "./components/molecules/CaIconAndText/CaIconAndText.vu
 import CaIconButton from "./components/molecules/CaIconButton/CaIconButton.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
 import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
+import CaProductQuantity from "./components/molecules/CaProductQuantity/CaProductQuantity.vue";
 import CaReadMore from "./components/molecules/CaReadMore/CaReadMore.vue";
 import CaSearch from "./components/molecules/CaSearch/CaSearch.vue";
 import CaWidget from "./components/molecules/CaWidget/CaWidget.vue";
@@ -36,6 +37,7 @@ import MixGlobalInit from "./components/mixins/MixGlobalInit/MixGlobalInit.js";
 import MixListPageFunctions from "./components/mixins/MixListPageFunctions/MixListPageFunctions.js";
 import MixNumberFormat from "./components/mixins/MixNumberFormat/MixNumberFormat.js";
 import MixPrice from "./components/mixins/MixPrice/MixPrice.js";
+import MixUpdateCart from "./components/mixins/MixUpdateCart/MixUpdateCart.js";
 
 export {
   CaCheckoutKlarna,
@@ -58,6 +60,7 @@ export {
   CaIconButton,
   CaMiniCart,
   CaProductGallery,
+  CaProductQuantity,
   CaReadMore,
   CaSearch,
   CaWidget,
@@ -73,5 +76,6 @@ export {
   MixGlobalInit,
   MixListPageFunctions,
   MixNumberFormat,
-  MixPrice
+  MixPrice,
+  MixUpdateCart
 };
