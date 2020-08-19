@@ -25,11 +25,13 @@
 <script>
 // @group Molecules
 // @vuese
+// Widget displaying text
 export default {
   name: 'CaWidgetText',
   components: {},
   mixins: [],
   props: {
+    // Widget configuration object
     configuration: {
       type: Object,
       required: true

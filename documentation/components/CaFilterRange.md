@@ -1,14 +1,14 @@
 # CaFilterRange
 
-import 'vue-slider-component/theme/material.css';
+import 'vue-slider-component/theme/material.css'; Range type filter
 
 ## Props
 
 <!-- @vuese:CaFilterRange:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|values|-|`Object`|`true`|-|
-|selection|-|`Object`|`true`|-|
+|values|The filter values. Object that should hold the keys 'lowest' and 'highest'|`Object`|`true`|-|
+|selection|The current selection. Object that should hold the keys 'lowest' and 'highest'|`Object`|`true`|-|
 
 <!-- @vuese:CaFilterRange:props:end -->
 
@@ -18,8 +18,19 @@ import 'vue-slider-component/theme/material.css';
 <!-- @vuese:CaFilterRange:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|selectionchange|-|-|
+|selectionchange|New selection is made|new value (Object)|
 
 <!-- @vuese:CaFilterRange:events:end -->
+
+
+## Methods
+
+<!-- @vuese:CaFilterRange:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|changeHandler|Triggered when filter is changed|-|
+|setCurrentSelection|Used to set local data when mounted|-|
+
+<!-- @vuese:CaFilterRange:methods:end -->
 
 

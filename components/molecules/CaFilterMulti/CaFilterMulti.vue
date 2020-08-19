@@ -21,15 +21,18 @@
 import CaIcon from 'CaIcon';
 // @group Molecules
 // @vuese
+// Multi choice filter
 export default {
   name: 'CaFilterMulti',
   components: { CaIcon },
   mixins: [],
   props: {
+    // The selectable values
     values: {
       type: Array,
       required: true
     },
+    // The current selection
     selection: {
       type: Array,
       required: true
@@ -60,12 +63,17 @@ export default {
     this.currentSelection = this.selection;
   },
   methods: {
+    // @vuese
+    // Toggle the value of a filter and emit the updated selection
+    // @arg name (String) and selected (Boolean)
     toggleFilterValue(name, selected) {
       if (selected) {
         this.currentSelection.push(name);
       } else {
         this.currentSelection.splice(this.currentSelection.indexOf(name), 1);
       }
+      // The selection has changed
+      // @arg Updated selection (Array)
       this.$emit('selectionchange', this.currentSelection);
     }
   }

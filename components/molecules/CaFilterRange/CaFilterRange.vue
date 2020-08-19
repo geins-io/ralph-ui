@@ -26,20 +26,36 @@
 import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js';
 import 'vue-slider-component/dist-css/vue-slider-component.css';
 // import 'vue-slider-component/theme/material.css';
+
 // @group Molecules
 // @vuese
+// Range type filter
 export default {
   name: 'CaFilterRange',
   components: { VueSlider },
   mixins: [],
   props: {
+    // The filter values. Object that should hold the keys 'lowest' and 'highest'
     values: {
       type: Object,
-      required: true
+      required: true,
+      validator(value) {
+        return (
+          Object.prototype.hasOwnProperty.call(value, 'lowest') &&
+          Object.prototype.hasOwnProperty.call(value, 'highest')
+        );
+      }
     },
+    // The current selection. Object that should hold the keys 'lowest' and 'highest'
     selection: {
       type: Object,
-      required: true
+      required: true,
+      validator(value) {
+        return (
+          Object.prototype.hasOwnProperty.call(value, 'lowest') &&
+          Object.prototype.hasOwnProperty.call(value, 'highest')
+        );
+      }
     }
   },
   data: () => ({
@@ -65,11 +81,17 @@ export default {
     this.initValueSet = true;
   },
   methods: {
+    // @vuese
+    // Triggered when filter is changed
     changeHandler() {
       this.newValue.lowest = this.currentSelection[0];
       this.newValue.highest = this.currentSelection[1];
+      // New selection is made
+      // @arg new value (Object)
       this.$emit('selectionchange', this.newValue);
     },
+    // @vuese
+    // Used to set local data when mounted
     setCurrentSelection() {
       this.currentSelection[0] = this.selection.lowest;
       this.currentSelection[1] = this.selection.highest;

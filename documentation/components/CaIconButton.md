@@ -9,7 +9,18 @@ A clickable icon
 |---|---|---|---|---|
 |iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`true`|-|
 |ariaLabel|Required to add aria label for the button since it has no text content|`String`|`true`|-|
+|disabled|Used to disable button|`Boolean`|`false`|false|
 
 <!-- @vuese:CaIconButton:props:end -->
+
+
+## Events
+
+<!-- @vuese:CaIconButton:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|clicked|-|-|
+
+<!-- @vuese:CaIconButton:events:end -->
 
 

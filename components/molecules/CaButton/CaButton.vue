@@ -6,6 +6,7 @@
     :class="modifiers"
     @click="$emit('clicked')"
   >
+    <!-- Button text / content -->
     <slot></slot>
   </component>
 </template>
@@ -20,12 +21,13 @@ export default {
     // Set this to link button somewhere
     href: {
       type: String,
+      // ''
       default: ''
     },
     // Use to disable button
     disabled: {
       type: Boolean,
-      // false
+      // `false`
       default: false
     },
     // The size of the button

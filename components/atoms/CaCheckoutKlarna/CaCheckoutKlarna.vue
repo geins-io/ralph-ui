@@ -9,6 +9,7 @@
 <script>
 // @group Atoms
 // @vuese
+// A component used to display the Klarna Checkout iFrame
 export default {
   name: 'CaCheckoutKlarna',
   components: {},

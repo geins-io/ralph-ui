@@ -1,4 +1,4 @@
-// @group Micins
+// @group Mixins
 // @vuese
 // Displays product price
 export default {
@@ -6,13 +6,12 @@ export default {
   components: {},
   mixins: [],
   props: {
-    // Object that includes isDiscounted, sellingPriceIncVat, sellingPriceExVat, regularPriceIncVat, regularPriceExVat
+    // Object that includes `isDiscounted`, `sellingPriceIncVatFormatted`, `sellingPriceExVatFormatted`, `regularPriceIncVatFormatted`, `regularPriceExVatFormatted`
     price: {
       type: Object,
       required: true,
       validator(value) {
         return (
-          Object.prototype.hasOwnProperty.call(value, '__typename') &&
           Object.prototype.hasOwnProperty.call(value, 'isDiscounted') &&
           Object.prototype.hasOwnProperty.call(
             value,

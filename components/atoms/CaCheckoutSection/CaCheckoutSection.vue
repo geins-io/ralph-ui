@@ -1,9 +1,11 @@
 <template>
   <div class="ca-checkout-section">
     <h2 class="ca-checkout-section__title">
+      <!-- The checkout sections title -->
       <slot name="title"></slot>
     </h2>
     <div class="ca-checkout-section__content">
+      <!-- Content of the section -->
       <slot></slot>
     </div>
   </div>
@@ -11,6 +13,7 @@
 <script>
 // @group Atoms
 // @vuese
+// Used to wrap a section on the checkout page. Used for both the cart and the different steps of the checkout
 export default {
   name: 'CaCheckoutSection',
   components: {},

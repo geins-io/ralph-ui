@@ -1,5 +1,19 @@
 // @group Mixins
 // @vuese
+// All functionality for the list page<br><br>
+// **Data:**<br>
+// productList: `[]`<br>
+// totalCount: `0`<br>
+// skip: `0`<br>
+// take: `15`<br>
+// pageSize: `15`<br>
+// sort: `'LATEST'`<br>
+// defaultSort: `'LATEST'`<br>
+// listInfo: `null`<br>
+// filters: `{}`<br>
+// selection: `{ categories: [], brands: [] }`<br>
+// filterParamQuery: `{}`<br>
+// queryPage: `1`
 export default {
   components: {},
   mixins: [],
@@ -68,17 +82,24 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Load next chunk of products
     loadMore() {
       this.take += this.pageSize;
       this.queryPage = this.currentPage + 1;
       this.pushURLParams();
     },
+    // @vuese
+    // Load previous chunk of products
     loadPrev() {
       this.take += this.pageSize;
       this.skip -= this.pageSize;
       this.queryPage = this.currentPage - 1;
       this.pushURLParams();
     },
+    // @vuese
+    // Set price filter selection
+    // @arg lowest price (Number), highest price (Number)
     setInitPriceSelection(lowest, highest) {
       if (!this.selection.price) {
         this.$set(this.selection, 'price', {});
@@ -93,6 +114,9 @@ export default {
         this.setInitPriceHighest(highest);
       }
     },
+    // @vuese
+    // Set price filter selection for lowest price
+    // @arg price (Number)
     setInitPriceLowest(price) {
       if (!this.selection.price) {
         this.$set(this.selection, 'price', {});
@@ -102,6 +126,9 @@ export default {
       }
       this.$set(this.selection.price, 'lowest', price);
     },
+    // @vuese
+    // Set price filter selection for highest price
+    // @arg price (Number)
     setInitPriceHighest(price) {
       if (!this.selection.price) {
         this.$set(this.selection, 'price', {});
@@ -111,20 +138,30 @@ export default {
       }
       this.$set(this.selection.price, 'highest', price);
     },
+    // @vuese
+    // Update the sort setting
+    // @arg new value (String)
     sortChangeHandler(newVal) {
       this.sort = newVal;
       this.pushURLParams();
     },
+    // @vuese
+    // Update the filter selections
+    // @arg new value (Object)
     filterChangeHandler(newVal) {
       this.selection = newVal;
       this.pushURLParams();
     },
+    // @vuese
+    // Set filter selection in URL
     pushURLParams() {
       this.$router.push({
         path: this.currentAlias,
         query: this.filterQuery
       });
     },
+    // @vuese
+    // Read filter selection from URL
     readURLParams() {
       if (this.$route.query.categories) {
         this.selection.categories = this.$route.query.categories.split(',');

@@ -14,11 +14,13 @@ import CaWidget from 'CaWidget';
 
 // @group Molecules
 // @vuese
+// A container holding a set of widgets
 export default {
   name: 'CaWidgetContainer',
   components: { CaWidget },
   mixins: [],
   props: {
+    // An array of widgets to be displayed in this container
     widgets: {
       type: Array,
       required: true

@@ -1,6 +1,7 @@
+import gql from 'graphql-tag';
 // @group Mixins
 // @vuese
-import gql from 'graphql-tag';
+// Function to update the current cart
 export default {
   components: {},
   mixins: [],
@@ -10,6 +11,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Update the cart. Will perform a graphql mutation
+    // @arg product alias (String), product quantity (Number)
     updateCart(prodAlias, prodQuantity) {
       const updateItem = {
         alias: prodAlias,

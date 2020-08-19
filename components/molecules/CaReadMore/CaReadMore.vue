@@ -5,6 +5,7 @@
       class="ca-read-more__text"
       :style="{ height: textHeight + 'px' }"
     >
+      <!-- Text content -->
       <slot></slot>
     </div>
     <button
@@ -22,11 +23,13 @@
 import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
+// Used to hide part of text and display a "read more"-toggle
 export default {
   name: 'CaReadMore',
   components: { CaIconAndText },
   mixins: [],
   props: {
+    // Maximum height of text to show before 'read more'-function to kick in
     maxHeight: {
       type: Number,
       default: 60
@@ -58,12 +61,16 @@ export default {
     this.setHeights();
   },
   methods: {
+    // @vuese
+    // Set heights
     setHeights() {
       this.scrollHeight = this.$refs.text.scrollHeight;
       this.textHeight = this.toggleActive
         ? this.maxHeight
         : this.$refs.text.scrollHeight;
     },
+    // @vuese
+    // Toggle read more/read less
     toggleText() {
       this.visible = !this.visible;
       if (!this.visible && this.toggleActive) {

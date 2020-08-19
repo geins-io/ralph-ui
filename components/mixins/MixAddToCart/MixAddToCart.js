@@ -1,7 +1,7 @@
+import gql from 'graphql-tag';
 // @group Mixins
 // @vuese
-import gql from 'graphql-tag';
-
+// A mixin for the add to cart function
 export default {
   components: {},
   mixins: [],
@@ -11,6 +11,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Add a product to the cart on the server. Performs a graphql mutation
+    // @arg product alias (String), product quantity (Number)
     addToCart(prodAlias, prodQuantity) {
       const itemToAdd = {
         alias: prodAlias,

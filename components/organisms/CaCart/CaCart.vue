@@ -12,6 +12,7 @@
 import CaCartProduct from 'CaCartProduct';
 // @group Organisms
 // @vuese
+// Displaying the products in the cart, discount code field and cart summary
 export default {
   name: 'CaCart',
   components: { CaCartProduct },
@@ -32,7 +33,9 @@ export default {
 .ca-cart {
   &__product {
     &:not(:last-child) {
-      margin-bottom: $px12;
+      margin-bottom: $px16;
+      padding-bottom: $px16;
+      border-bottom: $border-light;
     }
   }
 }

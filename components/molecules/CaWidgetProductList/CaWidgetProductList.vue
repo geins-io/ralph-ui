@@ -4,11 +4,13 @@
 <script>
 // @group Molecules
 // @vuese
+// Widget displaying a product list
 export default {
   name: 'CaWidgetProductList',
   components: {},
   mixins: [],
   props: {
+    // Widget configuration object
     configuration: {
       type: Object,
       required: true

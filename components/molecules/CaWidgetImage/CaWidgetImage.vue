@@ -13,11 +13,13 @@
 import CaImage from 'CaImage';
 // @group Molecules
 // @vuese
+// Widget displaying an image
 export default {
   name: 'CaWidgetImage',
   components: { CaImage },
   mixins: [],
   props: {
+    // Widget configuration object
     configuration: {
       type: Object,
       required: true

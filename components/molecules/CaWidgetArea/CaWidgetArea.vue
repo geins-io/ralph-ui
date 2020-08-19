@@ -14,6 +14,7 @@ import gql from 'graphql-tag';
 import CaWidgetContainer from 'CaWidgetContainer';
 // @group Molecules
 // @vuese
+// The area that contains the widget containers and from which the graphql query for widgets is made.
 export default {
   name: 'CaWidgetArea',
   apollo: {
@@ -54,10 +55,12 @@ export default {
   components: { CaWidgetContainer },
   mixins: [],
   props: {
+    // The widget area family
     family: {
       type: String,
       required: true
     },
+    // The widget area name
     areaName: {
       type: String,
       required: true

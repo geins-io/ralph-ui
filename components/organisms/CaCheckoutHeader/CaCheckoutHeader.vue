@@ -28,11 +28,13 @@ import CaIcon from 'CaIcon';
 
 // @group Organisms
 // @vuese
+// The header of the checkout containing logo, title and a button to go back
 export default {
   name: 'CaCheckoutHeader',
   components: { CaLogo, CaButton, CaIcon },
   mixins: [],
   props: {
+    // Title of the page
     title: {
       type: String,
       required: true

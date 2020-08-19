@@ -41,6 +41,9 @@
           :max-quantity="10"
           @changed="onQuantityChange"
         />
+        <div class="ca-cart-product__total">
+          {{ totalSellingPrice }}
+        </div>
       </div>
     </div>
   </div>
@@ -54,6 +57,7 @@ import CaProductQuantity from 'CaProductQuantity';
 import MixUpdateCart from 'MixUpdateCart';
 // @group Molecules
 // @vuese
+// A product displayed in the cart
 export default {
   name: 'CaCartProduct',
   components: {
@@ -71,10 +75,19 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    totalSellingPrice() {
+      return this.$store.state.VATincluded
+        ? this.product.total.sellingPriceIncVatFormatted
+        : this.product.total.sellingPriceExVatFormatted;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Quantity change handler
+    // @arg value (Number)
     onQuantityChange(value) {
       this.updateCart(this.product.alias, value);
     }
@@ -103,6 +116,16 @@ export default {
     top: 0;
     right: 0;
     cursor: pointer;
+  }
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: $px12;
+  }
+  &__total {
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
   }
 }
 </style>

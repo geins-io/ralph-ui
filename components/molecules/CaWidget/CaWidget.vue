@@ -13,20 +13,26 @@ import CaWidgetImage from 'CaWidgetImage';
 import CaWidgetProductList from 'CaWidgetProductList';
 // @group Molecules
 // @vuese
+// Shell for displaying widget component based on type
 export default {
   name: 'CaWidget',
   components: { CaWidgetImage, CaWidgetText, CaWidgetProductList },
   mixins: [],
   props: {
+    // Configuration JSON object
     configuration: {
       type: String,
       required: true
     },
+    // Type of widget
     type: {
+      // 'Image', 'Text', 'Product list'
       type: String,
       required: true
     },
+    // Widget size
     size: {
+      // 'full', 'half', 'third', 'fourth'
       type: String,
       required: true
     }

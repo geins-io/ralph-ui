@@ -275,6 +275,8 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Perform search
     getSearchResults() {
       this.loading = true;
       clearTimeout(this.typingTimeout);

@@ -1,6 +1,6 @@
 # CaIcon
 
-Display an inline svg icon. Default icon library is [Feather icons](https://feathericons.com/).
+Display an inline svg icon. Default icon library is [Feather icons](https://feathericons.com/). To use another library, just replace all of the svg-files in the `assets/icons` folder and you're good to go.
 
 ## Props
 

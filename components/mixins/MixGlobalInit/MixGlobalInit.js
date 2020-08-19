@@ -1,7 +1,7 @@
+import gql from 'graphql-tag';
 // @group Mixins
 // @vuese
-import gql from 'graphql-tag';
-
+// Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
   apollo: {
     getCart: {
@@ -79,6 +79,13 @@ export default {
 
     this.$store.commit('setViewportWidth');
     this.$store.dispatch('initResizeListener');
+
+    // Refetch cart on window/tab focus to keep state between windows/tabs
+    window.addEventListener('focus', this.refetchCart);
   },
-  methods: {}
+  methods: {
+    refetchCart() {
+      this.$apollo.queries.getCart.refetch();
+    }
+  }
 };

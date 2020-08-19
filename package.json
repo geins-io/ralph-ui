@@ -27,7 +27,12 @@
     "hooper": "^0.3.4"
   },
   "vuese": {
-    "outDir": "documentation"
+    "outDir": "documentation",
+    "include": [
+      "**/*.vue",
+      "components/mixins/**/*.js"
+    ],
+    "exclude": "scripts/component-template/component.vue"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

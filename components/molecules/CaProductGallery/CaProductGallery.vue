@@ -76,6 +76,7 @@ export default {
   components: { Hooper, Slide, HooperPagination, HooperNavigation, CaImage },
   mixins: [],
   props: {
+    // Array of the products image filenames
     images: {
       type: Array,
       required: true
@@ -120,13 +121,22 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Slide to specific image
+    // @arg index (Number)
     slideToIndex(index) {
       this.$refs.gallery.slideTo(index);
     },
+    // @vuese
+    // Slide nav images
+    // @arg payload (Object)
     slideNav(payload) {
       if (this.$refs.nav && this.navReachedSlideAmount)
         this.$refs.nav.slideTo(payload.currentSlide);
     },
+    // @vuese
+    // Slide gallery images
+    // @arg payload (Object)
     slideGallery(payload) {
       if (this.$refs.gallery && this.galleryReachedSlideAmount)
         this.$refs.gallery.slideTo(payload.currentSlide);

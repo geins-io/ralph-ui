@@ -1,5 +1,12 @@
 // @group Mixins
 // @vuese
+// Mixin for formatting of numbers.<br><br>
+// **Data:**<br>
+// langCode: `'sv-SE'`<br>
+// currency: `'SEK'`<br>
+// currencyDisplay: `'symbol'`<br>
+// minDecimals: `0`<br>
+// maxDecimals: `0`
 export default {
   components: {},
   mixins: [],
@@ -15,6 +22,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Format a currency
+    // @arg Number
     formatCurrency(sum) {
       return new Intl.NumberFormat(this.langCode, {
         style: 'currency',
@@ -24,6 +34,9 @@ export default {
         maximumFractionDigits: this.maxDecimals
       }).format(sum);
     },
+    // @vuese
+    // Format a number
+    // @arg Number
     formatNumber(num) {
       return new Intl.NumberFormat(this.langCode).format(num);
     }

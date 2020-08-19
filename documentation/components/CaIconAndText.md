@@ -18,7 +18,7 @@ Used to place a text together with an icon
 <!-- @vuese:CaIconAndText:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|default|-|-|
+|default|Text content|-|
 
 <!-- @vuese:CaIconAndText:slots:end -->
 

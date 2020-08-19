@@ -3,6 +3,12 @@
     <CaCheckoutHeader :title="$t('CHECKOUT')" />
     <CaCheckoutSection>
       <template v-slot:title>
+        {{ $t('SHOP_AS') }}
+      </template>
+      <CaVatToggle class="ca-checkout__vat-toggle" />
+    </CaCheckoutSection>
+    <CaCheckoutSection>
+      <template v-slot:title>
         {{ $t('CART') }} ({{ $store.getters.cartSum }})
       </template>
       <CaCart />
@@ -20,11 +26,19 @@ import CaCheckoutHeader from 'CaCheckoutHeader';
 import CaCheckoutSection from 'CaCheckoutSection';
 import CaCart from 'CaCart';
 import CaCheckoutKlarna from 'CaCheckoutKlarna';
+import CaVatToggle from 'CaVatToggle';
 // @group Organisms
 // @vuese
+// Holds the different sections of the checkout
 export default {
   name: 'CaCheckout',
-  components: { CaCheckoutHeader, CaCheckoutSection, CaCart, CaCheckoutKlarna },
+  components: {
+    CaCheckoutHeader,
+    CaCheckoutSection,
+    CaCart,
+    CaCheckoutKlarna,
+    CaVatToggle
+  },
   mixins: [],
   props: {},
   data: () => ({}),
@@ -39,5 +53,30 @@ export default {
   max-width: $checkout-width;
   margin: 0 auto;
   padding-bottom: $px32;
+  &__vat-toggle {
+    justify-content: center;
+    .ca-vat-toggle__link {
+      display: flex;
+      align-items: center;
+      &:first-child {
+        margin-right: $px24;
+      }
+      &:before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 0 0 1px $c-medium-gray;
+        border: 5px solid $c-white;
+        background: $c-white;
+        border-radius: 50%;
+        margin-right: $px8;
+      }
+      &--active {
+        &:before {
+          background: $c-darkest-gray;
+        }
+      }
+    }
+  }
 }
 </style>

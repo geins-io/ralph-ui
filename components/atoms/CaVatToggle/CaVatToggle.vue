@@ -34,6 +34,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Set global state
+    // @arg Boolean
     setVATIncluded(vatincluded) {
       this.$store.commit('setVATincluded', vatincluded);
     }

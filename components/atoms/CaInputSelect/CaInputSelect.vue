@@ -70,6 +70,7 @@ export default {
     // The from element label
     label: {
       type: String,
+      // ''
       default: ''
     },
     // Use v-model to bind value
@@ -80,21 +81,25 @@ export default {
     // Placeholder if no option is chosen
     placeholder: {
       type: String,
+      // ''
       default: ''
     },
     // Add a description under the select
     description: {
       type: String,
+      // ''
       default: ''
     },
     // Is it required
     required: {
       type: Boolean,
+      // `true`
       default: true
     },
     // Used to disable the input
     disabled: {
       type: Boolean,
+      // `false`
       default: false
     }
   },
@@ -123,20 +128,32 @@ export default {
     this.setInitialValue();
   },
   methods: {
+    // @vuese
+    // Used to set initial value when mounted
     setInitialValue() {
       const chosenOption = this.options.find(item => item.value === this.value);
       this.selectOption(chosenOption.value, chosenOption.label);
     },
+    // @vuese
+    // This is run to select an option
+    // @arg new value (String, Number) and label (String - optional)
     selectOption(value, label = null) {
       if (!label) label = this.getLabel(value);
       this.selected.label = label;
       this.selected.value = value;
+      // Triggered by user input change
+      // @arg The newly selected value (String, Number)
       this.$emit('input', value);
       this.open = false;
     },
+    // @vuese
+    // Opening and closing the dropdown
     toggleOptions() {
       this.open = !this.open;
     },
+    // @vuese
+    // Get the label for a specific value in the list of options
+    // @arg value (String, Number)
     getLabel(val) {
       return this.options.find(item => item.value === val).label;
     }

@@ -52,6 +52,7 @@
 <script>
 // @group Atoms
 // @vuese
+// Adds a product meta script tag to the page
 export default {
   name: 'CaProductMeta',
   components: {},
