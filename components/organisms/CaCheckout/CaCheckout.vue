@@ -58,8 +58,15 @@ export default {
     .ca-vat-toggle__link {
       display: flex;
       align-items: center;
+      font-size: $font-size-xs;
+      @include bp(tablet) {
+        font-size: $font-size-s;
+      }
       &:first-child {
-        margin-right: $px24;
+        margin-right: $px16;
+        @include bp(tablet) {
+          margin-right: $px24;
+        }
       }
       &:before {
         content: '';

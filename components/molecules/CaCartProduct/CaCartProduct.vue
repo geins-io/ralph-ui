@@ -99,8 +99,11 @@ export default {
   display: flex;
 
   &__image {
-    max-width: 90px;
+    max-width: 60px;
     margin-right: $px12;
+    @include bp(tablet) {
+      max-width: 90px;
+    }
   }
   &__price {
     margin-top: 5px;
