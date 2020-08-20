@@ -1,5 +1,6 @@
 /* eslint-disable */
 // Auto-generated file by create-index-files.js. Do not edit manually
+import CaCartTotal from "./components/atoms/CaCartTotal/CaCartTotal.vue";
 import CaCheckoutKlarna from "./components/atoms/CaCheckoutKlarna/CaCheckoutKlarna.vue";
 import CaCheckoutSection from "./components/atoms/CaCheckoutSection/CaCheckoutSection.vue";
 import CaContainer from "./components/atoms/CaContainer/CaContainer.vue";
@@ -40,6 +41,7 @@ import MixPrice from "./components/mixins/MixPrice/MixPrice.js";
 import MixUpdateCart from "./components/mixins/MixUpdateCart/MixUpdateCart.js";
 
 export {
+  CaCartTotal,
   CaCheckoutKlarna,
   CaCheckoutSection,
   CaContainer,

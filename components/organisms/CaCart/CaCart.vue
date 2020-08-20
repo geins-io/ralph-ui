@@ -1,21 +1,26 @@
 <template>
-  <div class="ca-cart">
+  <div v-if="$store.getters.cartSum > 0" class="ca-cart">
     <CaCartProduct
       v-for="(product, index) in cartItems"
       :key="index"
       class="ca-cart__product"
       :product="product"
     />
+    <CaCartTotal />
+  </div>
+  <div v-else class="ca-cart ca-cart--empty">
+    {{ $t('CART_EMPTY') }}
   </div>
 </template>
 <script>
 import CaCartProduct from 'CaCartProduct';
+import CaCartTotal from 'CaCartTotal';
 // @group Organisms
 // @vuese
 // Displaying the products in the cart, discount code field and cart summary
 export default {
   name: 'CaCart',
-  components: { CaCartProduct },
+  components: { CaCartProduct, CaCartTotal },
   mixins: [],
   props: {},
   data: () => ({}),
@@ -37,6 +42,10 @@ export default {
       padding-bottom: $px16;
       border-bottom: $border-light;
     }
+  }
+  &--empty {
+    text-align: center;
+    font-size: $font-size-l;
   }
 }
 </style>
