@@ -7,13 +7,16 @@
       </template>
       <CaVatToggle class="ca-checkout__vat-toggle" />
     </CaCheckoutSection>
-    <CaCheckoutSection>
+    <CaCheckoutSection :bottom-arrow="$store.getters['cart/totalQuantity'] > 0">
       <template v-slot:title>
-        {{ $t('CART') }} ({{ $store.getters.cartSum }})
+        {{ $t('CART') }} ({{ $store.getters['cart/totalQuantity'] }})
       </template>
-      <CaCart />
+      <CaCart :cart="$store.state.cart.data" />
     </CaCheckoutSection>
-    <CaCheckoutSection>
+    <CaCheckoutSection
+      v-if="$store.getters['cart/totalQuantity'] > 0"
+      :bottom-arrow="false"
+    >
       <template v-slot:title>
         {{ $t('COMPLETE_ORDER') }}
       </template>

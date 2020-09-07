@@ -59,14 +59,15 @@ export default {
           `,
           variables: {
             apiKey: this.$store.getters.currentApiKey,
-            id: this.$store.state.cartId,
+            id: this.$store.state.cart.id,
             item: updateItem
           }
         })
         .then(result => {
-          this.$store.commit('updateCart', result.data.updateCartItem);
+          this.$store.commit('cart/update', result.data.updateCartItem);
         })
         .catch(error => {
+          // eslint-disable-next-line no-console
           console.log(error);
         });
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ca-cart-product">
+  <div class="ca-cart-product" :class="modifiers">
     <div class="ca-cart-product__image-wrap">
       <NuxtLink class="ca-cart-product__image-link" :to="'/p/' + product.alias">
         <CaImage
@@ -21,6 +21,7 @@
     </div>
     <div class="ca-cart-product__info">
       <CaIconButton
+        v-if="mode === 'default'"
         class="ca-cart-product__remove"
         icon-name="x"
         aria-label="Close"
@@ -37,10 +38,14 @@
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
+          v-if="mode === 'default'"
           :quantity="product.quantity"
           :max-quantity="10"
           @changed="onQuantityChange"
         />
+        <div v-else class="ca-cart-product__static-quantity">
+          {{ $t('QUANTITY') }}: {{ product.quantity }}
+        </div>
         <div class="ca-cart-product__total">
           {{ totalSellingPrice }}
         </div>
@@ -72,6 +77,15 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    // Set to display mode to show a non interactable cart
+    mode: {
+      // 'default', 'display'
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'display'].includes(value);
+      }
     }
   },
   data: () => ({}),
@@ -80,6 +94,11 @@ export default {
       return this.$store.state.VATincluded
         ? this.product.total.sellingPriceIncVatFormatted
         : this.product.total.sellingPriceExVatFormatted;
+    },
+    modifiers() {
+      return {
+        'ca-cart-product--display': this.mode === 'display'
+      };
     }
   },
   watch: {},
@@ -96,6 +115,7 @@ export default {
 </script>
 <style lang="scss">
 .ca-cart-product {
+  $block: &;
   display: flex;
 
   &__image {
@@ -126,9 +146,18 @@ export default {
     align-items: center;
     margin-top: $px12;
   }
+  &__static-quantity {
+    font-size: $font-size-s;
+    color: $c-text-secondary;
+  }
   &__total {
     font-size: $font-size-m;
     font-weight: $font-weight-bold;
+  }
+  &--display {
+    #{$block}__bottom {
+      margin-top: $px12;
+    }
   }
 }
 </style>

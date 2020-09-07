@@ -171,7 +171,7 @@ export default {
     transition: all 150ms ease;
     pointer-events: none;
     padding: 2px 5px;
-    background: #fff;
+    background: $c-white;
     position: absolute;
     transform: translateY(-50%);
     top: 0;

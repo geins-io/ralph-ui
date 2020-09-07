@@ -41,14 +41,10 @@ export default {
       };
     },
     sellingPrice() {
-      return this.$store.state.VATincluded
-        ? this.price.sellingPriceIncVatFormatted
-        : this.price.sellingPriceExVatFormatted;
+      return this.$store.getters.getSellingPrice(this.price);
     },
     regularPrice() {
-      return this.$store.state.VATincluded
-        ? this.price.regularPriceIncVatFormatted
-        : this.price.regularPriceExVatFormatted;
+      return this.$store.getters.getRegularPrice(this.price);
     }
   },
   watch: {},

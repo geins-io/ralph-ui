@@ -1,5 +1,6 @@
 /* eslint-disable */
 // Auto-generated file by create-index-files.js. Do not edit manually
+import CaAccordionItem from "./components/atoms/CaAccordionItem/CaAccordionItem.vue";
 import CaCartTotal from "./components/atoms/CaCartTotal/CaCartTotal.vue";
 import CaCheckoutKlarna from "./components/atoms/CaCheckoutKlarna/CaCheckoutKlarna.vue";
 import CaCheckoutSection from "./components/atoms/CaCheckoutSection/CaCheckoutSection.vue";
@@ -10,16 +11,23 @@ import CaImage from "./components/atoms/CaImage/CaImage.vue";
 import CaInputSelect from "./components/atoms/CaInputSelect/CaInputSelect.vue";
 import CaLogo from "./components/atoms/CaLogo/CaLogo.vue";
 import CaNotificationBadge from "./components/atoms/CaNotificationBadge/CaNotificationBadge.vue";
+import CaOverlay from "./components/atoms/CaOverlay/CaOverlay.vue";
 import CaProductMeta from "./components/atoms/CaProductMeta/CaProductMeta.vue";
+import CaSecondaryNavItem from "./components/atoms/CaSecondaryNavItem/CaSecondaryNavItem.vue";
+import CaSnackbar from "./components/atoms/CaSnackbar/CaSnackbar.vue";
+import CaSpinner from "./components/atoms/CaSpinner/CaSpinner.vue";
 import CaVatToggle from "./components/atoms/CaVatToggle/CaVatToggle.vue";
 import CaButton from "./components/molecules/CaButton/CaButton.vue";
 import CaCartProduct from "./components/molecules/CaCartProduct/CaCartProduct.vue";
+import CaContentPanel from "./components/molecules/CaContentPanel/CaContentPanel.vue";
+import CaDisplayCart from "./components/molecules/CaDisplayCart/CaDisplayCart.vue";
 import CaFavorites from "./components/molecules/CaFavorites/CaFavorites.vue";
 import CaFilterMulti from "./components/molecules/CaFilterMulti/CaFilterMulti.vue";
 import CaFilterRange from "./components/molecules/CaFilterRange/CaFilterRange.vue";
 import CaIconAndText from "./components/molecules/CaIconAndText/CaIconAndText.vue";
 import CaIconButton from "./components/molecules/CaIconButton/CaIconButton.vue";
 import CaMiniCart from "./components/molecules/CaMiniCart/CaMiniCart.vue";
+import CaNavigationSlim from "./components/molecules/CaNavigationSlim/CaNavigationSlim.vue";
 import CaProductGallery from "./components/molecules/CaProductGallery/CaProductGallery.vue";
 import CaProductQuantity from "./components/molecules/CaProductQuantity/CaProductQuantity.vue";
 import CaReadMore from "./components/molecules/CaReadMore/CaReadMore.vue";
@@ -41,6 +49,7 @@ import MixPrice from "./components/mixins/MixPrice/MixPrice.js";
 import MixUpdateCart from "./components/mixins/MixUpdateCart/MixUpdateCart.js";
 
 export {
+  CaAccordionItem,
   CaCartTotal,
   CaCheckoutKlarna,
   CaCheckoutSection,
@@ -51,16 +60,23 @@ export {
   CaInputSelect,
   CaLogo,
   CaNotificationBadge,
+  CaOverlay,
   CaProductMeta,
+  CaSecondaryNavItem,
+  CaSnackbar,
+  CaSpinner,
   CaVatToggle,
   CaButton,
   CaCartProduct,
+  CaContentPanel,
+  CaDisplayCart,
   CaFavorites,
   CaFilterMulti,
   CaFilterRange,
   CaIconAndText,
   CaIconButton,
   CaMiniCart,
+  CaNavigationSlim,
   CaProductGallery,
   CaProductQuantity,
   CaReadMore,

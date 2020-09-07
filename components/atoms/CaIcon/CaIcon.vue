@@ -29,7 +29,6 @@ export default {
 </script>
 <style lang="scss">
 .ca-icon {
-  font-size: inherit;
   display: inline-flex;
   justify-content: center;
   align-items: center;

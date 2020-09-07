@@ -53,9 +53,12 @@ export default {
     }
   },
   watch: {
-    selection() {
-      if (!this.currentSelection.length) {
-        this.currentSelection = this.selection;
+    selection: {
+      deep: true,
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.currentSelection = this.selection;
+        }
       }
     }
   },
@@ -81,5 +84,44 @@ export default {
 </script>
 <style lang="scss">
 .ca-filter-multi {
+  background: $c-lightest-gray;
+  padding: $px12 $px16;
+  @include bp(laptop) {
+    background: transparent;
+    padding: 0;
+  }
+  &__value {
+    padding-left: $px24;
+    position: relative;
+    line-height: 2;
+    cursor: pointer;
+    &:before {
+      width: 18px;
+      height: 18px;
+      content: '';
+      display: block;
+      background: $c-white;
+      border: $border-light;
+      @include valign;
+      left: 0;
+    }
+    &--selected {
+      font-weight: $font-weight-bold;
+      .ca-filter-multi__check {
+        opacity: 1;
+      }
+    }
+    &--disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+  &__check {
+    opacity: 0;
+    @include valign;
+    left: 2px;
+    transition: opacity 200ms ease;
+    color: $c-success;
+  }
 }
 </style>

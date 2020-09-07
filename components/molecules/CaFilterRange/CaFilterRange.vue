@@ -13,6 +13,7 @@
     </div> -->
     <VueSlider
       v-if="initValueSet"
+      :key="sliderKey"
       v-model="currentSelection"
       tooltip="always"
       :enable-cross="false"
@@ -65,13 +66,14 @@ export default {
       lowest: 0,
       highest: 0
     },
-    draggingTimeout: null
+    draggingTimeout: null,
+    sliderKey: 0
   }),
   computed: {},
   watch: {
     selection: {
       deep: true,
-      handler() {
+      handler(val) {
         this.setCurrentSelection();
       }
     }
@@ -95,6 +97,7 @@ export default {
     setCurrentSelection() {
       this.currentSelection[0] = this.selection.lowest;
       this.currentSelection[1] = this.selection.highest;
+      this.sliderKey = !this.sliderKey;
     }
   }
 };
@@ -104,7 +107,12 @@ $themeColor: $c-darkest-gray;
 $bgColor: lighten($c-darkest-gray, 43%);
 @import '~vue-slider-component/lib/theme/material.scss';
 .ca-filter-range {
-  padding: $px48 $px16 $px12;
+  background: $c-lightest-gray;
+  padding: $px56 $px32 $px16;
+  @include bp(laptop) {
+    background: transparent;
+    padding: $px48 $px16 $px12;
+  }
   &__current {
     display: flex;
     justify-content: space-between;

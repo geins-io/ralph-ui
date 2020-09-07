@@ -50,10 +50,10 @@ export default {
             expires: new Date(new Date().getTime() + 31536000000)
           });
         }
-        if (this.$store.state.cartId !== result.data.getCart.id) {
-          this.$store.commit('setCartId', this.$cookies.get('ralph-cart-id'));
+        if (this.$store.state.cart.id !== result.data.getCart.id) {
+          this.$store.commit('cart/setId', this.$cookies.get('ralph-cart-id'));
         }
-        this.$store.commit('updateCart', result.data.getCart);
+        this.$store.commit('cart/update', result.data.getCart);
       }
     }
   },
@@ -63,8 +63,8 @@ export default {
   data: () => ({}),
   computed: {
     cartId() {
-      return this.$store.state.cartId
-        ? this.$store.state.cartId
+      return this.$store.state.cart.id
+        ? this.$store.state.cart.id
         : this.cartCookieId;
     },
     cartCookieId() {

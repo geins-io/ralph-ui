@@ -8,6 +8,7 @@ A product displayed in the cart
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |product|-|`Object`|`true`|-|
+|mode|Set to display mode to show a non interactable cart|'default', 'display'|`false`|default|
 
 <!-- @vuese:CaCartProduct:props:end -->
 

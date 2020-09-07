@@ -1,12 +1,12 @@
 <template>
   <div class="ca-checkout-header">
-    <button
+    <CaIconButton
       v-if="!$store.getters.viewportLaptop"
       class="ca-checkout-header__back"
-      @click="$router.back()"
-    >
-      <CaIcon name="chevron-left" />
-    </button>
+      href="/"
+      icon-name="chevron-left"
+      aria-label="Back"
+    />
     <NuxtLink to="/">
       <CaLogo class="ca-checkout-header__logo" alt="Logo" />
     </NuxtLink>
@@ -15,7 +15,7 @@
       v-if="$store.getters.viewportLaptop"
       class="ca-checkout-header__button"
       color="secondary"
-      @clicked="$router.back()"
+      href="/"
     >
       {{ $t('CONTINUE_SHOPPING') }}
     </CaButton>
@@ -24,14 +24,14 @@
 <script>
 import CaLogo from 'CaLogo';
 import CaButton from 'CaButton';
-import CaIcon from 'CaIcon';
+import CaIconButton from 'CaIconButton';
 
 // @group Organisms
 // @vuese
 // The header of the checkout containing logo, title and a button to go back
 export default {
   name: 'CaCheckoutHeader',
-  components: { CaLogo, CaButton, CaIcon },
+  components: { CaLogo, CaButton, CaIconButton },
   mixins: [],
   props: {
     // Title of the page

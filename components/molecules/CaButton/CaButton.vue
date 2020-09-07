@@ -8,14 +8,16 @@
   >
     <!-- Button text / content -->
     <slot></slot>
+    <CaSpinner class="ca-button__spinner" :loading="loading" />
   </component>
 </template>
 <script>
+import CaSpinner from 'CaSpinner';
 // @group Molecules
 // A button for click events or links
 export default {
   name: 'CaButton',
-  components: {},
+  components: { CaSpinner },
   mixins: [],
   props: {
     // Set this to link button somewhere
@@ -56,6 +58,11 @@ export default {
       validator(value) {
         return ['default', 'secondary'].includes(value);
       }
+    },
+    // Set button in loading state
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
@@ -80,7 +87,8 @@ export default {
         'ca-button--disabled': this.disabled,
         'ca-button--small': this.size === 's',
         'ca-button--full-width': this.type === 'full-width',
-        'ca-button--secondary': this.color === 'secondary'
+        'ca-button--secondary': this.color === 'secondary',
+        'ca-button--loading': this.loading
       };
     }
   },
@@ -99,11 +107,22 @@ export default {
   text-transform: uppercase;
   padding: 1em 2.4em;
   white-space: nowrap;
+  position: relative;
+  &__spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+  }
   &--small {
     padding: 0.3em 0.65em;
   }
   &--full-width {
     width: 100%;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    text-align: center;
   }
   &--disabled {
     opacity: 0.7;
@@ -113,6 +132,9 @@ export default {
     background: $c-button-secondary-bg;
     color: $c-button-secondary-txt;
     border: $c-button-secondary-border;
+  }
+  &--loading {
+    color: transparent;
   }
 }
 </style>

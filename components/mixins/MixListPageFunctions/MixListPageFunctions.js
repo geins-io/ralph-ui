@@ -153,6 +153,14 @@ export default {
       this.pushURLParams();
     },
     // @vuese
+    // Resetting the filter selections
+    resetFilters() {
+      this.selection.categories = [];
+      this.selection.brands = [];
+      this.selection.price.lowest = this.filters.price.lowest;
+      this.selection.price.highest = this.filters.price.highest;
+    },
+    // @vuese
     // Set filter selection in URL
     pushURLParams() {
       this.$router.push({

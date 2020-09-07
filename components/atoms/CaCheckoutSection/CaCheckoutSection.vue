@@ -1,5 +1,5 @@
 <template>
-  <div class="ca-checkout-section">
+  <div class="ca-checkout-section" :class="modifiers">
     <h2 class="ca-checkout-section__title">
       <!-- The checkout sections title -->
       <slot name="title"></slot>
@@ -18,9 +18,21 @@ export default {
   name: 'CaCheckoutSection',
   components: {},
   mixins: [],
-  props: {},
+  props: {
+    // Shows an arrow at the bottom of the box
+    bottomArrow: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({}),
-  computed: {},
+  computed: {
+    modifiers() {
+      return {
+        'ca-checkout-section--arrow': this.bottomArrow
+      };
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}
@@ -51,7 +63,7 @@ export default {
       padding: $px32;
     }
   }
-  &:not(:last-child) #{$block}__content:after {
+  &--arrow #{$block}__content:after {
     content: '';
     display: block;
     width: 0;

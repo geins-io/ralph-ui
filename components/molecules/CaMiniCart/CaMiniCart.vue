@@ -1,20 +1,23 @@
 <template>
-  <NuxtLink to="/checkout" class="ca-mini-cart">
+  <button
+    class="ca-mini-cart"
+    @click="$store.commit('contentpanel/open', 'cart')"
+  >
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
       <CaNotificationBadge
-        v-if="$store.getters.cartSum > 0"
+        v-if="$store.getters['cart/totalQuantity'] > 0"
         class="ca-minicart__qty"
-        :number="$store.getters.cartSum"
+        :number="$store.getters['cart/totalQuantity']"
       />
     </div>
     <div
-      v-if="$store.getters.cartSum > 0"
+      v-if="$store.getters['cart/totalQuantity'] > 0"
       class="ca-mini-cart__value only-desktop"
     >
-      {{ $store.getters.cartTotal }}
+      {{ $store.getters.getSellingPrice($store.state.cart.data.total) }}
     </div>
-  </NuxtLink>
+  </button>
 </template>
 <script>
 import CaIcon from 'CaIcon';
@@ -43,6 +46,7 @@ export default {
 .ca-mini-cart {
   margin-right: $px4;
   display: block;
+  outline: none;
   @include bp(laptop) {
     @include flex-valign;
   }

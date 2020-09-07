@@ -2,7 +2,9 @@
   <div class="ca-cart-total">
     <div class="ca-cart-total__row ca-cart-total__row--total">
       <span class="ca-cart-total__label">{{ $t('CART_TOTAL') }}</span>
-      <span class="ca-cart-total__value">{{ $store.getters.cartTotal }}</span>
+      <span class="ca-cart-total__value">
+        {{ $store.getters.getSellingPrice(cartTotal) }}
+      </span>
     </div>
   </div>
 </template>
@@ -14,7 +16,12 @@ export default {
   name: 'CaCartTotal',
   components: {},
   mixins: [],
-  props: {},
+  props: {
+    cartTotal: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({}),
   computed: {},
   watch: {},
@@ -24,9 +31,6 @@ export default {
 </script>
 <style lang="scss">
 .ca-cart-total {
-  // width: 50%;
-  // margin-left: auto;
-  margin-top: $px20;
   &__row {
     display: flex;
     justify-content: space-between;

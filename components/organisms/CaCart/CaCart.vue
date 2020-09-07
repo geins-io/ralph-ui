@@ -1,12 +1,13 @@
 <template>
-  <div v-if="$store.getters.cartSum > 0" class="ca-cart">
+  <div v-if="cartItems.length" class="ca-cart">
     <CaCartProduct
       v-for="(product, index) in cartItems"
       :key="index"
       class="ca-cart__product"
       :product="product"
+      :mode="mode"
     />
-    <CaCartTotal />
+    <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
   </div>
   <div v-else class="ca-cart ca-cart--empty">
     {{ $t('CART_EMPTY') }}
@@ -22,11 +23,26 @@ export default {
   name: 'CaCart',
   components: { CaCartProduct, CaCartTotal },
   mixins: [],
-  props: {},
+  props: {
+    // Cart data object
+    cart: {
+      type: Object,
+      required: true
+    },
+    // Set to display mode to show a non interactable cart
+    mode: {
+      // 'default', 'display'
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'display'].includes(value);
+      }
+    }
+  },
   data: () => ({}),
   computed: {
     cartItems() {
-      return this.$store.state.cart.items ? this.$store.state.cart.items : [];
+      return this.cart.items ? this.cart.items : [];
     }
   },
   watch: {},
@@ -42,6 +58,9 @@ export default {
       padding-bottom: $px16;
       border-bottom: $border-light;
     }
+  }
+  &__total {
+    margin-top: $px20;
   }
   &--empty {
     text-align: center;

@@ -1,12 +1,14 @@
 <template>
-  <button
+  <component
+    :is="baseTag"
+    v-bind="attributes"
     class="ca-icon-button"
     :aria-label="ariaLabel"
     :disabled="disabled"
     @click="$emit('clicked')"
   >
     <CaIcon :name="iconName" />
-  </button>
+  </component>
 </template>
 <script>
 import CaIcon from 'CaIcon';
@@ -31,10 +33,32 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    // Set this to link button somewhere
+    href: {
+      type: String,
+      // ''
+      default: ''
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    hasLink() {
+      return this.href !== '';
+    },
+    baseTag() {
+      if (this.hasLink) {
+        return this.href.includes('http') ? 'a' : 'NuxtLink';
+      } else return 'button';
+    },
+    attributes() {
+      if (this.hasLink) {
+        return this.href.includes('http')
+          ? { href: this.href, target: '_blank', rel: 'noopener' }
+          : { to: this.href };
+      } else return '';
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

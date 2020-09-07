@@ -6,7 +6,9 @@ export default {
   components: {},
   mixins: [],
   props: {},
-  data: () => ({}),
+  data: () => ({
+    addToCartLoading: false
+  }),
   computed: {},
   watch: {},
   mounted() {},
@@ -59,14 +61,20 @@ export default {
           `,
           variables: {
             apiKey: this.$store.getters.currentApiKey,
-            id: this.$store.state.cartId,
+            id: this.$store.state.cart.id,
             item: itemToAdd
           }
         })
         .then(result => {
-          this.$store.commit('updateCart', result.data.addToCart);
+          this.$store.commit('cart/update', result.data.addToCart);
+          this.addToCartLoading = false;
+          this.$store.dispatch(
+            'snackbar/trigger',
+            'Din vara har lagts i varukorgen'
+          );
         })
         .catch(error => {
+          // eslint-disable-next-line no-console
           console.log(error);
         });
     }
