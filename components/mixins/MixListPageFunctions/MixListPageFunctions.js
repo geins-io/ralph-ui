@@ -23,7 +23,6 @@ export default {
     productList: [],
     totalCount: 0,
     skip: 0,
-    take: 20,
     pageSize: 20,
     sort: 'LATEST',
     defaultSort: 'LATEST',
