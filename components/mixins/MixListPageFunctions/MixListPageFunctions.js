@@ -35,17 +35,16 @@ export default {
     },
     filterParamQuery: {},
     skipProductsQuery: false,
-    currentPage: 1
+    currentPage: 1,
+    currentMinCount: 1,
+    currentMaxCount: 20
   }),
   computed: {
     allProductsLoaded() {
-      return (
-        this.take >= this.totalCount ||
-        this.currentPage * this.pageSize >= this.totalCount
-      );
+      return this.currentMaxCount >= this.totalCount;
     },
     showing() {
-      return this.skip + 1 + ' - ' + (this.skip + this.productList.length);
+      return this.currentMinCount + ' - ' + this.currentMaxCount;
     },
     filterQuery() {
       const queryObj = {};
@@ -85,19 +84,40 @@ export default {
     // @vuese
     // Load next chunk of products
     loadMore() {
-      this.take += this.pageSize;
-      this.currentPage++;
+      this.currentPage = this.currentMaxCount / this.pageSize + 1;
       this.pushURLParams();
-      // TODO: apollo fetchMore
+      this.$apollo.queries.products.fetchMore({
+        variables: this.loadMoreQueryVars,
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newProducts = fetchMoreResult.products.products;
+          this.currentMaxCount += newProducts.length;
+          this.productList = [...this.productList, ...newProducts];
+        }
+      });
     },
     // @vuese
     // Load previous chunk of products
     loadPrev() {
-      this.take += this.pageSize;
-      this.skip -= this.pageSize;
-      this.currentPage--;
+      this.currentPage = (this.currentMinCount - 1) / this.pageSize;
       this.pushURLParams();
-      // TODO: fix scroll position
+      const firstProductAlias = document.querySelector(
+        '.ca-product-card__image-link'
+      ).dataset.alias;
+      this.$apollo.queries.products.fetchMore({
+        variables: this.loadPrevQueryVars,
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newProducts = fetchMoreResult.products.products;
+          this.currentMinCount -= newProducts.length;
+          this.productList = [...newProducts, ...this.productList];
+          this.$nextTick(() => {
+            const firstProduct = document.querySelector(
+              '[data-alias="' + firstProductAlias + '"]'
+            );
+            window.scroll(0, firstProduct.offsetTop);
+            firstProduct.focus();
+          });
+        }
+      });
     },
     // @vuese
     // Set price filter selection
@@ -163,6 +183,14 @@ export default {
       this.selection.price.highest = this.filters.price.highest;
     },
     // @vuese
+    // Reset paging state
+    resetCurrentPage() {
+      this.currentPage = 1;
+      this.skip = 0;
+      this.currentMinCount = 1;
+      this.currentMaxCount = this.pageSize;
+    },
+    // @vuese
     // Set filter selection in URL
     pushURLParams() {
       if (
@@ -211,6 +239,11 @@ export default {
         this.currentPage = parseInt(this.$route.query.page);
       }
       this.skip = (this.currentPage - 1) * this.pageSize;
+      this.currentMinCount = this.skip + 1;
+      this.currentMaxCount =
+        this.skip + this.productList.length > this.totalCount
+          ? this.totalCount
+          : this.skip + this.productList.length;
     },
     // @vuese
     // Run to init the product list
