@@ -5,7 +5,6 @@
       size="1360w"
       type="pagewidget"
       :filename="imageObj.Filename"
-      :placeholder="imageObj.Filename"
     />
   </div>
 </template>

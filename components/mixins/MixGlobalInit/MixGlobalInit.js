@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import eventbus from '~/plugins/event-bus.js';
 // @group Mixins
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
@@ -73,7 +74,11 @@ export default {
         : '';
     }
   },
-  watch: {},
+  watch: {
+    $route(to, from) {
+      eventbus.$emit('route-change', { to, from });
+    }
+  },
   mounted() {
     this.$store.dispatch('initScrollListener');
 
@@ -82,6 +87,15 @@ export default {
 
     // Refetch cart on window/tab focus to keep state between windows/tabs
     window.addEventListener('focus', this.refetchCart);
+
+    window.addEventListener('popstate', () => {
+      if (
+        this.$route.name.includes('category') ||
+        this.$route.name.includes('brand')
+      ) {
+        this.$store.commit('list/setBackNavigated', true);
+      }
+    });
   },
   methods: {
     refetchCart() {

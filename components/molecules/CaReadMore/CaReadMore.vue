@@ -3,7 +3,7 @@
     <div
       ref="text"
       class="ca-read-more__text"
-      :style="{ height: textHeight + 'px' }"
+      :style="{ height: textHeightComputed + 'px' }"
     >
       <!-- Text content -->
       <slot></slot>
@@ -37,13 +37,15 @@ export default {
   },
   data: () => ({
     visible: false,
+    ready: false,
     textHeight: 0,
     scrollHeight: 0
   }),
   computed: {
     modifiers() {
       return {
-        'ca-read-more--visible': this.visible || !this.toggleActive
+        'ca-read-more--visible': this.visible || !this.toggleActive,
+        'ca-read-more--ready': this.ready
       };
     },
     toggleButtonText() {
@@ -54,6 +56,9 @@ export default {
     },
     iconName() {
       return this.visible ? 'chevron-up' : 'chevron-down';
+    },
+    textHeightComputed() {
+      return !this.textHeight ? this.maxHeight : this.textHeight;
     }
   },
   watch: {},
@@ -68,6 +73,7 @@ export default {
       this.textHeight = this.toggleActive
         ? this.maxHeight
         : this.$refs.text.scrollHeight;
+      this.ready = true;
     },
     // @vuese
     // Toggle read more/read less
@@ -86,9 +92,9 @@ export default {
 </script>
 <style lang="scss">
 .ca-read-more {
+  $block: &;
   &__text {
     overflow: hidden;
-    transition: height 200ms ease;
     position: relative;
     &:after {
       content: '';
@@ -112,6 +118,11 @@ export default {
   &--visible & {
     &__text:after {
       opacity: 0;
+    }
+  }
+  &--ready {
+    #{$block}__text {
+      transition: height 200ms ease;
     }
   }
 }

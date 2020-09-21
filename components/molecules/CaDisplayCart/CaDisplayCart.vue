@@ -19,7 +19,7 @@
       <div class="ca-display-cart__footer">
         <CaCartTotal class="ca-display-cart__total" :cart-total="cart.total" />
         <CaButton type="full-width" size="l" href="/checkout">
-          Gå till kassan
+          {{ $t('CART_TO_CHECKOUT') }}
         </CaButton>
       </div>
     </template>

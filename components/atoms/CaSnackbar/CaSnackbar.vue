@@ -10,6 +10,7 @@
 <script>
 // @group Atoms
 // @vuese
+// Used to show user feedback as messages, triggered as so: `$store.dispatch('snackbar/trigger', [message (String)]);`
 export default {
   name: 'CaSnackbar',
   components: {},

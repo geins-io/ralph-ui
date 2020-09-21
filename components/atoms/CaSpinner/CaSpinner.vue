@@ -30,5 +30,6 @@ export default {
   border-top: none;
   border-right: none;
   animation: spin 500ms infinite linear;
+  pointer-events: none;
 }
 </style>

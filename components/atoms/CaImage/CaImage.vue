@@ -6,7 +6,11 @@
       :src="imageUrl"
       @load="loadedAction"
     />
-    <img v-if="!loaded" class="ca-image__img" :src="placeholder" />
+    <img
+      v-if="!loaded && type === 'product'"
+      class="ca-image__img"
+      :src="placeholder"
+    />
   </div>
 </template>
 <script>
@@ -36,7 +40,7 @@ export default {
     // This will be displayed until real image is loaded
     placeholder: {
       type: String,
-      required: true
+      default: ''
     }
   },
   data: () => ({

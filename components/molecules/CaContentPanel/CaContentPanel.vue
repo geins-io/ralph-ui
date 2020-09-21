@@ -93,7 +93,6 @@ export default {
     }
   },
   data: () => ({
-    visible: false,
     opened: false,
     unwatch: null
   }),
@@ -125,7 +124,16 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    eventbus.$on('close-content-panel', () => {
+      this.close();
+    });
+    eventbus.$on('route-change', () => {
+      if (this.opened) {
+        this.close();
+      }
+    });
+  },
   created() {
     this.unwatch = this.$store.watch(
       state => state.contentpanel.current,
@@ -135,9 +143,6 @@ export default {
         }
       }
     );
-    eventbus.$on('close-content-panel', () => {
-      this.close();
-    });
   },
   beforeDestroy() {
     this.close();
@@ -147,7 +152,6 @@ export default {
     // Open the content panel
     open() {
       this.setScrollbarWidth();
-      this.visible = true;
       // const options = {
       //   reserveScrollBarGap: true
       // };
@@ -160,7 +164,6 @@ export default {
       // document.body.classList.remove('content-panel-open');
       this.$store.commit('contentpanel/close');
       this.opened = false;
-      this.visible = false;
       clearAllBodyScrollLocks();
     },
     // Set scrollbar width, used to keep gap when disabeling body scroll

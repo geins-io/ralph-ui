@@ -14,7 +14,7 @@
             {{ category.name }}
           </template>
           <ul class="ca-navigation-slim__level ca-navigation-slim__level--2">
-            <li class="ca-navigation-mobile__sub-item" @click="navClickHandler">
+            <li class="ca-navigation-mobile__sub-item">
               <NuxtLink
                 class="ca-navigation-slim__sub-link ca-navigation-slim__show-all"
                 :to="'/c/' + category.alias"
@@ -28,7 +28,6 @@
               )"
               :key="subindex"
               class="ca-navigation-slim__sub-item"
-              @click="navClickHandler"
             >
               <NuxtLink
                 :to="'/c/' + subcategory.alias"
@@ -52,8 +51,6 @@
 </template>
 <script>
 import CaAccordionItem from 'CaAccordionItem';
-
-import eventbus from '~/plugins/event-bus.js';
 
 // @group Molecules
 // @vuese
@@ -89,10 +86,6 @@ export default {
     // @arg Category id (Number)
     getSubLevelCategories(id) {
       return this.activeCategories.filter(i => i.parentCategoryId === id);
-    },
-    // Handle navigation link clicks
-    navClickHandler() {
-      eventbus.$emit('close-content-panel');
     }
   }
 };

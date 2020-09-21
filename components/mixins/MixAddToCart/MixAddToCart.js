@@ -68,10 +68,7 @@ export default {
         .then(result => {
           this.$store.commit('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
-          this.$store.dispatch(
-            'snackbar/trigger',
-            'Din vara har lagts i varukorgen'
-          );
+          this.$store.dispatch('snackbar/trigger', this.$t('CART_ITEM_ADDED'));
         })
         .catch(error => {
           // eslint-disable-next-line no-console

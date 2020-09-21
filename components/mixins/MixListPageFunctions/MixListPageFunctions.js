@@ -13,7 +13,8 @@
 // filters: `{}`<br>
 // selection: `{ categories: [], brands: [] }`<br>
 // filterParamQuery: `{}`<br>
-// queryPage: `1`
+// skipProductsQuery: `false`
+// currentPage: `1`
 export default {
   components: {},
   mixins: [],
@@ -22,8 +23,8 @@ export default {
     productList: [],
     totalCount: 0,
     skip: 0,
-    take: 15,
-    pageSize: 15,
+    take: 20,
+    pageSize: 20,
     sort: 'LATEST',
     defaultSort: 'LATEST',
     listInfo: null,
@@ -33,12 +34,10 @@ export default {
       brands: []
     },
     filterParamQuery: {},
-    queryPage: 1
+    skipProductsQuery: false,
+    currentPage: 1
   }),
   computed: {
-    currentPage() {
-      return parseInt(this.$route.query.page) || 1;
-    },
     allProductsLoaded() {
       return (
         this.take >= this.totalCount ||
@@ -73,29 +72,32 @@ export default {
       if (this.sort !== this.defaultSort) {
         queryObj.sort = this.sort;
       }
-      if (this.queryPage > 1) {
-        queryObj.page = this.queryPage;
+      if (this.currentPage > 1) {
+        queryObj.page = this.currentPage.toString();
       }
       return queryObj;
     }
   },
   watch: {},
+  created() {},
   mounted() {},
   methods: {
     // @vuese
     // Load next chunk of products
     loadMore() {
       this.take += this.pageSize;
-      this.queryPage = this.currentPage + 1;
+      this.currentPage++;
       this.pushURLParams();
+      // TODO: apollo fetchMore
     },
     // @vuese
     // Load previous chunk of products
     loadPrev() {
       this.take += this.pageSize;
       this.skip -= this.pageSize;
-      this.queryPage = this.currentPage - 1;
+      this.currentPage--;
       this.pushURLParams();
+      // TODO: fix scroll position
     },
     // @vuese
     // Set price filter selection
@@ -163,10 +165,15 @@ export default {
     // @vuese
     // Set filter selection in URL
     pushURLParams() {
-      this.$router.push({
-        path: this.currentAlias,
-        query: this.filterQuery
-      });
+      if (
+        JSON.stringify(this.$route.query) !== JSON.stringify(this.filterQuery)
+      ) {
+        this.$router
+          .replace({
+            query: this.filterQuery
+          })
+          .catch(() => {});
+      }
     },
     // @vuese
     // Read filter selection from URL
@@ -186,9 +193,51 @@ export default {
       if (this.$route.query.sort) {
         this.sort = this.$route.query.sort;
       }
-      if (this.$route.query.page) {
-        this.queryPage = parseInt(this.$route.query.page);
-        this.skip = (parseInt(this.$route.query.page) - 1) * this.pageSize;
+    },
+    // @vuese
+    // Sets current page from URL or saved state
+    setPagingState() {
+      if (this.$store.getters['list/backNavigated']) {
+        if (this.$store.getters['list/relocateProduct']) {
+          this.currentPage = this.$store.state.list.relocatePage;
+          this.pushURLParams();
+        } else {
+          this.$store.commit('list/setBackNavigated', false);
+          if (this.$route.query.page) {
+            this.currentPage = parseInt(this.$route.query.page);
+          }
+        }
+      } else if (this.$route.query.page) {
+        this.currentPage = parseInt(this.$route.query.page);
+      }
+      this.skip = (this.currentPage - 1) * this.pageSize;
+    },
+    // @vuese
+    // Run to init the product list
+    initProductList() {
+      this.skipProductsQuery = true;
+      this.readURLParams();
+      this.setPagingState();
+      this.skipProductsQuery = false;
+    },
+    // @vuese
+    // Runned to relocate product on page after back navigating
+    relocateProduct() {
+      let callTimeout;
+      const product = document.querySelector(
+        '[data-alias="' + this.$store.state.list.relocateAlias + '"]'
+      );
+      if (product !== null) {
+        clearTimeout(callTimeout);
+        this.$nextTick(() => {
+          window.scroll(0, product.offsetTop);
+          product.focus();
+          this.$store.dispatch('list/resetTriggerRelocate');
+        });
+      } else {
+        callTimeout = setTimeout(() => {
+          this.relocateProduct();
+        }, 500);
       }
     }
   }
