@@ -27,6 +27,9 @@ export default {
                 regularPriceExVatFormatted
                 sellingPriceExVatFormatted
               }
+              items {
+                itemId
+              }
               total {
                 isDiscounted
                 regularPriceIncVatFormatted

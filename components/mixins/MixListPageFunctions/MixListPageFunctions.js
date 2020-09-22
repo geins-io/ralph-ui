@@ -237,12 +237,14 @@ export default {
       } else if (this.$route.query.page) {
         this.currentPage = parseInt(this.$route.query.page);
       }
-      this.skip = (this.currentPage - 1) * this.pageSize;
-      this.currentMinCount = this.skip + 1;
-      this.currentMaxCount =
-        this.skip + this.productList.length > this.totalCount
-          ? this.totalCount
-          : this.skip + this.productList.length;
+      if (this.currentPage > 1) {
+        this.skip = (this.currentPage - 1) * this.pageSize;
+        this.currentMinCount = this.skip + 1;
+        this.currentMaxCount =
+          this.skip + this.pageSize > this.totalCount
+            ? this.totalCount
+            : this.skip + this.pageSize;
+      }
     },
     // @vuese
     // Run to init the product list

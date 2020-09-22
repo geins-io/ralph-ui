@@ -25,7 +25,7 @@
         class="ca-cart-product__remove"
         icon-name="x"
         aria-label="Close"
-        @clicked="updateCart(product.alias, 0)"
+        @clicked="updateCart(product.items[0].itemId, 0)"
       />
 
       <NuxtLink :to="'/p/' + product.alias">
@@ -108,7 +108,7 @@ export default {
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      this.updateCart(this.product.alias, value);
+      this.updateCart(this.product.items[0].itemId, value);
     }
   }
 };

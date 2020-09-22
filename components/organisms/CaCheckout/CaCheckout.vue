@@ -1,7 +1,7 @@
 <template>
   <div class="ca-checkout">
     <CaCheckoutHeader :title="$t('CHECKOUT')" />
-    <CaCheckoutSection>
+    <CaCheckoutSection v-if="showVatToggle">
       <template v-slot:title>
         {{ $t('SHOP_AS') }}
       </template>
@@ -43,7 +43,14 @@ export default {
     CaVatToggle
   },
   mixins: [],
-  props: {},
+  props: {
+    // Show the VAT-toggle?
+    showVatToggle: {
+      type: Boolean,
+      // `true`
+      default: true
+    }
+  },
   data: () => ({}),
   computed: {},
   watch: {},

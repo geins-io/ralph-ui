@@ -47,6 +47,7 @@ export default {
   margin-right: $px4;
   display: block;
   outline: none;
+  color: $c-cart-color;
   @include bp(laptop) {
     @include flex-valign;
   }

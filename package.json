@@ -2,8 +2,8 @@
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
   "version": "1.0.0",
-  "description": "Component library for Carismar",
-  "author": "Lars Johansson",
+  "description": "Component library for Ralph Storefront by Carismar",
+  "author": "Olivia Axelsson & Lars Johansson",
   "private": false,
   "scripts": {
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",

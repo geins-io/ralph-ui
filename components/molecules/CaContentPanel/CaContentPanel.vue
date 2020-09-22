@@ -181,7 +181,6 @@ export default {
 <style lang="scss">
 .ca-content-panel {
   $block: &;
-
   z-index: $z-index-panel;
   background: $c-white;
   position: fixed;
@@ -200,7 +199,8 @@ export default {
     height: 50px;
     border-bottom: $border-light;
     @include flex-calign;
-    background: $c-lightest-gray;
+    background: $c-content-panel-header-bg;
+    color: $c-content-panel-header-txt;
   }
   &__title {
     font-weight: $font-weight-bold;
