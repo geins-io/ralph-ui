@@ -48,16 +48,15 @@ export default {
         };
       },
       result(result) {
-        if (this.$cookies.get('ralph-cart-id') !== result.data.getCart.id) {
-          this.$cookies.set('ralph-cart-id', result.data.getCart.id, {
+        this.$store.commit('cart/update', result.data.getCart);
+        if (
+          this.$cookies.get('ralph-cart-id') !== this.$store.getters['cart/id']
+        ) {
+          this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
             path: '/',
             expires: new Date(new Date().getTime() + 31536000000)
           });
         }
-        if (this.$store.state.cart.id !== result.data.getCart.id) {
-          this.$store.commit('cart/setId', this.$cookies.get('ralph-cart-id'));
-        }
-        this.$store.commit('cart/update', result.data.getCart);
       }
     }
   },
@@ -67,14 +66,9 @@ export default {
   data: () => ({}),
   computed: {
     cartId() {
-      return this.$store.state.cart.id
-        ? this.$store.state.cart.id
-        : this.cartCookieId;
-    },
-    cartCookieId() {
       return this.$cookies.get('ralph-cart-id')
         ? this.$cookies.get('ralph-cart-id')
-        : '';
+        : this.$store.getters['cart/id'];
     }
   },
   watch: {

@@ -1,6 +1,5 @@
 <template>
   <CaContentPanel
-    v-if="cart"
     class="ca-display-cart"
     name="cart"
     enter-from-mobile="right"

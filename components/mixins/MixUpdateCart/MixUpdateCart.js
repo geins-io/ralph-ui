@@ -62,7 +62,7 @@ export default {
           `,
           variables: {
             apiKey: this.$store.getters.currentApiKey,
-            id: this.$store.state.cart.id,
+            id: this.$store.getters('cart/id'),
             item: updateItem
           }
         })
