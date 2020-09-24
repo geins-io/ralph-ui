@@ -1,12 +1,13 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
   <div
-    v-if="klarnaResponse !== {}"
+    v-if="klarnaResponse !== null"
     class="ca-checkout-klarna"
-    v-html="klarnaResponse.html_snippet"
+    v-html="klarnaResponse.htmlSnippet"
   ></div>
 </template>
 <script>
+import gql from 'graphql-tag';
 // @group Atoms
 // @vuese
 // A component used to display the Klarna Checkout iFrame
@@ -14,30 +15,113 @@ export default {
   name: 'CaCheckoutKlarna',
   components: {},
   mixins: [],
-  props: {},
+  props: {
+    confirm: {
+      type: Boolean,
+      default: false
+    }
+  },
 
   data: () => ({
-    klarnaResponse: {}
+    klarnaResponse: null,
+    cartUpdateTimeout: null,
+    unwatch: null
   }),
+  computed: {
+    klarnaOrderId() {
+      return this.$route.query.kid || null;
+    }
+  },
   mounted() {
-    this.fetchKlarnaData();
+    if (!this.confirm) {
+      this.fetchKlarnaData();
+    } else {
+      this.fetchKlarnaConfirm();
+    }
+  },
+  created() {
+    if (!this.confirm) {
+      this.unwatch = this.$store.watch(
+        state => state.cart.data,
+        newVal => {
+          if (this.cartUpdateTimeout) {
+            clearTimeout(this.cartUpdateTimeout);
+          }
+          this.cartUpdateTimeout = setTimeout(() => {
+            this.fetchKlarnaData();
+          }, 100);
+        }
+      );
+    }
+  },
+  beforeDestroy() {
+    if (!this.confirm) {
+      this.unwatch();
+    }
   },
   methods: {
     fetchKlarnaData() {
-      // replace `getPost` with your data fetching util / API wrapper
-      fetch('/api/klarna-checkout-orders/')
-        .then(response => response.json())
-        .then(data => {
-          this.klarnaResponse = data;
-          setTimeout(() => {
-            this.initializeKlarnaScript();
-          }, 50);
+      if (this.klarnaResponse) {
+        this.suspendKlarna();
+      }
+      this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation initializeKlarna(
+              $apiKey: String!
+              $cartId: String!
+              $checkout: CheckoutInputType!
+            ) {
+              initializeKlarna(
+                apiKey: $apiKey
+                cartId: $cartId
+                checkout: $checkout
+              ) {
+                htmlSnippet
+                newCheckoutSession
+              }
+            }
+          `,
+          variables: {
+            apiKey: this.$store.getters.currentApiKey,
+            cartId: this.$store.getters['cart/id'],
+            checkout: {
+              shippingId: null,
+              pickupPoint: null,
+              desiredDeliveryDate: null,
+              message: null
+            }
+          }
+        })
+        .then(result => {
+          if (
+            !this.klarnaResponse ||
+            result.data.initializeKlarna.newCheckoutSession
+          ) {
+            if (
+              this.klarnaResponse &&
+              result.data.initializeKlarna.newCheckoutSession
+            ) {
+              this.klarnaResponse = null;
+            }
+            this.klarnaResponse = result.data.initializeKlarna;
+            this.$nextTick(() => {
+              this.initializeKlarnaScript();
+            });
+          } else {
+            this.resumeKlarna();
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
         });
     },
     initializeKlarnaScript() {
       const checkoutContainer = document.getElementById(
         'klarna-checkout-container'
       );
+      if (!checkoutContainer) return false;
       const scriptsTags = checkoutContainer.getElementsByTagName('script');
       for (let i = 0; i < scriptsTags.length; i++) {
         const parentNode = scriptsTags[i].parentNode;
@@ -47,6 +131,47 @@ export default {
         parentNode.removeChild(scriptsTags[i]);
         parentNode.appendChild(newScriptTag);
       }
+    },
+    suspendKlarna() {
+      window._klarnaCheckout(function(api) {
+        api.suspend();
+      });
+    },
+    resumeKlarna() {
+      window._klarnaCheckout(function(api) {
+        api.resume();
+      });
+    },
+    fetchKlarnaConfirm() {
+      if (!this.klarnaOrderId) return;
+      this.$apollo
+        .query({
+          query: gql`
+            query getKlarna($apiKey: String!, $klarnaOrderId: String!) {
+              getKlarna(apiKey: $apiKey, klarnaOrderId: $klarnaOrderId) {
+                htmlSnippet
+                newCheckoutSession
+              }
+            }
+          `,
+          variables: {
+            apiKey: this.$store.getters.currentApiKey,
+            klarnaOrderId: this.klarnaOrderId
+          }
+        })
+        .then(result => {
+          if (this.klarnaResponse && result.data.getKlarna.newCheckoutSession) {
+            this.klarnaResponse = null;
+          }
+          this.klarnaResponse = result.data.getKlarna;
+          this.$nextTick(() => {
+            this.initializeKlarnaScript();
+          });
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
     }
   }
 };
