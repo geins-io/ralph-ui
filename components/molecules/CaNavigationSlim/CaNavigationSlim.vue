@@ -38,13 +38,14 @@
             </li>
           </ul>
         </CaAccordionItem>
-        <NuxtLink
+        <!-- TODO: revert to NuxtLink -->
+        <a
           v-else
           class="ca-navigation-slim__link"
-          :to="'/c/' + category.alias"
+          :href="'/c/' + category.alias"
         >
           {{ category.name }}
-        </NuxtLink>
+        </a>
       </li>
     </ul>
   </nav>

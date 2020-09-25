@@ -133,6 +133,12 @@ export default {
         this.close();
       }
     });
+    // TODO: revert this later
+    window.addEventListener('beforeunload', event => {
+      if (this.opened) {
+        this.close();
+      }
+    });
   },
   created() {
     this.unwatch = this.$store.watch(
