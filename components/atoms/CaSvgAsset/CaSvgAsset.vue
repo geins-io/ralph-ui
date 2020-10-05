@@ -1,0 +1,38 @@
+<template>
+  <img class="ca-svg-asset" :src="src" />
+</template>
+<script>
+// @group Atoms
+// @vuese
+// Display an svg-file from the assets folder
+export default {
+  name: 'CaSvgAsset',
+  components: {},
+  mixins: [],
+  props: {
+    // The name of the file (without '.svg')
+    filename: {
+      type: String,
+      required: true
+    },
+    // The name of the assets folder
+    folder: {
+      type: String,
+      required: true
+    }
+  },
+  data: () => ({}),
+  computed: {
+    src() {
+      return require('~/assets/' + this.folder + '/' + this.filename + '.svg');
+    }
+  },
+  watch: {},
+  mounted() {},
+  methods: {}
+};
+</script>
+<style lang="scss">
+.ca-svg-asset {
+}
+</style>
