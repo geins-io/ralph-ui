@@ -10,7 +10,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Used to show user feedback as messages, triggered as so: `$store.dispatch('snackbar/trigger', [message (String)]);`
+// Used to show user feedback as messages, triggered as so: `$store.dispatch('snackbar/trigger', [message (String)]);`<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-snackbar.scss_
 export default {
   name: 'CaSnackbar',
   components: {},
@@ -28,26 +29,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-snackbar {
-  position: fixed;
-  width: calc(100% - #{$default-spacing});
-  left: calc(#{$default-spacing} / 2);
-  top: $header-bar-height + $top-bar-height + $px12;
-  z-index: $z-index-snackbar;
-  background: $c-darkest-gray;
-  color: $c-text-inverse;
-  font-weight: $font-weight-bold;
-  padding: $px20;
-  border-radius: 4px;
-  box-shadow: $box-shadow;
-  @include bp(tablet) {
-    width: auto;
-    left: auto;
-    right: calc(#{$default-spacing} / 2);
-  }
-  @include bp(laptop) {
-    top: $header-height-desktop + $default-spacing;
-    right: $default-spacing;
-  }
-}
+@import 'atoms/ca-snackbar';
 </style>

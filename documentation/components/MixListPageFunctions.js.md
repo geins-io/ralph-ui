@@ -1,6 +1,6 @@
 # MixListPageFunctions.js
 
-All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> skip: `0`<br> take: `15`<br> pageSize: `15`<br> sort: `'LATEST'`<br> defaultSort: `'LATEST'`<br> listInfo: `null`<br> filters: `{}`<br> selection: `{ categories: [], brands: [] }`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false` currentPage: `1`
+All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> skip: `0`<br> take: `15`<br> pageSize: `15`<br> sort: `'LATEST'`<br> defaultSort: `'LATEST'`<br> listInfo: `null`<br> filters: `{}`<br> selection: `{ categories: [], brands: [] }`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`
 
 ## Methods
 

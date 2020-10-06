@@ -19,7 +19,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Used to toggle globally if prices should include VAT or not
+// Used to toggle globally if prices should include VAT or not<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-vat-toggle.scss_
 export default {
   name: 'CaVatToggle',
   components: {},
@@ -44,15 +45,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-vat-toggle {
-  display: flex;
-  &__link {
-    &:not(:last-child) {
-      margin-right: $px8;
-    }
-    &--active {
-      font-weight: $font-weight-bold;
-    }
-  }
-}
+@import 'atoms/ca-vat-toggle';
 </style>

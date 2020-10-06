@@ -1,6 +1,6 @@
 # CaLogo
 
-This component displays a svg or png logo
+This component displays a svg or png logo<br><br> **SASS-path:** _./styles/components/atoms/ca-logo.scss_
 
 ## Props
 

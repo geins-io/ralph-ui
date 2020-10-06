@@ -1,6 +1,6 @@
 # CaImage
 
-Display an image in a specific size
+Display an image in a specific size<br><br> **SASS-path:** _./styles/components/atoms/ca-image.scss_
 
 ## Props
 

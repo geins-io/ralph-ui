@@ -2,8 +2,10 @@
   <div class="ComponentNameKebabCase"></div>
 </template>
 <script>
-// @group ComponentType
+// @group ComponentTypeCamelCase
 // @vuese
+// (Description of component)<br><br>
+// **SASS-path:** _./styles/components/ComponentType/ComponentNameKebabCase.scss_
 export default {
   name: 'ComponentNameCamelCase',
   components: {},
@@ -17,6 +19,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ComponentNameKebabCase {
-}
+@import 'ComponentType/ComponentNameKebabCase';
 </style>

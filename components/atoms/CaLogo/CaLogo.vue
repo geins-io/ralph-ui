@@ -1,11 +1,10 @@
 <template>
-  <div class="ca-logo">
-    <img class="ca-logo__img" :src="filename" :alt="alt" />
-  </div>
+  <img class="ca-logo" :src="filename" :alt="alt" />
 </template>
 <script>
 // @group Atoms
-// This component displays a svg or png logo
+// This component displays a svg or png logo<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-logo.scss_
 export default {
   name: 'CaLogo',
   components: {},
@@ -37,4 +36,6 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+@import 'atoms/ca-logo';
+</style>

@@ -20,7 +20,8 @@
 import CaIconAndText from 'CaIconAndText';
 // @group Atoms
 // @vuese
-// Toggle content by clicking parent
+// Toggle content by clicking parent<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-accordion-item.scss_
 export default {
   name: 'CaAccordionItem',
   components: { CaIconAndText },
@@ -69,27 +70,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-accordion-item {
-  border-bottom: $border-light;
-  &__toggle {
-    outline: none;
-    width: 100%;
-    padding: $px16;
-    display: block;
-    font-size: $font-size-m;
-    font-weight: $font-weight-bold;
-  }
-  &__icon-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .ca-icon {
-      font-size: 20px;
-    }
-  }
-  &__content {
-    max-height: 2000px;
-    overflow: hidden;
-  }
-}
+@import 'atoms/ca-accordion-item';
 </style>

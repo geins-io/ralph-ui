@@ -10,7 +10,8 @@
 import gql from 'graphql-tag';
 // @group Atoms
 // @vuese
-// A component used to display the Klarna Checkout iFrame
+// A component used to display the Klarna Checkout iFrame<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-checkout-klarna.scss_
 export default {
   name: 'CaCheckoutKlarna',
   components: {},
@@ -177,6 +178,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-checkout-klarna {
-}
+@import 'atoms/ca-checkout-klarna';
 </style>

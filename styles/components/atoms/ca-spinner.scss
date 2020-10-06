@@ -1,0 +1,10 @@
+.ca-spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid $c-white;
+  border-top: none;
+  border-right: none;
+  animation: spin 500ms infinite linear;
+  pointer-events: none;
+}

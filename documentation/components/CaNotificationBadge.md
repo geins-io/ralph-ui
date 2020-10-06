@@ -1,6 +1,6 @@
 # CaNotificationBadge
 
-Badge to show a number as a notification badge
+Badge to show a number as a notification badge<br><br> **SASS-path:** _./styles/components/atoms/ca-notification-badge.scss_
 
 ## Props
 

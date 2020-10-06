@@ -7,7 +7,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Navigation item wrapper of secondary navigation link
+// Navigation item wrapper of secondary navigation link<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-secondary-nav-item.scss_
 export default {
   name: 'CaSecondaryNavItem',
   components: {},
@@ -21,12 +22,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-secondary-nav-item {
-  border-top: $border-light;
-  background: $c-lightest-gray;
-  a {
-    padding: $px16;
-    display: block;
-  }
-}
+@import 'atoms/ca-secondary-nav-item';
 </style>

@@ -4,7 +4,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Display an svg-file from the assets folder
+// Display an svg-file from the assets folder<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-svg-asset.scss_
 export default {
   name: 'CaSvgAsset',
   components: {},
@@ -33,6 +34,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-svg-asset {
-}
+@import 'atoms/ca-svg-asset';
 </style>

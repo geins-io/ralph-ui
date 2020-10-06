@@ -4,7 +4,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Used to display an overlay of the entire page
+// Used to display an overlay of the entire page<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-overlay.scss_
 export default {
   name: 'CaOverlay',
   components: {},
@@ -31,17 +32,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-overlay {
-  z-index: $z-index-overlay;
-  background-color: $c-overlay;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  &--visible {
-    pointer-events: initial;
-  }
-}
+@import 'atoms/ca-overlay';
 </style>

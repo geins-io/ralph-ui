@@ -13,7 +13,7 @@
 // filters: `{}`<br>
 // selection: `{ categories: [], brands: [] }`<br>
 // filterParamQuery: `{}`<br>
-// skipProductsQuery: `false`
+// skipProductsQuery: `false`<br>
 // currentPage: `1`
 export default {
   components: {},

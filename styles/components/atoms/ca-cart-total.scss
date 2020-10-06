@@ -1,0 +1,10 @@
+.ca-cart-total {
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    &--total {
+      font-size: $font-size-l;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

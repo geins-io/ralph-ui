@@ -1,6 +1,6 @@
 # CaSvgAsset
 
-Display an svg-file from the assets folder
+Display an svg-file from the assets folder<br><br> **SASS-path:** _./styles/components/atoms/ca-svg-asset.scss_
 
 ## Props
 

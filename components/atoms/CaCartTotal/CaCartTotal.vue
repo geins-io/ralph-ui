@@ -11,7 +11,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Displays the summarized block of amounts in the bottom of the cart
+// Displays the summarized block of amounts in the bottom of the cart<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-cart-total.scss_
 export default {
   name: 'CaCartTotal',
   components: {},
@@ -30,14 +31,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-cart-total {
-  &__row {
-    display: flex;
-    justify-content: space-between;
-    &--total {
-      font-size: $font-size-l;
-      font-weight: $font-weight-bold;
-    }
-  }
-}
+@import 'atoms/ca-cart-total';
 </style>

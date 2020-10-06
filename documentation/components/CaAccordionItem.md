@@ -1,6 +1,6 @@
 # CaAccordionItem
 
-Toggle content by clicking parent
+Toggle content by clicking parent<br><br> **SASS-path:** _./styles/components/atoms/ca-accordion-item.scss_
 
 ## Props
 
