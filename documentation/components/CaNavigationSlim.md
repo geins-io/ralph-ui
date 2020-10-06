@@ -12,13 +12,3 @@ Slim version of the navigation. Made to be used in the content panel
 <!-- @vuese:CaNavigationSlim:props:end -->
 
 
-## Events
-
-<!-- @vuese:CaNavigationSlim:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|close-content-panel|-|-|
-
-<!-- @vuese:CaNavigationSlim:events:end -->
-
-

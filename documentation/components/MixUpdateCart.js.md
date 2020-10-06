@@ -7,7 +7,7 @@ Function to update the current cart
 <!-- @vuese:MixUpdateCart.js:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|updateCart|Update the cart. Will perform a graphql mutation|product alias (String), product quantity (Number)|
+|updateCart|Update the cart. Will perform a graphql mutation|item id (Number), product quantity (Number)|
 
 <!-- @vuese:MixUpdateCart.js:methods:end -->
 
