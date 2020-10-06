@@ -1,0 +1,29 @@
+.ca-product-quantity {
+  display: inline-flex;
+  border: $border-dark;
+  &__button {
+    background: $c-light-gray;
+    @include flex-calign;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 0.9em;
+    &:disabled {
+      pointer-events: none;
+    }
+    @include bp(laptop) {
+      transition: background-color 150ms ease;
+      &:hover {
+        background: lighten($c-light-gray, 1%);
+      }
+    }
+  }
+
+  &__input {
+    width: 34px;
+    height: 30px;
+    text-align: center;
+    border-left: $border-dark;
+    border-right: $border-dark;
+  }
+}

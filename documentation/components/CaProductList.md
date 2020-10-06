@@ -1,6 +1,6 @@
 # CaProductList
 
-A list of product cards
+A list of product cards<br><br> **SASS-path:** _./styles/components/molecules/ca-product-list.scss_
 
 ## Props
 

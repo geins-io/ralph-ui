@@ -13,8 +13,9 @@
 </template>
 <script>
 import CaSpinner from 'CaSpinner';
-// @group Molecules
-// A button for click events or links
+// @group Atoms
+// A button for click events or links<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-button.scss_
 export default {
   name: 'CaButton',
   components: { CaSpinner },
@@ -98,43 +99,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-button {
-  display: inline-block;
-  background: $c-button-main-bg;
-  color: $c-button-main-txt;
-  font-size: $font-size-s;
-  font-weight: $font-weight-bold;
-  text-transform: uppercase;
-  padding: 1em 2.4em;
-  white-space: nowrap;
-  position: relative;
-  &__spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -10px;
-    margin-left: -10px;
-  }
-  &--small {
-    padding: 0.3em 0.65em;
-  }
-  &--full-width {
-    width: 100%;
-    padding-left: 0.7em;
-    padding-right: 0.7em;
-    text-align: center;
-  }
-  &--disabled {
-    opacity: 0.7;
-    pointer-events: none;
-  }
-  &--secondary {
-    background: $c-button-secondary-bg;
-    color: $c-button-secondary-txt;
-    border: $c-button-secondary-border;
-  }
-  &--loading {
-    color: transparent;
-  }
-}
+@import 'atoms/ca-button';
 </style>

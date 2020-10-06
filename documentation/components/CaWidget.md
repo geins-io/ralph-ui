@@ -1,6 +1,6 @@
 # CaWidget
 
-Shell for displaying widget component based on type
+Shell for displaying widget component based on type<br><br> **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 
 ## Props
 

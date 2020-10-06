@@ -1,0 +1,17 @@
+.ca-navigation-slim {
+  &__link {
+    padding: $px16;
+    display: block;
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+  }
+  &__level {
+    background-color: $c-lightest-gray;
+    padding: $px12 0;
+  }
+  &__sub-link {
+    display: block;
+    padding: $px12 $px24;
+    font-size: $font-size-s;
+  }
+}

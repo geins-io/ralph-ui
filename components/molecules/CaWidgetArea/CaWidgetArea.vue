@@ -14,7 +14,8 @@ import gql from 'graphql-tag';
 import CaWidgetContainer from 'CaWidgetContainer';
 // @group Molecules
 // @vuese
-// The area that contains the widget containers and from which the graphql query for widgets is made.
+// The area that contains the widget containers and from which the graphql query for widgets is made.<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget-area.scss_
 export default {
   name: 'CaWidgetArea',
   apollo: {
@@ -83,9 +84,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget-area {
-  &__inner {
-    margin-top: -$widget-spacing;
-  }
-}
+@import 'molecules/ca-widget-area';
 </style>

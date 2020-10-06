@@ -63,7 +63,8 @@
 <script>
 import CaIcon from 'CaIcon';
 // @group Molecules
-// The search including search results
+// The search including search results<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-search.scss_
 export default {
   name: 'CaSearch',
   components: { CaIcon },
@@ -298,59 +299,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-search {
-  position: fixed;
-  width: 100%;
-  z-index: $z-index-search;
-  transform: translateY(-100%);
-  transition: transform 200ms ease;
-  @include bp(laptop) {
-    @include valign;
-    left: 0;
-    width: auto;
-  }
-  &__bar {
-    @include bp(tablet-down) {
-      height: $search-height;
-      background-color: $c-search-bg;
-      @include flex-calign;
-    }
-  }
-  &__input-wrap {
-    height: 40px;
-    width: calc(100% - #{$default-spacing});
-    border: $border-light;
-    background: $c-white;
-    @include flex-valign;
-    @include bp(laptop) {
-      width: 290px;
-    }
-  }
-  &__input {
-    flex: 1;
-    height: 100%;
-    padding: 0 $px16;
-  }
-  &__button {
-    height: 100%;
-    width: 40px;
-    @include flex-calign;
-    font-size: 20px;
-  }
-  &__results {
-    position: fixed;
-    z-index: $z-index-search;
-    background: $c-white;
-    width: 100%;
-    height: calc(
-      100vh - #{$top-bar-height + $header-bar-height + $search-height}
-    );
-    overflow: auto;
-  }
-  &--visible {
-    @include bp(tablet-down) {
-      transform: translateY(0);
-    }
-  }
-}
+@import 'molecules/ca-search';
 </style>

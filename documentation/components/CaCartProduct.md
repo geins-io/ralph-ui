@@ -1,6 +1,6 @@
 # CaCartProduct
 
-A product displayed in the cart
+A product displayed in the cart<br><br> **SASS-path:** _./styles/components/molecules/ca-cart-product.scss_
 
 ## Props
 

@@ -13,7 +13,8 @@
 import CaProductCard from 'CaProductCard';
 // @group Molecules
 // @vuese
-// A list of product cards
+// A list of product cards<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-product-list.scss_
 export default {
   name: 'CaProductList',
   components: { CaProductCard },
@@ -51,10 +52,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-product-list {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: -$list-spacing;
-}
+@import 'molecules/ca-product-list';
 </style>

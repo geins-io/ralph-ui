@@ -50,7 +50,8 @@ import eventbus from '~/plugins/event-bus.js';
 
 // @group Molecules
 // @vuese
-// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker
+// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 export default {
   name: 'CaContentPanel',
   components: { CaOverlay, CaIcon, CaIconAndText },
@@ -185,5 +186,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import 'ca-content-panel';
+@import 'molecules/ca-content-panel';
 </style>

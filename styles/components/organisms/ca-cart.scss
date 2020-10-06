@@ -1,0 +1,16 @@
+.ca-cart {
+  &__product {
+    &:not(:last-child) {
+      margin-bottom: $px16;
+      padding-bottom: $px16;
+      border-bottom: $border-light;
+    }
+  }
+  &__total {
+    margin-top: $px20;
+  }
+  &--empty {
+    text-align: center;
+    font-size: $font-size-l;
+  }
+}

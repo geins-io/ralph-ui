@@ -1,6 +1,6 @@
 # CaReadMore
 
-Used to hide part of text and display a "read more"-toggle
+Used to hide part of text and display a "read more"-toggle<br><br> **SASS-path:** _./styles/components/molecules/ca-read-more.scss_
 
 ## Props
 

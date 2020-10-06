@@ -1,0 +1,19 @@
+.ca-mini-cart {
+  margin-right: $px4;
+  display: block;
+  outline: none;
+  color: $c-cart-color;
+  @include bp(laptop) {
+    @include flex-valign;
+  }
+  &__wrap {
+    position: relative;
+  }
+  &__icon {
+    font-size: 24px;
+  }
+  &__value {
+    font-weight: $font-weight-bold;
+    margin-left: $px12;
+  }
+}

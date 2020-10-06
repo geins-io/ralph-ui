@@ -24,7 +24,8 @@ import CaIcon from 'CaIcon';
 import CaNotificationBadge from 'CaNotificationBadge';
 
 // @group Molecules
-// The cart displayed in the header
+// The cart displayed in the header<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-mini-cart.scss_
 export default {
   name: 'CaMiniCart',
   components: { CaIcon, CaNotificationBadge },
@@ -43,23 +44,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-mini-cart {
-  margin-right: $px4;
-  display: block;
-  outline: none;
-  color: $c-cart-color;
-  @include bp(laptop) {
-    @include flex-valign;
-  }
-  &__wrap {
-    position: relative;
-  }
-  &__icon {
-    font-size: 24px;
-  }
-  &__value {
-    font-weight: $font-weight-bold;
-    margin-left: $px12;
-  }
-}
+@import 'molecules/ca-mini-cart';
 </style>

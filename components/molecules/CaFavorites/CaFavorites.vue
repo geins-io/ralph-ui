@@ -17,7 +17,8 @@ import CaNotificationBadge from 'CaNotificationBadge';
 
 // @group Molecules
 // @vuese
-// Displaying number of favorites with a link to favorites-page
+// Displaying number of favorites with a link to favorites-page<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-favorites.scss_
 export default {
   name: 'CaFavorites',
   components: { CaIcon, CaNotificationBadge },
@@ -36,18 +37,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-favorites {
-  position: relative;
-  margin-right: $px20;
-  @include bp(laptop) {
-    @include flex-valign;
-  }
-  &__icon {
-    font-size: 24px;
-    @include bp(laptop) {
-      font-size: 1em;
-      margin-right: $px4;
-    }
-  }
-}
+@import 'molecules/ca-favorites';
 </style>

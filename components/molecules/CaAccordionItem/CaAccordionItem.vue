@@ -18,10 +18,10 @@
 </template>
 <script>
 import CaIconAndText from 'CaIconAndText';
-// @group Atoms
+// @group Molecules
 // @vuese
 // Toggle content by clicking parent<br><br>
-// **SASS-path:** _./styles/components/atoms/ca-accordion-item.scss_
+// **SASS-path:** _./styles/components/molecules/ca-accordion-item.scss_
 export default {
   name: 'CaAccordionItem',
   components: { CaIconAndText },
@@ -70,5 +70,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import 'atoms/ca-accordion-item';
+@import 'molecules/ca-accordion-item';
 </style>

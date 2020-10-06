@@ -1,6 +1,6 @@
 # CaWidgetText
 
-Widget displaying text
+Widget displaying text<br><br> **SASS-path:** _./styles/components/molecules/ca-widget-text.scss_
 
 ## Props
 

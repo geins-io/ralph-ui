@@ -23,7 +23,8 @@
 import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
-// Used to hide part of text and display a "read more"-toggle
+// Used to hide part of text and display a "read more"-toggle<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-read-more.scss_
 export default {
   name: 'CaReadMore',
   components: { CaIconAndText },
@@ -91,39 +92,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-read-more {
-  $block: &;
-  &__text {
-    overflow: hidden;
-    position: relative;
-    &:after {
-      content: '';
-      display: block;
-      height: 50%;
-      width: 100%;
-      background-image: linear-gradient(transparent, $c-white);
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 1;
-      transition: opacity 200ms ease;
-    }
-  }
-  &__button {
-    font-weight: $font-weight-bold;
-    text-transform: uppercase;
-    margin-top: $px8;
-  }
-  &--visible & {
-    &__text:after {
-      opacity: 0;
-    }
-  }
-  &--ready {
-    #{$block}__text {
-      transition: height 200ms ease;
-    }
-  }
-}
+@import 'molecules/ca-read-more';
 </style>

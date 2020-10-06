@@ -1,6 +1,6 @@
 # CaButton
 
-A button for click events or links
+A button for click events or links<br><br> **SASS-path:** _./styles/components/atoms/ca-button.scss_
 
 ## Props
 

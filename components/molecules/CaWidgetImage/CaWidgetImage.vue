@@ -12,7 +12,8 @@
 import CaImage from 'CaImage';
 // @group Molecules
 // @vuese
-// Widget displaying an image
+// Widget displaying an image<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget-image.scss_
 export default {
   name: 'CaWidgetImage',
   components: { CaImage },
@@ -42,6 +43,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget-image {
-}
+@import 'molecules/ca-widget-image';
 </style>

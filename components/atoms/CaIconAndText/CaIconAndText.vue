@@ -10,8 +10,10 @@
 <script>
 import CaIcon from 'CaIcon';
 
-// @group Molecules
-// Used to place a text together with an icon
+// @group Atoms
+// @vuese
+// Used to place a text together with an icon<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-icon-and-text.scss_
 export default {
   name: 'CaIconAndText',
   components: { CaIcon },
@@ -44,24 +46,5 @@ export default {
 };
 </script>
 <style lang="scss">
-$icon-spacing: 0.4em !default;
-.ca-icon-and-text {
-  display: inline-flex;
-  align-items: center;
-  &--left {
-    .ca-icon-and-text__text {
-      margin-left: $icon-spacing;
-    }
-  }
-  &--right {
-    flex-direction: row-reverse;
-    .ca-icon-and-text__text {
-      margin-right: $icon-spacing;
-    }
-  }
-  &--top {
-    flex-direction: column;
-    justify-content: center;
-  }
-}
+@import 'atoms/ca-icon-and-text';
 </style>

@@ -12,8 +12,9 @@
 </template>
 <script>
 import CaIcon from 'CaIcon';
-// @group Molecules
-// A clickable icon
+// @group Atoms
+// A clickable icon<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-icon-button.scss_
 export default {
   name: 'CaIconButton',
   components: { CaIcon },
@@ -65,6 +66,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-icon-button {
-}
+@import 'atoms/ca-icon-button';
 </style>
