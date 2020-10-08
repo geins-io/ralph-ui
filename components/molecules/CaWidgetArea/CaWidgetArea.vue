@@ -45,7 +45,7 @@ export default {
       `,
       variables() {
         return {
-          apiKey: this.$store.getters.currentApiKey,
+          apiKey: this.$config.apiKey.toString(),
           family: this.family,
           areaName: this.areaName,
           displaySetting: this.displaySetting

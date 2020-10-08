@@ -43,20 +43,27 @@ export default {
       `,
       variables() {
         return {
-          apiKey: this.$store.getters.currentApiKey,
+          apiKey: this.$config.apiKey.toString(),
           id: this.cartId
         };
       },
       result(result) {
-        this.$store.commit('cart/update', result.data.getCart);
-        if (
-          this.$cookies.get('ralph-cart-id') !== this.$store.getters['cart/id']
-        ) {
-          this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
-            path: '/',
-            expires: new Date(new Date().getTime() + 31536000000)
-          });
+        if (result.data && result.data.getCart) {
+          this.$store.commit('cart/update', result.data.getCart);
+          if (
+            this.$cookies.get('ralph-cart-id') !==
+            this.$store.getters['cart/id']
+          ) {
+            this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
+              path: '/',
+              expires: new Date(new Date().getTime() + 31536000000)
+            });
+          }
         }
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   },

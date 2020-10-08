@@ -78,9 +78,6 @@ export const getters = {
   isFavorite: state => prodId => {
     return state.favorites.includes(prodId);
   },
-  currentApiKey() {
-    return process.env.API_KEY;
-  },
   getSellingPrice: state => price => {
     return state.VATincluded
       ? price.sellingPriceIncVatFormatted

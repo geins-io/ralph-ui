@@ -84,7 +84,7 @@ export default {
             }
           `,
           variables: {
-            apiKey: this.$store.getters.currentApiKey,
+            apiKey: this.$config.apiKey.toString(),
             cartId: this.$store.getters['cart/id'],
             checkout: {
               shippingId: null,
@@ -156,7 +156,7 @@ export default {
             }
           `,
           variables: {
-            apiKey: this.$store.getters.currentApiKey,
+            apiKey: this.$config.apiKey.toString(),
             klarnaOrderId: this.klarnaOrderId
           }
         })

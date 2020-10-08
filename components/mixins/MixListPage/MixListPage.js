@@ -76,13 +76,13 @@ export default {
       required: true
     }
   },
-  data: () => ({
+  data: vm => ({
     productList: [],
     totalCount: 0,
     skip: 0,
-    pageSize: 20,
-    sort: 'LATEST',
-    defaultSort: 'LATEST',
+    pageSize: vm.$config.productListPageSize,
+    sort: vm.$config.productListDefaultSort,
+    defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
     filters: {},
     selection: {
@@ -93,7 +93,7 @@ export default {
     skipProductsQuery: false,
     currentPage: 1,
     currentMinCount: 1,
-    currentMaxCount: 20
+    currentMaxCount: vm.$config.productListPageSize
   }),
   computed: {
     allProductsLoaded() {
@@ -143,7 +143,7 @@ export default {
     },
     infoQueryVars() {
       const varsObj = {
-        apiKey: this.$store.getters.currentApiKey
+        apiKey: this.$config.apiKey.toString()
       };
       if (this.isCategory) {
         this.$set(varsObj, 'categoryAlias', this.currentAlias);
@@ -157,7 +157,7 @@ export default {
       const varsObj = {
         skip: this.skip,
         take: this.pageSize,
-        apiKey: this.$store.getters.currentApiKey,
+        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };
@@ -173,7 +173,7 @@ export default {
       const varsObj = {
         skip: this.currentMaxCount,
         take: this.pageSize,
-        apiKey: this.$store.getters.currentApiKey,
+        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };
@@ -189,7 +189,7 @@ export default {
       const varsObj = {
         skip: this.currentMinCount - 1 - this.pageSize,
         take: this.pageSize,
-        apiKey: this.$store.getters.currentApiKey,
+        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };

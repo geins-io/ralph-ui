@@ -50,7 +50,7 @@ export default {
   computed: {
     imageUrl() {
       return (
-        process.env.IMAGE_SERVER +
+        this.$config.imageServer +
         '/' +
         this.type +
         '/' +
