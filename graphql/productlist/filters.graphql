@@ -1,0 +1,18 @@
+fragment ListFilters on PageFilterType {
+  brands {
+    count
+    name
+  }
+  categories {
+    count
+    name
+  }
+  discountCampaigns {
+    count
+    name
+  }
+  price {
+    lowest
+    highest
+  }
+}

@@ -1,46 +1,13 @@
-import gql from 'graphql-tag';
+import getCartQuery from 'cart/get.graphql';
 import eventbus from '~/plugins/event-bus.js';
+
 // @group Mixins
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
   apollo: {
     getCart: {
-      query: gql`
-        query getCart($apiKey: String!, $id: String!) {
-          getCart(apiKey: $apiKey, id: $id) {
-            id
-            total {
-              sellingPriceIncVatFormatted
-              sellingPriceExVatFormatted
-            }
-            items {
-              brandName
-              name
-              quantity
-              images
-              alias
-              price {
-                isDiscounted
-                regularPriceIncVatFormatted
-                sellingPriceIncVatFormatted
-                regularPriceExVatFormatted
-                sellingPriceExVatFormatted
-              }
-              items {
-                itemId
-              }
-              total {
-                isDiscounted
-                regularPriceIncVatFormatted
-                sellingPriceIncVatFormatted
-                regularPriceExVatFormatted
-                sellingPriceExVatFormatted
-              }
-            }
-          }
-        }
-      `,
+      query: getCartQuery,
       variables() {
         return {
           apiKey: this.$config.apiKey.toString(),

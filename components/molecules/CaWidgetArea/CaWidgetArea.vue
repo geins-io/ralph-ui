@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-import gql from 'graphql-tag';
 import CaWidgetContainer from 'CaWidgetContainer';
+import widgetAreaQuery from 'global/widget-area.graphql';
 // @group Molecules
 // @vuese
 // The area that contains the widget containers and from which the graphql query for widgets is made.<br><br>
@@ -20,29 +20,7 @@ export default {
   name: 'CaWidgetArea',
   apollo: {
     widgetArea: {
-      query: gql`
-        query widgetArea(
-          $apiKey: String!
-          $family: String!
-          $areaName: String!
-          $displaySetting: String!
-        ) {
-          widgetArea(
-            apiKey: $apiKey
-            family: $family
-            areaName: $areaName
-            displaySetting: $displaySetting
-          ) {
-            containers {
-              widgets {
-                name
-                size
-                configuration
-              }
-            }
-          }
-        }
-      `,
+      query: widgetAreaQuery,
       variables() {
         return {
           apiKey: this.$config.apiKey.toString(),

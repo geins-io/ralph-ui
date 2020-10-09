@@ -1,0 +1,9 @@
+query categories($apiKey: String!) {
+  categories(apiKey: $apiKey) {
+    alias
+    name
+    categoryId
+    parentCategoryId
+    activeProducts
+  }
+}

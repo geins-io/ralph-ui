@@ -1,0 +1,11 @@
+#import "checkout/klarna-response.graphql"
+
+mutation initializeKlarna(
+  $apiKey: String!
+  $cartId: String!
+  $checkout: CheckoutInputType!
+) {
+  initializeKlarna(apiKey: $apiKey, cartId: $cartId, checkout: $checkout) {
+    ...KlarnaResponse
+  }
+}

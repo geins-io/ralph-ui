@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import updateCartMutation from 'cart/update.graphql';
 // @group Mixins
 // @vuese
 // Function to update the current cart
@@ -21,45 +21,7 @@ export default {
       };
       this.$apollo
         .mutate({
-          mutation: gql`
-            mutation updateCartItem(
-              $apiKey: String!
-              $id: String!
-              $item: CartItemInputType!
-            ) {
-              updateCartItem(apiKey: $apiKey, id: $id, item: $item) {
-                id
-                total {
-                  sellingPriceIncVatFormatted
-                  sellingPriceExVatFormatted
-                }
-                items {
-                  brandName
-                  name
-                  quantity
-                  images
-                  alias
-                  price {
-                    isDiscounted
-                    regularPriceIncVatFormatted
-                    sellingPriceIncVatFormatted
-                    regularPriceExVatFormatted
-                    sellingPriceExVatFormatted
-                  }
-                  items {
-                    itemId
-                  }
-                  total {
-                    isDiscounted
-                    regularPriceIncVatFormatted
-                    sellingPriceIncVatFormatted
-                    regularPriceExVatFormatted
-                    sellingPriceExVatFormatted
-                  }
-                }
-              }
-            }
-          `,
+          mutation: updateCartMutation,
           variables: {
             apiKey: this.$config.apiKey.toString(),
             id: this.$store.getters['cart/id'],
