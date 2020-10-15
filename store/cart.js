@@ -1,21 +1,16 @@
 export const state = () => ({
-  data: {},
-  id: ''
+  data: {}
 });
 
 export const mutations = {
   update(state, cart) {
     state.data = cart;
-  },
-  setId(state, id) {
-    state.id = id;
   }
 };
 
 export const actions = {
   reset(context) {
     context.commit('update', {});
-    context.commit('setId', '');
   }
 };
 
