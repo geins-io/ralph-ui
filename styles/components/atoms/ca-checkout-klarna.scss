@@ -1,2 +1,6 @@
 .ca-checkout-klarna {
+  &__loading {
+    margin: 0 auto;
+    border-color: $c-accent-color;
+  }
 }

@@ -46,9 +46,7 @@ const questions = [
     const ComponentType = componentFolder;
     const ComponentTypeCamelCase = uppercamelcase(componentFolder);
     const ComponentName = uppercamelcase(componentName);
-    const ComponentNameCamelCase = ComponentName.startsWith('Ca')
-      ? ComponentName
-      : 'Ca' + ComponentName;
+    const ComponentNameCamelCase = 'Ca' + ComponentName;
     const ComponentNameKebabCase =
       'ca' +
       ComponentName.replace(
@@ -62,8 +60,7 @@ const questions = [
     );
     const SASSpath = path.resolve(
       __dirname,
-      `../styles/components/${componentFolder}`,
-      `${ComponentNameKebabCase}`
+      `../styles/components/${componentFolder}`
     );
     const ret = glob.sync(PackagePath + '/' + ComponentNameCamelCase + '.js');
 

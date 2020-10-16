@@ -11,6 +11,7 @@
       v-model.number="count"
       type="text"
       class="ca-product-quantity__input"
+      aria-label="Product quantity"
       :disabled="inputDisabled"
       @input="validateInput"
       @blur="validateEmpty"

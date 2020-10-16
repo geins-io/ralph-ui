@@ -1,6 +1,7 @@
 <template>
   <button
     class="ca-mini-cart"
+    aria-label="Open cart"
     @click="$store.commit('contentpanel/open', 'cart')"
   >
     <div class="ca-mini-cart__wrap">

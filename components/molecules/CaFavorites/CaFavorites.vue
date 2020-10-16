@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/" class="ca-favorites">
+  <NuxtLink to="/" class="ca-favorites" :title="$t('FAVORITES_LABEL')">
     <CaIcon name="heart" class="ca-favorites__icon" />
     <span class="ca-favorites__text only-desktop">
       {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})

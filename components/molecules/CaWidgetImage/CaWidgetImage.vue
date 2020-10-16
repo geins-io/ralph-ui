@@ -4,6 +4,7 @@
       class="ca-widget-image__image"
       size="1360w"
       type="pagewidget"
+      :alt="altText"
       :filename="imageObj.Filename"
     />
   </component>
@@ -35,6 +36,9 @@ export default {
     },
     baseElem() {
       return this.hasLink ? 'a' : 'div';
+    },
+    altText() {
+      return this.imageObj.AltText || 'Widget image';
     }
   },
   watch: {},

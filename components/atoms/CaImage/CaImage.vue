@@ -1,14 +1,16 @@
 <template>
-  <div class="ca-image">
+  <div class="ca-image" :class="typeModifier">
     <img
       v-show="loaded"
       class="ca-image__img"
       :src="imageUrl"
+      :alt="alt"
       @load="loadedAction"
     />
     <img
       v-if="!loaded && type === 'product'"
       class="ca-image__img"
+      alt="Placeholder image"
       :src="placeholder"
     />
   </div>
@@ -42,6 +44,11 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    // A human friendly description of the image, for screen readers and SEO
+    alt: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -58,6 +65,9 @@ export default {
         '/' +
         this.filename
       );
+    },
+    typeModifier() {
+      return 'ca-image--' + this.type;
     }
   },
   watch: {},

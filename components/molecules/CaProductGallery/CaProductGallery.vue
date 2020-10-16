@@ -21,6 +21,7 @@
             type="product"
             :filename="image"
             :placeholder="imagePlaceholder"
+            :alt="alt"
           />
         </a>
       </Slide>
@@ -49,6 +50,7 @@
           type="product"
           :filename="image"
           :placeholder="imagePlaceholder"
+          :alt="alt"
           @loaded="() => (imageLoaded = true)"
         />
       </Slide>
@@ -80,6 +82,11 @@ export default {
     // Array of the products image filenames
     images: {
       type: Array,
+      required: true
+    },
+    // The alt text for the product images
+    alt: {
+      type: String,
       required: true
     }
   },

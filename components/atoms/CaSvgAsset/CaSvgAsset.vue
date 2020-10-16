@@ -1,5 +1,5 @@
 <template>
-  <img class="ca-svg-asset" :src="src" />
+  <img class="ca-svg-asset" :src="src" :alt="alt" />
 </template>
 <script>
 // @group Atoms
@@ -18,6 +18,11 @@ export default {
     },
     // The name of the assets folder
     folder: {
+      type: String,
+      required: true
+    },
+    // Human friendly describtion of the image
+    alt: {
       type: String,
       required: true
     }

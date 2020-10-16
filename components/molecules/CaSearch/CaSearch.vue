@@ -6,12 +6,16 @@
           v-model="searchString"
           class="ca-search__input"
           type="text"
+          aria-label="$t('SEARCH')"
           :placeholder="$t('SEARCH_PLACEHOLDER')"
           @input="getSearchResults"
         />
-        <button class="ca-search__button" @click="getSearchResults">
-          <CaIcon name="search" />
-        </button>
+        <CaIconButton
+          class="ca-search__button"
+          icon-name="search"
+          :aria-label="$t('SEARCH')"
+          @clicked="getSearchResults"
+        />
       </div>
     </div>
     <div
@@ -61,13 +65,13 @@
   </div>
 </template>
 <script>
-import CaIcon from 'CaIcon';
+import CaIconButton from 'CaIconButton';
 // @group Molecules
 // The search including search results<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-search.scss_
 export default {
   name: 'CaSearch',
-  components: { CaIcon },
+  components: { CaIconButton },
   mixins: [],
   props: {
     // Used to toogle search in mobile, set to true when user opens it

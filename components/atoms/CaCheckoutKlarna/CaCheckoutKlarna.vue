@@ -5,17 +5,19 @@
     class="ca-checkout-klarna"
     v-html="klarnaResponse.htmlSnippet"
   ></div>
+  <CaSpinner v-else class="ca-checkout-klarna__loading" />
 </template>
 <script>
 import getKlarnaQuery from 'checkout/get-klarna.graphql';
 import initKlarnaMutation from 'checkout/init-klarna.graphql';
+import CaSpinner from 'CaSpinner';
 // @group Atoms
 // @vuese
 // A component used to display the Klarna Checkout iFrame<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-checkout-klarna.scss_
 export default {
   name: 'CaCheckoutKlarna',
-  components: {},
+  components: { CaSpinner },
   mixins: [],
   props: {
     confirm: {

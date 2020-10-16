@@ -129,14 +129,8 @@ export default {
     eventbus.$on('close-content-panel', () => {
       this.close();
     });
-    eventbus.$on('route-change', () => {
-      if (this.opened) {
-        this.close();
-      }
-    });
-    // TODO: revert this later
-    window.addEventListener('beforeunload', event => {
-      if (this.opened) {
+    eventbus.$on('route-change', route => {
+      if (this.opened && route.to.path !== route.from.path) {
         this.close();
       }
     });
