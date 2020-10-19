@@ -1,6 +1,6 @@
 # CaFlag
 
-This component can display a flag based on the [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country.
+This component can display a flag based on the [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country.<br><br> **SASS-path:** _./styles/components/atoms/ca-flag.scss_
 
 ## Props
 

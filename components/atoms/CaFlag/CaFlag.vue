@@ -7,7 +7,8 @@
 </template>
 <script>
 // @group Atoms
-// This component can display a flag based on the [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country.
+// This component can display a flag based on the [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country.<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-flag.scss_
 export default {
   name: 'CaFlag',
   components: {},
@@ -52,22 +53,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-flag {
-  background-size: contain;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  position: relative;
-  display: inline-block;
-  width: 1.33333333em;
-  line-height: 1em;
-  &:before {
-    content: '\00a0';
-  }
-  &--square {
-    width: 1em;
-  }
-  &--circle {
-    border-radius: 50%;
-  }
-}
+@import 'atoms/ca-flag';
 </style>

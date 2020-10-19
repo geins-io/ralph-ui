@@ -1,0 +1,14 @@
+query listPageInfo($apiKey: String!, $categoryAlias: String!) {
+  listPageInfo(apiKey: $apiKey, categoryAlias: $categoryAlias) {
+    alias
+    primaryImage
+    name
+    primaryDescription
+    secondaryDescription
+    subCategories {
+      alias
+      activeProducts
+      name
+    }
+  }
+}

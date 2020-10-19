@@ -1,0 +1,25 @@
+#import "product/price.graphql"
+
+fragment Cart on CartType {
+  id
+  total {
+    sellingPriceIncVatFormatted
+    sellingPriceExVatFormatted
+  }
+  items {
+    brandName
+    name
+    quantity
+    images
+    alias
+    price {
+      ...Price
+    }
+    items {
+      itemId
+    }
+    total {
+      ...Price
+    }
+  }
+}

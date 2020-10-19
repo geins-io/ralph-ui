@@ -1,6 +1,6 @@
 # CaFilterMulti
 
-Multi choice filter
+Multi choice filter<br><br> **SASS-path:** _./styles/components/molecules/ca-filter-multi.scss_
 
 ## Props
 

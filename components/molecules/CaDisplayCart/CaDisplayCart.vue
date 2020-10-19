@@ -36,6 +36,8 @@ import { mapState } from 'vuex';
 
 // @group Molecules
 // @vuese
+// The cart panel. Displays the current cart content in a content panel<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-display-cart.scss_
 export default {
   name: 'CaDisplayCart',
   components: { CaContentPanel, CaButton, CaCartProduct, CaCartTotal },
@@ -53,28 +55,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-display-cart {
-  &__products {
-    padding: 0 $px12;
-  }
-
-  &__product {
-    padding: $px12 0;
-    &:not(:last-child) {
-      border-bottom: $border-light;
-    }
-  }
-  &__empty {
-    font-weight: $font-weight-bold;
-    font-size: $font-size-xl;
-    @include calign;
-  }
-  &__footer {
-    background: $c-lightest-gray;
-    padding: $px16 $px12;
-  }
-  &__total {
-    margin-bottom: $px16;
-  }
-}
+@import 'molecules/ca-display-cart';
 </style>

@@ -1,0 +1,21 @@
+query widgetArea(
+  $apiKey: String!
+  $family: String!
+  $areaName: String!
+  $displaySetting: String!
+) {
+  widgetArea(
+    apiKey: $apiKey
+    family: $family
+    areaName: $areaName
+    displaySetting: $displaySetting
+  ) {
+    containers {
+      widgets {
+        name
+        size
+        configuration
+      }
+    }
+  }
+}

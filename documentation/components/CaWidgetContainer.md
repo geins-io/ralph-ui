@@ -1,6 +1,6 @@
 # CaWidgetContainer
 
-A container holding a set of widgets
+A container holding a set of widgets<br><br> **SASS-path:** _./styles/components/molecules/ca-widget-container.scss_
 
 ## Props
 

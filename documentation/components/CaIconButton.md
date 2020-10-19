@@ -1,6 +1,6 @@
 # CaIconButton
 
-A clickable icon
+A clickable icon<br><br> **SASS-path:** _./styles/components/atoms/ca-icon-button.scss_
 
 ## Props
 

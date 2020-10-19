@@ -1,6 +1,6 @@
 # CaProductQuantity
 
-Used to modify quantity of products
+Used to modify quantity of products<br><br> **SASS-path:** _./styles/components/molecules/ca-product-quantity.scss_
 
 ## Props
 

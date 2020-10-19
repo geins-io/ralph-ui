@@ -14,7 +14,8 @@ import CaWidget from 'CaWidget';
 
 // @group Molecules
 // @vuese
-// A container holding a set of widgets
+// A container holding a set of widgets<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget-container.scss_
 export default {
   name: 'CaWidgetContainer',
   components: { CaWidget },
@@ -34,18 +35,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: -$widget-spacing;
-  &:not(:first-child) {
-    margin-top: $widget-spacing;
-  }
-  @include bp(tablet) {
-    margin: -$widget-spacing-desktop;
-    &:not(:first-child) {
-      margin-top: $widget-spacing-desktop;
-    }
-  }
-}
+@import 'molecules/ca-widget-container';
 </style>

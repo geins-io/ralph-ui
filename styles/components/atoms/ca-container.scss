@@ -1,0 +1,9 @@
+.ca-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: $site-width;
+  width: calc(100% - #{$default-spacing});
+  @include bp(laptop) {
+    width: calc(100% - #{$default-spacing * 2});
+  }
+}

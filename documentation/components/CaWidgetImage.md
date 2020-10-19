@@ -1,6 +1,6 @@
 # CaWidgetImage
 
-Widget displaying an image
+Widget displaying an image<br><br> **SASS-path:** _./styles/components/molecules/ca-widget-image.scss_
 
 ## Props
 

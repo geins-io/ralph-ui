@@ -1,0 +1,14 @@
+.ca-favorites {
+  position: relative;
+  margin-right: $px20;
+  @include bp(laptop) {
+    @include flex-valign;
+  }
+  &__icon {
+    font-size: 24px;
+    @include bp(laptop) {
+      font-size: 1em;
+      margin-right: $px4;
+    }
+  }
+}

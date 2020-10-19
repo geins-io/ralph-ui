@@ -1,0 +1,4 @@
+fragment KlarnaResponse on KlarnaCheckoutType {
+  htmlSnippet
+  newCheckoutSession
+}

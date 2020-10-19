@@ -1,6 +1,6 @@
 # CaCheckoutHeader
 
-The header of the checkout containing logo, title and a button to go back
+The header of the checkout containing logo, title and a button to go back<br><br> **SASS-path:** _./styles/components/organisms/ca-checkout-header.scss_
 
 ## Props
 

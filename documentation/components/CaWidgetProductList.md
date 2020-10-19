@@ -1,6 +1,6 @@
 # CaWidgetProductList
 
-Widget displaying a product list
+Widget displaying a product list<br><br> **SASS-path:** _./styles/components/molecules/ca-widget-product-list.scss_
 
 ## Props
 

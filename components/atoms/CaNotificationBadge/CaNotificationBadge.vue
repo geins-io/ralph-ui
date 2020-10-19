@@ -3,7 +3,8 @@
 </template>
 <script>
 // @group Atoms
-// Badge to show a number as a notification badge
+// Badge to show a number as a notification badge<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-notification-badge.scss_
 export default {
   name: 'CaNotificationBadge',
   components: {},
@@ -23,20 +24,5 @@ export default {
 };
 </script>
 <style lang="scss">
-$c-notification-badge-bg: $c-dark-gray !default;
-$c-notification-badge-txt: $c-text-inverse !default;
-.ca-notification-badge {
-  @include flex-calign;
-  background: $c-notification-badge-bg;
-  color: $c-notification-badge-txt;
-  border-radius: 50%;
-  width: 1.8em;
-  height: 1.8em;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-xs;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(40%, -20%);
-}
+@import 'atoms/ca-notification-badge';
 </style>

@@ -1,6 +1,6 @@
 # CaButton
 
-A button for click events or links
+A button for click events or links<br><br> **SASS-path:** _./styles/components/atoms/ca-button.scss_
 
 ## Props
 
@@ -12,6 +12,7 @@ A button for click events or links
 |size|The size of the button|'s', 'm', 'l'|`false`|m|
 |type|Type of button|'default', 'full-width'|`false`|default|
 |color|Color of button|'default', 'secondary'|`false`|default|
+|loading|Set button in loading state|`Boolean`|`false`|false|
 
 <!-- @vuese:CaButton:props:end -->
 

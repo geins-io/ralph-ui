@@ -13,7 +13,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Used to wrap a section on the checkout page. Used for both the cart and the different steps of the checkout
+// Used to wrap a section on the checkout page. Used for both the cart and the different steps of the checkout<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-checkout-section.scss_
 export default {
   name: 'CaCheckoutSection',
   components: {},
@@ -39,42 +40,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-checkout-section {
-  $block: &;
-  margin-top: $px32;
-  &__title {
-    font-size: $font-size-m;
-    font-weight: $font-weight-bold;
-    line-height: 2;
-    margin-bottom: $px4;
-    text-align: center;
-    margin-top: $px32;
-    @include bp(laptop) {
-      font-size: $font-size-l;
-      margin-bottom: $px12;
-    }
-  }
-  &__content {
-    background: $c-white;
-    padding: $px20 $px12;
-    position: relative;
-
-    @include bp(tablet) {
-      padding: $px32;
-    }
-  }
-  &--arrow #{$block}__content:after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 18px solid $c-white;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%);
-  }
-}
+@import 'atoms/ca-checkout-section';
 </style>

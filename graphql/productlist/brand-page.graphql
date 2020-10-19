@@ -1,0 +1,10 @@
+query listPageInfo($apiKey: String!, $brandAlias: String!) {
+  listPageInfo(apiKey: $apiKey, brandAlias: $brandAlias) {
+    alias
+    primaryImage
+    logo
+    name
+    primaryDescription
+    secondaryDescription
+  }
+}

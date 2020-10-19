@@ -43,22 +43,25 @@ const questions = [
   createComponent(component, name);
 
   function createComponent(componentFolder, componentName) {
-    const ComponentType = uppercamelcase(componentFolder);
+    const ComponentType = componentFolder;
+    const ComponentTypeCamelCase = uppercamelcase(componentFolder);
     const ComponentName = uppercamelcase(componentName);
-    const ComponentNameCamelCase = ComponentName.startsWith('Ca')
-      ? ComponentName
-      : 'Ca' + ComponentName;
-    const PackagePath = path.resolve(
-      __dirname,
-      `../components/${componentFolder}`,
-      `${ComponentNameCamelCase}`
-    );
+    const ComponentNameCamelCase = 'Ca' + ComponentName;
     const ComponentNameKebabCase =
       'ca' +
       ComponentName.replace(
         /([A-Z])(?=\w)/g,
         (s1, s2) => '-' + s2.toLowerCase()
       );
+    const PackagePath = path.resolve(
+      __dirname,
+      `../components/${componentFolder}`,
+      `${ComponentNameCamelCase}`
+    );
+    const SASSpath = path.resolve(
+      __dirname,
+      `../styles/components/${componentFolder}`
+    );
     const ret = glob.sync(PackagePath + '/' + ComponentNameCamelCase + '.js');
 
     if (ret.length > 0) {
@@ -75,8 +78,8 @@ const questions = [
     }
 
     fs.readdirSync(fwFolder).forEach(file => {
-      console.log(file, componentFolder);
-      console.log(!file.includes('.vue'), componentFolder === 'mixins');
+      let fileName;
+      const filePath = file.includes('.scss') ? SASSpath : PackagePath;
 
       if (file.includes('.vue') && componentFolder === 'mixins') {
         return;
@@ -86,11 +89,16 @@ const questions = [
         return;
       }
 
-      let fileName = file.replace('component', ComponentNameCamelCase);
+      if (file.includes('.scss')) {
+        fileName = file.replace('component', ComponentNameKebabCase);
+      } else {
+        fileName = file.replace('component', ComponentNameCamelCase);
+      }
       if (file.includes('.mixin.js') && componentFolder === 'mixins') {
         fileName = fileName.replace('.mixin.js', '.js');
         fileName = fileName.replace(/^Ca/, 'Mix');
       }
+
       let content = fs.readFileSync(fwFolder + file, 'utf8');
       content = content.replace(/ComponentFolder/g, componentFolder);
       content = content.replace(
@@ -102,9 +110,13 @@ const questions = [
         ComponentNameKebabCase
       );
       content = content.replace(/ComponentName/g, ComponentName);
+      content = content.replace(
+        /ComponentTypeCamelCase/g,
+        ComponentTypeCamelCase
+      );
       content = content.replace(/ComponentType/g, ComponentType);
 
-      fileSave(path.join(PackagePath, fileName))
+      fileSave(path.join(filePath, fileName))
         .write(content, 'utf8')
         .end();
     });

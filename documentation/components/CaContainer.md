@@ -1,6 +1,6 @@
 # CaContainer
 
-Used to wrap content to keep page width
+Used to wrap content to keep page width<br><br> **SASS-path:** _./styles/components/atoms/ca-container.scss_
 
 ## Slots
 

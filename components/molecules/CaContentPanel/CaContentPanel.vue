@@ -50,7 +50,8 @@ import eventbus from '~/plugins/event-bus.js';
 
 // @group Molecules
 // @vuese
-// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker
+// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 export default {
   name: 'CaContentPanel',
   components: { CaOverlay, CaIcon, CaIconAndText },
@@ -128,14 +129,8 @@ export default {
     eventbus.$on('close-content-panel', () => {
       this.close();
     });
-    eventbus.$on('route-change', () => {
-      if (this.opened) {
-        this.close();
-      }
-    });
-    // TODO: revert this later
-    window.addEventListener('beforeunload', event => {
-      if (this.opened) {
+    eventbus.$on('route-change', route => {
+      if (this.opened && route.to.path !== route.from.path) {
         this.close();
       }
     });
@@ -185,70 +180,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-content-panel {
-  $block: &;
-  z-index: $z-index-panel;
-  background: $c-white;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  &__close-icon {
-    font-size: 20px;
-    color: $c-white;
-    position: absolute;
-    top: 13px;
-    pointer-events: none;
-  }
-  &__header {
-    height: 50px;
-    border-bottom: $border-light;
-    @include flex-calign;
-    background: $c-content-panel-header-bg;
-    color: $c-content-panel-header-txt;
-  }
-  &__title {
-    font-weight: $font-weight-bold;
-    font-size: $font-size-l;
-  }
-  &__body {
-    flex: 1;
-    overflow: auto;
-    position: relative;
-  }
-  &__close-button {
-    height: 50px;
-    color: $c-text-inverse;
-    background-color: $c-darkest-gray;
-    width: 100%;
-    text-transform: uppercase;
-  }
-  &--left {
-    top: 0;
-    left: 0;
-    width: 90vw;
-    #{$block}__close-icon {
-      right: -27px;
-    }
-  }
-  &--right {
-    top: 0;
-    right: 0;
-    width: 90vw;
-    #{$block}__close-icon {
-      left: -27px;
-    }
-  }
-  &--bottom {
-    height: 93vh;
-    width: 100vw;
-    max-width: 100vw;
-    left: 0;
-    right: 0;
-    #{$block}__close-icon {
-      display: none;
-    }
-  }
-}
+@import 'molecules/ca-content-panel';
 </style>

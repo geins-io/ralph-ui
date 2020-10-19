@@ -11,6 +11,7 @@
       v-model.number="count"
       type="text"
       class="ca-product-quantity__input"
+      aria-label="Product quantity"
       :disabled="inputDisabled"
       @input="validateInput"
       @blur="validateEmpty"
@@ -27,7 +28,8 @@
 <script>
 import CaIconButton from 'CaIconButton';
 // @group Molecules
-// Used to modify quantity of products
+// Used to modify quantity of products<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-product-quantity.scss_
 export default {
   name: 'CaProductQuantity',
   components: { CaIconButton },
@@ -137,33 +139,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-product-quantity {
-  display: inline-flex;
-  border: $border-dark;
-  &__button {
-    background: $c-light-gray;
-    @include flex-calign;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-size: 0.9em;
-    &:disabled {
-      pointer-events: none;
-    }
-    @include bp(laptop) {
-      transition: background-color 150ms ease;
-      &:hover {
-        background: lighten($c-light-gray, 1%);
-      }
-    }
-  }
-
-  &__input {
-    width: 34px;
-    height: 30px;
-    text-align: center;
-    border-left: $border-dark;
-    border-right: $border-dark;
-  }
-}
+@import 'molecules/ca-product-quantity';
 </style>

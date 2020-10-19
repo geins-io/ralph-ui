@@ -1,0 +1,23 @@
+.ca-icon-and-text {
+  $block: &;
+  display: inline-flex;
+  align-items: center;
+  &--left {
+    #{$block}__text {
+      margin-left: $text-and-icon-spacing;
+    }
+  }
+  &--right {
+    flex-direction: row-reverse;
+    #{$block}__text {
+      margin-right: $text-and-icon-spacing;
+    }
+  }
+  &--top {
+    flex-direction: column;
+    justify-content: center;
+    #{$block}__text {
+      margin-top: $text-and-icon-spacing;
+    }
+  }
+}

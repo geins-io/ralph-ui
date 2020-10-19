@@ -1,6 +1,6 @@
 # CaSecondaryNavItem
 
-Navigation item wrapper of secondary navigation link
+Navigation item wrapper of secondary navigation link<br><br> **SASS-path:** _./styles/components/atoms/ca-secondary-nav-item.scss_
 
 ## Slots
 

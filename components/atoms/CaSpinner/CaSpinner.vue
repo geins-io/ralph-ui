@@ -4,11 +4,14 @@
 <script>
 // @group Atoms
 // @vuese
+// A little circle spinner used to show in loading state<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-spinner.scss_
 export default {
   name: 'CaSpinner',
   components: {},
   mixins: [],
   props: {
+    // Set true to show spinner
     loading: {
       type: Boolean,
       default: true
@@ -22,14 +25,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-spinner {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid $c-white;
-  border-top: none;
-  border-right: none;
-  animation: spin 500ms infinite linear;
-  pointer-events: none;
-}
+@import 'atoms/ca-spinner';
 </style>

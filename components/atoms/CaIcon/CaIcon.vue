@@ -4,7 +4,8 @@
 </template>
 <script>
 // @group Atoms
-// Display an inline svg icon. Default icon library is [Feather icons](https://feathericons.com/). To use another library, just replace all of the svg-files in the `assets/icons` folder and you're good to go.
+// Display an inline svg icon. Default icon library is [Feather icons](https://feathericons.com/). To use another library, just replace all of the svg-files in the `assets/icons` folder and you're good to go.<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-icon.scss_
 export default {
   name: 'CaIcon',
   components: {},
@@ -28,12 +29,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-icon {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  svg {
-    width: 1.1em;
-  }
-}
+@import 'atoms/ca-icon';
 </style>

@@ -1,6 +1,6 @@
 # CaOverlay
 
-Used to display an overlay of the entire page
+Used to display an overlay of the entire page<br><br> **SASS-path:** _./styles/components/atoms/ca-overlay.scss_
 
 ## Props
 

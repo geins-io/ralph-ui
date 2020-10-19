@@ -5,15 +5,19 @@
     class="ca-checkout-klarna"
     v-html="klarnaResponse.htmlSnippet"
   ></div>
+  <CaSpinner v-else class="ca-checkout-klarna__loading" />
 </template>
 <script>
-import gql from 'graphql-tag';
+import getKlarnaQuery from 'checkout/get-klarna.graphql';
+import initKlarnaMutation from 'checkout/init-klarna.graphql';
+import CaSpinner from 'CaSpinner';
 // @group Atoms
 // @vuese
-// A component used to display the Klarna Checkout iFrame
+// A component used to display the Klarna Checkout iFrame<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-checkout-klarna.scss_
 export default {
   name: 'CaCheckoutKlarna',
-  components: {},
+  components: { CaSpinner },
   mixins: [],
   props: {
     confirm: {
@@ -66,24 +70,9 @@ export default {
       }
       this.$apollo
         .mutate({
-          mutation: gql`
-            mutation initializeKlarna(
-              $apiKey: String!
-              $cartId: String!
-              $checkout: CheckoutInputType!
-            ) {
-              initializeKlarna(
-                apiKey: $apiKey
-                cartId: $cartId
-                checkout: $checkout
-              ) {
-                htmlSnippet
-                newCheckoutSession
-              }
-            }
-          `,
+          mutation: initKlarnaMutation,
           variables: {
-            apiKey: this.$store.getters.currentApiKey,
+            apiKey: this.$config.apiKey.toString(),
             cartId: this.$store.getters['cart/id'],
             checkout: {
               shippingId: null,
@@ -146,16 +135,9 @@ export default {
       if (!this.klarnaOrderId) return;
       this.$apollo
         .query({
-          query: gql`
-            query getKlarna($apiKey: String!, $klarnaOrderId: String!) {
-              getKlarna(apiKey: $apiKey, klarnaOrderId: $klarnaOrderId) {
-                htmlSnippet
-                newCheckoutSession
-              }
-            }
-          `,
+          query: getKlarnaQuery,
           variables: {
-            apiKey: this.$store.getters.currentApiKey,
+            apiKey: this.$config.apiKey.toString(),
             klarnaOrderId: this.klarnaOrderId
           }
         })
@@ -177,6 +159,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-checkout-klarna {
-}
+@import 'atoms/ca-checkout-klarna';
 </style>

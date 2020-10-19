@@ -1,6 +1,6 @@
 # CaWidgetArea
 
-The area that contains the widget containers and from which the graphql query for widgets is made.
+The area that contains the widget containers and from which the graphql query for widgets is made.<br><br> **SASS-path:** _./styles/components/molecules/ca-widget-area.scss_
 
 ## Props
 
