@@ -1,0 +1,23 @@
+.ca-accordion-item {
+  border-bottom: $border-light;
+  &__toggle {
+    outline: none;
+    width: 100%;
+    padding: $px16;
+    display: block;
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+  }
+  &__icon-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .ca-icon {
+      font-size: 20px;
+    }
+  }
+  &__content {
+    max-height: 2000px;
+    overflow: hidden;
+  }
+}

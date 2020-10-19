@@ -62,7 +62,8 @@ import CaProductQuantity from 'CaProductQuantity';
 import MixUpdateCart from 'MixUpdateCart';
 // @group Molecules
 // @vuese
-// A product displayed in the cart
+// A product displayed in the cart<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-cart-product.scss_
 export default {
   name: 'CaCartProduct',
   components: {
@@ -114,50 +115,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-cart-product {
-  $block: &;
-  display: flex;
-
-  &__image {
-    max-width: 60px;
-    margin-right: $px12;
-    @include bp(tablet) {
-      max-width: 90px;
-    }
-  }
-  &__price {
-    margin-top: 5px;
-  }
-
-  &__info {
-    position: relative;
-    flex: 1;
-  }
-
-  &__remove {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-  }
-  &__bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: $px12;
-  }
-  &__static-quantity {
-    font-size: $font-size-s;
-    color: $c-text-secondary;
-  }
-  &__total {
-    font-size: $font-size-m;
-    font-weight: $font-weight-bold;
-  }
-  &--display {
-    #{$block}__bottom {
-      margin-top: $px12;
-    }
-  }
-}
+@import 'molecules/ca-cart-product';
 </style>

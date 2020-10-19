@@ -1,4 +1,5 @@
-import gql from 'graphql-tag';
+import addToCartMutation from 'cart/add.graphql';
+
 // @group Mixins
 // @vuese
 // A mixin for the add to cart function
@@ -23,47 +24,9 @@ export default {
       };
       this.$apollo
         .mutate({
-          mutation: gql`
-            mutation addToCart(
-              $apiKey: String!
-              $id: String!
-              $item: CartItemInputType!
-            ) {
-              addToCart(apiKey: $apiKey, id: $id, item: $item) {
-                id
-                total {
-                  sellingPriceIncVatFormatted
-                  sellingPriceExVatFormatted
-                }
-                items {
-                  brandName
-                  name
-                  quantity
-                  images
-                  alias
-                  price {
-                    isDiscounted
-                    regularPriceIncVatFormatted
-                    sellingPriceIncVatFormatted
-                    regularPriceExVatFormatted
-                    sellingPriceExVatFormatted
-                  }
-                  items {
-                    itemId
-                  }
-                  total {
-                    isDiscounted
-                    regularPriceIncVatFormatted
-                    sellingPriceIncVatFormatted
-                    regularPriceExVatFormatted
-                    sellingPriceExVatFormatted
-                  }
-                }
-              }
-            }
-          `,
+          mutation: addToCartMutation,
           variables: {
-            apiKey: this.$store.getters.currentApiKey,
+            apiKey: this.$config.apiKey.toString(),
             id: this.$store.getters['cart/id'],
             item: itemToAdd
           }

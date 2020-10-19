@@ -13,7 +13,8 @@ import CaWidgetImage from 'CaWidgetImage';
 import CaWidgetProductList from 'CaWidgetProductList';
 // @group Molecules
 // @vuese
-// Shell for displaying widget component based on type
+// Shell for displaying widget component based on type<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 export default {
   name: 'CaWidget',
   components: { CaWidgetImage, CaWidgetText, CaWidgetProductList },
@@ -61,20 +62,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget {
-  margin: $widget-spacing;
-  width: 100%;
-  @include bp(tablet) {
-    margin: $widget-spacing-desktop;
-    &--half {
-      width: calc(100% / 2 - #{$widget-spacing-desktop * 2});
-    }
-    &--third {
-      width: calc(100% / 3 - #{$widget-spacing-desktop * 2});
-    }
-    &--fourth {
-      width: calc(100% / 4 - #{$widget-spacing-desktop * 2});
-    }
-  }
-}
+@import 'molecules/ca-widget';
 </style>

@@ -1,0 +1,11 @@
+#import "cart/content.graphql"
+
+mutation updateCartItem(
+  $apiKey: String!
+  $id: String!
+  $item: CartItemInputType!
+) {
+  updateCartItem(apiKey: $apiKey, id: $id, item: $item) {
+    ...Cart
+  }
+}

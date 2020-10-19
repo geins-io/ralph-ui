@@ -30,7 +30,8 @@ import 'vue-slider-component/dist-css/vue-slider-component.css';
 
 // @group Molecules
 // @vuese
-// Range type filter
+// Range type filter<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-filter-range.scss_
 export default {
   name: 'CaFilterRange',
   components: { VueSlider },
@@ -103,24 +104,5 @@ export default {
 };
 </script>
 <style lang="scss">
-$themeColor: $c-darkest-gray;
-$bgColor: lighten($c-darkest-gray, 43%);
-@import '~vue-slider-component/lib/theme/material.scss';
-.ca-filter-range {
-  background: $c-lightest-gray;
-  padding: $px56 $px32 $px16;
-  @include bp(laptop) {
-    background: transparent;
-    padding: $px48 $px16 $px12;
-  }
-  &__current {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 0 $px12;
-  }
-  &__value {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-  }
-}
+@import 'molecules/ca-filter-range';
 </style>

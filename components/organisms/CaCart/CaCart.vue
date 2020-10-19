@@ -18,7 +18,8 @@ import CaCartProduct from 'CaCartProduct';
 import CaCartTotal from 'CaCartTotal';
 // @group Organisms
 // @vuese
-// Displaying the products in the cart, discount code field and cart summary
+// Displaying the products in the cart, discount code field and cart summary<br><br>
+// **SASS-path:** _./styles/components/organisms/ca-cart.scss_
 export default {
   name: 'CaCart',
   components: { CaCartProduct, CaCartTotal },
@@ -51,20 +52,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-cart {
-  &__product {
-    &:not(:last-child) {
-      margin-bottom: $px16;
-      padding-bottom: $px16;
-      border-bottom: $border-light;
-    }
-  }
-  &__total {
-    margin-top: $px20;
-  }
-  &--empty {
-    text-align: center;
-    font-size: $font-size-l;
-  }
-}
+@import 'organisms/ca-cart';
 </style>

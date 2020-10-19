@@ -28,7 +28,8 @@ import CaIconButton from 'CaIconButton';
 
 // @group Organisms
 // @vuese
-// The header of the checkout containing logo, title and a button to go back
+// The header of the checkout containing logo, title and a button to go back<br><br>
+// **SASS-path:** _./styles/components/organisms/ca-checkout-header.scss_
 export default {
   name: 'CaCheckoutHeader',
   components: { CaLogo, CaButton, CaIconButton },
@@ -48,31 +49,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-checkout-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: $default-spacing;
-  &__logo {
-    width: $checkout-logo-width;
-    @include bp(laptop) {
-      width: $checkout-logo-width-desktop;
-    }
-  }
-  &__title {
-    font-size: $font-size-xl;
-    font-weight: $font-weight-bold;
-    margin: 0 auto 0 rem-calc(13px);
-    padding-left: rem-calc(13px);
-    border-left: 1px solid $c-darkest-gray;
-  }
-  &__back {
-    font-size: 20px;
-    margin-right: auto;
-    line-height: 0;
-  }
-  &__button {
-    padding: 0.9em;
-  }
-}
+@import 'organisms/ca-checkout-header';
 </style>

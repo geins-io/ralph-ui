@@ -38,14 +38,13 @@
             </li>
           </ul>
         </CaAccordionItem>
-        <!-- TODO: revert to NuxtLink -->
-        <a
+        <NuxtLink
           v-else
           class="ca-navigation-slim__link"
-          :href="'/c/' + category.alias"
+          :to="'/c/' + category.alias"
         >
           {{ category.name }}
-        </a>
+        </NuxtLink>
       </li>
     </ul>
   </nav>
@@ -55,7 +54,8 @@ import CaAccordionItem from 'CaAccordionItem';
 
 // @group Molecules
 // @vuese
-// Slim version of the navigation. Made to be used in the content panel
+// Slim version of the navigation. Made to be used in the content panel<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-navigation-slim.scss_
 export default {
   name: 'CaNavigationSlim',
   components: { CaAccordionItem },
@@ -92,21 +92,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-navigation-slim {
-  &__link {
-    padding: $px16;
-    display: block;
-    font-size: $font-size-m;
-    font-weight: $font-weight-bold;
-  }
-  &__level {
-    background-color: $c-lightest-gray;
-    padding: $px12 0;
-  }
-  &__sub-link {
-    display: block;
-    padding: $px12 $px24;
-    font-size: $font-size-s;
-  }
-}
+@import 'molecules/ca-navigation-slim';
 </style>

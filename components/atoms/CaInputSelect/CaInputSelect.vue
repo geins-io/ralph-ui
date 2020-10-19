@@ -56,7 +56,8 @@ import SlideUpDown from 'vue-slide-up-down';
 import CaIcon from 'CaIcon';
 // @group Atoms
 // @vuese
-// A select input that works with v-model and has a native behavior on mobile devices
+// A select input that works with v-model and has a native behavior on mobile devices<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-input-select.scss_
 export default {
   name: 'CaInputSelect',
   components: { SlideUpDown, CaIcon },
@@ -161,97 +162,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-input-select {
-  $block: &;
-  position: relative;
-  width: 165px;
-  &__label {
-    left: 10px;
-    font-size: $font-size-xs;
-    transition: all 150ms ease;
-    pointer-events: none;
-    padding: 2px 5px;
-    background: $c-white;
-    position: absolute;
-    transform: translateY(-50%);
-    top: 0;
-    z-index: 10;
-  }
-  &__selected,
-  &__select-wrap {
-    padding: 0px 43px 0px 15px;
-    line-height: 38px;
-    height: 40px;
-    border: $border-light;
-    background: $c-lightest-gray;
-    transition: border-color 200ms ease;
-    cursor: pointer;
-    position: relative;
-  }
-
-  &__select-wrap {
-    padding: 0;
-  }
-  &__select {
-    padding: 0px 43px 0px 15px;
-    width: 100%;
-    height: 100%;
-  }
-  &__arrow {
-    @include valign;
-    right: 14px;
-    font-size: 16px;
-  }
-  &__options {
-    border: $border-light;
-    position: absolute;
-    margin-top: 2px;
-    width: 100%;
-    z-index: 15;
-    background: $c-lightest-gray;
-    overflow: hidden;
-  }
-
-  &__option {
-    line-height: 40px;
-    padding: 0px 15px;
-    cursor: pointer;
-    background: $c-lightest-gray;
-    transition: all 200ms ease;
-
-    &:hover {
-      background: $c-light-gray;
-    }
-  }
-
-  &__description {
-    font-size: $font-size-xs;
-    color: $c-text-secondary;
-    margin: 5px 0px 0px 15px;
-  }
-  &__optional {
-    font-size: 0.9em;
-    color: $c-text-secondary;
-    margin-left: 2px;
-  }
-
-  &--disabled {
-    color: $c-text-secondary;
-  }
-
-  &--open {
-    #{$block}__label {
-      font-weight: $font-weight-bold;
-      color: $c-darkest-gray;
-    }
-
-    #{$block}__selected {
-      border: 1px solid $c-dark-gray;
-
-      &:before {
-        transform: translateY(-50%) rotate(-180deg);
-      }
-    }
-  }
-}
+@import 'atoms/ca-input-select';
 </style>

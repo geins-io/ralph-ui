@@ -21,6 +21,7 @@
             type="product"
             :filename="image"
             :placeholder="imagePlaceholder"
+            :alt="alt"
           />
         </a>
       </Slide>
@@ -49,6 +50,7 @@
           type="product"
           :filename="image"
           :placeholder="imagePlaceholder"
+          :alt="alt"
           @loaded="() => (imageLoaded = true)"
         />
       </Slide>
@@ -70,7 +72,8 @@ import 'hooper/dist/hooper.css';
 
 import CaImage from 'CaImage';
 // @group Molecules
-// The product page gallery
+// The product page gallery<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
 export default {
   name: 'CaProductGallery',
   components: { Hooper, Slide, HooperPagination, HooperNavigation, CaImage },
@@ -79,6 +82,11 @@ export default {
     // Array of the products image filenames
     images: {
       type: Array,
+      required: true
+    },
+    // The alt text for the product images
+    alt: {
+      type: String,
       required: true
     }
   },
@@ -145,66 +153,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-product-gallery {
-  $block: &;
-  margin: 0 -#{$default-spacing/2};
-  overflow: hidden;
-  @include bp(laptop) {
-    margin: 0 0 $px20;
-  }
-  &__nav {
-    height: auto;
-    width: 13.74%;
-    margin: -14px 0;
-  }
-  &__nav-image {
-    cursor: pointer;
-  }
-  &__nav-slide {
-    padding: 14px 0;
-  }
-  &__slider {
-    height: auto;
-    @include bp(laptop) {
-      width: 80.15%;
-    }
-  }
-  &__slide {
-    padding: 0 $px4;
-    opacity: 0.6;
-    transition: opacity 200ms ease;
-    @include bp(laptop) {
-      padding: 0;
-      opacity: 1;
-    }
-    &.is-current {
-      opacity: 1;
-    }
-  }
-}
-.hooper-navigation {
-  &.is-vertical {
-    .hooper-prev,
-    .hooper-next {
-      width: 100%;
-      padding: 0;
-      height: 20px;
-      background: $c-overlay;
-      fill: $c-white;
-      @include flex-calign;
-      .icon {
-        width: 20px;
-      }
-    }
-    .hooper-prev {
-      top: 14px;
-    }
-    .hooper-next {
-      bottom: 14px;
-    }
-  }
-}
-.hooper-indicator {
-  background: $c-light-gray;
-}
+@import 'molecules/ca-product-gallery';
 </style>

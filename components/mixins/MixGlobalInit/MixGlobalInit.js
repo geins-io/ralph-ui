@@ -1,62 +1,36 @@
-import gql from 'graphql-tag';
+import getCartQuery from 'cart/get.graphql';
 import eventbus from '~/plugins/event-bus.js';
+
 // @group Mixins
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
   apollo: {
     getCart: {
-      query: gql`
-        query getCart($apiKey: String!, $id: String!) {
-          getCart(apiKey: $apiKey, id: $id) {
-            id
-            total {
-              sellingPriceIncVatFormatted
-              sellingPriceExVatFormatted
-            }
-            items {
-              brandName
-              name
-              quantity
-              images
-              alias
-              price {
-                isDiscounted
-                regularPriceIncVatFormatted
-                sellingPriceIncVatFormatted
-                regularPriceExVatFormatted
-                sellingPriceExVatFormatted
-              }
-              items {
-                itemId
-              }
-              total {
-                isDiscounted
-                regularPriceIncVatFormatted
-                sellingPriceIncVatFormatted
-                regularPriceExVatFormatted
-                sellingPriceExVatFormatted
-              }
-            }
-          }
-        }
-      `,
+      query: getCartQuery,
       variables() {
         return {
-          apiKey: this.$store.getters.currentApiKey,
+          apiKey: this.$config.apiKey.toString(),
           id: this.cartId
         };
       },
       result(result) {
-        this.$store.commit('cart/update', result.data.getCart);
-        if (
-          this.$cookies.get('ralph-cart-id') !== this.$store.getters['cart/id']
-        ) {
-          this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
-            path: '/',
-            expires: new Date(new Date().getTime() + 31536000000)
-          });
+        if (result.data && result.data.getCart) {
+          this.$store.commit('cart/update', result.data.getCart);
+          if (
+            this.$cookies.get('ralph-cart-id') !==
+            this.$store.getters['cart/id']
+          ) {
+            this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
+              path: '/',
+              expires: new Date(new Date().getTime() + 31536000000)
+            });
+          }
         }
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   },

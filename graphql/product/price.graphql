@@ -1,0 +1,7 @@
+fragment Price on PriceType {
+  isDiscounted
+  regularPriceIncVatFormatted
+  sellingPriceIncVatFormatted
+  regularPriceExVatFormatted
+  sellingPriceExVatFormatted
+}

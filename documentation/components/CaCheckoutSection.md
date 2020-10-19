@@ -1,6 +1,6 @@
 # CaCheckoutSection
 
-Used to wrap a section on the checkout page. Used for both the cart and the different steps of the checkout
+Used to wrap a section on the checkout page. Used for both the cart and the different steps of the checkout<br><br> **SASS-path:** _./styles/components/atoms/ca-checkout-section.scss_
 
 ## Props
 

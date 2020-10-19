@@ -1,6 +1,6 @@
 # CaMiniCart
 
-The cart displayed in the header
+The cart displayed in the header<br><br> **SASS-path:** _./styles/components/molecules/ca-mini-cart.scss_
 
 ## Props
 

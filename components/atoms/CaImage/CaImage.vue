@@ -1,14 +1,16 @@
 <template>
-  <div class="ca-image">
+  <div class="ca-image" :class="typeModifier">
     <img
       v-show="loaded"
       class="ca-image__img"
       :src="imageUrl"
+      :alt="alt"
       @load="loadedAction"
     />
     <img
       v-if="!loaded && type === 'product'"
       class="ca-image__img"
+      alt="Placeholder image"
       :src="placeholder"
     />
   </div>
@@ -16,7 +18,8 @@
 <script>
 // @group Atoms
 // @vuese
-// Display an image in a specific size
+// Display an image in a specific size<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-image.scss_
 export default {
   name: 'CaImage',
   components: {},
@@ -41,6 +44,11 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    // A human friendly description of the image, for screen readers and SEO
+    alt: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -49,7 +57,7 @@ export default {
   computed: {
     imageUrl() {
       return (
-        process.env.IMAGE_SERVER +
+        this.$config.imageServer +
         '/' +
         this.type +
         '/' +
@@ -57,6 +65,9 @@ export default {
         '/' +
         this.filename
       );
+    },
+    typeModifier() {
+      return 'ca-image--' + this.type;
     }
   },
   watch: {},
@@ -73,6 +84,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-image {
-}
+@import 'atoms/ca-image';
 </style>

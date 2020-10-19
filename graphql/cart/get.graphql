@@ -1,0 +1,7 @@
+#import "cart/content.graphql"
+
+query getCart($apiKey: String!, $id: String!) {
+  getCart(apiKey: $apiKey, id: $id) {
+    ...Cart
+  }
+}

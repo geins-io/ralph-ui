@@ -1,0 +1,28 @@
+#import "productlist/product.graphql"
+#import "productlist/filters.graphql"
+
+query products(
+  $skip: Int!
+  $take: Int!
+  $apiKey: String!
+  $categoryAlias: String!
+  $sort: SortType!
+  $filter: FilterInputType!
+) {
+  products(
+    skip: $skip
+    take: $take
+    apiKey: $apiKey
+    categoryAlias: $categoryAlias
+    sort: $sort
+    filter: $filter
+  ) {
+    products {
+      ...ListProduct
+    }
+    count
+    filters {
+      ...ListFilters
+    }
+  }
+}

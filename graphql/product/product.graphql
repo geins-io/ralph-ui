@@ -1,0 +1,22 @@
+#import "product/price.graphql"
+
+query product($alias: String!, $apiKey: String!) {
+  product(alias: $alias, apiKey: $apiKey) {
+    productId
+    name
+    brandName
+    brandAlias
+    images
+    categories {
+      categoryId
+      name
+    }
+    items {
+      itemId
+    }
+    price {
+      ...Price
+    }
+    shortText
+  }
+}

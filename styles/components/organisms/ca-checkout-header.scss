@@ -1,0 +1,27 @@
+.ca-checkout-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: $default-spacing;
+  &__logo {
+    width: $checkout-logo-width;
+    @include bp(laptop) {
+      width: $checkout-logo-width-desktop;
+    }
+  }
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin: 0 auto 0 rem-calc(13px);
+    padding-left: rem-calc(13px);
+    border-left: 1px solid $c-darkest-gray;
+  }
+  &__back {
+    font-size: 20px;
+    margin-right: auto;
+    line-height: 0;
+  }
+  &__button {
+    padding: 0.9em;
+  }
+}

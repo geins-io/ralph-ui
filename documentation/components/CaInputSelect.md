@@ -1,6 +1,6 @@
 # CaInputSelect
 
-A select input that works with v-model and has a native behavior on mobile devices
+A select input that works with v-model and has a native behavior on mobile devices<br><br> **SASS-path:** _./styles/components/atoms/ca-input-select.scss_
 
 ## Props
 

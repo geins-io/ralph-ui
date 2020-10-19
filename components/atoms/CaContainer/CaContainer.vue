@@ -5,7 +5,8 @@
 </template>
 <script>
 // @group Atoms
-// Used to wrap content to keep page width
+// Used to wrap content to keep page width<br><br>
+// **SASS-path:** _./styles/components/atoms/ca-container.scss_
 export default {
   name: 'CaContainer',
   components: {},
@@ -19,13 +20,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-container {
-  position: relative;
-  margin: 0 auto;
-  max-width: $site-width;
-  width: calc(100% - #{$default-spacing});
-  @include bp(laptop) {
-    width: calc(100% - #{$default-spacing * 2});
-  }
-}
+@import 'atoms/ca-container';
 </style>

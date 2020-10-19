@@ -4,6 +4,7 @@
       class="ca-widget-image__image"
       size="1360w"
       type="pagewidget"
+      :alt="altText"
       :filename="imageObj.Filename"
     />
   </component>
@@ -12,7 +13,8 @@
 import CaImage from 'CaImage';
 // @group Molecules
 // @vuese
-// Widget displaying an image
+// Widget displaying an image<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget-image.scss_
 export default {
   name: 'CaWidgetImage',
   components: { CaImage },
@@ -34,6 +36,9 @@ export default {
     },
     baseElem() {
       return this.hasLink ? 'a' : 'div';
+    },
+    altText() {
+      return this.imageObj.AltText || 'Widget image';
     }
   },
   watch: {},
@@ -42,6 +47,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget-image {
-}
+@import 'molecules/ca-widget-image';
 </style>

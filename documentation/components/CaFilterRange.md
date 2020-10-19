@@ -1,6 +1,6 @@
 # CaFilterRange
 
-import 'vue-slider-component/theme/material.css'; Range type filter
+import 'vue-slider-component/theme/material.css'; Range type filter<br><br> **SASS-path:** _./styles/components/molecules/ca-filter-range.scss_
 
 ## Props
 

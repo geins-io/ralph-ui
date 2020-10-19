@@ -1,6 +1,6 @@
 # CaCart
 
-Displaying the products in the cart, discount code field and cart summary
+Displaying the products in the cart, discount code field and cart summary<br><br> **SASS-path:** _./styles/components/organisms/ca-cart.scss_
 
 ## Props
 

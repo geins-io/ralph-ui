@@ -1,6 +1,6 @@
 # CaContentPanel
 
-A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker
+A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker<br><br> **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 
 ## Props
 

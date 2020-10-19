@@ -25,7 +25,8 @@
 <script>
 // @group Molecules
 // @vuese
-// Widget displaying text
+// Widget displaying text<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-widget-text.scss_
 export default {
   name: 'CaWidgetText',
   components: {},
@@ -60,29 +61,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.ca-widget-text {
-  $block: &;
-  text-align: center;
-  padding: $px12 0;
-  &__title {
-    font-family: $heading-font;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-xxl;
-    & + #{$block}__subtitle {
-      margin-top: $px4;
-    }
-  }
-  &__subtitle {
-    font-size: $font-size-l;
-    font-weight: $font-weight-bold;
-    & + #{$block}__body {
-      margin-top: $px8;
-    }
-  }
-  &__body {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+@import 'molecules/ca-widget-text';
 </style>
