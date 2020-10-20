@@ -1,0 +1,13 @@
+fragment Variant on VariantType {
+  alias
+  level
+  name
+  productId
+  value
+  skus {
+    level
+    skuId
+    stockQuantity
+    value
+  }
+}

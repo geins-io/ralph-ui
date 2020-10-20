@@ -4,6 +4,5 @@ query categories($apiKey: String!) {
     name
     categoryId
     parentCategoryId
-    activeProducts
   }
 }
