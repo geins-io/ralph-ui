@@ -30,11 +30,11 @@
 
       <NuxtLink :to="'/p/' + product.alias">
         <CaBrandAndName
-          :brand="product.brandName"
+          :brand="product.brand.name"
           :name="product.name"
           name-tag="h3"
         />
-        <CaPrice class="ca-cart-product__price" :price="product.price" />
+        <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity

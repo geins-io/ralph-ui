@@ -1,0 +1,29 @@
+.ca-color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: $px20;
+  &__circle {
+    display: block;
+    width: rem-calc(26px);
+    height: rem-calc(26px);
+    border-radius: 50%;
+    border: $border-light;
+    margin: $px4 0;
+    &:not(:last-child) {
+      margin-right: $px20;
+    }
+    &--current {
+      position: relative;
+      &:before {
+        content: '';
+        width: rem-calc(34px);
+        height: rem-calc(34px);
+        display: block;
+        border: 1px solid #000;
+        @include calign;
+        border-radius: 50%;
+      }
+    }
+  }
+}
