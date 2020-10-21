@@ -32,6 +32,8 @@ query product($alias: String!, $apiKey: String!) {
         }
       }
       variants {
+        alias
+        name
         variants {
           ...Variant
         }

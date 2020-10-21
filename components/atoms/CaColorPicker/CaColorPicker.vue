@@ -1,16 +1,16 @@
 <template>
   <div class="ca-color-picker">
-    <NuxtLink
+    <button
       v-for="(color, index) in colors"
       :key="index"
       :title="getColorName(color.label)"
       :style="'background-color:' + getColorHex(color.label)"
-      :to="'/p/' + aliases[index]"
       :class="{
         'ca-color-picker__circle--current': color.label === currentColor
       }"
       class="ca-color-picker__circle"
-    ></NuxtLink>
+      @click="$emit('change', aliases[index])"
+    ></button>
   </div>
 </template>
 <script>
