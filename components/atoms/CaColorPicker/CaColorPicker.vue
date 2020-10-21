@@ -32,7 +32,7 @@ export default {
       required: true
     },
     aliases: {
-      type: String,
+      type: Array,
       required: true
     }
   },
