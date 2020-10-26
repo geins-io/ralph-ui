@@ -16,10 +16,10 @@ export default {
   methods: {
     // @vuese
     // Add a product to the cart on the server. Performs a graphql mutation
-    // @arg item id (Number), product quantity (Number)
-    addToCart(prodItemId, prodQuantity) {
+    // @arg sku id (Number), product quantity (Number)
+    addToCart(prodSkuId, prodQuantity) {
       const itemToAdd = {
-        itemId: prodItemId,
+        skuId: prodSkuId,
         quantity: prodQuantity
       };
       this.$apollo

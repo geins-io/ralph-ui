@@ -4,7 +4,12 @@ export default {
   components: {},
   mixins: [],
   props: {},
-  data: () => ({}),
+  data: () => ({
+    chosenSku: {
+      id: null,
+      value: ''
+    }
+  }),
   computed: {
     variantGroups() {
       return this.product.variantGroups[0];
@@ -32,9 +37,34 @@ export default {
       return this.variantGroups.variants.map(i => {
         return i.level === this.colorVariants.level ? i.alias : '';
       });
+    },
+    hasSkuVariants() {
+      return this.currentVariant.variants.length > 1;
+    },
+    skuVariants() {
+      return this.hasSkuVariants ? this.currentVariant.variants : null;
     }
   },
   watch: {},
-  mounted() {},
-  methods: {}
+  mounted() {
+    if (!this.hasSkuVariants) {
+      this.setDefaultSku();
+    }
+  },
+  methods: {
+    setDefaultSku() {
+      const firstAvailable = this.currentVariant.variants.filter(
+        i => i.stockQuantity > 0
+      )[0];
+      this.setSku(firstAvailable.skuId, firstAvailable.value);
+      console.log('setChosenSkuId', this.chosenSku.id);
+    },
+    setSku(id, value) {
+      this.chosenSku.id = id;
+      this.chosenSku.value = value;
+    },
+    resetSku() {
+      this.setSku(null, '');
+    }
+  }
 };
