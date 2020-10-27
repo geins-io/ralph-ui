@@ -10,10 +10,10 @@
       class="ca-display-cart__products"
     >
       <CaCartProduct
-        v-for="(product, index) in cart.items"
+        v-for="(item, index) in cart.items"
         :key="index"
         class="ca-display-cart__product"
-        :product="product"
+        :item="item"
       />
     </div>
     <div v-else class="ca-display-cart__empty">{{ $t('CART_EMPTY') }}</div>

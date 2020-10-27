@@ -22,7 +22,6 @@
   </div>
 </template>
 <script>
-// import eventbus from '~/plugins/event-bus.js';
 // @group Atoms
 // @vuese
 // Used to pick a size variant of a product<br><br>
@@ -58,13 +57,11 @@ export default {
   watch: {
     chosenStockQuantity(val) {
       if (val === 0) {
-        console.log('chosenquantityempty');
         this.$emit('reset');
       }
     },
     chosenSkuId(val) {
       if (val !== this.chosenSku.id) {
-        console.log('update skuid from ' + this.chosenSku.id + ' to ' + val);
         this.chooseSize(val, this.chosenSku.value);
       }
     }

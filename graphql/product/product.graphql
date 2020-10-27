@@ -19,7 +19,6 @@ query product($alias: String!, $apiKey: String!) {
     shortText
     variantGroups {
       variantLevels {
-        level
         name
         type
         values {

@@ -13,6 +13,12 @@
     margin-top: 5px;
   }
 
+  &__variant {
+    color: $c-text-secondary;
+    font-size: $font-size-xs;
+    margin-top: $px4;
+  }
+
   &__info {
     position: relative;
     flex: 1;

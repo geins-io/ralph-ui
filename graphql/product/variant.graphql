@@ -1,5 +1,4 @@
 fragment Variant on VariantType {
-  level
   productId
   value
   skuId

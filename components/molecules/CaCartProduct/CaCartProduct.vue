@@ -7,6 +7,7 @@
           class="ca-cart-product__image"
           type="product"
           size="200f200"
+          :alt="product.name"
           :filename="product.images[0]"
           :placeholder="
             require('~/assets/placeholders/product-image-square.png')
@@ -25,7 +26,7 @@
         class="ca-cart-product__remove"
         icon-name="x"
         aria-label="Close"
-        @clicked="updateCart(product.items[0].itemId, 0)"
+        @clicked="updateCart(item.skuId, 0)"
       />
 
       <NuxtLink :to="'/p/' + product.alias">
@@ -35,19 +36,21 @@
           name-tag="h3"
         />
         <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
+        <!-- TODO: replace with variant info -->
+        <p class="ca-cart-product__variant">{{ item.skuId }}</p>
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
           v-if="mode === 'default'"
-          :quantity="product.quantity"
+          :quantity="item.quantity"
           :max-quantity="10"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
-          {{ $t('QUANTITY') }}: {{ product.quantity }}
+          {{ $t('QUANTITY') }}: {{ item.quantity }}
         </div>
         <div class="ca-cart-product__total">
-          {{ totalSellingPrice }}
+          {{ $store.getters.getSellingPrice(item.totalPrice) }}
         </div>
       </div>
     </div>
@@ -75,7 +78,7 @@ export default {
   },
   mixins: [MixUpdateCart],
   props: {
-    product: {
+    item: {
       type: Object,
       required: true
     },
@@ -91,10 +94,8 @@ export default {
   },
   data: () => ({}),
   computed: {
-    totalSellingPrice() {
-      return this.$store.state.VATincluded
-        ? this.product.total.sellingPriceIncVatFormatted
-        : this.product.total.sellingPriceExVatFormatted;
+    product() {
+      return this.item.product;
     },
     modifiers() {
       return {
@@ -109,7 +110,7 @@ export default {
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      this.updateCart(this.product.items[0].itemId, value);
+      this.updateCart(this.item.skuId, value);
     }
   }
 };

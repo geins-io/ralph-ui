@@ -12,18 +12,21 @@ export default {
   }),
   computed: {
     variantGroups() {
-      return this.product.variantGroups[0];
+      return this.product ? this.product.variantGroups[0] : null;
     },
     hasVariants() {
-      return this.variantGroups.variants.length > 1;
+      return this.variantGroups && this.variantGroups.variants.length > 1;
     },
     currentVariant() {
-      return this.variantGroups.variants.filter(
-        i => i.productId === this.product.productId
-      )[0];
+      return this.variantGroups
+        ? this.variantGroups.variants.filter(
+            i => i.productId === this.product.productId
+          )[0]
+        : null;
     },
     hasColorVariants() {
       return (
+        this.variantGroups &&
         this.variantGroups.variantLevels.filter(i => i.name === 'Color')
           .length > 0
       );
@@ -46,18 +49,15 @@ export default {
     }
   },
   watch: {},
-  mounted() {
-    if (!this.hasSkuVariants) {
-      this.setDefaultSku();
-    }
-  },
+  mounted() {},
   methods: {
     setDefaultSku() {
       const firstAvailable = this.currentVariant.variants.filter(
         i => i.stockQuantity > 0
       )[0];
-      this.setSku(firstAvailable.skuId, firstAvailable.value);
-      console.log('setChosenSkuId', this.chosenSku.id);
+      if (firstAvailable) {
+        this.setSku(firstAvailable.skuId, firstAvailable.value);
+      }
     },
     setSku(id, value) {
       this.chosenSku.id = id;

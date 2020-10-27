@@ -1,10 +1,10 @@
 <template>
   <div v-if="cartItems.length" class="ca-cart">
     <CaCartProduct
-      v-for="(product, index) in cartItems"
+      v-for="(item, index) in cartItems"
       :key="index"
       class="ca-cart__product"
-      :product="product"
+      :item="item"
       :mode="mode"
     />
     <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
