@@ -1,6 +1,9 @@
+#import "product/stock.graphql"
 fragment Variant on VariantType {
   productId
   value
   skuId
-  stockQuantity
+  stock {
+    ...Stock
+  }
 }

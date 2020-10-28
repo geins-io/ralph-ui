@@ -46,6 +46,39 @@ export default {
     },
     skuVariants() {
       return this.hasSkuVariants ? this.currentVariant.variants : null;
+    },
+    currentStock() {
+      if (this.currentVariant) {
+        const chosenItem = this.currentVariant.variants.filter(
+          i => i.skuId === this.chosenSku.id
+        )[0];
+        if (chosenItem) {
+          return chosenItem.stock.totalStock;
+        } else {
+          return this.currentVariant.stock.totalStock;
+        }
+      } else return 0;
+    },
+    stockStatus() {
+      if (this.currentStock === 0) {
+        return 'outOfStock';
+      } else if (this.currentStock < this.$config.productStockFewLeftLimit) {
+        return 'fewLeft';
+      } else {
+        return 'inStock';
+      }
+    },
+    stockStatusText() {
+      switch (this.stockStatus) {
+        case 'outOfStock':
+          return 'Slut i lager';
+        case 'fewLeft':
+          return 'Bara ' + this.currentStock + ' kvar';
+        case 'inStock':
+          return 'I lager';
+        default:
+          return 'I lager';
+      }
     }
   },
   watch: {},
@@ -53,7 +86,7 @@ export default {
   methods: {
     setDefaultSku() {
       const firstAvailable = this.currentVariant.variants.filter(
-        i => i.stockQuantity > 0
+        i => i.stock.totalStock > 0
       )[0];
       if (firstAvailable) {
         this.setSku(firstAvailable.skuId, firstAvailable.value);

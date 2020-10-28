@@ -8,14 +8,14 @@
       <button
         class="ca-size-picker__trigger"
         :class="{
-          'ca-size-picker__trigger--disabled': !size.stockQuantity,
+          'ca-size-picker__trigger--disabled': !size.stock.totalStock,
           'ca-size-picker__trigger--chosen': size.value === chosenSku.value
         }"
         @click="chooseSize(size.skuId, size.value)"
       >
         {{ size.value }}
       </button>
-      <!-- <button v-if="!size.stockQuantity" class="ca-size-picker__notify">
+      <!-- <button v-if="!size.stock.totalStock" class="ca-size-picker__notify">
         Bevaka
       </button> -->
     </div>
@@ -48,7 +48,7 @@ export default {
         : null;
     },
     chosenStockQuantity() {
-      return this.chosenSku.value ? this.chosenSize.stockQuantity : null;
+      return this.chosenSku.value ? this.chosenSize.stock.totalStock : null;
     },
     chosenSkuId() {
       return this.chosenSku.value ? this.chosenSize.skuId : null;

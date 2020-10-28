@@ -37,7 +37,7 @@
         />
         <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
         <!-- TODO: replace with variant info -->
-        <p class="ca-cart-product__variant">{{ item.skuId }}</p>
+        <p class="ca-cart-product__variant">skuId: {{ item.skuId }}</p>
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
@@ -78,6 +78,7 @@ export default {
   },
   mixins: [MixUpdateCart],
   props: {
+    // The cart product item
     item: {
       type: Object,
       required: true

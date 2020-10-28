@@ -32,10 +32,10 @@
   }
   &__close-button {
     height: 50px;
-    color: $c-text-inverse;
-    background-color: $c-darkest-gray;
+    background-color: $c-white;
     width: 100%;
     text-transform: uppercase;
+    border-top: $border-light;
   }
   &--left {
     top: 0;
