@@ -9,7 +9,7 @@
         'ca-color-picker__circle--current': color.label === currentColor
       }"
       class="ca-color-picker__circle"
-      @click="$emit('change', aliases[index])"
+      @click="$emit('changed', aliases[index])"
     ></button>
   </div>
 </template>
@@ -23,14 +23,17 @@ export default {
   components: {},
   mixins: [],
   props: {
+    // A list of the available colors
     colors: {
       type: Array,
       required: true
     },
+    // A String representing the current color chosen
     currentColor: {
       type: String,
       required: true
     },
+    // A list of aliases matching the list of colors
     aliases: {
       type: Array,
       required: true

@@ -31,10 +31,12 @@ export default {
   components: {},
   mixins: [],
   props: {
+    // An array of the available sizes
     sizes: {
       type: Array,
       required: true
     },
+    // The chosenSku object
     chosenSku: {
       type: Object,
       required: true
@@ -57,6 +59,7 @@ export default {
   watch: {
     chosenStockQuantity(val) {
       if (val === 0) {
+        // The chosen size no longer has a stock quantity, chosenSku needs a reset
         this.$emit('reset');
       }
     },
@@ -69,6 +72,8 @@ export default {
   mounted() {},
   methods: {
     chooseSize(id, value) {
+      // Size has been changed, update chosenSku
+      // @arg {id, value} (Object)
       this.$emit('changed', { id, value });
     }
   }

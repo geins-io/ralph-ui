@@ -11,6 +11,7 @@ Display an image in a specific size<br><br> **SASS-path:** _./styles/components/
 |filename|The filename part of the image path|`String`|`true`|-|
 |type|Type of image, also name of the folder in the image path|`String`|`true`|-|
 |placeholder|This will be displayed until real image is loaded|`String`|`false`|-|
+|alt|A human friendly description of the image, for screen readers and SEO|`String`|`true`|-|
 
 <!-- @vuese:CaImage:props:end -->
 

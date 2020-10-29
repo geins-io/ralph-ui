@@ -1,8 +1,8 @@
 #import "product/stock.graphql"
 fragment Variant on VariantType {
-  productId
   value
   skuId
+  level
   stock {
     ...Stock
   }

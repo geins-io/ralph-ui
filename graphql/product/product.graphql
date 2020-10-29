@@ -1,5 +1,5 @@
 #import "product/price.graphql"
-#import "product/variant.graphql"
+#import "product/variant-base.graphql"
 
 query product($alias: String!, $apiKey: String!) {
   product(alias: $alias, apiKey: $apiKey) {
@@ -17,26 +17,21 @@ query product($alias: String!, $apiKey: String!) {
       ...Price
     }
     shortText
+    currentProductVariant {
+      ...VariantBase
+    }
     variantGroups {
       variantLevels {
         name
         type
+        level
         values {
-          attributes {
-            key
-            value
-          }
           label
           value
         }
       }
       variants {
-        alias
-        name
-        variants {
-          ...Variant
-        }
-        ...Variant
+        ...VariantBase
       }
     }
   }
