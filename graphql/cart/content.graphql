@@ -7,18 +7,20 @@ fragment Cart on CartType {
     sellingPriceExVatFormatted
   }
   items {
-    brandName
-    name
+    product {
+      brand {
+        name
+      }
+      name
+      images
+      alias
+      unitPrice {
+        ...Price
+      }
+    }
     quantity
-    images
-    alias
-    price {
-      ...Price
-    }
-    items {
-      itemId
-    }
-    total {
+    skuId
+    totalPrice {
       ...Price
     }
   }

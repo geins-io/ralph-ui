@@ -69,14 +69,9 @@ export default {
   },
   data: () => ({}),
   computed: {
-    activeCategories() {
-      return this.categories
-        ? this.categories.filter(item => item.activeProducts !== 0)
-        : [];
-    },
     topLevelCategories() {
       return this.categories
-        ? this.activeCategories.filter(i => i.parentCategoryId === 0)
+        ? this.categories.filter(i => i.parentCategoryId === 0)
         : [];
     }
   },
@@ -86,7 +81,7 @@ export default {
     // Get the sublevel categories of current category
     // @arg Category id (Number)
     getSubLevelCategories(id) {
-      return this.activeCategories.filter(i => i.parentCategoryId === id);
+      return this.categories.filter(i => i.parentCategoryId === id);
     }
   }
 };

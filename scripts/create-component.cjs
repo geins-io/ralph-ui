@@ -79,13 +79,20 @@ const questions = [
 
     fs.readdirSync(fwFolder).forEach(file => {
       let fileName;
-      const filePath = file.includes('.scss') ? SASSpath : PackagePath;
+      let filePath = file.includes('.scss') ? SASSpath : PackagePath;
 
       if (file.includes('.vue') && componentFolder === 'mixins') {
         return;
       }
 
       if (file.includes('.mixin.js') && componentFolder !== 'mixins') {
+        return;
+      }
+
+      if (
+        (file.includes('.spec.js') || file.includes('.scss')) &&
+        componentFolder === 'mixins'
+      ) {
         return;
       }
 
@@ -97,6 +104,7 @@ const questions = [
       if (file.includes('.mixin.js') && componentFolder === 'mixins') {
         fileName = fileName.replace('.mixin.js', '.js');
         fileName = fileName.replace(/^Ca/, 'Mix');
+        filePath = filePath.replace('mixins\\Ca', 'mixins\\Mix');
       }
 
       let content = fs.readFileSync(fwFolder + file, 'utf8');

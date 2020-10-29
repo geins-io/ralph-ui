@@ -5,16 +5,17 @@
 // productList: `[]`<br>
 // totalCount: `0`<br>
 // skip: `0`<br>
-// take: `15`<br>
-// pageSize: `15`<br>
-// sort: `'LATEST'`<br>
-// defaultSort: `'LATEST'`<br>
+// pageSize: `vm.$config.productListPageSize`<br>
+// sort: `vm.$config.productListDefaultSort`<br>
+// defaultSort: `vm.$config.productListDefaultSort`<br>
 // listInfo: `null`<br>
 // filters: `{}`<br>
 // selection: `{ categories: [], brands: [] }`<br>
 // filterParamQuery: `{}`<br>
 // skipProductsQuery: `false`<br>
-// currentPage: `1`
+// currentPage: `1`<br>
+// currentMinCount: `1`,<br>
+// currentMaxCount: `vm.$config.productListPageSize`
 export default {
   components: {},
   mixins: [],
@@ -59,18 +60,27 @@ export default {
     }
   },
   props: {
+    // @vuese
+    // Type of list page
     type: {
+      // 'category', 'brand', 'search', 'favorites'
       type: String,
       default: 'category' // 'brand', 'search', 'favorites'
     },
+    // @vuese
+    // Graphql for the listPageInfo query
     infoQuery: {
       type: Object,
       required: true
     },
+    // @vuese
+    // Graphql for the products query
     productsQuery: {
       type: Object,
       required: true
     },
+    // @vuese
+    // Current alias for the page
     currentAlias: {
       type: String,
       required: true
@@ -96,12 +106,21 @@ export default {
     currentMaxCount: vm.$config.productListPageSize
   }),
   computed: {
+    // @vuese
+    // Are all products loaded?
+    // @type Boolean
     allProductsLoaded() {
       return this.currentMaxCount >= this.totalCount;
     },
+    // @vuese
+    // Returns string of span of products showing right now, for example '10 - 20'
+    // @type String
     showing() {
       return this.currentMinCount + ' - ' + this.currentMaxCount;
     },
+    // @vuese
+    // Returns the filter object used to query products based on filters
+    // @type Object
     filterQuery() {
       const queryObj = {};
       if (this.selection.categories && this.selection.categories.length) {
@@ -132,15 +151,27 @@ export default {
       }
       return queryObj;
     },
+    // @vuese
+    // The modifer class for the list page
+    // @type String
     modifier() {
       return 'ca-list-page--' + this.type;
     },
+    // @vuese
+    // Is this list page of type category?
+    // @type Boolean
     isCategory() {
       return this.type === 'category';
     },
+    // @vuese
+    // Is this list page of type brand?
+    // @type Boolean
     isBrand() {
       return this.type === 'brand';
     },
+    // @vuese
+    // Returns the object to query the list page information
+    // @type Object
     infoQueryVars() {
       const varsObj = {
         apiKey: this.$config.apiKey.toString()
@@ -153,6 +184,9 @@ export default {
       }
       return varsObj;
     },
+    // @vuese
+    // Returns the variable object with the query parameters for the product list
+    // @type Object
     productsQueryVars() {
       const varsObj = {
         skip: this.skip,
@@ -169,6 +203,9 @@ export default {
       }
       return varsObj;
     },
+    // @vuese
+    // Returns the variable object for loading more products
+    // @type Object
     loadMoreQueryVars() {
       const varsObj = {
         skip: this.currentMaxCount,
@@ -185,6 +222,9 @@ export default {
       }
       return varsObj;
     },
+    // @vuese
+    // Returns the variable object for loading previous products
+    // @type Object
     loadPrevQueryVars() {
       const varsObj = {
         skip: this.currentMinCount - 1 - this.pageSize,

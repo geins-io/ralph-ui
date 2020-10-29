@@ -1,0 +1,9 @@
+#import "product/stock.graphql"
+fragment Variant on VariantType {
+  value
+  skuId
+  level
+  stock {
+    ...Stock
+  }
+}

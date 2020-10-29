@@ -1,5 +1,5 @@
 <template>
-  <component :is="baseElem" :href="imageObj.Href" class="ca-widget-image">
+  <component :is="baseElem" :to="imageObj.Href || ''" class="ca-widget-image">
     <CaImage
       class="ca-widget-image__image"
       size="1360w"
@@ -32,10 +32,10 @@ export default {
       return JSON.parse(this.configuration.Image);
     },
     hasLink() {
-      return this.imageObj.Href !== '';
+      return this.imageObj.Href;
     },
     baseElem() {
-      return this.hasLink ? 'a' : 'div';
+      return this.hasLink ? 'NuxtLink' : 'div';
     },
     altText() {
       return this.imageObj.AltText || 'Widget image';

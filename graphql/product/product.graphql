@@ -1,22 +1,38 @@
 #import "product/price.graphql"
+#import "product/variant-base.graphql"
 
 query product($alias: String!, $apiKey: String!) {
   product(alias: $alias, apiKey: $apiKey) {
     productId
     name
-    brandName
-    brandAlias
+    brand {
+      name
+      alias
+    }
     images
     categories {
-      categoryId
       name
     }
-    items {
-      itemId
-    }
-    price {
+    unitPrice {
       ...Price
     }
     shortText
+    currentProductVariant {
+      ...VariantBase
+    }
+    variantGroups {
+      variantLevels {
+        name
+        type
+        level
+        values {
+          label
+          value
+        }
+      }
+      variants {
+        ...VariantBase
+      }
+    }
   }
 }

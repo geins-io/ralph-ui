@@ -7,7 +7,6 @@ query listPageInfo($apiKey: String!, $categoryAlias: String!) {
     secondaryDescription
     subCategories {
       alias
-      activeProducts
       name
     }
   }

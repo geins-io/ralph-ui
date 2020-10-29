@@ -1,11 +1,13 @@
 #import "product/price.graphql"
 
 fragment ListProduct on ProductType {
-  brandName
+  brand {
+    name
+  }
   name
   productId
   alias
-  price {
+  unitPrice {
     ...Price
   }
   images

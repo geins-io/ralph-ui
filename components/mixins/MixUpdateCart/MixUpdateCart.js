@@ -13,10 +13,10 @@ export default {
   methods: {
     // @vuese
     // Update the cart. Will perform a graphql mutation
-    // @arg item id (Number), product quantity (Number)
-    updateCart(prodItemId, prodQuantity) {
+    // @arg sku id (Number), product quantity (Number)
+    updateCart(prodSkuId, prodQuantity) {
       const updateItem = {
-        itemId: prodItemId,
+        skuId: prodSkuId,
         quantity: prodQuantity
       };
       this.$apollo

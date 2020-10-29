@@ -8,6 +8,7 @@ The product page gallery<br><br> **SASS-path:** _./styles/components/molecules/c
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |images|Array of the products image filenames|`Array`|`true`|-|
+|alt|The alt text for the product images|`String`|`true`|-|
 
 <!-- @vuese:CaProductGallery:props:end -->
 
