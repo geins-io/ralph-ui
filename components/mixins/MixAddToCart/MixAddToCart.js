@@ -34,7 +34,9 @@ export default {
         .then(result => {
           this.$store.commit('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
-          this.$store.dispatch('snackbar/trigger', this.$t('CART_ITEM_ADDED'));
+          this.$store.dispatch('snackbar/trigger', {
+            message: this.$tc('CART_ITEM_ADDED', itemToAdd.quantity)
+          });
         })
         .catch(error => {
           // eslint-disable-next-line no-console

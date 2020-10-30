@@ -13,11 +13,6 @@
             require('~/assets/placeholders/product-image-square.png')
           "
         />
-        <img
-          v-else
-          class="ca-cart-product__image"
-          :src="require('~/assets/placeholders/product-image-square.png')"
-        />
       </NuxtLink>
     </div>
     <div class="ca-cart-product__info">
@@ -36,14 +31,13 @@
           name-tag="h3"
         />
         <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
-        <!-- TODO: replace with variant info -->
-        <p class="ca-cart-product__variant">skuId: {{ item.skuId }}</p>
+        <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
-          :max-quantity="10"
+          :max-quantity="skuQuantity"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -102,6 +96,20 @@ export default {
       return {
         'ca-cart-product--display': this.mode === 'display'
       };
+    },
+    skuValue() {
+      return (
+        this.product.currentProductVariant.variants.filter(
+          i => i.skuId === this.item.skuId
+        )[0].value || ''
+      );
+    },
+    skuQuantity() {
+      return (
+        this.product.currentProductVariant.variants.filter(
+          i => i.skuId === this.item.skuId
+        )[0].stock.totalStock || 0
+      );
     }
   },
   watch: {},

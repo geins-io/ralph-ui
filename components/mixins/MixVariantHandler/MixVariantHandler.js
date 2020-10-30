@@ -88,7 +88,7 @@ export default {
       }
     },
     // @vuese
-    // Returns stock status text content bast on stock status
+    // Returns stock status text content based on stock status
     // @type String
     stockStatusText() {
       switch (this.stockStatus) {
@@ -101,6 +101,25 @@ export default {
         default:
           return this.$t('STOCK_STATUS_IN_STOCK');
       }
+    },
+    // @vuese
+    // Returns the number of items with same skuId as the chosen one that you have in cart
+    // @type Number
+    chosenSkuCartQuantity() {
+      if (this.chosenSku.id) {
+        const inCart = this.$store.state.cart.data.items.filter(
+          i => i.skuId === this.chosenSku.id
+        )[0];
+        return inCart ? inCart.quantity : 0;
+      } else return 0;
+    },
+    // @vuese
+    // Returns the quantity left in stock subtracting items in cart
+    // @type Number
+    stockThreshold() {
+      return this.chosenSku.id
+        ? this.currentStock - this.chosenSkuCartQuantity
+        : -1;
     }
   },
   watch: {},

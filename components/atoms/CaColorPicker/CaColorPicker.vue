@@ -9,14 +9,14 @@
         'ca-color-picker__circle--current': color.label === currentColor
       }"
       class="ca-color-picker__circle"
-      @click="$emit('changed', aliases[index])"
+      @click="colorChangeHandler(aliases[index])"
     ></button>
   </div>
 </template>
 <script>
 // @group Atoms
 // @vuese
-// Used to pick a color variant of a product<br><br>
+// Used to change a color variant of a product.<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-color-picker.scss_
 export default {
   name: 'CaColorPicker',
@@ -44,6 +44,13 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    colorChangeHandler(alias) {
+      this.$store.dispatch('startGlobalLoading');
+      // @vuese
+      // Color (product variant) is changed
+      // @arg prod alias (String)
+      this.$emit('changed', alias);
+    },
     getColorName(value) {
       const name = value.split('#');
       return name[0];

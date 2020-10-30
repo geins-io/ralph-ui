@@ -18,6 +18,10 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    transition: all 200ms ease;
+    &:hover {
+      border: 1px solid $c-darkest-gray;
+    }
     &--chosen {
       background: $c-darkest-gray;
       border-color: $c-darkest-gray;

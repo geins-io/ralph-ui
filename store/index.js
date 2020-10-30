@@ -3,7 +3,8 @@ export const state = () => ({
   VATincluded: true,
   scrollTop: 0,
   viewportWidth: 0,
-  loading: false
+  loading: false,
+  loadingTimeout: null
 });
 
 export const mutations = {
@@ -23,6 +24,18 @@ export const mutations = {
   },
   setViewportWidth(state) {
     state.viewportWidth = window.innerWidth;
+  },
+  setLoadingTimeout(state, callback) {
+    state.loadingTimeout = setTimeout(callback, 300);
+  },
+  clearLoadingTimeout(state) {
+    clearTimeout(state.loadingTimeout);
+  },
+  startLoading(state) {
+    state.loading = true;
+  },
+  endLoading(state) {
+    state.loading = false;
   }
 };
 
@@ -62,6 +75,15 @@ export const actions = {
       },
       { passive: true }
     );
+  },
+  startGlobalLoading(context) {
+    context.commit('setLoadingTimeout', () => {
+      context.commit('startLoading');
+    });
+  },
+  endGlobalLoading(context) {
+    context.commit('clearLoadingTimeout');
+    context.commit('endLoading');
   }
 };
 

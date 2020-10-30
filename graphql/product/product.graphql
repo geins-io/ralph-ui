@@ -16,7 +16,6 @@ query product($alias: String!, $apiKey: String!) {
     unitPrice {
       ...Price
     }
-    shortText
     currentProductVariant {
       ...VariantBase
     }
