@@ -27,7 +27,9 @@ Handler of product variant data. Expects product object to work with<br><br> **D
 |skuVariants|`Array`|Returns a list of sku variant for current product|No|
 |currentStock|`Number`|Return total stock quantity based on chosen sku variant|No|
 |stockStatus|`String`|Returns a stock status. Available statuses are: 'out-of-stock', 'in-stock', 'few-left'|No|
-|stockStatusText|`String`|Returns stock status text content bast on stock status|No|
+|stockStatusText|`String`|Returns stock status text content based on stock status|No|
+|chosenSkuCartQuantity|`Number`|Returns the number of items with same skuId as the chosen one that you have in cart|No|
+|stockThreshold|`Number`|Returns the quantity left in stock subtracting items in cart|No|
 
 <!-- @vuese:MixVariantHandler.js:computed:end -->
 
