@@ -73,7 +73,7 @@ export default {
     addToCartClick() {
       if (!this.chosenSku.id) {
         this.$store.dispatch('snackbar/trigger', {
-          message: this.$t('MUST_CHOOSE_SIZE'),
+          message: this.$t('MUST_CHOOSE_SKU'),
           mode: 'error',
           placement: 'bottom-center'
         });
