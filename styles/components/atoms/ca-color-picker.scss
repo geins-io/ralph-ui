@@ -9,19 +9,28 @@
     border-radius: 50%;
     border: $border-light;
     margin: $px4 0;
+    position: relative;
     &:not(:last-child) {
       margin-right: $px20;
     }
+    &:before {
+      content: '';
+      width: rem-calc(34px);
+      height: rem-calc(34px);
+      display: block;
+      border: 1px solid transparent;
+      transition: border-color 200ms ease;
+      @include calign;
+      border-radius: 50%;
+    }
+    &:hover:before {
+      border-color: $c-border-dark;
+    }
     &--current {
-      position: relative;
-      &:before {
-        content: '';
-        width: rem-calc(34px);
-        height: rem-calc(34px);
-        display: block;
-        border: 1px solid #000;
-        @include calign;
-        border-radius: 50%;
+      outline: none;
+      &:before,
+      &:hover:before {
+        border-color: #000;
       }
     }
   }

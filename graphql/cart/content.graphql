@@ -17,6 +17,15 @@ fragment Cart on CartType {
       unitPrice {
         ...Price
       }
+      currentProductVariant {
+        variants {
+          skuId
+          value
+          stock {
+            totalStock
+          }
+        }
+      }
     }
     quantity
     skuId

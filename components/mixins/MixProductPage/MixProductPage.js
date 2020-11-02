@@ -23,6 +23,7 @@ export default {
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
         }
+        this.$store.dispatch('endGlobalLoading');
       },
       error(error) {
         this.error = error.message;
@@ -70,8 +71,25 @@ export default {
     // @vuese
     // Action for clicking the add to cart button
     addToCartClick() {
-      this.addToCartLoading = true;
-      this.addToCart(this.chosenSku.id, this.quantity);
+      if (!this.chosenSku.id) {
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('MUST_CHOOSE_SKU'),
+          mode: 'error',
+          placement: 'bottom-center'
+        });
+      } else if (
+        this.quantity + this.chosenSkuCartQuantity >
+        this.currentStock
+      ) {
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('CART_ADD_TOO_MANY', { stock: this.currentStock }),
+          mode: 'error',
+          placement: 'bottom-center'
+        });
+      } else {
+        this.addToCartLoading = true;
+        this.addToCart(this.chosenSku.id, this.quantity);
+      }
     },
     // @vuese
     // Replace product data without reloading the page. Used for changing between product variants
@@ -81,10 +99,19 @@ export default {
       history.replaceState(null, null, alias);
     },
     // @vuese
-    // Hndler for changing the sku
+    // Handler for changing the sku
     // @arg data (Object)
     sizeChangeHandler(data) {
       this.setSku(data.id, data.value);
+    },
+    // @vuese
+    // Handler for reaching quantity threshold
+    quantityThresholdHandler() {
+      this.$store.dispatch('snackbar/trigger', {
+        message: this.$t('QUANTITY_THRESHOLD_REACHED'),
+        mode: 'error',
+        placement: 'bottom-center'
+      });
     }
   }
 };

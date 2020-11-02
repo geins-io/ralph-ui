@@ -55,6 +55,11 @@ export default {
     minQuantity: {
       type: Number,
       default: 1
+    },
+    // Threshold to stop at and emit event. Used for cart vs product page stock handling
+    threshold: {
+      type: Number,
+      default: -1
     }
   },
   data: () => ({
@@ -69,12 +74,21 @@ export default {
     },
     inputEmpty() {
       return this.count === '';
+    },
+    stopAtThreshold() {
+      return this.threshold > -1;
     }
   },
   watch: {
     quantity(val) {
       if (this.count !== val) {
         this.count = this.quantity;
+      }
+    },
+    threshold(val) {
+      if (this.stopAtThreshold && this.count > val) {
+        this.count = this.threshold > 0 ? this.threshold : this.minQuantity;
+        this.update();
       }
     }
   },
@@ -93,6 +107,11 @@ export default {
     // @vuese
     // Increase count by one
     increase() {
+      if (this.stopAtThreshold && this.count >= this.threshold) {
+        // Threshold count reached
+        this.$emit('thresholdReached');
+        return;
+      }
       this.count++;
       if (this.maxReached) {
         // Max count reached
@@ -125,6 +144,9 @@ export default {
 
       if (isNaN(this.count)) {
         this.count = this.minQuantity;
+      } else if (this.stopAtThreshold && this.count >= this.threshold) {
+        this.$emit('thresholdReached');
+        this.count = this.threshold;
       } else if (this.maxReached) {
         this.$emit('maxReached');
         this.count = this.maxQuantity;
