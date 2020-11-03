@@ -5,7 +5,9 @@
       :key="index"
       class="ca-specifications__group"
     >
-      <p class="ca-specifications__group-name">{{ group.name }}</p>
+      <component :is="groupNameTagName" class="ca-specifications__group-name">
+        {{ group.name }}
+      </component>
       <ul class="ca-specifications__list">
         <li
           v-for="(item, index1) in group.parameters"
@@ -33,6 +35,11 @@ export default {
     specificationGroups: {
       type: Array,
       required: true
+    },
+    // Tag name for group name
+    groupNameTagName: {
+      type: String,
+      default: 'h3'
     }
   },
   data: () => ({}),
