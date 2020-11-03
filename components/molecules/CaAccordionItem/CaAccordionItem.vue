@@ -9,14 +9,18 @@
         <slot name="toggle"></slot>
       </CaIconAndText>
     </button>
-    <transition name="slide">
-      <div v-if="open" class="ca-accordion-item__content">
-        <slot></slot>
-      </div>
-    </transition>
+    <SlideUpDown
+      class="ca-accordion-item__content"
+      tag="div"
+      :active="open"
+      :duration="200"
+    >
+      <slot></slot>
+    </SlideUpDown>
   </component>
 </template>
 <script>
+import SlideUpDown from 'vue-slide-up-down';
 import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
@@ -24,7 +28,7 @@ import CaIconAndText from 'CaIconAndText';
 // **SASS-path:** _./styles/components/molecules/ca-accordion-item.scss_
 export default {
   name: 'CaAccordionItem',
-  components: { CaIconAndText },
+  components: { SlideUpDown, CaIconAndText },
   mixins: [],
   props: {
     // Should it be open on page load?

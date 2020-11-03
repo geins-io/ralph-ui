@@ -108,7 +108,9 @@ export default {
     // Handler for reaching quantity threshold
     quantityThresholdHandler() {
       this.$store.dispatch('snackbar/trigger', {
-        message: this.$t('QUANTITY_THRESHOLD_REACHED'),
+        message: this.$t('QUANTITY_THRESHOLD_REACHED', {
+          quantity: this.chosenSkuCartQuantity
+        }),
         mode: 'error',
         placement: 'bottom-center'
       });

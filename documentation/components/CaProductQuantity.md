@@ -11,6 +11,7 @@ Used to modify quantity of products<br><br> **SASS-path:** _./styles/components/
 |inputDisabled|Used to disable user input in the input field|`Boolean`|`false`|`false`|
 |maxQuantity|What is the maximum quantity? Stock status|`Number`|`true`|-|
 |minQuantity|What is the minimum quantity? Default 1|`Number`|`false`|1|
+|threshold|Threshold to stop at and emit event. Used for cart vs product page stock handling|`Number`|`false`|-1|
 
 <!-- @vuese:CaProductQuantity:props:end -->
 
@@ -21,6 +22,7 @@ Used to modify quantity of products<br><br> **SASS-path:** _./styles/components/
 |Event Name|Description|Parameters|
 |---|---|---|
 |changed|Count has been changed|new count (Number)|
+|thresholdReached|Threshold count reached|-|
 |maxReached|Max count reached|-|
 |minReached|Min count reached|-|
 

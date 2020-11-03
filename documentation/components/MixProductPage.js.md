@@ -10,7 +10,8 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |onQuantityChange|Handler for changing quantity|value (Number)|
 |addToCartClick|Action for clicking the add to cart button|-|
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|
-|sizeChangeHandler|Hndler for changing the sku|data (Object)|
+|sizeChangeHandler|Handler for changing the sku|data (Object)|
+|quantityThresholdHandler|Handler for reaching quantity threshold|-|
 
 <!-- @vuese:MixProductPage.js:methods:end -->
 

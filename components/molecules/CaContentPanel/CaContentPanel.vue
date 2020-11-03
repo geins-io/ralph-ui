@@ -1,25 +1,25 @@
 <template>
   <div>
     <transition :name="transitionName">
-      <div
+      <section
         v-if="opened"
         ref="contentpanel"
         class="ca-content-panel"
         :class="modifiers"
       >
         <CaIcon class="ca-content-panel__close-icon" name="x" />
-        <div class="ca-content-panel__header">
+        <header class="ca-content-panel__header">
           <!-- The content panel header -->
           <slot name="header">
-            <!--`<span class="ca-content-panel__title">{{ title }}</span>`-->
-            <span class="ca-content-panel__title">{{ title }}</span>
+            <!--`<h1 class="ca-content-panel__title">{{ title }}</h1>`-->
+            <h1 class="ca-content-panel__title">{{ title }}</h1>
           </slot>
-        </div>
-        <div class="ca-content-panel__body">
+        </header>
+        <section class="ca-content-panel__body">
           <!-- The main content of the content panel. This content will be scrollable when overflowing -->
           <slot></slot>
-        </div>
-        <div class="ca-content-panel__footer">
+        </section>
+        <footer class="ca-content-panel__footer">
           <!-- The content panel footer -->
           <slot name="footer">
             <!--`<button class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`-->
@@ -27,8 +27,8 @@
               <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
             </button>
           </slot>
-        </div>
-      </div>
+        </footer>
+      </section>
     </transition>
     <transition name="fade">
       <CaOverlay

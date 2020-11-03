@@ -1,11 +1,11 @@
 <template>
-  <span class="ca-icon-and-text" :class="positionClass">
+  <div class="ca-icon-and-text" :class="positionClass">
     <CaIcon class="ca-icon-and-text__icon" :name="iconName" />
-    <span class="ca-icon-and-text__text">
+    <div class="ca-icon-and-text__text">
       <!-- Text content -->
       <slot></slot>
-    </span>
-  </span>
+    </div>
+  </div>
 </template>
 <script>
 import CaIcon from 'CaIcon';

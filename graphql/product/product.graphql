@@ -16,6 +16,18 @@ query product($alias: String!, $apiKey: String!) {
     unitPrice {
       ...Price
     }
+    texts {
+      text1
+      text2
+      text3
+    }
+    parameterGroups {
+      name
+      parameters {
+        name
+        value
+      }
+    }
     currentProductVariant {
       ...VariantBase
     }

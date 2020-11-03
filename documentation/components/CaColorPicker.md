@@ -1,6 +1,6 @@
 # CaColorPicker
 
-Used to pick a color variant of a product<br><br> **SASS-path:** _./styles/components/atoms/ca-color-picker.scss_
+Used to change a color variant of a product.<br><br> **SASS-path:** _./styles/components/atoms/ca-color-picker.scss_
 
 ## Props
 
@@ -19,7 +19,7 @@ Used to pick a color variant of a product<br><br> **SASS-path:** _./styles/compo
 <!-- @vuese:CaColorPicker:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|changed|-|-|
+|changed|Color (product variant) is changed|prod alias (String)|
 
 <!-- @vuese:CaColorPicker:events:end -->
 
