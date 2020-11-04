@@ -1,12 +1,7 @@
 <template>
   <div>
     <transition :name="transitionName">
-      <section
-        v-if="opened"
-        ref="contentpanel"
-        class="ca-content-panel"
-        :class="modifiers"
-      >
+      <section v-if="opened" class="ca-content-panel" :class="modifiers">
         <CaIcon class="ca-content-panel__close-icon" name="x" />
         <header class="ca-content-panel__header">
           <!-- The content panel header -->
@@ -156,7 +151,7 @@ export default {
       // const options = {
       //   reserveScrollBarGap: true
       // };
-      disableBodyScroll(this.$refs.contentpanel);
+      disableBodyScroll('.ca-content-panel');
       this.opened = true;
       // document.body.classList.add('content-panel-open');
     },
