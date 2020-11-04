@@ -76,7 +76,7 @@ export default {
       return this.count === '';
     },
     stopAtThreshold() {
-      return this.threshold > -1;
+      return this.threshold > -1 && this.threshold < this.maxQuantity;
     }
   },
   watch: {
