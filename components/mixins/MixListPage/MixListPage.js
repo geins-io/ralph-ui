@@ -173,12 +173,16 @@ export default {
     // Is a filter selection made?
     // @type Boolean
     filterSelectionActive() {
-      return (
-        this.selection.categories.length > 0 ||
-        this.selection.brands.length > 0 ||
-        this.selection.price.lowest !== this.filters.price.lowest ||
-        this.selection.price.highest !== this.filters.price.highest
-      );
+      if (!this.selection.price) {
+        return false;
+      } else {
+        return (
+          this.selection.categories.length > 0 ||
+          this.selection.brands.length > 0 ||
+          this.selection.price.lowest !== this.filters.price.lowest ||
+          this.selection.price.highest !== this.filters.price.highest
+        );
+      }
     },
     // @vuese
     // Returns the object to query the list page information
