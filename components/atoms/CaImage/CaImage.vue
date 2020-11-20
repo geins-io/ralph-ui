@@ -1,5 +1,8 @@
 <template>
-  <div class="ca-image" :class="typeModifier">
+  <div class="ca-image" :class="modifiers">
+    <transition name="fade">
+      <CaSkeleton v-if="!loaded" class="ca-image__skeleton" :ratio="1 / 1" />
+    </transition>
     <img
       v-show="loaded"
       class="ca-image__img"
@@ -7,22 +10,17 @@
       :alt="alt"
       @load="loadedAction"
     />
-    <img
-      v-if="!loaded && type === 'product'"
-      class="ca-image__img"
-      alt="Placeholder image"
-      :src="placeholder"
-    />
   </div>
 </template>
 <script>
+import CaSkeleton from 'CaSkeleton';
 // @group Atoms
 // @vuese
 // Display an image in a specific size<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-image.scss_
 export default {
   name: 'CaImage',
-  components: {},
+  components: { CaSkeleton },
   mixins: [],
   props: {
     // The size of the image. Defined as '200w', '500x200' or '300f300'
@@ -66,8 +64,10 @@ export default {
         this.filename
       );
     },
-    typeModifier() {
-      return 'ca-image--' + this.type;
+    modifiers() {
+      return {
+        'ca-image--loaded': this.loaded
+      };
     }
   },
   watch: {},

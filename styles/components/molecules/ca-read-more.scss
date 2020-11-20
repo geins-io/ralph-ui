@@ -3,7 +3,7 @@
   &__text {
     overflow: hidden;
     position: relative;
-    &:after {
+    &::after {
       content: '';
       display: block;
       height: 50%;
@@ -23,7 +23,7 @@
     margin-top: $px8;
   }
   &--visible & {
-    &__text:after {
+    &__text::after {
       opacity: 0;
     }
   }

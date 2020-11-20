@@ -13,7 +13,7 @@
     &:not(:last-child) {
       margin-right: $px20;
     }
-    &:before {
+    &::before {
       content: '';
       width: rem-calc(34px);
       height: rem-calc(34px);
@@ -23,13 +23,13 @@
       @include calign;
       border-radius: 50%;
     }
-    &:hover:before {
+    &:hover::before {
       border-color: $c-border-dark;
     }
     &--current {
       outline: none;
-      &:before,
-      &:hover:before {
+      &::before,
+      &:hover::before {
         border-color: #000;
       }
     }

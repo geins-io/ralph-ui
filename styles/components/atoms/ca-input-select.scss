@@ -85,7 +85,7 @@
     #{$block}__selected {
       border: 1px solid $c-dark-gray;
 
-      &:before {
+      &::before {
         transform: translateY(-50%) rotate(-180deg);
       }
     }
