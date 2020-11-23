@@ -23,7 +23,7 @@ export default {
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
         }
-        this.$store.dispatch('endGlobalLoading');
+        this.$store.dispatch('loading/end');
       },
       error(error) {
         this.error = error.message;

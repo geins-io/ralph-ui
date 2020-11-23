@@ -51,8 +51,8 @@ export default {
         return CaWidgetImage;
       } else if (this.type === 'Text') {
         return CaWidgetText;
-        // } else if (this.type === 'Product list') {
-        //   return CaWidgetProductList;
+      } else if (this.type === 'Product list') {
+        return CaWidgetProductList;
       } else return '';
     }
   },

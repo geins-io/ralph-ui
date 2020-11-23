@@ -9,9 +9,7 @@
           size="200f200"
           :alt="product.name"
           :filename="product.images[0]"
-          :placeholder="
-            require('~/assets/placeholders/product-image-square.png')
-          "
+          :ratio="$config.productImageRatio"
         />
       </NuxtLink>
     </div>

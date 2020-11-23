@@ -1,7 +1,12 @@
 <template>
   <div class="ca-image" :class="modifiers">
     <transition name="fade">
-      <CaSkeleton v-if="!loaded" class="ca-image__skeleton" :ratio="1 / 1" />
+      <CaSkeleton
+        v-if="!loaded"
+        class="ca-image__skeleton"
+        :ratio="ratio"
+        :radius="false"
+      />
     </transition>
     <img
       v-show="loaded"
@@ -38,14 +43,14 @@ export default {
       type: String,
       required: true
     },
-    // This will be displayed until real image is loaded
-    placeholder: {
-      type: String,
-      default: ''
-    },
     // A human friendly description of the image, for screen readers and SEO
     alt: {
       type: String,
+      required: true
+    },
+    // The ratio of the image, height / width
+    ratio: {
+      type: Number,
       required: true
     }
   },

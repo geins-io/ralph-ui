@@ -1,5 +1,7 @@
 <template>
-  <div class="ca-widget-product-list"></div>
+  <div class="ca-widget-product-list">
+    Template för produktlistewidget finns ej tillgänglig ännu
+  </div>
 </template>
 <script>
 // @group Molecules
@@ -25,5 +27,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.ca-widget-product-list {
+  text-align: center;
+  color: $c-text-secondary;
+}
 @import 'molecules/ca-widget-product-list';
 </style>

@@ -42,9 +42,14 @@ export default {
         if (this.currentMaxCount > this.totalCount) {
           this.currentMaxCount = this.totalCount;
         }
+        this.$store.dispatch('loading/end');
       },
       skip() {
         return this.skipProductsQuery;
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     },
     listPageInfo: {
@@ -94,7 +99,7 @@ export default {
     sort: vm.$config.productListDefaultSort,
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
-    filters: {},
+    filters: null,
     selection: {
       categories: [],
       brands: []

@@ -20,7 +20,7 @@
             size="200f200"
             type="product"
             :filename="image"
-            :placeholder="imagePlaceholder"
+            :ratio="$config.productImageRatio"
             :alt="alt"
           />
         </a>
@@ -49,7 +49,7 @@
           size="600f600"
           type="product"
           :filename="image"
-          :placeholder="imagePlaceholder"
+          :ratio="$config.productImageRatio"
           :alt="alt"
           @loaded="() => (imageLoaded = true)"
         />

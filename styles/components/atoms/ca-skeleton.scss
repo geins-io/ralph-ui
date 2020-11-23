@@ -1,6 +1,5 @@
 .ca-skeleton {
   background-color: $c-skeleton;
-  height: 1em;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -22,7 +21,10 @@
     animation: shimmer 2s infinite;
   }
   &--radius {
-    border-radius: 0.5em;
+    border-radius: 0.7em;
+  }
+  & + & {
+    margin-top: $px4;
   }
   @keyframes shimmer {
     100% {
