@@ -43,7 +43,7 @@ export default {
       stylesObj.width = this.width;
       stylesObj.height = this.height;
       if (this.ratio) {
-        stylesObj.paddingBottom = this.ratioPadding;
+        stylesObj.padding = '0 0 ' + this.ratioPadding;
       }
       return stylesObj;
     }

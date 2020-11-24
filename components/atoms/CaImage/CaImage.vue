@@ -11,7 +11,7 @@
     <img
       v-show="loaded"
       class="ca-image__img"
-      :src="imageUrl"
+      :src="imgSrc"
       :alt="alt"
       @load="loadedAction"
     />
@@ -31,17 +31,17 @@ export default {
     // The size of the image. Defined as '200w', '500x200' or '300f300'
     size: {
       type: String,
-      required: true
+      default: ''
     },
     // The filename part of the image path
     filename: {
       type: String,
-      required: true
+      default: ''
     },
     // Type of image, also name of the folder in the image path
     type: {
       type: String,
-      required: true
+      default: ''
     },
     // A human friendly description of the image, for screen readers and SEO
     alt: {
@@ -52,22 +52,27 @@ export default {
     ratio: {
       type: Number,
       required: true
+    },
+    // Direct link to image if not from image service
+    src: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     loaded: false
   }),
   computed: {
-    imageUrl() {
-      return (
-        this.$config.imageServer +
-        '/' +
-        this.type +
-        '/' +
-        this.size +
-        '/' +
-        this.filename
-      );
+    imgSrc() {
+      return this.src !== ''
+        ? this.src
+        : this.$config.imageServer +
+            '/' +
+            this.type +
+            '/' +
+            this.size +
+            '/' +
+            this.filename;
     },
     modifiers() {
       return {

@@ -1,7 +1,7 @@
 <template>
   <div class="ca-product-gallery">
     <Hooper
-      v-if="images.length > 0 && imageLoaded"
+      v-if="images.length > 0"
       ref="nav"
       class="ca-product-gallery__nav only-desktop"
       :settings="hooperSettingsNav"
