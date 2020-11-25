@@ -48,6 +48,9 @@ export default {
   watch: {
     $route(to, from) {
       eventbus.$emit('route-change', { to, from });
+      if (to.path !== from.path) {
+        this.$store.dispatch('loading/start');
+      }
     }
   },
   mounted() {

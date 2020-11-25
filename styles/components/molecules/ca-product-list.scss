@@ -3,4 +3,11 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   margin: -$list-spacing;
+  &__empty {
+    width: 100%;
+    font-size: $font-size-l;
+    text-align: center;
+    padding: $px40 $px20;
+    color: $c-text-secondary;
+  }
 }

@@ -28,6 +28,9 @@ export default {
           areaName: this.areaName,
           displaySetting: this.displaySetting
         };
+      },
+      result() {
+        this.$emit('dataFetched');
       }
     }
   },

@@ -1,12 +1,15 @@
 <template>
-  <ul v-if="products && products.length" class="ca-product-list">
+  <ul class="ca-product-list">
     <CaProductCard
-      v-for="(product, index) in products"
+      v-for="(product, index) in allProducts"
       :key="index"
       :product="product"
       :page-number="getPageNumber(index)"
     >
     </CaProductCard>
+    <li v-if="productsEmpty" class="ca-product-list__empty">
+      {{ $t('NO_PRODUCTS_MATCH') }}
+    </li>
   </ul>
 </template>
 <script>
@@ -34,10 +37,31 @@ export default {
     skip: {
       type: Number,
       required: true
+    },
+    // Are any filters active for the products data?
+    filtersActive: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    allProducts() {
+      return this.products.length === 0 && !this.filtersActive
+        ? this.skeletonProducts
+        : this.products;
+    },
+    skeletonProducts() {
+      const prodArray = [];
+      for (let i = 0; i < this.pageSize; i++) {
+        prodArray.push({});
+      }
+      return prodArray;
+    },
+    productsEmpty() {
+      return this.products.length === 0 && this.filtersActive;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {

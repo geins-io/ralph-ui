@@ -16,6 +16,7 @@
 // currentPage: `1`<br>
 // currentMinCount: `1`,<br>
 // currentMaxCount: `vm.$config.productListPageSize`
+// relocateTimeout: `null`
 export default {
   components: {},
   mixins: [],
@@ -42,9 +43,14 @@ export default {
         if (this.currentMaxCount > this.totalCount) {
           this.currentMaxCount = this.totalCount;
         }
+        this.$store.dispatch('loading/end');
       },
       skip() {
         return this.skipProductsQuery;
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     },
     listPageInfo: {
@@ -103,7 +109,8 @@ export default {
     skipProductsQuery: false,
     currentPage: 1,
     currentMinCount: 1,
-    currentMaxCount: vm.$config.productListPageSize
+    currentMaxCount: vm.$config.productListPageSize,
+    relocateTimeout: null
   }),
   computed: {
     // @vuese
@@ -256,6 +263,16 @@ export default {
       }
 
       return varsObj;
+    },
+    // @vuese
+    // Returns an array of empty objects with same lengt as pageSize
+    // @type Array
+    skeletonProducts() {
+      const prodArray = [];
+      for (let i = 0; i < this.pageSize; i++) {
+        prodArray.push({});
+      }
+      return prodArray;
     }
   },
   watch: {},
@@ -267,6 +284,8 @@ export default {
     // @vuese
     // Load next chunk of products
     loadMore() {
+      const currentProductList = this.productList;
+      this.productList = [...this.productList, ...this.skeletonProducts];
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
       this.pushURLParams();
       this.$apollo.queries.products.fetchMore({
@@ -274,33 +293,42 @@ export default {
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newProducts = fetchMoreResult.products.products;
           this.currentMaxCount += newProducts.length;
-          this.productList = [...this.productList, ...newProducts];
+          this.productList = [...currentProductList, ...newProducts];
         }
       });
     },
     // @vuese
     // Load previous chunk of products
     loadPrev() {
+      const currentProductList = this.productList;
+      const scrollHeight = this.getScrollHeight();
+      this.productList = [...this.skeletonProducts, ...this.productList];
       this.currentPage = (this.currentMinCount - 1) / this.pageSize;
       this.pushURLParams();
-      const firstProductAlias = document.querySelector(
-        '.ca-product-card__image-link'
-      ).dataset.alias;
+      this.$nextTick(() => {
+        const scrollAmount = this.getScrollHeight() - scrollHeight;
+        window.scrollBy(0, scrollAmount);
+      });
       this.$apollo.queries.products.fetchMore({
         variables: this.loadPrevQueryVars,
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newProducts = fetchMoreResult.products.products;
           this.currentMinCount -= newProducts.length;
-          this.productList = [...newProducts, ...this.productList];
-          this.$nextTick(() => {
-            const firstProduct = document.querySelector(
-              '[data-alias="' + firstProductAlias + '"]'
-            );
-            window.scroll(0, firstProduct.offsetTop);
-            firstProduct.focus();
-          });
+          this.productList = [...newProducts, ...currentProductList];
         }
       });
+    },
+    // @vuese
+    // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products
+    getScrollHeight() {
+      return Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight
+      );
     },
     // @vuese
     // Set price filter selection
@@ -354,6 +382,13 @@ export default {
     // Update the filter selections
     // @arg new value (Object)
     filterChangeHandler(newVal) {
+      if (
+        !this.$store.getters['list/backNavigated'] &&
+        !this.$store.getters['list/relocateProduct']
+      ) {
+        this.resetCurrentPage();
+      }
+
       this.selection = newVal;
       this.pushURLParams();
     },
@@ -441,19 +476,18 @@ export default {
     // @vuese
     // Runned to relocate product on page after back navigating
     relocateProduct() {
-      let callTimeout;
+      clearTimeout(this.relocateTimeout);
       const product = document.querySelector(
         '[data-alias="' + this.$store.state.list.relocateAlias + '"]'
       );
       if (product !== null) {
-        clearTimeout(callTimeout);
         this.$nextTick(() => {
           window.scroll(0, product.offsetTop);
           product.focus();
           this.$store.dispatch('list/resetTriggerRelocate');
         });
       } else {
-        callTimeout = setTimeout(() => {
+        this.relocateTimeout = setTimeout(() => {
           this.relocateProduct();
         }, 500);
       }

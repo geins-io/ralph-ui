@@ -22,7 +22,7 @@
       padding: $px32;
     }
   }
-  &--arrow #{$block}__content:after {
+  &--arrow #{$block}__content::after {
     content: '';
     display: block;
     width: 0;

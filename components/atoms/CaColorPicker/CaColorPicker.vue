@@ -45,7 +45,7 @@ export default {
   mounted() {},
   methods: {
     colorChangeHandler(alias) {
-      this.$store.dispatch('startGlobalLoading');
+      this.$store.dispatch('loading/start', 300);
       // @vuese
       // Color (product variant) is changed
       // @arg prod alias (String)

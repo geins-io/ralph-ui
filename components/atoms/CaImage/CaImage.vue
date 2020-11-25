@@ -1,47 +1,45 @@
 <template>
-  <div class="ca-image" :class="typeModifier">
+  <div class="ca-image" :class="modifiers">
+    <transition name="fade">
+      <CaSkeleton
+        v-if="!loaded"
+        class="ca-image__skeleton"
+        :ratio="ratio"
+        :radius="false"
+      />
+    </transition>
     <img
       v-show="loaded"
       class="ca-image__img"
-      :src="imageUrl"
+      :src="imgSrc"
       :alt="alt"
       @load="loadedAction"
-    />
-    <img
-      v-if="!loaded && type === 'product'"
-      class="ca-image__img"
-      alt="Placeholder image"
-      :src="placeholder"
     />
   </div>
 </template>
 <script>
+import CaSkeleton from 'CaSkeleton';
 // @group Atoms
 // @vuese
 // Display an image in a specific size<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-image.scss_
 export default {
   name: 'CaImage',
-  components: {},
+  components: { CaSkeleton },
   mixins: [],
   props: {
     // The size of the image. Defined as '200w', '500x200' or '300f300'
     size: {
       type: String,
-      required: true
+      default: ''
     },
     // The filename part of the image path
     filename: {
       type: String,
-      required: true
+      default: ''
     },
     // Type of image, also name of the folder in the image path
     type: {
-      type: String,
-      required: true
-    },
-    // This will be displayed until real image is loaded
-    placeholder: {
       type: String,
       default: ''
     },
@@ -49,25 +47,37 @@ export default {
     alt: {
       type: String,
       required: true
+    },
+    // The ratio of the image, height / width
+    ratio: {
+      type: Number,
+      required: true
+    },
+    // Direct link to image if not from image service
+    src: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     loaded: false
   }),
   computed: {
-    imageUrl() {
-      return (
-        this.$config.imageServer +
-        '/' +
-        this.type +
-        '/' +
-        this.size +
-        '/' +
-        this.filename
-      );
+    imgSrc() {
+      return this.src !== ''
+        ? this.src
+        : this.$config.imageServer +
+            '/' +
+            this.type +
+            '/' +
+            this.size +
+            '/' +
+            this.filename;
     },
-    typeModifier() {
-      return 'ca-image--' + this.type;
+    modifiers() {
+      return {
+        'ca-image--loaded': this.loaded
+      };
     }
   },
   watch: {},
