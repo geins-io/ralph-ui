@@ -54,7 +54,9 @@ export default {
       return this.$store.getters.viewportMobile ? 'mobile' : 'desktop';
     },
     containers() {
-      return this.widgetArea && this.widgetArea.containers.length
+      return this.widgetArea &&
+        this.widgetArea.containers &&
+        this.widgetArea.containers.length
         ? this.widgetArea.containers
         : [];
     }
