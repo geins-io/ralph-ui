@@ -31,7 +31,7 @@ export default {
       type: Boolean,
       default: false
     },
-    currentSlideIndex: {
+    currentSlide: {
       type: Number,
       required: true
     }
@@ -42,7 +42,7 @@ export default {
   mounted() {},
   methods: {
     getCurrentClass(index) {
-      return this.currentSlideIndex % this.slides.length === index
+      return this.currentSlide % this.slides.length === index
         ? 'ca-slider-dots__trigger--current'
         : '';
     }

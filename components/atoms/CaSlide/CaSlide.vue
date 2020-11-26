@@ -24,19 +24,19 @@ export default {
   },
   data: () => ({}),
   computed: {
-    isActiveSlide() {
+    isCurrentSlide() {
       if (
         this.slideIndex !== undefined &&
-        this.slideMeta.activeSlide !== undefined
+        this.slideMeta.currentSlide !== undefined
       ) {
-        return this.slideIndex === this.slideMeta.activeSlide;
+        return this.slideIndex === this.slideMeta.currentSlide;
       } else {
         return false;
       }
     },
     modifiers() {
       return {
-        'ca-slide--active': this.isActiveSlide
+        'ca-slide--current': this.isCurrentSlide
       };
     }
   },

@@ -1,6 +1,6 @@
 <script>
-import CaIconButton from 'CaIconButton';
 import CaSliderDots from 'CaSliderDots';
+import CaSliderArrows from 'CaSliderArrows';
 
 const DATA_KEYS = [
   'class',
@@ -72,7 +72,7 @@ const cloneVNode = (vnode, position, newData = {}) => {
 // **SASS-path:** _./styles/components/molecules/ca-slider.scss_
 export default {
   name: 'CaSlider',
-  components: { CaIconButton, CaSliderDots },
+  components: { CaSliderDots, CaSliderArrows },
   mixins: [],
   props: {
     centered: {
@@ -89,15 +89,15 @@ export default {
     },
     dots: {
       type: Boolean,
-      default: true
+      default: false
     },
     arrows: {
       type: Boolean,
-      default: true
+      default: false
     },
     arrowIconName: {
       type: String,
-      default: 'arrow'
+      default: 'chevron'
     }
   },
   data: () => ({
@@ -152,7 +152,7 @@ export default {
     },
     slideMeta() {
       return {
-        activeSlide: this.infinite
+        currentSlide: this.infinite
           ? this.currentSlide - this.numberOfCopiesBefore
           : this.currentSlide
       };
@@ -287,14 +287,29 @@ export default {
           [this.allSlides]
         ),
         h('CaSliderDots', {
+          class: 'ca-slider__dots',
           props: {
             slides: this.slides,
             visible: this.dots,
-            currentSlideIndex: this.currentSlide
+            currentSlide: this.currentSlide
           },
           on: {
             navigation: index => {
               this.goToSlide(index, true);
+            }
+          }
+        }),
+        h('CaSliderArrows', {
+          class: 'ca-slider__arrows',
+          props: {
+            iconName: this.arrowIconName,
+            visible: this.arrows,
+            minReached: this.minReached,
+            maxReached: this.maxReached
+          },
+          on: {
+            navigation: slideChange => {
+              this.shiftSlide(slideChange, true);
             }
           }
         })

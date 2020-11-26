@@ -1,0 +1,19 @@
+.ca-slider-arrows {
+  @include calign;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  &__arrow {
+    background: $c-light-gray;
+    width: 30px;
+    height: 30px;
+    @include flex-calign;
+    transition: all 200ms ease;
+    border: $border-dark;
+    &--disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+}
