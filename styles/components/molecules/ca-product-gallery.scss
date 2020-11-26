@@ -38,6 +38,9 @@
     &.ca-slide--current {
       opacity: 1;
     }
+    .ca-slider__lane--resetting & {
+      transition: none;
+    }
   }
   &__image {
     border: $border-light;

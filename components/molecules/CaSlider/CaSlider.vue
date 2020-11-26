@@ -114,7 +114,8 @@ export default {
     targetWidth: 0,
     flickThresholdTime: 300,
     flickThresholdDistance: 10,
-    tracking: false
+    tracking: false,
+    resetting: false
   }),
   computed: {
     slides() {
@@ -159,8 +160,9 @@ export default {
     },
     modifiers() {
       return {
-        'ca-slider__lane--sliding': this.slidingTransition === true,
-        'ca-slider__lane--centered': this.centered === true
+        'ca-slider__lane--sliding': this.slidingTransition,
+        'ca-slider__lane--centered': this.centered,
+        'ca-slider__lane--resetting': this.resetting
       };
     },
     cssVariables() {
@@ -192,6 +194,9 @@ export default {
     shiftSlide(slideChange, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
       this.currentSlide = this.currentSlide + slideChange;
+      this.$nextTick(() => {
+        this.resetting = false;
+      });
     },
     goToSlide(slide, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
@@ -204,16 +209,16 @@ export default {
     resetIndex() {
       if (this.slidingActive && this.infinite) {
         this.slidingTransition = false;
-        this.$nextTick(() => {
-          if (this.currentSlide < this.numberOfCopiesBefore) {
-            this.shiftSlide(this.nrOfSlides);
-          } else if (
-            this.currentSlide >=
-            this.nrOfSlides + this.numberOfCopiesBefore
-          ) {
-            this.shiftSlide(-this.nrOfSlides);
-          }
-        });
+        if (this.currentSlide < this.numberOfCopiesBefore) {
+          this.resetting = true;
+          this.shiftSlide(this.nrOfSlides);
+        } else if (
+          this.currentSlide >=
+          this.nrOfSlides + this.numberOfCopiesBefore
+        ) {
+          this.resetting = true;
+          this.shiftSlide(-this.nrOfSlides);
+        }
       }
     },
     nextSlide() {

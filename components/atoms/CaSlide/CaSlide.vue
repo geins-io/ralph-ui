@@ -25,14 +25,9 @@ export default {
   data: () => ({}),
   computed: {
     isCurrentSlide() {
-      if (
-        this.slideIndex !== undefined &&
-        this.slideMeta.currentSlide !== undefined
-      ) {
-        return this.slideIndex === this.slideMeta.currentSlide;
-      } else {
-        return false;
-      }
+      return this.slideMeta.currentSlide !== undefined
+        ? this.slideIndex === this.slideMeta.currentSlide
+        : false;
     },
     modifiers() {
       return {
