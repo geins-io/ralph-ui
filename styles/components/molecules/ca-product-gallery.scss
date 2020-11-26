@@ -1,23 +1,28 @@
 .ca-product-gallery {
   $block: &;
+  --slider-item-width: 72%;
   margin: 0 -#{$default-spacing/2};
   overflow: hidden;
+  @include bp(tablet) {
+    --slider-item-width: 53%;
+  }
   @include bp(laptop) {
-    margin: 0 0 $px20;
+    --slider-item-width: 100%;
   }
   &__nav {
     height: auto;
     width: 13.74%;
-    margin: -14px 0;
+    margin: -8px 0;
   }
   &__nav-image {
     cursor: pointer;
   }
   &__nav-slide {
-    padding: 14px 0;
+    padding: 8px 0;
   }
   &__slider {
     height: auto;
+    position: relative;
     @include bp(laptop) {
       width: 80.15%;
     }
@@ -30,33 +35,18 @@
       padding: 0;
       opacity: 1;
     }
-    &.is-current {
+    &.ca-slide--active {
       opacity: 1;
     }
   }
-}
-.hooper-navigation {
-  &.is-vertical {
-    .hooper-prev,
-    .hooper-next {
-      width: 100%;
-      padding: 0;
-      height: 20px;
-      background: $c-overlay;
-      fill: $c-white;
-      @include flex-calign;
-      .icon {
-        width: 20px;
-      }
-    }
-    .hooper-prev {
-      top: 14px;
-    }
-    .hooper-next {
-      bottom: 14px;
+  &__image {
+    border: $border-light;
+    @include bp(laptop) {
+      border: none;
     }
   }
-}
-.hooper-indicator {
-  background: $c-light-gray;
+  .ca-slider-dots {
+    position: absolute;
+    margin-top: -28px;
+  }
 }

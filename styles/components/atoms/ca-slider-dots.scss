@@ -1,0 +1,28 @@
+.ca-slider-dots {
+  $block: &;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  &__dot {
+    margin: 0 3px;
+    @include bp(tablet) {
+      margin: 0 4px;
+    }
+  }
+  &__trigger {
+    width: $px16;
+    height: $px4;
+    background-color: $c-light-gray;
+    border-radius: 4px;
+    padding: 0;
+    transition: background-color 200ms ease;
+    &--current {
+      background-color: $c-accent-color;
+    }
+    @include bp(tablet) {
+      width: $px24;
+      height: rem-calc(6px);
+    }
+  }
+}

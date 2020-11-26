@@ -1,0 +1,27 @@
+.ca-slider {
+  overflow: hidden;
+  touch-action: pinch-zoom;
+  max-width: 100%;
+  position: relative;
+  &__lane {
+    display: flex;
+    transform: translateX(
+      calc(
+        var(--current-slide) * (var(--slider-item-width, 100%) * (-1)) +
+          (var(--slider-offset, 0) * 1px)
+      )
+    );
+    position: relative;
+    width: 100%;
+    &--centered {
+      left: calc((100% - var(--slider-item-width, 100%)) / 2);
+    }
+    &--sliding {
+      transition: transform 200ms;
+    }
+    &--copy {
+      position: absolute;
+      top: 0;
+    }
+  }
+}

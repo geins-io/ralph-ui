@@ -1,0 +1,13 @@
+.ca-slide {
+  width: var(--slider-item-width, 100%);
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  flex: 0 0 auto;
+  &--active {
+  }
+  * {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
