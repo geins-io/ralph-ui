@@ -13,10 +13,12 @@ export default {
   components: {},
   mixins: [],
   props: {
+    // Order index of the slide
     slideIndex: {
       type: Number,
       required: true
     },
+    // SlideMeta sent from Slider component containeng currentSlide index
     slideMeta: {
       type: Object,
       required: true

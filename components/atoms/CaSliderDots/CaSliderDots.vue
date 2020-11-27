@@ -23,14 +23,17 @@ export default {
   components: {},
   mixins: [],
   props: {
+    // Array of the corresponding slides
     slides: {
       type: Array,
       required: true
     },
+    // Should dots be visible?
     visible: {
       type: Boolean,
       default: false
     },
+    // Current slide index
     currentSlide: {
       type: Number,
       required: true
@@ -41,6 +44,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Returns current class to dot if that slide is active
+    // @arg index (Number)
     getCurrentClass(index) {
       return this.currentSlide % this.slides.length === index
         ? 'ca-slider-dots__trigger--current'

@@ -75,26 +75,32 @@ export default {
   components: { CaSliderDots, CaSliderArrows },
   mixins: [],
   props: {
+    // Should the slider be centered?
     centered: {
       type: Boolean,
       default: false
     },
+    // Should the slider have infinite sliding?
     infinite: {
       type: Boolean,
       default: true
     },
+    // Number of slides
     nrOfSlides: {
       type: Number,
       required: true
     },
+    // Should dots be displayed
     dots: {
       type: Boolean,
       default: false
     },
+    // Should arrows be displayed
     arrows: {
       type: Boolean,
       default: false
     },
+    // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     arrowIconName: {
       type: String,
       default: 'chevron'
@@ -191,6 +197,9 @@ export default {
     }
   },
   methods: {
+    // @vuese
+    // Used to shift slide. Use a negative or positive number for back or forth
+    // @arg slide change (Number), sliding transition (Boolean)
     shiftSlide(slideChange, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
       this.currentSlide = this.currentSlide + slideChange;
@@ -198,14 +207,19 @@ export default {
         this.resetting = false;
       });
     },
-    goToSlide(slide, slidingTransition = false) {
+    // @vuese
+    // Go to specific slide
+    // @arg slide index (Number), sliding transition (Boolean)
+    goToSlide(slideIndex, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
       if (this.slidingActive && this.infinite) {
-        this.currentSlide = slide + this.numberOfCopiesBefore;
+        this.currentSlide = slideIndex + this.numberOfCopiesBefore;
       } else {
-        this.currentSlide = slide;
+        this.currentSlide = slideIndex;
       }
     },
+    // @vuese
+    // Used to reset the index when infinite sliding is used, when going from last to first again
     resetIndex() {
       if (this.slidingActive && this.infinite) {
         this.slidingTransition = false;
@@ -221,12 +235,18 @@ export default {
         }
       }
     },
+    // @vuese
+    // Navigate to next slide
     nextSlide() {
       this.shiftSlide(1, true);
     },
+    // @vuese
+    // Navigate to previous slide
     prevSlide() {
       this.shiftSlide(-1, true);
     },
+    // @vuese
+    // Handles the start of a touch or point and drag event
     gestureStart(e) {
       if (this.slidingActive) {
         this.tracking = true;
@@ -238,11 +258,15 @@ export default {
         e.target.setPointerCapture(e.pointerId);
       }
     },
+    // @vuese
+    // Handles moving of a touch or point and drag event
     gestureMove(e) {
       if (this.tracking) {
         this.end.x = e.clientX;
       }
     },
+    // @vuese
+    // Handles the end of a touch or point and drag event. Calls shiftSlide with corresponding value of the gesture
     gestureEnd(e) {
       if (this.tracking) {
         const now = e.timeStamp;

@@ -27,18 +27,22 @@ export default {
   components: { CaIconButton },
   mixins: [],
   props: {
+    // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     iconName: {
       type: String,
       required: true
     },
+    // If minumum index of the slider is reached
     minReached: {
       type: Boolean,
       required: true
     },
+    // If maximum index of the slider is reached
     maxReached: {
       type: Boolean,
       required: true
     },
+    // Show arrows?
     visible: {
       type: Boolean,
       default: false

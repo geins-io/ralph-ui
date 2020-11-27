@@ -9,6 +9,7 @@ The product page gallery<br><br> **SASS-path:** _./styles/components/molecules/c
 |---|---|---|---|---|
 |images|Array of the products image filenames|`Array`|`true`|-|
 |alt|The alt text for the product images|`String`|`true`|-|
+|arrowIconName|First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting|`String`|`false`|chevron|
 
 <!-- @vuese:CaProductGallery:props:end -->
 
@@ -19,8 +20,6 @@ The product page gallery<br><br> **SASS-path:** _./styles/components/molecules/c
 |Method|Description|Parameters|
 |---|---|---|
 |slideToIndex|Slide to specific image|index (Number)|
-|slideNav|Slide nav images|payload (Object)|
-|slideGallery|Slide gallery images|payload (Object)|
 
 <!-- @vuese:CaProductGallery:methods:end -->
 

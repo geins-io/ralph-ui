@@ -13,3 +13,13 @@ The area that contains the widget containers and from which the graphql query fo
 <!-- @vuese:CaWidgetArea:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaWidgetArea:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|dataFetched|-|-|
+
+<!-- @vuese:CaWidgetArea:events:end -->
+
+

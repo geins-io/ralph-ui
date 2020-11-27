@@ -24,9 +24,10 @@
       ref="slider"
       class="ca-product-gallery__slider"
       :centered="true"
-      :dots="!$store.getters.viewportLaptop && images.length > 1"
+      :dots="images.length > 1"
       :infinite="images.length > 1"
       :nr-of-slides="images.length"
+      :arrow-icon-name="arrowIconName"
     >
       <template #slides="{ slideMeta }">
         <CaSlide
@@ -74,6 +75,11 @@ export default {
     alt: {
       type: String,
       required: true
+    },
+    // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
+    arrowIconName: {
+      type: String,
+      default: 'chevron'
     }
   },
   data: () => ({}),
