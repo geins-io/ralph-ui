@@ -23,8 +23,7 @@
     }
   },
   "dependencies": {
-    "flag-icon-css": "^3.5.0",
-    "hooper": "^0.3.4"
+    "flag-icon-css": "^3.5.0"
   },
   "vuese": {
     "outDir": "documentation",

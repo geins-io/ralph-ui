@@ -1,6 +1,6 @@
 # MixListPage.js
 
-All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> skip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> selection: `{ categories: [], brands: [] }`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`
+All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> skip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> selection: `{ categories: [], brands: [] }`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize` relocateTimeout: `null`
 
 ## Props
 
@@ -22,6 +22,7 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 |---|---|---|
 |loadMore|Load next chunk of products|-|
 |loadPrev|Load previous chunk of products|-|
+|getScrollHeight|Get the current scroll height of the page, used to keep scroll in the right position while loading previous products|-|
 |setInitPriceSelection|Set price filter selection|lowest price (Number), highest price (Number)|
 |setInitPriceLowest|Set price filter selection for lowest price|price (Number)|
 |setInitPriceHighest|Set price filter selection for highest price|price (Number)|
@@ -49,10 +50,12 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 |modifier|`String`|The modifer class for the list page|No|
 |isCategory|`Boolean`|Is this list page of type category?|No|
 |isBrand|`Boolean`|Is this list page of type brand?|No|
+|filterSelectionActive|`Boolean`|Is a filter selection made?|No|
 |infoQueryVars|`Object`|Returns the object to query the list page information|No|
 |productsQueryVars|`Object`|Returns the variable object with the query parameters for the product list|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
 |loadPrevQueryVars|`Object`|Returns the variable object for loading previous products|No|
+|skeletonProducts|`Array`|Returns an array of empty objects with same lengt as pageSize|No|
 
 <!-- @vuese:MixListPage.js:computed:end -->
 

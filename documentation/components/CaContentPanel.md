@@ -22,7 +22,7 @@ A content panel to display content off canvas, for example the cart, the mobile 
 <!-- @vuese:CaContentPanel:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|header|The content panel header|`<span class="ca-content-panel__title">{{ title }}</span>`|
+|header|The content panel header|`<h1 class="ca-content-panel__title">{{ title }}</h1>`|
 |default|The main content of the content panel. This content will be scrollable when overflowing|-|
 |footer|The content panel footer|`<button class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`|
 
