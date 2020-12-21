@@ -1,0 +1,9 @@
+.ca-variant-picker {
+  margin: 0 0 $px20;
+  &__title {
+    text-transform: uppercase;
+    font-size: $font-size-m;
+    margin-bottom: $px8;
+    font-weight: $font-weight-bold;
+  }
+}

@@ -26,14 +26,14 @@ export default {
         this.$store.dispatch('loading/end');
       },
       error(error) {
-        this.error = error.message;
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   },
   data: () => ({
     quantity: 1,
-    replaceAlias: null,
-    error: null
+    replaceAlias: null
   }),
   computed: {
     // @vuese
@@ -54,9 +54,11 @@ export default {
   watch: {
     // @vuese
     // Watching currentStock to change quantity if set higher than totalStock
-    currentStock() {
-      if (this.quantity > this.currentStock) {
-        this.quantity = this.currentStock;
+    currentStock(val) {
+      if (val === 0) return;
+      if (this.quantity > val) {
+        debugger;
+        this.quantity = val;
       }
     }
   },
@@ -95,6 +97,7 @@ export default {
     // Replace product data without reloading the page. Used for changing between product variants
     // @arg alias (String)
     replaceProduct(alias) {
+      console.log(alias);
       this.replaceAlias = alias;
       history.replaceState(null, null, alias);
     },
@@ -102,6 +105,7 @@ export default {
     // Handler for changing the sku
     // @arg data (Object)
     sizeChangeHandler(data) {
+      console.log(data);
       this.setSku(data.id, data.value);
     },
     // @vuese

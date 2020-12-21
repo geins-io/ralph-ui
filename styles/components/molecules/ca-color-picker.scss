@@ -2,12 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  &__circle {
-    display: block;
-    width: rem-calc(26px);
-    height: rem-calc(26px);
-    border-radius: 50%;
-    border: $border-light;
+  &__choice {
     margin: $px4 0;
     position: relative;
     &:not(:last-child) {
@@ -26,7 +21,7 @@
     &:hover::before {
       border-color: $c-border-dark;
     }
-    &--current {
+    &--chosen {
       outline: none;
       &::before,
       &:hover::before {

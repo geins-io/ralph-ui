@@ -33,10 +33,12 @@ export default {
         this.productList = result.data.products.products;
         this.totalCount = result.data.products.count;
         this.filters = result.data.products.filters;
-        this.setInitPriceSelection(
-          result.data.products.filters.price.lowest,
-          result.data.products.filters.price.highest
-        );
+        if (result.data.products.filters.price) {
+          this.setInitPriceSelection(
+            result.data.products.filters.price.lowest,
+            result.data.products.filters.price.highest
+          );
+        }
         if (this.$store.getters['list/relocateProduct']) {
           this.relocateProduct();
         }

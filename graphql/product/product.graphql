@@ -1,5 +1,6 @@
 #import "product/price.graphql"
-#import "product/variant-base.graphql"
+#import "product/stock.graphql"
+#import "product/variant.graphql"
 
 query product($alias: String!, $apiKey: String!) {
   product(alias: $alias, apiKey: $apiKey) {
@@ -28,21 +29,23 @@ query product($alias: String!, $apiKey: String!) {
         value
       }
     }
-    currentProductVariant {
-      ...VariantBase
+    totalStock {
+      ...Stock
     }
-    variantGroups {
-      variantLevels {
-        name
-        type
-        level
-        values {
-          label
-          value
-        }
-      }
+    variantDimensions {
+      dimension
+      value
+      level
+    }
+    variantGroup {
       variants {
-        ...VariantBase
+        variants {
+          variants {
+            ...Variant
+          }
+          ...Variant
+        }
+        ...Variant
       }
     }
   }
