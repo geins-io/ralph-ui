@@ -7,6 +7,7 @@ import productQuery from 'product/product.graphql';
 // replaceAlias: `null`<br>
 // error: `null`
 export default {
+  name: 'MixProductPage',
   components: {},
   mixins: [],
   props: {},
@@ -26,14 +27,14 @@ export default {
         this.$store.dispatch('loading/end');
       },
       error(error) {
-        this.error = error.message;
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   },
   data: () => ({
     quantity: 1,
-    replaceAlias: null,
-    error: null
+    replaceAlias: null
   }),
   computed: {
     // @vuese
@@ -54,9 +55,10 @@ export default {
   watch: {
     // @vuese
     // Watching currentStock to change quantity if set higher than totalStock
-    currentStock() {
-      if (this.quantity > this.currentStock) {
-        this.quantity = this.currentStock;
+    currentStock(val) {
+      if (val === 0) return;
+      if (this.quantity > val) {
+        this.quantity = val;
       }
     }
   },

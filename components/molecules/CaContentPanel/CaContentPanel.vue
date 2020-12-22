@@ -67,7 +67,7 @@ export default {
     enterFromMobile: {
       // 'bottom', 'left', 'right'
       type: String,
-      default: 'bottom'
+      default: 'right'
     },
     // Direction from which to enter from on larger screens
     enterFromDesktop: {

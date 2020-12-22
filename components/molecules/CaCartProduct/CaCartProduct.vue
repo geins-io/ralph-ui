@@ -97,16 +97,13 @@ export default {
     },
     skuValue() {
       return (
-        this.product.currentProductVariant.variants.filter(
-          i => i.skuId === this.item.skuId
-        )[0].value || ''
+        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].name || ''
       );
     },
     skuQuantity() {
       return (
-        this.product.currentProductVariant.variants.filter(
-          i => i.skuId === this.item.skuId
-        )[0].stock.totalStock || 0
+        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock
+          .totalStock || 0
       );
     }
   },

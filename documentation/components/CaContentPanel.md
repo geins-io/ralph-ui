@@ -9,7 +9,7 @@ A content panel to display content off canvas, for example the cart, the mobile 
 |---|---|---|---|---|
 |name|The name id of the content panel. Used in trigger call to open panel|`String`|`true`|-|
 |title|Title to be displayed in the header of the content panel|''|`false`|-|
-|enterFromMobile|Direction from which to enter from on smaller screens|'bottom', 'left', 'right'|`false`|bottom|
+|enterFromMobile|Direction from which to enter from on smaller screens|'bottom', 'left', 'right'|`false`|right|
 |enterFromDesktop|Direction from which to enter from on larger screens|'right', 'left'|`false`|right|
 |onlyDesktop|True if panel should only exist on bigger screens|`Boolean`|`false`|`false`|
 |onlyMobile|True if panel should only exist on smaller screens|`Boolean`|`false`|`false`|

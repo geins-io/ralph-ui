@@ -1,0 +1,48 @@
+.ca-variant-picker-panel {
+  $block: &;
+  &__trigger {
+    width: 100%;
+    height: rem-calc(40px);
+    background: $c-lightest-gray;
+    border: $border-light;
+    padding: 0 $px16;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+  &__trigger-text {
+    width: 100%;
+    justify-content: space-between;
+  }
+  &__trigger-color {
+    margin: 0 $px8 0 0;
+    flex-shrink: 0;
+  }
+  &__choice {
+    height: rem-calc(60px);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 $px24;
+    border-bottom: $border-light;
+    font-size: $font-size-m;
+    &--chosen {
+      background: $c-lightest-gray;
+      font-weight: $font-weight-bold;
+    }
+    &--disabled {
+      color: $c-text-secondary;
+      &#{$block}--sku {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__color {
+    margin: 0 $px8 0 0;
+  }
+  &__stock {
+    margin: 0 0 0 $px16;
+    font-size: $font-size-xs;
+  }
+}

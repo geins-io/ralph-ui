@@ -31,6 +31,10 @@ export default {
       },
       result() {
         this.$emit('dataFetched');
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     }
   },

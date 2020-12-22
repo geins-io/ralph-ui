@@ -1,11 +1,13 @@
+import MixStockHandler from 'MixStockHandler';
 // @group Mixins
 // @vuese
-// Handler of product variant data. Expects product object to work with<br><br>
+// Handling all product variant data. Expects product object to work with. Is using MixStockHandler<br><br>
 // **Data:**<br>
 // chosenSku: `{ id: null, value: '' }`<br>
 export default {
+  name: 'MixVariantHandler',
   components: {},
-  mixins: [],
+  mixins: [MixStockHandler],
   props: {},
   data: () => ({
     chosenSku: {
@@ -15,120 +17,157 @@ export default {
   }),
   computed: {
     // @vuese
-    // Quick ref to product variant group
-    // @type Object
-    variantGroups() {
-      return this.product ? this.product.variantGroups[0] : null;
+    // A list of variants on the base level of variants data
+    // @type Array
+    baseVariants() {
+      return this.product ? this.product.variantGroup.variants : [];
     },
     // @vuese
-    // Does the has variants of type Color?
+    // Does more than one base variant exist?
     // @type Boolean
-    hasColorVariants() {
-      return (
-        this.variantGroups &&
-        this.variantGroups.variantLevels.filter(i => i.name === 'Color')
-          .length > 0
-      );
+    hasVariants() {
+      return this.baseVariants.length > 1;
     },
     // @vuese
-    // Get group of color variants
+    // Current variant on the base level
     // @type Object
-    colorVariants() {
-      return this.hasColorVariants
-        ? this.variantGroups.variantLevels.filter(i => i.name === 'Color')[0]
+    currentBaseVariant() {
+      return this.baseVariants.length
+        ? this.getCurrentVariant(this.baseVariants)
         : null;
     },
     // @vuese
-    // Returns a list of aliases for the color variants
-    // @type Array
-    colorProductAliases() {
-      return this.variantGroups.variants.map(i => {
-        return i.level === this.colorVariants.level ? i.alias : '';
-      });
+    // Type of the current base level variant
+    // @type String
+    baseVariantType() {
+      return this.currentBaseVariant ? this.currentBaseVariant.type : null;
     },
     // @vuese
-    // Does sku variants exist for current product?
+    // Does more than one dimension of variants exist on this product?
     // @type Boolean
-    hasSkuVariants() {
-      return this.product.currentProductVariant.variants.length > 1;
+    hasMultipleDimensions() {
+      return this.baseVariants.length
+        ? this.currentBaseVariant.level > 1
+        : false;
     },
     // @vuese
-    // Returns a list of sku variant for current product
+    // List of the second dimension variants for the current variant
+    // @type Array
+    secondDimensionVariants() {
+      return this.hasMultipleDimensions ? this.currentBaseVariant.variants : [];
+    },
+    // @vuese
+    // The currently chosen variant on the second dimension level
+    // @type Object
+    currentSecondDimensionVariant() {
+      return this.secondDimensionVariants.length
+        ? this.getCurrentVariant(this.secondDimensionVariants)
+        : null;
+    },
+    // @vuese
+    // The type of the current second dimension variant
+    // @type String
+    secondDimensionVariantType() {
+      return this.currentSecondDimensionVariant
+        ? this.currentSecondDimensionVariant.type
+        : null;
+    },
+    // @vuese
+    // The variant object for the current product
+    // @type Object
+    currentProductVariant() {
+      return this.baseVariants.length
+        ? this.checkForProductVariant(this.baseVariants)
+        : null;
+    },
+    // @vuese
+    // The list of sku variants for the current product
     // @type Array
     skuVariants() {
-      return this.hasSkuVariants
-        ? this.product.currentProductVariant.variants
+      return this.currentProductVariant
+        ? this.currentProductVariant.variants
+        : [];
+    },
+    // @vuese
+    // Does more than one sku variants exist for current product?
+    // @type Boolean
+    hasSkuVariants() {
+      return this.skuVariants.length > 1;
+    },
+    // @vuese
+    // Is a sku chosen?
+    // @type Boolean
+    skuIsChosen() {
+      return this.chosenSku.id !== null && this.chosenSku.value !== '';
+    },
+    // @vuese
+    // The variant object for the chosen sku
+    // @type Object
+    chosenSkuVariant() {
+      return this.skuIsChosen
+        ? this.skuVariants.filter(i => i.value === this.chosenSku.value)[0]
         : null;
     },
     // @vuese
-    // Return total stock quantity based on chosen sku variant
+    // The stock total for the chosen sku
+    // @type Number
+    chosenSkuStock() {
+      return this.chosenSkuVariant ? this.chosenSkuVariant.stock.totalStock : 0;
+    },
+    // @vuese
+    // Id for the chosen sku, used for watching
+    // @type Number
+    chosenSkuId() {
+      return this.skuIsChosen && this.chosenSkuVariant
+        ? this.chosenSkuVariant.skuId
+        : this.chosenSku.id;
+    },
+    // @vuese
+    // Return total stock quantity based on chosen sku variant or else product total stock. Overriding currentStock from MixStockHandler
     // @type Number
     currentStock() {
-      if (this.product && this.product.currentProductVariant) {
-        const chosenItem = this.product.currentProductVariant.variants.filter(
-          i => i.skuId === this.chosenSku.id
-        )[0];
-        if (chosenItem) {
-          return chosenItem.stock.totalStock;
+      if (
+        this.skuVariants &&
+        this.skuVariants.length &&
+        this.product.totalStock
+      ) {
+        if (this.chosenSkuVariant) {
+          return this.chosenSkuVariant.stock.totalStock;
         } else {
-          return this.product.currentProductVariant.stock.totalStock;
+          return this.product.totalStock.totalStock;
         }
       } else return 0;
     },
     // @vuese
-    // Returns a stock status. Available statuses are: 'out-of-stock', 'in-stock', 'few-left'
-    // @type String
-    stockStatus() {
-      if (this.currentStock === 0) {
-        return 'out-of-stock';
-      } else if (this.currentStock < this.$config.productStockFewLeftLimit) {
-        return 'few-left';
-      } else {
-        return 'in-stock';
-      }
-    },
-    // @vuese
-    // Returns stock status text content based on stock status
-    // @type String
-    stockStatusText() {
-      switch (this.stockStatus) {
-        case 'out-of-stock':
-          return this.$t('STOCK_STATUS_OUT_OF_STOCK');
-        case 'few-left':
-          return this.$t('STOCK_STATUS_FEW_LEFT', {
-            quantity: this.currentStock
-          });
-        default:
-          return this.$t('STOCK_STATUS_IN_STOCK');
-      }
-    },
-    // @vuese
-    // Returns the number of items with same skuId as the chosen one that you have in cart
-    // @type Number
-    chosenSkuCartQuantity() {
-      if (this.chosenSku.id) {
-        const inCart = this.$store.state.cart.data.items.filter(
-          i => i.skuId === this.chosenSku.id
-        )[0];
-        return inCart ? inCart.quantity : 0;
-      } else return 0;
-    },
-    // @vuese
-    // Returns the quantity left in stock subtracting items in cart
-    // @type Number
-    stockThreshold() {
-      return this.chosenSku.id
-        ? this.currentStock - this.chosenSkuCartQuantity
-        : -1;
+    // The object of data needed by the variant pickers to work properly
+    // @type Object
+    variantPickerData() {
+      const dataObj = {};
+      dataObj.variantDimensions = this.product.variantDimensions;
+      dataObj.chosenSku = this.chosenSku;
+      dataObj.hasMultipleDimensions = this.hasMultipleDimensions;
+      return dataObj;
     }
   },
-  watch: {},
+  watch: {
+    currentStock(val) {
+      if (val === 0) {
+        // The chosen size no longer has a stock quantity, chosenSku needs a reset
+        this.resetSku();
+      }
+    },
+    chosenSkuId(val) {
+      if (val !== this.chosenSku.id && val !== null) {
+        this.setSku(val, this.chosenSku.value);
+      }
+    }
+  },
   mounted() {},
   methods: {
     // @vuese
     // Function to set default sku when no variants exists
     setDefaultSku() {
-      const firstAvailable = this.product.currentProductVariant.variants.filter(
+      const firstAvailable = this.skuVariants.filter(
         i => i.stock.totalStock > 0
       )[0];
       if (firstAvailable) {
@@ -146,6 +185,30 @@ export default {
     // Resets chosenSku
     resetSku() {
       this.setSku(null, '');
+    },
+    // @vuese
+    // Looks for the product variant level until found and then returns the current Product variant
+    // @arg variants (Array)
+    checkForProductVariant(variants) {
+      const currentVariant = this.getCurrentVariant(variants);
+      if (currentVariant.level === 1) {
+        return currentVariant;
+      } else {
+        return this.checkForProductVariant(currentVariant.variants);
+      }
+    },
+    // @vuese
+    // Get the current chosen variant for the passed in variants level
+    // @arg variants (Array)
+    getCurrentVariant(variants) {
+      return (
+        variants.filter(
+          i =>
+            i.value ===
+            this.product.variantDimensions.filter(ii => ii.level === i.level)[0]
+              .value
+        )[0] || variants[0]
+      );
     }
   }
 };

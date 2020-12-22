@@ -1,8 +1,16 @@
 #import "product/stock.graphql"
 fragment Variant on VariantType {
-  value
-  skuId
+  alias
   level
+  attributes {
+    key
+    value
+  }
+  label
+  value
+  dimension
+  skuId
+  type
   stock {
     ...Stock
   }

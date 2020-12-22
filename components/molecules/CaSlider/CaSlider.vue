@@ -190,7 +190,14 @@ export default {
       return !this.infinite && this.currentSlide === 0;
     }
   },
-  watch: {},
+  watch: {
+    nrOfSlides(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.currentSlide =
+          this.slidingActive && this.infinite ? this.numberOfCopiesBefore : 1;
+      }
+    }
+  },
   mounted() {
     if (this.slidingActive && this.infinite) {
       this.currentSlide = this.numberOfCopiesBefore;

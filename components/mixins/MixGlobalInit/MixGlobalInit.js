@@ -5,6 +5,7 @@ import eventbus from '~/plugins/event-bus.js';
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
+  name: 'MixGlobalInit',
   apollo: {
     getCart: {
       query: getCartQuery,
