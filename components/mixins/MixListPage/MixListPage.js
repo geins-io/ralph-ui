@@ -18,6 +18,7 @@
 // currentMaxCount: `vm.$config.productListPageSize`
 // relocateTimeout: `null`
 export default {
+  name: 'MixListPage',
   components: {},
   mixins: [],
   apollo: {

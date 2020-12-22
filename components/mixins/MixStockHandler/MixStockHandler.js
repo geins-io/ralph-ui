@@ -1,6 +1,10 @@
 // @group Mixins
 // @vuese
+// Handling all stock methods and computed<br><br>
+// **Data:**<br>
+// stock: `0`<br>
 export default {
+  name: 'MixStockHandler',
   components: {},
   mixins: [],
   props: {},
@@ -8,6 +12,9 @@ export default {
     stock: 0
   }),
   computed: {
+    // @vuese
+    // Returns value of data variable 'stock'. Made to be overwritten by the context
+    // @type Number
     currentStock() {
       return this.stock;
     },
@@ -46,6 +53,9 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Get stock status. Argument **stock** defaults to this.currentStock. Available statuses are: 'out-of-stock', 'in-stock', 'few-left'
+    // @arg stock (Number)
     getStockStatus(stock = this.currentStock) {
       if (stock === 0) {
         return 'out-of-stock';
@@ -55,6 +65,9 @@ export default {
         return 'in-stock';
       }
     },
+    // @vuese
+    // Get stock status lang key. Argument **stock** defaults to this.currentStock
+    // @arg stock (Number)
     getStockStatusText(stock = this.currentStock) {
       switch (this.getStockStatus(stock)) {
         case 'out-of-stock':

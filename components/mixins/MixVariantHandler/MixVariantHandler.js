@@ -1,10 +1,11 @@
 import MixStockHandler from 'MixStockHandler';
 // @group Mixins
 // @vuese
-// Handler of product variant data. Expects product object to work with<br><br>
+// Handling all product variant data. Expects product object to work with. Is using MixStockHandler<br><br>
 // **Data:**<br>
 // chosenSku: `{ id: null, value: '' }`<br>
 export default {
+  name: 'MixVariantHandler',
   components: {},
   mixins: [MixStockHandler],
   props: {},
@@ -15,72 +16,114 @@ export default {
     }
   }),
   computed: {
+    // @vuese
+    // A list of variants on the base level of variants data
+    // @type Array
     baseVariants() {
       return this.product ? this.product.variantGroup.variants : [];
     },
+    // @vuese
+    // Does more than one base variant exist?
+    // @type Boolean
     hasVariants() {
       return this.baseVariants.length > 1;
     },
+    // @vuese
+    // Current variant on the base level
+    // @type Object
     currentBaseVariant() {
       return this.baseVariants.length
         ? this.getCurrentVariant(this.baseVariants)
         : null;
     },
+    // @vuese
+    // Type of the current base level variant
+    // @type String
     baseVariantType() {
       return this.currentBaseVariant ? this.currentBaseVariant.type : null;
     },
+    // @vuese
+    // Does more than one dimension of variants exist on this product?
+    // @type Boolean
     hasMultipleDimensions() {
       return this.baseVariants.length
         ? this.currentBaseVariant.level > 1
         : false;
     },
+    // @vuese
+    // List of the second dimension variants for the current variant
+    // @type Array
     secondDimensionVariants() {
       return this.hasMultipleDimensions ? this.currentBaseVariant.variants : [];
     },
+    // @vuese
+    // The currently chosen variant on the second dimension level
+    // @type Object
     currentSecondDimensionVariant() {
       return this.secondDimensionVariants.length
         ? this.getCurrentVariant(this.secondDimensionVariants)
         : null;
     },
+    // @vuese
+    // The type of the current second dimension variant
+    // @type String
     secondDimensionVariantType() {
       return this.currentSecondDimensionVariant
         ? this.currentSecondDimensionVariant.type
         : null;
     },
+    // @vuese
+    // The variant object for the current product
+    // @type Object
     currentProductVariant() {
       return this.baseVariants.length
         ? this.checkForProductVariant(this.baseVariants)
         : null;
     },
+    // @vuese
+    // The list of sku variants for the current product
+    // @type Array
     skuVariants() {
       return this.currentProductVariant
         ? this.currentProductVariant.variants
         : [];
     },
     // @vuese
-    // Does sku variants exist for current product?
+    // Does more than one sku variants exist for current product?
     // @type Boolean
     hasSkuVariants() {
       return this.skuVariants.length > 1;
     },
+    // @vuese
+    // Is a sku chosen?
+    // @type Boolean
     skuIsChosen() {
       return this.chosenSku.id !== null && this.chosenSku.value !== '';
     },
+    // @vuese
+    // The variant object for the chosen sku
+    // @type Object
     chosenSkuVariant() {
       return this.skuIsChosen
         ? this.skuVariants.filter(i => i.value === this.chosenSku.value)[0]
         : null;
     },
+    // @vuese
+    // The stock total for the chosen sku
+    // @type Number
     chosenSkuStock() {
       return this.chosenSkuVariant ? this.chosenSkuVariant.stock.totalStock : 0;
     },
+    // @vuese
+    // Id for the chosen sku, used for watching
+    // @type Number
     chosenSkuId() {
       return this.skuIsChosen && this.chosenSkuVariant
         ? this.chosenSkuVariant.skuId
-        : null;
+        : this.chosenSku.id;
     },
     // @vuese
-    // Return total stock quantity based on chosen sku variant. Overriding currentStock from MixStockHandler
+    // Return total stock quantity based on chosen sku variant or else product total stock. Overriding currentStock from MixStockHandler
     // @type Number
     currentStock() {
       if (
@@ -95,6 +138,9 @@ export default {
         }
       } else return 0;
     },
+    // @vuese
+    // The object of data needed by the variant pickers to work properly
+    // @type Object
     variantPickerData() {
       const dataObj = {};
       dataObj.variantDimensions = this.product.variantDimensions;
@@ -140,6 +186,9 @@ export default {
     resetSku() {
       this.setSku(null, '');
     },
+    // @vuese
+    // Looks for the product variant level until found and then returns the current Product variant
+    // @arg variants (Array)
     checkForProductVariant(variants) {
       const currentVariant = this.getCurrentVariant(variants);
       if (currentVariant.level === 1) {
@@ -148,6 +197,9 @@ export default {
         return this.checkForProductVariant(currentVariant.variants);
       }
     },
+    // @vuese
+    // Get the current chosen variant for the passed in variants level
+    // @arg variants (Array)
     getCurrentVariant(variants) {
       return (
         variants.filter(

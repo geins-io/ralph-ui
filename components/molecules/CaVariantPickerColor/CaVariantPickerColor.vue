@@ -11,7 +11,7 @@
       <CaColorIcon
         class="ca-variant-picker-color__color"
         size="big"
-        :hex-color="variant.attributes[0].value"
+        :hex-color="variant.attributes[0].value || 'FFF'"
       />
     </button>
   </div>
@@ -21,7 +21,7 @@ import CaColorIcon from 'CaColorIcon';
 import MixVariantPicker from 'MixVariantPicker';
 // @group Molecules
 // @vuese
-// Used to change a color variant of a product.<br><br>
+// A variant picker in form of colors icons. Only works for variants with a HEX-attribute provided. See **MixVariantPicker** for further information about mathods, props etc.<br><br><br><br>
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker-color.scss_
 export default {
   name: 'CaVariantPickerColor',

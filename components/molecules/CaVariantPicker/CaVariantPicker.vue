@@ -21,7 +21,7 @@ import CaVariantPickerDisplay from 'CaVariantPickerDisplay';
 import CaVariantPickerPanel from 'CaVariantPickerPanel';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// The shell for all variant pickers. displays the title above and the picker chosen by type below<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker.scss_
 export default {
   name: 'CaVariantPicker',
@@ -32,21 +32,27 @@ export default {
   },
   mixins: [],
   props: {
+    // A list of variants (VariantType from the API)
     variants: {
       type: Array,
       required: true
     },
+    // Variants picker data. A object consisting of variantDimensions, chosenSku and hasMultipleDimensions passed from MixVariantHandler
     variantsData: {
       type: Object,
       required: true
     },
+    // The title for the picker
     title: {
       type: String,
       required: true
     },
+    // The type of picker to use. Accepts `color`, `display` and `panel`
     type: {
+      // `color`, `display`, `panel`
       type: String,
-      required: true,
+      // `panel`
+      default: 'panel',
       validator(value) {
         return ['color', 'display', 'panel'].includes(value);
       }

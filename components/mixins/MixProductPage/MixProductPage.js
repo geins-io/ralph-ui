@@ -7,6 +7,7 @@ import productQuery from 'product/product.graphql';
 // replaceAlias: `null`<br>
 // error: `null`
 export default {
+  name: 'MixProductPage',
   components: {},
   mixins: [],
   props: {},
@@ -57,7 +58,6 @@ export default {
     currentStock(val) {
       if (val === 0) return;
       if (this.quantity > val) {
-        debugger;
         this.quantity = val;
       }
     }
@@ -97,7 +97,6 @@ export default {
     // Replace product data without reloading the page. Used for changing between product variants
     // @arg alias (String)
     replaceProduct(alias) {
-      console.log(alias);
       this.replaceAlias = alias;
       history.replaceState(null, null, alias);
     },
@@ -105,7 +104,6 @@ export default {
     // Handler for changing the sku
     // @arg data (Object)
     sizeChangeHandler(data) {
-      console.log(data);
       this.setSku(data.id, data.value);
     },
     // @vuese
