@@ -1,77 +1,176 @@
 <template>
-  <div class="ca-search" :class="modifiers">
-    <div class="ca-search__bar">
-      <div class="ca-search__input-wrap">
-        <input
-          v-model="searchString"
-          class="ca-search__input"
-          type="text"
-          aria-label="$t('SEARCH')"
-          :placeholder="$t('SEARCH_PLACEHOLDER')"
-          @input="getSearchResults"
-        />
-        <CaIconButton
-          class="ca-search__button"
-          icon-name="search"
-          :aria-label="$t('SEARCH')"
-          @clicked="getSearchResults"
-        />
+  <div class="ca-search__wrapper">
+    <div class="ca-search" :class="modifiers">
+      <div class="ca-search__bar">
+        <div class="ca-search__input-wrap">
+          <input
+            v-model="searchString"
+            class="ca-search__input"
+            type="text"
+            aria-label="$t('SEARCH')"
+            :placeholder="$t('SEARCH_PLACEHOLDER')"
+            @input="handleSearchInput"
+            @focus="open"
+          />
+          <CaIconButton
+            class="ca-search__button"
+            icon-name="search"
+            :aria-label="$t('SEARCH')"
+            @clicked="fetchSearchResult"
+          />
+        </div>
       </div>
+      <div
+        v-if="showRecentSearches && active && !searchResultsExist"
+        class="ca-search__suggestions"
+      >
+        <h2 class="ca-search__title ca-search__title--suggestion">
+          {{ $t('YOUR_RECENT_SEARCHES') }}
+        </h2>
+        <ul class="ca-search__suggestions-list">
+          <li
+            v-for="(search, index) in recentSearches"
+            :key="index"
+            class="ca-search__suggestion-item"
+          >
+            <a href="#" class="ca-search__suggestion-link">{{ search }}</a>
+          </li>
+        </ul>
+      </div>
+      <div
+        v-else-if="active && !searchResultsExist"
+        class="ca-search__suggestions"
+      >
+        <h2 class="ca-search__title ca-search__title--suggestion">
+          {{ $t('TOP_SEARCHES') }}
+        </h2>
+        <ul class="ca-search__suggestions-list">
+          <li
+            v-for="(search, index) in topSearches"
+            :key="index"
+            class="ca-search__suggestion-item"
+          >
+            <a href="#" class="ca-search__suggestion-link">{{ search }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <section
+        v-if="searchResultsExist && searchIsVisible"
+        class="ca-search__results"
+      >
+        <div class="ca-search__top">
+          <h2 class="ca-search__title">
+            {{ $t('SEARCH_RESULTS_TITLE') }}
+          </h2>
+          <CaIconAndText
+            class="ca-search__see-all"
+            icon-name="arrow-right"
+            icon-position="right"
+          >
+            {{ $t('SEARCH_RESULTS_SEE_ALL') }}
+          </CaIconAndText>
+        </div>
+        <div class="ca-search__results-wrap">
+          <div
+            v-if="searchData.products.length"
+            class="ca-search__result ca-search__result--products"
+          >
+            <h3 class="ca-search__list-title">{{ $tc('PRODUCT', 2) }}</h3>
+            <ul class="ca-search__list ca-search__list--products">
+              <li
+                v-for="(product, index) in searchData.products"
+                :key="index"
+                class="ca-search__item ca-search__item--product"
+              >
+                <a
+                  class="ca-search__item-link ca-search__item-link--product"
+                  :href="product.url"
+                >
+                  <!-- <CaImage
+                  v-if="product.images !== null && product.images.length > 0"
+                  class="ca-cart-product__image"
+                  type="product"
+                  size="200f200"
+                  :alt="product.name"
+                  :filename="product.images[0]"
+                  :placeholder="
+                    require('~/assets/placeholders/product-image-square.png')
+                  "
+                /> -->
+                  <img class="ca-search__item-image" :src="product.image" />
+                  <div class="ca-search__item-info">
+                    <div class="ca-search__item-name">{{ product.title }}</div>
+                    <div class="ca-search__item-price ca-price">
+                      {{ product.price }}
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            v-if="searchData.categories.length"
+            class="ca-search__result ca-search__result--categories"
+          >
+            <h3 class="ca-search__list-title">{{ $t('CATEGORIES') }}</h3>
+            <ul class="ca-search__list">
+              <li
+                v-for="(category, index) in searchData.categories"
+                :key="index"
+                class="ca-search__item ca-search__item--tag"
+              >
+                <a
+                  class="ca-search__item-link ca-search__item-link--tag"
+                  :href="category.url"
+                >
+                  {{ category.title }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            v-if="searchData.brands.length"
+            class="ca-search__result ca-search__result--brands"
+          >
+            <h3 class="ca-search__list-title">{{ $t('BRANDS') }}</h3>
+            <ul class="ca-search__list">
+              <li
+                v-for="(brand, index) in searchData.brands"
+                :key="index"
+                class="ca-search__item ca-search__item--tag"
+              >
+                <a
+                  class="ca-search__item-link ca-search__item-link--tag"
+                  :href="brand.url"
+                >
+                  {{ brand.title }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <button class="ca-search__close-button only-mobile" @click="close">
+          <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
+        </button>
+      </section>
     </div>
-    <div
-      v-if="searchResultsExist && searchIsVisible"
-      class="ca-search__results"
-    >
-      <ul v-if="searchData.products.length" class="ca-search__list">
-        <li class="ca-search__title">{{ $tc('PRODUCT', 2) }}</li>
-        <li class="ca-search__link">
-          <a href="#">{{ $t('SEARCH_SEE_ALL') }}</a>
-        </li>
-        <li
-          v-for="(product, index) in searchData.products"
-          :key="index"
-          class="ca-search__item ca-search__item--product"
-        >
-          <a :href="product.url">{{ product.title }}</a>
-        </li>
-      </ul>
-      <ul v-if="searchData.brands.length" class="ca-search__list">
-        <li class="ca-search__title">{{ $t('BRANDS') }}</li>
-        <li class="ca-search__link">
-          <a href="#">{{ $t('SEARCH_SEE_ALL_BRANDS') }}</a>
-        </li>
-        <li
-          v-for="(brand, index) in searchData.brands"
-          :key="index"
-          class="ca-search__item ca-search__item--brand"
-        >
-          <a :href="brand.url">{{ brand.title }}</a>
-        </li>
-      </ul>
-      <ul v-if="searchData.categories.length" class="ca-search__list">
-        <li class="ca-search__title">{{ $t('CATEGORIES') }}</li>
-        <li class="ca-search__link">
-          <a href="#">{{ $t('SEARCH_SEE_ALL') }}</a>
-        </li>
-        <li
-          v-for="(category, index) in searchData.categories"
-          :key="index"
-          class="ca-search__item ca-search__item--category"
-        >
-          <a :href="category.url">{{ category.title }}</a>
-        </li>
-      </ul>
-    </div>
+    <CaOverlay class="ca-search__overlay" :visible="active" @clicked="close" />
   </div>
 </template>
 <script>
 import CaIconButton from 'CaIconButton';
+import CaOverlay from 'CaOverlay';
+import CaIconAndText from 'CaIconAndText';
+// import CaImage from 'CaImage';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 // @group Molecules
 // The search including search results<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-search.scss_
 export default {
   name: 'CaSearch',
-  components: { CaIconButton },
+  components: { CaIconButton, CaOverlay, CaIconAndText },
   mixins: [],
   props: {
     // Used to toogle search in mobile, set to true when user opens it
@@ -84,6 +183,7 @@ export default {
     searchString: '',
     typingTimeout: null,
     loading: false,
+    active: false,
     searchData: {
       categories: [],
       brands: [],
@@ -173,7 +273,7 @@ export default {
           artNo: 'ED7392',
           brand: 'Adidas',
           gender: 'unisex',
-          price: '262 SEK',
+          price: '262 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/adidas_ac_duffle_black.jpg'
         },
@@ -183,7 +283,7 @@ export default {
           artNo: 'ED8667',
           brand: 'Adidas',
           gender: 'unisex',
-          price: '224 SEK',
+          price: '224 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/adidas_ac_class_bp_black.jpg'
         },
@@ -193,7 +293,7 @@ export default {
           artNo: 'CG0064-900',
           brand: 'Acne Studios',
           gender: 'male',
-          price: '1999 SEK',
+          price: '1999 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acnestudiosaelinlanyardblack.jpg'
         },
@@ -203,7 +303,7 @@ export default {
           artNo: 'CA0044-J83',
           brand: 'Acne Studios',
           gender: 'unisex',
-          price: '2099 SEK',
+          price: '2099 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acne_studios_toronty_logo_contrast_blackwhite.jpg'
         },
@@ -213,7 +313,7 @@ export default {
           artNo: 'C40083-AE6',
           brand: 'Acne Studios',
           gender: 'male',
-          price: '1099 SEK',
+          price: '1099 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acnestudiosbruncottoncanvasoatbeige.jpg'
         },
@@ -223,7 +323,7 @@ export default {
           artNo: 'CA0026-J83',
           brand: 'Acne Studios',
           gender: 'female',
-          price: '900 SEK',
+          price: '900 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acne_studios_cassiar_check_blackwhite.jpg'
         },
@@ -233,7 +333,7 @@ export default {
           artNo: '274176-ANS',
           brand: 'Acne Studios',
           gender: 'unisex',
-          price: '1799 SEK',
+          price: '1799 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acne_studios_toronty_logo_greypink.jpg'
         },
@@ -243,7 +343,7 @@ export default {
           artNo: 'CA0044-BR0',
           brand: 'Acne Studios',
           gender: 'female',
-          price: '2099 SEK',
+          price: '2099 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acne_studios_toronty_logo_contrast_pinkblack.jpg'
         },
@@ -253,12 +353,15 @@ export default {
           artNo: '274176-AHK',
           brand: 'Acne Studios',
           gender: 'female',
-          price: '1799 SEK',
+          price: '1799 kr',
           image:
             'https://cdn.zoovillage.com/product/72f90/acne_studios_toronty_logo_pinkbeige.jpg'
         }
       ]
-    }
+    },
+    searchStorage: null,
+    recentSearches: [],
+    topSearches: ['godis', 'askar', 'lakrits', 'choklad', 'present']
   }),
   computed: {
     searchResultsExist() {
@@ -275,29 +378,74 @@ export default {
       return {
         'ca-search--visible': this.searchIsVisible
       };
+    },
+    showRecentSearches() {
+      return this.recentSearches.length > 0;
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    this.searchStorage = window.localStorage;
+    this.recentSearches = this.searchStorage.getItem('recentSearches')
+      ? JSON.parse(localStorage.getItem('recentSearches'))
+      : [];
+  },
   methods: {
     // @vuese
     // Perform search
-    getSearchResults() {
+    handleSearchInput() {
       this.loading = true;
       clearTimeout(this.typingTimeout);
-      this.typingTimeout = setTimeout(() => {
-        if (this.searchString !== '') {
-          this.searchData = this.searchDummyData;
-        } else {
-          this.searchData = {
-            categories: [],
-            brands: [],
-            products: []
-          };
-        }
+      this.typingTimeout = setTimeout(this.fetchSearchResult, 1000);
+    },
+    fetchSearchResult() {
+      this.loading = true;
 
-        this.loading = false;
-      }, 800);
+      if (this.searchString !== '') {
+        this.searchData = this.searchDummyData;
+        this.setRecentSearch();
+      } else {
+        this.searchData = {
+          categories: [],
+          brands: [],
+          products: []
+        };
+      }
+
+      this.loading = false;
+    },
+    setRecentSearch() {
+      if (this.recentSearches.includes(this.searchString)) {
+        this.recentSearches.splice(
+          this.recentSearches.indexOf(this.searchString),
+          1
+        );
+        this.recentSearches.unshift(this.searchString);
+      } else {
+        this.recentSearches.unshift(this.searchString);
+        if (this.recentSearches.length > 5) {
+          this.recentSearches.pop();
+        }
+      }
+      this.searchStorage.setItem(
+        'recentSearches',
+        JSON.stringify(this.recentSearches)
+      );
+    },
+    close() {
+      this.active = false;
+      this.searchString = '';
+      this.searchData = {
+        categories: [],
+        brands: [],
+        products: []
+      };
+      clearAllBodyScrollLocks();
+    },
+    open() {
+      this.active = true;
+      this.$store.dispatch('setScrollbarWidth');
+      disableBodyScroll('.ca-search');
     }
   }
 };

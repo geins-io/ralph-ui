@@ -25,14 +25,11 @@
         </footer>
       </section>
     </transition>
-    <transition name="fade">
-      <CaOverlay
-        v-if="opened"
-        class="ca-content-panel__overlay"
-        :visible="opened"
-        @clicked="close"
-      />
-    </transition>
+    <CaOverlay
+      class="ca-content-panel__overlay"
+      :visible="opened"
+      @clicked="close"
+    />
   </div>
 </template>
 <script>
@@ -147,7 +144,7 @@ export default {
   methods: {
     // Open the content panel
     open() {
-      this.setScrollbarWidth();
+      this.$store.dispatch('setScrollbarWidth');
       // const options = {
       //   reserveScrollBarGap: true
       // };
@@ -161,15 +158,6 @@ export default {
       this.$store.commit('contentpanel/close');
       this.opened = false;
       clearAllBodyScrollLocks();
-    },
-    // Set scrollbar width, used to keep gap when disabeling body scroll
-    setScrollbarWidth() {
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      document.documentElement.style.setProperty(
-        '--scrollbar-width',
-        scrollbarWidth + 'px'
-      );
     }
   }
 };

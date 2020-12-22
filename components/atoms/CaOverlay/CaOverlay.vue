@@ -1,5 +1,12 @@
 <template>
-  <div class="ca-overlay" :class="modifiers" @click="$emit('clicked')"></div>
+  <transition name="fade">
+    <div
+      v-if="visible"
+      class="ca-overlay"
+      :class="modifiers"
+      @click="$emit('clicked')"
+    ></div>
+  </transition>
 </template>
 <script>
 // @group Atoms

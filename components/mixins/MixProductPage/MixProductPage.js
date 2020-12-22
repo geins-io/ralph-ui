@@ -76,7 +76,6 @@ export default {
       if (!this.chosenSku.id) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('MUST_CHOOSE_SKU'),
-          mode: 'error',
           placement: 'bottom-center'
         });
       } else if (
@@ -85,7 +84,6 @@ export default {
       ) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('CART_ADD_TOO_MANY', { stock: this.currentStock }),
-          mode: 'error',
           placement: 'bottom-center'
         });
       } else {
@@ -113,7 +111,6 @@ export default {
         message: this.$t('QUANTITY_THRESHOLD_REACHED', {
           quantity: this.chosenSkuCartQuantity
         }),
-        mode: 'error',
         placement: 'bottom-center'
       });
     }

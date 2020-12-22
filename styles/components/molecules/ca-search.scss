@@ -1,13 +1,17 @@
 .ca-search {
-  position: fixed;
-  width: 100%;
-  z-index: $z-index-search;
-  transform: translateY(-100%);
-  transition: transform 200ms ease;
+  @include bp(tablet-down) {
+    transform: translateY(-100%);
+    transition: transform 200ms ease;
+    width: 100%;
+    position: fixed;
+    z-index: $z-index-search;
+  }
   @include bp(laptop) {
-    @include valign;
+    position: absolute;
+    top: 50%;
+    margin-top: calc(-#{$search-input-height}/ 2);
     left: 0;
-    width: auto;
+    z-index: $z-index-search-desktop;
   }
   &__bar {
     @include bp(tablet-down) {
@@ -17,7 +21,7 @@
     }
   }
   &__input-wrap {
-    height: 40px;
+    height: $search-input-height;
     width: calc(100% - #{$default-spacing});
     border: $border-light;
     background: $c-white;
@@ -30,6 +34,7 @@
     flex: 1;
     height: 100%;
     padding: 0 $px16;
+    outline: none;
   }
   &__button {
     height: 100%;
@@ -37,16 +42,168 @@
     @include flex-calign;
     font-size: 20px;
   }
-  &__results {
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+
+    &--suggestion {
+      margin: 0 0 $px8;
+    }
+  }
+
+  &__suggestions {
     position: fixed;
-    z-index: $z-index-search;
-    background: $c-white;
+    background-color: $c-white;
     width: 100%;
+    padding: $px16 $px20;
+    line-height: 1.6;
+    @include bp(laptop) {
+      margin: rem-calc(6px) 0 0;
+      width: 290px;
+    }
+  }
+
+  &__results {
+    background: $c-white;
+    padding: $px16 $px20 rem-calc(66px);
     height: calc(
       100vh - #{$top-bar-height + $header-bar-height + $search-height}
     );
     overflow: auto;
+    @include bp(laptop) {
+      position: fixed;
+      margin: rem-calc(6px) 0 0;
+      padding: $px16 $px20;
+      height: auto;
+      overflow: visible;
+    }
   }
+
+  &__results-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    @include bp(laptop) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__close-button {
+    height: 50px;
+    background-color: $c-white;
+    width: 100%;
+    text-transform: uppercase;
+    border-top: $border-light;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 0 $px16;
+  }
+
+  &__see-all {
+    text-decoration: underline;
+  }
+
+  &__result {
+    width: 50%;
+    @include bp(laptop) {
+      width: 320px;
+      margin: 0 0 0 $px32;
+    }
+    &--products {
+      width: 100%;
+      margin: 0 0 $px16;
+      @include bp(laptop) {
+        width: 420px;
+        margin: 0;
+      }
+    }
+  }
+
+  &__list-title {
+    font-weight: $font-weight-bold;
+    margin: 0 0 $px8;
+  }
+
+  &__list {
+    @include bp(laptop) {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: space-between;
+      height: 225px;
+    }
+  }
+
+  &__item {
+    @include bp(laptop) {
+      width: 49%;
+    }
+    &--product {
+      margin: 0 0 $px4;
+      @include bp(laptop) {
+        margin: 0;
+        &:not(:first-child) {
+          margin: rem-calc(6px) 0 0;
+        }
+      }
+    }
+    &--tag {
+      &:not(:last-child) {
+        margin: 0 0 $px12;
+      }
+      @include bp(laptop-down);
+    }
+  }
+
+  &__item-link {
+    &--product {
+      display: flex;
+      align-items: flex-start;
+    }
+    &--tag {
+      background: $c-light-gray;
+      padding: rem-calc(6px) rem-calc(10px);
+      display: inline-block;
+    }
+  }
+
+  &__item-image {
+    width: rem-calc(30px);
+    margin: 0 $px12 0 0;
+    @include bp(laptop) {
+      width: auto;
+      height: rem-calc(40px);
+    }
+  }
+
+  &__item-info {
+    width: calc(100% - #{rem-calc(52px)});
+  }
+
+  &__item-name {
+    @include ellipsis;
+  }
+
+  &__item-price {
+    font-weight: $font-weight-bold;
+  }
+
+  &__overlay {
+    @include bp(tablet-down) {
+      z-index: $z-index-search-overlay;
+    }
+  }
+
   &--visible {
     @include bp(tablet-down) {
       transform: translateY(0);
