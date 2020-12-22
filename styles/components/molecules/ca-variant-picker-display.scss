@@ -1,4 +1,4 @@
-.ca-size-picker {
+.ca-variant-picker-display {
   display: flex;
   &__holder {
     display: flex;
@@ -9,7 +9,7 @@
       margin-right: $px20;
     }
   }
-  &__trigger {
+  &__choice {
     width: 48px;
     height: 48px;
     border: $border-dark;

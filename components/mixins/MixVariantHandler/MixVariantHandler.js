@@ -26,6 +26,9 @@ export default {
         ? this.getCurrentVariant(this.baseVariants)
         : null;
     },
+    baseVariantType() {
+      return this.currentBaseVariant ? this.currentBaseVariant.type : null;
+    },
     hasMultipleDimensions() {
       return this.baseVariants.length
         ? this.currentBaseVariant.level > 1
@@ -37,6 +40,11 @@ export default {
     currentSecondDimensionVariant() {
       return this.secondDimensionVariants.length
         ? this.getCurrentVariant(this.secondDimensionVariants)
+        : null;
+    },
+    secondDimensionVariantType() {
+      return this.currentSecondDimensionVariant
+        ? this.currentSecondDimensionVariant.type
         : null;
     },
     currentProductVariant() {
@@ -75,7 +83,11 @@ export default {
     // Return total stock quantity based on chosen sku variant. Overriding currentStock from MixStockHandler
     // @type Number
     currentStock() {
-      if (this.skuVariants.length && this.product.totalStock) {
+      if (
+        this.skuVariants &&
+        this.skuVariants.length &&
+        this.product.totalStock
+      ) {
         if (this.chosenSkuVariant) {
           return this.chosenSkuVariant.stock.totalStock;
         } else {
@@ -137,12 +149,14 @@ export default {
       }
     },
     getCurrentVariant(variants) {
-      return variants.filter(
-        i =>
-          i.value ===
-          this.product.variantDimensions.filter(ii => ii.level === i.level)[0]
-            .value
-      )[0];
+      return (
+        variants.filter(
+          i =>
+            i.value ===
+            this.product.variantDimensions.filter(ii => ii.level === i.level)[0]
+              .value
+        )[0] || variants[0]
+      );
     }
   }
 };

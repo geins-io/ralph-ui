@@ -19,7 +19,9 @@ export default {
       required: true
     }
   },
-  data: () => ({}),
+  data: () => ({
+    baseClass: ''
+  }),
   computed: {
     variantTypeColor() {
       return this.variants[0].dimension === 'Color';
@@ -90,12 +92,16 @@ export default {
         this.$emit('changeSku', { id: variant.skuId, value: variant.value });
       } else {
         // Level 1 & 2
-        const alias =
+        const productVariant =
           variant.level === 1
-            ? variant.alias
+            ? variant
             : variant.variants.filter(
                 i => i.value === this.getChosenValue(1)
-              )[0].alias;
+              )[0];
+
+        const alias = productVariant
+          ? productVariant.alias
+          : variant.variants[0].alias;
 
         this.$store.dispatch('loading/start', 300);
         // @vuese
@@ -103,6 +109,26 @@ export default {
         // @arg prod alias (String)
         this.$emit('replaceProduct', alias);
       }
+    },
+    getModifiers(variant) {
+      const disabledClass = this.baseClass + '__choice--disabled';
+      const chosenClass = this.baseClass + '__choice--chosen';
+      const skuClass = this.baseClass + '__choice--sku';
+      const classArray = [];
+
+      if (!variant.stock.totalStock) {
+        classArray.push(disabledClass);
+      }
+      if (variant.level === 0) {
+        classArray.push(skuClass);
+        if (variant.value === this.variantsData.chosenSku.value) {
+          classArray.push(chosenClass);
+        }
+      } else if (variant.value === this.getChosenValue(variant.level)) {
+        classArray.push(chosenClass);
+      }
+
+      return classArray;
     }
   }
 };

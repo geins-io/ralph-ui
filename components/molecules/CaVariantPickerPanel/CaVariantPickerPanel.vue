@@ -54,29 +54,13 @@ export default {
   components: { CaContentPanel, CaIconAndText, CaColorIcon },
   mixins: [MixVariantPicker],
   props: {},
-  data: () => ({}),
+  data: () => ({
+    baseClass: 'ca-variant-picker-panel'
+  }),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {
-    getModifiers(variant) {
-      if (variant.level === 0) {
-        return {
-          'ca-variant-picker-panel__choice--disabled': !variant.stock
-            .totalStock,
-          'ca-variant-picker-panel__choice--chosen':
-            variant.value === this.variantsData.chosenSku.value
-        };
-      } else {
-        return {
-          'ca-variant-picker-panel__choice--disabled': !variant.stock
-            .totalStock,
-          'ca-variant-picker-panel__choice--chosen':
-            variant.value === this.getChosenValue(variant.level)
-        };
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">

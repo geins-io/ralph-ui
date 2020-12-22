@@ -16,8 +16,8 @@
   </div>
 </template>
 <script>
-import CaColorPicker from 'CaColorPicker';
-import CaSizePicker from 'CaSizePicker';
+import CaVariantPickerColor from 'CaVariantPickerColor';
+import CaVariantPickerDisplay from 'CaVariantPickerDisplay';
 import CaVariantPickerPanel from 'CaVariantPickerPanel';
 // @group Molecules
 // @vuese
@@ -25,7 +25,11 @@ import CaVariantPickerPanel from 'CaVariantPickerPanel';
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker.scss_
 export default {
   name: 'CaVariantPicker',
-  components: { CaColorPicker, CaSizePicker, CaVariantPickerPanel },
+  components: {
+    CaVariantPickerColor,
+    CaVariantPickerDisplay,
+    CaVariantPickerPanel
+  },
   mixins: [],
   props: {
     variants: {
@@ -44,7 +48,7 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ['color', 'size', 'panel'].includes(value);
+        return ['color', 'display', 'panel'].includes(value);
       }
     }
   },
@@ -53,9 +57,9 @@ export default {
     picker() {
       switch (this.type) {
         case 'color':
-          return CaColorPicker;
-        case 'size':
-          return CaSizePicker;
+          return CaVariantPickerColor;
+        case 'display':
+          return CaVariantPickerDisplay;
         default:
           return CaVariantPickerPanel;
       }

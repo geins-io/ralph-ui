@@ -10,6 +10,7 @@ fragment Variant on VariantType {
   value
   dimension
   skuId
+  type
   stock {
     ...Stock
   }

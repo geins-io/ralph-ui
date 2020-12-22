@@ -1,10 +1,11 @@
-.ca-color-picker {
+.ca-variant-picker-color {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   &__choice {
     margin: $px4 0;
     position: relative;
+    outline: none;
     &:not(:last-child) {
       margin-right: $px20;
     }
@@ -18,14 +19,29 @@
       @include calign;
       border-radius: 50%;
     }
-    &:hover::before {
+    &:hover::before,
+    &:focus::before {
       border-color: $c-border-dark;
     }
     &--chosen {
-      outline: none;
       &::before,
+      &:focus::before,
       &:hover::before {
         border-color: #000;
+      }
+    }
+    &--disabled {
+      opacity: 0.2;
+      &::after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 35px;
+        background: #545454;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
       }
     }
   }
