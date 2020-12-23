@@ -40,7 +40,7 @@ export default {
     // Type of the current base level variant
     // @type String
     baseVariantType() {
-      return this.currentBaseVariant ? this.currentBaseVariant.type : null;
+      return this.currentBaseVariant ? this.currentBaseVariant.dimension : null;
     },
     // @vuese
     // Does more than one dimension of variants exist on this product?
@@ -69,7 +69,7 @@ export default {
     // @type String
     secondDimensionVariantType() {
       return this.currentSecondDimensionVariant
-        ? this.currentSecondDimensionVariant.type
+        ? this.currentSecondDimensionVariant.dimension
         : null;
     },
     // @vuese
