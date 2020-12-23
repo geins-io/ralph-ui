@@ -194,7 +194,7 @@ export default {
     nrOfSlides(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.currentSlide =
-          this.slidingActive && this.infinite ? this.numberOfCopiesBefore : 1;
+          this.slidingActive && this.infinite ? this.numberOfCopiesBefore : 0;
       }
     }
   },
