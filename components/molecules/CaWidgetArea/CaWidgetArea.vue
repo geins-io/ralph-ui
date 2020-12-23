@@ -5,6 +5,7 @@
         v-for="(container, index) in containers"
         :key="index"
         :widgets="container.widgets"
+        :layout="container.layout"
       />
     </div>
   </div>

@@ -2,10 +2,10 @@
   display: inline-block;
   background: $c-button-main-bg;
   color: $c-button-main-txt;
-  font-size: $font-size-s;
+  font-size: $font-size-m;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
-  padding: 1em 2.4em;
+  padding: 0.65em 2.15em;
   white-space: nowrap;
   position: relative;
   &__spinner {
@@ -16,7 +16,8 @@
     margin-left: -10px;
   }
   &--small {
-    padding: 0.3em 0.65em;
+    padding: 0.6em 0.9em;
+    font-size: $font-size-s;
   }
   &--full-width {
     width: 100%;

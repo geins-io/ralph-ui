@@ -11,9 +11,9 @@ query widgetArea(
     displaySetting: $displaySetting
   ) {
     containers {
+      layout
       widgets {
         name
-        size
         configuration
       }
     }

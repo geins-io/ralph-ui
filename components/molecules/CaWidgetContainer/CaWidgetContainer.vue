@@ -1,10 +1,9 @@
 <template>
-  <div v-if="widgets" class="ca-widget-container">
+  <div v-if="widgets" class="ca-widget-container" :class="layoutClass">
     <CaWidget
       v-for="(widget, index) in widgets"
       :key="index"
       :type="widget.name"
-      :size="widget.size"
       :configuration="widget.configuration"
     />
   </div>
@@ -25,10 +24,19 @@ export default {
     widgets: {
       type: Array,
       required: true
+    },
+    // The container layout
+    layout: {
+      type: String,
+      required: true
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    layoutClass() {
+      return 'ca-widget-container--' + this.layout;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

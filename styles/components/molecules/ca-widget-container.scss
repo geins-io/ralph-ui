@@ -1,14 +1,27 @@
 .ca-widget-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: -$widget-spacing;
+  display: grid;
+  column-gap: $widget-spacing;
+  row-gap: $widget-spacing;
+  grid-template-columns: 1fr;
+
   &:not(:first-child) {
-    margin-top: $widget-spacing;
+    margin: $widget-spacing 0 0;
   }
   @include bp(tablet) {
-    margin: -$widget-spacing-desktop;
+    column-gap: $widget-spacing-desktop;
+    row-gap: $widget-spacing-desktop;
     &:not(:first-child) {
-      margin-top: $widget-spacing-desktop;
+      margin: $widget-spacing-desktop 0 0;
+    }
+
+    &--half {
+      grid-template-columns: 1fr 1fr;
+    }
+    &--third {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    &--fourth {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
 }

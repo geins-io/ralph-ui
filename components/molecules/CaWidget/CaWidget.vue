@@ -1,15 +1,11 @@
 <template>
-  <component
-    :is="currentWidget"
-    class="ca-widget"
-    :class="sizeClass"
-    :configuration="confObj"
-  >
+  <component :is="currentWidget" class="ca-widget" :configuration="confObj">
   </component>
 </template>
 <script>
 import CaWidgetText from 'CaWidgetText';
 import CaWidgetImage from 'CaWidgetImage';
+import CaWidgetButtons from 'CaWidgetButtons';
 import CaWidgetProductList from 'CaWidgetProductList';
 // @group Molecules
 // @vuese
@@ -17,7 +13,12 @@ import CaWidgetProductList from 'CaWidgetProductList';
 // **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 export default {
   name: 'CaWidget',
-  components: { CaWidgetImage, CaWidgetText, CaWidgetProductList },
+  components: {
+    CaWidgetImage,
+    CaWidgetText,
+    CaWidgetButtons,
+    CaWidgetProductList
+  },
   mixins: [],
   props: {
     // Configuration JSON object
@@ -30,19 +31,19 @@ export default {
       // 'Image', 'Text', 'Product list'
       type: String,
       required: true
-    },
-    // Widget size
-    size: {
-      // 'full', 'half', 'third', 'fourth'
-      type: String,
-      required: true
     }
+    // Widget size
+    // size: {
+    //   // 'full', 'half', 'third', 'fourth'
+    //   type: String,
+    //   required: true
+    // }
   },
   data: () => ({}),
   computed: {
-    sizeClass() {
-      return 'ca-widget--' + this.size;
-    },
+    // sizeClass() {
+    //   return 'ca-widget--' + this.size;
+    // },
     confObj() {
       return JSON.parse(this.configuration);
     },
@@ -53,6 +54,8 @@ export default {
         return CaWidgetText;
       } else if (this.type === 'Product list') {
         return CaWidgetProductList;
+      } else if (this.type === 'Buttons') {
+        return CaWidgetButtons;
       } else return '';
     }
   },

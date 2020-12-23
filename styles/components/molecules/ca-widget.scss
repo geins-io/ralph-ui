@@ -1,16 +1,2 @@
 .ca-widget {
-  margin: $widget-spacing;
-  width: 100%;
-  @include bp(tablet) {
-    margin: $widget-spacing-desktop;
-    &--half {
-      width: calc(100% / 2 - #{$widget-spacing-desktop * 2});
-    }
-    &--third {
-      width: calc(100% / 3 - #{$widget-spacing-desktop * 2});
-    }
-    &--fourth {
-      width: calc(100% / 4 - #{$widget-spacing-desktop * 2});
-    }
-  }
 }
