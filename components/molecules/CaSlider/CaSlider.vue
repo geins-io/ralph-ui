@@ -314,13 +314,21 @@ export default {
         h(
           'div',
           {
-            class: ['ca-slider__lane', this.modifiers],
-            style: this.cssVariables,
-            on: {
-              transitionend: this.resetIndex
-            }
+            class: 'ca-slider__lane-wrap'
           },
-          [this.allSlides]
+          [
+            h(
+              'div',
+              {
+                class: ['ca-slider__lane', this.modifiers],
+                style: this.cssVariables,
+                on: {
+                  transitionend: this.resetIndex
+                }
+              },
+              [this.allSlides]
+            )
+          ]
         ),
         h('CaSliderDots', {
           class: 'ca-slider__dots',

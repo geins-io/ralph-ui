@@ -5,12 +5,14 @@
   align-items: center;
   width: 100%;
   &__arrow {
-    background: $c-light-gray;
-    width: 30px;
-    height: 30px;
+    background: $c-white;
+    width: 36px;
+    height: 36px;
     @include flex-calign;
     transition: all 200ms ease;
-    border: $border-dark;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+    border: $border-light;
     &--disabled {
       opacity: 0.2;
       pointer-events: none;

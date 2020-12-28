@@ -3,7 +3,7 @@
   margin: 0 auto;
   max-width: $site-width;
   width: calc(100% - #{$default-spacing});
-  @include bp(laptop) {
+  @include bp(tablet) {
     width: calc(100% - #{$default-spacing * 2});
   }
 }

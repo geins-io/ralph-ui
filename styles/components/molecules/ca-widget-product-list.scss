@@ -1,2 +1,7 @@
 .ca-widget-product-list {
+  &__title {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-l;
+    margin: 0 0 $px16;
+  }
 }

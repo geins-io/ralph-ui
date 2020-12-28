@@ -2,7 +2,6 @@
   $block: &;
   --slider-item-width: 72%;
   margin: 0 -#{$default-spacing/2};
-  overflow: hidden;
   @include bp(tablet) {
     --slider-item-width: 53%;
   }
