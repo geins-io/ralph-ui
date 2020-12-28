@@ -1,8 +1,9 @@
 .ca-slider {
-  overflow: hidden;
   touch-action: pinch-zoom;
-  max-width: 100%;
   position: relative;
+  &__lane-wrap {
+    overflow: hidden;
+  }
   &__lane {
     display: flex;
     transform: translateX(

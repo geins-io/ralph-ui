@@ -1,8 +1,30 @@
 .ca-product-list {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: -$list-spacing;
+  display: grid;
+  column-gap: $list-column-spacing;
+  row-gap: $list-row-spacing;
+  grid-template-columns: repeat($list-column-count, 1fr);
+  @include bp(tablet) {
+    @if $list-column-spacing-tablet != $list-column-spacing {
+      column-gap: $list-column-spacing-tablet;
+    }
+    @if $list-row-spacing-tablet != $list-row-spacing {
+      row-gap: $list-row-spacing-tablet;
+    }
+    @if $list-column-count-tablet != $list-column-count {
+      grid-template-columns: repeat($list-column-count-tablet, 1fr);
+    }
+  }
+  @include bp(laptop) {
+    @if $list-column-spacing-laptop != $list-column-spacing-tablet {
+      column-gap: $list-column-spacing-laptop;
+    }
+    @if $list-row-spacing-laptop != $list-row-spacing-tablet {
+      row-gap: $list-row-spacing-laptop;
+    }
+    @if $list-column-count-laptop != $list-column-count-tablet {
+      grid-template-columns: repeat($list-column-count-laptop, 1fr);
+    }
+  }
   &__empty {
     width: 100%;
     font-size: $font-size-l;

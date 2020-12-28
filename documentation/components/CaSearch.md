@@ -17,7 +17,7 @@ The search including search results<br><br> **SASS-path:** _./styles/components/
 <!-- @vuese:CaSearch:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|getSearchResults|Perform search|-|
+|handleSearchInput|Perform search|-|
 
 <!-- @vuese:CaSearch:methods:end -->
 

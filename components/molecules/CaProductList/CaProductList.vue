@@ -5,8 +5,7 @@
       :key="index"
       :product="product"
       :page-number="getPageNumber(index)"
-    >
-    </CaProductCard>
+    />
     <li v-if="productsEmpty" class="ca-product-list__empty">
       {{ $t('NO_PRODUCTS_MATCH') }}
     </li>

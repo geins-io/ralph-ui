@@ -9,7 +9,6 @@ Shell for displaying widget component based on type<br><br> **SASS-path:** _./st
 |---|---|---|---|---|
 |configuration|Configuration JSON object|`String`|`true`|-|
 |type|Type of widget|'Image', 'Text', 'Product list'|`true`|-|
-|size|Widget size|'full', 'half', 'third', 'fourth'|`true`|-|
 
 <!-- @vuese:CaWidget:props:end -->
 
