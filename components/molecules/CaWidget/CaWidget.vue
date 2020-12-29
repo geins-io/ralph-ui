@@ -7,6 +7,7 @@ import CaWidgetText from 'CaWidgetText';
 import CaWidgetImage from 'CaWidgetImage';
 import CaWidgetButtons from 'CaWidgetButtons';
 import CaWidgetProductList from 'CaWidgetProductList';
+import CaWidgetBanner from 'CaWidgetBanner';
 // @group Molecules
 // @vuese
 // Shell for displaying widget component based on type<br><br>
@@ -17,7 +18,8 @@ export default {
     CaWidgetImage,
     CaWidgetText,
     CaWidgetButtons,
-    CaWidgetProductList
+    CaWidgetProductList,
+    CaWidgetBanner
   },
   mixins: [],
   props: {
@@ -52,10 +54,12 @@ export default {
         return CaWidgetImage;
       } else if (this.type === 'Text') {
         return CaWidgetText;
-      } else if (this.type === 'Product list') {
-        return CaWidgetProductList;
       } else if (this.type === 'Buttons') {
         return CaWidgetButtons;
+      } else if (this.type === 'Product list') {
+        return CaWidgetProductList;
+      } else if (this.type === 'Banner') {
+        return CaWidgetBanner;
       } else return '';
     }
   },

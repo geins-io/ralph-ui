@@ -4,7 +4,7 @@
     <CaProductList
       v-if="configuration.SlideshowDisabled"
       class="ca-widget-product-list__list"
-      :products="products.products"
+      :products="allProducts"
       :page-size="take"
       :filters-active="false"
       :skip="0"
@@ -12,7 +12,7 @@
     <CaProductListSlider
       v-else
       class="ca-widget-product-list__list"
-      :products="products.products"
+      :products="allProducts"
       :page-size="take"
       :arrows="configuration.DisplayNavigationArrows"
       :dots="configuration.DisplayNavigationLinks"
@@ -58,6 +58,9 @@ export default {
   },
   data: () => ({}),
   computed: {
+    allProducts() {
+      return this.products ? this.products.products : [];
+    },
     take() {
       return this.configuration.PageCount * this.$config.productListRowSize;
     },

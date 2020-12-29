@@ -1,5 +1,9 @@
 <template>
-  <component :is="baseElem" :to="imageObj.Href || ''" class="ca-widget-image">
+  <component
+    :is="linkBaseElem"
+    v-bind="linkElemAttributes"
+    class="ca-widget-image"
+  >
     <CaImage
       class="ca-widget-image__image"
       size="1360w"
@@ -12,6 +16,7 @@
 </template>
 <script>
 import CaImage from 'CaImage';
+import MixLinkHandler from 'MixLinkHandler';
 // @group Molecules
 // @vuese
 // Widget displaying an image<br><br>
@@ -19,7 +24,7 @@ import CaImage from 'CaImage';
 export default {
   name: 'CaWidgetImage',
   components: { CaImage },
-  mixins: [],
+  mixins: [MixLinkHandler],
   props: {
     // Widget configuration object
     configuration: {
@@ -32,11 +37,8 @@ export default {
     imageObj() {
       return JSON.parse(this.configuration.Image);
     },
-    hasLink() {
+    href() {
       return this.imageObj.Href;
-    },
-    baseElem() {
-      return this.hasLink ? 'NuxtLink' : 'div';
     },
     altText() {
       return this.imageObj.AltText || 'Widget image';

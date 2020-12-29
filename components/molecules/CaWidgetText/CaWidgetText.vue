@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="ca-widget-text">
+  <div class="ca-widget-text" :class="textAlignmentClass">
     <component
       :is="getHeadingTag(configuration.TitleRenderMode)"
       v-if="configuration.Title"
@@ -39,7 +39,23 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    textAlignmentClass() {
+      const alignClass = 'ca-widget-text--';
+      switch (this.configuration.TextAlignment) {
+        case 1:
+          return alignClass + 'left';
+        case 2:
+          return alignClass + 'center';
+        case 3:
+          return alignClass + 'right';
+        case 4:
+          return alignClass + 'justify';
+        default:
+          return '';
+      }
+    }
+  },
   watch: {},
   mounted() {},
   methods: {
@@ -54,7 +70,7 @@ export default {
         return 'h3';
       }
       if (id === 3) {
-        return 'span';
+        return 'div';
       }
     }
   }

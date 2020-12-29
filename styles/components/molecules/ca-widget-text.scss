@@ -3,23 +3,38 @@
   text-align: center;
   padding: $px12 0;
   &__title {
+    max-width: $text-widget-max-width;
+    margin: 0 auto;
     font-family: $heading-font;
     font-weight: $font-weight-bold;
     font-size: $font-size-xxl;
     & + #{$block}__subtitle {
-      margin-top: $px4;
+      margin: $px4 auto 0;
     }
   }
   &__subtitle {
+    max-width: $text-widget-max-width;
+    margin: 0 auto;
     font-size: $font-size-l;
     font-weight: $font-weight-bold;
     & + #{$block}__body {
-      margin-top: $px8;
+      margin: $px8 auto 0;
     }
   }
   &__body {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: $text-widget-max-width;
+    margin: 0 auto;
+  }
+  &--left {
+    text-align: left;
+  }
+  &--center {
+    text-align: center;
+  }
+  &--right {
+    text-align: right;
+  }
+  &--justify {
+    text-align: justify;
   }
 }

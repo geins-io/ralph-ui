@@ -2,12 +2,14 @@ query widgetArea(
   $apiKey: String!
   $family: String!
   $areaName: String!
+  $alias: String!
   $displaySetting: String!
 ) {
   widgetArea(
     apiKey: $apiKey
     family: $family
     areaName: $areaName
+    alias: $alias
     displaySetting: $displaySetting
   ) {
     containers {

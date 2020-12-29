@@ -2,7 +2,8 @@ export const state = () => ({
   favorites: [],
   VATincluded: true,
   scrollTop: 0,
-  viewportWidth: 0
+  viewportWidth: 0,
+  hostname: ''
 });
 
 export const mutations = {
@@ -22,6 +23,9 @@ export const mutations = {
   },
   setViewportWidth(state) {
     state.viewportWidth = window.innerWidth;
+  },
+  setHostName(state, hostname) {
+    state.hostname = hostname;
   }
 };
 
@@ -79,6 +83,9 @@ export const actions = {
       '--scrollbar-width',
       scrollbarWidth + 'px'
     );
+  },
+  nuxtServerInit({ commit }, { req }) {
+    commit('setHostName', req.headers.host);
   }
 };
 

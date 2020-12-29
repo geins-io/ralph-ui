@@ -1,7 +1,7 @@
 <template>
   <component
-    :is="baseTag"
-    v-bind="attributes"
+    :is="linkBaseElem"
+    v-bind="linkElemAttributes"
     class="ca-button"
     :class="modifiers"
     @click="$emit('clicked')"
@@ -13,13 +13,14 @@
 </template>
 <script>
 import CaSpinner from 'CaSpinner';
+import MixLinkHandler from 'MixLinkHandler';
 // @group Atoms
 // A button for click events or links<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-button.scss_
 export default {
   name: 'CaButton',
   components: { CaSpinner },
-  mixins: [],
+  mixins: [MixLinkHandler],
   props: {
     // Set this to link button somewhere
     href: {
@@ -66,23 +67,10 @@ export default {
       default: false
     }
   },
-  data: () => ({}),
+  data: () => ({
+    noLinkElement: 'button'
+  }),
   computed: {
-    hasLink() {
-      return this.href !== '';
-    },
-    baseTag() {
-      if (this.hasLink) {
-        return this.href.includes('http') ? 'a' : 'NuxtLink';
-      } else return 'button';
-    },
-    attributes() {
-      if (this.hasLink) {
-        return this.href.includes('http')
-          ? { href: this.href, target: '_blank', rel: 'noopener' }
-          : { to: this.href };
-      } else return '';
-    },
     modifiers() {
       return {
         'ca-button--disabled': this.disabled,

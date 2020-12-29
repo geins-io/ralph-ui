@@ -27,6 +27,7 @@ export default {
           apiKey: this.$config.apiKey.toString(),
           family: this.family,
           areaName: this.areaName,
+          alias: this.alias,
           displaySetting: this.displaySetting
         };
       },
@@ -45,12 +46,16 @@ export default {
     // The widget area family
     family: {
       type: String,
-      required: true
+      default: ''
     },
     // The widget area name
     areaName: {
       type: String,
-      required: true
+      default: ''
+    },
+    alias: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({}),

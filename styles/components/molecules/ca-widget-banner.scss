@@ -1,0 +1,167 @@
+.ca-widget-banner {
+  $block: &;
+  line-height: 1.1;
+  font-size: 0.9rem;
+  &__content {
+    text-align: center;
+  }
+  &__text1 {
+    font-size: 1em;
+
+    & + #{$block}__button {
+      margin-top: 1.5em;
+    }
+    & + #{$block}__text2 {
+      margin-top: 0.33em;
+    }
+  }
+
+  &__text2 {
+    font-size: 2em;
+    font-weight: $font-weight-bold;
+    & + #{$block}__button {
+      margin-top: 1.5em;
+    }
+  }
+
+  &__inner {
+    position: relative;
+    overflow: hidden;
+    display: block;
+  }
+
+  &__button {
+    line-height: 1.4;
+  }
+
+  &__image {
+    transform: scale(1);
+    transition: transform 300ms ease;
+  }
+
+  &__image-wrap {
+    overflow: hidden;
+  }
+
+  &--link {
+    #{$block}__inner {
+      @include bp(laptop) {
+        &:hover {
+          #{$block}__image {
+            transform: scale(1.015);
+          }
+        }
+      }
+    }
+  }
+
+  &--full {
+    #{$block}__content {
+      @include calign;
+      width: 92%;
+      padding: 0 2%;
+      @include bp(tablet) {
+        width: 50%;
+      }
+    }
+    @include bp(tablet) {
+      font-size: 1.7vw;
+    }
+
+    @include bp(desktop) {
+      font-size: 1.2rem;
+    }
+  }
+
+  &--left {
+    #{$block}__content {
+      @include bp(tablet) {
+        left: 25%;
+        padding-left: 5%;
+      }
+    }
+  }
+
+  &--right {
+    #{$block}__content {
+      @include bp(tablet) {
+        left: 75%;
+        padding-right: 5%;
+      }
+    }
+  }
+
+  &--on-image {
+    #{$block}__content {
+      @include calign;
+      width: 92%;
+      padding: 0 2%;
+
+      @include bp(tablet) {
+        width: 80%;
+      }
+    }
+    &#{$block}--half {
+      @include bp(tablet) {
+        font-size: 1.6vw;
+      }
+      @include bp(desktop) {
+        font-size: 1.2rem;
+      }
+    }
+    &#{$block}--third {
+      @include bp(tablet) {
+        font-size: 1.5vw;
+      }
+      @include bp(desktop) {
+        font-size: 1.1rem;
+      }
+    }
+    &#{$block}--quarter {
+      @include bp(tablet) {
+        font-size: 1.4vw;
+      }
+      @include bp(desktop) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &--below-image {
+    #{$block}__content {
+      margin: 1.33em 0;
+      padding: 0 2%;
+    }
+    &#{$block}--half {
+      @include bp(tablet) {
+        font-size: 0.9rem;
+      }
+
+      @include bp(laptop) {
+        font-size: 1rem;
+      }
+    }
+    &#{$block}--third {
+      @include bp(tablet) {
+        font-size: 0.8rem;
+      }
+
+      @include bp(laptop) {
+        font-size: 1rem;
+      }
+    }
+    &#{$block}--quarter {
+      @include bp(tablet) {
+        font-size: 0.75rem;
+      }
+
+      @include bp(laptop) {
+        font-size: 0.85rem;
+      }
+
+      @include bp(desktop) {
+        font-size: 1rem;
+      }
+    }
+  }
+}
