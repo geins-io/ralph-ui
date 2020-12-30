@@ -12,7 +12,7 @@
           type="pagewidget"
           :alt="altText"
           :filename="imageObj.Filename"
-          :ratio="630 / 902"
+          :ratio="583 / 1360"
         />
       </div>
       <div

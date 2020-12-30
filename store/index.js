@@ -21,8 +21,8 @@ export const mutations = {
   setScrollTop(state) {
     state.scrollTop = window.pageYOffset;
   },
-  setViewportWidth(state) {
-    state.viewportWidth = window.innerWidth;
+  setViewportWidth(state, width = window.innerWidth) {
+    state.viewportWidth = width;
   },
   setHostName(state, hostname) {
     state.hostname = hostname;
@@ -86,6 +86,9 @@ export const actions = {
   },
   nuxtServerInit({ commit }, { req }) {
     commit('setHostName', req.headers.host);
+    if (this.$ua.deviceType() === 'pc') {
+      commit('setViewportWidth', 1360);
+    }
   }
 };
 
