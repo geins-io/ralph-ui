@@ -18,6 +18,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'linebreak-style': 0,
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    'vue/no-unused-components': 1
   }
 };
