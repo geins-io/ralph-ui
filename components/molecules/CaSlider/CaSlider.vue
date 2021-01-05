@@ -104,6 +104,11 @@ export default {
     arrowIconName: {
       type: String,
       default: 'chevron'
+    },
+    // Number of slides to scroll
+    slidesToScroll: {
+      type: Number,
+      default: 1
     }
   },
   data: () => ({
@@ -245,12 +250,12 @@ export default {
     // @vuese
     // Navigate to next slide
     nextSlide() {
-      this.shiftSlide(1, true);
+      this.shiftSlide(this.slidesToScroll, true);
     },
     // @vuese
     // Navigate to previous slide
     prevSlide() {
-      this.shiftSlide(-1, true);
+      this.shiftSlide(-this.slidesToScroll, true);
     },
     // @vuese
     // Handles the start of a touch or point and drag event
@@ -334,8 +339,10 @@ export default {
           class: 'ca-slider__dots',
           props: {
             slides: this.slides,
+            dots: this.nrOfSlides,
             visible: this.dots,
-            currentSlide: this.currentSlide
+            currentSlide: this.currentSlide,
+            slidesToScroll: this.slidesToScroll
           },
           on: {
             navigation: index => {
@@ -352,9 +359,8 @@ export default {
             maxReached: this.maxReached
           },
           on: {
-            navigation: slideChange => {
-              this.shiftSlide(slideChange, true);
-            }
+            prevSlide: this.prevSlide,
+            nextSlide: this.nextSlide
           }
         })
       ]
