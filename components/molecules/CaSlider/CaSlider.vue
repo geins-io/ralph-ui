@@ -189,7 +189,10 @@ export default {
       return this.nrOfSlides > 1;
     },
     maxReached() {
-      return !this.infinite && this.currentSlide + 1 === this.nrOfSlides;
+      return (
+        !this.infinite &&
+        this.currentSlide + this.slidesToScroll >= this.nrOfSlides
+      );
     },
     minReached() {
       return !this.infinite && this.currentSlide === 0;
@@ -215,6 +218,13 @@ export default {
     shiftSlide(slideChange, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
       this.currentSlide = this.currentSlide + slideChange;
+      if (!this.infinite) {
+        if (this.currentSlide < 0) {
+          this.currentSlide = 0;
+        } else if (this.currentSlide + this.slidesToScroll > this.nrOfSlides) {
+          this.currentSlide = this.nrOfSlides - this.slidesToScroll;
+        }
+      }
       this.$nextTick(() => {
         this.resetting = false;
       });
@@ -287,10 +297,10 @@ export default {
         const flick = deltaTime < this.flickThresholdTime;
         let slideShift = 0;
         // Work out what the movement was
-        if (Math.abs(deltaX) > this.targetWidth / 2) {
+        if (flick && Math.abs(deltaX) > this.flickThresholdDistance) {
+          slideShift = Math.sign(-deltaX) * this.slidesToScroll;
+        } else if (Math.abs(deltaX) > this.targetWidth / 2) {
           slideShift = Math.round(-deltaX / this.targetWidth);
-        } else if (flick && Math.abs(deltaX) > this.flickThresholdDistance) {
-          slideShift = Math.sign(-deltaX);
         }
         if (
           (slideShift > 0 && !this.maxReached) ||
@@ -302,8 +312,7 @@ export default {
       }
     }
   },
-  // eslint-disable-next-line object-shorthand
-  render: function(h) {
+  render(h) {
     return h(
       'div',
       {
