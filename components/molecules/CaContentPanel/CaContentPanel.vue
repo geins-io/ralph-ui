@@ -42,7 +42,8 @@ import eventbus from '~/plugins/event-bus.js';
 
 // @group Molecules
 // @vuese
-// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker<br><br>
+// A content panel to display content off canvas, for example the cart, the mobile navigation or a country picker<br>
+// Triggered like so: `$store.commit('contentpanel/open', {name: String, frame: String (optional)});`<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 export default {
   name: 'CaContentPanel',
@@ -98,9 +99,9 @@ export default {
       };
     },
     enterFrom() {
-      return this.$store.getters.viewportLaptop
-        ? this.enterFromDesktop
-        : this.enterFromMobile;
+      return this.$store.getters.viewportMobile
+        ? this.enterFromMobile
+        : this.enterFromDesktop;
     },
     transitionName() {
       return 'pop-from-' + this.enterFrom;
@@ -133,6 +134,8 @@ export default {
       newVal => {
         if (newVal === this.name) {
           this.open();
+        } else if (this.opened) {
+          this.opened = false;
         }
       }
     );

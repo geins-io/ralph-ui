@@ -6,7 +6,7 @@
       :class="[placementClass, modeClass]"
     >
       <div class="ca-snackbar__message">
-        {{ $store.state.snackbar.message }}
+        {{ snackbar.message }}
       </div>
     </div>
   </transition>

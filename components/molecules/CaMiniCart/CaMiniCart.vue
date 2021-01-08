@@ -2,7 +2,11 @@
   <button
     class="ca-mini-cart"
     aria-label="Open cart"
-    @click="$store.commit('contentpanel/open', 'cart')"
+    @click="
+      $store.commit('contentpanel/open', {
+        name: 'cart'
+      })
+    "
   >
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />

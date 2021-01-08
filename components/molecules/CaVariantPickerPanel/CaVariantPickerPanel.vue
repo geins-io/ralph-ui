@@ -3,7 +3,9 @@
     <button
       class="ca-variant-picker-panel__trigger"
       @click="
-        $store.commit('contentpanel/open', 'variant-picker-' + variantsLevel)
+        $store.commit('contentpanel/open', {
+          name: 'variant-picker-' + variantsLevel
+        })
       "
     >
       <CaColorIcon

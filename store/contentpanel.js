@@ -1,13 +1,22 @@
 export const state = () => ({
-  current: ''
+  current: '',
+  frame: ''
 });
 
 export const mutations = {
-  open(state, panelName) {
-    state.current = panelName;
+  open(state, settings) {
+    state.current = '';
+    if (settings.frame) {
+      state.frame = settings.frame;
+    }
+    state.current = settings.name;
   },
   close(state) {
     state.current = '';
+    state.frame = '';
+  },
+  setFrame(state, frame) {
+    state.frame = frame;
   }
 };
 

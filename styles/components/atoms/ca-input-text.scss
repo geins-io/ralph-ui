@@ -1,0 +1,92 @@
+.ca-input-text {
+  $block: &;
+  position: relative;
+  transition: border 0.2s ease;
+  height: 50px;
+  border: $border-dark;
+  background: $c-white;
+  &__wrap {
+    & + & {
+      margin: $px16 0 0;
+    }
+  }
+  &__label {
+    left: $px8;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    padding: rem-calc(1px) rem-calc(6px);
+    position: absolute;
+    transform: translateY(-50%);
+    top: 0;
+    font-size: $font-size-xs;
+    border-radius: rem-calc(10px);
+    background: inherit;
+  }
+  &__optional {
+    font-size: 0.8em;
+    margin-left: 2px;
+  }
+
+  &__input {
+    border: none;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    outline: none;
+    font-size: $font-size-s;
+    padding: 3px 15px 0 15px;
+  }
+
+  &__help-text {
+  }
+
+  &__spinner {
+    @include valign;
+    right: 15px;
+    background: #fff;
+  }
+
+  &--empty {
+    &:not(#{$block}--focused) {
+      #{$block}__label {
+        top: 50%;
+        font-size: $font-size-s;
+      }
+    }
+
+    // &#{$block}--area #{$block}__label {
+    //   top: 20px;
+    // }
+  }
+  &--focused {
+    border-color: $c-input-focused-border;
+    #{$block}__label {
+      font-weight: $font-weight-bold;
+    }
+  }
+  &--error {
+    #{$block}__container {
+      //border-color: $feedback-red;
+
+      //   @include icon($info) {
+      //     //color: $feedback-red;
+      //     @include valign;
+      //     right: 20px;
+      //     font-size: 1.2em;
+      //   }
+    }
+  }
+
+  &--success {
+    #{$block}__container {
+      // border-color: $feedback-green;
+
+      //   @include icon($check) {
+      //     color: $feedback-green;
+      //     @include valign;
+      //     right: 20px;
+      //     font-size: 1.2em;
+      //   }
+    }
+  }
+}

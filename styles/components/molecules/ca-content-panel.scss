@@ -62,5 +62,9 @@
     #{$block}__close-icon {
       display: none;
     }
+    @include bp(mobile-only) {
+      border-radius: $px20 $px20 0 0;
+      overflow: hidden;
+    }
   }
 }
