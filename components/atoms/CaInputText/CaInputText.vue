@@ -10,7 +10,7 @@
       <input
         :id="id"
         class="ca-input-text__input"
-        :type="type"
+        :type="inputType"
         :placeholder="placeholder"
         :autocomplete="autocomplete"
         :value="value"
@@ -22,6 +22,13 @@
         @focus="focused = true"
       />
       <CaSpinner class="ca-input-text__spinner" :loading="loading" />
+      <button
+        v-if="type === 'password' && value"
+        class="ca-input-text__toggle-password"
+        @click="togglePasswordVisible"
+      >
+        {{ passwordToggleText }}
+      </button>
     </div>
     <div v-if="description && allValid" class="ca-input-text__help-text">
       {{ description }}
@@ -103,12 +110,12 @@ export default {
   },
   data: () => ({
     fieldValid: true,
-    focused: false
+    focused: false,
+    passwordType: ''
   }),
   computed: {
     modifiers() {
       return {
-        'ca-input-text--password': this.inputType === 'password',
         'ca-input-text--error': !this.allValid,
         'ca-input-text--focused': this.focused,
         'ca-input-text--empty': !this.value
@@ -132,6 +139,12 @@ export default {
           }
         }
       );
+    },
+    inputType() {
+      return this.passwordType ? this.passwordType : this.type;
+    },
+    passwordToggleText() {
+      return this.inputType === 'password' ? 'Visa' : 'Dölj';
     }
   },
   watch: {},
@@ -145,6 +158,9 @@ export default {
     blurHandler() {
       this.focused = false;
       this.validateInput();
+    },
+    togglePasswordVisible() {
+      this.passwordType = this.passwordType ? '' : 'text';
     }
   }
 };

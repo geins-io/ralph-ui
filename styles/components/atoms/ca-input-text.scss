@@ -3,15 +3,15 @@
   position: relative;
   transition: border 0.2s ease;
   height: 50px;
-  border: $border-dark;
-  background: $c-white;
+  border: $input-border;
+  background: $c-input-background;
   &__wrap {
     & + & {
       margin: $px16 0 0;
     }
   }
   &__label {
-    left: $px8;
+    left: $px10;
     transition: all 0.2s ease;
     pointer-events: none;
     padding: rem-calc(1px) rem-calc(6px);
@@ -34,16 +34,22 @@
     background: transparent;
     outline: none;
     font-size: $font-size-s;
-    padding: 3px 15px 0 15px;
-  }
-
-  &__help-text {
+    padding: $px4 $px16 0 $px16;
   }
 
   &__spinner {
     @include valign;
-    right: 15px;
-    background: #fff;
+    right: $px16;
+    background: $c-input-background;
+  }
+
+  &__toggle-password {
+    @include valign;
+    right: $px16;
+    padding: $px4 $px10;
+    background: $c-medium-gray;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
   }
 
   &--empty {
@@ -53,10 +59,6 @@
         font-size: $font-size-s;
       }
     }
-
-    // &#{$block}--area #{$block}__label {
-    //   top: 20px;
-    // }
   }
   &--focused {
     border-color: $c-input-focused-border;
@@ -70,19 +72,6 @@
 
       //   @include icon($info) {
       //     //color: $feedback-red;
-      //     @include valign;
-      //     right: 20px;
-      //     font-size: 1.2em;
-      //   }
-    }
-  }
-
-  &--success {
-    #{$block}__container {
-      // border-color: $feedback-green;
-
-      //   @include icon($check) {
-      //     color: $feedback-green;
       //     @include valign;
       //     right: 20px;
       //     font-size: 1.2em;
