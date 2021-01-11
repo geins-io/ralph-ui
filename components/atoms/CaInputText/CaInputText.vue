@@ -27,7 +27,7 @@
       {{ description }}
     </div>
     <div
-      v-if="errorText && !allValid"
+      v-else-if="errorText"
       class="ca-input-text__help-text ca-input-text__help-text--error"
     >
       {{ errorText }}

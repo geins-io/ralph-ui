@@ -1,11 +1,11 @@
 <template>
   <CaContentPanel
-    class="ca-login-panel"
+    class="ca-account-panel"
     name="account"
     enter-from-mobile="bottom"
     :title="title"
   >
-    <div class="ca-login-panel__inner">
+    <div class="ca-account-panel__inner">
       <CaInputText id="email" v-model="email" label="Email" />
       <CaInputText
         v-if="!resetMode"
@@ -22,23 +22,26 @@
         label="Bekräfta lösenord"
       />
 
-      <div v-if="loginMode" class="ca-login-panel__actions">
-        <label>
-          <input v-model="rememberMe" type="checkbox" /> Kom ihåg mig
-        </label>
-        <button class="ca-login-panel__forgot" @click="setFrame('reset')">
+      <div v-if="loginMode" class="ca-account-panel__actions">
+        <CaInputCheckbox
+          id="remember"
+          v-model="rememberMe"
+          label="Kom ihåg mig"
+        />
+        <button class="ca-account-panel__forgot" @click="setFrame('reset')">
           Glömt lösenord?
         </button>
       </div>
       <div
         v-else-if="createMode"
-        class="ca-login-panel__actions ca-login-panel__actions--create"
+        class="ca-account-panel__actions ca-account-panel__actions--create"
       >
-        <label>
-          <input v-model="newsletterSubscribe" type="checkbox" /> Ja, jag vill
-          anmäla mig till nyhetsbrev
-        </label>
-        <div class="ca-login-panel__disclaimer">
+        <CaInputCheckbox
+          id="newsletter"
+          v-model="newsletterSubscribe"
+          label="Ja, jag vill anmäla mig till nyhetsbrev"
+        />
+        <div class="ca-account-panel__disclaimer">
           Genom att klicka "Skapa konto" accepterar du våra
           <a href="#">allmänna villkor</a> samt vår
           <a href="#">integritetspolicy</a>
@@ -46,14 +49,14 @@
       </div>
       <CaButton
         v-if="loginMode"
-        class="ca-login-panel__button"
+        class="ca-account-panel__button"
         type="full-width"
       >
         Logga in
       </CaButton>
       <CaButton
         v-if="!resetMode"
-        class="ca-login-panel__button"
+        class="ca-account-panel__button"
         type="full-width"
         :color="loginMode ? 'secondary' : 'default'"
         @clicked="createAccountHandler"
@@ -62,14 +65,14 @@
       </CaButton>
       <CaButton
         v-else
-        class="ca-login-panel__button ca-login-panel__button--reset"
+        class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
       >
         Återställ lösenord
       </CaButton>
       <button
         v-if="!loginMode"
-        class="ca-login-panel__back"
+        class="ca-account-panel__back"
         @click="setFrame('login')"
       >
         Tillbaka till inloggning
@@ -80,15 +83,16 @@
 <script>
 import CaContentPanel from 'CaContentPanel';
 import CaInputText from 'CaInputText';
+import CaInputCheckbox from 'CaInputCheckbox';
 import CaButton from 'CaButton';
 import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
 // (Description of component)<br><br>
-// **SASS-path:** _./styles/components/molecules/ca-login-panel.scss_
+// **SASS-path:** _./styles/components/molecules/ca-account-panel.scss_
 export default {
-  name: 'CaLoginPanel',
-  components: { CaContentPanel, CaInputText, CaButton },
+  name: 'CaAccountPanel',
+  components: { CaContentPanel, CaInputText, CaButton, CaInputCheckbox },
   mixins: [],
   props: {},
   data: () => ({
@@ -108,12 +112,17 @@ export default {
     resetMode() {
       return this.currentFrame === 'reset';
     },
+    changeMode() {
+      return this.currentFrame === 'change';
+    },
     title() {
       switch (this.currentFrame) {
         case 'create':
           return 'Skapa konto';
         case 'reset':
           return 'Återställ lösenord';
+        case 'change':
+          return 'Ändra lösenord';
         default:
           return 'Logga in';
       }
@@ -142,5 +151,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import 'molecules/ca-login-panel';
+@import 'molecules/ca-account-panel';
 </style>
