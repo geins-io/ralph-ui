@@ -1,11 +1,18 @@
 <template>
   <CaContentPanel
+    ref="contentpanel"
     class="ca-account-panel"
     name="account"
     enter-from-mobile="bottom"
     :title="title"
   >
     <div class="ca-account-panel__inner">
+      <CaFeedback
+        ref="feedback"
+        class="ca-account-panel__feedback"
+        :type="currentFeedback.type"
+        :message="currentFeedback.message"
+      />
       <CaInputText id="email" v-model="email" label="Email" />
       <CaInputText
         v-if="!resetMode"
@@ -41,6 +48,7 @@
           v-model="newsletterSubscribe"
           label="Ja, jag vill anmäla mig till nyhetsbrev"
         />
+        <!-- TODO: Länka villkor + integritetspolicy -->
         <div class="ca-account-panel__disclaimer">
           Genom att klicka "Skapa konto" accepterar du våra
           <a href="#">allmänna villkor</a> samt vår
@@ -51,6 +59,7 @@
         v-if="loginMode"
         class="ca-account-panel__button"
         type="full-width"
+        @clicked="login"
       >
         Logga in
       </CaButton>
@@ -59,7 +68,7 @@
         class="ca-account-panel__button"
         type="full-width"
         :color="loginMode ? 'secondary' : 'default'"
-        @clicked="createAccountHandler"
+        @clicked="createAccountHandler()"
       >
         Skapa konto
       </CaButton>
@@ -67,6 +76,7 @@
         v-else
         class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
+        @clicked="resetPassword"
       >
         Återställ lösenord
       </CaButton>
@@ -85,6 +95,7 @@ import CaContentPanel from 'CaContentPanel';
 import CaInputText from 'CaInputText';
 import CaInputCheckbox from 'CaInputCheckbox';
 import CaButton from 'CaButton';
+import CaFeedback from 'CaFeedback';
 import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
@@ -92,7 +103,13 @@ import { mapState } from 'vuex';
 // **SASS-path:** _./styles/components/molecules/ca-account-panel.scss_
 export default {
   name: 'CaAccountPanel',
-  components: { CaContentPanel, CaInputText, CaButton, CaInputCheckbox },
+  components: {
+    CaContentPanel,
+    CaInputText,
+    CaButton,
+    CaInputCheckbox,
+    CaFeedback
+  },
   mixins: [],
   props: {},
   data: () => ({
@@ -100,7 +117,33 @@ export default {
     password: '',
     passwordConfirm: '',
     rememberMe: true,
-    newsletterSubscribe: true
+    newsletterSubscribe: true,
+    currentFeedback: {
+      type: 'info',
+      message: ''
+    },
+    feedback: {
+      accountCreated: {
+        type: 'success',
+        message: 'Ditt konto har blivit skapat, du är nu inloggad'
+      },
+      wrongCredentials: {
+        type: 'error',
+        message: 'Fel email eller lösenord, försök gärna igen'
+      },
+      loggedIn: {
+        type: 'success',
+        message: 'Du har loggats in'
+      },
+      passwordResetted: {
+        type: 'success',
+        message: 'Ett mail för återställning av lösenord har skickats till dig'
+      },
+      passwordChanged: {
+        type: 'success',
+        message: 'Ditt lösenord har ändrats'
+      }
+    }
   }),
   computed: {
     loginMode() {
@@ -144,8 +187,32 @@ export default {
       if (this.loginMode) {
         this.setFrame('create');
       } else {
-        // post create account
+        this.createAccount();
       }
+    },
+    showFeedback(feedback) {
+      this.currentFeedback = feedback;
+      this.$refs.feedback.show();
+    },
+    closePanelAfterDelay() {
+      setTimeout(() => {
+        this.$refs.contentpanel.close();
+      }, 2000);
+    },
+    login() {
+      // TODO: Login
+      this.showFeedback(this.feedback.loggedIn);
+      this.closePanelAfterDelay();
+    },
+    createAccount() {
+      // TODO: Create account
+      this.showFeedback(this.feedback.accountCreated);
+      this.closePanelAfterDelay();
+    },
+    resetPassword() {
+      // TODO: Password reset
+      this.showFeedback(this.feedback.passwordResetted);
+      this.$refs.feedback.show();
     }
   }
 };

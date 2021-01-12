@@ -2,6 +2,9 @@
   &__inner {
     padding: $px20;
   }
+  &__feedback {
+    margin-bottom: $default-spacing;
+  }
   &__actions {
     margin: $px16 0;
     display: flex;
