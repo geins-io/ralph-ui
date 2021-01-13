@@ -17,10 +17,11 @@
         id="email"
         ref="inputEmail"
         v-model="email"
-        label="Email"
+        :label="$t('EMAIL')"
         validate="email"
-        error-text="Du måste ange en giltig email"
+        :error-text="$t('EMAIL_ERROR_NOT_VALID')"
         @validation="checkValid"
+        @keyup.enter="enterHandler"
       />
       <CaInputText
         v-show="!resetMode"
@@ -28,14 +29,13 @@
         ref="inputPassword"
         v-model="password"
         type="password"
-        label="Lösenord"
+        :label="$t('PASSWORD')"
         :validate="createMode ? 'passwordStrength' : ''"
         :error-text="
-          createMode
-            ? 'Ditt lösenord är för svagt'
-            : 'Du måste ange ett lösenord'
+          createMode ? $t('PASSWORD_ERROR_WEAK') : $t('PASSWORD_ERROR_EMPTY')
         "
         @validation="checkValid"
+        @keyup.enter="enterHandler"
       />
       <CaInputText
         v-if="createMode"
@@ -43,21 +43,22 @@
         ref="inputPasswordConfirm"
         v-model="passwordConfirm"
         type="password"
-        label="Bekräfta lösenord"
+        :label="$t('PASSWORD_CONFIRM')"
         validate="passwordMatch"
         :password-to-match="password"
-        error-text="Lösenorden matchar inte"
+        :error-text="$t('PASSWORD_ERROR_NO_MATCH')"
         @validation="checkValid"
+        @keyup.enter="enterHandler"
       />
 
       <div v-if="loginMode" class="ca-account-panel__actions">
         <CaInputCheckbox
           id="remember"
           v-model="rememberMe"
-          label="Kom ihåg mig"
+          :label="$t('REMEMBER_ME')"
         />
         <button class="ca-account-panel__forgot" @click="setFrame('reset')">
-          Glömt lösenord?
+          {{ $t('FORGOT_PASSWORD') }}
         </button>
       </div>
       <div
@@ -67,46 +68,52 @@
         <CaInputCheckbox
           id="newsletter"
           v-model="newsletterSubscribe"
-          label="Ja, jag vill anmäla mig till nyhetsbrev"
+          :label="$t('NEWSLETTER_SUBSCRIBE_CHOICE')"
         />
         <!-- TODO: Länka villkor + integritetspolicy -->
-        <div class="ca-account-panel__disclaimer">
-          Genom att klicka "Skapa konto" accepterar du våra
-          <a href="#">allmänna villkor</a> samt vår
-          <a href="#">integritetspolicy</a>
-        </div>
+        <i18n
+          path="ACCOUNT_DISCLAIMER"
+          tag="div"
+          class="ca-account-panel__disclaimer"
+        >
+          <a href="#">{{ $t('TERMS_AND_CONDITIONS') }}</a>
+          <a href="#">{{ $t('PRIVACY_POLICY') }}</a>
+        </i18n>
       </div>
       <CaButton
         v-if="loginMode"
         class="ca-account-panel__button"
         type="full-width"
+        :loading="loading"
         @clicked="login"
       >
-        Logga in
+        {{ $t('LOG_IN') }}
       </CaButton>
       <CaButton
         v-if="!resetMode"
         class="ca-account-panel__button"
         type="full-width"
+        :loading="createMode && loading"
         :color="loginMode ? 'secondary' : 'default'"
         @clicked="createAccountHandler()"
       >
-        Skapa konto
+        {{ $t('CREATE_ACCOUNT') }}
       </CaButton>
       <CaButton
         v-else
         class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
+        :loading="loading"
         @clicked="resetPassword"
       >
-        Återställ lösenord
+        {{ $t('RESET_PASSWORD') }}
       </CaButton>
       <button
         v-if="!loginMode"
         class="ca-account-panel__back"
         @click="setFrame('login')"
       >
-        Tillbaka till inloggning
+        {{ $t('BACK_TO_LOGIN') }}
       </button>
     </div>
   </CaContentPanel>
@@ -133,12 +140,13 @@ export default {
   },
   mixins: [],
   props: {},
-  data: () => ({
+  data: vm => ({
     email: '',
     password: '',
     passwordConfirm: '',
     rememberMe: true,
     newsletterSubscribe: true,
+    loading: false,
     currentFeedback: {
       type: 'info',
       message: ''
@@ -146,27 +154,27 @@ export default {
     feedback: {
       accountCreated: {
         type: 'success',
-        message: 'Ditt konto har blivit skapat, du är nu inloggad'
+        message: vm.$t('ACCOUNT_FEEDBACK_CREATED')
       },
       wrongCredentials: {
         type: 'error',
-        message: 'Fel email eller lösenord, försök gärna igen'
+        message: vm.$t('ACCOUNT_FEEDBACK_CREDENTIALS')
       },
       loggedIn: {
         type: 'success',
-        message: 'Du har loggats in'
+        message: vm.$t('ACCOUNT_FEEDBACK_LOGGED_IN')
       },
       passwordResetted: {
         type: 'success',
-        message: 'Ett mail för återställning av lösenord har skickats till dig'
+        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_RESET')
       },
       passwordChanged: {
         type: 'success',
-        message: 'Ditt lösenord har ändrats'
+        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_CHANGE')
       },
       notValid: {
         type: 'error',
-        message: 'Se till att alla fält är giltiga'
+        message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID')
       }
     }
   }),
@@ -186,13 +194,13 @@ export default {
     title() {
       switch (this.currentFrame) {
         case 'create':
-          return 'Skapa konto';
+          return this.$t('CREATE_ACCOUNT');
         case 'reset':
-          return 'Återställ lösenord';
+          return this.$t('RESET_PASSWORD');
         case 'change':
-          return 'Ändra lösenord';
+          return this.$t('CHANGE_PASSWORD');
         default:
-          return 'Logga in';
+          return this.$t('LOG_IN');
       }
     },
     currentFrame() {
@@ -226,6 +234,7 @@ export default {
       }, 2000);
     },
     login() {
+      this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput()
@@ -233,11 +242,14 @@ export default {
         // TODO: Login
         this.showFeedback(this.feedback.loggedIn);
         this.closePanelAfterDelay();
+        this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
+        this.loading = false;
       }
     },
     createAccount() {
+      this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput() &&
@@ -246,22 +258,36 @@ export default {
         // TODO: Create account
         this.showFeedback(this.feedback.accountCreated);
         this.closePanelAfterDelay();
+        this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
+        this.loading = false;
       }
     },
     resetPassword() {
+      this.loading = true;
       if (this.$refs.inputEmail.validateInput()) {
         // TODO: Password reset
         this.showFeedback(this.feedback.passwordResetted);
         this.$refs.feedback.show();
+        this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
+        this.loading = false;
       }
     },
     checkValid(valid) {
       if (valid) {
         this.$refs.feedback.hide();
+      }
+    },
+    enterHandler() {
+      if (this.loginMode) {
+        this.login();
+      } else if (this.createMode) {
+        this.createAccount();
+      } else if (this.resetMode) {
+        this.resetPassword();
       }
     }
   }
