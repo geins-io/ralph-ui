@@ -18,10 +18,16 @@
         :name="id"
         v-bind="$attrs"
         v-on="inputListeners"
+        @keyup="validateIfError"
         @blur="blurHandler"
         @focus="focused = true"
       />
       <CaSpinner class="ca-input-text__spinner" :loading="loading" />
+      <CaIcon
+        v-if="!allValid"
+        class="ca-input-text__error-icon"
+        name="alert-octagon"
+      />
       <button
         v-if="type === 'password' && value"
         class="ca-input-text__toggle-password"
@@ -29,12 +35,21 @@
       >
         {{ passwordToggleText }}
       </button>
+      <Password
+        v-show="validate === 'passwordStrength' && value"
+        v-model="value"
+        class="ca-input-text__password-strength"
+        :strength-meter-only="true"
+        strength-meter-class="Password__strength-meter ca-input-text__password-meter"
+        @score="setPasswordScore"
+      />
     </div>
+
     <div v-if="description && allValid" class="ca-input-text__help-text">
       {{ description }}
     </div>
     <div
-      v-else-if="errorText"
+      v-else-if="errorText && !allValid"
       class="ca-input-text__help-text ca-input-text__help-text--error"
     >
       {{ errorText }}
@@ -43,13 +58,15 @@
 </template>
 <script>
 import CaSpinner from 'CaSpinner';
+import CaIcon from 'CaIcon';
+import Password from 'vue-password-strength-meter';
 // @group Atoms
 // @vuese
 // (Description of component)<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-text.scss_
 export default {
   name: 'CaInputText',
-  components: { CaSpinner },
+  components: { CaSpinner, CaIcon, Password },
   mixins: [],
   props: {
     label: {
@@ -104,14 +121,21 @@ export default {
       type: String,
       default: '',
       validator(value) {
-        return ['', 'email'].includes(value);
+        return ['', 'email', 'passwordStrength', 'passwordMatch'].includes(
+          value
+        );
       }
+    },
+    passwordToMatch: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     fieldValid: true,
     focused: false,
-    passwordType: ''
+    passwordType: '',
+    passwordScore: 0
   }),
   computed: {
     modifiers() {
@@ -147,12 +171,33 @@ export default {
       return this.inputType === 'password' ? 'Visa' : 'Dölj';
     }
   },
-  watch: {},
+  watch: {
+    passwordToMatch() {
+      if (this.value) {
+        this.validateInput();
+      }
+    }
+  },
   mounted() {},
   methods: {
     validateInput() {
       if (this.validate === 'email') {
-        // TODO: Validate email
+        this.fieldValid = this.validateEmail(this.value);
+      } else if (this.validate === 'passwordStrength') {
+        this.fieldValid = this.passwordScore > 1;
+      } else if (this.validate === 'passwordMatch') {
+        this.fieldValid = this.value === this.passwordToMatch;
+      }
+      this.$emit('validation', this.fieldValid);
+      return this.fieldValid;
+    },
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    },
+    validateIfError() {
+      if (!this.allValid) {
+        this.validateInput();
       }
     },
     blurHandler() {
@@ -161,6 +206,9 @@ export default {
     },
     togglePasswordVisible() {
       this.passwordType = this.passwordType ? '' : 'text';
+    },
+    setPasswordScore(score) {
+      this.passwordScore = score;
     }
   }
 };

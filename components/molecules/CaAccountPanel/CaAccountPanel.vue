@@ -13,20 +13,34 @@
         :type="currentFeedback.type"
         :message="currentFeedback.message"
       />
-      <CaInputText id="email" v-model="email" label="Email" />
+      <CaInputText
+        id="email"
+        ref="inputEmail"
+        v-model="email"
+        label="Email"
+        validate="email"
+        error-text="Du måste ange en giltig email"
+      />
       <CaInputText
         v-if="!resetMode"
         id="password"
+        ref="inputPassword"
         v-model="password"
         type="password"
         label="Lösenord"
+        :validate="createMode ? 'passwordStrength' : ''"
+        error-text="Ditt lösenord är för svagt"
       />
       <CaInputText
         v-if="createMode"
         id="password-confirm"
+        ref="inputPasswordConfirm"
         v-model="passwordConfirm"
         type="password"
         label="Bekräfta lösenord"
+        validate="passwordMatch"
+        :password-to-match="password"
+        error-text="Lösenorden matchar inte"
       />
 
       <div v-if="loginMode" class="ca-account-panel__actions">
@@ -142,6 +156,10 @@ export default {
       passwordChanged: {
         type: 'success',
         message: 'Ditt lösenord har ändrats'
+      },
+      notValid: {
+        type: 'error',
+        message: 'Se till att alla fält är giltiga'
       }
     }
   }),
@@ -200,19 +218,35 @@ export default {
       }, 2000);
     },
     login() {
-      // TODO: Login
-      this.showFeedback(this.feedback.loggedIn);
-      this.closePanelAfterDelay();
+      if (this.$refs.inputEmail.validateInput()) {
+        // TODO: Login
+        this.showFeedback(this.feedback.loggedIn);
+        this.closePanelAfterDelay();
+      } else {
+        this.showFeedback(this.feedback.notValid);
+      }
     },
     createAccount() {
-      // TODO: Create account
-      this.showFeedback(this.feedback.accountCreated);
-      this.closePanelAfterDelay();
+      if (
+        this.$refs.inputEmail.validateInput() &&
+        this.$refs.inputPassword.validateInput() &&
+        this.$refs.inputPasswordConfirm.validateInput()
+      ) {
+        // TODO: Create account
+        this.showFeedback(this.feedback.accountCreated);
+        this.closePanelAfterDelay();
+      } else {
+        this.showFeedback(this.feedback.notValid);
+      }
     },
     resetPassword() {
-      // TODO: Password reset
-      this.showFeedback(this.feedback.passwordResetted);
-      this.$refs.feedback.show();
+      if (this.$refs.inputEmail.validateInput()) {
+        // TODO: Password reset
+        this.showFeedback(this.feedback.passwordResetted);
+        this.$refs.feedback.show();
+      } else {
+        this.showFeedback(this.feedback.notValid);
+      }
     }
   }
 };
