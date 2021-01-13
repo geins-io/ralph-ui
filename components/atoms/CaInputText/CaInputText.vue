@@ -187,6 +187,8 @@ export default {
         this.fieldValid = this.passwordScore > 1;
       } else if (this.validate === 'passwordMatch') {
         this.fieldValid = this.value === this.passwordToMatch;
+      } else if (this.required) {
+        this.fieldValid = this.value !== '';
       }
       this.$emit('validation', this.fieldValid);
       return this.fieldValid;

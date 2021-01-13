@@ -20,16 +20,22 @@
         label="Email"
         validate="email"
         error-text="Du måste ange en giltig email"
+        @validation="checkValid"
       />
       <CaInputText
-        v-if="!resetMode"
+        v-show="!resetMode"
         id="password"
         ref="inputPassword"
         v-model="password"
         type="password"
         label="Lösenord"
         :validate="createMode ? 'passwordStrength' : ''"
-        error-text="Ditt lösenord är för svagt"
+        :error-text="
+          createMode
+            ? 'Ditt lösenord är för svagt'
+            : 'Du måste ange ett lösenord'
+        "
+        @validation="checkValid"
       />
       <CaInputText
         v-if="createMode"
@@ -41,6 +47,7 @@
         validate="passwordMatch"
         :password-to-match="password"
         error-text="Lösenorden matchar inte"
+        @validation="checkValid"
       />
 
       <div v-if="loginMode" class="ca-account-panel__actions">
@@ -200,6 +207,7 @@ export default {
   methods: {
     setFrame(frame) {
       this.$store.commit('contentpanel/setFrame', frame);
+      this.$refs.feedback.hide();
     },
     createAccountHandler() {
       if (this.loginMode) {
@@ -218,7 +226,10 @@ export default {
       }, 2000);
     },
     login() {
-      if (this.$refs.inputEmail.validateInput()) {
+      if (
+        this.$refs.inputEmail.validateInput() &&
+        this.$refs.inputPassword.validateInput()
+      ) {
         // TODO: Login
         this.showFeedback(this.feedback.loggedIn);
         this.closePanelAfterDelay();
@@ -246,6 +257,11 @@ export default {
         this.$refs.feedback.show();
       } else {
         this.showFeedback(this.feedback.notValid);
+      }
+    },
+    checkValid(valid) {
+      if (valid) {
+        this.$refs.feedback.hide();
       }
     }
   }
