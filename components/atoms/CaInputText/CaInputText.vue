@@ -36,14 +36,6 @@
       >
         {{ passwordToggleText }}
       </button>
-      <Password
-        v-show="validate === 'passwordStrength' && value"
-        v-model="value"
-        class="ca-input-text__password-strength"
-        :strength-meter-only="true"
-        strength-meter-class="Password__strength-meter ca-input-text__password-meter"
-        @score="setPasswordScore"
-      />
     </div>
 
     <div v-if="description && allValid" class="ca-input-text__help-text">
@@ -60,14 +52,13 @@
 <script>
 import CaSpinner from 'CaSpinner';
 import CaIcon from 'CaIcon';
-import Password from 'vue-password-strength-meter';
 // @group Atoms
 // @vuese
 // Text field, use v-model to bind value<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-text.scss_
 export default {
   name: 'CaInputText',
-  components: { CaSpinner, CaIcon, Password },
+  components: { CaSpinner, CaIcon },
   mixins: [],
   props: {
     // The label of the field, showed as "placeholder" when field empty or not in focus
@@ -219,7 +210,7 @@ export default {
       if (this.validate === 'email') {
         this.fieldValid = this.validateEmail(this.value);
       } else if (this.validate === 'passwordStrength') {
-        this.fieldValid = this.passwordScore > 1;
+        this.fieldValid = this.value.length > 6;
       } else if (this.validate === 'passwordMatch') {
         this.fieldValid = this.value === this.passwordToMatch;
       } else if (this.required) {
@@ -254,12 +245,6 @@ export default {
     // Toggle field type for password
     togglePasswordVisible() {
       this.passwordType = this.passwordType ? '' : 'text';
-    },
-    // @vuese
-    // Sets the password score from the password strength meter
-    // @arg score (Number)
-    setPasswordScore(score) {
-      this.passwordScore = score;
     }
   }
 };

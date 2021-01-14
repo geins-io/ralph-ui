@@ -46,7 +46,6 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |validateIfError|Validates field instantly if not valid, used on keyup|-|
 |blurHandler|Controls what happens on field blur|-|
 |togglePasswordVisible|Toggle field type for password|-|
-|setPasswordScore|Sets the password score from the password strength meter|score (Number)|
 
 <!-- @vuese:CaInputText:methods:end -->
 
