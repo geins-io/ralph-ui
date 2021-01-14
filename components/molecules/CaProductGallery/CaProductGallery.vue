@@ -1,6 +1,6 @@
 <template>
   <div class="ca-product-gallery">
-    <ul class="ca-product-gallery__nav only-desktop">
+    <ul class="ca-product-gallery__nav only-computer">
       <li
         v-for="(image, index) in images"
         :key="index"

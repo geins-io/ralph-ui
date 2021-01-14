@@ -29,7 +29,7 @@
       right: calc(#{$default-spacing} / 2);
     }
     @include bp(laptop) {
-      top: $header-height-desktop + $default-spacing;
+      top: $header-height-computer + $default-spacing;
       right: $default-spacing;
     }
   }

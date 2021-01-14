@@ -17,30 +17,30 @@
       </div>
       <div
         v-if="
-          configuration.Text1 || configuration.Text2 || configuration.ButtonText
+          configuration.text1 || configuration.text2 || configuration.buttonText
         "
         class="ca-widget-banner__content"
       >
         <p
-          v-if="configuration.Text1"
+          v-if="configuration.text1"
           class="ca-widget-banner__text1"
           :style="'color:' + textColorHex"
         >
-          {{ configuration.Text1 }}
+          {{ configuration.text1 }}
         </p>
         <p
-          v-if="configuration.Text2"
+          v-if="configuration.text2"
           class="ca-widget-banner__text2"
           :style="'color:' + textColorHex"
         >
-          {{ configuration.Text2 }}
+          {{ configuration.text2 }}
         </p>
         <CaButton
-          v-if="configuration.ButtonText"
+          v-if="configuration.buttonText"
           class="ca-widget-banner__button"
-          :size="$store.getters.viewportLaptop ? 'm' : 's'"
+          :size="$store.getters.viewportComputer ? 'm' : 's'"
         >
-          {{ configuration.ButtonText }}
+          {{ configuration.buttonText }}
         </CaButton>
       </div>
     </component>
@@ -71,7 +71,7 @@ export default {
       const modifiers = [];
       const baseClass = 'ca-widget-banner--';
 
-      modifiers.push(baseClass + this.configuration.ClassNames);
+      modifiers.push(baseClass + this.configuration.classNames);
 
       let placement = '';
       switch (this.textAndButtonPlacement) {
@@ -100,30 +100,30 @@ export default {
     },
     textAndButtonPlacement() {
       return this.fullWidth
-        ? this.configuration.TextAndButtonPlacementFullWidth
-        : this.configuration.TextAndButtonPlacement;
+        ? this.configuration.textAndButtonPlacementFullWidth
+        : this.configuration.textAndButtonPlacement;
     },
     textColorHex() {
-      return this.configuration.TextColor === 0
+      return this.configuration.textColor === 0
         ? this.$config.bannerWidgetPrimaryColor
         : this.$config.bannerWidgetSecondaryColor;
     },
     textColor() {
-      return this.configuration.TextColor === 0
+      return this.configuration.textColor === 0
         ? 'color-primary'
         : 'color-secondary';
     },
     fullWidth() {
-      return this.configuration.ClassNames === 'full';
+      return this.configuration.classNames === 'full';
     },
     imageObj() {
-      return JSON.parse(this.configuration.Image);
+      return JSON.parse(this.configuration.image);
     },
     href() {
-      return this.imageObj.Href;
+      return this.imageObj.href;
     },
     altText() {
-      return this.imageObj.AltText || 'Widget image';
+      return this.imageObj.altText || 'Widget image';
     }
   },
   watch: {},

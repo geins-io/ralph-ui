@@ -6,6 +6,7 @@
       class="ca-slider-dots__dot"
     >
       <button
+        v-if="index % slidesToScroll === 0"
         class="ca-slider-dots__trigger"
         :class="getCurrentClass(index)"
         @click="$emit('navigation', index)"
@@ -37,6 +38,11 @@ export default {
     currentSlide: {
       type: Number,
       required: true
+    },
+    // Number of slides per dot
+    slidesToScroll: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({}),
@@ -48,7 +54,9 @@ export default {
     // Returns current class to dot if that slide is active
     // @arg index (Number)
     getCurrentClass(index) {
-      return this.currentSlide % this.slides.length === index
+      return Math.ceil(this.currentSlide / this.slidesToScroll) %
+        Math.ceil(this.slides.length / this.slidesToScroll) ===
+        Math.ceil(index / this.slidesToScroll)
         ? 'ca-slider-dots__trigger--current'
         : '';
     }

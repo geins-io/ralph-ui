@@ -6,6 +6,8 @@
     :arrows="products.length > 1 && arrows"
     :nr-of-slides="products.length"
     :arrow-icon-name="arrowIconName"
+    :slides-to-scroll="slidesToScroll"
+    :infinite="false"
   >
     <template #slides="{ slideMeta }">
       <CaSlide
@@ -70,6 +72,9 @@ export default {
         prodArray.push({});
       }
       return prodArray;
+    },
+    slidesToScroll() {
+      return this.$config.productListScrollSize[this.$store.getters.viewport];
     }
   },
   watch: {},

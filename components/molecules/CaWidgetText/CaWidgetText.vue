@@ -2,23 +2,23 @@
 <template>
   <div class="ca-widget-text" :class="textAlignmentClass">
     <component
-      :is="getHeadingTag(configuration.TitleRenderMode)"
-      v-if="configuration.Title"
+      :is="getHeadingTag(configuration.titleRenderMode)"
+      v-if="configuration.title"
       class="ca-widget-text__title"
     >
-      {{ configuration.Title }}
+      {{ configuration.title }}
     </component>
     <component
-      :is="getHeadingTag(configuration.SubtitleRenderMode)"
-      v-if="configuration.Subtitle"
+      :is="getHeadingTag(configuration.subtitleRenderMode)"
+      v-if="configuration.subtitle"
       class="ca-widget-text__subtitle"
     >
-      {{ configuration.Subtitle }}
+      {{ configuration.subtitle }}
     </component>
     <div
-      v-if="configuration.Text"
+      v-if="configuration.text"
       class="ca-widget-text__body"
-      v-html="configuration.Text"
+      v-html="configuration.text"
     ></div>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
   computed: {
     textAlignmentClass() {
       const alignClass = 'ca-widget-text--';
-      switch (this.configuration.TextAlignment) {
+      switch (this.configuration.textAlignment) {
         case 1:
           return alignClass + 'left';
         case 2:

@@ -35,7 +35,7 @@ export default {
   data: () => ({}),
   computed: {
     imageObj() {
-      return JSON.parse(this.configuration.Image);
+      return JSON.parse(this.configuration.image);
     },
     href() {
       return this.imageObj.Href;

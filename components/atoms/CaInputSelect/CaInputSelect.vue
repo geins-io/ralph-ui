@@ -7,7 +7,7 @@
       </span>
     </label>
     <div
-      v-if="$store.getters.viewportLaptop"
+      v-if="$store.getters.viewportComputer"
       class="ca-input-select__container"
     >
       <div class="ca-input-select__selected" @click="toggleOptions">

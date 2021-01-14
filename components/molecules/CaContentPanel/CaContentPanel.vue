@@ -1,7 +1,12 @@
 <template>
   <div>
     <transition :name="transitionName">
-      <section v-if="opened" class="ca-content-panel" :class="modifiers">
+      <section
+        v-if="opened"
+        ref="contentpanel"
+        class="ca-content-panel"
+        :class="modifiers"
+      >
         <CaIcon class="ca-content-panel__close-icon" name="x" />
         <header class="ca-content-panel__header">
           <!-- The content panel header -->
@@ -36,7 +41,7 @@
 import CaOverlay from 'CaOverlay';
 import CaIcon from 'CaIcon';
 import CaIconAndText from 'CaIconAndText';
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { mapState } from 'vuex';
 import eventbus from '~/plugins/event-bus.js';
 
@@ -68,13 +73,13 @@ export default {
       default: 'right'
     },
     // Direction from which to enter from on larger screens
-    enterFromDesktop: {
+    enterFromComputer: {
       // 'right', 'left'
       type: String,
       default: 'right'
     },
     // True if panel should only exist on bigger screens
-    onlyDesktop: {
+    onlyComputer: {
       type: Boolean,
       // `false`
       default: false
@@ -99,9 +104,9 @@ export default {
       };
     },
     enterFrom() {
-      return this.$store.getters.viewportMobile
+      return this.$store.getters.viewport === 'phone'
         ? this.enterFromMobile
-        : this.enterFromDesktop;
+        : this.enterFromComputer;
     },
     transitionName() {
       return 'pop-from-' + this.enterFrom;
@@ -111,8 +116,8 @@ export default {
   watch: {
     viewportWidth(newVal) {
       if (
-        (newVal >= 1024 && this.onlyMobile) ||
-        (newVal < 1024 && this.onlyDesktop)
+        (newVal >= this.$config.laptopWidth && this.onlyMobile) ||
+        (newVal < this.$config.laptopWidth && this.onlyComputer)
       ) {
         this.close();
       }
@@ -148,19 +153,16 @@ export default {
     // Open the content panel
     open() {
       this.$store.dispatch('setScrollbarWidth');
-      // const options = {
-      //   reserveScrollBarGap: true
-      // };
-      disableBodyScroll('.ca-content-panel');
       this.opened = true;
-      // document.body.classList.add('content-panel-open');
+      this.$nextTick(() => {
+        disableBodyScroll(this.$refs.contentpanel);
+      });
     },
     // Close the content panel. Can be triggered via eventbus call `close-content-panel`
     close() {
-      // document.body.classList.remove('content-panel-open');
+      enableBodyScroll(this.$refs.contentpanel);
       this.$store.commit('contentpanel/close');
       this.opened = false;
-      clearAllBodyScrollLocks();
     }
   }
 };

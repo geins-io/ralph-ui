@@ -1,8 +1,8 @@
 <template>
   <div class="ca-widget-product-list">
-    <h2 class="ca-widget-product-list__title">{{ configuration.Title }}</h2>
+    <h2 class="ca-widget-product-list__title">{{ configuration.title }}</h2>
     <CaProductList
-      v-if="configuration.SlideshowDisabled"
+      v-if="configuration.slideshowDisabled"
       class="ca-widget-product-list__list"
       :products="allProducts"
       :page-size="take"
@@ -14,8 +14,8 @@
       class="ca-widget-product-list__list"
       :products="allProducts"
       :page-size="take"
-      :arrows="configuration.DisplayNavigationArrows"
-      :dots="configuration.DisplayNavigationLinks"
+      :arrows="configuration.displayNavigationArrows"
+      :dots="configuration.displayNavigationLinks"
     />
   </div>
 </template>
@@ -62,17 +62,17 @@ export default {
       return this.products ? this.products.products : [];
     },
     take() {
-      return this.configuration.PageCount * this.$config.productListRowSize;
+      return this.configuration.pageCount * this.$config.productListRowSize;
     },
     searchFilter() {
       const filterObj = {};
-      filterObj.categories = this.configuration.SearchParameters.Categories;
-      filterObj.brands = this.configuration.SearchParameters.Brands;
-      filterObj.aliases = this.configuration.SearchParameters.Aliases;
+      filterObj.categories = this.configuration.searchParameters.Categories;
+      filterObj.brands = this.configuration.searchParameters.Brands;
+      filterObj.aliases = this.configuration.searchParameters.Aliases;
       return filterObj;
     },
     sort() {
-      switch (this.configuration.SearchParameters.Sort) {
+      switch (this.configuration.searchParameters.Sort) {
         case 'MOSTSOLD':
           return 'MOST_SOLD';
         case 'PRICEDESC':
