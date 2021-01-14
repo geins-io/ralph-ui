@@ -30,7 +30,7 @@ export default {
   data: () => ({}),
   computed: {
     buttons() {
-      return JSON.parse(this.configuration.Buttons);
+      return JSON.parse(this.configuration.buttons);
     }
   },
   watch: {},
