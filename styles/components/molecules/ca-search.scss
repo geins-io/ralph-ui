@@ -11,7 +11,7 @@
     top: 50%;
     margin-top: calc(-#{$search-input-height}/ 2);
     left: 0;
-    z-index: $z-index-search-desktop;
+    z-index: $z-index-search-computer;
   }
   &__bar {
     @include bp(tablet-down) {

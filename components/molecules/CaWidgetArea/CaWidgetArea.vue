@@ -61,7 +61,7 @@ export default {
   data: () => ({}),
   computed: {
     displaySetting() {
-      return this.$store.getters.viewportMobile ? 'mobile' : 'desktop';
+      return this.$store.getters.viewport === 'mobile' ? 'mobile' : 'desktop';
     },
     containers() {
       return this.widgetArea &&

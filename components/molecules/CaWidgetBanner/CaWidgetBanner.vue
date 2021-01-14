@@ -38,7 +38,7 @@
         <CaButton
           v-if="configuration.ButtonText"
           class="ca-widget-banner__button"
-          :size="$store.getters.viewportLaptop ? 'm' : 's'"
+          :size="$store.getters.viewportComputer ? 'm' : 's'"
         >
           {{ configuration.ButtonText }}
         </CaButton>

@@ -14,7 +14,7 @@
     </div>
     <div
       v-if="$store.getters['cart/totalQuantity'] > 0"
-      class="ca-mini-cart__value only-desktop"
+      class="ca-mini-cart__value only-computer"
     >
       {{ $store.getters.getSellingPrice($store.state.cart.data.total) }}
     </div>

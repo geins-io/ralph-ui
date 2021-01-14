@@ -1,7 +1,7 @@
 <template>
   <NuxtLink to="/" class="ca-favorites" :title="$t('FAVORITES_LABEL')">
     <CaIcon name="heart" class="ca-favorites__icon" />
-    <span class="ca-favorites__text only-desktop">
+    <span class="ca-favorites__text only-computer">
       {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})
     </span>
     <CaNotificationBadge
