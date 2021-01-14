@@ -5,14 +5,14 @@
       aria-label="Arrow left"
       :class="{ 'ca-slider-arrows__arrow--disabled': minReached }"
       :icon-name="iconName + '-left'"
-      @clicked="$emit('navigation', -1)"
+      @clicked="$emit('prevSlide')"
     />
     <CaIconButton
       class="ca-slider-arrows__arrow ca-slider-arrows__arrow--right"
       aria-label="Arrow right"
       :class="{ 'ca-slider-arrows__arrow--disabled': maxReached }"
       :icon-name="iconName + '-right'"
-      @clicked="$emit('navigation', 1)"
+      @clicked="$emit('nextSlide')"
     />
   </div>
 </template>

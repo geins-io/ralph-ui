@@ -1,7 +1,7 @@
 <template>
   <div class="ca-checkout-header">
     <CaIconButton
-      v-if="!$store.getters.viewportLaptop"
+      v-if="!$store.getters.viewportComputer"
       class="ca-checkout-header__back"
       href="/"
       icon-name="chevron-left"
@@ -12,7 +12,7 @@
     </NuxtLink>
     <h1 class="ca-checkout-header__title">{{ title }}</h1>
     <CaButton
-      v-if="$store.getters.viewportLaptop"
+      v-if="$store.getters.viewportComputer"
       class="ca-checkout-header__button"
       color="secondary"
       href="/"

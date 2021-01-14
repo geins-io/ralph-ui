@@ -72,13 +72,13 @@ export default {
       default: 'right'
     },
     // Direction from which to enter from on larger screens
-    enterFromDesktop: {
+    enterFromComputer: {
       // 'right', 'left'
       type: String,
       default: 'right'
     },
     // True if panel should only exist on bigger screens
-    onlyDesktop: {
+    onlyComputer: {
       type: Boolean,
       // `false`
       default: false
@@ -103,8 +103,8 @@ export default {
       };
     },
     enterFrom() {
-      return this.$store.getters.viewportLaptop
-        ? this.enterFromDesktop
+      return this.$store.getters.viewportComputer
+        ? this.enterFromComputer
         : this.enterFromMobile;
     },
     transitionName() {
@@ -115,8 +115,8 @@ export default {
   watch: {
     viewportWidth(newVal) {
       if (
-        (newVal >= 1024 && this.onlyMobile) ||
-        (newVal < 1024 && this.onlyDesktop)
+        (newVal >= this.$config.laptopWidth && this.onlyMobile) ||
+        (newVal < this.$config.laptopWidth && this.onlyComputer)
       ) {
         this.close();
       }

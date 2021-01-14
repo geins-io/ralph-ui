@@ -3,7 +3,8 @@ export const state = () => ({
   VATincluded: true,
   scrollTop: 0,
   viewportWidth: 0,
-  hostname: ''
+  hostname: '',
+  config: {}
 });
 
 export const mutations = {
@@ -26,6 +27,9 @@ export const mutations = {
   },
   setHostName(state, hostname) {
     state.hostname = hostname;
+  },
+  setConfig(state, config) {
+    state.config.breakpoints = config.breakpoints;
   }
 };
 
@@ -86,6 +90,7 @@ export const actions = {
   },
   nuxtServerInit({ commit }, { req }) {
     commit('setHostName', req.headers.host);
+    commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {
       commit('setViewportWidth', 1360);
     }
@@ -96,11 +101,19 @@ export const getters = {
   siteIsAtTop(state) {
     return state.scrollTop <= 10;
   },
-  viewportLaptop(state) {
-    return state.viewportWidth >= 1024;
+  viewportComputer(state) {
+    return state.viewportWidth >= state.config.breakpoints.laptop;
   },
-  viewportMobile(state) {
-    return state.viewportWidth < 768;
+  viewport(state) {
+    if (state.viewportWidth < state.config.breakpoints.tablet) {
+      return 'phone';
+    } else if (state.viewportWidth < state.config.breakpoints.laptop) {
+      return 'tablet';
+    } else if (state.viewportWidth < state.config.breakpoints.desktop) {
+      return 'laptop';
+    } else {
+      return 'desktop';
+    }
   },
   isFavorite: state => prodId => {
     return state.favorites.includes(prodId);

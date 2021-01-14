@@ -6,7 +6,7 @@
   &__logo {
     width: $checkout-logo-width;
     @include bp(laptop) {
-      width: $checkout-logo-width-desktop;
+      width: $checkout-logo-width-computer;
     }
   }
   &__title {
