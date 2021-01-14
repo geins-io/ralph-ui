@@ -1,0 +1,44 @@
+.ca-input-checkbox {
+  $block: &;
+  $checkbox-size: rem-calc(20px);
+  display: flex;
+  cursor: pointer;
+  &__box {
+    @include flex-calign;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    background-color: $c-white;
+    border: $border-dark;
+    transition: all 150ms ease;
+    margin: 0 $px10 0 0;
+  }
+
+  &__check {
+    color: $c-white;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  &__label {
+    line-height: $checkbox-size;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__description {
+    color: $c-text-secondary;
+    margin-top: 3px;
+  }
+
+  &--checked {
+    #{$block}__box {
+      background-color: $c-input-checkbox-checked-bg;
+      border-color: $c-input-checkbox-checked-bg;
+    }
+    #{$block}__check {
+      opacity: 1;
+    }
+  }
+}

@@ -2,18 +2,31 @@
   display: inline-block;
   background: $c-button-main-bg;
   color: $c-button-main-txt;
+  border: $button-main-border;
   font-size: $font-size-m;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
   padding: 0.65em 2em;
   white-space: nowrap;
   position: relative;
+  transition: background 150ms ease;
+  &:hover {
+    background: $c-button-main-bg-hover;
+  }
   &__spinner {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-top: -10px;
     margin-left: -10px;
+  }
+  &--secondary {
+    background: $c-button-secondary-bg;
+    color: $c-button-secondary-txt;
+    border: $button-secondary-border;
+    &:hover {
+      background: $c-button-secondary-bg-hover;
+    }
   }
   &--small {
     padding: 0.6em 0.9em;
@@ -28,11 +41,6 @@
   &--disabled {
     opacity: 0.3;
     pointer-events: none;
-  }
-  &--secondary {
-    background: $c-button-secondary-bg;
-    color: $c-button-secondary-txt;
-    border: $c-button-secondary-border;
   }
   &--loading {
     color: transparent;

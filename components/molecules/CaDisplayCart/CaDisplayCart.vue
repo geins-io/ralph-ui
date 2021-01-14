@@ -2,7 +2,6 @@
   <CaContentPanel
     class="ca-display-cart"
     name="cart"
-    enter-from-mobile="right"
     :title="$t('CART') + ' (' + $store.getters['cart/totalQuantity'] + ')'"
   >
     <div

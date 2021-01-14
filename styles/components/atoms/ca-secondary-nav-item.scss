@@ -1,8 +1,11 @@
 .ca-secondary-nav-item {
   border-top: $border-light;
   background: $c-lightest-gray;
-  a {
+  a,
+  button {
     padding: $px16;
     display: block;
+    width: 100%;
+    text-align: left;
   }
 }

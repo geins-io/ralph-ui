@@ -1,0 +1,52 @@
+.ca-feedback {
+  $block: &;
+  display: flex;
+  padding: rem-calc(14px) $px12 rem-calc(14px) rem-calc(18px);
+  border-radius: 4px;
+  background: $c-info;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  &::before {
+    content: '';
+    display: block;
+    opacity: 96%;
+    background: $c-white;
+    width: calc(100% - #{rem-calc(6px)});
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 6px;
+    z-index: 1;
+  }
+  &__icon {
+    z-index: 2;
+    flex-shrink: 0;
+    font-size: 17px;
+    margin-right: $px10;
+  }
+  &__message {
+    z-index: 2;
+  }
+  &__close {
+    z-index: 2;
+    flex-shrink: 0;
+    margin-left: auto;
+    line-height: 0;
+  }
+
+  &--success {
+    background: $c-success;
+    #{$block}__icon {
+      color: $c-success;
+    }
+  }
+  &--error {
+    background: $c-error;
+    #{$block}__icon {
+      color: $c-error;
+    }
+  }
+}

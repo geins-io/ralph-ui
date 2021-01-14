@@ -1,0 +1,102 @@
+.ca-input-text {
+  $block: &;
+  position: relative;
+  transition: border 0.2s ease;
+  height: 50px;
+  border: $input-border;
+  background: $c-input-background;
+  &__wrap {
+    & + & {
+      margin: $px16 0 0;
+    }
+  }
+  &__label {
+    left: $px10;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    padding: rem-calc(1px) rem-calc(6px);
+    position: absolute;
+    transform: translateY(-50%);
+    top: 0;
+    font-size: $font-size-xs;
+    border-radius: rem-calc(10px);
+    background: inherit;
+  }
+  &__optional {
+    font-size: 0.8em;
+    margin-left: 2px;
+  }
+
+  &__input {
+    border: none;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    outline: none;
+    font-size: $font-size-s;
+    padding: $px4 $px16 0 $px16;
+  }
+
+  &__spinner {
+    @include valign;
+    right: $px16;
+    background: $c-input-background;
+  }
+
+  &__toggle-password {
+    @include valign;
+    right: $px16;
+    padding: $px4 $px10;
+    background: $c-medium-gray;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+  }
+
+  &__error-icon {
+    @include valign;
+    right: $px16;
+    color: $c-error;
+  }
+
+  &__help-text {
+    font-size: $font-size-xs;
+    padding: $px4 0 0 $px16;
+    &--error {
+      color: $c-error;
+    }
+  }
+
+  &__password-strength {
+    position: absolute;
+    width: 100%;
+    max-width: calc(100% - #{2 * $px16}) !important;
+    left: $px16;
+    bottom: 0;
+    height: 17px;
+  }
+  &__password-meter {
+    height: 2px !important;
+  }
+
+  &--empty {
+    &:not(#{$block}--focused) {
+      #{$block}__label {
+        top: 50%;
+        font-size: $font-size-s;
+      }
+    }
+  }
+  &--focused {
+    border-color: $c-input-focused-border;
+    #{$block}__label {
+      font-weight: $font-weight-bold;
+    }
+  }
+  &--error {
+    border-color: $c-error;
+    #{$block}__label {
+      color: $c-error;
+      font-weight: $font-weight-bold;
+    }
+  }
+}
