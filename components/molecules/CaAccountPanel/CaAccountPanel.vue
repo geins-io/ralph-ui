@@ -128,7 +128,7 @@ import CaFeedback from 'CaFeedback';
 import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// The account panel. Includes content panel frames 'login', 'create', 'reset' and 'change'<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-account-panel.scss_
 export default {
   name: 'CaAccountPanel',
@@ -214,10 +214,15 @@ export default {
   created() {},
   beforeDestroy() {},
   methods: {
+    // @vuese
+    // Set frame for content panel
+    // @arg Content panel frame (String)
     setFrame(frame) {
       this.$store.commit('contentpanel/setFrame', frame);
       this.$refs.feedback.hide();
     },
+    // @vuese
+    // Decides what action the create account button should have (different in different frames)
     createAccountHandler() {
       if (this.loginMode) {
         this.setFrame('create');
@@ -225,15 +230,22 @@ export default {
         this.createAccount();
       }
     },
+    // @vuese
+    // Show feedback
+    // @arg Feedback (Object)
     showFeedback(feedback) {
       this.currentFeedback = feedback;
       this.$refs.feedback.show();
     },
+    // @vuese
+    // Closes panel after a delay of 2000 ms
     closePanelAfterDelay() {
       setTimeout(() => {
         this.$refs.contentpanel.close();
       }, 2000);
     },
+    // @vuese
+    // Log in action
     login() {
       this.loading = true;
       if (
@@ -249,6 +261,8 @@ export default {
         this.loading = false;
       }
     },
+    // @vuese
+    // Create account action
     createAccount() {
       this.loading = true;
       if (
@@ -265,6 +279,8 @@ export default {
         this.loading = false;
       }
     },
+    // @vuese
+    // Reset password action
     resetPassword() {
       this.loading = true;
       if (this.$refs.inputEmail.validateInput()) {
@@ -277,11 +293,15 @@ export default {
         this.loading = false;
       }
     },
+    // @vuese
+    // Used to hide feedback if field becomes valid after error
     checkValid(valid) {
       if (valid) {
         this.$refs.feedback.hide();
       }
     },
+    // @vuese
+    // Decides what action Enter key should trigger (different for different frames)
     enterHandler() {
       if (this.loginMode) {
         this.login();

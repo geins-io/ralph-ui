@@ -4,25 +4,29 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Used to simulate content while content is loading<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-skeleton.scss_
 export default {
   name: 'CaSkeleton',
   components: {},
   mixins: [],
   props: {
+    // Height / Width
     ratio: {
       type: Number,
       default: null
     },
+    // Should corners be rounded?
     radius: {
       type: Boolean,
       default: true
     },
+    // Width of skeleton
     width: {
       type: String,
       default: '100%'
     },
+    // Height of skeleton
     height: {
       type: String,
       default: '1.4em'

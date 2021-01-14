@@ -1,6 +1,6 @@
 # CaSlide
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/atoms/ca-slide.scss_
+A slide of CaSlider<br><br> **SASS-path:** _./styles/components/atoms/ca-slide.scss_
 
 ## Props
 

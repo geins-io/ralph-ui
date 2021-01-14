@@ -7,23 +7,38 @@
   display: flex;
   flex-direction: column;
   max-width: 500px;
-  &__close-icon {
-    font-size: 20px;
-    color: $c-white;
-    position: absolute;
-    top: 13px;
-    pointer-events: none;
-  }
+
   &__header {
-    height: 50px;
+    height: $content-panel-header-height;
     border-bottom: $border-light;
-    @include flex-calign;
+    @include flex-valign;
+    justify-content: space-between;
     background: $c-content-panel-header-bg;
     color: $c-content-panel-header-txt;
+    padding: 0 $px10;
+    @include bp(laptop) {
+      height: $content-panel-header-height-computer;
+      padding: 0 $px16;
+    }
   }
   &__title {
     font-weight: $font-weight-bold;
     font-size: $font-size-l;
+    @include bp(laptop) {
+      font-size: $font-size-xl;
+    }
+  }
+  &__close-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: $c-white;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+    @include flex-calign;
+    @include bp(laptop) {
+      width: 36px;
+      height: 36px;
+    }
   }
   &__body {
     flex: 1;
@@ -60,9 +75,13 @@
     max-width: 100vw;
     left: 0;
     right: 0;
+    #{$block}__header {
+      justify-content: center;
+    }
     #{$block}__close-icon {
       display: none;
     }
+
     @include bp(phone-only) {
       border-radius: $px20 $px20 0 0;
       overflow: hidden;

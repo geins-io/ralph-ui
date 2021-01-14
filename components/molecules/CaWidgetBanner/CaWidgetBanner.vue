@@ -11,7 +11,7 @@
           size="1360w"
           type="pagewidget"
           :alt="altText"
-          :filename="imageObj.Filename"
+          :filename="configuration.image.filename"
           :ratio="583 / 1360"
         />
       </div>
@@ -52,7 +52,7 @@ import CaButton from 'CaButton';
 import MixLinkHandler from 'MixLinkHandler';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// The banner widget, displaying an image with text and button<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-banner.scss_
 export default {
   name: 'CaWidgetBanner',
@@ -116,14 +116,11 @@ export default {
     fullWidth() {
       return this.configuration.classNames === 'full';
     },
-    imageObj() {
-      return JSON.parse(this.configuration.image);
-    },
     href() {
-      return this.imageObj.href;
+      return this.configuration.image.href;
     },
     altText() {
-      return this.imageObj.altText || 'Widget image';
+      return this.configuration.image.altText || 'Widget image';
     }
   },
   watch: {},

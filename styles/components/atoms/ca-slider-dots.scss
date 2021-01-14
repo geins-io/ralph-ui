@@ -9,6 +9,9 @@
     @include bp(tablet) {
       margin: 0 4px;
     }
+    &--hidden {
+      display: none;
+    }
   }
   &__trigger {
     width: $px16;

@@ -6,7 +6,7 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// A slide of CaSlider<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-slide.scss_
 export default {
   name: 'CaSlide',

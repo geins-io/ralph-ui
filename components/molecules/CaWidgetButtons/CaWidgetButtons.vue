@@ -1,12 +1,12 @@
 <template>
   <div class="ca-widget-buttons">
     <CaButton
-      v-for="(button, index) in buttons"
+      v-for="(button, index) in configuration.buttons"
       :key="index"
-      :href="button.Url"
+      :href="button.url"
       class="ca-widget-buttons__button"
     >
-      {{ button.ButtonText }}
+      {{ button.buttonText }}
     </CaButton>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import CaButton from 'CaButton';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// A widget tha displays one or more buttons<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-buttons.scss_
 export default {
   name: 'CaWidgetButtons',
@@ -28,11 +28,7 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {
-    buttons() {
-      return JSON.parse(this.configuration.buttons);
-    }
-  },
+  computed: {},
   watch: {},
   mounted() {},
   methods: {}

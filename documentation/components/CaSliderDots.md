@@ -1,6 +1,6 @@
 # CaSliderDots
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/atoms/ca-slider-dots.scss_
+Dots for CaSlider<br><br> **SASS-path:** _./styles/components/atoms/ca-slider-dots.scss_
 
 ## Props
 

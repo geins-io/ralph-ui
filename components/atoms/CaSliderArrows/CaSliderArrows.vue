@@ -20,7 +20,7 @@
 import CaIconButton from 'CaIconButton';
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Slider arrows for CaSlider<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-slider-arrows.scss_
 export default {
   name: 'CaSliderArrows',

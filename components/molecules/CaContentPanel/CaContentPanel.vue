@@ -7,13 +7,18 @@
         class="ca-content-panel"
         :class="modifiers"
       >
-        <CaIcon class="ca-content-panel__close-icon" name="x" />
         <header class="ca-content-panel__header">
           <!-- The content panel header -->
           <slot name="header">
             <!--`<h1 class="ca-content-panel__title">{{ title }}</h1>`-->
             <h1 class="ca-content-panel__title">{{ title }}</h1>
           </slot>
+          <CaIconButton
+            class="ca-content-panel__close-icon"
+            icon-name="x"
+            :aria-label="$t('CLOSE')"
+            @clicked="close"
+          />
         </header>
         <section class="ca-content-panel__body">
           <!-- The main content of the content panel. This content will be scrollable when overflowing -->
@@ -39,7 +44,7 @@
 </template>
 <script>
 import CaOverlay from 'CaOverlay';
-import CaIcon from 'CaIcon';
+import CaIconButton from 'CaIconButton';
 import CaIconAndText from 'CaIconAndText';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import eventbus from '~/plugins/event-bus.js';
@@ -51,7 +56,7 @@ import eventbus from '~/plugins/event-bus.js';
 // **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 export default {
   name: 'CaContentPanel',
-  components: { CaOverlay, CaIcon, CaIconAndText },
+  components: { CaOverlay, CaIconButton, CaIconAndText },
   mixins: [],
   props: {
     // The name id of the content panel. Used in trigger call to open panel
@@ -140,9 +145,11 @@ export default {
     },
     // Close the content panel. Can be triggered via eventbus call `close-content-panel`
     close() {
-      enableBodyScroll(this.$refs.contentpanel);
-      this.$store.commit('contentpanel/close');
-      this.opened = false;
+      if (this.opened) {
+        enableBodyScroll(this.$refs.contentpanel);
+        this.$store.commit('contentpanel/close');
+        this.opened = false;
+      }
     }
   }
 };

@@ -4,6 +4,7 @@
       v-for="(slide, index) in slides"
       :key="index"
       class="ca-slider-dots__dot"
+      :class="{ 'ca-slider-dots__dot--hidden': index % slidesToScroll !== 0 }"
     >
       <button
         v-if="index % slidesToScroll === 0"
@@ -17,7 +18,7 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Dots for CaSlider<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-slider-dots.scss_
 export default {
   name: 'CaSliderDots',

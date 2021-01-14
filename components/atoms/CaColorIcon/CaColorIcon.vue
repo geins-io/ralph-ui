@@ -8,17 +8,19 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// A circle of color<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-color-icon.scss_
 export default {
   name: 'CaColorIcon',
   components: {},
   mixins: [],
   props: {
+    // Hex color to be displayed
     hexColor: {
       type: String,
       required: true
     },
+    // Size of circle
     size: {
       type: String,
       default: 'small',

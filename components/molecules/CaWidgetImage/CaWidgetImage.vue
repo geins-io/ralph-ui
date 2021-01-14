@@ -9,7 +9,7 @@
       size="1360w"
       type="pagewidget"
       :alt="altText"
-      :filename="imageObj.Filename"
+      :filename="configuration.image.filename"
       :ratio="630 / 902"
     />
   </component>
@@ -34,14 +34,11 @@ export default {
   },
   data: () => ({}),
   computed: {
-    imageObj() {
-      return JSON.parse(this.configuration.image);
-    },
     href() {
-      return this.imageObj.Href;
+      return this.configuration.image.href;
     },
     altText() {
-      return this.imageObj.AltText || 'Widget image';
+      return this.configuration.image.altText || 'Widget image';
     }
   },
   watch: {},
