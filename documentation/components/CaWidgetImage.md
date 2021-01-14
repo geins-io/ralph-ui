@@ -12,3 +12,13 @@ Widget displaying an image<br><br> **SASS-path:** _./styles/components/molecules
 <!-- @vuese:CaWidgetImage:props:end -->
 
 
+## MixIns
+
+<!-- @vuese:CaWidgetImage:mixIns:start -->
+|MixIn|
+|---|
+|MixLinkHandler|
+
+<!-- @vuese:CaWidgetImage:mixIns:end -->
+
+

@@ -24,7 +24,7 @@
 import CaIcon from 'CaIcon';
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Checkbox input, use v-model to bind value<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-checkbox.scss_
 export default {
   name: 'CaInputCheckbox',
@@ -35,18 +35,22 @@ export default {
     event: 'change'
   },
   props: {
+    // The checkbox label
     label: {
       type: String,
       default: ''
     },
+    // Is checkbox checked? Use v-model to bind
     checked: {
       type: Boolean,
       default: false
     },
+    // A description of the checkbox
     description: {
       type: String,
       default: ''
     },
+    // The id for the checkbox
     id: {
       type: String,
       default: ''

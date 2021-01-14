@@ -17,20 +17,23 @@ import CaIcon from 'CaIcon';
 import CaIconButton from 'CaIconButton';
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// An inline feedback box<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-feedback.scss_
 export default {
   name: 'CaFeedback',
   components: { CaIcon, CaIconButton },
   mixins: [],
   props: {
+    // Type of feedback
     type: {
+      // `info`, `success`, `error`
       type: String,
       default: 'info',
       validator(value) {
         return ['info', 'success', 'error'].includes(value);
       }
     },
+    // The feedback message to be displayed
     message: {
       type: String,
       required: true
@@ -40,6 +43,9 @@ export default {
     visible: false
   }),
   computed: {
+    // @vuese
+    // The icon to be used
+    // @type String
     icon() {
       switch (this.type) {
         case 'success':
@@ -50,6 +56,9 @@ export default {
           return 'info';
       }
     },
+    // @vuese
+    // The type modifier class
+    // @type String
     typeClass() {
       return 'ca-feedback--' + this.type;
     }
@@ -57,9 +66,13 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Show the feedback
     show() {
       this.visible = true;
     },
+    // @vuese
+    // Hide the feedback
     hide() {
       this.visible = false;
     }

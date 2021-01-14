@@ -1,6 +1,6 @@
 # CaSlider
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/molecules/ca-slider.scss_
+A slider used for product sliding or image gallery<br><br> **SASS-path:** _./styles/components/molecules/ca-slider.scss_
 
 ## Props
 

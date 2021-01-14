@@ -37,3 +37,13 @@ A button for click events or links<br><br> **SASS-path:** _./styles/components/a
 <!-- @vuese:CaButton:slots:end -->
 
 
+## MixIns
+
+<!-- @vuese:CaButton:mixIns:start -->
+|MixIn|
+|---|
+|MixLinkHandler|
+
+<!-- @vuese:CaButton:mixIns:end -->
+
+

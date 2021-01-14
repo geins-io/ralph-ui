@@ -68,7 +68,7 @@ const cloneVNode = (vnode, position, newData = {}) => {
 
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// A slider used for product sliding or image gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-slider.scss_
 export default {
   name: 'CaSlider',

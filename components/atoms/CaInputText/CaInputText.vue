@@ -4,7 +4,7 @@
       <label class="ca-input-text__label" :for="id">
         {{ label }}
         <span v-if="!required" class="ca-input-text__optional">
-          (optional)
+          ({{ $t('INPUT_OPTIONAL') }})
         </span>
       </label>
       <input
@@ -63,62 +63,76 @@ import CaIcon from 'CaIcon';
 import Password from 'vue-password-strength-meter';
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Text field, use v-model to bind value<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-text.scss_
 export default {
   name: 'CaInputText',
   components: { CaSpinner, CaIcon, Password },
   mixins: [],
   props: {
+    // The label of the field, showed as "placeholder" when field empty or not in focus
     label: {
       type: String,
       default: ''
     },
+    // The field placeholder, can be used if not using label
     placeholder: {
       type: String,
       default: ''
     },
+    // The value of the field, use v-model to bind data
     value: {
       type: [String, Number],
       required: true
     },
+    // A description text for the field
     description: {
       type: String,
       default: ''
     },
+    // Is the field requierd?
     required: {
       type: Boolean,
       default: true
     },
+    // Is the field disabled?
     disabled: {
       type: Boolean,
       default: false
     },
+    // The autocomplete attribute
     autocomplete: {
       type: String,
       default: 'null'
     },
+    // Show a loading spinner in the field
     loading: {
       type: Boolean,
       default: false
     },
+    // Type of field
     type: {
       type: String,
       default: 'text'
     },
+    // Id of field, also used as name
     id: {
       type: String,
       default: ''
     },
+    // Used to handle validation outside input scope
     valid: {
       type: Boolean,
       default: true
     },
+    // What error text should be displayed if field not vaild
     errorText: {
       type: String,
       default: null
     },
+    // Set to use built in validation
     validate: {
+      // `email`, `passwordStrength`, `passwordMatch`
       type: String,
       default: '',
       validator(value) {
@@ -127,6 +141,7 @@ export default {
         );
       }
     },
+    // The password to match if using the `passwordMatch` validation
     passwordToMatch: {
       type: String,
       default: ''
@@ -139,6 +154,9 @@ export default {
     passwordScore: 0
   }),
   computed: {
+    // @vuese
+    // All the modifier classes
+    // @type Object
     modifiers() {
       return {
         'ca-input-text--error': !this.allValid,
@@ -146,9 +164,15 @@ export default {
         'ca-input-text--empty': !this.value
       };
     },
+    // @vuese
+    // Is field valid?
+    // @type Boolean
     allValid() {
       return this.valid && this.fieldValid;
     },
+    // @vuese
+    // Used to be a transparent wrapper for the text input, all events will be passed through
+    // @type Object
     inputListeners() {
       // `Object.assign` merges objects together to form a new object
       return Object.assign(
@@ -160,16 +184,24 @@ export default {
         {
           // This ensures that the component works with v-model
           input: event => {
+            // Input has been made
+            // @arg Field value (String/Number)
             this.$emit('input', event.target.value);
           }
         }
       );
     },
+    // @vuese
+    // Returns field type, used for toggeling password field
+    // @type String
     inputType() {
       return this.passwordType ? this.passwordType : this.type;
     },
+    // @vuese
+    // Returns text for password field toggle
+    // @type String
     passwordToggleText() {
-      return this.inputType === 'password' ? 'Visa' : 'Dölj';
+      return this.inputType === 'password' ? this.$t('SHOW') : this.$t('HIDE');
     }
   },
   watch: {
@@ -181,6 +213,8 @@ export default {
   },
   mounted() {},
   methods: {
+    // @vuese
+    // Validate input, sets `fieldValid` and returns bool
     validateInput() {
       if (this.validate === 'email') {
         this.fieldValid = this.validateEmail(this.value);
@@ -191,25 +225,39 @@ export default {
       } else if (this.required) {
         this.fieldValid = this.value !== '';
       }
+      // Validation has been made
+      // @arg Is valid (Boolean)
       this.$emit('validation', this.fieldValid);
       return this.fieldValid;
     },
+    // @vuese
+    // Used by `validateInput` to validate email address
+    // @arg email (String)
     validateEmail(email) {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
+    // @vuese
+    // Validates field instantly if not valid, used on keyup
     validateIfError() {
       if (!this.allValid) {
         this.validateInput();
       }
     },
+    // @vuese
+    // Controls what happens on field blur
     blurHandler() {
       this.focused = false;
       this.validateInput();
     },
+    // @vuese
+    // Toggle field type for password
     togglePasswordVisible() {
       this.passwordType = this.passwordType ? '' : 'text';
     },
+    // @vuese
+    // Sets the password score from the password strength meter
+    // @arg score (Number)
     setPasswordScore(score) {
       this.passwordScore = score;
     }

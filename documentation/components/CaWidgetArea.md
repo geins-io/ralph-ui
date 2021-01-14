@@ -7,8 +7,9 @@ The area that contains the widget containers and from which the graphql query fo
 <!-- @vuese:CaWidgetArea:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|family|The widget area family|`String`|`true`|-|
-|areaName|The widget area name|`String`|`true`|-|
+|family|The widget area family|`String`|`false`|-|
+|areaName|The widget area name|`String`|`false`|-|
+|alias|-|`String`|`false`|-|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 
