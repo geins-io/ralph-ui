@@ -61,7 +61,7 @@ export default {
   data: () => ({}),
   computed: {
     displaySetting() {
-      return this.$store.getters.viewport === 'mobile' ? 'mobile' : 'desktop';
+      return !this.$store.getters.viewportComputer ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
     },
     containers() {
       return this.widgetArea &&

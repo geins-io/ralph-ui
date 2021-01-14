@@ -106,7 +106,7 @@ export const getters = {
   },
   viewport(state) {
     if (state.viewportWidth < state.config.breakpoints.tablet) {
-      return 'mobile';
+      return 'phone';
     } else if (state.viewportWidth < state.config.breakpoints.laptop) {
       return 'tablet';
     } else if (state.viewportWidth < state.config.breakpoints.desktop) {
