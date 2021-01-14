@@ -20,7 +20,8 @@
 <!-- @vuese:CaSliderArrows:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|navigation|-|-|
+|prevSlide|-|-|
+|nextSlide|-|-|
 
 <!-- @vuese:CaSliderArrows:events:end -->
 

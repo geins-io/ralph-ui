@@ -13,6 +13,7 @@ A slider used for product sliding or image gallery<br><br> **SASS-path:** _./sty
 |dots|Should dots be displayed|`Boolean`|`false`|false|
 |arrows|Should arrows be displayed|`Boolean`|`false`|false|
 |arrowIconName|First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting|`String`|`false`|chevron|
+|slidesToScroll|Number of slides to scroll|`Number`|`false`|1|
 
 <!-- @vuese:CaSlider:props:end -->
 

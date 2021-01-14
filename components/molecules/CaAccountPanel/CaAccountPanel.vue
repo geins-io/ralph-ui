@@ -3,7 +3,8 @@
     ref="contentpanel"
     class="ca-account-panel"
     name="account"
-    enter-from-mobile="bottom"
+    enter-from="bottom"
+    enter-from-tablet-up="right"
     :title="title"
   >
     <div class="ca-account-panel__inner">

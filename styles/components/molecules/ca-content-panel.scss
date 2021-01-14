@@ -63,7 +63,7 @@
     #{$block}__close-icon {
       display: none;
     }
-    @include bp(mobile-only) {
+    @include bp(phone-only) {
       border-radius: $px20 $px20 0 0;
       overflow: hidden;
     }

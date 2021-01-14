@@ -10,6 +10,7 @@
 |slides|Array of the corresponding slides|`Array`|`true`|-|
 |visible|Should dots be visible?|`Boolean`|`false`|false|
 |currentSlide|Current slide index|`Number`|`true`|-|
+|slidesToScroll|Number of slides per dot|`Number`|`true`|-|
 
 <!-- @vuese:CaSliderDots:props:end -->
 

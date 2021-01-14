@@ -42,7 +42,6 @@ import CaOverlay from 'CaOverlay';
 import CaIcon from 'CaIcon';
 import CaIconAndText from 'CaIconAndText';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { mapState } from 'vuex';
 import eventbus from '~/plugins/event-bus.js';
 
 // @group Molecules
@@ -66,29 +65,17 @@ export default {
       type: String,
       default: ''
     },
-    // Direction from which to enter from on smaller screens
-    enterFromMobile: {
+    // Direction from which to enter from on smaller screens (< 768)
+    enterFrom: {
       // 'bottom', 'left', 'right'
       type: String,
       default: 'right'
     },
-    // Direction from which to enter from on larger screens
-    enterFromComputer: {
+    // Direction from which to enter from on larger screens (>= 768). Defaults to `enterFrom` if not set
+    enterFromTabletUp: {
       // 'right', 'left'
       type: String,
-      default: 'right'
-    },
-    // True if panel should only exist on bigger screens
-    onlyComputer: {
-      type: Boolean,
-      // `false`
-      default: false
-    },
-    // True if panel should only exist on smaller screens
-    onlyMobile: {
-      type: Boolean,
-      // `false`
-      default: false
+      default: ''
     }
   },
   data: () => ({
@@ -98,31 +85,24 @@ export default {
   computed: {
     modifiers() {
       return {
-        'ca-content-panel--left': this.enterFrom === 'left',
-        'ca-content-panel--right': this.enterFrom === 'right',
-        'ca-content-panel--bottom': this.enterFrom === 'bottom'
+        'ca-content-panel--left': this.currentEnterFrom === 'left',
+        'ca-content-panel--right': this.currentEnterFrom === 'right',
+        'ca-content-panel--bottom': this.currentEnterFrom === 'bottom'
       };
     },
-    enterFrom() {
+    currentEnterFromTabletUp() {
+      return this.enterFromTabletUp ? this.enterFromTabletUp : this.enterFrom;
+    },
+    currentEnterFrom() {
       return this.$store.getters.viewport === 'phone'
-        ? this.enterFromMobile
-        : this.enterFromComputer;
+        ? this.enterFrom
+        : this.currentEnterFromTabletUp;
     },
     transitionName() {
-      return 'pop-from-' + this.enterFrom;
-    },
-    ...mapState(['viewportWidth'])
-  },
-  watch: {
-    viewportWidth(newVal) {
-      if (
-        (newVal >= this.$config.laptopWidth && this.onlyMobile) ||
-        (newVal < this.$config.laptopWidth && this.onlyComputer)
-      ) {
-        this.close();
-      }
+      return 'pop-from-' + this.currentEnterFrom;
     }
   },
+  watch: {},
   mounted() {
     eventbus.$on('close-content-panel', () => {
       this.close();
