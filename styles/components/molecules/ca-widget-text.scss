@@ -11,6 +11,9 @@
     & + #{$block}__subtitle {
       margin: $px4 auto 0;
     }
+    & + #{$block}__body {
+      margin: $px8 auto 0;
+    }
   }
   &__subtitle {
     max-width: $text-widget-max-width;

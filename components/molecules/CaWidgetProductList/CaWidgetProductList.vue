@@ -35,7 +35,6 @@ export default {
       variables() {
         return {
           apiKey: this.$config.apiKey.toString(),
-          skip: 0,
           take: this.take,
           filter: this.configuration.searchParameters,
           sort: this.configuration.searchParameters.sort

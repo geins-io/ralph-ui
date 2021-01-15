@@ -2,12 +2,12 @@
 #import "productlist/filters.graphql"
 
 query products(
-  $skip: Int!
-  $take: Int!
   $apiKey: String!
-  $brandAlias: String!
-  $sort: SortType!
-  $filter: FilterInputType!
+  $skip: Int = null
+  $take: Int = null
+  $brandAlias: String = null
+  $sort: SortType = null
+  $filter: FilterInputType = null
 ) {
   products(
     skip: $skip
