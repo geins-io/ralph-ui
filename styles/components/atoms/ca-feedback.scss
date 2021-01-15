@@ -10,7 +10,7 @@
   &::before {
     content: '';
     display: block;
-    opacity: 96%;
+    opacity: 0.96;
     background: $c-white;
     width: calc(100% - #{rem-calc(6px)});
     height: 100%;
