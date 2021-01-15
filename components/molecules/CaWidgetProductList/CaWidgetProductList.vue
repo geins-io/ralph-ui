@@ -37,8 +37,8 @@ export default {
           apiKey: this.$config.apiKey.toString(),
           skip: 0,
           take: this.take,
-          filter: this.searchFilter,
-          sort: this.sort
+          filter: this.configuration.searchParameters,
+          sort: this.configuration.searchParameters.sort
         };
       },
       error(error) {
@@ -63,27 +63,6 @@ export default {
     },
     take() {
       return this.configuration.pageCount * this.$config.productListRowSize;
-    },
-    searchFilter() {
-      const filterObj = {};
-      filterObj.categories = this.configuration.searchParameters.Categories;
-      filterObj.brands = this.configuration.searchParameters.Brands;
-      filterObj.aliases = this.configuration.searchParameters.Aliases;
-      return filterObj;
-    },
-    sort() {
-      switch (this.configuration.searchParameters.Sort) {
-        case 'MOSTSOLD':
-          return 'MOST_SOLD';
-        case 'PRICEDESC':
-          return 'PRICE_DESC';
-        case 'PRICE':
-          return 'PRICE';
-        case 'LATEST':
-          return 'LATEST';
-        default:
-          return this.$config.productListDefaultSort;
-      }
     }
   },
   watch: {},
