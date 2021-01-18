@@ -44,7 +44,7 @@ export default {
     flagImage() {
       const sizeFolder = this.squared ? '1x1' : '4x3';
       const fileName = this.country.toLowerCase() + '.svg';
-      return require('flag-icon-css/flags/' + sizeFolder + '/' + fileName);
+      return '/flags/' + sizeFolder + '/' + fileName;
     }
   },
   watch: {},
