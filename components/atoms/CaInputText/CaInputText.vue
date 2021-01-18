@@ -50,8 +50,10 @@
   </div>
 </template>
 <script>
-import CaSpinner from 'CaSpinner';
 import CaIcon from 'CaIcon';
+const CaSpinner = () => ({
+  component: import('CaSpinner')
+});
 // @group Atoms
 // @vuese
 // Text field, use v-model to bind value<br><br>

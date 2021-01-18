@@ -27,12 +27,13 @@
   </CaContentPanel>
 </template>
 <script>
-import CaContentPanel from 'CaContentPanel';
 import CaButton from 'CaButton';
 import CaCartProduct from 'CaCartProduct';
 import CaCartTotal from 'CaCartTotal';
 import { mapState } from 'vuex';
-
+const CaContentPanel = () => ({
+  component: import('CaContentPanel')
+});
 // @group Molecules
 // @vuese
 // The cart panel. Displays the current cart content in a content panel<br><br>
