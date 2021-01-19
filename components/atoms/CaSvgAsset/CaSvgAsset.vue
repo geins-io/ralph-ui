@@ -1,5 +1,5 @@
 <template>
-  <img class="ca-svg-asset" :src="src" :alt="alt" />
+  <img class="ca-svg-asset" :src="src" :alt="alt" :loading="loading" />
 </template>
 <script>
 // @group Atoms
@@ -25,6 +25,10 @@ export default {
     alt: {
       type: String,
       required: true
+    },
+    loading: {
+      type: String,
+      default: 'lazy'
     }
   },
   data: () => ({}),

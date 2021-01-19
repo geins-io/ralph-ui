@@ -13,6 +13,7 @@
       class="ca-image__img"
       :src="imgSrc"
       :alt="alt"
+      :loading="loading"
       @load="loadedAction"
     />
   </div>
@@ -57,6 +58,10 @@ export default {
     src: {
       type: String,
       default: ''
+    },
+    loading: {
+      type: String,
+      default: 'lazy'
     }
   },
   data: () => ({
