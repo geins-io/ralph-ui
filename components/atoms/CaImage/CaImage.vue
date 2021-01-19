@@ -9,11 +9,11 @@
       />
     </transition>
     <img
-      v-show="loaded"
       class="ca-image__img"
       :src="imgSrc"
       :alt="alt"
       :loading="loading"
+      :style="loadingStyles"
       @load="loadedAction"
     />
   </div>
@@ -78,6 +78,13 @@ export default {
             this.size +
             '/' +
             this.filename;
+    },
+    loadingStyles() {
+      let style = '';
+      if (!this.loaded) {
+        style = 'visibility: hidden; height: 0;';
+      }
+      return style;
     },
     modifiers() {
       return {
