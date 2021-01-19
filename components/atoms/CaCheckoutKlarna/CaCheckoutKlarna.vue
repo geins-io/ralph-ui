@@ -10,7 +10,9 @@
 <script>
 import getKlarnaQuery from 'checkout/get-klarna.graphql';
 import initKlarnaMutation from 'checkout/init-klarna.graphql';
-import CaSpinner from 'CaSpinner';
+const CaSpinner = () => ({
+  component: import('CaSpinner')
+});
 // @group Atoms
 // @vuese
 // A component used to display the Klarna Checkout iFrame<br><br>

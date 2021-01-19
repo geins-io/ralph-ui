@@ -12,8 +12,11 @@
   </component>
 </template>
 <script>
-import CaSpinner from 'CaSpinner';
 import MixLinkHandler from 'MixLinkHandler';
+const CaSpinner = () => ({
+  component: import('CaSpinner')
+});
+
 // @group Atoms
 // A button for click events or links<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-button.scss_

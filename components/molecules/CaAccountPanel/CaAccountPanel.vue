@@ -120,12 +120,17 @@
   </CaContentPanel>
 </template>
 <script>
-import CaContentPanel from 'CaContentPanel';
 import CaInputText from 'CaInputText';
 import CaInputCheckbox from 'CaInputCheckbox';
 import CaButton from 'CaButton';
-import CaFeedback from 'CaFeedback';
 import { mapState } from 'vuex';
+const CaContentPanel = () => ({
+  component: import('CaContentPanel')
+});
+const CaFeedback = () => ({
+  component: import('CaFeedback')
+});
+
 // @group Molecules
 // @vuese
 // The account panel. Includes content panel frames 'login', 'create', 'reset' and 'change'<br><br>
