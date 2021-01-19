@@ -28,7 +28,8 @@ export default {
           family: this.family,
           areaName: this.areaName,
           alias: this.alias,
-          displaySetting: this.displaySetting
+          displaySetting: this.displaySetting,
+          filters: this.filters
         };
       },
       result() {
@@ -56,6 +57,10 @@ export default {
     alias: {
       type: String,
       default: ''
+    },
+    filters: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({}),

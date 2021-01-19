@@ -3,6 +3,7 @@ query listPageInfo($apiKey: String!, $categoryAlias: String!) {
     alias
     primaryImage
     name
+    categoryId
     primaryDescription
     secondaryDescription
     subCategories {
