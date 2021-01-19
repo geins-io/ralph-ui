@@ -28,7 +28,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-specifications.scss_
 export default {
   name: 'CaSpecifications',
-  components: {},
   mixins: [],
   props: {
     // Array of parameter groups

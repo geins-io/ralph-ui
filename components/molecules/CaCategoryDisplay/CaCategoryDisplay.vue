@@ -16,14 +16,12 @@
   </ul>
 </template>
 <script>
-import CaButton from 'CaButton';
 // @group Molecules
 // @vuese
 // Display list of categories as buttons. Often used in list page headers<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-category-display.scss_
 export default {
   name: 'CaCategoryDisplay',
-  components: { CaButton },
   mixins: [],
   props: {
     // List of categories to display. Must include name and alias

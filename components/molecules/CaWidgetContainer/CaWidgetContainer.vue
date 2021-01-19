@@ -9,15 +9,12 @@
   </div>
 </template>
 <script>
-import CaWidget from 'CaWidget';
-
 // @group Molecules
 // @vuese
 // A container holding a set of widgets<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-container.scss_
 export default {
   name: 'CaWidgetContainer',
-  components: { CaWidget },
   mixins: [],
   props: {
     // An array of widgets to be displayed in this container

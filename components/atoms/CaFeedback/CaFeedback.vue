@@ -13,15 +13,12 @@
   </transition>
 </template>
 <script>
-import CaIcon from 'CaIcon';
-import CaIconButton from 'CaIconButton';
 // @group Atoms
 // @vuese
 // An inline feedback box<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-feedback.scss_
 export default {
   name: 'CaFeedback',
-  components: { CaIcon, CaIconButton },
   mixins: [],
   props: {
     // Type of feedback

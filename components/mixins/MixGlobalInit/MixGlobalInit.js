@@ -35,7 +35,6 @@ export default {
       }
     }
   },
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

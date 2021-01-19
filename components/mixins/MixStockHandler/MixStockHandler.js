@@ -5,7 +5,6 @@
 // stock: `0`<br>
 export default {
   name: 'MixStockHandler',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({

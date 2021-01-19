@@ -51,19 +51,11 @@
   </div>
 </template>
 <script>
-import CaImage from 'CaImage';
-import CaSlider from 'CaSlider';
-import CaSlide from 'CaSlide';
 // @group Molecules
 // The product page gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
 export default {
   name: 'CaProductGallery',
-  components: {
-    CaImage,
-    CaSlider,
-    CaSlide
-  },
   mixins: [],
   props: {
     // Array of the products image filenames

@@ -21,7 +21,10 @@
         {{ chosenLabel }}
       </CaIconAndText>
     </button>
-    <CaContentPanel :name="'variant-picker-' + variantsLevel" :title="title">
+    <LazyCaContentPanel
+      :name="'variant-picker-' + variantsLevel"
+      :title="title"
+    >
       <button
         v-for="(variant, index) in variants"
         :key="index"
@@ -39,23 +42,17 @@
           {{ getStock(variant) }}
         </span>
       </button>
-    </CaContentPanel>
+    </LazyCaContentPanel>
   </div>
 </template>
 <script>
-import CaIconAndText from 'CaIconAndText';
-import CaColorIcon from 'CaColorIcon';
 import MixVariantPicker from 'MixVariantPicker';
-const CaContentPanel = () => ({
-  component: import('CaContentPanel')
-});
 // @group Molecules
 // @vuese
 // A variant picker in form of a content panel. Accepts any type of variant and is the default variant picker. See **MixVariantPicker** for further information about mathods, props etc.<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker-panel.scss_
 export default {
   name: 'CaVariantPickerPanel',
-  components: { CaContentPanel, CaIconAndText, CaColorIcon },
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({

@@ -8,7 +8,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-icon.scss_
 export default {
   name: 'CaIcon',
-  components: {},
   mixins: [],
   props: {
     // If you are using default setup, any name from [Feather icons](https://feathericons.com/) works. Otherwise use name of svg-file (without '.svg') in assets/icons library

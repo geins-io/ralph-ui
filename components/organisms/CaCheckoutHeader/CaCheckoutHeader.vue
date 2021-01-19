@@ -22,17 +22,12 @@
   </div>
 </template>
 <script>
-import CaLogo from 'CaLogo';
-import CaButton from 'CaButton';
-import CaIconButton from 'CaIconButton';
-
 // @group Organisms
 // @vuese
 // The header of the checkout containing logo, title and a button to go back<br><br>
 // **SASS-path:** _./styles/components/organisms/ca-checkout-header.scss_
 export default {
   name: 'CaCheckoutHeader',
-  components: { CaLogo, CaButton, CaIconButton },
   mixins: [],
   props: {
     // Title of the page

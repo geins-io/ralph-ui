@@ -3,7 +3,6 @@
 // Displays product price
 export default {
   name: 'MixPrice',
-  components: {},
   mixins: [],
   props: {
     // Object that includes `isDiscounted`, `sellingPriceIncVatFormatted`, `sellingPriceExVatFormatted`, `regularPriceIncVatFormatted`, `regularPriceExVatFormatted`

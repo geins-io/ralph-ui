@@ -1,7 +1,4 @@
 <script>
-import CaSliderDots from 'CaSliderDots';
-import CaSliderArrows from 'CaSliderArrows';
-
 const DATA_KEYS = [
   'class',
   'staticClass',
@@ -72,7 +69,6 @@ const cloneVNode = (vnode, position, newData = {}) => {
 // **SASS-path:** _./styles/components/molecules/ca-slider.scss_
 export default {
   name: 'CaSlider',
-  components: { CaSliderDots, CaSliderArrows },
   mixins: [],
   props: {
     // Should the slider be centered?

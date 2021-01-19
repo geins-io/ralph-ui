@@ -49,11 +49,6 @@
   </div>
 </template>
 <script>
-import CaImage from 'CaImage';
-import CaBrandAndName from 'CaBrandAndName';
-import CaPrice from 'CaPrice';
-import CaIconButton from 'CaIconButton';
-import CaProductQuantity from 'CaProductQuantity';
 import MixUpdateCart from 'MixUpdateCart';
 // @group Molecules
 // @vuese
@@ -61,13 +56,6 @@ import MixUpdateCart from 'MixUpdateCart';
 // **SASS-path:** _./styles/components/molecules/ca-cart-product.scss_
 export default {
   name: 'CaCartProduct',
-  components: {
-    CaImage,
-    CaBrandAndName,
-    CaPrice,
-    CaIconButton,
-    CaProductQuantity
-  },
   mixins: [MixUpdateCart],
   props: {
     // The cart product item

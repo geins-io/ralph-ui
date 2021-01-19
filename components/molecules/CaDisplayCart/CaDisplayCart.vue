@@ -1,5 +1,5 @@
 <template>
-  <CaContentPanel
+  <LazyCaContentPanel
     class="ca-display-cart"
     name="cart"
     :title="$t('CART') + ' (' + $store.getters['cart/totalQuantity'] + ')'"
@@ -24,23 +24,16 @@
         </CaButton>
       </div>
     </template>
-  </CaContentPanel>
+  </LazyCaContentPanel>
 </template>
 <script>
-import CaButton from 'CaButton';
-import CaCartProduct from 'CaCartProduct';
-import CaCartTotal from 'CaCartTotal';
 import { mapState } from 'vuex';
-const CaContentPanel = () => ({
-  component: import('CaContentPanel')
-});
 // @group Molecules
 // @vuese
 // The cart panel. Displays the current cart content in a content panel<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-display-cart.scss_
 export default {
   name: 'CaDisplayCart',
-  components: { CaContentPanel, CaButton, CaCartProduct, CaCartTotal },
   mixins: [],
   props: {},
   data: () => ({}),

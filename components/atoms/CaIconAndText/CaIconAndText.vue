@@ -8,15 +8,12 @@
   </div>
 </template>
 <script>
-import CaIcon from 'CaIcon';
-
 // @group Atoms
 // @vuese
 // Used to place a text together with an icon<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-icon-and-text.scss_
 export default {
   name: 'CaIconAndText',
-  components: { CaIcon },
   mixins: [],
   props: {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.

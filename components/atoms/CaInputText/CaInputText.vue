@@ -22,7 +22,7 @@
         @blur="blurHandler"
         @focus="focused = true"
       />
-      <CaSpinner class="ca-input-text__spinner" :loading="loading" />
+      <LazyCaSpinner class="ca-input-text__spinner" :loading="loading" />
       <CaIcon
         v-if="!allValid"
         class="ca-input-text__error-icon"
@@ -50,17 +50,12 @@
   </div>
 </template>
 <script>
-import CaIcon from 'CaIcon';
-const CaSpinner = () => ({
-  component: import('CaSpinner')
-});
 // @group Atoms
 // @vuese
 // Text field, use v-model to bind value<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-text.scss_
 export default {
   name: 'CaInputText',
-  components: { CaSpinner, CaIcon },
   mixins: [],
   props: {
     // The label of the field, showed as "placeholder" when field empty or not in focus

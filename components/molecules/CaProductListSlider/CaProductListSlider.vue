@@ -23,16 +23,12 @@
   </CaSlider>
 </template>
 <script>
-import CaSlider from 'CaSlider';
-import CaSlide from 'CaSlide';
-import CaProductCard from 'CaProductCard';
 // @group Molecules
 // @vuese
 // A product list displayed as a slider<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-list-slider.scss_
 export default {
   name: 'CaProductListSlider',
-  components: { CaSlider, CaSlide, CaProductCard },
   mixins: [],
   props: {
     // Array of products

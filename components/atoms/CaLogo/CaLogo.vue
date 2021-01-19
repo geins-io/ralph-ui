@@ -7,7 +7,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-logo.scss_
 export default {
   name: 'CaLogo',
-  components: {},
   mixins: [],
   props: {
     // Filetype of the logo

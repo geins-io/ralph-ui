@@ -9,7 +9,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-container.scss_
 export default {
   name: 'CaContainer',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

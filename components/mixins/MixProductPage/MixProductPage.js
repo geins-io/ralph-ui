@@ -8,7 +8,6 @@ import productQuery from 'product/product.graphql';
 // error: `null`
 export default {
   name: 'MixProductPage',
-  components: {},
   mixins: [],
   props: {},
   apollo: {

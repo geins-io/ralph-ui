@@ -1,5 +1,5 @@
 <template>
-  <CaContentPanel
+  <LazyCaContentPanel
     ref="contentpanel"
     class="ca-account-panel"
     name="account"
@@ -8,7 +8,7 @@
     :title="title"
   >
     <div class="ca-account-panel__inner">
-      <CaFeedback
+      <LazyCaFeedback
         ref="feedback"
         class="ca-account-panel__feedback"
         :type="currentFeedback.type"
@@ -117,19 +117,10 @@
         {{ $t('BACK_TO_LOGIN') }}
       </button>
     </div>
-  </CaContentPanel>
+  </LazyCaContentPanel>
 </template>
 <script>
-import CaInputText from 'CaInputText';
-import CaInputCheckbox from 'CaInputCheckbox';
-import CaButton from 'CaButton';
 import { mapState } from 'vuex';
-const CaContentPanel = () => ({
-  component: import('CaContentPanel')
-});
-const CaFeedback = () => ({
-  component: import('CaFeedback')
-});
 
 // @group Molecules
 // @vuese
@@ -137,13 +128,6 @@ const CaFeedback = () => ({
 // **SASS-path:** _./styles/components/molecules/ca-account-panel.scss_
 export default {
   name: 'CaAccountPanel',
-  components: {
-    CaContentPanel,
-    CaInputText,
-    CaButton,
-    CaInputCheckbox,
-    CaFeedback
-  },
   mixins: [],
   props: {},
   data: vm => ({
