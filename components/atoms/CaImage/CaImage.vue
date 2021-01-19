@@ -14,6 +14,8 @@
       :alt="alt"
       :loading="loading"
       :style="loadingStyles"
+      :srcset="imgSrcset"
+      :sizes="sizes"
       @load="loadedAction"
     />
   </div>
@@ -31,6 +33,16 @@ export default {
   props: {
     // The size of the image. Defined as '200w', '500x200' or '300f300'
     size: {
+      type: String,
+      default: ''
+    },
+    // The Array of Objects with image sizes for the image. E.g [{folder: 100w, width: 100}}
+    sizeArray: {
+      type: Array,
+      default: () => []
+    },
+    // The sizes string
+    sizes: {
       type: String,
       default: ''
     },
@@ -59,6 +71,7 @@ export default {
       type: String,
       default: ''
     },
+    // Value for the loading attribute
     loading: {
       type: String,
       default: 'lazy'
@@ -79,7 +92,27 @@ export default {
             '/' +
             this.filename;
     },
+    imgSrcset() {
+      if (this.sizeArray.length === 0 && this.src !== '') return '';
+      const array =
+        this.sizeArray.length !== 0
+          ? this.sizeArray
+          : this.$config.imageSizes[this.type];
+      const srcset = array.map(x => {
+        const src =
+          this.$config.imageServer +
+          '/' +
+          this.type +
+          '/' +
+          x.folder +
+          '/' +
+          this.filename;
+        return src + ' ' + x.width;
+      });
+      return srcset.toString();
+    },
     loadingStyles() {
+      // Instead of v-show, because display none never initializes the loading of the image
       let style = '';
       if (!this.loaded) {
         style = 'visibility: hidden; height: 0;';
