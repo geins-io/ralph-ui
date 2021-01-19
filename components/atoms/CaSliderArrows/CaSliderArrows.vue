@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="ca-slider-arrows">
+  <div v-if="currentlyVisible" class="ca-slider-arrows">
     <CaIconButton
       class="ca-slider-arrows__arrow ca-slider-arrows__arrow--left"
       aria-label="Arrow left"
@@ -49,7 +49,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    currentlyVisible() {
+      return this.visible && !(this.minReached && this.maxReached);
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

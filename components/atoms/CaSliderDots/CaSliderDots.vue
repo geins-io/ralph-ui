@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="visible" class="ca-slider-dots">
+  <ul v-if="currentlyVisible" class="ca-slider-dots">
     <li
       v-for="(slide, index) in slides"
       :key="index"
@@ -47,7 +47,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    currentlyVisible() {
+      return this.visible && this.slides.length > this.slidesToScroll;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {
