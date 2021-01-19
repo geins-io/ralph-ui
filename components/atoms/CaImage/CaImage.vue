@@ -31,12 +31,7 @@ export default {
   components: { CaSkeleton },
   mixins: [],
   props: {
-    // The size of the image. Defined as '200w', '500x200' or '300f300'
-    size: {
-      type: String,
-      default: ''
-    },
-    // The Array of Objects with image sizes for the image. E.g [{folder: 100w, width: 100}}
+    // The Array of Objects with image sizes for the image. E.g [{folder: '100x100', descriptor: '100w'}}
     sizeArray: {
       type: Array,
       default: () => []
@@ -88,16 +83,16 @@ export default {
             '/' +
             this.type +
             '/' +
-            this.size +
+            (this.sizeArray?.[0]?.folder ??
+              this.$config.imageSizes?.[this.type]?.[0]?.folder) +
             '/' +
             this.filename;
     },
     imgSrcset() {
       if (this.sizeArray.length === 0 && this.src !== '') return '';
-      const array =
-        this.sizeArray.length !== 0
-          ? this.sizeArray
-          : this.$config.imageSizes[this.type];
+      const array = this.sizeArray?.length
+        ? this.sizeArray
+        : this.$config.imageSizes[this.type];
       const srcset = array.map(x => {
         const src =
           this.$config.imageServer +
@@ -107,7 +102,7 @@ export default {
           x.folder +
           '/' +
           this.filename;
-        return src + ' ' + x.width;
+        return src + ' ' + x.descriptor;
       });
       return srcset.toString();
     },
