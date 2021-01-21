@@ -15,6 +15,10 @@
             :filename="image"
             :ratio="$config.productImageRatio"
             :alt="alt"
+            :size-array="[
+              { folder: '85f85', descriptor: '1x' },
+              { folder: '170f170', descriptor: '2x' }
+            ]"
           />
         </a>
       </li>
@@ -44,6 +48,12 @@
             :filename="image"
             :ratio="$config.productImageRatio"
             :alt="alt"
+            :size-array="
+              $config.imageSizes.product.filter(
+                item => parseInt(item.descriptor) < 1700
+              )
+            "
+            sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
           />
         </CaSlide>
       </template>

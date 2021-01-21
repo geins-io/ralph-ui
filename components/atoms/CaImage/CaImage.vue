@@ -93,16 +93,16 @@ export default {
       const array = this.sizeArray?.length
         ? this.sizeArray
         : this.$config.imageSizes[this.type];
-      const srcset = array.map(x => {
+      const srcset = array.map(item => {
         const src =
           this.$config.imageServer +
           '/' +
           this.type +
           '/' +
-          x.folder +
+          item.folder +
           '/' +
           this.filename;
-        return src + ' ' + x.descriptor;
+        return src + ' ' + item.descriptor;
       });
       return srcset.toString();
     },
