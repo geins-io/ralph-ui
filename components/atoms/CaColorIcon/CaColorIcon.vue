@@ -12,7 +12,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-color-icon.scss_
 export default {
   name: 'CaColorIcon',
-  components: {},
   mixins: [],
   props: {
     // Hex color to be displayed

@@ -18,14 +18,12 @@
   </div>
 </template>
 <script>
-import CaIcon from 'CaIcon';
 // @group Molecules
 // @vuese
 // Multi choice filter<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-filter-multi.scss_
 export default {
   name: 'CaFilterMulti',
-  components: { CaIcon },
   mixins: [],
   props: {
     // The selectable values

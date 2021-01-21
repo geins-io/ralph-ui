@@ -160,9 +160,6 @@
   </div>
 </template>
 <script>
-import CaIconButton from 'CaIconButton';
-import CaOverlay from 'CaOverlay';
-import CaIconAndText from 'CaIconAndText';
 // import CaImage from 'CaImage';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 // @group Molecules
@@ -170,7 +167,6 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 // **SASS-path:** _./styles/components/molecules/ca-search.scss_
 export default {
   name: 'CaSearch',
-  components: { CaIconButton, CaOverlay, CaIconAndText },
   mixins: [],
   props: {
     // Used to toogle search in mobile, set to true when user opens it

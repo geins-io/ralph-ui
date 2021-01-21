@@ -15,7 +15,6 @@
   </component>
 </template>
 <script>
-import CaImage from 'CaImage';
 import MixLinkHandler from 'MixLinkHandler';
 // @group Molecules
 // @vuese
@@ -23,7 +22,6 @@ import MixLinkHandler from 'MixLinkHandler';
 // **SASS-path:** _./styles/components/molecules/ca-widget-image.scss_
 export default {
   name: 'CaWidgetImage',
-  components: { CaImage },
   mixins: [MixLinkHandler],
   props: {
     // Widget configuration object

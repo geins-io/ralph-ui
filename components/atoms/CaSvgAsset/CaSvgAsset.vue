@@ -8,7 +8,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-svg-asset.scss_
 export default {
   name: 'CaSvgAsset',
-  components: {},
   mixins: [],
   props: {
     // The name of the file (without '.svg')

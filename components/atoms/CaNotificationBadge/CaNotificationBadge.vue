@@ -7,7 +7,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-notification-badge.scss_
 export default {
   name: 'CaNotificationBadge',
-  components: {},
   mixins: [],
   props: {
     // The number to be displayed

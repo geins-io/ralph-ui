@@ -12,14 +12,12 @@
   </ul>
 </template>
 <script>
-import CaProductCard from 'CaProductCard';
 // @group Molecules
 // @vuese
 // A list of product cards<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-list.scss_
 export default {
   name: 'CaProductList',
-  components: { CaProductCard },
   mixins: [],
   props: {
     // Array of products

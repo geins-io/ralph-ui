@@ -11,7 +11,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-secondary-nav-item.scss_
 export default {
   name: 'CaSecondaryNavItem',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

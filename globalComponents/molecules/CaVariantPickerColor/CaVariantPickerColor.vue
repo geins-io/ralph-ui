@@ -17,7 +17,6 @@
   </div>
 </template>
 <script>
-import CaColorIcon from 'CaColorIcon';
 import MixVariantPicker from 'MixVariantPicker';
 // @group Molecules
 // @vuese
@@ -25,7 +24,6 @@ import MixVariantPicker from 'MixVariantPicker';
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker-color.scss_
 export default {
   name: 'CaVariantPickerColor',
-  components: { CaColorIcon },
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({

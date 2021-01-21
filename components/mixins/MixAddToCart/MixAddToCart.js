@@ -5,7 +5,6 @@ import addToCartMutation from 'cart/add.graphql';
 // A mixin for the add to cart function
 export default {
   name: 'MixAddToCart',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({

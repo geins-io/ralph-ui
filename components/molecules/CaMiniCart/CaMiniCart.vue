@@ -25,15 +25,11 @@
   </button>
 </template>
 <script>
-import CaIcon from 'CaIcon';
-import CaNotificationBadge from 'CaNotificationBadge';
-
 // @group Molecules
 // The cart displayed in the header<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-mini-cart.scss_
 export default {
   name: 'CaMiniCart',
-  components: { CaIcon, CaNotificationBadge },
   props: {
     // Name for the icon to be used. See documentation for [CaIcon](/components/CaIcon) to learn more.
     cartIcon: {

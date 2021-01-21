@@ -43,9 +43,6 @@
   </div>
 </template>
 <script>
-import CaOverlay from 'CaOverlay';
-import CaIconButton from 'CaIconButton';
-import CaIconAndText from 'CaIconAndText';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import eventbus from '~/plugins/event-bus.js';
 
@@ -56,7 +53,6 @@ import eventbus from '~/plugins/event-bus.js';
 // **SASS-path:** _./styles/components/molecules/ca-content-panel.scss_
 export default {
   name: 'CaContentPanel',
-  components: { CaOverlay, CaIconButton, CaIconAndText },
   mixins: [],
   props: {
     // The name id of the content panel. Used in trigger call to open panel

@@ -26,13 +26,11 @@
   </div>
 </template>
 <script>
-import CaIconButton from 'CaIconButton';
 // @group Molecules
 // Used to modify quantity of products<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-quantity.scss_
 export default {
   name: 'CaProductQuantity',
-  components: { CaIconButton },
   mixins: [],
   props: {
     // The quantity to be modified

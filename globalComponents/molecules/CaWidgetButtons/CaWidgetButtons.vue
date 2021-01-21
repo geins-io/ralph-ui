@@ -11,14 +11,12 @@
   </div>
 </template>
 <script>
-import CaButton from 'CaButton';
 // @group Molecules
 // @vuese
 // A widget tha displays one or more buttons<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-buttons.scss_
 export default {
   name: 'CaWidgetButtons',
-  components: { CaButton },
   mixins: [],
   props: {
     // Widget configuration object

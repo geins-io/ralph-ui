@@ -22,7 +22,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-slider-dots.scss_
 export default {
   name: 'CaSliderDots',
-  components: {},
   mixins: [],
   props: {
     // Array of the corresponding slides

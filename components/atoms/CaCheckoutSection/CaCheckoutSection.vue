@@ -17,7 +17,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-checkout-section.scss_
 export default {
   name: 'CaCheckoutSection',
-  components: {},
   mixins: [],
   props: {
     // Shows an arrow at the bottom of the box

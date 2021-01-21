@@ -20,8 +20,6 @@
   </div>
 </template>
 <script>
-import CaProductList from 'CaProductList';
-import CaProductListSlider from 'CaProductListSlider';
 import productsQuery from 'productlist/products.graphql';
 // @group Molecules
 // @vuese
@@ -46,7 +44,6 @@ export default {
       }
     }
   },
-  components: { CaProductList, CaProductListSlider },
   mixins: [],
   props: {
     // Widget configuration object

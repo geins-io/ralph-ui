@@ -2,7 +2,6 @@
 // @vuese
 export default {
   name: 'MixLinkHandler',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({

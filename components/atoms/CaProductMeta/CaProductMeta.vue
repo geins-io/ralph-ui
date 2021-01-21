@@ -55,7 +55,6 @@
 // Adds a product meta script tag to the page
 export default {
   name: 'CaProductMeta',
-  components: {},
   mixins: [],
   props: {
     // Product object

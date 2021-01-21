@@ -20,14 +20,12 @@
   </div>
 </template>
 <script>
-import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
 // Used to hide part of text and display a "read more"-toggle<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-read-more.scss_
 export default {
   name: 'CaReadMore',
-  components: { CaIconAndText },
   mixins: [],
   props: {
     // Maximum height of text to show before 'read more'-function to kick in

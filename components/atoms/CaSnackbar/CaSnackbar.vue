@@ -19,7 +19,6 @@ import { mapState } from 'vuex';
 // **SASS-path:** _./styles/components/atoms/ca-snackbar.scss_
 export default {
   name: 'CaSnackbar',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

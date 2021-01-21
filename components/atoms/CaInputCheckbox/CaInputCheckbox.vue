@@ -21,14 +21,12 @@
   </div>
 </template>
 <script>
-import CaIcon from 'CaIcon';
 // @group Atoms
 // @vuese
 // Checkbox input, use v-model to bind value<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-checkbox.scss_
 export default {
   name: 'CaInputCheckbox',
-  components: { CaIcon },
   mixins: [],
   model: {
     prop: 'checked',

@@ -4,7 +4,6 @@ import eventbus from '~/plugins/event-bus.js';
 // @vuese
 export default {
   name: 'MixVariantPicker',
-  components: {},
   mixins: [MixStockHandler],
   props: {
     // A list of variants (VariantType from the API)

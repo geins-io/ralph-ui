@@ -11,7 +11,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-flag.scss_
 export default {
   name: 'CaFlag',
-  components: {},
   mixins: [],
   props: {
     // The [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country

@@ -15,7 +15,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-cart-total.scss_
 export default {
   name: 'CaCartTotal',
-  components: {},
   mixins: [],
   props: {
     cartTotal: {

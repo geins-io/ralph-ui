@@ -16,20 +16,12 @@
   </div>
 </template>
 <script>
-import CaVariantPickerColor from 'CaVariantPickerColor';
-import CaVariantPickerDisplay from 'CaVariantPickerDisplay';
-import CaVariantPickerPanel from 'CaVariantPickerPanel';
 // @group Molecules
 // @vuese
 // The shell for all variant pickers. displays the title above and the picker chosen by type below<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-variant-picker.scss_
 export default {
   name: 'CaVariantPicker',
-  components: {
-    CaVariantPickerColor,
-    CaVariantPickerDisplay,
-    CaVariantPickerPanel
-  },
   mixins: [],
   props: {
     // A list of variants (VariantType from the API)
@@ -63,11 +55,11 @@ export default {
     picker() {
       switch (this.type) {
         case 'color':
-          return CaVariantPickerColor;
+          return 'CaVariantPickerColor';
         case 'display':
-          return CaVariantPickerDisplay;
+          return 'CaVariantPickerDisplay';
         default:
-          return CaVariantPickerPanel;
+          return 'CaVariantPickerPanel';
       }
     }
   },

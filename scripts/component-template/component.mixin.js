@@ -2,7 +2,6 @@
 // @vuese
 export default {
   name: 'ComponentNameCamelCase',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),
