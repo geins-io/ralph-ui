@@ -1,5 +1,10 @@
 <template>
-  <component :is="currentWidget" class="ca-widget" :configuration="confObj">
+  <component
+    :is="currentWidget"
+    class="ca-widget"
+    :configuration="confObj"
+    :image-sizes="imageSizes"
+  >
   </component>
 </template>
 <script>
@@ -19,6 +24,11 @@ export default {
     // Type of widget
     type: {
       // 'Image', 'Text', 'Product list'
+      type: String,
+      required: true
+    },
+    // Sizes attribute for the widget image
+    imageSizes: {
       type: String,
       required: true
     }

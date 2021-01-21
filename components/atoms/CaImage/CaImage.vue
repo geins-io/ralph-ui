@@ -14,6 +14,8 @@
       :alt="alt"
       :loading="loading"
       :style="loadingStyles"
+      :srcset="imgSrcset"
+      :sizes="sizes"
       @load="loadedAction"
     />
   </div>
@@ -27,8 +29,13 @@ export default {
   name: 'CaImage',
   mixins: [],
   props: {
-    // The size of the image. Defined as '200w', '500x200' or '300f300'
-    size: {
+    // The Array of Objects with image sizes for the image. E.g [{folder: '100x100', descriptor: '100w'}}
+    sizeArray: {
+      type: Array,
+      default: () => []
+    },
+    // The sizes string
+    sizes: {
       type: String,
       default: ''
     },
@@ -57,6 +64,7 @@ export default {
       type: String,
       default: ''
     },
+    // Value for the loading attribute
     loading: {
       type: String,
       default: 'lazy'
@@ -73,11 +81,31 @@ export default {
             '/' +
             this.type +
             '/' +
-            this.size +
+            (this.sizeArray?.[0]?.folder ??
+              this.$config.imageSizes?.[this.type]?.[0]?.folder) +
             '/' +
             this.filename;
     },
+    imgSrcset() {
+      if (this.sizeArray.length === 0 && this.src !== '') return '';
+      const array = this.sizeArray?.length
+        ? this.sizeArray
+        : this.$config.imageSizes[this.type];
+      const srcset = array.map(item => {
+        const src =
+          this.$config.imageServer +
+          '/' +
+          this.type +
+          '/' +
+          item.folder +
+          '/' +
+          this.filename;
+        return src + ' ' + item.descriptor;
+      });
+      return srcset.toString();
+    },
     loadingStyles() {
+      // Instead of v-show, because display none never initializes the loading of the image
       let style = '';
       if (!this.loaded) {
         style = 'visibility: hidden; height: 0;';

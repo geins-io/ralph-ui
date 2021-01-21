@@ -6,6 +6,7 @@
         :key="index"
         :widgets="container.widgets"
         :layout="container.layout"
+        :widget-image-sizes="widgetImageSizes"
       />
     </div>
   </div>
@@ -52,10 +53,17 @@ export default {
       type: String,
       default: ''
     },
+    // The widget area alias, if content page
     alias: {
       type: String,
       default: ''
     },
+    // Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set
+    widgetImageSizes: {
+      type: Object,
+      default: null
+    },
+    // Filters for the area
     filters: {
       type: Array,
       default: () => []
