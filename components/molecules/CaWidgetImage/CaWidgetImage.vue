@@ -9,14 +9,15 @@
       size="1360w"
       type="pagewidget"
       :alt="altText"
-      :filename="configuration.image.filename"
+      :filename="filename"
       :ratio="630 / 902"
+      :sizes="imageSizes"
     />
   </component>
 </template>
 <script>
 import CaImage from 'CaImage';
-import MixLinkHandler from 'MixLinkHandler';
+import MixWidgetImage from 'MixWidgetImage';
 // @group Molecules
 // @vuese
 // Widget displaying an image<br><br>
@@ -24,23 +25,21 @@ import MixLinkHandler from 'MixLinkHandler';
 export default {
   name: 'CaWidgetImage',
   components: { CaImage },
-  mixins: [MixLinkHandler],
+  mixins: [MixWidgetImage],
   props: {
     // Widget configuration object
     configuration: {
       type: Object,
       required: true
+    },
+    // Sizes attribute for widget image
+    imageSizes: {
+      type: String,
+      required: true
     }
   },
   data: () => ({}),
-  computed: {
-    href() {
-      return this.configuration.image.href;
-    },
-    altText() {
-      return this.configuration.image.altText || 'Widget image';
-    }
-  },
+  computed: {},
   watch: {},
   mounted() {},
   methods: {}

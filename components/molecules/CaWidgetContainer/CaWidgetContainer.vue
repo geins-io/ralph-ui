@@ -5,6 +5,7 @@
       :key="index"
       :type="widget.name"
       :configuration="widget.configuration"
+      :image-sizes="imageSizes"
     />
   </div>
 </template>
@@ -29,12 +30,22 @@ export default {
     layout: {
       type: String,
       required: true
+    },
+    // Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set
+    widgetImageSizes: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({}),
   computed: {
     layoutClass() {
       return 'ca-widget-container--' + this.layout;
+    },
+    imageSizes() {
+      return this.widgetImageSizes
+        ? this.widgetImageSizes[this.layout]
+        : this.$config.widgetImageSizes[this.layout];
     }
   },
   watch: {},
