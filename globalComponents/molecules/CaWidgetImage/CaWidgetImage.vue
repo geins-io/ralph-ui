@@ -10,7 +10,7 @@
       type="pagewidget"
       :alt="altText"
       :filename="filename"
-      :ratio="630 / 902"
+      :ratio="currentRatio"
       :sizes="imageSizes"
     />
   </component>
@@ -24,18 +24,7 @@ import MixWidgetImage from 'MixWidgetImage';
 export default {
   name: 'CaWidgetImage',
   mixins: [MixWidgetImage],
-  props: {
-    // Widget configuration object
-    configuration: {
-      type: Object,
-      required: true
-    },
-    // Sizes attribute for widget image
-    imageSizes: {
-      type: String,
-      required: true
-    }
-  },
+  props: {},
   data: () => ({}),
   computed: {},
   watch: {},

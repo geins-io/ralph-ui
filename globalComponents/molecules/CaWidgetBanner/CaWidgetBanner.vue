@@ -13,7 +13,7 @@
           :alt="altText"
           :filename="filename"
           :sizes="imageSizes"
-          :ratio="583 / 1360"
+          :ratio="currentRatio"
         />
       </div>
       <div
@@ -56,18 +56,7 @@ import MixWidgetImage from 'MixWidgetImage';
 export default {
   name: 'CaWidgetBanner',
   mixins: [MixWidgetImage],
-  props: {
-    // Widget configuration object
-    configuration: {
-      type: Object,
-      required: true
-    },
-    // Sizes attribute for widget image
-    imageSizes: {
-      type: String,
-      required: true
-    }
-  },
+  props: {},
   data: () => ({}),
   computed: {
     modifiers() {

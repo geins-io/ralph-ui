@@ -5,6 +5,7 @@
       :key="index"
       :type="widget.name"
       :configuration="widget.configuration"
+      :image-ratios="widget.images"
       :image-sizes="imageSizes"
     />
   </div>

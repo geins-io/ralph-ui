@@ -6,7 +6,23 @@ export default {
   name: 'MixWidgetImage',
   components: {},
   mixins: [MixLinkHandler],
-  props: {},
+  props: {
+    // Widget configuration object
+    configuration: {
+      type: Object,
+      required: true
+    },
+    // Sizes attribute for widget image
+    imageSizes: {
+      type: String,
+      required: true
+    },
+    // Image ratios
+    imageRatios: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({}),
   computed: {
     // @vuese
@@ -44,6 +60,19 @@ export default {
       return this.configuration.image.filename
         ? this.configuration.image.filename
         : this.configuration.image.filenameForMobileDevice;
+    },
+    // @vuese
+    // The current image ratio
+    // @type Number
+    currentRatio() {
+      const currentSize = this.imageRatios.find(
+        item => item.fileName === this.filename
+      ).largestSize;
+
+      const height = currentSize.imageHeight;
+      const width = currentSize.imageWidth;
+
+      return height / width;
     }
   },
   watch: {},

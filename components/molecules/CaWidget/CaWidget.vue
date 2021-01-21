@@ -4,6 +4,7 @@
     class="ca-widget"
     :configuration="confObj"
     :image-sizes="imageSizes"
+    :image-ratios="imageRatios"
   >
   </component>
 </template>
@@ -30,6 +31,10 @@ export default {
     // Sizes attribute for the widget image
     imageSizes: {
       type: String,
+      required: true
+    },
+    imageRatios: {
+      type: Array,
       required: true
     }
     // Widget size
