@@ -26,7 +26,6 @@ import MixVariantPicker from 'MixVariantPicker';
 // **SASS-path:** _./styles/components/atoms/ca-variant-picker-display.scss_
 export default {
   name: 'CaVariantPickerDisplay',
-  components: {},
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({

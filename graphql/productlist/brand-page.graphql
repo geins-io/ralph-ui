@@ -4,6 +4,7 @@ query listPageInfo($apiKey: String!, $brandAlias: String!) {
     primaryImage
     logo
     name
+    brandId
     primaryDescription
     secondaryDescription
   }

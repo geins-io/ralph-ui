@@ -8,7 +8,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-skeleton.scss_
 export default {
   name: 'CaSkeleton',
-  components: {},
   mixins: [],
   props: {
     // Height / Width

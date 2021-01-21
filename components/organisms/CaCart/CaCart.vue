@@ -14,15 +14,12 @@
   </div>
 </template>
 <script>
-import CaCartProduct from 'CaCartProduct';
-import CaCartTotal from 'CaCartTotal';
 // @group Organisms
 // @vuese
 // Displaying the products in the cart, discount code field and cart summary<br><br>
 // **SASS-path:** _./styles/components/organisms/ca-cart.scss_
 export default {
   name: 'CaCart',
-  components: { CaCartProduct, CaCartTotal },
   mixins: [],
   props: {
     // Cart data object

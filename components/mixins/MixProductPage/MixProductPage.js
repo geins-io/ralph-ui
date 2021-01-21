@@ -8,7 +8,6 @@ import productQuery from 'product/product.graphql';
 // error: `null`
 export default {
   name: 'MixProductPage',
-  components: {},
   mixins: [],
   props: {},
   apollo: {
@@ -50,6 +49,31 @@ export default {
     // @type String
     prodAlias() {
       return this.replaceAlias || this.$route.params.alias;
+    },
+    // @vuese
+    // Returns array of widget filters
+    // @type Array
+    widgetAreaFilters() {
+      const filtersArray = [];
+
+      if (this.product) {
+        const categoryObj = {};
+        categoryObj.key = 'CategoryId';
+        categoryObj.value = this.product.categories[0].categoryId.toString();
+        filtersArray.push(categoryObj);
+
+        const brandObj = {};
+        brandObj.key = 'BrandId';
+        brandObj.value = this.product.brand.brandId.toString();
+        filtersArray.push(brandObj);
+
+        const productObj = {};
+        productObj.key = 'ProductId';
+        productObj.value = this.product.productId.toString();
+        filtersArray.push(productObj);
+      }
+
+      return filtersArray;
     }
   },
   watch: {

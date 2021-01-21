@@ -21,14 +21,13 @@
 </template>
 <script>
 import SlideUpDown from 'vue-slide-up-down';
-import CaIconAndText from 'CaIconAndText';
 // @group Molecules
 // @vuese
 // Toggle content by clicking parent<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-accordion-item.scss_
 export default {
   name: 'CaAccordionItem',
-  components: { SlideUpDown, CaIconAndText },
+  components: { SlideUpDown },
   mixins: [],
   props: {
     // Should it be open on page load?

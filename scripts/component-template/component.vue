@@ -8,7 +8,6 @@
 // **SASS-path:** _./styles/components/ComponentType/ComponentNameKebabCase.scss_
 export default {
   name: 'ComponentNameCamelCase',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

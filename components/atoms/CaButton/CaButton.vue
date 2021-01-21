@@ -8,21 +8,17 @@
   >
     <!-- Button text / content -->
     <slot></slot>
-    <CaSpinner class="ca-button__spinner" :loading="loading" />
+    <LazyCaSpinner class="ca-button__spinner" :loading="loading" />
   </component>
 </template>
 <script>
 import MixLinkHandler from 'MixLinkHandler';
-const CaSpinner = () => ({
-  component: import('CaSpinner')
-});
 
 // @group Atoms
 // A button for click events or links<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-button.scss_
 export default {
   name: 'CaButton',
-  components: { CaSpinner },
   mixins: [MixLinkHandler],
   props: {
     // Set this to link button somewhere

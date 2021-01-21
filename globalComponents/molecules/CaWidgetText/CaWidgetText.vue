@@ -29,7 +29,6 @@
 // **SASS-path:** _./styles/components/molecules/ca-widget-text.scss_
 export default {
   name: 'CaWidgetText',
-  components: {},
   mixins: [],
   props: {
     // Widget configuration object

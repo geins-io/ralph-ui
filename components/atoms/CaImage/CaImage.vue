@@ -21,14 +21,12 @@
   </div>
 </template>
 <script>
-import CaSkeleton from 'CaSkeleton';
 // @group Atoms
 // @vuese
 // Display an image in a specific size<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-image.scss_
 export default {
   name: 'CaImage',
-  components: { CaSkeleton },
   mixins: [],
   props: {
     // The Array of Objects with image sizes for the image. E.g [{folder: '100x100', descriptor: '100w'}}

@@ -9,7 +9,6 @@
 // maxDecimals: `0`
 export default {
   name: 'MixNumberFormat',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({

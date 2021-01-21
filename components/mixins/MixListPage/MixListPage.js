@@ -19,7 +19,6 @@
 // relocateTimeout: `null`
 export default {
   name: 'MixListPage',
-  components: {},
   mixins: [],
   apollo: {
     products: {
@@ -276,6 +275,23 @@ export default {
         prodArray.push({});
       }
       return prodArray;
+    },
+    // @vuese
+    // Returns array of widget filters
+    // @type Array
+    widgetAreaFilters() {
+      const filtersArray = [];
+      const filterObj = {};
+      if (this.isCategory && this.listInfo) {
+        filterObj.key = 'CategoryId';
+        filterObj.value = this.listInfo.categoryId.toString();
+        filtersArray.push(filterObj);
+      } else if (this.isBrand && this.listInfo) {
+        filterObj.key = 'BrandId';
+        filterObj.value = this.listInfo.brandId.toString();
+        filtersArray.push(filterObj);
+      }
+      return filtersArray;
     }
   },
   watch: {},

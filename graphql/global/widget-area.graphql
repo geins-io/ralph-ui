@@ -1,9 +1,10 @@
 query widgetArea(
   $apiKey: String!
-  $family: String!
-  $areaName: String!
-  $alias: String!
-  $displaySetting: String!
+  $family: String = null
+  $areaName: String = null
+  $alias: String = null
+  $displaySetting: String = null
+  $filters: [PageWidgetCollectionFilterInputType] = null
 ) {
   widgetArea(
     apiKey: $apiKey
@@ -11,6 +12,7 @@ query widgetArea(
     areaName: $areaName
     alias: $alias
     displaySetting: $displaySetting
+    filters: $filters
   ) {
     containers {
       layout

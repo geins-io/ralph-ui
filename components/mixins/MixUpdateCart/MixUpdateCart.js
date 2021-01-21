@@ -4,7 +4,6 @@ import updateCartMutation from 'cart/update.graphql';
 // Function to update the current cart
 export default {
   name: 'MixUpdateCart',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

@@ -10,7 +10,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-slide.scss_
 export default {
   name: 'CaSlide',
-  components: {},
   mixins: [],
   props: {
     // Order index of the slide

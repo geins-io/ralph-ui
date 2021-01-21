@@ -6,7 +6,6 @@ import MixStockHandler from 'MixStockHandler';
 // chosenSku: `{ id: null, value: '' }`<br>
 export default {
   name: 'MixVariantHandler',
-  components: {},
   mixins: [MixStockHandler],
   props: {},
   data: () => ({

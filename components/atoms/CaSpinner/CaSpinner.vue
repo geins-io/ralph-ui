@@ -8,7 +8,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-spinner.scss_
 export default {
   name: 'CaSpinner',
-  components: {},
   mixins: [],
   props: {
     // Set true to show spinner

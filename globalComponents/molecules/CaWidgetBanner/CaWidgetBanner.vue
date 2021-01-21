@@ -48,8 +48,6 @@
   </div>
 </template>
 <script>
-import CaImage from 'CaImage';
-import CaButton from 'CaButton';
 import MixWidgetImage from 'MixWidgetImage';
 // @group Molecules
 // @vuese
@@ -57,7 +55,6 @@ import MixWidgetImage from 'MixWidgetImage';
 // **SASS-path:** _./styles/components/molecules/ca-widget-banner.scss_
 export default {
   name: 'CaWidgetBanner',
-  components: { CaImage, CaButton },
   mixins: [MixWidgetImage],
   props: {
     // Widget configuration object

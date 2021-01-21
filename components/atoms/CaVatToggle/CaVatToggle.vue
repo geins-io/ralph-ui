@@ -23,7 +23,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-vat-toggle.scss_
 export default {
   name: 'CaVatToggle',
-  components: {},
   mixins: [],
   props: {},
   data: () => ({}),

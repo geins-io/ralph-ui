@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="ca-slider-arrows">
+  <div v-if="currentlyVisible" class="ca-slider-arrows">
     <CaIconButton
       class="ca-slider-arrows__arrow ca-slider-arrows__arrow--left"
       aria-label="Arrow left"
@@ -17,14 +17,12 @@
   </div>
 </template>
 <script>
-import CaIconButton from 'CaIconButton';
 // @group Atoms
 // @vuese
 // Slider arrows for CaSlider<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-slider-arrows.scss_
 export default {
   name: 'CaSliderArrows',
-  components: { CaIconButton },
   mixins: [],
   props: {
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
@@ -49,7 +47,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    currentlyVisible() {
+      return this.visible && !(this.minReached && this.maxReached);
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

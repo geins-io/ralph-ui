@@ -8,24 +8,12 @@
   </component>
 </template>
 <script>
-import CaWidgetText from 'CaWidgetText';
-import CaWidgetImage from 'CaWidgetImage';
-import CaWidgetButtons from 'CaWidgetButtons';
-import CaWidgetProductList from 'CaWidgetProductList';
-import CaWidgetBanner from 'CaWidgetBanner';
 // @group Molecules
 // @vuese
 // Shell for displaying widget component based on type<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 export default {
   name: 'CaWidget',
-  components: {
-    CaWidgetImage,
-    CaWidgetText,
-    CaWidgetButtons,
-    CaWidgetProductList,
-    CaWidgetBanner
-  },
   mixins: [],
   props: {
     // Configuration JSON object
@@ -61,15 +49,15 @@ export default {
     },
     currentWidget() {
       if (this.type === 'Image') {
-        return CaWidgetImage;
+        return 'CaWidgetImage';
       } else if (this.type === 'Text') {
-        return CaWidgetText;
+        return 'CaWidgetText';
       } else if (this.type === 'Buttons') {
-        return CaWidgetButtons;
+        return 'CaWidgetButtons';
       } else if (this.type === 'Product list') {
-        return CaWidgetProductList;
+        return 'CaWidgetProductList';
       } else if (this.type === 'Banner') {
-        return CaWidgetBanner;
+        return 'CaWidgetBanner';
       } else return '';
     }
   },

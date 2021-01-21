@@ -12,8 +12,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import CaIcon from 'CaIcon';
-import CaNotificationBadge from 'CaNotificationBadge';
 
 // @group Molecules
 // @vuese
@@ -21,7 +19,6 @@ import CaNotificationBadge from 'CaNotificationBadge';
 // **SASS-path:** _./styles/components/molecules/ca-favorites.scss_
 export default {
   name: 'CaFavorites',
-  components: { CaIcon, CaNotificationBadge },
   mixins: [],
   props: {},
   data: () => ({}),

@@ -11,13 +11,11 @@
   </component>
 </template>
 <script>
-import CaIcon from 'CaIcon';
 // @group Atoms
 // A clickable icon<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-icon-button.scss_
 export default {
   name: 'CaIconButton',
-  components: { CaIcon },
   mixins: [],
   props: {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.

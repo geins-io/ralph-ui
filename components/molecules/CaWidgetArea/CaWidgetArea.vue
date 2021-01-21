@@ -12,7 +12,6 @@
   </div>
 </template>
 <script>
-import CaWidgetContainer from 'CaWidgetContainer';
 import widgetAreaQuery from 'global/widget-area.graphql';
 // @group Molecules
 // @vuese
@@ -29,7 +28,8 @@ export default {
           family: this.family,
           areaName: this.areaName,
           alias: this.alias,
-          displaySetting: this.displaySetting
+          displaySetting: this.displaySetting,
+          filters: this.filters
         };
       },
       result() {
@@ -41,7 +41,6 @@ export default {
       }
     }
   },
-  components: { CaWidgetContainer },
   mixins: [],
   props: {
     // The widget area family
@@ -63,6 +62,11 @@ export default {
     widgetImageSizes: {
       type: Object,
       default: null
+    },
+    // Filters for the area
+    filters: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({}),

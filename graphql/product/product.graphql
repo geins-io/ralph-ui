@@ -9,10 +9,12 @@ query product($alias: String!, $apiKey: String!) {
     brand {
       name
       alias
+      brandId
     }
     images
     categories {
       name
+      categoryId
     }
     unitPrice {
       ...Price

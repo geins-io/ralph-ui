@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="visible" class="ca-slider-dots">
+  <ul v-if="currentlyVisible" class="ca-slider-dots">
     <li
       v-for="(slide, index) in slides"
       :key="index"
@@ -22,7 +22,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-slider-dots.scss_
 export default {
   name: 'CaSliderDots',
-  components: {},
   mixins: [],
   props: {
     // Array of the corresponding slides
@@ -47,7 +46,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    currentlyVisible() {
+      return this.visible && this.slides.length > this.slidesToScroll;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {

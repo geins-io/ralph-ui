@@ -15,7 +15,6 @@
 // **SASS-path:** _./styles/components/atoms/ca-overlay.scss_
 export default {
   name: 'CaOverlay',
-  components: {},
   mixins: [],
   props: {
     // Set to true when visible to enable clicks of the overlay
