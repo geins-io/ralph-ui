@@ -5,7 +5,7 @@
     class="ca-checkout-klarna"
     v-html="klarnaResponse.htmlSnippet"
   ></div>
-  <LazyCaSpinner v-else class="ca-checkout-klarna__loading" />
+  <CaSpinner v-else class="ca-checkout-klarna__loading" />
 </template>
 <script>
 import getKlarnaQuery from 'checkout/get-klarna.graphql';

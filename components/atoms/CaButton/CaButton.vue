@@ -8,7 +8,7 @@
   >
     <!-- Button text / content -->
     <slot></slot>
-    <LazyCaSpinner class="ca-button__spinner" :loading="loading" />
+    <CaSpinner class="ca-button__spinner" :loading="loading" />
   </component>
 </template>
 <script>

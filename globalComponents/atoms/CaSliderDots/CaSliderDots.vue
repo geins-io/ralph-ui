@@ -1,16 +1,16 @@
 <template>
   <ul v-show="currentlyVisible" class="ca-slider-dots">
     <li
-      v-for="(slide, index) in slides"
+      v-for="(slide, index) in slides.filter(
+        (item, arrayIndex) => arrayIndex % slidesToScroll === 0
+      )"
       :key="index"
       class="ca-slider-dots__dot"
-      :class="{ 'ca-slider-dots__dot--hidden': index % slidesToScroll !== 0 }"
     >
       <button
-        v-if="index % slidesToScroll === 0"
         class="ca-slider-dots__trigger"
-        :class="getCurrentClass(index)"
-        @click="$emit('navigation', index)"
+        :class="getCurrentClass(index * slidesToScroll)"
+        @click="$emit('navigation', index * slidesToScroll)"
       ></button>
     </li>
   </ul>

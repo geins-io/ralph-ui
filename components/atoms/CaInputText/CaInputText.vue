@@ -22,7 +22,7 @@
         @blur="blurHandler"
         @focus="focused = true"
       />
-      <LazyCaSpinner class="ca-input-text__spinner" :loading="loading" />
+      <CaSpinner class="ca-input-text__spinner" :loading="loading" />
       <CaIcon
         v-if="!allValid"
         class="ca-input-text__error-icon"
