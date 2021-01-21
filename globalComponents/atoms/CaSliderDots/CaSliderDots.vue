@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="currentlyVisible" class="ca-slider-dots">
+  <ul v-show="currentlyVisible" class="ca-slider-dots">
     <li
       v-for="(slide, index) in slides"
       :key="index"
