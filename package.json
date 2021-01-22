@@ -23,7 +23,9 @@
     }
   },
   "dependencies": {
-    "flag-icon-css": "^3.5.0"
+    "body-scroll-lock": "^3.1.5",
+    "vue-slide-up-down": "^2.0.1",
+    "vue-slider-component": "^3.2.11"
   },
   "vuese": {
     "outDir": "documentation",
@@ -51,7 +53,6 @@
     "prettier": "^1.19.1",
     "sass-loader": "^10.1.1",
     "stylelint": "^13.8.0",
-    "svg-inline-loader": "^0.8.2",
     "uppercamelcase": "^3.0.0",
     "vue-jest": "^4.0.0-rc.1"
   }
