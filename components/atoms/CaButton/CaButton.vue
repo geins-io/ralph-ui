@@ -46,19 +46,13 @@ export default {
     type: {
       // 'default', 'full-width'
       type: String,
-      default: 'default',
-      validator(value) {
-        return ['default', 'full-width'].includes(value);
-      }
+      default: 'default'
     },
     // Color of button
     color: {
-      // 'default', 'secondary'
+      // 'primary', 'secondary'
       type: String,
-      default: 'default',
-      validator(value) {
-        return ['default', 'secondary'].includes(value);
-      }
+      default: 'primary'
     },
     // Set button in loading state
     loading: {
@@ -71,13 +65,21 @@ export default {
   }),
   computed: {
     modifiers() {
-      return {
-        'ca-button--disabled': this.disabled,
-        'ca-button--small': this.size === 's',
-        'ca-button--full-width': this.type === 'full-width',
-        'ca-button--secondary': this.color === 'secondary',
-        'ca-button--loading': this.loading
-      };
+      const baseClass = 'ca-button--';
+      const modifiers = [];
+
+      if (this.disabled) {
+        modifiers.push(baseClass + 'disabled');
+      }
+      if (this.loading) {
+        modifiers.push(baseClass + 'loading');
+      }
+
+      modifiers.push(baseClass + this.size);
+      modifiers.push(baseClass + this.type);
+      modifiers.push(baseClass + this.color);
+
+      return modifiers;
     }
   },
   watch: {},

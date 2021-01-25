@@ -36,13 +36,13 @@
         >
           {{ configuration.text2 }}
         </p>
-        <CaButton
+        <CaWidgetBannerButton
           v-if="configuration.buttonText"
           class="ca-widget-banner__button"
-          :size="$store.getters.viewportComputer ? 'm' : 's'"
+          :text-color="configuration.textColor"
         >
           {{ configuration.buttonText }}
-        </CaButton>
+        </CaWidgetBannerButton>
       </div>
     </component>
   </div>

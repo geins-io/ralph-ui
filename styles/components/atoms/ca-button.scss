@@ -1,8 +1,5 @@
 .ca-button {
   display: inline-block;
-  background: $c-button-main-bg;
-  color: $c-button-main-txt;
-  border: $button-main-border;
   font-size: $font-size-m;
   font-weight: $font-weight-bold;
   text-transform: uppercase;
@@ -10,15 +7,21 @@
   white-space: nowrap;
   position: relative;
   transition: background 150ms ease;
-  &:hover {
-    background: $c-button-main-bg-hover;
-  }
   &__spinner {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-top: -10px;
     margin-left: -10px;
+  }
+  // Colors
+  &--primary {
+    background: $c-button-primary-bg;
+    color: $c-button-primary-txt;
+    border: $button-primary-border;
+    &:hover {
+      background: $c-button-primary-bg-hover;
+    }
   }
   &--secondary {
     background: $c-button-secondary-bg;
@@ -28,10 +31,12 @@
       background: $c-button-secondary-bg-hover;
     }
   }
-  &--small {
+  // Sizes
+  &--s {
     padding: 0.6em 0.9em;
     font-size: $font-size-s;
   }
+  // Types
   &--full-width {
     width: 100%;
     padding-left: 0.7em;
