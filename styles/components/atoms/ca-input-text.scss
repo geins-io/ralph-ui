@@ -5,6 +5,7 @@
   height: 50px;
   border: $input-border;
   background: $c-input-background;
+  border-radius: $input-border-radius;
   &__wrap {
     & + & {
       margin: $px16 0 0;

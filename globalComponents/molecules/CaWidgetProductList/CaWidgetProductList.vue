@@ -6,8 +6,6 @@
       class="ca-widget-product-list__list"
       :products="allProducts"
       :page-size="take"
-      :filters-active="false"
-      :skip="0"
     />
     <CaProductListSlider
       v-else

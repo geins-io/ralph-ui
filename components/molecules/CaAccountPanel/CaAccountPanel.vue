@@ -95,7 +95,7 @@
         class="ca-account-panel__button"
         type="full-width"
         :loading="createMode && loading"
-        :color="loginMode ? 'secondary' : 'default'"
+        :color="loginMode ? 'secondary' : 'primary'"
         @clicked="createAccountHandler()"
       >
         {{ $t('CREATE_ACCOUNT') }}

@@ -33,7 +33,7 @@ export default {
     // Current skip
     skip: {
       type: Number,
-      required: true
+      default: 0
     },
     // Are any filters active for the products data?
     filtersActive: {
