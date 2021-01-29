@@ -5,6 +5,7 @@
       :key="index"
       :product="product"
       :page-number="getPageNumber(index)"
+      :product-card-type="productCardType"
     />
     <li v-if="productsEmpty" class="ca-product-list__empty">
       {{ $t('NO_PRODUCTS_MATCH') }}
@@ -39,6 +40,11 @@ export default {
     filtersActive: {
       type: Boolean,
       default: false
+    },
+    // Type of product card, to be able to display slightly different product cards in different product lists
+    productCardType: {
+      type: String,
+      default: 'default'
     }
   },
   data: () => ({}),

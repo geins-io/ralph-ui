@@ -4,6 +4,7 @@
     v-bind="linkElemAttributes"
     class="ca-button"
     :class="modifiers"
+    :tabindex="disabled ? '-1' : '0'"
     @click="$emit('clicked')"
   >
     <!-- Button text / content -->

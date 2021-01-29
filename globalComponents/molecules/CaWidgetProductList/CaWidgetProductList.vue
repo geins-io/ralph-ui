@@ -14,6 +14,7 @@
       :page-size="take"
       :arrows="configuration.displayNavigationArrows"
       :dots="configuration.displayNavigationLinks"
+      :arrow-icon-name="$config.productListWidgetArrowIconName"
     />
   </div>
 </template>
