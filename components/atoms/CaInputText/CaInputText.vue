@@ -1,7 +1,7 @@
 <template>
   <div class="ca-input-text__wrap">
     <div class="ca-input-text" :class="modifiers">
-      <label class="ca-input-text__label" :for="id">
+      <label v-if="label" class="ca-input-text__label" :for="id">
         {{ label }}
         <span v-if="!required" class="ca-input-text__optional">
           ({{ $t('INPUT_OPTIONAL') }})
@@ -223,7 +223,9 @@ export default {
     // @arg email (String)
     validateEmail(email) {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+      if (this.required || (!this.required && email !== '')) {
+        return re.test(String(email).toLowerCase());
+      } else return true;
     },
     // @vuese
     // Validates field instantly if not valid, used on keyup

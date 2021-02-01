@@ -37,6 +37,9 @@
     font-size: $font-size-s;
     padding: $px4 $px16 0 $px16;
     border-radius: $input-border-radius;
+    &:focus-visible {
+      box-shadow: none;
+    }
   }
 
   &__spinner {
