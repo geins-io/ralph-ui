@@ -32,8 +32,8 @@ export default {
           filters: this.filters
         };
       },
-      result() {
-        this.$emit('dataFetched');
+      result(result) {
+        this.$emit('dataFetched', result.data.meta);
       },
       error(error) {
         // eslint-disable-next-line no-console

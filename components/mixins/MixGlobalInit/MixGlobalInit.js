@@ -37,6 +37,9 @@ export default {
   },
   mixins: [],
   props: {},
+  head() {
+    return this.$nuxtI18nSeo({ addSeoAttributes: true });
+  },
   data: () => ({}),
   computed: {
     cartId() {
