@@ -17,7 +17,7 @@ query widgetArea(
     filters: $filters
   ) {
     meta {
-      ...meta
+      ...Meta
     }
     containers {
       layout

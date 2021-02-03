@@ -1,4 +1,4 @@
-fragment meta on MetadataType {
+fragment Meta on MetadataType {
   description
   keywords
   title

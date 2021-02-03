@@ -10,7 +10,7 @@ query listPageInfo($apiKey: String!, $alias: String!) {
     primaryDescription
     secondaryDescription
     meta {
-      ...meta
+      ...Meta
     }
   }
 }

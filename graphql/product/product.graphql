@@ -41,7 +41,7 @@ query product($alias: String!, $apiKey: String!) {
       level
     }
     meta {
-      ...meta
+      ...Meta
     }
     variantGroup {
       variants {

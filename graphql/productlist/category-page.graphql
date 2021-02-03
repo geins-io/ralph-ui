@@ -13,7 +13,7 @@ query listPageInfo($apiKey: String!, $alias: String!) {
       name
     }
     meta {
-      ...meta
+      ...Meta
     }
   }
 }
