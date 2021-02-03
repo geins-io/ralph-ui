@@ -1,11 +1,10 @@
-.ca-input-text {
+.ca-input-textarea {
   $block: &;
   position: relative;
   transition: border 0.2s ease;
-  height: 50px;
   border: $input-border;
   background: $c-input-background;
-  border-radius: $input-border-radius;
+  border-radius: $textarea-border-radius;
   &__wrap {
     & + & {
       margin: $px16 0 0;
@@ -29,10 +28,12 @@
     transition: inherit;
   }
 
-  &__input {
+  &__textarea {
     border: none;
     height: 100%;
     width: 100%;
+    max-width: 100%;
+    min-height: 6em;
     background: transparent;
     outline: none;
     font-size: $font-size-s;
@@ -41,21 +42,6 @@
     &:focus-visible {
       box-shadow: none;
     }
-  }
-
-  &__spinner {
-    @include valign;
-    right: $px16;
-    background: $c-input-background;
-  }
-
-  &__toggle-password {
-    @include valign;
-    right: $px16;
-    padding: $px4 $px10;
-    background: $c-medium-gray;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-bold;
   }
 
   &__error-icon {
@@ -72,22 +58,10 @@
     }
   }
 
-  &__password-strength {
-    position: absolute;
-    width: 100%;
-    max-width: calc(100% - #{2 * $px16}) !important;
-    left: $px16;
-    bottom: 0;
-    height: 17px;
-  }
-  &__password-meter {
-    height: 2px !important;
-  }
-
   &--empty {
     &:not(#{$block}--focused) {
       #{$block}__label {
-        top: 50%;
+        top: $px20;
         font-size: $font-size-s;
       }
     }

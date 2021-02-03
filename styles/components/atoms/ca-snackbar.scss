@@ -8,7 +8,7 @@
   font-weight: $font-weight-bold;
   font-size: $font-size-m;
   padding: $px16;
-  border-radius: 4px;
+  border-radius: rem-calc(4px);
   box-shadow: $box-shadow;
   @include bp(tablet) {
     padding: $px20;
