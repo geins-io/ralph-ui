@@ -10,6 +10,28 @@ export default {
   name: 'MixProductPage',
   mixins: [],
   props: {},
+  head() {
+    return {
+      title: this.product?.meta.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.product?.meta.description
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.product?.meta.title
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.product?.meta.description
+        }
+      ]
+    };
+  },
   apollo: {
     product: {
       query: productQuery,

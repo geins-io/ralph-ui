@@ -1,0 +1,5 @@
+fragment meta on MetadataType {
+  description
+  keywords
+  title
+}

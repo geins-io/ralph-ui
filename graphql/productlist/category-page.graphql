@@ -1,14 +1,19 @@
-query listPageInfo($apiKey: String!, $categoryAlias: String!) {
-  listPageInfo(apiKey: $apiKey, categoryAlias: $categoryAlias) {
+#import "meta/meta.graphql"
+
+query listPageInfo($apiKey: String!, $alias: String!) {
+  listPageInfo(apiKey: $apiKey, alias: $alias) {
     alias
     primaryImage
     name
-    categoryId
+    id
     primaryDescription
     secondaryDescription
     subCategories {
       alias
       name
+    }
+    meta {
+      ...meta
     }
   }
 }

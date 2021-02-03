@@ -94,6 +94,28 @@ export default {
       required: true
     }
   },
+  head() {
+    return {
+      title: this.listInfo?.meta.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.listInfo?.meta.description
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.listInfo?.meta.title
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.listInfo?.meta.description
+        }
+      ]
+    };
+  },
   data: vm => ({
     productList: [],
     totalCount: 0,
@@ -201,10 +223,10 @@ export default {
         apiKey: this.$config.apiKey.toString()
       };
       if (this.isCategory) {
-        this.$set(varsObj, 'categoryAlias', this.currentAlias);
+        this.$set(varsObj, 'alias', this.currentAlias);
       }
       if (this.isBrand) {
-        this.$set(varsObj, 'brandAlias', this.currentAlias);
+        this.$set(varsObj, 'alias', this.currentAlias);
       }
       return varsObj;
     },
@@ -283,8 +305,8 @@ export default {
       const filtersArray = [];
       const filterObj = {};
       if (this.isCategory && this.listInfo) {
-        filterObj.key = 'CategoryId';
-        filterObj.value = this.listInfo.categoryId.toString();
+        filterObj.key = 'id';
+        filterObj.value = this.listInfo.id.toString();
         filtersArray.push(filterObj);
       } else if (this.isBrand && this.listInfo) {
         filterObj.key = 'BrandId';

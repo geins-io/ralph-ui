@@ -1,5 +1,7 @@
-query listPageInfo($apiKey: String!, $brandAlias: String!) {
-  listPageInfo(apiKey: $apiKey, brandAlias: $brandAlias) {
+#import "meta/meta.graphql"
+
+query listPageInfo($apiKey: String!, $alias: String!) {
+  listPageInfo(apiKey: $apiKey, alias: $alias) {
     alias
     primaryImage
     logo
@@ -7,5 +9,8 @@ query listPageInfo($apiKey: String!, $brandAlias: String!) {
     brandId
     primaryDescription
     secondaryDescription
+    meta {
+      ...meta
+    }
   }
 }

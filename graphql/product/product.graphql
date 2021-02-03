@@ -1,6 +1,7 @@
 #import "product/price.graphql"
 #import "product/stock.graphql"
 #import "product/variant.graphql"
+#import "meta/meta.graphql"
 
 query product($alias: String!, $apiKey: String!) {
   product(alias: $alias, apiKey: $apiKey) {
@@ -38,6 +39,9 @@ query product($alias: String!, $apiKey: String!) {
       dimension
       value
       level
+    }
+    meta {
+      ...meta
     }
     variantGroup {
       variants {
