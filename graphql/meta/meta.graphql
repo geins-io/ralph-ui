@@ -1,5 +1,4 @@
 fragment Meta on MetadataType {
   description
-  keywords
   title
 }
