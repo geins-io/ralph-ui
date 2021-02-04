@@ -9,7 +9,7 @@
       </label>
       <textarea
         :id="id"
-        v-model="value"
+        :value="value"
         class="ca-input-textarea__textarea"
         :placeholder="placeholder"
         :disabled="disabled"

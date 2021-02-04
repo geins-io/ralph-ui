@@ -13,15 +13,16 @@
   }
   &__label {
     left: $px10;
-    transition: all 0.2s ease;
+    transition: top 0.2s ease, transform 0.2s ease;
     pointer-events: none;
     padding: rem-calc(1px) rem-calc(6px);
     position: absolute;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(1);
+    transform-origin: left center;
     top: 0;
     font-size: $font-size-xs;
     border-radius: rem-calc(10px);
-    background: inherit;
+    background: $c-input-background;
   }
   &__optional {
     font-size: 0.8em;
@@ -87,8 +88,8 @@
   &--empty {
     &:not(#{$block}--focused) {
       #{$block}__label {
+        transform: translateY(-50%) scale(1.15);
         top: 50%;
-        font-size: $font-size-s;
       }
     }
   }

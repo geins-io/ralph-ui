@@ -21,6 +21,10 @@ export default {
     confirm: {
       type: Boolean,
       default: false
+    },
+    orderMessage: {
+      type: String,
+      default: ''
     }
   },
 
@@ -32,6 +36,13 @@ export default {
   computed: {
     klarnaOrderId() {
       return this.$route.query.kid || null;
+    }
+  },
+  watch: {
+    orderMessage(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.fetchKlarnaData();
+      }
     }
   },
   mounted() {
@@ -76,7 +87,7 @@ export default {
               shippingId: null,
               pickupPoint: null,
               desiredDeliveryDate: null,
-              message: null
+              message: this.orderMessage
             }
           }
         })

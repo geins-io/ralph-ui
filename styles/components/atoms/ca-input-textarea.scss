@@ -5,6 +5,7 @@
   border: $input-border;
   background: $c-input-background;
   border-radius: $textarea-border-radius;
+  line-height: 0;
   &__wrap {
     & + & {
       margin: $px16 0 0;
@@ -12,20 +13,22 @@
   }
   &__label {
     left: $px10;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
     pointer-events: none;
     padding: rem-calc(1px) rem-calc(6px);
     position: absolute;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(1);
+    transform-origin: left center;
     top: 0;
     font-size: $font-size-xs;
     border-radius: rem-calc(10px);
-    background: inherit;
+    background: $c-input-background;
+    line-height: $body-line-height;
   }
   &__optional {
     font-size: 0.8em;
     margin-left: 2px;
-    transition: inherit;
+    font-weight: $font-weight-normal;
   }
 
   &__textarea {
@@ -37,8 +40,9 @@
     background: transparent;
     outline: none;
     font-size: $font-size-s;
-    padding: $px4 $px16 0 $px16;
+    padding: $px10 $px16;
     border-radius: $input-border-radius;
+    line-height: $body-line-height;
     &:focus-visible {
       box-shadow: none;
     }
@@ -61,8 +65,7 @@
   &--empty {
     &:not(#{$block}--focused) {
       #{$block}__label {
-        top: $px20;
-        font-size: $font-size-s;
+        transform: translateY(68%) scale(1.15);
       }
     }
   }
@@ -76,7 +79,7 @@
     border-color: $c-error;
     #{$block}__label {
       color: $c-error;
-      font-weight: $font-weight-bold;
+      // font-weight: $font-weight-bold;
     }
   }
 }
