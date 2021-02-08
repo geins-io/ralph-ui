@@ -121,6 +121,7 @@ export default {
         if (newVal === this.name) {
           this.open();
         } else if (this.opened) {
+          enableBodyScroll(this.$refs.contentpanel);
           this.opened = false;
         }
       }
