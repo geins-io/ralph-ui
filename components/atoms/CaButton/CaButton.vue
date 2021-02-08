@@ -22,7 +22,7 @@ export default {
   name: 'CaButton',
   mixins: [MixLinkHandler],
   props: {
-    // Set this to link button somewhere
+    // Set this if you want to use button as a link. If set to internal link NuxtLink will be used for routing. Using localePath (nuxt-i18n) to return localized URL
     href: {
       type: String,
       // ''

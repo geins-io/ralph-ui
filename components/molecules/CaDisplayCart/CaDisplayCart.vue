@@ -19,7 +19,7 @@
     <template v-if="cart.items && cart.items.length" #footer>
       <div class="ca-display-cart__footer">
         <CaCartTotal class="ca-display-cart__total" :cart-total="cart.total" />
-        <CaButton type="full-width" size="l" href="/checkout">
+        <CaButton type="full-width" size="l" href="checkout">
           {{ $t('CART_TO_CHECKOUT') }}
         </CaButton>
       </div>

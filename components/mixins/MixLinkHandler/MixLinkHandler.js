@@ -26,7 +26,7 @@ export default {
       if (this.processedHref) {
         return this.isExternal
           ? { href: this.processedHref, target: '_blank', rel: 'noopener' }
-          : { to: this.processedHref };
+          : { to: this.localePath(this.processedHref) };
       } else return '';
     }
   },
