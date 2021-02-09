@@ -1,13 +1,17 @@
 <template>
   <component :is="baseTag" class="ca-accordion-item">
-    <button class="ca-accordion-item__toggle" @click="toggleClickHandler">
-      <CaIconAndText
-        class="ca-accordion-item__icon-wrap"
-        :icon-name="currentIcon"
-        icon-position="right"
-      >
-        <slot name="toggle"></slot>
-      </CaIconAndText>
+    <button class="ca-accordion-item__toggle-wrap" @click="toggleClickHandler">
+      <slot name="toggle-content" :open="open">
+        <div class="ca-accordion-item__toggle">
+          <CaIconAndText
+            class="ca-accordion-item__icon-wrap"
+            :icon-name="currentIcon"
+            icon-position="right"
+          >
+            <slot name="toggle-text"></slot>
+          </CaIconAndText>
+        </div>
+      </slot>
     </button>
     <SlideUpDown
       class="ca-accordion-item__content"

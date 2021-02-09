@@ -10,7 +10,7 @@
         <a href="javascript:;" @click="slideToIndex(index)">
           <CaImage
             class="ca-product-gallery__nav-image"
-            size="200f200"
+            size="170f170"
             type="product"
             :filename="image"
             :ratio="$config.productImageRatio"

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="linkBaseElem"
+    :is="baseElem"
     v-bind="linkElemAttributes"
     class="ca-button"
     :class="modifiers"
@@ -59,6 +59,11 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    // Set to true to use button style without it being an actual button
+    noFunction: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -81,6 +86,9 @@ export default {
       modifiers.push(baseClass + this.color);
 
       return modifiers;
+    },
+    baseElem() {
+      return this.noFunction ? 'div' : this.linkBaseElem;
     }
   },
   watch: {},

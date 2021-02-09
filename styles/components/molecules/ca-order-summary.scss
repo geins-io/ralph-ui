@@ -1,0 +1,37 @@
+.ca-order-summary {
+  &.ca-accordion-item {
+    border: $border-light;
+    background: $c-white;
+  }
+  &__header {
+    padding: $px16 $px20;
+    background: $c-white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: rem-calc(40px);
+    row-gap: rem-calc(5px);
+    width: 60%;
+    font-size: $font-size-m;
+  }
+  &__status {
+    font-size: $font-size-s;
+  }
+  &__id,
+  &__total {
+    font-size: $font-size-l;
+    font-weight: $font-weight-bold;
+  }
+  &__details {
+    padding: 0 $px24 $px24;
+  }
+}
+
+.ca-order-detail {
+  border-top: $border-light;
+  padding: $px16 0 0;
+}

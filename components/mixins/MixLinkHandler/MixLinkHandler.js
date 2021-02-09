@@ -24,9 +24,19 @@ export default {
     },
     linkElemAttributes() {
       if (this.processedHref) {
-        return this.isExternal
-          ? { href: this.processedHref, target: '_blank', rel: 'noopener' }
-          : { to: this.localePath(this.processedHref) };
+        if (this.isExternal) {
+          return {
+            href: this.processedHref,
+            target: '_blank',
+            rel: 'noopener'
+          };
+        } else {
+          const href = this.processedHref.startsWith('/')
+            ? this.processedHref
+            : this.localePath(this.processedHref);
+          console.log(href);
+          return { to: href };
+        }
       } else return '';
     }
   },

@@ -231,7 +231,8 @@ export default {
     closePanelAfterDelay() {
       setTimeout(() => {
         this.$refs.contentpanel.close();
-      }, 2000);
+        this.$router.push({ path: this.localePath('account-orders') });
+      }, 1000);
     },
     // @vuese
     // Log in action
