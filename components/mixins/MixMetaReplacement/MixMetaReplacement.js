@@ -17,7 +17,7 @@
 export default {
   name: 'MixMetaReplacement',
   methods: {
-    MetaReplacement(string) {
+    metaReplacement(string) {
       const replacements = /\[.*?\]/gi;
       if (string) {
         const replacedString = string.replace(replacements, match => {

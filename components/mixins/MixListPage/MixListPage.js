@@ -97,22 +97,22 @@ export default {
   },
   head() {
     return {
-      title: this.MetaReplacement(this.listInfo?.meta.title),
+      title: this.metaReplacement(this.listInfo?.meta.title),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.MetaReplacement(this.listInfo?.meta.description)
+          content: this.metaReplacement(this.listInfo?.meta.description)
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.MetaReplacement(this.listInfo?.meta.title)
+          content: this.metaReplacement(this.listInfo?.meta.title)
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.MetaReplacement(this.listInfo?.meta.description)
+          content: this.metaReplacement(this.listInfo?.meta.description)
         }
       ]
     };
