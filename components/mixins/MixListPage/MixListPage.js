@@ -306,7 +306,7 @@ export default {
       const filtersArray = [];
       const filterObj = {};
       if (this.isCategory && this.listInfo) {
-        filterObj.key = 'id';
+        filterObj.key = 'CategoryId';
         filterObj.value = this.listInfo.id.toString();
         filtersArray.push(filterObj);
       } else if (this.isBrand && this.listInfo) {
