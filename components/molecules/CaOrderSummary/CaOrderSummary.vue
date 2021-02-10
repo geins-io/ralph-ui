@@ -27,7 +27,7 @@
             :icon-name="open ? 'arrow-up' : 'arrow-down'"
             icon-position="right"
           >
-            Se detaljer
+            {{ $t('ACCOUNT_VIEW_DETAILS') }}
           </CaIconAndText>
         </CaButton>
         <CaIcon
@@ -40,37 +40,37 @@
     <div class="ca-order-summary__details">
       <div class="ca-order-detail">
         <div class="ca-order-detail__methods">
-          <div class="ca-order-summary__method">
-            <h3 class="ca-order-summary__subtitle">
-              Leveranssätt
+          <div class="ca-order-detail__method">
+            <h3 class="ca-order-detail__subtitle">
+              {{ $t('SHIPPING_METHOD') }}
             </h3>
             {{ order.shipping.name }}
           </div>
-          <div class="ca-order-summary__method">
-            <h3 class="ca-order-summary__subtitle">
-              Betalsätt
+          <div class="ca-order-detail__method">
+            <h3 class="ca-order-detail__subtitle">
+              {{ $t('PAYMENT_METHOD') }}
             </h3>
             {{ order.payment.name }}
           </div>
         </div>
-        <CaButton class="ca-order-summary__track" type="full">
-          Spåra paket
+        <CaButton class="ca-order-detail__track" type="full-width">
+          {{ $t('TRACK_ORDER') }}
         </CaButton>
         <CaCart
-          class="ca-order-summary__cart"
+          class="ca-order-detail__cart"
           mode="display"
           :cart="order.cart"
         />
-        <div class="ca-order-summary__addresses">
-          <div class="ca-order-summary__address">
-            <h3 class="ca-order-summary__subtitle">
-              Fakturaadress
+        <div class="ca-order-detail__addresses">
+          <div class="ca-order-detail__address">
+            <h3 class="ca-order-detail__subtitle">
+              {{ $t('BILLING_ADDRESS') }}
             </h3>
             <CaAddress :address="order.address.billing" />
           </div>
-          <div class="ca-order-summary__address">
-            <h3 class="ca-order-summary__subtitle">
-              Leveransadress
+          <div class="ca-order-detail__address">
+            <h3 class="ca-order-detail__subtitle">
+              {{ $t('SHIPPING_ADDRESS') }}
             </h3>
             <CaAddress :address="order.address.shipping" />
           </div>
@@ -163,7 +163,8 @@ export default {
           address: 'Gamla Huddingevägen 442',
           address2: '',
           zip: '125 42',
-          city: 'Älvsjö'
+          city: 'Älvsjö',
+          country: 'Sweden'
         },
         billing: {
           firstName: 'Olivia',
@@ -173,7 +174,8 @@ export default {
           address: 'Gamla Huddingevägen 442',
           address2: '',
           zip: '125 42',
-          city: 'Älvsjö'
+          city: 'Älvsjö',
+          country: 'Sweden'
         }
       }
     }
