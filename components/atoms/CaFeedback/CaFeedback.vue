@@ -1,9 +1,10 @@
 <template>
   <transition name="slide-and-fade">
-    <div v-if="visible" class="ca-feedback" :class="typeClass">
+    <div v-if="visible || constant" class="ca-feedback" :class="typeClass">
       <CaIcon class="ca-feedback__icon" :name="icon" />
       <div class="ca-feedback__message">{{ message }}</div>
       <CaIconButton
+        v-if="!constant"
         class="ca-feedback__close"
         icon-name="x"
         aria-label="Close"
@@ -34,6 +35,11 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    // Set to true if the feedback message should be visible at all time
+    constant: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -62,6 +68,7 @@ export default {
   },
   watch: {},
   mounted() {},
+  created() {},
   methods: {
     // @vuese
     // Show the feedback

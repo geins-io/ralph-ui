@@ -34,7 +34,6 @@ export default {
           const href = this.processedHref.startsWith('/')
             ? this.processedHref
             : this.localePath(this.processedHref);
-          console.log(href);
           return { to: href };
         }
       } else return '';

@@ -44,6 +44,9 @@
       padding: 0 $px24 $px24;
     }
   }
+  &__toggle.ca-button {
+    line-height: 1;
+  }
   &__toggle-icon {
     font-size: 20px;
   }
