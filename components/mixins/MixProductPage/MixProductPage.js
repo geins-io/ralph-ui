@@ -1,3 +1,4 @@
+import MixMetaReplacement from 'MixMetaReplacement';
 import productQuery from 'product/product.graphql';
 // @group Mixins
 // @vuese
@@ -8,26 +9,26 @@ import productQuery from 'product/product.graphql';
 // error: `null`
 export default {
   name: 'MixProductPage',
-  mixins: [],
+  mixins: [MixMetaReplacement],
   props: {},
   head() {
     return {
-      title: this.product?.meta.title,
+      title: this.MetaReplacement(this.product?.meta.title),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.product?.meta.description
+          content: this.MetaReplacement(this.product?.meta.description)
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.product?.meta.title
+          content: this.MetaReplacement(this.product?.meta.title)
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.product?.meta.description
+          content: this.MetaReplacement(this.product?.meta.description)
         }
       ]
     };

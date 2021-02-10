@@ -1,3 +1,4 @@
+import MixMetaReplacement from 'MixMetaReplacement';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
@@ -19,7 +20,7 @@
 // relocateTimeout: `null`
 export default {
   name: 'MixListPage',
-  mixins: [],
+  mixins: [MixMetaReplacement],
   apollo: {
     products: {
       query() {
@@ -96,22 +97,22 @@ export default {
   },
   head() {
     return {
-      title: this.listInfo?.meta.title,
+      title: this.MetaReplacement(this.listInfo?.meta.title),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.listInfo?.meta.description
+          content: this.MetaReplacement(this.listInfo?.meta.description)
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.listInfo?.meta.title
+          content: this.MetaReplacement(this.listInfo?.meta.title)
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.listInfo?.meta.description
+          content: this.MetaReplacement(this.listInfo?.meta.description)
         }
       ]
     };
@@ -310,7 +311,7 @@ export default {
         filtersArray.push(filterObj);
       } else if (this.isBrand && this.listInfo) {
         filterObj.key = 'BrandId';
-        filterObj.value = this.listInfo.brandId.toString();
+        filterObj.value = this.listInfo.id.toString();
         filtersArray.push(filterObj);
       }
       return filtersArray;
