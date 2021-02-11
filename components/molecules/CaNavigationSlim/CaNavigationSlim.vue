@@ -10,7 +10,7 @@
           v-if="getSubLevelCategories(category.categoryId).length"
           class="ca-navigation-slim__parent"
         >
-          <template #toggle>
+          <template #toggle-text>
             {{ category.name }}
           </template>
           <ul class="ca-navigation-slim__level ca-navigation-slim__level--2">

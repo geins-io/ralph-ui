@@ -15,6 +15,7 @@
         :message="currentFeedback.message"
       />
       <CaInputText
+        v-show="!changeMode"
         id="email"
         ref="inputEmail"
         v-model="email"
@@ -25,26 +26,41 @@
         @keyup.enter="enterHandler"
       />
       <CaInputText
+        v-show="changeMode"
+        id="current-password"
+        ref="inputCurrentPassword"
+        v-model="currentPassword"
+        type="password"
+        :label="$t('CURRENT_PASSWORD')"
+        :error-text="$t('PASSWORD_ERROR_EMPTY')"
+        @validation="checkValid"
+        @keyup.enter="enterHandler"
+      />
+      <CaInputText
         v-show="!resetMode"
         id="password"
         ref="inputPassword"
         v-model="password"
         type="password"
-        :label="$t('PASSWORD')"
-        :validate="createMode ? 'passwordStrength' : ''"
+        :label="changeMode ? $t('NEW_PASSWORD') : $t('PASSWORD')"
+        :validate="createMode || changeMode ? 'passwordStrength' : ''"
         :error-text="
-          createMode ? $t('PASSWORD_ERROR_WEAK') : $t('PASSWORD_ERROR_EMPTY')
+          createMode || changeMode
+            ? $t('PASSWORD_ERROR_WEAK')
+            : $t('PASSWORD_ERROR_EMPTY')
         "
         @validation="checkValid"
         @keyup.enter="enterHandler"
       />
       <CaInputText
-        v-if="createMode"
+        v-if="createMode || changeMode"
         id="password-confirm"
         ref="inputPasswordConfirm"
         v-model="passwordConfirm"
         type="password"
-        :label="$t('PASSWORD_CONFIRM')"
+        :label="
+          changeMode ? $t('NEW_PASSWORD_CONFIRM') : $t('PASSWORD_CONFIRM')
+        "
         validate="passwordMatch"
         :password-to-match="password"
         :error-text="$t('PASSWORD_ERROR_NO_MATCH')"
@@ -91,7 +107,7 @@
         {{ $t('LOG_IN') }}
       </CaButton>
       <CaButton
-        v-if="!resetMode"
+        v-if="loginMode || createMode"
         class="ca-account-panel__button"
         type="full-width"
         :loading="createMode && loading"
@@ -101,7 +117,7 @@
         {{ $t('CREATE_ACCOUNT') }}
       </CaButton>
       <CaButton
-        v-else
+        v-if="resetMode"
         class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
         :loading="loading"
@@ -109,8 +125,17 @@
       >
         {{ $t('RESET_PASSWORD') }}
       </CaButton>
+      <CaButton
+        v-if="changeMode"
+        class="ca-account-panel__button ca-account-panel__button--reset"
+        type="full-width"
+        :loading="loading"
+        @clicked="changePassword"
+      >
+        {{ $t('CHANGE_PASSWORD') }}
+      </CaButton>
       <button
-        v-if="!loginMode"
+        v-if="!loginMode && !changeMode"
         class="ca-account-panel__back"
         @click="setFrame('login')"
       >
@@ -132,6 +157,7 @@ export default {
   props: {},
   data: vm => ({
     email: '',
+    currentPassword: '',
     password: '',
     passwordConfirm: '',
     rememberMe: true,
@@ -160,7 +186,7 @@ export default {
       },
       passwordChanged: {
         type: 'success',
-        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_CHANGE')
+        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_CHANGED')
       },
       notValid: {
         type: 'error',
@@ -231,7 +257,8 @@ export default {
     closePanelAfterDelay() {
       setTimeout(() => {
         this.$refs.contentpanel.close();
-      }, 2000);
+        this.$router.push({ path: this.localePath('account-orders') });
+      }, 1000);
     },
     // @vuese
     // Log in action
@@ -244,6 +271,7 @@ export default {
         // TODO: Login
         this.showFeedback(this.feedback.loggedIn);
         this.closePanelAfterDelay();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -262,6 +290,7 @@ export default {
         // TODO: Create account
         this.showFeedback(this.feedback.accountCreated);
         this.closePanelAfterDelay();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -276,6 +305,25 @@ export default {
         // TODO: Password reset
         this.showFeedback(this.feedback.passwordResetted);
         this.$refs.feedback.show();
+        this.loading = false;
+      } else {
+        this.showFeedback(this.feedback.notValid);
+        this.loading = false;
+      }
+    },
+    // @vuese
+    // Reset password action
+    changePassword() {
+      this.loading = true;
+      if (
+        this.$refs.inputCurrentPassword.validateInput() &&
+        this.$refs.inputPassword.validateInput() &&
+        this.$refs.inputPasswordConfirm.validateInput()
+      ) {
+        // TODO: Save password
+        this.showFeedback(this.feedback.passwordChanged);
+        this.$refs.feedback.show();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -298,7 +346,15 @@ export default {
         this.createAccount();
       } else if (this.resetMode) {
         this.resetPassword();
+      } else if (this.changeMode) {
+        this.changePassword();
       }
+    },
+    resetFields() {
+      this.email = '';
+      this.currentPassword = '';
+      this.password = '';
+      this.passwordConfirm = '';
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="linkBaseElem"
+    :is="baseElem"
     v-bind="linkElemAttributes"
     class="ca-button"
     :class="modifiers"
@@ -22,7 +22,7 @@ export default {
   name: 'CaButton',
   mixins: [MixLinkHandler],
   props: {
-    // Set this to link button somewhere
+    // Set this if you want to use button as a link. If set to internal link NuxtLink will be used for routing. Using localePath (nuxt-i18n) to return localized URL
     href: {
       type: String,
       // ''
@@ -59,6 +59,11 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    // Set to true to use button style without it being an actual button
+    noFunction: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -81,6 +86,9 @@ export default {
       modifiers.push(baseClass + this.color);
 
       return modifiers;
+    },
+    baseElem() {
+      return this.noFunction ? 'div' : this.linkBaseElem;
     }
   },
   watch: {},

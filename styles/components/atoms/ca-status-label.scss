@@ -1,0 +1,19 @@
+.ca-status-label {
+  border-radius: rem-calc(4px);
+  padding: rem-calc(2px) rem-calc(6px);
+  display: inline-block;
+  &--inactive {
+    background-color: $c-medium-gray;
+  }
+  &--active {
+    background-color: $c-ok;
+  }
+  &--completed {
+    background-color: $c-success;
+    color: $c-text-inverse;
+  }
+  &--cancelled {
+    background-color: $c-error;
+    color: $c-text-inverse;
+  }
+}

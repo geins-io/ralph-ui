@@ -1,5 +1,9 @@
 .ca-accordion-item {
   border-bottom: $border-light;
+  &__toggle-wrap {
+    width: 100%;
+    text-align: left;
+  }
   &__toggle {
     outline: none;
     width: 100%;
