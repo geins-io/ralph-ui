@@ -19,11 +19,13 @@
 export default {
   name: 'MixMetaReplacement',
   methods: {
+    // @vuese
+    // Replace meta placeholders with correct values
+    // @arg Meta string (String)
     metaReplacement(string) {
       const replacements = /\[.*?\]/gi;
       if (string) {
         const replacedString = string.replace(replacements, match => {
-          console.log(match);
           switch (match) {
             case '[count]':
               match = this.totalCount || '';

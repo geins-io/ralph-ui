@@ -26,8 +26,8 @@
 
     &:hover {
       &:before {
-        box-shadow: 0 0 0 1px lighten($c-input-radio-checked-bg, 50%);
-        background-color: lighten($c-input-radio-checked-bg, 50%);
+        box-shadow: 0 0 0 1px $c-medium-gray;
+        background-color: $c-medium-gray;
       }
     }
   }

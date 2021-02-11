@@ -61,7 +61,10 @@ export default {
         return this.infoQuery;
       },
       variables() {
-        return this.infoQueryVars;
+        return {
+          apiKey: this.$config.apiKey.toString(),
+          alias: this.currentAlias
+        };
       },
       result(result) {
         this.listInfo = result.data.listPageInfo;
@@ -215,21 +218,6 @@ export default {
           this.selection.price.highest !== this.filters.price.highest
         );
       }
-    },
-    // @vuese
-    // Returns the object to query the list page information
-    // @type Object
-    infoQueryVars() {
-      const varsObj = {
-        apiKey: this.$config.apiKey.toString()
-      };
-      if (this.isCategory) {
-        this.$set(varsObj, 'alias', this.currentAlias);
-      }
-      if (this.isBrand) {
-        this.$set(varsObj, 'alias', this.currentAlias);
-      }
-      return varsObj;
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list

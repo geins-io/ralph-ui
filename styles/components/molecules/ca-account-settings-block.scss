@@ -24,6 +24,7 @@
     background: $c-white;
     padding: $px12 $px10;
     border: $border-light;
+    border-radius: $default-radius;
     margin: $px10 0 0;
     @include bp(tablet) {
       padding: $px20;
