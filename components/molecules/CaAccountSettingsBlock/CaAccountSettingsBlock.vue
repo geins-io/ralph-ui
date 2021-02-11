@@ -1,20 +1,20 @@
 <template>
-  <div class="ca-account-settings">
-    <div class="ca-account-settings__header">
-      <h2 class="ca-account-settings__title">{{ title }}</h2>
+  <div class="ca-account-settings-block">
+    <div class="ca-account-settings-block__header">
+      <h2 class="ca-account-settings-block__title">{{ title }}</h2>
       <button
         v-if="editable"
-        class="ca-account-settings__toggle"
+        class="ca-account-settings-block__toggle"
         @click="toggleEditMode"
       >
         {{ toggleText }}
       </button>
     </div>
-    <div class="ca-account-settings__content">
+    <div class="ca-account-settings-block__content">
       <slot name="content" :edit-mode="editMode"></slot>
       <CaButton
         v-if="editMode"
-        class="ca-account-settings__save"
+        class="ca-account-settings-block__save"
         type="full-width"
         @clicked="$emit('save')"
       >
@@ -27,9 +27,9 @@
 // @group Molecules
 // @vuese
 // (Description of component)<br><br>
-// **SASS-path:** _./styles/components/molecules/ca-account-settings.scss_
+// **SASS-path:** _./styles/components/molecules/ca-account-settings-block.scss_
 export default {
-  name: 'CaAccountSettings',
+  name: 'CaAccountSettingsBlock',
   mixins: [],
   props: {
     title: {
@@ -61,5 +61,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import 'molecules/ca-account-settings';
+@import 'molecules/ca-account-settings-block';
 </style>
