@@ -1,0 +1,27 @@
+.ca-account-settings {
+  &__setting {
+    & + & {
+      margin: $px16 0 0;
+    }
+    &--edit {
+      &:first-child {
+        margin: $px8 0 0;
+      }
+    }
+    @include bp(tablet) {
+      font-size: $font-size-m;
+    }
+  }
+  &__setting-label {
+    font-weight: $font-weight-bold;
+    &--edit {
+      margin: 0 0 $px10;
+    }
+  }
+  &__action {
+    margin: 0 0 $px12;
+  }
+  &__action-button {
+    text-decoration: underline;
+  }
+}

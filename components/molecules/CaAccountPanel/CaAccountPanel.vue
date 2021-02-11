@@ -107,7 +107,7 @@
         {{ $t('LOG_IN') }}
       </CaButton>
       <CaButton
-        v-if="createMode"
+        v-if="loginMode || createMode"
         class="ca-account-panel__button"
         type="full-width"
         :loading="createMode && loading"
@@ -271,6 +271,7 @@ export default {
         // TODO: Login
         this.showFeedback(this.feedback.loggedIn);
         this.closePanelAfterDelay();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -289,6 +290,7 @@ export default {
         // TODO: Create account
         this.showFeedback(this.feedback.accountCreated);
         this.closePanelAfterDelay();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -321,6 +323,7 @@ export default {
         // TODO: Save password
         this.showFeedback(this.feedback.passwordChanged);
         this.$refs.feedback.show();
+        this.resetFields();
         this.loading = false;
       } else {
         this.showFeedback(this.feedback.notValid);
@@ -346,6 +349,12 @@ export default {
       } else if (this.changeMode) {
         this.changePassword();
       }
+    },
+    resetFields() {
+      this.email = '';
+      this.currentPassword = '';
+      this.password = '';
+      this.passwordConfirm = '';
     }
   }
 };
