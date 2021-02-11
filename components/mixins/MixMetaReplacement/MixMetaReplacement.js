@@ -7,13 +7,15 @@
 // [color] = Color (Currently not implemented)
 // [gender] = Gender (Currently not implemented)
 // [brand] = Brand
-// [pid] = Product ID (Currently not implemented)
+// [pid] = Product ID
 // [cat] [category] = Main category name (Product)
 // [price] = Product price (Product)
 // [pmax] = Max filterable price, unformatted (List)
 // [pmin] = Min filterable price, unformatted (List)
 // [name] = Product Name (Product), Category/Brand name (Lists), Title (Content pages)
 // [artnr] = Article number (Currently not implemented)
+// [search] = Article number (Currently not implemented)
+
 export default {
   name: 'MixMetaReplacement',
   methods: {
@@ -54,7 +56,7 @@ export default {
               break;
 
             case '[pid]':
-              match = '';
+              match = this.product?.productId || '';
               break;
 
             case '[cat]':
