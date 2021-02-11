@@ -1,3 +1,4 @@
+import MixMetaReplacement from 'MixMetaReplacement';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
@@ -19,7 +20,7 @@
 // relocateTimeout: `null`
 export default {
   name: 'MixListPage',
-  mixins: [],
+  mixins: [MixMetaReplacement],
   apollo: {
     products: {
       query() {
@@ -96,22 +97,22 @@ export default {
   },
   head() {
     return {
-      title: this.listInfo?.meta.title,
+      title: this.metaReplacement(this.listInfo?.meta.title),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.listInfo?.meta.description
+          content: this.metaReplacement(this.listInfo?.meta.description)
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.listInfo?.meta.title
+          content: this.metaReplacement(this.listInfo?.meta.title)
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.listInfo?.meta.description
+          content: this.metaReplacement(this.listInfo?.meta.description)
         }
       ]
     };
@@ -305,12 +306,12 @@ export default {
       const filtersArray = [];
       const filterObj = {};
       if (this.isCategory && this.listInfo) {
-        filterObj.key = 'id';
+        filterObj.key = 'CategoryId';
         filterObj.value = this.listInfo.id.toString();
         filtersArray.push(filterObj);
       } else if (this.isBrand && this.listInfo) {
         filterObj.key = 'BrandId';
-        filterObj.value = this.listInfo.brandId.toString();
+        filterObj.value = this.listInfo.id.toString();
         filtersArray.push(filterObj);
       }
       return filtersArray;
