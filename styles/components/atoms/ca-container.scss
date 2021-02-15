@@ -1,9 +1,15 @@
 .ca-container {
+  $default-site-width-spacing: $px20 !default;
+  $default-site-width-spacing-tablet: $px40 !default;
+  $default-site-width-spacing-laptop: $px40 !default;
   position: relative;
   margin: 0 auto;
-  width: calc(100% - #{$default-spacing});
+  width: calc(100% - #{$default-site-width-spacing});
   @include bp(tablet) {
-    width: calc(100% - #{$default-spacing * 2});
+    width: calc(100% - #{$default-site-width-spacing-tablet});
+  }
+  @include bp(laptop) {
+    width: calc(100% - #{$default-site-width-spacing-laptop});
   }
   &--default {
     max-width: $site-width;

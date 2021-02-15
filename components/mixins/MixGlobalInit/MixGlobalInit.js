@@ -67,8 +67,8 @@ export default {
 
     window.addEventListener('popstate', () => {
       if (
-        this.$route.name.includes('category') ||
-        this.$route.name.includes('brand')
+        this.$route.name?.includes('category') ||
+        this.$route.name?.includes('brand')
       ) {
         this.$store.commit('list/setBackNavigated', true);
       }

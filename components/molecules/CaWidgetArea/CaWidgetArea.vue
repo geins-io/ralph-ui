@@ -33,7 +33,7 @@ export default {
         };
       },
       result(result) {
-        this.$emit('dataFetched', result.data.meta);
+        this.$emit('dataFetched', result.data);
       },
       error(error) {
         // eslint-disable-next-line no-console
