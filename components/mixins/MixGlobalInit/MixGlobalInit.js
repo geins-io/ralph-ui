@@ -73,6 +73,12 @@ export default {
         this.$store.commit('list/setBackNavigated', true);
       }
     });
+
+    if (this.$cookies.get('cookie-consent') === undefined) {
+      this.$nextTick(() => {
+        this.$refs.cookieConsent.show();
+      });
+    }
   },
   methods: {
     refetchCart() {

@@ -1,0 +1,33 @@
+.ca-cookie-consent {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: $px20;
+  background: $c-lightest-gray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  border-radius: rem-calc(4px) rem-calc(4px) 0 0;
+  @include bp(tablet) {
+    left: $px40;
+    max-width: 550px;
+    padding: $px40 $px40 $px32;
+  }
+  &__paragraph {
+    width: 100%;
+    font-size: $font-size-m;
+    @include bp(tablet) {
+      font-size: $font-size-l;
+    }
+  }
+  &__link {
+    text-decoration: underline;
+  }
+  &__button {
+    margin: $px12 0 0;
+    @include bp(tablet) {
+      margin: $px24 $px12 0;
+    }
+  }
+}
