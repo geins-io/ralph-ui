@@ -4,7 +4,8 @@ export const state = () => ({
   scrollTop: 0,
   viewportWidth: 0,
   hostname: '',
-  config: {}
+  config: {},
+  ancientBrowser: false
 });
 
 export const mutations = {
@@ -30,6 +31,9 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
+  },
+  setAncientBrowser(state, browser) {
+    state.ancientBrowser = browser === 'Internet Explorer';
   }
 };
 
@@ -94,6 +98,7 @@ export const actions = {
     if (this.$ua.deviceType() === 'pc') {
       commit('setViewportWidth', 1360);
     }
+    commit('setAncientBrowser', this.$ua.browser());
   }
 };
 
