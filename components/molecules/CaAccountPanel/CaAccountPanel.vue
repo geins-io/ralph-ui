@@ -21,7 +21,7 @@
         v-model="email"
         :label="$t('EMAIL')"
         validate="email"
-        :error-text="$t('EMAIL_ERROR_NOT_VALID')"
+        :error-message="$t('EMAIL_ERROR_NOT_VALID')"
         @validation="checkValid"
         @keyup.enter="enterHandler"
       />
@@ -32,7 +32,7 @@
         v-model="currentPassword"
         type="password"
         :label="$t('CURRENT_PASSWORD')"
-        :error-text="$t('PASSWORD_ERROR_EMPTY')"
+        :error-message="$t('PASSWORD_ERROR_EMPTY')"
         @validation="checkValid"
         @keyup.enter="enterHandler"
       />
@@ -44,7 +44,7 @@
         type="password"
         :label="changeMode ? $t('NEW_PASSWORD') : $t('PASSWORD')"
         :validate="createMode || changeMode ? 'passwordStrength' : ''"
-        :error-text="
+        :error-message="
           createMode || changeMode
             ? $t('PASSWORD_ERROR_WEAK')
             : $t('PASSWORD_ERROR_EMPTY')
@@ -63,7 +63,7 @@
         "
         validate="passwordMatch"
         :password-to-match="password"
-        :error-text="$t('PASSWORD_ERROR_NO_MATCH')"
+        :error-message="$t('PASSWORD_ERROR_NO_MATCH')"
         @validation="checkValid"
         @keyup.enter="enterHandler"
       />

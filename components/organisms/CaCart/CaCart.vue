@@ -1,11 +1,16 @@
 <template>
-  <div v-if="cartItems.length" class="ca-cart">
+  <div v-if="cartItemsMod.length" class="ca-cart">
     <CaCartProduct
-      v-for="(item, index) in cartItems"
+      v-for="(item, index) in cartItemsMod"
       :key="index"
       class="ca-cart__product"
       :item="item"
       :mode="mode"
+    />
+    <CaPromoCode
+      v-if="mode !== 'display'"
+      class="ca-cart__promo-code"
+      :active-promo-code="cart.promoCode ? cart.promoCode : ''"
     />
     <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
   </div>
@@ -41,6 +46,39 @@ export default {
   computed: {
     cartItems() {
       return this.cart.items ? this.cart.items : [];
+    },
+    cartItemsMod() {
+      function getOccurrence(array, value) {
+        let count = 0;
+        array.forEach(v => v === value && count++);
+        return count;
+      }
+      const newArray = this.cart.items.map(item => {
+        return item.skuId;
+      });
+      let skuid = '';
+      const idsWithDuplicates = newArray.filter(item => {
+        if (getOccurrence(newArray, item) > 1) {
+          return item;
+        }
+      });
+      console.log(idsWithDuplicates);
+
+      let indexxxx = 0;
+      const indexOfCopies = [];
+      this.cart.items.forEach((i, index) => {
+        if (i.skuId === skuid) {
+          indexOfCopies.push({
+            original: indexxxx,
+            copy: index
+          });
+        }
+        skuid = i.skuId;
+        indexxxx = index;
+      });
+      console.log(indexOfCopies);
+
+      return this.cartItems;
     }
   },
   watch: {},

@@ -58,6 +58,10 @@ export default {
     threshold: {
       type: Number,
       default: -1
+    },
+    test: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -78,16 +82,22 @@ export default {
     }
   },
   watch: {
-    quantity(val) {
-      if (this.count !== val) {
-        this.count = this.quantity;
-      }
+    quantity(val, oldVal) {
+      console.log(
+        this.test + '---- QUANTITY change from ' + oldVal + ' to ' + val
+      );
+      this.count = val;
     },
     threshold(val) {
       if (this.stopAtThreshold && this.count > val) {
         this.count = this.threshold > 0 ? this.threshold : this.minQuantity;
         this.update();
       }
+    },
+    count(val, oldVal) {
+      console.log(
+        this.test + '---- COUNT change from ' + oldVal + ' to ' + val
+      );
     }
   },
   created() {
@@ -139,7 +149,6 @@ export default {
     // Validate count input field. Can only contain number and not be above or below max count
     validateInput() {
       if (this.inputEmpty) return;
-
       if (isNaN(this.count)) {
         this.count = this.minQuantity;
       } else if (this.stopAtThreshold && this.count >= this.threshold) {
@@ -152,7 +161,6 @@ export default {
         this.$emit('minReached');
         this.count = this.minQuantity;
       }
-
       this.update();
     }
   }

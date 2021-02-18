@@ -33,14 +33,25 @@
           :name="product.name"
           name-tag="h3"
         />
-        <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
+        <CaPrice class="ca-cart-product__price" :price="item.unitPrice" />
         <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
+        <CaCampaigns
+          v-if="item.campaign && item.campaign.appliedCampaigns.length"
+          class="ca-cart-product__campaigns"
+          :campaigns="item.campaign.appliedCampaigns"
+        />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
+        {{ item.quantity }}
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
-          :max-quantity="skuQuantity"
+          :max-quantity="
+            item.skuQuantity >= skuStockQuantity
+              ? item.quantity
+              : skuStockQuantity
+          "
+          :test="$store.getters.getSellingPrice(item.unitPrice)"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -93,21 +104,51 @@ export default {
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].name || ''
       );
     },
-    skuQuantity() {
+    skuStockQuantity() {
       return (
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock
           .totalStock || 0
       );
+    },
+    quantityItem() {
+      return this.item.quantity;
     }
   },
-  watch: {},
+  watch: {
+    quantityItem(val) {
+      console.log(
+        'quantityItem',
+        this.$store.getters.getSellingPrice(this.item.unitPrice) + '--- ' + val
+      );
+    },
+    'item.quantity'(val) {
+      console.log(
+        'item.quantity',
+        this.$store.getters.getSellingPrice(this.item.unitPrice) + '--- ' + val
+      );
+    }
+  },
   mounted() {},
   methods: {
     // @vuese
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      this.updateCart(this.item.skuId, value);
+      console.log('onQuantityChange', value);
+      const quantityChange = value - this.item.quantity;
+      let newQuantity = this.item.skuQuantity + quantityChange;
+
+      if (newQuantity > this.skuStockQuantity) {
+        newQuantity = this.skuStockQuantity;
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('CART_ADD_TOO_MANY', {
+            stock: this.skuStockQuantity
+          }),
+          placement: 'bottom-center'
+        });
+      }
+      console.log('new quantity', newQuantity);
+      this.updateCart(this.item.skuId, newQuantity);
     }
   }
 };
