@@ -42,7 +42,7 @@
         />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
-        {{ item.quantity }}
+        <!-- {{ item.quantity }} -->
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"

@@ -12,7 +12,15 @@
       class="ca-cart__promo-code"
       :active-promo-code="cart.promoCode ? cart.promoCode : ''"
     />
-    <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
+    <div class="ca-cart__summary">
+      <CaCampaigns
+        v-if="cart.appliedCampaigns.length"
+        class="ca-cart__campaigns"
+        :campaigns="cart.appliedCampaigns"
+        display="box"
+      />
+      <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
+    </div>
   </div>
   <div v-else class="ca-cart ca-cart--empty">
     {{ $t('CART_EMPTY') }}
@@ -48,35 +56,35 @@ export default {
       return this.cart.items ? this.cart.items : [];
     },
     cartItemsMod() {
-      function getOccurrence(array, value) {
-        let count = 0;
-        array.forEach(v => v === value && count++);
-        return count;
-      }
-      const newArray = this.cart.items.map(item => {
-        return item.skuId;
-      });
-      let skuid = '';
-      const idsWithDuplicates = newArray.filter(item => {
-        if (getOccurrence(newArray, item) > 1) {
-          return item;
-        }
-      });
-      console.log(idsWithDuplicates);
+      // function getOccurrence(array, value) {
+      //   let count = 0;
+      //   array.forEach(v => v === value && count++);
+      //   return count;
+      // }
+      // const newArray = this.cart.items.map(item => {
+      //   return item.skuId;
+      // });
+      // let skuid = '';
+      // const idsWithDuplicates = newArray.filter(item => {
+      //   if (getOccurrence(newArray, item) > 1) {
+      //     return item;
+      //   }
+      // });
+      // console.log(idsWithDuplicates);
 
-      let indexxxx = 0;
-      const indexOfCopies = [];
-      this.cart.items.forEach((i, index) => {
-        if (i.skuId === skuid) {
-          indexOfCopies.push({
-            original: indexxxx,
-            copy: index
-          });
-        }
-        skuid = i.skuId;
-        indexxxx = index;
-      });
-      console.log(indexOfCopies);
+      // let indexxxx = 0;
+      // const indexOfCopies = [];
+      // this.cart.items.forEach((i, index) => {
+      //   if (i.skuId === skuid) {
+      //     indexOfCopies.push({
+      //       original: indexxxx,
+      //       copy: index
+      //     });
+      //   }
+      //   skuid = i.skuId;
+      //   indexxxx = index;
+      // });
+      // console.log(indexOfCopies);
 
       return this.cartItems;
     }
