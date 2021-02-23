@@ -74,7 +74,7 @@ export default {
       }
     });
 
-    if (this.$cookies.get('cookie-consent') === undefined) {
+    if (this.$cookies.get('ralph-cookie-consent') === undefined) {
       this.$nextTick(() => {
         this.$refs.cookieConsent.show();
       });

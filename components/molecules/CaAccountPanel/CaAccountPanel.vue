@@ -146,6 +146,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import loginMutation from 'user/login.graphql';
 
 // @group Molecules
 // @vuese
@@ -268,11 +269,40 @@ export default {
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput()
       ) {
-        // TODO: Login
-        this.showFeedback(this.feedback.loggedIn);
-        this.closePanelAfterDelay();
-        this.resetFields();
-        this.loading = false;
+        this.$apollo
+          .mutate({
+            mutation: loginMutation,
+            variables: {
+              apiKey: this.$config.apiKey.toString(),
+              username: this.email,
+              password: this.password
+            },
+            errorPolicy: 'all'
+          })
+          .then(result => {
+            this.loading = false;
+            if (!result.errors) {
+              const auth = result.data.login;
+              this.$store.dispatch('auth/setAuth', auth);
+              this.$cookies.set('ralph-auth', auth.token, {
+                path: '/',
+                maxAge: auth.maxAge
+              });
+              this.$cookies.set('ralph-auth-refresh', auth.refresh, {
+                path: '/',
+                maxAge: auth.maxAge
+              });
+              this.showFeedback(this.feedback.loggedIn);
+              this.closePanelAfterDelay();
+              this.resetFields();
+            } else {
+              this.showFeedback(this.feedback.wrongCredentials);
+            }
+          })
+          .catch(error => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
       } else {
         this.showFeedback(this.feedback.notValid);
         this.loading = false;

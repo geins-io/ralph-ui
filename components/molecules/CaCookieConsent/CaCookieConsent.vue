@@ -54,7 +54,7 @@ export default {
       this.hidden = true;
     },
     setCookie(consent) {
-      this.$cookies.set('cookie-consent', consent, {
+      this.$cookies.set('ralph-cookie-consent', consent, {
         path: '/',
         expires: new Date(new Date().getTime() + 31536000000)
       });

@@ -1,3 +1,5 @@
+const cookie = process.server ? require('cookie') : undefined;
+
 export const state = () => ({
   favorites: [],
   VATincluded: true,
@@ -31,6 +33,7 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
+    state.config.apiKey = config.apiKey;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -92,13 +95,20 @@ export const actions = {
       scrollbarWidth + 'px'
     );
   },
-  nuxtServerInit({ commit }, { req }) {
+  nuxtServerInit({ commit, dispatch }, { req }) {
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {
       commit('setViewportWidth', 1360);
     }
     commit('setAncientBrowser', this.$ua.browser());
+
+    if (req.headers.cookie) {
+      const parsed = cookie.parse(req.headers.cookie);
+      const token = parsed['ralph-auth'] || null;
+      const refresh = parsed['ralph-auth-refresh'] || null;
+      dispatch('auth/setAuth', { token, refresh });
+    }
   }
 };
 

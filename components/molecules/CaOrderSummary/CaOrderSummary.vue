@@ -80,19 +80,37 @@
   </CaAccordionItem>
 </template>
 <script>
+import getOrdersQuery from 'user/orders.graphql';
 // @group Molecules
 // @vuese
 // (Description of component)<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-order-summary.scss_
 export default {
   name: 'CaOrderSummary',
-  mixins: [],
-  props: {
-    // order: {
-    //   type: Object,
-    //   required: true
-    // }
+  apollo: {
+    getOrders: {
+      query: getOrdersQuery,
+      variables() {
+        return {
+          apiKey: this.$config.apiKey.toString()
+        };
+      },
+      context() {
+        return {
+          headers: this.$store.state.auth.headers
+        };
+      },
+      result(result) {
+        console.log('getOrders', result);
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    }
   },
+  mixins: [],
+  props: {},
   data: () => ({
     order: {
       id: '189144',
@@ -183,6 +201,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
+  created() {},
   methods: {}
 };
 </script>
