@@ -107,6 +107,7 @@ export const actions = {
       const parsed = cookie.parse(req.headers.cookie);
       const token = parsed['ralph-auth'] || null;
       const refresh = parsed['ralph-auth-refresh'] || null;
+      console.log({ token, refresh });
       dispatch('auth/setAuth', { token, refresh });
     }
   }

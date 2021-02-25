@@ -9,49 +9,61 @@
         <CaInputText
           v-if="editMode"
           id="email"
-          v-model="user.email"
+          v-model="userData.address.email"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('EMAIL')"
         />
         <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">{{ $t('EMAIL') }}</h3>
-          <p class="ca-account-settings__setting-value">{{ user.email }}</p>
+          <p class="ca-account-settings__setting-value">
+            {{ user.address.email }}
+          </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="firstname"
-          v-model="user.firstName"
+          v-model="userData.address.firstName"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_FIRST_NAME')"
         />
-        <div v-else-if="user.firstName" class="ca-account-settings__setting">
+        <div
+          v-else-if="user.address.firstName"
+          class="ca-account-settings__setting"
+        >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_FIRST_NAME') }}
           </h3>
-          <p class="ca-account-settings__setting-value">{{ user.firstName }}</p>
+          <p class="ca-account-settings__setting-value">
+            {{ user.address.firstName }}
+          </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="lastname"
-          v-model="user.lastName"
+          v-model="userData.address.lastName"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_LAST_NAME')"
         />
-        <div v-else-if="user.lastName" class="ca-account-settings__setting">
+        <div
+          v-else-if="user.address.lastName"
+          class="ca-account-settings__setting"
+        >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_LAST_NAME') }}
           </h3>
-          <p class="ca-account-settings__setting-value">{{ user.lastName }}</p>
+          <p class="ca-account-settings__setting-value">
+            {{ user.address.lastName }}
+          </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="phone"
-          v-model="user.phone"
+          v-model="userData.phone"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_PHONE_NUMBER')"
@@ -63,7 +75,7 @@
           <p class="ca-account-settings__setting-value">{{ user.phone }}</p>
         </div>
 
-        <div
+        <!-- <div
           v-if="editMode"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
         >
@@ -87,7 +99,7 @@
           <p class="ca-account-settings__setting-value">
             {{ genders.find(i => i.value === user.gender).label }}
           </p>
-        </div>
+        </div> -->
       </template>
     </CaAccountSettingsBlock>
     <CaAccountSettingsBlock
@@ -99,27 +111,24 @@
         <CaInputText
           v-if="editMode"
           id="co"
-          v-model="user.address.shipping.co"
+          v-model="userData.address.co"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_CARE_OF')"
         />
-        <div
-          v-else-if="user.address.shipping.co"
-          class="ca-account-settings__setting"
-        >
+        <div v-else-if="user.address.co" class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_CARE_OF') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.co }}
+            {{ user.address.co }}
           </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="address"
-          v-model="user.address.shipping.address"
+          v-model="userData.address.addressLine1"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ADDRESS')"
@@ -127,83 +136,77 @@
         <CaInputText
           v-if="editMode"
           id="address2"
-          v-model="user.address.shipping.address2"
+          v-model="userData.address.addressLine2"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ADDRESS_2')"
         />
         <div
-          v-else-if="user.address.shipping.address"
+          v-else-if="user.address.addressLine1 || user.address.addressLine2"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_ADDRESS') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.address }}
+            {{ user.address.addressLine1 }}
           </p>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.address2 }}
+            {{ user.address.addressLine2 }}
           </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="zip"
-          v-model="user.address.shipping.zip"
+          v-model="userData.address.zip"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ZIP')"
         />
-        <div
-          v-else-if="user.address.shipping.zip"
-          class="ca-account-settings__setting"
-        >
+        <div v-else-if="user.address.zip" class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_ZIP') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.zip }}
+            {{ user.address.zip }}
           </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="city"
-          v-model="user.address.shipping.city"
+          v-model="userData.address.city"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_CITY')"
         />
-        <div
-          v-else-if="user.address.shipping.city"
-          class="ca-account-settings__setting"
-        >
+        <div v-else-if="user.address.city" class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_CITY') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.city }}
+            {{ user.address.city }}
           </p>
         </div>
 
         <CaInputText
           v-if="editMode"
           id="country"
-          v-model="user.address.shipping.country"
+          v-model="userData.address.country"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_COUNTRY')"
         />
         <div
-          v-else-if="user.address.shipping.country"
+          v-else-if="user.address.country"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_COUNTRY') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ user.address.shipping.country }}
+            {{ user.address.country }}
           </p>
         </div>
       </template>
@@ -221,12 +224,12 @@
             {{ $t('LABEL_NEWSLETTER') }}
           </h3>
           <CaInputRadio
-            v-model="user.newsletter"
+            v-model="userData.newsletter"
             :label="$t('YES')"
             :value="true"
           />
           <CaInputRadio
-            v-model="user.newsletter"
+            v-model="userData.newsletter"
             :label="$t('NO')"
             :value="false"
           />
@@ -292,13 +295,18 @@ export default {
       required: true
     }
   },
-  data: () => ({}),
+  data: () => ({
+    userData: {}
+  }),
   computed: {},
   watch: {},
-  mounted() {},
+  mounted() {
+    this.userData = this.user;
+  },
   methods: {
     saveUser(sectionRef) {
       // save user endpoint stuff
+      this.$emit('save', this.userData);
       sectionRef.toggleEditMode();
     }
   }

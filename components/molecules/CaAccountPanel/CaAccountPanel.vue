@@ -147,6 +147,7 @@
 <script>
 import { mapState } from 'vuex';
 import loginMutation from 'user/login.graphql';
+import registerMutation from 'user/register.graphql';
 
 // @group Molecules
 // @vuese
@@ -192,6 +193,10 @@ export default {
       notValid: {
         type: 'error',
         message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID')
+      },
+      alreadyExists: {
+        type: 'error',
+        message: vm.$t('ACCOUNT_FEEDBACK_ALREADY_EXISTS')
       }
     }
   }),
@@ -222,6 +227,13 @@ export default {
     },
     currentFrame() {
       return this.contentpanel.frame;
+    },
+    loginAndRegisterVariables() {
+      return {
+        apiKey: this.$config.apiKey.toString(),
+        username: this.email,
+        password: this.password
+      };
     },
     ...mapState(['contentpanel'])
   },
@@ -272,29 +284,14 @@ export default {
         this.$apollo
           .mutate({
             mutation: loginMutation,
-            variables: {
-              apiKey: this.$config.apiKey.toString(),
-              username: this.email,
-              password: this.password
-            },
+            variables: this.loginAndRegisterVariables,
             errorPolicy: 'all'
           })
           .then(result => {
             this.loading = false;
             if (!result.errors) {
-              const auth = result.data.login;
-              this.$store.dispatch('auth/setAuth', auth);
-              this.$cookies.set('ralph-auth', auth.token, {
-                path: '/',
-                maxAge: auth.maxAge
-              });
-              this.$cookies.set('ralph-auth-refresh', auth.refresh, {
-                path: '/',
-                maxAge: auth.maxAge
-              });
+              this.loginAndRegisterCallback(result.data.login);
               this.showFeedback(this.feedback.loggedIn);
-              this.closePanelAfterDelay();
-              this.resetFields();
             } else {
               this.showFeedback(this.feedback.wrongCredentials);
             }
@@ -309,6 +306,25 @@ export default {
       }
     },
     // @vuese
+    // Callback for when account is created or login is successfull
+    // @arg Callback result (Object)
+    loginAndRegisterCallback(auth) {
+      this.$store.dispatch('auth/setAuth', auth);
+      this.$cookies.set('ralph-auth', auth.token, {
+        path: '/',
+        maxAge: auth.maxAge - 60
+      });
+      const expires = this.rememberMe
+        ? new Date(new Date().getTime() + 31536000000)
+        : 0;
+      this.$cookies.set('ralph-auth-refresh', auth.refresh, {
+        path: '/',
+        expires
+      });
+      this.closePanelAfterDelay();
+      this.resetFields();
+    },
+    // @vuese
     // Create account action
     createAccount() {
       this.loading = true;
@@ -317,11 +333,25 @@ export default {
         this.$refs.inputPassword.validateInput() &&
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
-        // TODO: Create account
-        this.showFeedback(this.feedback.accountCreated);
-        this.closePanelAfterDelay();
-        this.resetFields();
-        this.loading = false;
+        this.$apollo
+          .mutate({
+            mutation: registerMutation,
+            variables: this.loginAndRegisterVariables,
+            errorPolicy: 'all'
+          })
+          .then(result => {
+            this.loading = false;
+            if (!result.errors) {
+              this.loginAndRegisterCallback(result.data.registerUser);
+              this.showFeedback(this.feedback.accountCreated);
+            } else {
+              this.showFeedback(this.feedback.alreeadyExists);
+            }
+          })
+          .catch(error => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
       } else {
         this.showFeedback(this.feedback.notValid);
         this.loading = false;

@@ -4,7 +4,8 @@ import jwtTokenFragment from 'user/jwt-token.graphql';
 export const state = () => ({
   token: null,
   refresh: null,
-  headers: null
+  headers: null,
+  tokenTimeout: null
 });
 
 export const mutations = {
@@ -16,6 +17,12 @@ export const mutations = {
   },
   setHeaders(state, headers) {
     state.headers = headers;
+  },
+  setTokenTimeout(state, timeout) {
+    state.tokenTimeout = timeout;
+  },
+  clearTokenTimeout(state) {
+    clearTimeout(state.tokenTimeout);
   }
 };
 
@@ -29,6 +36,14 @@ export const actions = {
           apikey: rootState.config.apiKey,
           authorization: 'Bearer ' + auth.token
         });
+      }
+      if (auth.maxAge) {
+        commit(
+          'setTokenTimeout',
+          setTimeout(() => {
+            commit('setToken', null);
+          }, (auth.maxAge - 60) * 1000)
+        );
       }
     } else {
       commit('setToken', null);
@@ -49,18 +64,23 @@ export const actions = {
             }
           }
           ${jwtToken}
-        `,
-      context: {
-        headers: state.headers
-      }
+        `
     });
     const authRefresh = await refreshMutation.data?.refresh;
-    dispatch('setAuth', authRefresh);
+    if (authRefresh) {
+      dispatch('setAuth', authRefresh);
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
 export const getters = {
   isAuthenticated(state) {
     return state.token !== null;
+  },
+  needsRefresh(state) {
+    return state.token === null && state.refresh !== null;
   }
 };

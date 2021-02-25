@@ -3,7 +3,13 @@
     <p class="ca-address__row">
       {{ address.firstName }} {{ address.lastName }}
     </p>
-    <p class="ca-address__row">{{ address.address }}</p>
+    <p class="ca-address__row">{{ address.addressLine1 }}</p>
+    <p v-if="address.addressLine2" class="ca-address__row">
+      {{ address.addressLine2 }}
+    </p>
+    <p v-if="address.addressLine3" class="ca-address__row">
+      {{ address.addressLine3 }}
+    </p>
     <p class="ca-address__row">{{ address.zip }} {{ address.city }}</p>
     <p class="ca-address__row">{{ address.country }}</p>
   </div>
