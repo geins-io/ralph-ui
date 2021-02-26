@@ -51,6 +51,7 @@ export default {
   name: 'CaPromoCode',
   mixins: [],
   props: {
+    // The active promo code, if any
     activePromoCode: {
       type: String,
       required: true
@@ -126,6 +127,8 @@ export default {
           console.log(error);
         });
     },
+    // @vuese
+    // Remove the set promo code
     removePromoCode() {
       this.$refs.feedback.hide();
       this.code = '';

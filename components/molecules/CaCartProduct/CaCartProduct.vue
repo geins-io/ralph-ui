@@ -42,7 +42,6 @@
         />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
-        <!-- {{ item.quantity }} -->
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
@@ -51,7 +50,6 @@
               ? item.quantity
               : skuStockQuantity
           "
-          :test="$store.getters.getSellingPrice(item.unitPrice)"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -109,32 +107,15 @@ export default {
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock
           .totalStock || 0
       );
-    },
-    quantityItem() {
-      return this.item.quantity;
     }
   },
-  watch: {
-    quantityItem(val) {
-      console.log(
-        'quantityItem',
-        this.$store.getters.getSellingPrice(this.item.unitPrice) + '--- ' + val
-      );
-    },
-    'item.quantity'(val) {
-      console.log(
-        'item.quantity',
-        this.$store.getters.getSellingPrice(this.item.unitPrice) + '--- ' + val
-      );
-    }
-  },
+  watch: {},
   mounted() {},
   methods: {
     // @vuese
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      console.log('onQuantityChange', value);
       const quantityChange = value - this.item.quantity;
       let newQuantity = this.item.skuQuantity + quantityChange;
 
@@ -147,7 +128,6 @@ export default {
           placement: 'bottom-center'
         });
       }
-      console.log('new quantity', newQuantity);
       this.updateCart(this.item.skuId, newQuantity);
     }
   }
