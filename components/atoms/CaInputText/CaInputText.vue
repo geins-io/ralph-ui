@@ -42,10 +42,10 @@
       {{ description }}
     </div>
     <div
-      v-else-if="errorText && !allValid"
+      v-else-if="errorMessage && !allValid"
       class="ca-input-text__help-text ca-input-text__help-text--error"
     >
-      {{ errorText }}
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -114,19 +114,23 @@ export default {
       default: true
     },
     // What error text should be displayed if field not vaild
-    errorText: {
+    errorMessage: {
       type: String,
       default: null
     },
     // Set to use built in validation
     validate: {
-      // `email`, `passwordStrength`, `passwordMatch`
+      // `email`, `passwordStrength`, `passwordMatch`, `empty`
       type: String,
       default: '',
       validator(value) {
-        return ['', 'email', 'passwordStrength', 'passwordMatch'].includes(
-          value
-        );
+        return [
+          '',
+          'email',
+          'passwordStrength',
+          'passwordMatch',
+          'empty'
+        ].includes(value);
       }
     },
     // The password to match if using the `passwordMatch` validation
@@ -210,7 +214,7 @@ export default {
         this.fieldValid = this.value.length > 6;
       } else if (this.validate === 'passwordMatch') {
         this.fieldValid = this.value === this.passwordToMatch;
-      } else if (this.required) {
+      } else if (this.validate === 'empty') {
         this.fieldValid = this.value !== '';
       }
       // Validation has been made

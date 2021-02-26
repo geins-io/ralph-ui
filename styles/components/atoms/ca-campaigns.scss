@@ -1,0 +1,14 @@
+.ca-campaigns {
+  &__item {
+    font-weight: $font-weight-bold;
+    color: $c-sale;
+  }
+  &__title {
+    font-weight: $font-weight-bold;
+    margin: 0 0 $px8;
+  }
+  &--box {
+    background: $c-lightest-gray;
+    padding: $px12 $px16;
+  }
+}

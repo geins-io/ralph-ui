@@ -10,13 +10,13 @@
     }
   }
   &__price {
-    margin-top: 5px;
+    margin: rem-calc(5px) 0 0;
   }
 
   &__variant {
     color: $c-text-secondary;
     font-size: $font-size-xs;
-    margin-top: $px4;
+    margin: $px4 0 0;
   }
 
   &__info {
@@ -30,6 +30,11 @@
     right: 0;
     cursor: pointer;
   }
+
+  &__campaigns {
+    margin: $px4 0 0;
+  }
+
   &__bottom {
     display: flex;
     justify-content: space-between;

@@ -30,10 +30,10 @@
       {{ description }}
     </div>
     <div
-      v-else-if="errorText && !allValid"
+      v-else-if="errorMessage && !allValid"
       class="ca-input-textarea__help-text ca-input-textarea__help-text--error"
     >
-      {{ errorText }}
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -87,7 +87,7 @@ export default {
       default: true
     },
     // What error text should be displayed if field not vaild
-    errorText: {
+    errorMessage: {
       type: String,
       default: null
     }

@@ -33,14 +33,23 @@
           :name="product.name"
           name-tag="h3"
         />
-        <CaPrice class="ca-cart-product__price" :price="product.unitPrice" />
+        <CaPrice class="ca-cart-product__price" :price="item.unitPrice" />
         <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
+        <CaCampaigns
+          v-if="item.campaign && item.campaign.appliedCampaigns.length"
+          class="ca-cart-product__campaigns"
+          :campaigns="item.campaign.appliedCampaigns"
+        />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
-          :max-quantity="skuQuantity"
+          :max-quantity="
+            item.skuQuantity >= skuStockQuantity
+              ? item.quantity
+              : skuStockQuantity
+          "
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -93,7 +102,7 @@ export default {
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].name || ''
       );
     },
-    skuQuantity() {
+    skuStockQuantity() {
       return (
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock
           .totalStock || 0
@@ -107,7 +116,19 @@ export default {
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      this.updateCart(this.item.skuId, value);
+      const quantityChange = value - this.item.quantity;
+      let newQuantity = this.item.skuQuantity + quantityChange;
+
+      if (newQuantity > this.skuStockQuantity) {
+        newQuantity = this.skuStockQuantity;
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('CART_ADD_TOO_MANY', {
+            stock: this.skuStockQuantity
+          }),
+          placement: 'bottom-center'
+        });
+      }
+      this.updateCart(this.item.skuId, newQuantity);
     }
   }
 };

@@ -7,7 +7,20 @@
       :item="item"
       :mode="mode"
     />
-    <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
+    <CaPromoCode
+      v-if="mode !== 'display'"
+      class="ca-cart__promo-code"
+      :active-promo-code="cart.promoCode ? cart.promoCode : ''"
+    />
+    <div class="ca-cart__summary">
+      <CaCampaigns
+        v-if="cart.appliedCampaigns.length"
+        class="ca-cart__campaigns"
+        :campaigns="cart.appliedCampaigns"
+        display="box"
+      />
+      <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
+    </div>
   </div>
   <div v-else class="ca-cart ca-cart--empty">
     {{ $t('CART_EMPTY') }}
