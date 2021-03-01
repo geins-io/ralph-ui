@@ -62,15 +62,18 @@ export default {
         : this.configuration.image.filenameForMobileDevice;
     },
     // @vuese
+    // The current largest size for the image, object containing height and width
+    // @type Object
+    currentSize() {
+      return this.imageRatios.find(item => item.fileName === this.filename)
+        .largestSize;
+    },
+    // @vuese
     // The current image ratio
     // @type Number
     currentRatio() {
-      const currentSize = this.imageRatios.find(
-        item => item.fileName === this.filename
-      ).largestSize;
-
-      const height = currentSize.imageHeight;
-      const width = currentSize.imageWidth;
+      const height = this.currentSize.imageHeight;
+      const width = this.currentSize.imageWidth;
 
       return height / width;
     }

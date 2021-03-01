@@ -37,12 +37,6 @@ export default {
       type: Array,
       required: true
     }
-    // Widget size
-    // size: {
-    //   // 'full', 'half', 'third', 'fourth'
-    //   type: String,
-    //   required: true
-    // }
   },
   data: () => ({}),
   computed: {
@@ -63,6 +57,8 @@ export default {
         return 'CaWidgetProductList';
       } else if (this.type === 'Banner') {
         return 'CaWidgetBanner';
+      } else if (this.type === 'Video') {
+        return 'CaWidgetVideo';
       } else return '';
     }
   },
