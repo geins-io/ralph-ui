@@ -9,8 +9,9 @@ A list of product cards<br><br> **SASS-path:** _./styles/components/molecules/ca
 |---|---|---|---|---|
 |products|Array of products|`Array`|`true`|-|
 |pageSize|Current page size|`Number`|`true`|-|
-|skip|Current skip|`Number`|`true`|-|
+|skip|Current skip|`Number`|`false`|0|
 |filtersActive|Are any filters active for the products data?|`Boolean`|`false`|false|
+|productCardType|Type of product card, to be able to display slightly different product cards in different product lists|`String`|`false`|default|
 
 <!-- @vuese:CaProductList:props:end -->
 

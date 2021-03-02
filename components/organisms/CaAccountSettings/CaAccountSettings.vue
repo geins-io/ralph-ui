@@ -277,16 +277,18 @@
 <script>
 // @group Organisms
 // @vuese
-// (Description of component)<br><br>
+// The settings for a users account<br><br>
 // **SASS-path:** _./styles/components/organisms/ca-account-settings.scss_
 export default {
   name: 'CaAccountSettings',
   mixins: [],
   props: {
+    // The user object received from the API
     user: {
       type: Object,
       required: true
     },
+    // What genders is available
     genders: {
       type: Array,
       required: true

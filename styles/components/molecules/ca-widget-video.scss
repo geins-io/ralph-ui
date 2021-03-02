@@ -1,0 +1,49 @@
+.ca-widget-video {
+  $play-button-bg: $c-accent-color !default;
+  $play-button-txt: $c-text-inverse !default;
+  position: relative;
+  &__image-wrap {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    background: $c-light-gray;
+  }
+  &__image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  &__video {
+    &--not-ready {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0;
+    }
+  }
+  &__play-icon {
+    @include calign;
+    @include flex-calign;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.5);
+    background: $play-button-bg;
+    color: $play-button-txt;
+    font-size: rem-calc(30px);
+    @include bp(tablet) {
+      width: 100px;
+      height: 100px;
+      font-size: rem-calc(45px);
+    }
+  }
+  &__spinner.ca-spinner {
+    @include bp(tablet) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

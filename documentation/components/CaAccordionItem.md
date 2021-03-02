@@ -20,7 +20,8 @@ Toggle content by clicking parent<br><br> **SASS-path:** _./styles/components/mo
 <!-- @vuese:CaAccordionItem:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|toggle|-|-|
+|toggle-content|-|-|
+|toggle-text|-|-|
 |default|-|-|
 
 <!-- @vuese:CaAccordionItem:slots:end -->

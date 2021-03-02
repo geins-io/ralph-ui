@@ -74,15 +74,6 @@ export const actions = {
       { passive: true }
     );
   },
-  startGlobalLoading(context) {
-    context.commit('setLoadingTimeout', () => {
-      context.commit('startLoading');
-    });
-  },
-  endGlobalLoading(context) {
-    context.commit('clearLoadingTimeout');
-    context.commit('endLoading');
-  },
   // Set scrollbar width, used to keep gap when disabeling body scroll
   setScrollbarWidth() {
     const scrollbarWidth =

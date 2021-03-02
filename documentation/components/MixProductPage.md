@@ -23,8 +23,19 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |---|---|---|---|
 |productImages|`Array`|Quick ref to product images|No|
 |prodAlias|`String`|Alias used to fetch product data, using replaceAlias if it has a value|No|
+|widgetAreaFilters|`Array`|Returns array of widget filters|No|
 
 <!-- @vuese:MixProductPage:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:MixProductPage:mixIns:start -->
+|MixIn|
+|---|
+|MixMetaReplacement|
+
+<!-- @vuese:MixProductPage:mixIns:end -->
 
 
 ## Watch

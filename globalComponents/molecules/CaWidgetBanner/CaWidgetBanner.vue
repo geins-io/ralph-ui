@@ -8,7 +8,6 @@
       <div class="ca-widget-banner__image-wrap">
         <CaImage
           class="ca-widget-banner__image"
-          size="1360w"
           type="pagewidget"
           :alt="altText"
           :filename="filename"

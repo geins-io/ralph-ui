@@ -9,6 +9,7 @@ An inline feedback box<br><br> **SASS-path:** _./styles/components/atoms/ca-feed
 |---|---|---|---|---|
 |type|Type of feedback|`info`, `success`, `error`|`false`|info|
 |message|The feedback message to be displayed|`String`|`true`|-|
+|constant|Set to true if the feedback message should be visible at all time|`Boolean`|`false`|false|
 
 <!-- @vuese:CaFeedback:props:end -->
 
