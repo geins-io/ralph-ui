@@ -13,11 +13,9 @@
     position: absolute;
     left: 0;
     top: 0;
+    width: 100%;
   }
   &__video {
-    iframe {
-      width: 100%;
-    }
     &--not-ready {
       position: absolute;
       left: 0;

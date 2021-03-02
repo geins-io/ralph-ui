@@ -51,12 +51,22 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 |isCategory|`Boolean`|Is this list page of type category?|No|
 |isBrand|`Boolean`|Is this list page of type brand?|No|
 |filterSelectionActive|`Boolean`|Is a filter selection made?|No|
-|infoQueryVars|`Object`|Returns the object to query the list page information|No|
 |productsQueryVars|`Object`|Returns the variable object with the query parameters for the product list|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
 |loadPrevQueryVars|`Object`|Returns the variable object for loading previous products|No|
 |skeletonProducts|`Array`|Returns an array of empty objects with same lengt as pageSize|No|
+|widgetAreaFilters|`Array`|Returns array of widget filters|No|
 
 <!-- @vuese:MixListPage:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:MixListPage:mixIns:start -->
+|MixIn|
+|---|
+|MixMetaReplacement|
+
+<!-- @vuese:MixListPage:mixIns:end -->
 
 

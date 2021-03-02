@@ -1,0 +1,32 @@
+.ca-modal {
+  $block: &;
+  background: $c-white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: rem-calc(4px);
+  box-shadow: 0 0 15px -6px rgba(0, 0, 0, 0.06);
+  transform: translate(-50%, -50%) scale(1);
+  z-index: $z-index-modal;
+  width: 100%;
+  max-width: 95vw;
+  max-height: 95vh;
+  &__close {
+    width: 36px;
+    height: 36px;
+    @include flex-calign;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(40%, -40%);
+    background: $c-white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+    border: $border-light;
+    z-index: 1;
+  }
+  &__content {
+    overflow: hidden;
+    border-radius: rem-calc(4px);
+  }
+}

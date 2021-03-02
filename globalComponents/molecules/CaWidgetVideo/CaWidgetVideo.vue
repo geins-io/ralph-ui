@@ -1,7 +1,7 @@
 <template>
   <div class="ca-widget-video">
     <div
-      v-if="!videoReady"
+      v-if="playInModal || !videoReady"
       class="ca-widget-video__image-wrap"
       :style="{ paddingBottom: ratioPadding }"
     >
@@ -14,52 +14,43 @@
         :ratio="currentRatio"
         :sizes="imageSizes"
       />
-      <button class="ca-widget-video__play-icon" @click="playing = true">
+      <button class="ca-widget-video__play-icon" @click="loadVideo">
         <CaIcon v-if="!loading" name="play" />
         <CaSpinner class="ca-widget-video__spinner" :loading="loading" />
       </button>
     </div>
-    <div v-if="playing" class="ca-widget-video__video" :class="videoModifiers">
-      <Youtube
-        v-if="configuration.videoProvider === 0"
-        ref="youtube"
-        :width="playerWidth"
-        :height="playerHeight"
-        :player-vars="playerVars"
-        :video-id="configuration.videoId"
-        :fit-parent="true"
-        :resize="true"
-        @ready="startPlaying"
-      />
-    </div>
+    <CaVideo
+      v-if="playing && !playInModal"
+      class="ca-widget-video__video"
+      :class="videoModifiers"
+      v-bind="videoProps"
+      @ready="videoReady = true"
+    />
   </div>
 </template>
 <script>
 import MixWidgetImage from 'MixWidgetImage';
-import { Youtube } from 'vue-youtube';
 // @group Molecules
 // @vuese
 // The widget video component. Shows either a Youtube or Vimeo video, displayed either on the page or in a modal<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-video.scss_
 export default {
   name: 'CaWidgetVideo',
-  components: { Youtube },
   mixins: [MixWidgetImage],
   props: {},
   data: () => ({
     playerWidth: 1600,
     playerHeight: 900,
     playerRatio: 0,
-    playerVars: {
-      rel: 0,
-      modestbranding: 1
-    },
     videoReady: false,
     playing: false
   }),
   computed: {
-    ytPlayer() {
-      return this.$refs.youtube.player;
+    videoId() {
+      return this.configuration.videoId.toString();
+    },
+    videoProvider() {
+      return this.configuration.videoProvider === 0 ? 'youtube' : 'vimeo';
     },
     videoModifiers() {
       return {
@@ -70,7 +61,22 @@ export default {
       return Math.round((this.playerRatio + Number.EPSILON) * 100) + '%';
     },
     loading() {
-      return this.playing && !this.videoReady;
+      return !this.playInModal && this.playing && !this.videoReady;
+    },
+    playInModal() {
+      return (
+        this.configuration.videoDisplayType === 1 &&
+        this.$store.getters.viewport !== 'phone'
+      );
+    },
+    videoProps() {
+      return {
+        videoId: this.videoId,
+        videoProvider: this.videoProvider,
+        playerWidth: this.playerWidth,
+        playerHeight: this.playerHeight,
+        playerRatio: this.playerRatio
+      };
     }
   },
   watch: {},
@@ -79,10 +85,15 @@ export default {
     this.setPlayerRatio();
   },
   methods: {
-    startPlaying() {
-      console.log('is ready');
-      this.videoReady = true;
-      this.ytPlayer.playVideo();
+    loadVideo() {
+      this.playing = true;
+      if (this.playInModal) {
+        const modalSettings = {
+          component: 'CaVideo',
+          componentProps: this.videoProps
+        };
+        this.$store.commit('modal/open', modalSettings);
+      }
     },
     setPlayerRatio() {
       if (this.imageRatios.length) {

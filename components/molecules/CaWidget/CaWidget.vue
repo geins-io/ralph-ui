@@ -40,9 +40,6 @@ export default {
   },
   data: () => ({}),
   computed: {
-    // sizeClass() {
-    //   return 'ca-widget--' + this.size;
-    // },
     confObj() {
       return JSON.parse(this.configuration);
     },

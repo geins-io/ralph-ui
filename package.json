@@ -26,7 +26,7 @@
     "body-scroll-lock": "^3.1.5",
     "vue-slide-up-down": "^2.0.1",
     "vue-slider-component": "^3.2.11",
-    "vue-vimeo-player": "git+https://github.com/carismar/vue-vimeo-player.git",
+    "vue-vimeo-player": "^0.1.2",
     "vue-youtube": "^1.4.0"
   },
   "vuese": {
