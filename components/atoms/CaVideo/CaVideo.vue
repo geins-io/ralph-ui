@@ -1,6 +1,6 @@
 <template>
   <div class="ca-video">
-    <Youtube
+    <LazyYoutube
       v-if="isYoutube"
       ref="youtube"
       class="ca-video__player"
@@ -12,7 +12,7 @@
       :resize="true"
       @ready="onReady"
     />
-    <Vimeo
+    <LazyVimeo
       v-if="isVimeo"
       ref="vimeo"
       class="ca-video__player"
@@ -20,20 +20,23 @@
       :player-height="playerHeight"
       :video-id="videoId"
       :options="vimeoOptions"
+      :events-to-emit="[]"
       @ready="onReady"
     />
   </div>
 </template>
 <script>
-import { Youtube } from 'vue-youtube';
-import { vueVimeoPlayer } from 'vue-vimeo-player';
 // @group Atoms
 // @vuese
 // Video component that plays a Youtube or a Vimeo video<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-video.scss_
 export default {
   name: 'CaVideo',
-  components: { Youtube, Vimeo: vueVimeoPlayer },
+  components: {
+    LazyYoutube: () => import('vue-youtube').then(({ Youtube }) => Youtube),
+    LazyVimeo: () =>
+      import('vue-vimeo-player').then(({ vueVimeoPlayer }) => vueVimeoPlayer)
+  },
   mixins: [],
   props: {
     // The video provider to use

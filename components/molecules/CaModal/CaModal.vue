@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition v-if="visible" name="grow">
+    <transition v-if="opened" name="grow">
       <div v-show="contentLoaded" class="ca-modal">
         <CaIconButton
           class="ca-modal__close"
@@ -19,7 +19,7 @@
     </transition>
     <CaOverlay
       class="ca-modal__overlay"
-      :visible="visible"
+      :visible="opened"
       @clicked="closeModal"
     />
   </div>
@@ -36,7 +36,7 @@ export default {
   props: {},
   data: () => ({
     contentLoaded: false,
-    visible: false
+    opened: false
   }),
   computed: {
     ...mapState(['modal'])
@@ -44,7 +44,7 @@ export default {
   watch: {
     'modal.component'(newVal, oldVal) {
       if (oldVal === '' && newVal !== oldVal) {
-        this.visible = true;
+        this.opened = true;
         this.$store.dispatch('loading/start');
       }
     }
@@ -59,7 +59,7 @@ export default {
       this.contentLoaded = false;
       this.$store.commit('modal/close');
       this.$nextTick(() => {
-        this.visible = false;
+        this.opened = false;
       });
     }
   }

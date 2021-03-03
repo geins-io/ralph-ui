@@ -45,7 +45,11 @@ export default {
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    if (this.$cookies.get('ralph-cookie-consent') === undefined) {
+      this.show();
+    }
+  },
   methods: {
     show() {
       this.hidden = false;
@@ -54,7 +58,7 @@ export default {
       this.hidden = true;
     },
     setCookie(consent) {
-      this.$cookies.set('cookie-consent', consent, {
+      this.$cookies.set('ralph-cookie-consent', consent, {
         path: '/',
         expires: new Date(new Date().getTime() + 31536000000)
       });
