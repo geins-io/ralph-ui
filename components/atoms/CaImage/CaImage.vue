@@ -1,6 +1,12 @@
 <template>
   <div class="ca-image" :class="modifiers">
-    <transition name="fade">
+    <CaSkeleton
+      v-if="forceRatio"
+      class="ca-image__skeleton"
+      :ratio="ratio"
+      :radius="false"
+    />
+    <transition v-else name="fade">
       <CaSkeleton
         v-if="!loaded"
         class="ca-image__skeleton"
@@ -59,6 +65,11 @@ export default {
       type: Number,
       required: true
     },
+    // Force the image to keep supplied ratio
+    forceRatio: {
+      type: Boolean,
+      default: false
+    },
     // Direct link to image if not from image service
     src: {
       type: String,
@@ -114,7 +125,8 @@ export default {
     },
     modifiers() {
       return {
-        'ca-image--loaded': this.loaded
+        'ca-image--loaded': this.loaded && !this.forceRatio,
+        'ca-image--force-ratio': this.forceRatio
       };
     }
   },
