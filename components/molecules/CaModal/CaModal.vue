@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition v-if="opened" name="grow">
-      <div v-show="contentLoaded" class="ca-modal">
+      <div v-show="contentLoaded" ref="modal" class="ca-modal">
         <CaIconButton
           class="ca-modal__close"
           icon-name="x"
@@ -26,6 +26,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 // @group Molecules
 // @vuese
 // A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>
@@ -44,8 +45,7 @@ export default {
   watch: {
     'modal.component'(newVal, oldVal) {
       if (oldVal === '' && newVal !== oldVal) {
-        this.opened = true;
-        this.$store.dispatch('loading/start');
+        this.openModal();
       }
     }
   },
@@ -55,9 +55,17 @@ export default {
       this.contentLoaded = true;
       this.$store.dispatch('loading/end');
     },
+    openModal() {
+      this.opened = true;
+      this.$store.dispatch('loading/start');
+      this.$nextTick(() => {
+        disableBodyScroll(this.$refs.modal);
+      });
+    },
     closeModal() {
       this.contentLoaded = false;
       this.$store.commit('modal/close');
+      enableBodyScroll(this.$refs.modal);
       this.$nextTick(() => {
         this.opened = false;
       });

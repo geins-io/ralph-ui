@@ -74,8 +74,7 @@ export default {
         videoId: this.videoId,
         videoProvider: this.videoProvider,
         playerWidth: this.playerWidth,
-        playerHeight: this.playerHeight,
-        playerRatio: this.playerRatio
+        playerHeight: this.playerHeight
       };
     }
   },
@@ -96,7 +95,7 @@ export default {
       }
     },
     setPlayerRatio() {
-      if (this.imageRatios.length) {
+      if (this.imageRatios.length && !this.playInModal) {
         this.playerWidth = this.currentSize.imageWidth;
         this.playerHeight = this.currentSize.imageHeight;
       }

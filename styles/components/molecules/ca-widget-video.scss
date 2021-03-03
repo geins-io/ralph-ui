@@ -9,7 +9,7 @@
     width: 100%;
     background: $c-light-gray;
   }
-  &__image {
+  &__image.ca-image {
     position: absolute;
     left: 0;
     top: 0;
@@ -33,11 +33,11 @@
     box-shadow: 0px 0px 15px -2px rgba(0, 0, 0, 0.5);
     background: $play-button-bg;
     color: $play-button-txt;
-    font-size: rem-calc(30px);
+    font-size: rem-calc(28px);
     @include bp(tablet) {
       width: 100px;
       height: 100px;
-      font-size: rem-calc(45px);
+      font-size: rem-calc(35px);
     }
   }
   &__spinner.ca-spinner {
