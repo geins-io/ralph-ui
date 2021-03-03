@@ -14,7 +14,7 @@
   &__remove {
     text-decoration: underline;
   }
-  &__accordion {
+  &__accordion.ca-accordion-item {
     background: $c-lightest-gray;
     border: $border-light;
   }
@@ -35,7 +35,7 @@
   &__input {
     flex: 1;
   }
-  &__button {
+  &__button.ca-button {
     margin: $px12 0 0;
     @include bp(tablet) {
       margin: 0;

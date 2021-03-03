@@ -13,7 +13,7 @@
     }
   }
   &__campaigns {
-    margin: $px16 0 0;
+    margin: $px16 0;
     @include bp(tablet) {
       margin: 0 $px20 0 0;
       width: calc(50% - #{$px20});
