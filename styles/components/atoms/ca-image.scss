@@ -9,4 +9,16 @@
       z-index: 1;
     }
   }
+  &--force-ratio {
+    position: relative;
+    #{$block}__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      object-fit: cover;
+    }
+  }
 }
