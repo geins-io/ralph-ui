@@ -95,11 +95,19 @@ export default {
       }
     },
     setPlayerRatio() {
-      if (this.imageRatios.length && !this.playInModal) {
-        this.playerWidth = this.currentSize.imageWidth;
-        this.playerHeight = this.currentSize.imageHeight;
+      const width = this.imageRatios.length
+        ? this.currentSize.imageWidth
+        : this.playerWidth;
+      const height = this.imageRatios.length
+        ? this.currentSize.imageHeight
+        : this.playerHeight;
+
+      this.playerRatio = height / width;
+
+      if (!this.playInModal) {
+        this.playerWidth = width;
+        this.playerHeight = height;
       }
-      this.playerRatio = this.playerHeight / this.playerWidth;
     }
   }
 };
