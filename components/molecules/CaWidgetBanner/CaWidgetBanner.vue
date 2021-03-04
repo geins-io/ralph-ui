@@ -7,9 +7,8 @@
     >
       <div v-if="hasVideo" class="ca-widget-banner__video-wrap">
         <CaImage
-          v-if="!videoLoaded && !!placeholderImage"
+          v-if="!videoLoaded && placeholderImage"
           class="ca-widget-banner__image ca-widget-banner__image--placeholder"
-          size="1360w"
           type="pagewidget"
           :alt="altText"
           :filename="filename"
@@ -24,13 +23,13 @@
           :radius="false"
         />
         <client-only>
-          <vue-vimeo-player
+          <Vimeo
             v-show="videoLoaded"
             ref="player"
-            :video-id="video"
+            :video-id="videoId"
             :options="videoOptions"
-            :events-to-emit="videoEvents"
-            @playing.once="videoLoadAction"
+            :events-to-emit="['playing']"
+            @playing.once="onPlaying"
           />
         </client-only>
       </div>
@@ -85,7 +84,7 @@ import { vueVimeoPlayer } from 'vue-vimeo-player';
 // **SASS-path:** _./styles/components/molecules/ca-widget-banner.scss_
 export default {
   name: 'CaWidgetBanner',
-  components: { vueVimeoPlayer },
+  components: { Vimeo: vueVimeoPlayer },
   mixins: [MixWidgetImage],
   props: {},
   data: () => ({
@@ -94,8 +93,7 @@ export default {
       responsive: true,
       background: true,
       loop: true
-    },
-    videoEvents: ['playing']
+    }
   }),
   computed: {
     modifiers() {
@@ -152,10 +150,10 @@ export default {
         ? !!this.configuration.mobileVideoId
         : !!this.configuration.desktopVideoId;
     },
-    video() {
+    videoId() {
       return this.$store.getters.viewport === 'phone'
-        ? String(this.configuration.mobileVideoId)
-        : String(this.configuration.desktopVideoId);
+        ? this.configuration.mobileVideoId.toString()
+        : this.configuration.desktopVideoId.toString();
     },
     videoRatio() {
       const height =
@@ -178,8 +176,8 @@ export default {
   mounted() {},
   methods: {
     // @vuese
-    // Action for when image is loaded
-    videoLoadAction() {
+    // Action for when video is playing
+    onPlaying() {
       this.videoLoaded = true;
     }
   }
