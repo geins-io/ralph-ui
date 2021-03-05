@@ -213,14 +213,8 @@ export default {
     // @arg slide change (Number), sliding transition (Boolean)
     shiftSlide(slideChange, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
-      this.currentSlide = this.currentSlide + slideChange;
-      if (!this.infinite) {
-        if (this.currentSlide < 0) {
-          this.currentSlide = 0;
-        } else if (this.currentSlide + this.slidesToScroll > this.nrOfSlides) {
-          this.currentSlide = this.nrOfSlides - this.slidesToScroll;
-        }
-      }
+      const slide = this.currentSlide + slideChange;
+      this.setCurrentSlide(slide);
       this.$nextTick(() => {
         this.resetting = false;
       });
@@ -230,10 +224,26 @@ export default {
     // @arg slide index (Number), sliding transition (Boolean)
     goToSlide(slideIndex, slidingTransition = false) {
       this.slidingTransition = slidingTransition;
-      if (this.slidingActive && this.infinite) {
-        this.currentSlide = slideIndex + this.numberOfCopiesBefore;
+      const slide =
+        this.slidingActive && this.infinite
+          ? slideIndex + this.numberOfCopiesBefore
+          : slideIndex;
+      this.setCurrentSlide(slide);
+    },
+    // @vuese
+    // Used by shiftSlide and goToSlide to set a new value to currentSlide. Adjusts value to not show empty space when not infinite
+    // @arg slide (Number)
+    setCurrentSlide(slide) {
+      if (!this.infinite) {
+        if (slide < 0) {
+          this.currentSlide = 0;
+        } else if (slide + this.slidesToScroll > this.nrOfSlides) {
+          this.currentSlide = this.nrOfSlides - this.slidesToScroll;
+        } else {
+          this.currentSlide = slide;
+        }
       } else {
-        this.currentSlide = slideIndex;
+        this.currentSlide = slide;
       }
     },
     // @vuese
