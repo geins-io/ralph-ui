@@ -66,15 +66,14 @@ export default {
     // @type Object
     currentSize() {
       return this.imageRatios.find(item => item.fileName === this.filename)
-        .largestSize;
+        ?.largestSize;
     },
     // @vuese
     // The current image ratio
     // @type Number
     currentRatio() {
-      const height = this.currentSize.imageHeight;
-      const width = this.currentSize.imageWidth;
-
+      const height = this.currentSize?.imageHeight;
+      const width = this.currentSize?.imageWidth;
       return (height || 0) / (width || 1);
     }
   },
