@@ -92,7 +92,8 @@ export default {
     videoOptions: {
       responsive: true,
       background: true,
-      loop: true
+      loop: true,
+      quality: '1080p'
     }
   }),
   computed: {

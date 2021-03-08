@@ -4,8 +4,25 @@
 
   column-gap: $widget-column-spacing;
   row-gap: $widget-row-spacing;
-  &:not(:first-child) {
-    margin: $widget-container-spacing 0 0;
+
+  &--outer {
+    &:not(:first-child) {
+      margin: $widget-container-spacing auto 0;
+    }
+    @include bp(tablet) {
+      @if $widget-container-spacing-tablet != $widget-container-spacing {
+        &:not(:first-child) {
+          margin: $widget-container-spacing-tablet auto 0;
+        }
+      }
+    }
+    @include bp(laptop) {
+      @if $widget-container-spacing-laptop != $widget-container-spacing-tablet {
+        &:not(:first-child) {
+          margin: $widget-container-spacing-laptop auto 0;
+        }
+      }
+    }
   }
 
   @include bp(tablet) {
@@ -25,11 +42,6 @@
     @if $widget-row-spacing-tablet != $widget-row-spacing {
       row-gap: $widget-row-spacing-tablet;
     }
-    @if $widget-container-spacing-tablet != $widget-container-spacing {
-      &:not(:first-child) {
-        margin: $widget-container-spacing-tablet 0 0;
-      }
-    }
   }
   @include bp(laptop) {
     @if $widget-column-spacing-laptop != $widget-column-spacing-tablet {
@@ -37,11 +49,6 @@
     }
     @if $widget-row-spacing-laptop != $widget-row-spacing-tablet {
       row-gap: $widget-row-spacing-laptop;
-    }
-    @if $widget-container-spacing-laptop != $widget-container-spacing-tablet {
-      &:not(:first-child) {
-        margin: $widget-container-spacing-laptop 0 0;
-      }
     }
   }
 }

@@ -14,10 +14,10 @@
   &--default {
     max-width: $site-width;
   }
-  &--slim {
-    max-width: $site-width-slim;
+  &--narrow {
+    max-width: $site-width-narrow;
   }
-  &--full {
+  &--full-width {
     max-width: none;
     width: 100%;
     @include bp(tablet) {
