@@ -17,8 +17,8 @@
       v-model="currentSelection"
       tooltip="always"
       :enable-cross="false"
-      :min="values.lowest"
-      :max="values.highest"
+      :min="parseInt(values.lowest)"
+      :max="parseInt(values.highest)"
       @drag-end="changeHandler"
     />
   </div>
@@ -96,8 +96,8 @@ export default {
     // @vuese
     // Used to set local data when mounted
     setCurrentSelection() {
-      this.currentSelection[0] = this.selection.lowest;
-      this.currentSelection[1] = this.selection.highest;
+      this.currentSelection[0] = parseInt(this.selection.lowest);
+      this.currentSelection[1] = parseInt(this.selection.highest);
       this.sliderKey = !this.sliderKey;
     }
   }

@@ -21,6 +21,7 @@ query widgetArea(
     }
     containers {
       layout
+      design
       widgets {
         name
         configuration

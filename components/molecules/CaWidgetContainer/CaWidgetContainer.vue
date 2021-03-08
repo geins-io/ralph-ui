@@ -1,14 +1,27 @@
 <template>
-  <div v-if="widgets" class="ca-widget-container" :class="layoutClass">
-    <CaWidget
-      v-for="(widget, index) in widgets"
-      :key="index"
-      :type="widget.name"
-      :configuration="widget.configuration"
-      :image-ratios="widget.images"
-      :image-sizes="imageSizes"
-    />
-  </div>
+  <CaContainer
+    v-if="container.widgets"
+    class="ca-widget-container ca-widget-container--outer"
+    :design="outerContainerDesign"
+    :class="outerClasses"
+  >
+    <CaConditionalRootElement :render="contained">
+      <CaContainer
+        class="ca-widget-container ca-widget-container--inner"
+        :design="innerContainerDesign"
+        :class="innerClasses"
+      >
+        <CaWidget
+          v-for="(widget, index) in container.widgets"
+          :key="index"
+          :type="widget.name"
+          :configuration="widget.configuration"
+          :image-ratios="widget.images"
+          :image-sizes="imageSizes"
+        />
+      </CaContainer>
+    </CaConditionalRootElement>
+  </CaContainer>
 </template>
 <script>
 // @group Molecules
@@ -19,14 +32,9 @@ export default {
   name: 'CaWidgetContainer',
   mixins: [],
   props: {
-    // An array of widgets to be displayed in this container
-    widgets: {
-      type: Array,
-      required: true
-    },
-    // The container layout
-    layout: {
-      type: String,
+    // The container data object
+    container: {
+      type: Object,
       required: true
     },
     // Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set
@@ -37,13 +45,38 @@ export default {
   },
   data: () => ({}),
   computed: {
-    layoutClass() {
-      return 'ca-widget-container--' + this.layout;
+    outerClasses() {
+      const arr = [];
+      arr.push('ca-widget-container--design-' + this.container.design);
+      if (!this.contained) {
+        arr.push('ca-widget-container--' + this.container.layout);
+      }
+      return arr;
+    },
+    innerClasses() {
+      const arr = [];
+      if (this.contained) {
+        arr.push('ca-widget-container--' + this.container.layout);
+      }
+      return arr;
+    },
+    outerContainerDesign() {
+      return this.contained ? 'full-width' : this.container.design;
+    },
+    innerContainerDesign() {
+      return this.contained ? 'default' : this.container.design;
     },
     imageSizes() {
-      return this.widgetImageSizes
-        ? this.widgetImageSizes[this.layout]
-        : this.$config.widgetImageSizes[this.layout];
+      if (this.widgetImageSizes) {
+        return this.widgetImageSizes[this.container.layout];
+      } else {
+        return this.container.design === 'full-width'
+          ? this.$config.widgetImageSizesFullWidth[this.container.layout]
+          : this.$config.widgetImageSizes[this.container.layout];
+      }
+    },
+    contained() {
+      return this.container.design.includes('contained');
     }
   },
   watch: {},
