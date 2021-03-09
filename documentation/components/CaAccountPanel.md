@@ -14,6 +14,7 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 |login|Log in action|-|
 |createAccount|Create account action|-|
 |resetPassword|Reset password action|-|
+|changePassword|Reset password action|-|
 |checkValid|Used to hide feedback if field becomes valid after error|-|
 |enterHandler|Decides what action Enter key should trigger (different for different frames)|-|
 

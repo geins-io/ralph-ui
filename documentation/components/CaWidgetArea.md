@@ -9,7 +9,9 @@ The area that contains the widget containers and from which the graphql query fo
 |---|---|---|---|---|
 |family|The widget area family|`String`|`false`|-|
 |areaName|The widget area name|`String`|`false`|-|
-|alias|-|`String`|`false`|-|
+|alias|The widget area alias, if content page|`String`|`false`|-|
+|widgetImageSizes|Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set|`Object`|`false`|null|
+|filters|Filters for the area|`Array`|`false`|[]|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 

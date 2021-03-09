@@ -5,10 +5,37 @@
       v-bind="linkElemAttributes"
       class="ca-widget-banner__inner"
     >
-      <div class="ca-widget-banner__image-wrap">
+      <div v-if="hasVideo" class="ca-widget-banner__video-wrap">
+        <CaImage
+          v-if="!videoLoaded && placeholderImage"
+          class="ca-widget-banner__image ca-widget-banner__image--placeholder"
+          type="pagewidget"
+          :alt="altText"
+          :filename="filename"
+          :sizes="imageSizes"
+          :ratio="videoRatio"
+          :force-ratio="true"
+        />
+        <CaSkeleton
+          v-else-if="!videoLoaded"
+          class="ca-image__skeleton"
+          :ratio="videoRatio"
+          :radius="false"
+        />
+        <client-only>
+          <Vimeo
+            v-show="videoLoaded"
+            ref="player"
+            :video-id="videoId"
+            :options="videoOptions"
+            :events-to-emit="['playing']"
+            @playing.once="onPlaying"
+          />
+        </client-only>
+      </div>
+      <div v-else class="ca-widget-banner__image-wrap">
         <CaImage
           class="ca-widget-banner__image"
-          size="1360w"
           type="pagewidget"
           :alt="altText"
           :filename="filename"
@@ -16,6 +43,7 @@
           :ratio="currentRatio"
         />
       </div>
+
       <div
         v-if="
           configuration.text1 || configuration.text2 || configuration.buttonText
@@ -49,15 +77,25 @@
 </template>
 <script>
 import MixWidgetImage from 'MixWidgetImage';
+import { vueVimeoPlayer } from 'vue-vimeo-player';
 // @group Molecules
 // @vuese
 // The banner widget, displaying an image with text and button<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-banner.scss_
 export default {
   name: 'CaWidgetBanner',
+  components: { Vimeo: vueVimeoPlayer },
   mixins: [MixWidgetImage],
   props: {},
-  data: () => ({}),
+  data: () => ({
+    videoLoaded: false,
+    videoOptions: {
+      responsive: true,
+      background: true,
+      loop: true,
+      quality: '1080p'
+    }
+  }),
   computed: {
     modifiers() {
       const modifiers = [];
@@ -107,11 +145,43 @@ export default {
     },
     fullWidth() {
       return this.configuration.classNames === 'full';
+    },
+    hasVideo() {
+      return this.$store.getters.viewport === 'phone'
+        ? !!this.configuration.mobileVideoId
+        : !!this.configuration.desktopVideoId;
+    },
+    videoId() {
+      return this.$store.getters.viewport === 'phone'
+        ? this.configuration.mobileVideoId.toString()
+        : this.configuration.desktopVideoId.toString();
+    },
+    videoRatio() {
+      const height =
+        this.$store.getters.viewport === 'phone'
+          ? this.configuration.mobileVideoHeight
+          : this.configuration.desktopVideoHeight;
+      const width =
+        this.$store.getters.viewport === 'phone'
+          ? this.configuration.mobileVideoWidth
+          : this.configuration.desktopVideoWidth;
+      return (height || 0) / (width || 1);
+    },
+    placeholderImage() {
+      return this.$store.getters.viewport === 'phone'
+        ? this.configuration.image.filenameForMobileDevice
+        : this.configuration.image.filename;
     }
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    // @vuese
+    // Action for when video is playing
+    onPlaying() {
+      this.videoLoaded = true;
+    }
+  }
 };
 </script>
 <style lang="scss">

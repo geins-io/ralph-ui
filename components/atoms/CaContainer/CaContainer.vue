@@ -1,5 +1,5 @@
 <template>
-  <div class="ca-container" :class="widthClass">
+  <div class="ca-container" :class="designClass">
     <slot></slot>
   </div>
 </template>
@@ -11,15 +11,15 @@ export default {
   name: 'CaContainer',
   mixins: [],
   props: {
-    width: {
+    design: {
       type: String,
       default: 'default'
     }
   },
   data: () => ({}),
   computed: {
-    widthClass() {
-      return 'ca-container--' + this.width;
+    designClass() {
+      return 'ca-container--' + this.design;
     }
   },
   watch: {},

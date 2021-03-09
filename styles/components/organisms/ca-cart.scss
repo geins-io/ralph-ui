@@ -6,8 +6,21 @@
       border-bottom: $border-light;
     }
   }
+  &__summary {
+    margin: $px20 0 0;
+    @include bp(tablet) {
+      display: flex;
+    }
+  }
+  &__campaigns {
+    margin: $px16 0;
+    @include bp(tablet) {
+      margin: 0 $px20 0 0;
+      width: calc(50% - #{$px20});
+    }
+  }
   &__total {
-    margin-top: $px20;
+    flex: 1;
   }
   &--empty {
     text-align: center;

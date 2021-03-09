@@ -10,7 +10,7 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// The button in the banner widget. Component made to be overridden if necessary<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-widget-banner-button.scss_
 export default {
   name: 'CaWidgetBannerButton',

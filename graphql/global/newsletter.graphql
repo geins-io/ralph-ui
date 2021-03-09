@@ -1,0 +1,3 @@
+mutation subscribeToNewsletter($apiKey: String!, $email: String!) {
+  subscribeToNewsletter(apiKey: $apiKey, email: $email)
+}

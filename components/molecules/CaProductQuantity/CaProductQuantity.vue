@@ -80,7 +80,7 @@ export default {
   watch: {
     quantity(val) {
       if (this.count !== val) {
-        this.count = this.quantity;
+        this.count = val;
       }
     },
     threshold(val) {

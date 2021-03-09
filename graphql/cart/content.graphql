@@ -6,7 +6,20 @@ fragment Cart on CartType {
     sellingPriceIncVatFormatted
     sellingPriceExVatFormatted
   }
+  promoCode
+  appliedCampaigns {
+    name
+  }
   items {
+    campaign {
+      appliedCampaigns {
+        name
+      }
+    }
+    unitPrice {
+      sellingPriceIncVat
+      ...Price
+    }
     product {
       brand {
         name
@@ -14,9 +27,7 @@ fragment Cart on CartType {
       name
       images
       alias
-      unitPrice {
-        ...Price
-      }
+
       skus {
         skuId
         name
@@ -26,6 +37,7 @@ fragment Cart on CartType {
       }
     }
     quantity
+    skuQuantity
     skuId
     totalPrice {
       ...Price

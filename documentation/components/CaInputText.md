@@ -18,8 +18,8 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |type|Type of field|`String`|`false`|text|
 |id|Id of field, also used as name|`String`|`false`|-|
 |valid|Used to handle validation outside input scope|`Boolean`|`false`|true|
-|errorText|What error text should be displayed if field not vaild|`String`|`false`|null|
-|validate|Set to use built in validation|`email`, `passwordStrength`, `passwordMatch`|`false`|-|
+|errorMessage|What error text should be displayed if field not vaild|`String`|`false`|null|
+|validate|Set to use built in validation|`email`, `passwordStrength`, `passwordMatch`, `empty`|`false`|-|
 |passwordToMatch|The password to match if using the `passwordMatch` validation|`String`|`false`|-|
 
 <!-- @vuese:CaInputText:props:end -->

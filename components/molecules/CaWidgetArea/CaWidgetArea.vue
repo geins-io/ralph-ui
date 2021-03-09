@@ -1,11 +1,10 @@
 <template>
-  <div class="ca-widget-area">
-    <div v-if="containers.length" class="ca-widget-area__inner">
+  <div v-if="containers.length" class="ca-widget-area">
+    <div class="ca-widget-area__inner">
       <CaWidgetContainer
         v-for="(container, index) in containers"
         :key="index"
-        :widgets="container.widgets"
-        :layout="container.layout"
+        :container="container"
         :widget-image-sizes="widgetImageSizes"
       />
     </div>

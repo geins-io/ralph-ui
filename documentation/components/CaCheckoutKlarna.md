@@ -8,6 +8,7 @@ A component used to display the Klarna Checkout iFrame<br><br> **SASS-path:** _.
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |confirm|-|`Boolean`|`false`|false|
+|orderMessage|-|`String`|`false`|-|
 
 <!-- @vuese:CaCheckoutKlarna:props:end -->
 
