@@ -1,22 +1,17 @@
-import gql from 'graphql-tag';
-import jwtTokenFragment from 'user/jwt-token.graphql';
+import AuthClient from '~/plugins/authClient.js';
 
 export const state = () => ({
-  token: null,
-  refresh: null,
   headers: null,
-  tokenTimeout: null
+  tokenTimeout: null,
+  client: null
 });
 
 export const mutations = {
-  setToken(state, token) {
-    state.token = token;
-  },
-  setRefresh(state, refresh) {
-    state.refresh = refresh;
-  },
   setHeaders(state, headers) {
     state.headers = headers;
+  },
+  setClient(state, client) {
+    state.client = client;
   },
   setTokenTimeout(state, timeout) {
     state.tokenTimeout = timeout;
@@ -27,60 +22,63 @@ export const mutations = {
 };
 
 export const actions = {
-  setAuth({ commit, rootState }, auth) {
-    if (auth !== null) {
-      commit('setToken', auth.token);
-      commit('setRefresh', auth.refresh);
-      if (auth.token) {
-        commit('setHeaders', {
-          apikey: rootState.config.apiKey,
-          authorization: 'Bearer ' + auth.token
-        });
-      }
-      if (auth.maxAge) {
-        commit(
-          'setTokenTimeout',
-          setTimeout(() => {
-            commit('setToken', null);
-          }, (auth.maxAge - 60) * 1000)
-        );
-      }
+  update({ state, commit, rootState, dispatch }, update = true) {
+    if (update && state.client.authorized) {
+      commit('setHeaders', {
+        apikey: rootState.config.apiKey,
+        authorization: 'Bearer ' + state.client.token
+      });
+      commit(
+        'setTokenTimeout',
+        setTimeout(() => {
+          dispatch('refresh');
+        }, state.client.maxAge * 900)
+      );
     } else {
-      commit('setToken', null);
-      commit('setRefresh', null);
       commit('setHeaders', null);
+      commit('clearTokenTimeout');
     }
   },
-  async refreshToken({ state, rootState, dispatch }) {
-    const apolloClient = this.app.apolloProvider.defaultClient;
-    const jwtToken = gql`
-      ${jwtTokenFragment}
-    `;
-    const refreshMutation = await apolloClient.mutate({
-      mutation: gql`
-          mutation {
-            refresh(apiKey: "${rootState.config.apiKey}", refreshToken: "${state.refresh}") {
-              ...JwtToken
-            }
-          }
-          ${jwtToken}
-        `
-    });
-    const authRefresh = await refreshMutation.data?.refresh;
-    if (authRefresh) {
-      dispatch('setAuth', authRefresh);
+  async initClient({ state, rootState, commit, dispatch }) {
+    if (!state.client) {
+      const signEndpoint = rootState.config.signEndpoint.replace(
+        '{API_KEY}',
+        rootState.config.apiKey
+      );
+      const client = new AuthClient(
+        async id => await client.get(signEndpoint + id),
+        rootState.config.authEndpoint
+      );
+      commit('setClient', client);
+      console.log(client);
+      await dispatch('refresh');
       return true;
-    } else {
-      return false;
     }
+  },
+  async refresh({ state, dispatch }) {
+    await state.client?.refresh();
+    if (state.client.token) {
+      dispatch('update');
+    } else {
+      dispatch('update', false);
+    }
+  },
+  async register({ state, dispatch }, credentials) {
+    await state.client?.register(credentials.username, credentials.password);
+    dispatch('update');
+  },
+  async login({ state, dispatch }, credentials) {
+    await state.client?.login(credentials.username, credentials.password);
+    dispatch('update');
+  },
+  async logout({ state, dispatch }) {
+    await state.client?.logout();
+    dispatch('update', false);
   }
 };
 
 export const getters = {
   isAuthenticated(state) {
-    return state.token !== null;
-  },
-  needsRefresh(state) {
-    return state.token === null && state.refresh !== null;
+    return state.client && state.client.authorized;
   }
 };
