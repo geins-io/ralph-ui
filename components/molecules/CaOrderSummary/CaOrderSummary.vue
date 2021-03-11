@@ -10,9 +10,9 @@
             {{ itemsCount }}
             {{ $tc('PRODUCT_LOWERCASE', itemsCount) }}
           </span>
-          <!-- <span class="ca-order-summary__status">
-            <CaStatusLabel :text="order.status" />
-          </span> -->
+          <span class="ca-order-summary__status">
+            <CaStatusLabel :text="order.status" :type="order.status" />
+          </span>
           <span class="ca-order-summary__id">#{{ order.id }}</span>
           <span class="ca-order-summary__total">
             {{ $store.getters.getSellingPrice(order.cart.total) }}
@@ -55,9 +55,14 @@
             {{ order.payment.name }}
           </div> -->
         </div>
-        <!-- <CaButton class="ca-order-detail__track" type="full-width">
+        <CaButton
+          v-if="order.shippingDetails && order.shippingDetails.trackingLink"
+          :href="order.shippingDetails.trackingLink"
+          class="ca-order-detail__track"
+          type="full-width"
+        >
           {{ $t('TRACK_ORDER') }}
-        </CaButton> -->
+        </CaButton>
         <CaCart
           class="ca-order-detail__cart"
           mode="display"

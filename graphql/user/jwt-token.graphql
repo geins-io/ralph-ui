@@ -1,5 +1,0 @@
-fragment JwtToken on JwtTokenType {
-  maxAge
-  refresh
-  token
-}

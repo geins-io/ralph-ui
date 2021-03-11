@@ -12,7 +12,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'inactive' // active, completed, cancelled
+      default: 'inactive' // active, completed, cancelled, pending
     },
     text: {
       type: String,

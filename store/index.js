@@ -1,4 +1,4 @@
-// const cookie = process.server ? require('cookie') : undefined;
+const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
   favorites: [],
@@ -96,14 +96,11 @@ export const actions = {
     }
     commit('setAncientBrowser', this.$ua.browser());
 
-    // dispatch('auth/initClient');
-    // dispatch('auth/refresh');
-    // if (req.headers.cookie) {
-    //   const parsed = cookie.parse(req.headers.cookie);
-    //   const token = parsed['ralph-auth'] || null;
-    //   const refresh = parsed['ralph-auth-refresh'] || null;
-    //   console.log({ token, refresh });
-    // }
+    if (req.headers.cookie) {
+      const parsed = cookie.parse(req.headers.cookie);
+      const token = parsed['ralph-auth'] || null;
+      dispatch('auth/updateHeaders', token);
+    }
   }
 };
 

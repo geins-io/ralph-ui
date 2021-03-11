@@ -2,10 +2,12 @@
   border-radius: rem-calc(4px);
   padding: rem-calc(2px) rem-calc(6px);
   display: inline-block;
+  text-transform: uppercase;
   &--inactive {
     background-color: $c-medium-gray;
   }
-  &--active {
+  &--active,
+  &--pending {
     background-color: $c-ok;
   }
   &--completed {

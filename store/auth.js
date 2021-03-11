@@ -1,3 +1,4 @@
+// import cookie from 'cookie';
 import AuthClient from '~/plugins/authClient.js';
 
 export const state = () => ({
@@ -22,21 +23,31 @@ export const mutations = {
 };
 
 export const actions = {
-  update({ state, commit, rootState, dispatch }, update = true) {
+  update({ state, commit, dispatch }, update = true) {
     if (update && state.client.authorized) {
-      commit('setHeaders', {
-        apikey: rootState.config.apiKey,
-        authorization: 'Bearer ' + state.client.token
-      });
+      dispatch('updateHeaders', state.client.token);
       commit(
         'setTokenTimeout',
         setTimeout(() => {
           dispatch('refresh');
         }, state.client.maxAge * 900)
       );
+      this.$cookies.set('ralph-auth', state.client.token, {
+        path: '/',
+        maxAge: state.client.maxAge
+      });
     } else {
       commit('setHeaders', null);
       commit('clearTokenTimeout');
+      this.$cookies.remove('ralph-auth');
+    }
+  },
+  updateHeaders({ commit, rootState }, token) {
+    if (token !== null) {
+      commit('setHeaders', {
+        apikey: rootState.config.apiKey,
+        authorization: 'Bearer ' + token
+      });
     }
   },
   async initClient({ state, rootState, commit, dispatch }) {
@@ -50,17 +61,17 @@ export const actions = {
         rootState.config.authEndpoint
       );
       commit('setClient', client);
-      console.log(client);
-      await dispatch('refresh');
-      return true;
+      return await dispatch('refresh');
     }
   },
   async refresh({ state, dispatch }) {
     await state.client?.refresh();
     if (state.client.token) {
       dispatch('update');
+      return true;
     } else {
       dispatch('update', false);
+      return false;
     }
   },
   async register({ state, dispatch }, credentials) {
@@ -79,6 +90,6 @@ export const actions = {
 
 export const getters = {
   isAuthenticated(state) {
-    return state.client && state.client.authorized;
+    return state.headers !== null;
   }
 };

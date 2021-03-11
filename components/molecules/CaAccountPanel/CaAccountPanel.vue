@@ -146,7 +146,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import loginMutation from 'user/login.graphql';
 import registerMutation from 'user/register.graphql';
 
 // @group Molecules
@@ -228,9 +227,8 @@ export default {
     currentFrame() {
       return this.contentpanel.frame;
     },
-    loginAndRegisterVariables() {
+    credentials() {
       return {
-        apiKey: this.$config.apiKey.toString(),
         username: this.email,
         password: this.password
       };
@@ -266,95 +264,82 @@ export default {
       this.$refs.feedback.show();
     },
     // @vuese
-    // Closes panel after a delay of 2000 ms
-    closePanelAfterDelay() {
+    // Closes panel after a delay of 1000 ms
+    closePanelAfterDelay(redirectPath) {
       setTimeout(() => {
+        this.resetFields();
         this.$refs.contentpanel.close();
-        this.$router.push({ path: this.localePath('account-orders') });
+        this.$router.push({ path: this.localePath(redirectPath) });
       }, 1000);
     },
     // @vuese
     // Log in action
-    login() {
+    async login() {
       this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput()
       ) {
-        this.$apollo
-          .mutate({
-            mutation: loginMutation,
-            variables: this.loginAndRegisterVariables,
-            errorPolicy: 'all'
-          })
-          .then(result => {
-            this.loading = false;
-            if (!result.errors) {
-              this.loginAndRegisterCallback(result.data.login);
-              this.showFeedback(this.feedback.loggedIn);
-            } else {
-              this.showFeedback(this.feedback.wrongCredentials);
-            }
-          })
-          .catch(error => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          });
+        await this.$store.dispatch('auth/login', this.credentials);
+        if (this.$store.getters['auth/isAuthenticated']) {
+          this.loading = false;
+          this.closePanelAfterDelay('account-orders');
+          this.showFeedback(this.feedback.loggedIn);
+        } else {
+          this.loading = false;
+          this.showFeedback(this.feedback.wrongCredentials);
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese
-    // Callback for when account is created or login is successfull
-    // @arg Callback result (Object)
-    loginAndRegisterCallback(auth) {
-      this.$store.dispatch('auth/setAuth', auth);
-      this.$cookies.set('ralph-auth', auth.token, {
-        path: '/',
-        maxAge: auth.maxAge - 60
-      });
-      const expires = this.rememberMe
-        ? new Date(new Date().getTime() + 31536000000)
-        : 0;
-      this.$cookies.set('ralph-auth-refresh', auth.refresh, {
-        path: '/',
-        expires
-      });
-      this.closePanelAfterDelay();
-      this.resetFields();
-    },
-    // @vuese
     // Create account action
-    createAccount() {
+    async createAccount() {
       this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput() &&
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
-        this.$apollo
-          .mutate({
-            mutation: registerMutation,
-            variables: this.loginAndRegisterVariables,
-            errorPolicy: 'all'
-          })
-          .then(result => {
-            this.loading = false;
-            if (!result.errors) {
-              this.loginAndRegisterCallback(result.data.registerUser);
-              this.showFeedback(this.feedback.accountCreated);
-            } else {
-              this.showFeedback(this.feedback.alreeadyExists);
-            }
-          })
-          .catch(error => {
-            // eslint-disable-next-line no-console
-            console.log(error);
-          });
+        await this.$store.dispatch('auth/register', this.credentials);
+        if (this.$store.getters['auth/isAuthenticated']) {
+          this.$apollo
+            .mutate({
+              mutation: registerMutation,
+              variables: {
+                apiKey: this.$config.apiKey.toString(),
+                user: {
+                  newsletter: this.newsletterSubscribe,
+                  personalId: ''
+                }
+              },
+              context: {
+                headers: {
+                  authorization: 'Bearer gjroeip'
+                }
+              },
+              errorPolicy: 'all'
+            })
+            .then(result => {
+              this.loading = false;
+              if (!result.errors) {
+                this.closePanelAfterDelay('account-settings');
+                this.showFeedback(this.feedback.accountCreated);
+              }
+            })
+            .catch(error => {
+              // eslint-disable-next-line no-console
+              console.log(error);
+            });
+        } else {
+          this.loading = false;
+          this.showFeedback(this.feedback.alreadyExists);
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese

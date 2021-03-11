@@ -1,7 +1,0 @@
-#import "user/jwt-token.graphql"
-
-mutation login($apiKey: String!, $username: String!, $password: String!) {
-  login(apiKey: $apiKey, username: $username, password: $password) {
-    ...JwtToken
-  }
-}

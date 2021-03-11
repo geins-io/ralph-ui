@@ -1,0 +1,6 @@
+#import "user/user.graphql"
+mutation updateUser($apiKey: String!, $user: UserInputType!) {
+  updateUser(apiKey: $apiKey, user: $user) {
+    ...User
+  }
+}

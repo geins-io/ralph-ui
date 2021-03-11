@@ -1,10 +1,10 @@
 #import "user/address.graphql"
 
-query getUser($apiKey: String!) {
-  getUser(apiKey: $apiKey) {
-    newsletter
-    address {
-      ...Address
-    }
+fragment User on UserType {
+  email
+  newsletter
+  gender
+  address {
+    ...Address
   }
 }

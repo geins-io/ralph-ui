@@ -14,11 +14,14 @@ query getOrders($apiKey: String!) {
     }
     createdAt
     id
+    status
     shippingDetails {
       name
+      trackingLink
     }
     paymentDetails {
       displayName
+      name
     }
   }
 }
