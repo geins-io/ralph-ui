@@ -8,6 +8,5 @@ fragment Address on AddressType {
   zip
   city
   country
-  email
   mobile
 }

@@ -12,6 +12,7 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 |showFeedback|Show feedback|Feedback (Object)|
 |closePanelAfterDelay|Closes panel after a delay of 2000 ms|-|
 |login|Log in action|-|
+|loginAndRegisterCallback|Callback for when account is created or login is successfull|Callback result (Object)|
 |createAccount|Create account action|-|
 |resetPassword|Reset password action|-|
 |changePassword|Reset password action|-|

@@ -7,7 +7,7 @@ Used to wrap content to keep page width<br><br> **SASS-path:** _./styles/compone
 <!-- @vuese:CaContainer:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|width|-|`String`|`false`|default|
+|design|-|`String`|`false`|default|
 
 <!-- @vuese:CaContainer:props:end -->
 

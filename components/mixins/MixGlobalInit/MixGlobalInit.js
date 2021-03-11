@@ -73,6 +73,8 @@ export default {
         this.$store.commit('list/setBackNavigated', true);
       }
     });
+
+    this.$store.dispatch('auth/initClient');
   },
   methods: {
     refetchCart() {

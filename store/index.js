@@ -1,4 +1,4 @@
-const cookie = process.server ? require('cookie') : undefined;
+// const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
   favorites: [],
@@ -34,6 +34,8 @@ export const mutations = {
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
     state.config.apiKey = config.apiKey;
+    state.config.authEndpoint = config.authEndpoint;
+    state.config.signEndpoint = config.signEndpoint;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -94,13 +96,14 @@ export const actions = {
     }
     commit('setAncientBrowser', this.$ua.browser());
 
-    if (req.headers.cookie) {
-      const parsed = cookie.parse(req.headers.cookie);
-      const token = parsed['ralph-auth'] || null;
-      const refresh = parsed['ralph-auth-refresh'] || null;
-      console.log({ token, refresh });
-      dispatch('auth/setAuth', { token, refresh });
-    }
+    // dispatch('auth/initClient');
+    // dispatch('auth/refresh');
+    // if (req.headers.cookie) {
+    //   const parsed = cookie.parse(req.headers.cookie);
+    //   const token = parsed['ralph-auth'] || null;
+    //   const refresh = parsed['ralph-auth-refresh'] || null;
+    //   console.log({ token, refresh });
+    // }
   }
 };
 
