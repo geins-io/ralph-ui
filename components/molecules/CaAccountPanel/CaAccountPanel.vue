@@ -228,10 +228,16 @@ export default {
       return this.contentpanel.frame;
     },
     credentials() {
-      return {
+      const credentials = {
         username: this.email,
         password: this.password
       };
+      if (this.changeMode) {
+        credentials.username = this.$store.state.auth.user;
+        credentials.password = this.currentPassword;
+        credentials.newPassword = this.password;
+      }
+      return credentials;
     },
     ...mapState(['contentpanel'])
   },
@@ -281,7 +287,7 @@ export default {
         this.$refs.inputPassword.validateInput()
       ) {
         await this.$store.dispatch('auth/login', this.credentials);
-        if (this.$store.getters['auth/isAuthenticated']) {
+        if (this.$store.getters['auth/authenticated']) {
           this.loading = false;
           this.closePanelAfterDelay('account-orders');
           this.showFeedback(this.feedback.loggedIn);
@@ -304,20 +310,14 @@ export default {
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
         await this.$store.dispatch('auth/register', this.credentials);
-        if (this.$store.getters['auth/isAuthenticated']) {
+        if (this.$store.getters['auth/authenticated']) {
           this.$apollo
             .mutate({
               mutation: registerMutation,
               variables: {
                 apiKey: this.$config.apiKey.toString(),
                 user: {
-                  newsletter: this.newsletterSubscribe,
-                  personalId: ''
-                }
-              },
-              context: {
-                headers: {
-                  authorization: 'Bearer gjroeip'
+                  newsletter: this.newsletterSubscribe
                 }
               },
               errorPolicy: 'all'
@@ -358,14 +358,15 @@ export default {
     },
     // @vuese
     // Reset password action
-    changePassword() {
+    async changePassword() {
       this.loading = true;
       if (
         this.$refs.inputCurrentPassword.validateInput() &&
         this.$refs.inputPassword.validateInput() &&
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
-        // TODO: Save password
+        await this.$store.dispatch('auth/changePassword', this.credentials);
+        console.log('after change');
         this.showFeedback(this.feedback.passwordChanged);
         this.$refs.feedback.show();
         this.resetFields();

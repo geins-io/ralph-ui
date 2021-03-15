@@ -16,6 +16,7 @@
         v-if="editMode"
         class="ca-account-settings-block__save"
         type="full-width"
+        :loading="loading"
         @clicked="$emit('save')"
       >
         {{ $t('ACCOUNT_SETTINGS_SAVE') }}
@@ -39,6 +40,10 @@ export default {
     editable: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

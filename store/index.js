@@ -88,7 +88,7 @@ export const actions = {
       scrollbarWidth + 'px'
     );
   },
-  nuxtServerInit({ commit, dispatch }, { req }) {
+  nuxtServerInit({ commit }, { req }) {
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {
@@ -98,8 +98,8 @@ export const actions = {
 
     if (req.headers.cookie) {
       const parsed = cookie.parse(req.headers.cookie);
-      const token = parsed['ralph-auth'] || null;
-      dispatch('auth/updateHeaders', token);
+      const user = parsed['ralph-user'] || null;
+      commit('auth/setUser', user);
     }
   }
 };

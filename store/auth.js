@@ -1,15 +1,14 @@
-// import cookie from 'cookie';
 import AuthClient from '~/plugins/authClient.js';
 
 export const state = () => ({
-  headers: null,
-  tokenTimeout: null,
-  client: null
+  user: null,
+  client: null,
+  tokenTimeout: null
 });
 
 export const mutations = {
-  setHeaders(state, headers) {
-    state.headers = headers;
+  setUser(state, user) {
+    state.user = user;
   },
   setClient(state, client) {
     state.client = client;
@@ -23,9 +22,8 @@ export const mutations = {
 };
 
 export const actions = {
-  update({ state, commit, dispatch }, update = true) {
+  update({ state, commit, dispatch }, user, update = true) {
     if (update && state.client.authorized) {
-      dispatch('updateHeaders', state.client.token);
       commit(
         'setTokenTimeout',
         setTimeout(() => {
@@ -36,18 +34,15 @@ export const actions = {
         path: '/',
         maxAge: state.client.maxAge
       });
+      if (user) {
+        commit('setUser', user);
+        this.$cookies.set('ralph-user', user);
+      }
     } else {
-      commit('setHeaders', null);
       commit('clearTokenTimeout');
+      commit('setUser', null);
       this.$cookies.remove('ralph-auth');
-    }
-  },
-  updateHeaders({ commit, rootState }, token) {
-    if (token !== null) {
-      commit('setHeaders', {
-        apikey: rootState.config.apiKey,
-        authorization: 'Bearer ' + token
-      });
+      this.$cookies.remove('ralph-user');
     }
   },
   async initClient({ state, rootState, commit, dispatch }) {
@@ -70,26 +65,35 @@ export const actions = {
       dispatch('update');
       return true;
     } else {
-      dispatch('update', false);
+      dispatch('update', null, false);
       return false;
     }
   },
   async register({ state, dispatch }, credentials) {
     await state.client?.register(credentials.username, credentials.password);
-    dispatch('update');
+    dispatch('update', credentials.username);
   },
   async login({ state, dispatch }, credentials) {
     await state.client?.login(credentials.username, credentials.password);
-    dispatch('update');
+    dispatch('update', credentials.username);
+  },
+  async changePassword({ state }, credentials) {
+    await state.client?.changePassword(
+      credentials.username,
+      credentials.password,
+      credentials.newPassword
+    );
+    console.log('token', state.client.token);
+    // dispatch('update', credentials.username);
   },
   async logout({ state, dispatch }) {
     await state.client?.logout();
-    dispatch('update', false);
+    dispatch('update', null, false);
   }
 };
 
 export const getters = {
-  isAuthenticated(state) {
-    return state.headers !== null;
+  authenticated(state) {
+    return state.user !== null;
   }
 };
