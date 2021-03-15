@@ -320,7 +320,8 @@ export default {
                   newsletter: this.newsletterSubscribe
                 }
               },
-              errorPolicy: 'all'
+              errorPolicy: 'all',
+              fetchPolicy: 'no-cache'
             })
             .then(result => {
               this.loading = false;

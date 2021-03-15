@@ -84,6 +84,7 @@ export const actions = {
       credentials.newPassword
     );
     console.log('token', state.client.token);
+    // TODO: fix what happens on error
     // dispatch('update', credentials.username);
   },
   async logout({ state, dispatch }) {

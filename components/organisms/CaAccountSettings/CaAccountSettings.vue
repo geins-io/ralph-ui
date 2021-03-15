@@ -347,7 +347,8 @@ export default {
               gender: this.userData.gender
             }
           },
-          errorPolicy: 'all'
+          errorPolicy: 'all',
+          fetchPolicy: 'no-cache'
         })
         .then(result => {
           this.loading = false;
