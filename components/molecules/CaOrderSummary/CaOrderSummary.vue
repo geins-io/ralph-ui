@@ -42,22 +42,22 @@
     <div class="ca-order-summary__details">
       <div class="ca-order-detail">
         <div class="ca-order-detail__methods">
-          <!-- <div class="ca-order-detail__method">
+          <div class="ca-order-detail__method">
             <h3 class="ca-order-detail__subtitle">
               {{ $t('SHIPPING_METHOD') }}
             </h3>
-            {{ order.shipping.name }}
+            {{ order.shippingDetails[0].name }}
           </div>
           <div class="ca-order-detail__method">
             <h3 class="ca-order-detail__subtitle">
               {{ $t('PAYMENT_METHOD') }}
             </h3>
-            {{ order.payment.name }}
-          </div> -->
+            {{ order.paymentDetails[0].displayName }}
+          </div>
         </div>
         <CaButton
-          v-if="order.shippingDetails && order.shippingDetails.trackingLink"
-          :href="order.shippingDetails.trackingLink"
+          v-if="order.shippingDetails && order.shippingDetails[0].trackingLink"
+          :href="order.shippingDetails[0].trackingLink"
           class="ca-order-detail__track"
           type="full-width"
         >
@@ -101,93 +101,7 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    // order: {
-    //   id: '189144',
-    //   date: 'Nov 03, 2020',
-    //   cart: {
-    //     id: '1c90e6be-096c-49ce-88d3-24179887a4fc',
-    //     count: 1,
-    //     total: {
-    //       sellingPriceIncVatFormatted: '159 kr',
-    //       sellingPriceExVatFormatted: '142 kr',
-    //       __typename: 'PriceType'
-    //     },
-    //     items: [
-    //       {
-    //         quantity: 1,
-    //         skuId: 5273,
-    //         totalPrice: {
-    //           isDiscounted: true,
-    //           regularPriceIncVatFormatted: '199 kr',
-    //           sellingPriceIncVatFormatted: '159 kr',
-    //           regularPriceExVatFormatted: '178 kr',
-    //           sellingPriceExVatFormatted: '142 kr',
-    //           __typename: 'PriceType'
-    //         },
-    //         product: {
-    //           brand: { name: 'Godis.se', __typename: 'BrandType' },
-    //           name: 'Jag älskar dig - Lakrits Mix Stor',
-    //           images: ['godisse_jag_alskar_dig_-_lakrits_mix_stor.jpg'],
-    //           alias: 'jag-alskar-dig-lakrits-mix-stor',
-    //           unitPrice: {
-    //             isDiscounted: true,
-    //             regularPriceIncVatFormatted: '199 kr',
-    //             sellingPriceIncVatFormatted: '159 kr',
-    //             regularPriceExVatFormatted: '178 kr',
-    //             sellingPriceExVatFormatted: '142 kr',
-    //             __typename: 'PriceType'
-    //           },
-    //           skus: [
-    //             {
-    //               skuId: 5273,
-    //               name: '700g',
-    //               stock: { totalStock: 8, __typename: 'StockType' },
-    //               __typename: 'SkuType'
-    //             }
-    //           ],
-    //           __typename: 'ProductType'
-    //         }
-    //       }
-    //     ]
-    //   },
-    //   status: 'Received',
-    //   shipping: {
-    //     id: 2,
-    //     name: 'Instabox',
-    //     trackingLink: ''
-    //   },
-    //   payment: {
-    //     id: 1,
-    //     name: 'Klarna'
-    //   },
-    //   message: '',
-    //   address: {
-    //     shipping: {
-    //       firstName: 'Olivia',
-    //       lastName: 'Axelsson',
-    //       email: 'olivia.axelsson@gmail.com',
-    //       co: '',
-    //       address: 'Gamla Huddingevägen 442',
-    //       address2: '',
-    //       zip: '125 42',
-    //       city: 'Älvsjö',
-    //       country: 'Sweden'
-    //     },
-    //     billing: {
-    //       firstName: 'Olivia',
-    //       lastName: 'Axelsson',
-    //       email: 'olivia.axelsson@gmail.com',
-    //       co: '',
-    //       address: 'Gamla Huddingevägen 442',
-    //       address2: '',
-    //       zip: '125 42',
-    //       city: 'Älvsjö',
-    //       country: 'Sweden'
-    //     }
-    //   }
-    // }
-  }),
+  data: () => ({}),
   computed: {
     itemsCount() {
       let count = 0;

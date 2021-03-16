@@ -1,8 +1,14 @@
 <template>
   <div>
     <transition v-if="opened" name="grow">
-      <div v-show="contentLoaded" ref="modal" class="ca-modal">
+      <div
+        v-show="contentLoaded"
+        ref="modal"
+        class="ca-modal"
+        :class="{ 'ca-modal--prompt': isPrompt }"
+      >
         <CaIconButton
+          v-if="!isPrompt"
           class="ca-modal__close"
           icon-name="x"
           aria-label="Close"
@@ -13,6 +19,7 @@
             :is="modal.component"
             v-bind="modal.componentProps"
             @ready="onReady"
+            @close="closeModal"
           />
         </div>
       </div>
@@ -27,6 +34,7 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import eventbus from '~/plugins/event-bus.js';
 // @group Molecules
 // @vuese
 // A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>
@@ -40,6 +48,9 @@ export default {
     opened: false
   }),
   computed: {
+    isPrompt() {
+      return this.modal.component === 'CaPrompt';
+    },
     ...mapState(['modal'])
   },
   watch: {
@@ -49,7 +60,11 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    eventbus.$on('close-modal', () => {
+      this.closeModal();
+    });
+  },
   methods: {
     onReady() {
       this.contentLoaded = true;
@@ -62,9 +77,11 @@ export default {
         disableBodyScroll(this.$refs.modal);
       });
     },
-    closeModal() {
+    closeModal(fromStateChange = false) {
       this.contentLoaded = false;
-      this.$store.commit('modal/close');
+      if (!fromStateChange) {
+        this.$store.commit('modal/close');
+      }
       enableBodyScroll(this.$refs.modal);
       this.$nextTick(() => {
         this.opened = false;

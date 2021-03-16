@@ -328,6 +328,11 @@ export default {
               if (!result.errors) {
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
+              } else {
+                this.showFeedback({
+                  type: 'error',
+                  message: 'Något gick fel, försök igen senare'
+                });
               }
             })
             .catch(error => {
@@ -367,14 +372,24 @@ export default {
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
         await this.$store.dispatch('auth/changePassword', this.credentials);
-        console.log('after change');
-        this.showFeedback(this.feedback.passwordChanged);
-        this.$refs.feedback.show();
-        this.resetFields();
         this.loading = false;
+        if (this.$store.getters['auth/authenticated']) {
+          this.showFeedback(this.feedback.passwordChanged);
+          this.$refs.feedback.show();
+          this.resetFields();
+        } else {
+          this.$store.dispatch('auth/logout');
+          this.$router.push({ path: '/' });
+          this.$store.dispatch('snackbar/trigger', {
+            message:
+              'Du angav fel nuvarande lösenord och har loggats ut av säkerhetsskäl',
+            placement: 'bottom-center',
+            mode: 'error'
+          });
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese

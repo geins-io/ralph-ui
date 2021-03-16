@@ -22,6 +22,46 @@ export const mutations = {
 };
 
 export const actions = {
+  async initClient({ state, rootState, commit, dispatch }) {
+    if (!state.client) {
+      dispatch('loading/start', null, { root: true });
+      const signEndpoint = rootState.config.signEndpoint.replace(
+        '{API_KEY}',
+        rootState.config.apiKey
+      );
+      const client = new AuthClient(
+        async id => await client.get(signEndpoint + id),
+        rootState.config.authEndpoint
+      );
+      commit('setClient', client);
+      await dispatch('refresh');
+      dispatch('loading/end', null, { root: true });
+    }
+  },
+  async refresh({ state, dispatch }) {
+    await state.client?.refresh();
+    dispatch('updateIfAuthorized');
+  },
+  async register({ state, dispatch }, credentials) {
+    await state.client?.register(credentials.username, credentials.password);
+    dispatch('update', credentials.username);
+  },
+  async login({ state, dispatch }, credentials) {
+    await state.client?.login(credentials.username, credentials.password);
+    dispatch('update', credentials.username);
+  },
+  async changePassword({ state, dispatch }, credentials) {
+    await state.client?.changePassword(
+      credentials.username,
+      credentials.password,
+      credentials.newPassword
+    );
+    dispatch('updateIfAuthorized');
+  },
+  async logout({ state, dispatch }) {
+    await state.client?.logout();
+    dispatch('update', null, false);
+  },
   update({ state, commit, dispatch }, user, update = true) {
     if (update && state.client.authorized) {
       commit(
@@ -45,51 +85,12 @@ export const actions = {
       this.$cookies.remove('ralph-user');
     }
   },
-  async initClient({ state, rootState, commit, dispatch }) {
-    if (!state.client) {
-      const signEndpoint = rootState.config.signEndpoint.replace(
-        '{API_KEY}',
-        rootState.config.apiKey
-      );
-      const client = new AuthClient(
-        async id => await client.get(signEndpoint + id),
-        rootState.config.authEndpoint
-      );
-      commit('setClient', client);
-      return await dispatch('refresh');
-    }
-  },
-  async refresh({ state, dispatch }) {
-    await state.client?.refresh();
-    if (state.client.token) {
+  updateIfAuthorized({ state, dispatch }) {
+    if (state.client.authorized) {
       dispatch('update');
-      return true;
     } else {
       dispatch('update', null, false);
-      return false;
     }
-  },
-  async register({ state, dispatch }, credentials) {
-    await state.client?.register(credentials.username, credentials.password);
-    dispatch('update', credentials.username);
-  },
-  async login({ state, dispatch }, credentials) {
-    await state.client?.login(credentials.username, credentials.password);
-    dispatch('update', credentials.username);
-  },
-  async changePassword({ state }, credentials) {
-    await state.client?.changePassword(
-      credentials.username,
-      credentials.password,
-      credentials.newPassword
-    );
-    console.log('token', state.client.token);
-    // TODO: fix what happens on error
-    // dispatch('update', credentials.username);
-  },
-  async logout({ state, dispatch }) {
-    await state.client?.logout();
-    dispatch('update', null, false);
   }
 };
 

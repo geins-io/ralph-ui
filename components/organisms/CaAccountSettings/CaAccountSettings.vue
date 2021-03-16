@@ -278,7 +278,10 @@
             </button>
           </li>
           <li class="ca-account-settings__action">
-            <button class="ca-account-settings__action-button">
+            <button
+              class="ca-account-settings__action-button"
+              @click="triggerDeletePrompt"
+            >
               {{ $t('DELETE_ACCOUNT') }}
             </button>
           </li>
@@ -292,7 +295,9 @@
   </div>
 </template>
 <script>
-import updateUserMutation from 'user/update-user.graphql';
+import updateUserMutation from 'user/update.graphql';
+import deleteUserMutation from 'user/delete.graphql';
+import eventbus from '~/plugins/event-bus.js';
 // @group Organisms
 // @vuese
 // The settings for a users account<br><br>
@@ -362,6 +367,57 @@ export default {
             });
             this.$nextTick(() => {
               sectionRef.toggleEditMode();
+            });
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    },
+    triggerDeletePrompt() {
+      const modalSettings = {
+        component: 'CaPrompt',
+        componentProps: {
+          title: 'Radera konto?',
+          text:
+            'Vill du verkligen radera ditt konto? Denna handling kan ej ångras. Om du fortsätter kommer ditt konto att raderas och du loggas ut.',
+          button: {
+            text: 'Radera konto',
+            color: 'primary',
+            clickHandler: this.deleteAccount
+          }
+        }
+      };
+      this.$store.commit('modal/open', modalSettings);
+    },
+    deleteAccount() {
+      eventbus.$emit('close-modal');
+      this.$store.dispatch('loading/start');
+      this.$apollo
+        .mutate({
+          mutation: deleteUserMutation,
+          variables: {
+            apiKey: this.$config.apiKey.toString()
+          },
+          errorPolicy: 'all',
+          fetchPolicy: 'no-cache'
+        })
+        .then(result => {
+          this.$store.dispatch('loading/end');
+          if (!result.errors && result.data.deleteUser) {
+            this.$store.dispatch('auth/logout');
+            this.$router.push({ path: '/' });
+            this.$store.dispatch('snackbar/trigger', {
+              message: 'Ditt konto är nu raderat',
+              placement: 'bottom-center',
+              mode: 'success'
+            });
+          } else {
+            this.$store.dispatch('snackbar/trigger', {
+              message: 'Något gick fel, försök gärna igen',
+              placement: 'bottom-center',
+              mode: 'error'
             });
           }
         })
