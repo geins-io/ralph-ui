@@ -1,14 +1,15 @@
 # CaAccountSettingsBlock
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/molecules/ca-account-settings-block.scss_
+Holder for a block of settings in the account settings page<br><br> **SASS-path:** _./styles/components/molecules/ca-account-settings-block.scss_
 
 ## Props
 
 <!-- @vuese:CaAccountSettingsBlock:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|title|-|`String`|`true`|-|
-|editable|-|`Boolean`|`false`|true|
+|title|Block title|`String`|`true`|-|
+|editable|Is hte blocks content editable?|`Boolean`|`false`|true|
+|loading|Shows a loading indicator on the save-button if true|`Boolean`|`false`|false|
 
 <!-- @vuese:CaAccountSettingsBlock:props:end -->
 

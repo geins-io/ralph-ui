@@ -71,7 +71,7 @@
       <div v-if="loginMode" class="ca-account-panel__actions">
         <CaInputCheckbox
           id="remember"
-          v-model="rememberMe"
+          v-model="rememberUser"
           :label="$t('REMEMBER_ME')"
         />
         <button class="ca-account-panel__forgot" @click="setFrame('reset')">
@@ -161,7 +161,7 @@ export default {
     currentPassword: '',
     password: '',
     passwordConfirm: '',
-    rememberMe: true,
+    rememberUser: true,
     newsletterSubscribe: true,
     loading: false,
     currentFeedback: {
@@ -196,6 +196,15 @@ export default {
       alreadyExists: {
         type: 'error',
         message: vm.$t('ACCOUNT_FEEDBACK_ALREADY_EXISTS')
+      },
+      error: {
+        type: 'error',
+        message: vm.$t('FEEDBACK_ERROR')
+      },
+      passwordNotChanged: {
+        message: vm.$t('ACCOUNT_CHANGE_PASSWORD_ERROR'),
+        placement: 'bottom-center',
+        mode: 'error'
       }
     }
   }),
@@ -230,7 +239,8 @@ export default {
     credentials() {
       const credentials = {
         username: this.email,
-        password: this.password
+        password: this.password,
+        rememberUser: this.rememberUser
       };
       if (this.changeMode) {
         credentials.username = this.$store.state.auth.user;
@@ -243,8 +253,6 @@ export default {
   },
   watch: {},
   mounted() {},
-  created() {},
-  beforeDestroy() {},
   methods: {
     // @vuese
     // Set frame for content panel
@@ -329,10 +337,7 @@ export default {
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
               } else {
-                this.showFeedback({
-                  type: 'error',
-                  message: 'Något gick fel, försök igen senare'
-                });
+                this.showFeedback(this.feedback.error);
               }
             })
             .catch(error => {
@@ -380,12 +385,10 @@ export default {
         } else {
           this.$store.dispatch('auth/logout');
           this.$router.push({ path: '/' });
-          this.$store.dispatch('snackbar/trigger', {
-            message:
-              'Du angav fel nuvarande lösenord och har loggats ut av säkerhetsskäl',
-            placement: 'bottom-center',
-            mode: 'error'
-          });
+          this.$store.dispatch(
+            'snackbar/trigger',
+            this.feedback.passwordNotChanged
+          );
         }
       } else {
         this.loading = false;
@@ -412,6 +415,8 @@ export default {
         this.changePassword();
       }
     },
+    // @vuese
+    // Reset all fields
     resetFields() {
       this.email = '';
       this.currentPassword = '';

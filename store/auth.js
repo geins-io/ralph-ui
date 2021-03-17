@@ -39,31 +39,27 @@ export const actions = {
     }
   },
   async refresh({ state, dispatch }) {
-    await state.client?.refresh();
-    dispatch('updateIfAuthorized');
-  },
-  async register({ state, dispatch }, credentials) {
-    await state.client?.register(credentials.username, credentials.password);
-    dispatch('update', credentials.username);
+    await state.client?.connect();
+    dispatch('update');
   },
   async login({ state, dispatch }, credentials) {
-    await state.client?.login(credentials.username, credentials.password);
+    await state.client?.connect(credentials);
+    dispatch('update', credentials.username);
+  },
+  async register({ state, dispatch }, credentials) {
+    await state.client?.connect(credentials, 'register');
     dispatch('update', credentials.username);
   },
   async changePassword({ state, dispatch }, credentials) {
-    await state.client?.changePassword(
-      credentials.username,
-      credentials.password,
-      credentials.newPassword
-    );
-    dispatch('updateIfAuthorized');
+    await state.client?.connect(credentials, 'password');
+    dispatch('update');
   },
   async logout({ state, dispatch }) {
-    await state.client?.logout();
-    dispatch('update', null, false);
+    await state.client?.connect(null, 'logout');
+    dispatch('update');
   },
-  update({ state, commit, dispatch }, user, update = true) {
-    if (update && state.client.authorized) {
+  update({ state, commit, dispatch }, user) {
+    if (state.client.authorized) {
       commit(
         'setTokenTimeout',
         setTimeout(() => {
@@ -83,13 +79,6 @@ export const actions = {
       commit('setUser', null);
       this.$cookies.remove('ralph-auth');
       this.$cookies.remove('ralph-user');
-    }
-  },
-  updateIfAuthorized({ state, dispatch }) {
-    if (state.client.authorized) {
-      dispatch('update');
-    } else {
-      dispatch('update', null, false);
     }
   }
 };

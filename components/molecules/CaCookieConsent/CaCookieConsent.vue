@@ -8,8 +8,8 @@
         </NuxtLink>
       </p>
       <CaButton
-        class="ca-cookie-consent__button"
-        color="secondary"
+        class="ca-cookie-consent__button ca-cookie-consent__button--decline"
+        color="transparent"
         size="s"
         :type="buttonType"
         @clicked="setCookie(false)"
@@ -17,7 +17,7 @@
         {{ $t('COOKIE_CONSENT_DECLINE') }}
       </CaButton>
       <CaButton
-        class="ca-cookie-consent__button"
+        class="ca-cookie-consent__button ca-cookie-consent__button--allow"
         size="s"
         :type="buttonType"
         @clicked="setCookie(true)"

@@ -21,7 +21,6 @@ query getOrders($apiKey: String!) {
     }
     paymentDetails {
       displayName
-      name
     }
   }
 }

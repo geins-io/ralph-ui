@@ -25,20 +25,23 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Prompt component made to be used in the modal component to prompt about stuff<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-prompt.scss_
 export default {
   name: 'CaPrompt',
   mixins: [],
   props: {
+    // Prompt title
     title: {
       type: String,
       required: true
     },
+    // Prompt text
     text: {
       type: String,
       required: true
     },
+    // Prompt confirm button. Object need to include color, text and clickHandler
     button: {
       type: Object,
       required: true

@@ -11,7 +11,10 @@
             {{ $tc('PRODUCT_LOWERCASE', itemsCount) }}
           </span>
           <span class="ca-order-summary__status">
-            <CaStatusLabel :text="order.status" :type="order.status" />
+            <CaStatusLabel
+              :text="$t('ACCOUNT_ORDER_STATUS_' + order.status.toUpperCase())"
+              :type="order.status"
+            />
           </span>
           <span class="ca-order-summary__id">#{{ order.id }}</span>
           <span class="ca-order-summary__total">
@@ -89,13 +92,13 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Order summary<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-order-summary.scss_
 export default {
   name: 'CaOrderSummary',
-
   mixins: [],
   props: {
+    // The order object obtained from the api
     order: {
       type: Object,
       required: true

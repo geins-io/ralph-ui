@@ -17,12 +17,13 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Displays a formatted address<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-address.scss_
 export default {
   name: 'CaAddress',
   mixins: [],
   props: {
+    // Address object obtained from the api
     address: {
       type: Object,
       required: true

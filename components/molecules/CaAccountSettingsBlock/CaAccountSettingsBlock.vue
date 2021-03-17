@@ -27,20 +27,23 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Holder for a block of settings in the account settings page<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-account-settings-block.scss_
 export default {
   name: 'CaAccountSettingsBlock',
   mixins: [],
   props: {
+    // Block title
     title: {
       type: String,
       required: true
     },
+    // Is hte blocks content editable?
     editable: {
       type: Boolean,
       default: true
     },
+    // Shows a loading indicator on the save-button if true
     loading: {
       type: Boolean,
       default: false

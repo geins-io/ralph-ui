@@ -1,6 +1,6 @@
 # CaInputRadio
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/atoms/ca-input-radio.scss_
+Radio input component<br><br> **SASS-path:** _./styles/components/atoms/ca-input-radio.scss_
 
 ## Props
 

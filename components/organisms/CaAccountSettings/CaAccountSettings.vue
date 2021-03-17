@@ -361,7 +361,7 @@ export default {
             this.userData = result.data.updateUser;
             this.$emit('save', this.userData);
             this.$store.dispatch('snackbar/trigger', {
-              message: 'Dina uppgifter är sparade',
+              message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
               placement: 'bottom-center',
               mode: 'success'
             });
@@ -379,11 +379,10 @@ export default {
       const modalSettings = {
         component: 'CaPrompt',
         componentProps: {
-          title: 'Radera konto?',
-          text:
-            'Vill du verkligen radera ditt konto? Denna handling kan ej ångras. Om du fortsätter kommer ditt konto att raderas och du loggas ut.',
+          title: this.$t('ACCOUNT_DELETE_PROMPT_TITLE'),
+          text: this.$t('ACCOUNT_DELETE_PROMPT_TEXT'),
           button: {
-            text: 'Radera konto',
+            text: this.$t('ACCOUNT_DELETE_PROMPT_BUTTON'),
             color: 'primary',
             clickHandler: this.deleteAccount
           }
@@ -409,13 +408,13 @@ export default {
             this.$store.dispatch('auth/logout');
             this.$router.push({ path: '/' });
             this.$store.dispatch('snackbar/trigger', {
-              message: 'Ditt konto är nu raderat',
+              message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
               placement: 'bottom-center',
               mode: 'success'
             });
           } else {
             this.$store.dispatch('snackbar/trigger', {
-              message: 'Något gick fel, försök gärna igen',
+              message: this.$t('FEEDBACK_ERROR'),
               placement: 'bottom-center',
               mode: 'error'
             });

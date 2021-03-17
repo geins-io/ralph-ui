@@ -59,7 +59,7 @@ export default {
       },
       fail: {
         type: 'error',
-        message: vm.$t('NEWSLETTER_FEEDBACK_ERROR')
+        message: vm.$t('FEEDBACK_ERROR')
       },
       notValid: {
         type: 'error',
