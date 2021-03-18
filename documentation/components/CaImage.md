@@ -13,6 +13,7 @@ Display an image in a specific size<br><br> **SASS-path:** _./styles/components/
 |type|Type of image, also name of the folder in the image path|`String`|`false`|-|
 |alt|A human friendly description of the image, for screen readers and SEO|`String`|`true`|-|
 |ratio|The ratio of the image, height / width|`Number`|`true`|-|
+|forceRatio|Force the image to keep supplied ratio|`Boolean`|`false`|false|
 |src|Direct link to image if not from image service|`String`|`false`|-|
 |loading|Value for the loading attribute|`String`|`false`|lazy|
 

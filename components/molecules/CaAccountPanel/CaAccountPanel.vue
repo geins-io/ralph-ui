@@ -71,7 +71,7 @@
       <div v-if="loginMode" class="ca-account-panel__actions">
         <CaInputCheckbox
           id="remember"
-          v-model="rememberMe"
+          v-model="rememberUser"
           :label="$t('REMEMBER_ME')"
         />
         <button class="ca-account-panel__forgot" @click="setFrame('reset')">
@@ -146,6 +146,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import registerMutation from 'user/register.graphql';
 
 // @group Molecules
 // @vuese
@@ -160,7 +161,7 @@ export default {
     currentPassword: '',
     password: '',
     passwordConfirm: '',
-    rememberMe: true,
+    rememberUser: true,
     newsletterSubscribe: true,
     loading: false,
     currentFeedback: {
@@ -191,6 +192,19 @@ export default {
       notValid: {
         type: 'error',
         message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID')
+      },
+      alreadyExists: {
+        type: 'error',
+        message: vm.$t('ACCOUNT_FEEDBACK_ALREADY_EXISTS')
+      },
+      error: {
+        type: 'error',
+        message: vm.$t('FEEDBACK_ERROR')
+      },
+      passwordNotChanged: {
+        message: vm.$t('ACCOUNT_CHANGE_PASSWORD_ERROR'),
+        placement: 'bottom-center',
+        mode: 'error'
       }
     }
   }),
@@ -222,12 +236,23 @@ export default {
     currentFrame() {
       return this.contentpanel.frame;
     },
+    credentials() {
+      const credentials = {
+        username: this.email,
+        password: this.password,
+        rememberUser: this.rememberUser
+      };
+      if (this.changeMode) {
+        credentials.username = this.$store.state.auth.user;
+        credentials.password = this.currentPassword;
+        credentials.newPassword = this.password;
+      }
+      return credentials;
+    },
     ...mapState(['contentpanel'])
   },
   watch: {},
   mounted() {},
-  created() {},
-  beforeDestroy() {},
   methods: {
     // @vuese
     // Set frame for content panel
@@ -253,48 +278,79 @@ export default {
       this.$refs.feedback.show();
     },
     // @vuese
-    // Closes panel after a delay of 2000 ms
-    closePanelAfterDelay() {
+    // Closes panel after a delay of 1000 ms
+    closePanelAfterDelay(redirectPath) {
       setTimeout(() => {
+        this.resetFields();
         this.$refs.contentpanel.close();
-        this.$router.push({ path: this.localePath('account-orders') });
+        this.$router.push({ path: this.localePath(redirectPath) });
       }, 1000);
     },
     // @vuese
     // Log in action
-    login() {
+    async login() {
       this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput()
       ) {
-        // TODO: Login
-        this.showFeedback(this.feedback.loggedIn);
-        this.closePanelAfterDelay();
-        this.resetFields();
-        this.loading = false;
+        await this.$store.dispatch('auth/login', this.credentials);
+        if (this.$store.getters['auth/authenticated']) {
+          this.loading = false;
+          this.closePanelAfterDelay('account-orders');
+          this.showFeedback(this.feedback.loggedIn);
+        } else {
+          this.loading = false;
+          this.showFeedback(this.feedback.wrongCredentials);
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese
     // Create account action
-    createAccount() {
+    async createAccount() {
       this.loading = true;
       if (
         this.$refs.inputEmail.validateInput() &&
         this.$refs.inputPassword.validateInput() &&
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
-        // TODO: Create account
-        this.showFeedback(this.feedback.accountCreated);
-        this.closePanelAfterDelay();
-        this.resetFields();
-        this.loading = false;
+        await this.$store.dispatch('auth/register', this.credentials);
+        if (this.$store.getters['auth/authenticated']) {
+          this.$apollo
+            .mutate({
+              mutation: registerMutation,
+              variables: {
+                apiKey: this.$config.apiKey.toString(),
+                user: {
+                  newsletter: this.newsletterSubscribe
+                }
+              },
+              errorPolicy: 'all',
+              fetchPolicy: 'no-cache'
+            })
+            .then(result => {
+              this.loading = false;
+              if (!result.errors) {
+                this.closePanelAfterDelay('account-settings');
+                this.showFeedback(this.feedback.accountCreated);
+              } else {
+                this.showFeedback(this.feedback.error);
+              }
+            })
+            .catch(error => {
+              // eslint-disable-next-line no-console
+              console.log(error);
+            });
+        } else {
+          this.loading = false;
+          this.showFeedback(this.feedback.alreadyExists);
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese
@@ -313,21 +369,30 @@ export default {
     },
     // @vuese
     // Reset password action
-    changePassword() {
+    async changePassword() {
       this.loading = true;
       if (
         this.$refs.inputCurrentPassword.validateInput() &&
         this.$refs.inputPassword.validateInput() &&
         this.$refs.inputPasswordConfirm.validateInput()
       ) {
-        // TODO: Save password
-        this.showFeedback(this.feedback.passwordChanged);
-        this.$refs.feedback.show();
-        this.resetFields();
+        await this.$store.dispatch('auth/changePassword', this.credentials);
         this.loading = false;
+        if (this.$store.getters['auth/authenticated']) {
+          this.showFeedback(this.feedback.passwordChanged);
+          this.$refs.feedback.show();
+          this.resetFields();
+        } else {
+          this.$store.dispatch('auth/logout');
+          this.$router.push({ path: '/' });
+          this.$store.dispatch(
+            'snackbar/trigger',
+            this.feedback.passwordNotChanged
+          );
+        }
       } else {
-        this.showFeedback(this.feedback.notValid);
         this.loading = false;
+        this.showFeedback(this.feedback.notValid);
       }
     },
     // @vuese
@@ -350,6 +415,8 @@ export default {
         this.changePassword();
       }
     },
+    // @vuese
+    // Reset all fields
     resetFields() {
       this.email = '';
       this.currentPassword = '';

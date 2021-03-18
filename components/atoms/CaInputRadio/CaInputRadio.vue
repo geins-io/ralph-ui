@@ -19,7 +19,7 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Radio input component<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-radio.scss_
 export default {
   name: 'CaInputRadio',

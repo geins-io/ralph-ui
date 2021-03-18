@@ -2,10 +2,14 @@
   border-radius: rem-calc(4px);
   padding: rem-calc(2px) rem-calc(6px);
   display: inline-block;
-  &--inactive {
-    background-color: $c-medium-gray;
+  text-transform: capitalize;
+  background-color: $c-medium-gray;
+  font-size: $font-size-xs;
+  @include bp(laptop) {
+    padding: rem-calc(2px) rem-calc(7px);
+    font-size: $font-size-s;
   }
-  &--active {
+  &--processing {
     background-color: $c-ok;
   }
   &--completed {

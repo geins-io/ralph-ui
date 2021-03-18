@@ -14,7 +14,7 @@
     />
     <div class="ca-cart__summary">
       <CaCampaigns
-        v-if="cart.appliedCampaigns.length"
+        v-if="cart.appliedCampaigns && cart.appliedCampaigns.length"
         class="ca-cart__campaigns"
         :campaigns="cart.appliedCampaigns"
         display="box"

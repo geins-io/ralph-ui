@@ -3,7 +3,13 @@
     <p class="ca-address__row">
       {{ address.firstName }} {{ address.lastName }}
     </p>
-    <p class="ca-address__row">{{ address.address }}</p>
+    <p class="ca-address__row">{{ address.addressLine1 }}</p>
+    <p v-if="address.addressLine2" class="ca-address__row">
+      {{ address.addressLine2 }}
+    </p>
+    <p v-if="address.addressLine3" class="ca-address__row">
+      {{ address.addressLine3 }}
+    </p>
     <p class="ca-address__row">{{ address.zip }} {{ address.city }}</p>
     <p class="ca-address__row">{{ address.country }}</p>
   </div>
@@ -11,12 +17,13 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Displays a formatted address<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-address.scss_
 export default {
   name: 'CaAddress',
   mixins: [],
   props: {
+    // Address object obtained from the api
     address: {
       type: Object,
       required: true

@@ -1,0 +1,10 @@
+#import "user/address.graphql"
+
+fragment User on UserType {
+  email
+  newsletter
+  gender
+  address {
+    ...Address
+  }
+}

@@ -1,0 +1,26 @@
+#import "cart/content.graphql"
+#import "user/address.graphql"
+
+query getOrders($apiKey: String!) {
+  getOrders(apiKey: $apiKey) {
+    cart {
+      ...Cart
+    }
+    billingAddress {
+      ...Address
+    }
+    shippingAddress {
+      ...Address
+    }
+    createdAt
+    id
+    status
+    shippingDetails {
+      name
+      trackingLink
+    }
+    paymentDetails {
+      displayName
+    }
+  }
+}

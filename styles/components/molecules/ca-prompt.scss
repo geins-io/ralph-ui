@@ -1,0 +1,33 @@
+.ca-prompt {
+  $block: &;
+  background: $c-white;
+  width: rem-calc(480px);
+  &__header {
+    height: rem-calc(58px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: $border-light;
+    padding: 0 $px20;
+  }
+  &__title {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-l;
+  }
+  &__close {
+    cursor: pointer;
+    font-size: $px20;
+    line-height: 0;
+  }
+  &__body {
+    padding: $px32 $px20;
+  }
+  &__footer {
+    height: rem-calc(75px);
+    padding: 0 $px20;
+    border-top: $border-light;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}

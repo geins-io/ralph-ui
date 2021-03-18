@@ -1,0 +1,5 @@
+mutation updateUser($apiKey: String!, $user: UserInputType!) {
+  updateUser(apiKey: $apiKey, user: $user) {
+    email
+  }
+}

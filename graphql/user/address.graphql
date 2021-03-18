@@ -1,0 +1,12 @@
+fragment Address on AddressType {
+  firstName
+  lastName
+  careOf
+  addressLine1
+  addressLine2
+  addressLine3
+  zip
+  city
+  country
+  mobile
+}

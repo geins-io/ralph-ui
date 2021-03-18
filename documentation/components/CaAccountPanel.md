@@ -10,13 +10,14 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 |setFrame|Set frame for content panel|Content panel frame (String)|
 |createAccountHandler|Decides what action the create account button should have (different in different frames)|-|
 |showFeedback|Show feedback|Feedback (Object)|
-|closePanelAfterDelay|Closes panel after a delay of 2000 ms|-|
+|closePanelAfterDelay|Closes panel after a delay of 1000 ms|-|
 |login|Log in action|-|
 |createAccount|Create account action|-|
 |resetPassword|Reset password action|-|
 |changePassword|Reset password action|-|
 |checkValid|Used to hide feedback if field becomes valid after error|-|
 |enterHandler|Decides what action Enter key should trigger (different for different frames)|-|
+|resetFields|Reset all fields|-|
 
 <!-- @vuese:CaAccountPanel:methods:end -->
 

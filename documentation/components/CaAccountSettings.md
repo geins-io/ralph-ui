@@ -13,3 +13,14 @@ The settings for a users account<br><br> **SASS-path:** _./styles/components/org
 <!-- @vuese:CaAccountSettings:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaAccountSettings:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|save|-|-|
+|close-modal|-|-|
+
+<!-- @vuese:CaAccountSettings:events:end -->
+
+

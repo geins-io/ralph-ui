@@ -2,7 +2,7 @@
   position: fixed;
   width: 100%;
   bottom: 0;
-  padding: $px20;
+  padding: $px20 $px20 $px4;
   background: $c-lightest-gray;
   display: flex;
   flex-wrap: wrap;
@@ -29,6 +29,15 @@
     margin: $px12 0 0;
     @include bp(tablet) {
       margin: $px24 $px12 0;
+    }
+    &--decline.ca-button {
+      margin: $px4 0 0;
+      order: 3;
+      @include bp(tablet) {
+        padding-left: 0;
+        order: unset;
+        margin: $px24 $px12 0;
+      }
     }
   }
 }

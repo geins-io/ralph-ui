@@ -1,3 +1,5 @@
+const cookie = process.server ? require('cookie') : undefined;
+
 export const state = () => ({
   favorites: [],
   VATincluded: true,
@@ -31,6 +33,9 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
+    state.config.apiKey = config.apiKey;
+    state.config.authEndpoint = config.authEndpoint;
+    state.config.signEndpoint = config.signEndpoint;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -90,6 +95,12 @@ export const actions = {
       commit('setViewportWidth', 1360);
     }
     commit('setAncientBrowser', this.$ua.browser());
+
+    if (req.headers.cookie) {
+      const parsed = cookie.parse(req.headers.cookie);
+      const user = parsed['ralph-user'] || null;
+      commit('auth/setUser', user);
+    }
   }
 };
 

@@ -198,7 +198,7 @@
     font-weight: $font-weight-bold;
   }
 
-  &__overlay {
+  &__overlay.ca-overlay {
     @include bp(tablet-down) {
       z-index: $z-index-search-overlay;
     }

@@ -3,13 +3,18 @@
     <template #toggle-content="{open}">
       <div class="ca-order-summary__header">
         <div class="ca-order-summary__info">
-          <span class="ca-order-summary__date">{{ order.date }}</span>
+          <span class="ca-order-summary__date">{{
+            $d(new Date(order.createdAt))
+          }}</span>
           <span class="ca-order-summary__count">
-            {{ order.cart.count }}
-            {{ $tc('PRODUCT_LOWERCASE', order.cart.count) }}
+            {{ itemsCount }}
+            {{ $tc('PRODUCT_LOWERCASE', itemsCount) }}
           </span>
           <span class="ca-order-summary__status">
-            <CaStatusLabel :text="order.status" />
+            <CaStatusLabel
+              :text="$t('ACCOUNT_ORDER_STATUS_' + order.status.toUpperCase())"
+              :type="order.status"
+            />
           </span>
           <span class="ca-order-summary__id">#{{ order.id }}</span>
           <span class="ca-order-summary__total">
@@ -44,16 +49,21 @@
             <h3 class="ca-order-detail__subtitle">
               {{ $t('SHIPPING_METHOD') }}
             </h3>
-            {{ order.shipping.name }}
+            {{ order.shippingDetails[0].name }}
           </div>
           <div class="ca-order-detail__method">
             <h3 class="ca-order-detail__subtitle">
               {{ $t('PAYMENT_METHOD') }}
             </h3>
-            {{ order.payment.name }}
+            {{ order.paymentDetails[0].displayName }}
           </div>
         </div>
-        <CaButton class="ca-order-detail__track" type="full-width">
+        <CaButton
+          v-if="order.shippingDetails && order.shippingDetails[0].trackingLink"
+          :href="order.shippingDetails[0].trackingLink"
+          class="ca-order-detail__track"
+          type="full-width"
+        >
           {{ $t('TRACK_ORDER') }}
         </CaButton>
         <CaCart
@@ -66,13 +76,13 @@
             <h3 class="ca-order-detail__subtitle">
               {{ $t('BILLING_ADDRESS') }}
             </h3>
-            <CaAddress :address="order.address.billing" />
+            <CaAddress :address="order.billingAddress" />
           </div>
           <div class="ca-order-detail__address">
             <h3 class="ca-order-detail__subtitle">
               {{ $t('SHIPPING_ADDRESS') }}
             </h3>
-            <CaAddress :address="order.address.shipping" />
+            <CaAddress :address="order.shippingAddress" />
           </div>
         </div>
       </div>
@@ -82,107 +92,29 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Order summary<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-order-summary.scss_
 export default {
   name: 'CaOrderSummary',
   mixins: [],
   props: {
-    // order: {
-    //   type: Object,
-    //   required: true
-    // }
-  },
-  data: () => ({
+    // The order object obtained from the api
     order: {
-      id: '189144',
-      date: 'Nov 03, 2020',
-      cart: {
-        id: '1c90e6be-096c-49ce-88d3-24179887a4fc',
-        count: 1,
-        total: {
-          sellingPriceIncVatFormatted: '159 kr',
-          sellingPriceExVatFormatted: '142 kr',
-          __typename: 'PriceType'
-        },
-        items: [
-          {
-            quantity: 1,
-            skuId: 5273,
-            totalPrice: {
-              isDiscounted: true,
-              regularPriceIncVatFormatted: '199 kr',
-              sellingPriceIncVatFormatted: '159 kr',
-              regularPriceExVatFormatted: '178 kr',
-              sellingPriceExVatFormatted: '142 kr',
-              __typename: 'PriceType'
-            },
-            product: {
-              brand: { name: 'Godis.se', __typename: 'BrandType' },
-              name: 'Jag älskar dig - Lakrits Mix Stor',
-              images: ['godisse_jag_alskar_dig_-_lakrits_mix_stor.jpg'],
-              alias: 'jag-alskar-dig-lakrits-mix-stor',
-              unitPrice: {
-                isDiscounted: true,
-                regularPriceIncVatFormatted: '199 kr',
-                sellingPriceIncVatFormatted: '159 kr',
-                regularPriceExVatFormatted: '178 kr',
-                sellingPriceExVatFormatted: '142 kr',
-                __typename: 'PriceType'
-              },
-              skus: [
-                {
-                  skuId: 5273,
-                  name: '700g',
-                  stock: { totalStock: 8, __typename: 'StockType' },
-                  __typename: 'SkuType'
-                }
-              ],
-              __typename: 'ProductType'
-            }
-          }
-        ]
-      },
-      status: 'Received',
-      shipping: {
-        id: 2,
-        name: 'Instabox',
-        trackingLink: ''
-      },
-      payment: {
-        id: 1,
-        name: 'Klarna'
-      },
-      message: '',
-      address: {
-        shipping: {
-          firstName: 'Olivia',
-          lastName: 'Axelsson',
-          email: 'olivia.axelsson@gmail.com',
-          co: '',
-          address: 'Gamla Huddingevägen 442',
-          address2: '',
-          zip: '125 42',
-          city: 'Älvsjö',
-          country: 'Sweden'
-        },
-        billing: {
-          firstName: 'Olivia',
-          lastName: 'Axelsson',
-          email: 'olivia.axelsson@gmail.com',
-          co: '',
-          address: 'Gamla Huddingevägen 442',
-          address2: '',
-          zip: '125 42',
-          city: 'Älvsjö',
-          country: 'Sweden'
-        }
-      }
+      type: Object,
+      required: true
     }
-  }),
-  computed: {},
+  },
+  data: () => ({}),
+  computed: {
+    itemsCount() {
+      let count = 0;
+      this.order.cart.items.forEach(i => (count += i.quantity));
+      return count;
+    }
+  },
   watch: {},
   mounted() {},
+  created() {},
   methods: {}
 };
 </script>

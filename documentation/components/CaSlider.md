@@ -35,6 +35,7 @@ A slider used for product sliding or image gallery<br><br> **SASS-path:** _./sty
 |---|---|---|
 |shiftSlide|Used to shift slide. Use a negative or positive number for back or forth|slide change (Number), sliding transition (Boolean)|
 |goToSlide|Go to specific slide|slide index (Number), sliding transition (Boolean)|
+|setCurrentSlide|Used by shiftSlide and goToSlide to set a new value to currentSlide. Adjusts value to not show empty space when not infinite|slide (Number)|
 |resetIndex|Used to reset the index when infinite sliding is used, when going from last to first again|-|
 |nextSlide|Navigate to next slide|-|
 |prevSlide|Navigate to previous slide|-|

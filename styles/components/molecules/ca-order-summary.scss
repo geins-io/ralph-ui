@@ -82,6 +82,11 @@
   &__track {
     margin: 0 0 $px16;
   }
+  &__cart {
+    border-top: $border-light;
+    margin: $px16 0 0;
+    padding: $px16 0 0;
+  }
   &__addresses {
     border-top: $border-light;
     margin: $px16 0 0;
