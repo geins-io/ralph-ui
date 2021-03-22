@@ -1,18 +1,22 @@
 <template>
   <component :is="baseTag" class="ca-accordion-item">
-    <button class="ca-accordion-item__toggle-wrap" @click="toggleClickHandler">
+    <CaClickable
+      class="ca-accordion-item__toggle-wrap"
+      @clicked="toggleClickHandler"
+    >
       <slot name="toggle-content" :open="open">
         <div class="ca-accordion-item__toggle">
           <CaIconAndText
             class="ca-accordion-item__icon-wrap"
             :icon-name="currentIcon"
             icon-position="right"
+            base-element="div"
           >
             <slot name="toggle-text"></slot>
           </CaIconAndText>
         </div>
       </slot>
-    </button>
+    </CaClickable>
     <SlideUpDown
       class="ca-accordion-item__content"
       tag="div"

@@ -1,6 +1,7 @@
 <template>
   <div class="ca-variant-picker-panel">
     <button
+      type="button"
       class="ca-variant-picker-panel__trigger"
       @click="
         $store.commit('contentpanel/open', {
@@ -28,6 +29,7 @@
       <button
         v-for="(variant, index) in variants"
         :key="index"
+        type="button"
         class="ca-variant-picker-panel__choice"
         :class="getModifiers(variant)"
         @click="chooseVariant(variant)"

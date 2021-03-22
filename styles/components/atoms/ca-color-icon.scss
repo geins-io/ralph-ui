@@ -3,6 +3,7 @@
   height: rem-calc(20px);
   border-radius: 50%;
   border: $border-light;
+  display: block;
   &--big {
     width: rem-calc(26px);
     height: rem-calc(26px);

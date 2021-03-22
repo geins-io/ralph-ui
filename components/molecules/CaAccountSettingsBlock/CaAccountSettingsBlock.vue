@@ -4,6 +4,7 @@
       <h2 class="ca-account-settings-block__title">{{ title }}</h2>
       <button
         v-if="editable"
+        type="button"
         class="ca-account-settings-block__toggle"
         @click="toggleEditMode"
       >

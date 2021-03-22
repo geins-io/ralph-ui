@@ -10,6 +10,7 @@
     </div>
     <button
       v-if="toggleActive"
+      type="button"
       class="ca-read-more__button"
       @click="toggleText"
     >

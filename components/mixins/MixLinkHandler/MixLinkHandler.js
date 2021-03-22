@@ -36,7 +36,7 @@ export default {
             : this.localePath(this.processedHref);
           return { to: href };
         }
-      } else return '';
+      } else return this.noLinkElement === 'button' ? { type: 'button' } : '';
     }
   },
   watch: {},

@@ -6,7 +6,9 @@
   border: $input-border;
   background: $c-input-background;
   border-radius: $input-border-radius;
+
   &__wrap {
+    text-align: left;
     & + & {
       margin: $px16 0 0;
     }

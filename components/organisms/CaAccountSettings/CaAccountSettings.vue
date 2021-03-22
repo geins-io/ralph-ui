@@ -266,6 +266,7 @@
         <ul class="ca-account-settings__actions">
           <li class="ca-account-settings__action">
             <button
+              type="button"
               class="ca-account-settings__action-button"
               @click="
                 $store.commit('contentpanel/open', {
@@ -279,6 +280,7 @@
           </li>
           <li class="ca-account-settings__action">
             <button
+              type="button"
               class="ca-account-settings__action-button"
               @click="triggerDeletePrompt"
             >

@@ -30,6 +30,7 @@
       />
       <button
         v-if="type === 'password' && value"
+        type="button"
         class="ca-input-text__toggle-password"
         tabindex="-1"
         @click="togglePasswordVisible"

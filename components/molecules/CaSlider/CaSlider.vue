@@ -126,9 +126,11 @@ export default {
   }),
   computed: {
     slides() {
-      return this.$scopedSlots.slides({
-        slideMeta: this.slideMeta
-      });
+      return (
+        this.$scopedSlots.slides({
+          slideMeta: this.slideMeta
+        }) || []
+      );
     },
     copiesBefore() {
       let copiesBefore = [];

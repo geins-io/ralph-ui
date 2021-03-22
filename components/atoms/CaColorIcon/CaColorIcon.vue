@@ -1,9 +1,9 @@
 <template>
-  <div
+  <span
     class="ca-color-icon"
     :class="modifiers"
     :style="'background-color:#' + hexColor"
-  ></div>
+  ></span>
 </template>
 <script>
 // @group Atoms

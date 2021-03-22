@@ -74,7 +74,11 @@
           v-model="rememberUser"
           :label="$t('REMEMBER_ME')"
         />
-        <button class="ca-account-panel__forgot" @click="setFrame('reset')">
+        <button
+          type="button"
+          class="ca-account-panel__forgot"
+          @click="setFrame('reset')"
+        >
           {{ $t('FORGOT_PASSWORD') }}
         </button>
       </div>
@@ -136,6 +140,7 @@
       </CaButton>
       <button
         v-if="!loginMode && !changeMode"
+        type="button"
         class="ca-account-panel__back"
         @click="setFrame('login')"
       >
@@ -147,6 +152,7 @@
 <script>
 import { mapState } from 'vuex';
 import registerMutation from 'user/register.graphql';
+import requestPasswordResetMutation from 'user/pw-reset-request.graphql';
 
 // @group Molecules
 // @vuese
@@ -358,10 +364,29 @@ export default {
     resetPassword() {
       this.loading = true;
       if (this.$refs.inputEmail.validateInput()) {
-        // TODO: Password reset
-        this.showFeedback(this.feedback.passwordResetted);
-        this.$refs.feedback.show();
-        this.loading = false;
+        this.$apollo
+          .mutate({
+            mutation: requestPasswordResetMutation,
+            variables: {
+              apiKey: this.$config.apiKey.toString(),
+              email: this.email
+            },
+            errorPolicy: 'all',
+            fetchPolicy: 'no-cache'
+          })
+          .then(result => {
+            this.loading = false;
+            if (!result.errors && result.data.requestPasswordReset) {
+              this.resetFields();
+              this.showFeedback(this.feedback.passwordResetted);
+            } else {
+              this.showFeedback(this.feedback.error);
+            }
+          })
+          .catch(error => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
       } else {
         this.showFeedback(this.feedback.notValid);
         this.loading = false;
@@ -380,7 +405,6 @@ export default {
         this.loading = false;
         if (this.$store.getters['auth/authenticated']) {
           this.showFeedback(this.feedback.passwordChanged);
-          this.$refs.feedback.show();
           this.resetFields();
         } else {
           this.$store.dispatch('auth/logout');

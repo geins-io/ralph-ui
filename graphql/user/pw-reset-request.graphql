@@ -1,0 +1,3 @@
+mutation requestPasswordReset($apiKey: String!, $email: String!) {
+  requestPasswordReset(apiKey: $apiKey, email: $email)
+}

@@ -1,48 +1,55 @@
 <template>
   <div>
-    <transition :name="transitionName">
-      <section
-        v-if="opened"
-        ref="contentpanel"
-        class="ca-content-panel"
-        :class="modifiers"
-      >
-        <header class="ca-content-panel__header">
-          <!-- The content panel header -->
-          <slot name="header">
-            <!--`<h1 class="ca-content-panel__title">{{ title }}</h1>`-->
-            <h1 class="ca-content-panel__title">{{ title }}</h1>
-          </slot>
-          <CaIconButton
-            class="ca-content-panel__close-icon"
-            icon-name="x"
-            :aria-label="$t('CLOSE')"
-            @clicked="close"
-          />
-        </header>
-        <section class="ca-content-panel__body">
-          <!-- The main content of the content panel. This content will be scrollable when overflowing -->
-          <slot></slot>
+    <client-only>
+      <transition :name="transitionName">
+        <section
+          v-if="opened"
+          ref="contentpanel"
+          class="ca-content-panel"
+          :class="modifiers"
+        >
+          <header class="ca-content-panel__header">
+            <!-- The content panel header -->
+            <slot name="header">
+              <!--`<h1 class="ca-content-panel__title">{{ title }}</h1>`-->
+              <h1 class="ca-content-panel__title">{{ title }}</h1>
+            </slot>
+            <CaIconButton
+              class="ca-content-panel__close-icon"
+              icon-name="x"
+              :aria-label="$t('CLOSE')"
+              @clicked="close"
+            />
+          </header>
+          <section class="ca-content-panel__body">
+            <!-- The main content of the content panel. This content will be scrollable when overflowing -->
+            <slot></slot>
+          </section>
+          <footer class="ca-content-panel__footer">
+            <!-- The content panel footer -->
+            <slot name="footer">
+              <!--`<button type="button" class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`-->
+              <button
+                type="button"
+                class="ca-content-panel__close-button"
+                @click="close"
+              >
+                <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
+              </button>
+            </slot>
+          </footer>
         </section>
-        <footer class="ca-content-panel__footer">
-          <!-- The content panel footer -->
-          <slot name="footer">
-            <!--`<button class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`-->
-            <button class="ca-content-panel__close-button" @click="close">
-              <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
-            </button>
-          </slot>
-        </footer>
-      </section>
-    </transition>
-    <CaOverlay
-      class="ca-content-panel__overlay"
-      :visible="opened"
-      @clicked="close"
-    />
+      </transition>
+      <CaOverlay
+        class="ca-content-panel__overlay"
+        :visible="opened"
+        @clicked="close"
+      />
+    </client-only>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import eventbus from '~/plugins/event-bus.js';
 
@@ -80,8 +87,7 @@ export default {
     }
   },
   data: () => ({
-    opened: false,
-    unwatch: null
+    opened: false
   }),
   computed: {
     modifiers() {
@@ -101,9 +107,19 @@ export default {
     },
     transitionName() {
       return 'pop-from-' + this.currentEnterFrom;
+    },
+    ...mapState(['contentpanel'])
+  },
+  watch: {
+    'contentpanel.current'(newVal) {
+      if (newVal === this.name) {
+        this.open();
+      } else if (this.opened) {
+        enableBodyScroll(this.$refs.contentpanel);
+        this.opened = false;
+      }
     }
   },
-  watch: {},
   mounted() {
     eventbus.$on('close-content-panel', () => {
       this.close();
@@ -113,23 +129,12 @@ export default {
         this.close();
       }
     });
-  },
-  created() {
-    this.unwatch = this.$store.watch(
-      state => state.contentpanel.current,
-      newVal => {
-        if (newVal === this.name) {
-          this.open();
-        } else if (this.opened) {
-          enableBodyScroll(this.$refs.contentpanel);
-          this.opened = false;
-        }
-      }
-    );
+    if (this.contentpanel.current === this.name) {
+      this.open();
+    }
   },
   beforeDestroy() {
     this.close();
-    this.unwatch();
   },
   methods: {
     // Open the content panel
