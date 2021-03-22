@@ -2,7 +2,7 @@
   <CaButton
     class="ca-widget-banner-button"
     :size="$store.getters.viewportComputer ? 'm' : 's'"
-    tabindex="-1"
+    :no-function="true"
   >
     <slot></slot>
   </CaButton>

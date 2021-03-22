@@ -10,12 +10,12 @@
             {{ itemsCount }}
             {{ $tc('PRODUCT_LOWERCASE', itemsCount) }}
           </span>
-          <span class="ca-order-summary__status">
+          <div class="ca-order-summary__status">
             <CaStatusLabel
               :text="$t('ACCOUNT_ORDER_STATUS_' + order.status.toUpperCase())"
               :type="order.status"
             />
-          </span>
+          </div>
           <span class="ca-order-summary__id">#{{ order.id }}</span>
           <span class="ca-order-summary__total">
             {{ $store.getters.getSellingPrice(order.cart.total) }}

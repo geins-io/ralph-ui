@@ -14,7 +14,12 @@
         :ratio="currentRatio"
         :sizes="imageSizes"
       />
-      <button class="ca-widget-video__play-icon" @click="loadVideo">
+      <button
+        type="button"
+        class="ca-widget-video__play-icon"
+        aria-label="Play"
+        @click="loadVideo"
+      >
         <CaIcon v-if="!loading" name="play" />
         <CaSpinner class="ca-widget-video__spinner" :loading="loading" />
       </button>

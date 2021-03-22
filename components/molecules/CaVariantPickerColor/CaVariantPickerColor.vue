@@ -3,7 +3,9 @@
     <button
       v-for="(variant, index) in variants"
       :key="index"
+      type="button"
       :title="variant.label"
+      :aria-label="variant.label"
       class="ca-variant-picker-color__choice"
       :class="getModifiers(variant)"
       @click="chooseVariant(variant)"

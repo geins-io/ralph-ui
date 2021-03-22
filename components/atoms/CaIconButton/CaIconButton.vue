@@ -55,7 +55,7 @@ export default {
         return this.href.includes('http')
           ? { href: this.href, target: '_blank', rel: 'noopener' }
           : { to: this.href };
-      } else return '';
+      } else return { type: 'button' };
     }
   },
   watch: {},

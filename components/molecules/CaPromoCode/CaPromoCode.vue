@@ -3,7 +3,11 @@
     <div v-if="activePromoCode" class="ca-promo-code__active">
       <i18n path="PROMO_CODE_ACTIVE" tag="p">
         <span class="ca-promo-code__active-code">{{ activePromoCode }}</span>
-        <button class="ca-promo-code__remove" @click="removePromoCode">
+        <button
+          type="button"
+          class="ca-promo-code__remove"
+          @click="removePromoCode"
+        >
           {{ $t('PROMO_CODE_REMOVE') }}
         </button>
       </i18n>

@@ -6,13 +6,14 @@
       class="ca-variant-picker-display__holder"
     >
       <button
+        type="button"
         class="ca-variant-picker-display__choice"
         :class="getModifiers(variant)"
         @click="chooseVariant(variant)"
       >
         {{ variant.label }}
       </button>
-      <!-- <button v-if="!size.stock.totalStock" class="ca-variant-picker-display__notify">
+      <!-- <button type="button" v-if="!size.stock.totalStock" class="ca-variant-picker-display__notify">
         Bevaka
       </button> -->
     </div>

@@ -98,7 +98,9 @@ export default {
             this.filename;
     },
     imgSrcset() {
-      if (this.sizeArray.length === 0 && this.src !== '') return '';
+      if (this.sizeArray.length === 0 && this.src !== '') {
+        return this.src + ' 1x';
+      }
       const array = this.sizeArray?.length
         ? this.sizeArray
         : this.$config.imageSizes[this.type];

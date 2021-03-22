@@ -1,8 +1,8 @@
 <template>
-  <button
+  <CaClickable
     class="ca-mini-cart"
-    aria-label="Open cart"
-    @click="
+    :aria-label="$t('CART')"
+    @clicked="
       $store.commit('contentpanel/open', {
         name: 'cart'
       })
@@ -22,7 +22,7 @@
     >
       {{ $store.getters.getSellingPrice($store.state.cart.data.total) }}
     </div>
-  </button>
+  </CaClickable>
 </template>
 <script>
 // @group Molecules

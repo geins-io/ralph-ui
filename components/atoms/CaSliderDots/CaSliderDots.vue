@@ -8,10 +8,13 @@
       class="ca-slider-dots__dot"
     >
       <button
+        type="button"
         class="ca-slider-dots__trigger"
         :class="getCurrentClass(index * slidesToScroll)"
         @click="$emit('navigation', index * slidesToScroll)"
-      ></button>
+      >
+        {{ index }}
+      </button>
     </li>
   </ul>
 </template>

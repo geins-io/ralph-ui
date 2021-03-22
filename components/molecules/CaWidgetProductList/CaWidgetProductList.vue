@@ -1,6 +1,8 @@
 <template>
   <div class="ca-widget-product-list">
-    <h2 class="ca-widget-product-list__title">{{ configuration.title }}</h2>
+    <h2 v-if="configuration.title" class="ca-widget-product-list__title">
+      {{ configuration.title }}
+    </h2>
     <CaProductList
       v-if="configuration.slideshowDisabled"
       class="ca-widget-product-list__list"

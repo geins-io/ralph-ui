@@ -27,8 +27,12 @@
         <footer class="ca-content-panel__footer">
           <!-- The content panel footer -->
           <slot name="footer">
-            <!--`<button class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`-->
-            <button class="ca-content-panel__close-button" @click="close">
+            <!--`<button type="button" class="ca-content-panel__close-button" @click="close"><CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText></button>`-->
+            <button
+              type="button"
+              class="ca-content-panel__close-button"
+              @click="close"
+            >
               <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
             </button>
           </slot>

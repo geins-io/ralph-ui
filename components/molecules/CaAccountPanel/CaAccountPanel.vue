@@ -74,7 +74,11 @@
           v-model="rememberUser"
           :label="$t('REMEMBER_ME')"
         />
-        <button class="ca-account-panel__forgot" @click="setFrame('reset')">
+        <button
+          type="button"
+          class="ca-account-panel__forgot"
+          @click="setFrame('reset')"
+        >
           {{ $t('FORGOT_PASSWORD') }}
         </button>
       </div>
@@ -136,6 +140,7 @@
       </CaButton>
       <button
         v-if="!loginMode && !changeMode"
+        type="button"
         class="ca-account-panel__back"
         @click="setFrame('login')"
       >

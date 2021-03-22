@@ -7,7 +7,7 @@
             v-model="searchString"
             class="ca-search__input"
             type="text"
-            aria-label="$t('SEARCH')"
+            :aria-label="$t('SEARCH')"
             :placeholder="$t('SEARCH_PLACEHOLDER')"
             @input="handleSearchInput"
             @focus="open"
@@ -151,7 +151,11 @@
           </div>
         </div>
 
-        <button class="ca-search__close-button only-mobile" @click="close">
+        <button
+          type="button"
+          class="ca-search__close-button only-mobile"
+          @click="close"
+        >
           <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
         </button>
       </section>

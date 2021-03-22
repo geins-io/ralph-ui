@@ -1,11 +1,11 @@
 <template>
-  <div class="ca-icon-and-text" :class="positionClass">
+  <component :is="baseElement" class="ca-icon-and-text" :class="positionClass">
     <CaIcon class="ca-icon-and-text__icon" :name="iconName" />
-    <div class="ca-icon-and-text__text">
+    <component :is="baseElement" class="ca-icon-and-text__text">
       <!-- Text content -->
       <slot></slot>
-    </div>
-  </div>
+    </component>
+  </component>
 </template>
 <script>
 // @group Atoms
@@ -29,6 +29,11 @@ export default {
       validator(value) {
         return ['left', 'right', 'top'].includes(value);
       }
+    },
+    // The element it should be rendered as
+    baseElement: {
+      type: String,
+      default: 'span'
     }
   },
   data: () => ({}),

@@ -20,6 +20,7 @@
     border-radius: rem-calc(4px);
     padding: 0;
     transition: background-color 200ms ease;
+    text-indent: -100000px;
     &--current {
       background-color: $c-accent-color;
     }
