@@ -75,10 +75,26 @@ export default {
     });
 
     this.$store.dispatch('auth/initClient');
+
+    this.performActions();
   },
   methods: {
     refetchCart() {
       this.$apollo.queries.getCart.refetch();
+    },
+    performActions() {
+      if (this.$route.query.action) {
+        switch (this.$route.query.action) {
+          case 'login':
+            this.$store.commit('contentpanel/open', {
+              name: 'account',
+              frame: 'login'
+            });
+            break;
+          default:
+            return false;
+        }
+      }
     }
   }
 };
