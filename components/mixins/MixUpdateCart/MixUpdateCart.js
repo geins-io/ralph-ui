@@ -29,7 +29,7 @@ export default {
           }
         })
         .then(result => {
-          this.$store.commit('cart/update', result.data.updateCartItem);
+          this.$store.dispatch('cart/update', result.data.updateCartItem);
         })
         .catch(error => {
           // eslint-disable-next-line no-console

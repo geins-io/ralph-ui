@@ -1,6 +1,6 @@
 <template>
   <div class="ca-checkout-section" :class="modifiers">
-    <h2 class="ca-checkout-section__title">
+    <h2 v-if="$slots.title" class="ca-checkout-section__title">
       <!-- The checkout sections title -->
       <slot name="title"></slot>
     </h2>

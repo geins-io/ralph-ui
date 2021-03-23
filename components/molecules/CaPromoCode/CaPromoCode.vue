@@ -112,7 +112,7 @@ export default {
         .then(result => {
           this.loading = false;
           if (!result.errors) {
-            this.$store.commit('cart/update', result.data.setCartPromoCode);
+            this.$store.dispatch('cart/update', result.data.setCartPromoCode);
             if (!remove) {
               this.currentFeedback = this.feedback.codeActivated;
               this.$refs.feedback.show();
