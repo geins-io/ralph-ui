@@ -1,16 +1,26 @@
 export const state = () => ({
-  data: {}
+  data: null
 });
 
 export const mutations = {
-  update(state, cart) {
+  setCart(state, cart) {
     state.data = cart;
   }
 };
 
 export const actions = {
-  reset(context) {
-    context.commit('update', {});
+  update({ commit }, cart) {
+    commit('setCart', cart);
+    if (cart.id) {
+      this.$cookies.set('ralph-cart', cart.id, {
+        path: '/',
+        expires: new Date(new Date().getTime() + 31536000000)
+      });
+    }
+  },
+  reset({ commit }) {
+    commit('setCart', null);
+    this.$cookies.remove('ralph-cart');
   }
 };
 
@@ -25,6 +35,6 @@ export const getters = {
     } else return 0;
   },
   id(state) {
-    return state.data && state.data.id ? state.data.id : '';
+    return state.data?.id ? state.data.id : '';
   }
 };

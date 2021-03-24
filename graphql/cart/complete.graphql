@@ -1,0 +1,8 @@
+#import "cart/content.graphql"
+
+mutation completeCart($apiKey: String!, $id: String!) {
+  completeCart(apiKey: $apiKey, id: $id) {
+    isCompleted
+    ...Cart
+  }
+}

@@ -32,7 +32,7 @@ export default {
           }
         })
         .then(result => {
-          this.$store.commit('cart/update', result.data.addToCart);
+          this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
           this.$store.dispatch('snackbar/trigger', {
             message: this.$tc('CART_ITEM_ADDED', itemToAdd.quantity)

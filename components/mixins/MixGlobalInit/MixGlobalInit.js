@@ -12,22 +12,16 @@ export default {
       variables() {
         return {
           apiKey: this.$config.apiKey.toString(),
-          id: this.cartId
+          id: this.$store.getters['cart/id']
         };
       },
       result(result) {
         if (result.data && result.data.getCart) {
-          this.$store.commit('cart/update', result.data.getCart);
-          if (
-            this.$cookies.get('ralph-cart-id') !==
-            this.$store.getters['cart/id']
-          ) {
-            this.$cookies.set('ralph-cart-id', this.$store.getters['cart/id'], {
-              path: '/',
-              expires: new Date(new Date().getTime() + 31536000000)
-            });
-          }
+          this.$store.dispatch('cart/update', result.data.getCart);
         }
+      },
+      skip() {
+        return !!this.$route?.name.includes('checkout-confirm');
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -41,13 +35,7 @@ export default {
     return this.$nuxtI18nSeo({ addSeoAttributes: true });
   },
   data: () => ({}),
-  computed: {
-    cartId() {
-      return this.$cookies.get('ralph-cart-id')
-        ? this.$cookies.get('ralph-cart-id')
-        : this.$store.getters['cart/id'];
-    }
-  },
+  computed: {},
   watch: {
     $route(to, from) {
       eventbus.$emit('route-change', { to, from });

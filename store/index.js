@@ -88,7 +88,7 @@ export const actions = {
       scrollbarWidth + 'px'
     );
   },
-  nuxtServerInit({ commit }, { req }) {
+  nuxtServerInit({ commit, dispatch }, { req }) {
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {
@@ -99,7 +99,9 @@ export const actions = {
     if (req.headers.cookie) {
       const parsed = cookie.parse(req.headers.cookie);
       const user = parsed['ralph-user'] || null;
+      const cartId = parsed['ralph-cart'] || '';
       commit('auth/setUser', user);
+      dispatch('cart/update', { id: cartId });
     }
   }
 };
