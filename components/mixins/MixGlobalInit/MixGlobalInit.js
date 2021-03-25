@@ -21,7 +21,7 @@ export default {
         }
       },
       skip() {
-        return !!this.$route?.name.includes('checkout-confirm');
+        return !!this.$route?.name?.includes('checkout-confirm');
       },
       error(error) {
         // eslint-disable-next-line no-console

@@ -1,6 +1,6 @@
 <template>
   <div class="ca-input-checkbox__wrap">
-    <label :for="id" class="ca-input-checkbox" :class="modifiers">
+    <label class="ca-input-checkbox" :class="modifiers">
       <input
         :id="id"
         class="ca-input-checkbox__input"
@@ -10,9 +10,9 @@
         :value="checked"
         @change="$emit('change', $event.target.checked)"
       />
-      <div class="ca-input-checkbox__box">
+      <span class="ca-input-checkbox__box">
         <CaIcon name="check" class="ca-input-checkbox__check" />
-      </div>
+      </span>
       <span class="ca-input-checkbox__label">{{ label }}</span>
     </label>
     <div v-if="description" class="ca-input-text__help-text">
