@@ -9,6 +9,7 @@ Used to place a text together with an icon<br><br> **SASS-path:** _./styles/comp
 |---|---|---|---|---|
 |iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`true`|-|
 |iconPosition|The position of the icon|'left', 'right', 'top'|`false`|left|
+|baseElement|The element it should be rendered as|`String`|`false`|span|
 
 <!-- @vuese:CaIconAndText:props:end -->
 

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="ca-widget-banner" :class="modifiers">
     <component
@@ -22,16 +23,12 @@
           :ratio="videoRatio"
           :radius="false"
         />
-        <client-only>
-          <Vimeo
-            v-show="videoLoaded"
-            ref="player"
-            :video-id="videoId"
-            :options="videoOptions"
-            :events-to-emit="['playing']"
-            @playing.once="onPlaying"
-          />
-        </client-only>
+        <div
+          ref="player"
+          class="ca-widget-banner__video"
+          :class="{ 'ca-widget-banner__video--playing': videoLoaded }"
+          v-html="videoHtml"
+        ></div>
       </div>
       <div v-else class="ca-widget-banner__image-wrap">
         <CaImage
@@ -94,7 +91,9 @@ export default {
       background: true,
       loop: true,
       quality: '1080p'
-    }
+    },
+    playerOrigin: '*',
+    playerId: ''
   }),
   computed: {
     modifiers() {
@@ -148,13 +147,16 @@ export default {
     },
     hasVideo() {
       return this.$store.getters.viewport === 'phone'
-        ? !!this.configuration.mobileVideoId
-        : !!this.configuration.desktopVideoId;
+        ? !!this.configuration.mobileVideoHtml
+        : !!this.configuration.desktopVideoHtml;
     },
-    videoId() {
-      return this.$store.getters.viewport === 'phone'
-        ? this.configuration.mobileVideoId.toString()
-        : this.configuration.desktopVideoId.toString();
+    videoHtml() {
+      let videoHtml =
+        this.$store.getters.viewport === 'phone'
+          ? this.configuration.mobileVideoHtml
+          : this.configuration.desktopVideoHtml;
+      videoHtml = videoHtml.replace('?', '?player_id=' + this.playerId + '&');
+      return videoHtml;
     },
     videoRatio() {
       const height =
@@ -174,12 +176,74 @@ export default {
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    if (this.hasVideo) {
+      window.addEventListener('message', this.onMessageReceived);
+      this.playerId = 'player_' + this._uid;
+    }
+  },
+  beforeDestroy() {
+    if (this.hasVideo) {
+      window.removeEventListener('message', this.onMessageReceived);
+    }
+  },
   methods: {
     // @vuese
     // Action for when video is playing
     onPlaying() {
+      this.postMessage('removeEventListener', 'timeupdate');
+      window.removeEventListener('message', this.onMessageReceived);
       this.videoLoaded = true;
+    },
+    // @vuese
+    // Action for when the vimeo player is mounted inside the iframe
+    onReady() {
+      this.postMessage('addEventListener', 'timeupdate');
+    },
+    // @vuese
+    // Handle messages sent from the Vimeo iframe
+    // @arg event
+    onMessageReceived(event) {
+      if (!/^https?:\/\/player.vimeo.com/.test(event.origin)) {
+        return false;
+      }
+      let data = event.data || null;
+      if (typeof data !== 'object') {
+        data = JSON.parse(data);
+      }
+      if (data.player_id !== this.playerId) {
+        return false;
+      }
+      if (this.playerOrigin === '*') {
+        this.playerOrigin = event.origin;
+      }
+      switch (data.event) {
+        case 'ready':
+          this.onReady();
+          break;
+        case 'playing':
+        case 'timeupdate':
+          this.onPlaying();
+          break;
+        default:
+          break;
+      }
+    },
+    // @vuese
+    // Post messages to the Vimeo iframe, mainly to register event listeners inside
+    // @arg action (String), value (String)
+    postMessage(action, value) {
+      const data = {
+        method: action
+      };
+
+      if (value) {
+        data.value = value;
+      }
+      this.$refs.player.firstChild.firstChild.contentWindow.postMessage(
+        data,
+        this.playerOrigin
+      );
     }
   }
 };
