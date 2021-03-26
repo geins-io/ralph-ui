@@ -6,7 +6,8 @@
           <input
             v-model="searchString"
             class="ca-search__input"
-            type="text"
+            type="search"
+            autocomplete="off"
             :aria-label="$t('SEARCH')"
             :placeholder="$t('SEARCH_PLACEHOLDER')"
             @input="handleSearchInput"
