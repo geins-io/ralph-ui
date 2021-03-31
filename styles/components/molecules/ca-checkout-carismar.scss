@@ -1,0 +1,73 @@
+.ca-checkout-carismar {
+  $block: &;
+  padding: 0 0 $px48;
+  &__section {
+    & + & {
+      margin: $px32 0 0;
+      &--shipping {
+        margin: $px20 0 0;
+      }
+    }
+
+    &--confirm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  &__title {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xl;
+  }
+  &__subtitle {
+    font-size: $font-size-m;
+    color: $c-text-secondary;
+    margin: 0 0 $px8;
+  }
+  &__row {
+    &:not(:last-child) {
+      margin: 0 0 $px16;
+    }
+    &--splitted {
+      @include bp(tablet) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: $px16;
+      }
+    }
+  }
+  &__input.ca-input-text__wrap {
+    @include bp(tablet) {
+      & + & {
+        margin: 0;
+      }
+    }
+  }
+  &__consent {
+    margin: $px16 0 0;
+  }
+  &__total {
+    font-size: $font-size-xl;
+    padding: $px20 0 0;
+  }
+  &__total-sum {
+    font-weight: $font-weight-bold;
+  }
+  &__show-summary {
+    text-decoration: underline;
+    margin: 0 0 $px12;
+  }
+  &__summary-wrap {
+    width: 100%;
+  }
+  &__summary {
+    background: $c-lightest-gray;
+    border-bottom: 20px solid $c-white;
+    padding: $px20;
+    width: 80%;
+    margin: 0 auto;
+    @include bp(tablet) {
+      width: 80%;
+    }
+  }
+}

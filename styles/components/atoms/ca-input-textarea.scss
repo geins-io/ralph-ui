@@ -29,6 +29,7 @@
     font-size: 0.8em;
     margin-left: 2px;
     font-weight: $font-weight-normal;
+    color: $c-text-secondary;
   }
 
   &__textarea {
@@ -57,6 +58,7 @@
   &__help-text {
     font-size: $font-size-xs;
     padding: $px4 0 0 $px16;
+    color: $c-text-secondary;
     &--error {
       color: $c-error;
     }

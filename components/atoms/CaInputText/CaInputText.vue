@@ -121,7 +121,7 @@ export default {
     },
     // Set to use built in validation
     validate: {
-      // `email`, `passwordStrength`, `passwordMatch`, `empty`
+      // `email`, `passwordStrength`, `passwordMatch`, `personalId`, `empty`
       type: String,
       default: '',
       validator(value) {
@@ -130,6 +130,7 @@ export default {
           'email',
           'passwordStrength',
           'passwordMatch',
+          'personalId',
           'empty'
         ].includes(value);
       }
@@ -215,6 +216,8 @@ export default {
         this.fieldValid = this.value.length > 6;
       } else if (this.validate === 'passwordMatch') {
         this.fieldValid = this.value === this.passwordToMatch;
+      } else if (this.validate === 'personalId') {
+        this.fieldValid = this.validatePersonalId(this.value);
       } else if (this.validate === 'empty') {
         this.fieldValid = this.value !== '';
       }
@@ -231,6 +234,65 @@ export default {
       if (this.required || (!this.required && email !== '')) {
         return re.test(String(email).toLowerCase());
       } else return true;
+    },
+    // @vuese
+    // Used by `validateInput` to validate Swedish personal ID's
+    // @arg email (String)
+    validatePersonalId(identityNumber) {
+      let id = identityNumber;
+      const regEx = /^(\d{2})(\d{2})(\d{2})-(\d{4})|(\d{4})(\d{2})(\d{2})-(\d{4})$/;
+      // Check valid length & form
+      if (!id) {
+        return false;
+      }
+
+      if (!id.includes('-')) {
+        if (id.length === 10) {
+          id = id.slice(0, 6) + '-' + id.slice(6);
+        } else {
+          id = id.slice(0, 8) + '-' + id.slice(8);
+        }
+      }
+      const match = id.match(regEx);
+      if (!match) {
+        return false;
+      }
+      // Clean input
+      id = id.replace('-', '');
+      if (id.length === 12) {
+        id = id.substring(2);
+      }
+
+      // Declare variables
+      const d = new Date(
+        match[1] ? match[1] : match[5],
+        (match[2] ? match[2] : match[6]) - 1,
+        match[3] ? match[3] : match[7]
+      );
+
+      // Check valid date
+      if (
+        Object.prototype.toString.call(d) !== '[object Date]' ||
+        isNaN(d.getTime())
+      ) {
+        return false;
+      }
+
+      let sum = 0;
+      const parity = id.length % 2;
+      let digit = 0;
+      // Check luhn algorithm
+      for (let i = 0; i < id.length; i = i + 1) {
+        digit = parseInt(id.charAt(i), 10);
+        if (i % 2 === parity) {
+          digit *= 2;
+        }
+        if (digit > 9) {
+          digit -= 9;
+        }
+        sum += digit;
+      }
+      return sum % 10 === 0;
     },
     // @vuese
     // Validates field instantly if not valid, used on keyup

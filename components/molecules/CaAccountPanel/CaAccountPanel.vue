@@ -31,6 +31,7 @@
         ref="inputCurrentPassword"
         v-model="currentPassword"
         type="password"
+        autocomplete="current-password"
         :label="$t('CURRENT_PASSWORD')"
         :error-message="$t('PASSWORD_ERROR_EMPTY')"
         @validation="checkValid"
@@ -42,6 +43,7 @@
         ref="inputPassword"
         v-model="password"
         type="password"
+        :autocomplete="changeMode ? 'new-password' : 'current-password'"
         :label="changeMode ? $t('NEW_PASSWORD') : $t('PASSWORD')"
         :validate="createMode || changeMode ? 'passwordStrength' : ''"
         :error-message="
@@ -58,6 +60,7 @@
         ref="inputPasswordConfirm"
         v-model="passwordConfirm"
         type="password"
+        autocomplete="new-password"
         :label="
           changeMode ? $t('NEW_PASSWORD_CONFIRM') : $t('PASSWORD_CONFIRM')
         "

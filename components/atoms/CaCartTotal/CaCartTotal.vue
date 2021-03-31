@@ -3,7 +3,7 @@
     <div class="ca-cart-total__row ca-cart-total__row--total">
       <span class="ca-cart-total__label">{{ $t('CART_TOTAL') }}</span>
       <span class="ca-cart-total__value">
-        {{ $store.getters.getSellingPrice(cartTotal) }}
+        {{ cartTotal.sellingPriceIncVatFormatted }}
       </span>
     </div>
   </div>

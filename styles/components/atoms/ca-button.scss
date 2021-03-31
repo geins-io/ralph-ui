@@ -36,6 +36,10 @@
     padding: 0.6em 0.9em;
     font-size: $font-size-s;
   }
+  &--l {
+    font-size: $font-size-l;
+    padding: 0.65em 5em;
+  }
   // Types
   &--full-width {
     width: 100%;
