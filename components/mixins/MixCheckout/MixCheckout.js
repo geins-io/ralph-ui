@@ -19,15 +19,11 @@ export default {
       consents: [
         {
           type: 'newsletter',
-          name: 'Ja tack, jag vill få nyhetsbrev med spännande erbjudanden',
-          description: 'Checka för denna om du vill ha nyhetsbrev',
           checked: true,
           autoAccept: false
         },
         {
-          type: 'terms',
-          name: 'Jag godkänner köpvillkoren',
-          description: 'Checka för denna om du vill ha nyhetsbrev',
+          type: 'order',
           checked: false,
           autoAccept: false
         }

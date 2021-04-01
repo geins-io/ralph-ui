@@ -38,7 +38,10 @@
   }
   &--l {
     font-size: $font-size-l;
-    padding: 0.65em 5em;
+    padding: 0.65em 4.2em;
+    @include bp(tablet) {
+      padding: 0.65em 5em;
+    }
   }
   // Types
   &--full-width {

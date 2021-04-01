@@ -1,5 +1,8 @@
 <template>
-  <div class="ca-checkout-carismar">
+  <div
+    class="ca-checkout-carismar"
+    :class="{ 'ca-checkout-carismar--loading': loading }"
+  >
     <section class="ca-checkout-carismar__section">
       <h3 class="ca-checkout-carismar__title">
         {{
@@ -233,12 +236,34 @@
         :key="index"
         v-model="consent.checked"
         class="ca-checkout-carismar__consent"
-        :label="consent.name"
-      />
+      >
+        <i18n
+          v-if="consent.type === 'order'"
+          path="CHECKOUT_CONSENT_ORDER"
+          tag="span"
+          class="ca-input-checkbox__label"
+        >
+          <a
+            class="ca-checkout-carismar__consent-link"
+            href="/kopvillkor"
+            target="_blank"
+            >{{ $t('CHECKOUT_TERMS') }}</a
+          >
+        </i18n>
+        <span v-else class="ca-input-checkbox__label">
+          {{ $t('CHECKOUT_CONSENT_' + consent.type.toUpperCase()) }}
+        </span>
+      </CaInputCheckbox>
     </section>
     <section
       class="ca-checkout-carismar__section ca-checkout-carismar__section--confirm"
     >
+      <LazyCaFeedback
+        ref="feedback"
+        class="ca-checkout-carismar__feedback"
+        type="error"
+        message="Du måste godkänna köpvillkoren innan du slutför ditt köp"
+      />
       <div class="ca-checkout-carismar__total">
         {{ $t('CHECKOUT_TOTAL') }}:
         <span class="ca-checkout-carismar__total-sum">
@@ -265,7 +290,12 @@
           <CaCartTotal :cart-total="$store.state.cart.data.total" />
         </div>
       </SlideUpDown>
-      <CaButton class="ca-checkout-carismar__place-order" size="l">
+      <CaButton
+        class="ca-checkout-carismar__place-order"
+        size="l"
+        :loading="loading"
+        @clicked="placeOrder"
+      >
         {{ $t('COMPLETE_ORDER') }}
       </CaButton>
     </section>
@@ -274,7 +304,7 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// The Carismar checkout frame. Used for paying with manual invoice or external payment options<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
 import SlideUpDown from 'vue-slide-up-down';
 export default {
@@ -282,6 +312,7 @@ export default {
   components: { SlideUpDown },
   mixins: [],
   props: {
+    // The checkout data from the endpoint
     checkout: {
       type: Object,
       required: true
@@ -289,12 +320,32 @@ export default {
   },
   data: () => ({
     addShippingAddress: false,
-    showSummary: false
+    showSummary: false,
+    loading: false
   }),
-  computed: {},
-  watch: {},
+  computed: {
+    orderConsentChecked() {
+      return this.checkout.consents.find(i => i.type === 'order').checked;
+    }
+  },
+  watch: {
+    orderConsentChecked(val) {
+      if (val) {
+        this.$refs.feedback.hide();
+      }
+    }
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    placeOrder() {
+      this.loading = true;
+      if (!this.orderConsentChecked) {
+        this.loading = false;
+        this.$refs.feedback.show();
+      } else {
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">

@@ -46,6 +46,9 @@
   &__consent {
     margin: $px16 0 0;
   }
+  &__consent-link {
+    text-decoration: underline;
+  }
   &__total {
     font-size: $font-size-xl;
     padding: $px20 0 0;
@@ -69,5 +72,10 @@
     @include bp(tablet) {
       width: 80%;
     }
+  }
+
+  &--loading {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }

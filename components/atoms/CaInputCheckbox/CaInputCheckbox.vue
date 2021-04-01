@@ -13,7 +13,11 @@
       <span class="ca-input-checkbox__box">
         <CaIcon name="check" class="ca-input-checkbox__check" />
       </span>
-      <span class="ca-input-checkbox__label">{{ label }}</span>
+      <slot>
+        <span class="ca-input-checkbox__label">
+          {{ label }}
+        </span>
+      </slot>
     </label>
     <div v-if="description" class="ca-input-text__help-text">
       {{ description }}

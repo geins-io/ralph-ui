@@ -11,6 +11,7 @@
     border: $border-dark;
     transition: all 150ms ease;
     margin: 0 $px10 0 0;
+    flex-shrink: 0;
   }
 
   &__check {
