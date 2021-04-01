@@ -18,7 +18,10 @@
     <div v-else class="ca-display-cart__empty">{{ $t('CART_EMPTY') }}</div>
     <template v-if="cart && cart.items && cart.items.length" #footer>
       <div class="ca-display-cart__footer">
-        <CaCartTotal class="ca-display-cart__total" :cart-total="cart.total" />
+        <CaCartTotal
+          class="ca-display-cart__total"
+          :cart-total="cart.summary.total"
+        />
         <CaButton type="full-width" size="l" href="checkout">
           {{ $t('CART_TO_CHECKOUT') }}
         </CaButton>

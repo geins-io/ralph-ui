@@ -1,7 +1,7 @@
 #import "user/user.graphql"
 
-query getUser($apiKey: String!) {
-  getUser(apiKey: $apiKey) {
+query getUser {
+  getUser {
     ...User
   }
 }

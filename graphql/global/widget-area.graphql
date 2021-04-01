@@ -1,7 +1,6 @@
 #import "meta/meta.graphql"
 
 query widgetArea(
-  $apiKey: String!
   $family: String = null
   $areaName: String = null
   $alias: String = null
@@ -9,7 +8,6 @@ query widgetArea(
   $filters: [PageWidgetCollectionFilterInputType] = null
 ) {
   widgetArea(
-    apiKey: $apiKey
     family: $family
     areaName: $areaName
     alias: $alias

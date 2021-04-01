@@ -2,9 +2,11 @@
 
 fragment Cart on CartType {
   id
-  total {
-    sellingPriceIncVatFormatted
-    sellingPriceExVatFormatted
+  summary {
+    total {
+      sellingPriceIncVatFormatted
+      sellingPriceExVatFormatted
+    }
   }
   promoCode
   appliedCampaigns {

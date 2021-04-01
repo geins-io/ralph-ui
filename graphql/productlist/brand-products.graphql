@@ -2,7 +2,6 @@
 #import "productlist/filters.graphql"
 
 query products(
-  $apiKey: String!
   $skip: Int = null
   $take: Int = null
   $brandAlias: String = null
@@ -12,7 +11,6 @@ query products(
   products(
     skip: $skip
     take: $take
-    apiKey: $apiKey
     brandAlias: $brandAlias
     sort: $sort
     filter: $filter

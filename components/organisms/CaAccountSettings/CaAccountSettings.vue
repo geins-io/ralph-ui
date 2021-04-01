@@ -347,7 +347,6 @@ export default {
         .mutate({
           mutation: updateUserMutation,
           variables: {
-            apiKey: this.$config.apiKey.toString(),
             user: {
               newsletter: this.userData.newsletter,
               address: this.addressInput,
@@ -398,9 +397,6 @@ export default {
       this.$apollo
         .mutate({
           mutation: deleteUserMutation,
-          variables: {
-            apiKey: this.$config.apiKey.toString()
-          },
           errorPolicy: 'all',
           fetchPolicy: 'no-cache'
         })

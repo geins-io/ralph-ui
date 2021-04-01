@@ -1,19 +1,12 @@
 #import "productlist/product.graphql"
 
 query products(
-  $apiKey: String!
   $skip: Int = null
   $take: Int = null
   $sort: SortType = null
   $filter: FilterInputType = null
 ) {
-  products(
-    skip: $skip
-    take: $take
-    apiKey: $apiKey
-    sort: $sort
-    filter: $filter
-  ) {
+  products(skip: $skip, take: $take, sort: $sort, filter: $filter) {
     products {
       ...ListProduct
     }

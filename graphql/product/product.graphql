@@ -3,8 +3,8 @@
 #import "product/variant.graphql"
 #import "meta/meta.graphql"
 
-query product($alias: String!, $apiKey: String!) {
-  product(alias: $alias, apiKey: $apiKey) {
+query product($alias: String!) {
+  product(alias: $alias) {
     productId
     name
     brand {

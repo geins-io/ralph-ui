@@ -11,7 +11,6 @@ export default {
       query: getCartQuery,
       variables() {
         return {
-          apiKey: this.$config.apiKey.toString(),
           id: this.$store.getters['cart/id']
         };
       },

@@ -81,7 +81,6 @@ export default {
         .mutate({
           mutation: initKlarnaMutation,
           variables: {
-            apiKey: this.$config.apiKey.toString(),
             cartId: this.$store.getters['cart/id'],
             checkout: {
               shippingId: null,
@@ -146,7 +145,6 @@ export default {
         .query({
           query: getKlarnaQuery,
           variables: {
-            apiKey: this.$config.apiKey.toString(),
             klarnaOrderId: this.klarnaOrderId
           }
         })

@@ -33,7 +33,6 @@ export default {
       query: productsQuery,
       variables() {
         return {
-          apiKey: this.$config.apiKey.toString(),
           take: this.take,
           filter: this.configuration.searchParameters,
           sort: this.configuration.searchParameters.sort

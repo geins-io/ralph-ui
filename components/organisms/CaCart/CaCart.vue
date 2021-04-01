@@ -19,7 +19,7 @@
         :campaigns="cart.appliedCampaigns"
         display="box"
       />
-      <CaCartTotal class="ca-cart__total" :cart-total="cart.total" />
+      <CaCartTotal class="ca-cart__total" :cart-total="cart.summary.total" />
     </div>
   </div>
   <div v-else class="ca-cart ca-cart--empty">

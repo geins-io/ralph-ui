@@ -87,7 +87,6 @@ export default {
           .mutate({
             mutation: newsletterMutation,
             variables: {
-              apiKey: this.$config.apiKey.toString(),
               email: this.email
             }
           })
