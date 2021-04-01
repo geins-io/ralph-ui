@@ -23,7 +23,6 @@ export default {
       query: widgetAreaQuery,
       variables() {
         return {
-          apiKey: this.$config.apiKey.toString(),
           family: this.family,
           areaName: this.areaName,
           alias: this.alias,

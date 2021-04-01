@@ -33,7 +33,6 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
-    state.config.apiKey = config.apiKey;
     state.config.authEndpoint = config.authEndpoint;
     state.config.signEndpoint = config.signEndpoint;
   },

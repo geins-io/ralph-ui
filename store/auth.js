@@ -25,12 +25,8 @@ export const actions = {
   async initClient({ state, rootState, commit, dispatch }) {
     if (!state.client) {
       dispatch('loading/start', null, { root: true });
-      const signEndpoint = rootState.config.signEndpoint.replace(
-        '{API_KEY}',
-        rootState.config.apiKey
-      );
       const client = new AuthClient(
-        async id => await client.get(signEndpoint + id),
+        async id => await client.get(rootState.config.signEndpoint + id),
         rootState.config.authEndpoint
       );
       commit('setClient', client);

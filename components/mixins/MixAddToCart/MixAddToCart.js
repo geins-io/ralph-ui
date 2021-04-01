@@ -26,7 +26,6 @@ export default {
         .mutate({
           mutation: addToCartMutation,
           variables: {
-            apiKey: this.$config.apiKey.toString(),
             id: this.$store.getters['cart/id'],
             item: itemToAdd
           }

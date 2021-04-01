@@ -1,5 +1,5 @@
-mutation updateUser($apiKey: String!, $user: UserInputType!) {
-  updateUser(apiKey: $apiKey, user: $user) {
+mutation updateUser($user: UserInputType!) {
+  updateUser(user: $user) {
     email
   }
 }

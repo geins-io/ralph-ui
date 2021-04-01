@@ -103,7 +103,6 @@ export default {
         .mutate({
           mutation: promoCodeMutation,
           variables: {
-            apiKey: this.$config.apiKey.toString(),
             id: this.$store.getters['cart/id'],
             promoCode: this.code
           },

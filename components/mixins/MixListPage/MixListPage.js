@@ -62,7 +62,6 @@ export default {
       },
       variables() {
         return {
-          apiKey: this.$config.apiKey.toString(),
           alias: this.currentAlias
         };
       },
@@ -226,7 +225,6 @@ export default {
       const varsObj = {
         skip: this.skip,
         take: this.pageSize,
-        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };
@@ -245,7 +243,6 @@ export default {
       const varsObj = {
         skip: this.currentMaxCount,
         take: this.pageSize,
-        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };
@@ -264,7 +261,6 @@ export default {
       const varsObj = {
         skip: this.currentMinCount - 1 - this.pageSize,
         take: this.pageSize,
-        apiKey: this.$config.apiKey.toString(),
         sort: this.sort,
         filter: this.selection
       };

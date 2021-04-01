@@ -1,7 +1,7 @@
 #import "meta/meta.graphql"
 
-query listPageInfo($apiKey: String!, $alias: String!) {
-  listPageInfo(apiKey: $apiKey, alias: $alias) {
+query listPageInfo($alias: String!) {
+  listPageInfo(alias: $alias) {
     alias
     primaryImage
     name

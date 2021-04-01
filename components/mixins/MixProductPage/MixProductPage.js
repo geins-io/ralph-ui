@@ -38,8 +38,7 @@ export default {
       query: productQuery,
       variables() {
         return {
-          alias: this.prodAlias,
-          apiKey: this.$config.apiKey.toString()
+          alias: this.prodAlias
         };
       },
       result() {

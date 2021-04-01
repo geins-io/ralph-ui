@@ -332,7 +332,6 @@ export default {
             .mutate({
               mutation: registerMutation,
               variables: {
-                apiKey: this.$config.apiKey.toString(),
                 user: {
                   newsletter: this.newsletterSubscribe
                 }
@@ -371,7 +370,6 @@ export default {
           .mutate({
             mutation: requestPasswordResetMutation,
             variables: {
-              apiKey: this.$config.apiKey.toString(),
               email: this.email
             },
             errorPolicy: 'all',

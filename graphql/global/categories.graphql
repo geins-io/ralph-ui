@@ -1,5 +1,5 @@
-query categories($apiKey: String!) {
-  categories(apiKey: $apiKey) {
+query categories {
+  categories {
     alias
     name
     categoryId
