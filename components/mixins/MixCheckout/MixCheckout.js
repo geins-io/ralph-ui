@@ -19,13 +19,11 @@ export default {
       consents: [
         {
           type: 'newsletter',
-          checked: true,
-          autoAccept: false
+          checked: true
         },
         {
           type: 'order',
-          checked: false,
-          autoAccept: false
+          checked: false
         }
       ],
       email: '',

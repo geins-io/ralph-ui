@@ -1,0 +1,21 @@
+.ca-cart-summary {
+  $block: &;
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    padding: rem-calc(2px) 0;
+    &--total {
+      font-size: $font-size-l;
+      font-weight: $font-weight-bold;
+      padding: rem-calc(6px) 0;
+    }
+    &--discounted {
+      color: $c-sale;
+      &#{$block}__row--total {
+        #{$block}__label {
+          color: $c-text-primary;
+        }
+      }
+    }
+  }
+}

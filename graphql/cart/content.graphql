@@ -2,12 +2,6 @@
 
 fragment Cart on CartType {
   id
-  summary {
-    total {
-      sellingPriceIncVatFormatted
-      sellingPriceExVatFormatted
-    }
-  }
   promoCode
   appliedCampaigns {
     name
@@ -43,6 +37,25 @@ fragment Cart on CartType {
     skuId
     totalPrice {
       ...Price
+    }
+  }
+  summary {
+    subTotal {
+      regularPriceIncVatFormatted
+      regularPriceExVatFormatted
+    }
+    shipping {
+      amountLeftToFreeShipping
+      shippingFeeExVat
+      shippingFeeIncVat
+    }
+    total {
+      isDiscounted
+      sellingPriceIncVatFormatted
+      sellingPriceExVatFormatted
+      discountIncVatFormatted
+      discountExVatFormatted
+      vatFormatted
     }
   }
 }

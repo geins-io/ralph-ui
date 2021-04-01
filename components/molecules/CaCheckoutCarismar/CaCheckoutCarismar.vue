@@ -6,7 +6,9 @@
     <section class="ca-checkout-carismar__section">
       <h3 class="ca-checkout-carismar__title">
         {{
-          addShippingAddress ? $t('BILLING_ADDRESS') : $t('YOUR_INFORMATION')
+          addShippingAddress
+            ? $t('BILLING_ADDRESS')
+            : $t('CHECKOUT_YOUR_INFORMATION')
         }}
       </h3>
       <p class="ca-checkout-carismar__subtitle">
@@ -267,7 +269,7 @@
       <div class="ca-checkout-carismar__total">
         {{ $t('CHECKOUT_TOTAL') }}:
         <span class="ca-checkout-carismar__total-sum">
-          {{ $store.state.cart.data.total.sellingPriceIncVatFormatted }}
+          {{ $store.state.cart.data.summary.total.sellingPriceIncVatFormatted }}
         </span>
       </div>
       <button
@@ -287,7 +289,7 @@
         class="ca-checkout-carismar__summary-wrap"
       >
         <div class="ca-checkout-carismar__summary">
-          <CaCartTotal :cart-total="$store.state.cart.data.total" />
+          <CaCartSummary :summary="$store.state.cart.data.summary" />
         </div>
       </SlideUpDown>
       <CaButton
