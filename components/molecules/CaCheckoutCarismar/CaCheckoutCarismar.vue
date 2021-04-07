@@ -124,7 +124,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputTextarea
           id="message"
-          v-model="checkout.message"
+          v-model="message"
           class="ca-checkout-carismar__input"
           :description="$t('CHECKOUT_MESSAGE_FIELD_DESCRIPTION')"
           :label="$t('LABEL_ORDER_MESSAGE')"
@@ -323,7 +323,8 @@ export default {
   data: () => ({
     addShippingAddress: false,
     showSummary: false,
-    loading: false
+    loading: false,
+    message: ''
   }),
   computed: {
     orderConsentChecked() {
@@ -337,6 +338,7 @@ export default {
       }
     }
   },
+  created() {},
   mounted() {},
   methods: {
     placeOrder() {

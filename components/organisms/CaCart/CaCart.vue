@@ -6,6 +6,7 @@
       class="ca-cart__product"
       :item="item"
       :mode="mode"
+      @loading="toggleLoading"
     />
     <CaPromoCode
       v-if="mode !== 'display'"
@@ -50,7 +51,9 @@ export default {
       }
     }
   },
-  data: () => ({}),
+  data: () => ({
+    loading: false
+  }),
   computed: {
     cartItems() {
       return this.cart.items ? this.cart.items : [];
@@ -58,7 +61,13 @@ export default {
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    toggleLoading(loading) {
+      console.log(loading);
+      this.loading = loading;
+      this.$emit('loading', loading);
+    }
+  }
 };
 </script>
 <style lang="scss">

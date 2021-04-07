@@ -1,0 +1,34 @@
+#import "cart/content.graphql"
+#import "user/address.graphql"
+
+mutation createOrUpdateCheckout(
+  $cartId: String!
+  $checkout: CheckoutInputType
+) {
+  createOrUpdateCheckout(cartId: $cartId, checkout: $checkout) {
+    cart {
+      ...Cart
+    }
+    paymentMode
+    shippingMode
+    selectedShipping {
+      fee
+      isDefault
+      name
+    }
+    selectedPayment {
+      fee
+      isDefault
+      name
+    }
+    consents {
+      type
+      checked
+    }
+    email
+    identityNumber
+    billingAddress {
+      ...Address
+    }
+  }
+}

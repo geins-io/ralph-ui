@@ -1,68 +1,84 @@
+import { mapState } from 'vuex';
+import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 // @group Mixins
 // @vuese
+const addressPlaceholder = {
+  firstName: '',
+  lastName: '',
+  careOf: '',
+  addressLine1: '',
+  zip: '',
+  city: '',
+  entryCode: '',
+  mobile: ''
+};
 export default {
   name: 'MixCheckout',
+  apollo: {},
   mixins: [],
   props: {},
   data: () => ({
+    cartLoading: false,
     checkout: {
-      paymentMode: 'Simple',
-      shippingMode: 'Simple',
-      selectedShipping: {
-        shippingId: 1,
-        shippingName: 'BudBee'
-      },
-      selectedPayment: {
-        paymentId: 1,
-        paymentName: 'Manuell faktura'
-      },
-      consents: [
-        {
-          type: 'newsletter',
-          checked: true
-        },
-        {
-          type: 'order',
-          checked: false
-        }
-      ],
+      billingAddress: null,
+      shippingAddres: null,
       email: '',
-      identityNumber: '',
-      message: '',
-      billingAddress: {
-        firstName: '',
-        lastName: '',
-        addressLine1: '',
-        addressLine2: '',
-        careOf: '',
-        city: '',
-        company: '',
-        country: '',
-        entryCode: '',
-        mobile: '',
-        phone: '',
-        state: '',
-        zip: ''
-      },
-      shippingAddress: {
-        firstName: '',
-        lastName: '',
-        addressLine1: '',
-        addressLine2: '',
-        careOf: '',
-        city: '',
-        company: '',
-        country: '',
-        entryCode: '',
-        mobile: '',
-        phone: '',
-        state: '',
-        zip: ''
-      }
+      identityNumber: ''
     }
   }),
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {}
+  computed: {
+    ...mapState(['cart'])
+  },
+  watch: {
+    async 'cart.data'(newVal, oldVal) {
+      console.log('cart data changed');
+      if (
+        await this.$store.dispatch('cart/changed', { new: newVal, old: oldVal })
+      ) {
+        this.createOrUpdateCheckout();
+        console.log('updating checkout because cart has new data');
+      }
+    }
+  },
+  created() {
+    this.checkout.billingAddress = addressPlaceholder;
+  },
+  mounted() {
+    this.createOrUpdateCheckout();
+  },
+  methods: {
+    createOrUpdateCheckout() {
+      console.log('createOrUpdateCheckout');
+      this.$apollo
+        .mutate({
+          mutation: createOrUpdateCheckoutMutation,
+          variables: {
+            cartId: this.$store.getters['cart/id']
+          }
+        })
+        .then(result => {
+          const checkout = result.data.createOrUpdateCheckout;
+          checkout.shippingAddress = addressPlaceholder;
+          if (!checkout.billingAddress) {
+            checkout.billingAddress = addressPlaceholder;
+          }
+          this.checkout = checkout;
+          this.updateCart(checkout.cart);
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    },
+    async updateCart(cart) {
+      if (
+        await this.$store.dispatch('cart/changed', {
+          new: cart,
+          old: this.cart.data
+        })
+      ) {
+        this.$store.dispatch('cart/update', cart);
+      }
+    }
+  }
 };
