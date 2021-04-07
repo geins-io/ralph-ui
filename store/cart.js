@@ -22,8 +22,7 @@ export const actions = {
     commit('setCart', null);
     this.$cookies.remove('ralph-cart');
   },
-  changed(carts) {
-    console.log(carts);
+  changed({ state }, carts) {
     return (
       carts.new.items.length !== carts.old.items.length ||
       carts.new.summary.shipping.shippingFeeIncVat !==

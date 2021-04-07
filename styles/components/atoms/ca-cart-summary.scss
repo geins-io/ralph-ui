@@ -3,6 +3,7 @@
   &__row {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: rem-calc(2px) 0;
     &--total {
       font-size: $font-size-l;
@@ -11,11 +12,19 @@
     }
     &--discounted {
       color: $c-sale;
-      &#{$block}__row--total {
-        #{$block}__label {
-          color: $c-text-primary;
-        }
-      }
     }
+  }
+  &__value {
+    &--free-shipping {
+      font-weight: $font-weight-bold;
+    }
+  }
+  &__amount-left {
+    width: 100%;
+    text-align: right;
+    font-size: $font-size-xs;
+  }
+  &__amount-left-sum {
+    font-weight: $font-weight-bold;
   }
 }

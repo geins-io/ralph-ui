@@ -43,10 +43,13 @@ fragment Cart on CartType {
     subTotal {
       regularPriceIncVatFormatted
       regularPriceExVatFormatted
+      sellingPriceIncVatFormatted
+      sellingPriceExVatFormatted
     }
     shipping {
-      amountLeftToFreeShipping
-      shippingFeeExVat
+      amountLeftToFreeShippingFormatted
+      shippingFeeExVatFormatted
+      shippingFeeIncVatFormatted
       shippingFeeIncVat
     }
     total {

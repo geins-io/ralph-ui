@@ -21,6 +21,7 @@
         <CaCartSummary
           class="ca-display-cart__summary"
           :summary="cart.summary"
+          :simple="true"
         />
         <CaButton type="full-width" size="l" href="checkout">
           {{ $t('CART_TO_CHECKOUT') }}

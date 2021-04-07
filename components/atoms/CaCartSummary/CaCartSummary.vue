@@ -1,22 +1,33 @@
 <template>
   <div class="ca-cart-summary">
-    <div class="ca-cart-summary__row">
-      <span class="ca-cart-summary__label">{{
-        $t('CART_SUMMARY_SUBTOTAL')
-      }}</span>
+    <div
+      v-if="summary.total.isDiscounted && !simple"
+      class="ca-cart-summary__row"
+    >
+      <span class="ca-cart-summary__label">
+        {{ $t('CART_SUMMARY_ORD_PRICE') }}
+      </span>
       <span class="ca-cart-summary__value">
         {{ summary.subTotal.regularPriceIncVatFormatted }}
       </span>
     </div>
     <div
-      v-if="summary.total.isDiscounted"
+      v-if="summary.total.isDiscounted && !simple"
       class="ca-cart-summary__row ca-cart-summary__row--discounted"
     >
-      <span class="ca-cart-summary__label">{{
-        $t('CART_SUMMARY_DISCOUNT')
-      }}</span>
+      <span class="ca-cart-summary__label">
+        {{ $t('CART_SUMMARY_DISCOUNT') }}
+      </span>
       <span class="ca-cart-summary__value">
         - {{ summary.total.discountIncVatFormatted }}
+      </span>
+    </div>
+    <div class="ca-cart-summary__row">
+      <span class="ca-cart-summary__label">
+        {{ $t('CART_SUMMARY_SUBTOTAL') }}
+      </span>
+      <span class="ca-cart-summary__value">
+        {{ summary.subTotal.sellingPriceIncVatFormatted }}
       </span>
     </div>
     <div class="ca-cart-summary__row">
@@ -32,16 +43,17 @@
         {{
           freeShipping
             ? $t('FREE_SHIPPING')
-            : summary.shipping.shippingFeeIncVat
+            : summary.shipping.shippingFeeIncVatFormatted
         }}
       </span>
+      <div v-if="!freeShipping" class="ca-cart-summary__amount-left">
+        <span class="ca-cart-summary__amount-left-sum">
+          {{ summary.shipping.amountLeftToFreeShippingFormatted }}
+        </span>
+        kvar till fri frakt
+      </div>
     </div>
-    <div
-      class="ca-cart-summary__row ca-cart-summary__row--total"
-      :class="{
-        'ca-cart-summary__row--discounted': summary.total.isDiscounted
-      }"
-    >
+    <div class="ca-cart-summary__row ca-cart-summary__row--total">
       <span class="ca-cart-summary__label">{{ $t('CART_TOTAL') }}</span>
       <span class="ca-cart-summary__value">
         {{ summary.total.sellingPriceIncVatFormatted }}
@@ -62,12 +74,21 @@ export default {
     summary: {
       type: Object,
       required: true
+    },
+    simple: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
   computed: {
     freeShipping() {
       return this.summary.shipping.shippingFeeIncVat === 0;
+    },
+    subTotal() {
+      return this.simple
+        ? this.summary.subTotal.sellingPriceIncVatFormatted
+        : this.summary.subTotal.regularPriceIncVatFormatted;
     }
   },
   watch: {},

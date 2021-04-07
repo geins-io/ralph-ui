@@ -20,7 +20,9 @@
       v-if="$store.getters['cart/totalQuantity'] > 0"
       class="ca-mini-cart__value only-computer"
     >
-      {{ $store.getters.getSellingPrice($store.state.cart.data.summary.total) }}
+      {{
+        $store.getters.getSellingPrice($store.state.cart.data.summary.subTotal)
+      }}
     </div>
   </CaClickable>
 </template>

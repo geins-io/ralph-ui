@@ -1,6 +1,7 @@
 .ca-checkout-section {
   $block: &;
   margin-top: $px32;
+
   &__title {
     font-size: $font-size-m;
     font-weight: $font-weight-bold;
@@ -17,7 +18,7 @@
     background: $c-white;
     padding: $px20 $px12;
     position: relative;
-
+    min-height: rem-calc(100px);
     @include bp(tablet) {
       padding: $px32;
     }

@@ -38,7 +38,8 @@ export default {
   computed: {
     modifiers() {
       return {
-        'ca-checkout-section--arrow': this.bottomArrow
+        'ca-checkout-section--arrow': this.bottomArrow,
+        'ca-checkout-section--loading': this.loading
       };
     }
   },

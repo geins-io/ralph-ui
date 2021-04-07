@@ -31,7 +31,6 @@ export default {
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
-      console.log('cart data changed');
       if (
         await this.$store.dispatch('cart/changed', { new: newVal, old: oldVal })
       ) {
@@ -48,7 +47,6 @@ export default {
   },
   methods: {
     createOrUpdateCheckout() {
-      console.log('createOrUpdateCheckout');
       this.$apollo
         .mutate({
           mutation: createOrUpdateCheckoutMutation,
@@ -78,6 +76,7 @@ export default {
         })
       ) {
         this.$store.dispatch('cart/update', cart);
+        console.log('updating cart because checkout cart has new data');
       }
     }
   }
