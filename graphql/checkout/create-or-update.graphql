@@ -10,17 +10,6 @@ mutation createOrUpdateCheckout(
       ...Cart
     }
     paymentMode
-    shippingMode
-    selectedShipping {
-      fee
-      isDefault
-      name
-    }
-    selectedPayment {
-      fee
-      isDefault
-      name
-    }
     consents {
       type
       checked
@@ -28,6 +17,9 @@ mutation createOrUpdateCheckout(
     email
     identityNumber
     billingAddress {
+      ...Address
+    }
+    shippingAddress {
       ...Address
     }
   }

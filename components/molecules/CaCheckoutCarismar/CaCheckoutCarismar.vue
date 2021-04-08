@@ -6,7 +6,7 @@
     <section class="ca-checkout-carismar__section">
       <h3 class="ca-checkout-carismar__title">
         {{
-          addShippingAddress
+          checkoutData.addShippingAddress
             ? $t('BILLING_ADDRESS')
             : $t('CHECKOUT_YOUR_INFORMATION')
         }}
@@ -21,7 +21,7 @@
       >
         <CaInputText
           id="email"
-          v-model="checkout.email"
+          v-model="checkoutData.email"
           class="ca-checkout-carismar__input"
           validate="email"
           autocomplete="email"
@@ -30,7 +30,7 @@
         />
         <CaInputText
           id="phone"
-          v-model="checkout.billingAddress.mobile"
+          v-model="checkoutData.billingAddress.mobile"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="tel"
@@ -41,7 +41,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="identityNumber"
-          v-model="checkout.identityNumber"
+          v-model="checkoutData.identityNumber"
           class="ca-checkout-carismar__input"
           validate="personalId"
           error-message="Ange ett giltigt personnummer"
@@ -53,7 +53,7 @@
       >
         <CaInputText
           id="firstNameBilling"
-          v-model="checkout.billingAddress.firstName"
+          v-model="checkoutData.billingAddress.firstName"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="given-name"
@@ -62,7 +62,7 @@
         />
         <CaInputText
           id="lastNameBilling"
-          v-model="checkout.billingAddress.lastName"
+          v-model="checkoutData.billingAddress.lastName"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="family-name"
@@ -73,7 +73,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="careOfBilling"
-          v-model="checkout.billingAddress.careOf"
+          v-model="checkoutData.billingAddress.careOf"
           class="ca-checkout-carismar__input"
           :required="false"
           :label="$t('LABEL_CARE_OF')"
@@ -82,7 +82,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="addressBilling"
-          v-model="checkout.billingAddress.addressLine1"
+          v-model="checkoutData.billingAddress.addressLine1"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="street-address"
@@ -95,7 +95,7 @@
       >
         <CaInputText
           id="zipBilling"
-          v-model="checkout.billingAddress.zip"
+          v-model="checkoutData.billingAddress.zip"
           validate="empty"
           autocomplete="postal-code"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -104,7 +104,7 @@
         />
         <CaInputText
           id="cityBilling"
-          v-model="checkout.billingAddress.city"
+          v-model="checkoutData.billingAddress.city"
           validate="empty"
           autocomplete="address-level2"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -115,7 +115,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="entryCodeBilling"
-          v-model="checkout.billingAddress.entryCode"
+          v-model="checkoutData.billingAddress.entryCode"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_ENTRY_CODE')"
           :required="false"
@@ -124,7 +124,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputTextarea
           id="message"
-          v-model="message"
+          v-model="checkoutData.message"
           class="ca-checkout-carismar__input"
           :description="$t('CHECKOUT_MESSAGE_FIELD_DESCRIPTION')"
           :label="$t('LABEL_ORDER_MESSAGE')"
@@ -134,18 +134,20 @@
       <div class="ca-checkout-carismar__row">
         <CaInputCheckbox
           id="addShipping"
-          v-model="addShippingAddress"
+          v-model="checkoutData.addShippingAddress"
           :label="$t('CHECKOUT_ADD_SHIPPING_ADDRESS')"
         />
       </div>
     </section>
     <SlideUpDown
-      :active="addShippingAddress"
+      :active="checkoutData.addShippingAddress"
       :duration="200"
       class="ca-checkout-carismar__section ca-checkout-carismar__section--shipping"
       tag="section"
     >
-      <h3 class="ca-checkout-carismar__title">{{ $t('SHIPPING_ADDRESS') }}</h3>
+      <h3 class="ca-checkout-carismar__title">
+        {{ $t('SHIPPING_ADDRESS') }}
+      </h3>
       <p class="ca-checkout-carismar__subtitle">
         {{ $t('CHECKOUT_SUBTITLE_COUNTRY_INFO') }}
         <CaFlag country="se" shape="circle" />
@@ -156,7 +158,7 @@
       >
         <CaInputText
           id="firstNameShipping"
-          v-model="checkout.shippingAddress.firstName"
+          v-model="checkoutData.shippingAddress.firstName"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="given-name"
@@ -165,7 +167,7 @@
         />
         <CaInputText
           id="lastNameShipping"
-          v-model="checkout.shippingAddress.lastName"
+          v-model="checkoutData.shippingAddress.lastName"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="family-name"
@@ -176,7 +178,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="careOfShipping"
-          v-model="checkout.shippingAddress.careOf"
+          v-model="checkoutData.shippingAddress.careOf"
           class="ca-checkout-carismar__input"
           :required="false"
           :label="$t('LABEL_CARE_OF')"
@@ -185,7 +187,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="addressShipping"
-          v-model="checkout.shippingAddress.addressLine1"
+          v-model="checkoutData.shippingAddress.addressLine1"
           class="ca-checkout-carismar__input"
           validate="empty"
           autocomplete="street-address"
@@ -198,7 +200,7 @@
       >
         <CaInputText
           id="zipShipping"
-          v-model="checkout.shippingAddress.zip"
+          v-model="checkoutData.shippingAddress.zip"
           validate="empty"
           autocomplete="postal-code"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -207,7 +209,7 @@
         />
         <CaInputText
           id="cityShipping"
-          v-model="checkout.shippingAddress.city"
+          v-model="checkoutData.shippingAddress.city"
           validate="empty"
           autocomplete="address-level2"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -218,7 +220,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="entryCodeShipping"
-          v-model="checkout.shippingAddress.entryCode"
+          v-model="checkoutData.shippingAddress.entryCode"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_ENTRY_CODE')"
           :required="false"
@@ -321,17 +323,70 @@ export default {
     }
   },
   data: () => ({
-    addShippingAddress: false,
     showSummary: false,
     loading: false,
-    message: ''
+    changeTimeout: null,
+    checkoutData: {
+      shippingAddress: {
+        firstName: '',
+        lastName: '',
+        careOf: '',
+        addressLine1: '',
+        zip: '',
+        city: '',
+        entryCode: '',
+        mobile: '',
+        country: 'Sweden'
+      },
+      billingAddress: {
+        firstName: '',
+        lastName: '',
+        careOf: '',
+        addressLine1: '',
+        zip: '',
+        city: '',
+        entryCode: '',
+        mobile: '',
+        country: 'Sweden'
+      },
+      email: '',
+      identityNumber: '',
+      message: '',
+      addShippingAddress: false
+    }
   }),
   computed: {
     orderConsentChecked() {
-      return this.checkout.consents.find(i => i.type === 'order').checked;
+      return this.checkout.consents?.find(i => i.type === 'order').checked;
     }
   },
   watch: {
+    checkout: {
+      deep: true,
+      handler(val) {
+        if (val.billingAddress) {
+          this.checkoutData.billingAddress = val.billingAddress;
+        }
+        if (val.shippingAddress) {
+          this.checkoutData.shippingAddress = val.shippingAddress;
+        }
+        if (val.email) {
+          this.checkoutData.email = val.email;
+        }
+        if (val.identityNumber) {
+          this.checkoutData.identityNumber = val.identityNumber;
+        }
+      }
+    },
+    checkoutData: {
+      deep: true,
+      handler(val) {
+        clearTimeout(this.changeTimeout);
+        this.changeTimeout = setTimeout(() => {
+          this.$emit('update', val);
+        }, 1000);
+      }
+    },
     orderConsentChecked(val) {
       if (val) {
         this.$refs.feedback.hide();

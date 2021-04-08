@@ -5,7 +5,7 @@
       class="ca-cart-summary__row"
     >
       <span class="ca-cart-summary__label">
-        {{ $t('CART_SUMMARY_ORD_PRICE') }}
+        {{ $t('CART_SUMMARY_REGULAR_PRICE') }}
       </span>
       <span class="ca-cart-summary__value">
         {{ summary.subTotal.regularPriceIncVatFormatted }}
@@ -43,14 +43,14 @@
         {{
           freeShipping
             ? $t('FREE_SHIPPING')
-            : summary.shipping.shippingFeeIncVatFormatted
+            : summary.shipping.feeIncVatFormatted
         }}
       </span>
       <div v-if="!freeShipping" class="ca-cart-summary__amount-left">
         <span class="ca-cart-summary__amount-left-sum">
           {{ summary.shipping.amountLeftToFreeShippingFormatted }}
         </span>
-        kvar till fri frakt
+        {{ $t('CART_SUMMARY_LEFT_TO_FREE_SHIPPING') }}
       </div>
     </div>
     <div class="ca-cart-summary__row ca-cart-summary__row--total">
@@ -83,12 +83,7 @@ export default {
   data: () => ({}),
   computed: {
     freeShipping() {
-      return this.summary.shipping.shippingFeeIncVat === 0;
-    },
-    subTotal() {
-      return this.simple
-        ? this.summary.subTotal.sellingPriceIncVatFormatted
-        : this.summary.subTotal.regularPriceIncVatFormatted;
+      return this.summary.shipping.feeIncVat === 0;
     }
   },
   watch: {},

@@ -48,9 +48,9 @@ fragment Cart on CartType {
     }
     shipping {
       amountLeftToFreeShippingFormatted
-      shippingFeeExVatFormatted
-      shippingFeeIncVatFormatted
-      shippingFeeIncVat
+      feeExVatFormatted
+      feeIncVatFormatted
+      feeIncVat
     }
     total {
       isDiscounted
