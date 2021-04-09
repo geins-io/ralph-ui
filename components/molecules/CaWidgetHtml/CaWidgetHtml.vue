@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="ca-widget-html">
-    <div
+    <CaHtml
       v-if="configuration.html"
-      class="ca-widget-html__content"
-      v-html="configuration.html"
-    ></div>
+      :content="configuration.html"
+      :styled="false"
+    />
     <style v-if="configuration.css" v-html="configuration.css"></style>
   </div>
 </template>
