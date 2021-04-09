@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="ca-widget-text" :class="textAlignmentClass">
     <component
@@ -15,11 +14,11 @@
     >
       {{ configuration.subtitle }}
     </component>
-    <div
+    <CaHtml
       v-if="configuration.text"
       class="ca-widget-text__body"
-      v-html="configuration.text"
-    ></div>
+      :content="configuration.text"
+    />
   </div>
 </template>
 <script>
