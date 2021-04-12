@@ -28,6 +28,7 @@
           autocomplete="email"
           :error-message="$t('EMAIL_ERROR_NOT_VALID')"
           :label="$t('EMAIL')"
+          @validation="checkValid"
         />
         <CaInputText
           id="phone"
@@ -38,6 +39,7 @@
           autocomplete="tel"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_PHONE_NUMBER')"
+          @validation="checkValid"
         />
       </div>
       <div class="ca-checkout-carismar__row">
@@ -49,6 +51,7 @@
           validate="personalId"
           error-message="Du måste ange ett giltigt personnummer"
           :label="$t('LABEL_PERSONAL_ID')"
+          @validation="checkValid"
         />
       </div>
       <div
@@ -63,6 +66,7 @@
           autocomplete="given-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_FIRST_NAME')"
+          @validation="checkValid"
         />
         <CaInputText
           id="lastNameBilling"
@@ -73,6 +77,7 @@
           autocomplete="family-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_LAST_NAME')"
+          @validation="checkValid"
         />
       </div>
       <div class="ca-checkout-carismar__row">
@@ -94,6 +99,7 @@
           autocomplete="street-address"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_ADDRESS')"
+          @validation="checkValid"
         />
       </div>
       <div
@@ -108,6 +114,7 @@
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_ZIP')"
+          @validation="checkValid"
         />
         <CaInputText
           id="cityBilling"
@@ -118,6 +125,7 @@
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_CITY')"
+          @validation="checkValid"
         />
       </div>
       <div class="ca-checkout-carismar__row">
@@ -173,6 +181,7 @@
           autocomplete="given-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_FIRST_NAME')"
+          @validation="checkValid"
         />
         <CaInputText
           id="lastNameShipping"
@@ -183,6 +192,7 @@
           autocomplete="family-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_LAST_NAME')"
+          @validation="checkValid"
         />
       </div>
       <div class="ca-checkout-carismar__row">
@@ -204,6 +214,7 @@
           autocomplete="street-address"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_ADDRESS')"
+          @validation="checkValid"
         />
       </div>
       <div
@@ -218,6 +229,7 @@
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_ZIP')"
+          @validation="checkValid"
         />
         <CaInputText
           id="cityShipping"
@@ -228,6 +240,7 @@
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           class="ca-checkout-carismar__input"
           :label="$t('LABEL_CITY')"
+          @validation="checkValid"
         />
       </div>
       <div class="ca-checkout-carismar__row">
@@ -406,8 +419,8 @@ export default {
       const allFieldsValid = this.validateAllFields();
       if (!allFieldsValid || !this.orderConsentChecked) {
         this.feedbackMessage = !allFieldsValid
-          ? 'Se till att alla fält är korrekt ifyllda'
-          : 'Du måste godkänna köpvillkoren innan du slutför ditt köp';
+          ? this.$t('CHECKOUT_FEEDBACK_FIELDS_NOT_VALID')
+          : this.$t('CHECKOUT_FEEDBACK_TERMS_NOT_ACCEPTED');
         this.$refs.feedback.show();
       } else {
         this.loading = true;
@@ -426,6 +439,13 @@ export default {
       }
       if (data.identityNumber) {
         this.checkoutData.identityNumber = data.identityNumber;
+      }
+    },
+    // @vuese
+    // Used to hide feedback if field becomes valid after error
+    checkValid(valid) {
+      if (valid) {
+        this.$refs.feedback.hide();
       }
     },
     validateAllFields() {
