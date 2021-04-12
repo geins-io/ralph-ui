@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
+import placeOrderMutation from 'checkout/place-order.graphql';
 // @group Mixins
 // @vuese
 export default {
@@ -9,8 +10,9 @@ export default {
   props: {},
   data: () => ({
     cartLoading: false,
+    checkoutLoading: false,
     checkout: {},
-    desiredDeliveryDate: null,
+    desiredDeliveryDate: new Date('2021-04-26'),
     message: ''
   }),
   computed: {
@@ -27,6 +29,7 @@ export default {
       const obj = {};
       if (this.checkout.billingAddress) {
         obj.billingAddress = this.checkout.billingAddress;
+        delete obj.billingAddress.__typename;
       }
       if (this.checkout.email) {
         obj.email = this.checkout.email;
@@ -45,6 +48,7 @@ export default {
         this.checkout.shippingAddress.addressLine1 !== ''
       ) {
         obj.shippingAddress = this.checkout.shippingAddress;
+        delete obj.shippingAddress.__typename;
       }
       if (this.desiredDeliveryDate) {
         obj.desiredDeliveryDate = this.desiredDeliveryDate;
@@ -67,6 +71,7 @@ export default {
   },
   methods: {
     createOrUpdateCheckout() {
+      this.checkoutLoading = true;
       const vars = {
         cartId: this.$store.getters['cart/id']
       };
@@ -81,6 +86,7 @@ export default {
         .then(result => {
           this.checkout = result.data.createOrUpdateCheckout;
           this.updateCart(this.checkout.cart);
+          this.checkoutLoading = false;
         })
         .catch(error => {
           // eslint-disable-next-line no-console
@@ -105,6 +111,32 @@ export default {
       this.checkout.shippingAddress = data.addShippingAddress
         ? data.shippingAddress
         : null;
+    },
+    placeOrder() {
+      this.$apollo
+        .mutate({
+          mutation: placeOrderMutation,
+          variables: {
+            cartId: this.$store.getters['cart/id'],
+            checkout: this.checkoutInput
+          }
+        })
+        .then(result => {
+          if (result.data.placeOrder.status === 'completed') {
+            const confirmUrl =
+              '/checkout/confirm?cid=' +
+              this.$store.getters['cart/id'] +
+              '&oid=' +
+              result.data.placeOrder.orderId +
+              '&email=' +
+              this.checkout.email;
+            this.$router.push(confirmUrl);
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
     }
   }
 };

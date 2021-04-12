@@ -46,7 +46,10 @@
             : summary.shipping.feeIncVatFormatted
         }}
       </span>
-      <div v-if="!freeShipping" class="ca-cart-summary__amount-left">
+      <div
+        v-if="!freeShipping && !display"
+        class="ca-cart-summary__amount-left"
+      >
         <span class="ca-cart-summary__amount-left-sum">
           {{ summary.shipping.amountLeftToFreeShippingFormatted }}
         </span>
@@ -76,6 +79,10 @@ export default {
       required: true
     },
     simple: {
+      type: Boolean,
+      default: false
+    },
+    display: {
       type: Boolean,
       default: false
     }

@@ -21,6 +21,7 @@
       >
         <CaInputText
           id="email"
+          ref="email"
           v-model="checkoutData.email"
           class="ca-checkout-carismar__input"
           validate="email"
@@ -30,6 +31,7 @@
         />
         <CaInputText
           id="phone"
+          ref="phone"
           v-model="checkoutData.billingAddress.mobile"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -41,10 +43,11 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="identityNumber"
+          ref="identityNumber"
           v-model="checkoutData.identityNumber"
           class="ca-checkout-carismar__input"
           validate="personalId"
-          error-message="Ange ett giltigt personnummer"
+          error-message="Du måste ange ett giltigt personnummer"
           :label="$t('LABEL_PERSONAL_ID')"
         />
       </div>
@@ -53,6 +56,7 @@
       >
         <CaInputText
           id="firstNameBilling"
+          ref="firstNameBilling"
           v-model="checkoutData.billingAddress.firstName"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -62,6 +66,7 @@
         />
         <CaInputText
           id="lastNameBilling"
+          ref="lastNameBilling"
           v-model="checkoutData.billingAddress.lastName"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -82,6 +87,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="addressBilling"
+          ref="addressBilling"
           v-model="checkoutData.billingAddress.addressLine1"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -95,6 +101,7 @@
       >
         <CaInputText
           id="zipBilling"
+          ref="zipBilling"
           v-model="checkoutData.billingAddress.zip"
           validate="empty"
           autocomplete="postal-code"
@@ -104,6 +111,7 @@
         />
         <CaInputText
           id="cityBilling"
+          ref="cityBilling"
           v-model="checkoutData.billingAddress.city"
           validate="empty"
           autocomplete="address-level2"
@@ -158,6 +166,7 @@
       >
         <CaInputText
           id="firstNameShipping"
+          ref="firstNameShipping"
           v-model="checkoutData.shippingAddress.firstName"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -167,6 +176,7 @@
         />
         <CaInputText
           id="lastNameShipping"
+          ref="lastNameShipping"
           v-model="checkoutData.shippingAddress.lastName"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -187,6 +197,7 @@
       <div class="ca-checkout-carismar__row">
         <CaInputText
           id="addressShipping"
+          ref="addressShipping"
           v-model="checkoutData.shippingAddress.addressLine1"
           class="ca-checkout-carismar__input"
           validate="empty"
@@ -200,6 +211,7 @@
       >
         <CaInputText
           id="zipShipping"
+          ref="zipShipping"
           v-model="checkoutData.shippingAddress.zip"
           validate="empty"
           autocomplete="postal-code"
@@ -209,6 +221,7 @@
         />
         <CaInputText
           id="cityShipping"
+          ref="cityShipping"
           v-model="checkoutData.shippingAddress.city"
           validate="empty"
           autocomplete="address-level2"
@@ -251,8 +264,9 @@
             class="ca-checkout-carismar__consent-link"
             href="/kopvillkor"
             target="_blank"
-            >{{ $t('CHECKOUT_TERMS') }}</a
           >
+            {{ $t('CHECKOUT_TERMS') }}
+          </a>
         </i18n>
         <span v-else class="ca-input-checkbox__label">
           {{ $t('CHECKOUT_CONSENT_' + consent.type.toUpperCase()) }}
@@ -266,7 +280,7 @@
         ref="feedback"
         class="ca-checkout-carismar__feedback"
         type="error"
-        message="Du måste godkänna köpvillkoren innan du slutför ditt köp"
+        :message="feedbackMessage"
       />
       <div class="ca-checkout-carismar__total">
         {{ $t('CHECKOUT_TOTAL') }}:
@@ -326,6 +340,7 @@ export default {
     showSummary: false,
     loading: false,
     changeTimeout: null,
+    feedbackMessage: '',
     checkoutData: {
       shippingAddress: {
         firstName: '',
@@ -364,18 +379,7 @@ export default {
     checkout: {
       deep: true,
       handler(val) {
-        if (val.billingAddress) {
-          this.checkoutData.billingAddress = val.billingAddress;
-        }
-        if (val.shippingAddress) {
-          this.checkoutData.shippingAddress = val.shippingAddress;
-        }
-        if (val.email) {
-          this.checkoutData.email = val.email;
-        }
-        if (val.identityNumber) {
-          this.checkoutData.identityNumber = val.identityNumber;
-        }
+        this.updateCheckoutData(val);
       }
     },
     checkoutData: {
@@ -394,14 +398,64 @@ export default {
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.updateCheckoutData(this.checkout);
+  },
   methods: {
     placeOrder() {
-      this.loading = true;
-      if (!this.orderConsentChecked) {
-        this.loading = false;
+      const allFieldsValid = this.validateAllFields();
+      if (!allFieldsValid || !this.orderConsentChecked) {
+        this.feedbackMessage = !allFieldsValid
+          ? 'Se till att alla fält är korrekt ifyllda'
+          : 'Du måste godkänna köpvillkoren innan du slutför ditt köp';
         this.$refs.feedback.show();
       } else {
+        this.loading = true;
+        this.$emit('place-order');
+      }
+    },
+    updateCheckoutData(data) {
+      if (data.billingAddress) {
+        this.checkoutData.billingAddress = data.billingAddress;
+      }
+      if (data.shippingAddress) {
+        this.checkoutData.shippingAddress = data.shippingAddress;
+      }
+      if (data.email) {
+        this.checkoutData.email = data.email;
+      }
+      if (data.identityNumber) {
+        this.checkoutData.identityNumber = data.identityNumber;
+      }
+    },
+    validateAllFields() {
+      if (
+        this.$refs.email.validateInput() &&
+        this.$refs.phone.validateInput() &&
+        this.$refs.identityNumber.validateInput() &&
+        this.$refs.firstNameBilling.validateInput() &&
+        this.$refs.lastNameBilling.validateInput() &&
+        this.$refs.addressBilling.validateInput() &&
+        this.$refs.zipBilling.validateInput() &&
+        this.$refs.cityBilling.validateInput()
+      ) {
+        if (this.checkoutData.addShippingAddress) {
+          if (
+            this.$refs.firstNameShipping.validateInput() &&
+            this.$refs.lastNameShipping.validateInput() &&
+            this.$refs.addressShipping.validateInput() &&
+            this.$refs.zipShipping.validateInput() &&
+            this.$refs.cityShipping.validateInput()
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return true;
+        }
+      } else {
+        return false;
       }
     }
   }

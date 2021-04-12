@@ -20,7 +20,11 @@
         :campaigns="cart.appliedCampaigns"
         display="box"
       />
-      <CaCartSummary class="ca-cart__total" :summary="cart.summary" />
+      <CaCartSummary
+        class="ca-cart__total"
+        :summary="cart.summary"
+        :display="mode === 'display'"
+      />
     </div>
   </div>
   <div v-else class="ca-cart ca-cart--empty">
@@ -63,7 +67,6 @@ export default {
   mounted() {},
   methods: {
     toggleLoading(loading) {
-      console.log(loading);
       this.loading = loading;
       this.$emit('loading', loading);
     }
