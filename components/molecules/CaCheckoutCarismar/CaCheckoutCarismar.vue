@@ -42,14 +42,17 @@
           @validation="checkValid"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div
+        v-if="$config.checkout.identityNumber"
+        class="ca-checkout-carismar__row"
+      >
         <CaInputText
           id="identityNumber"
           ref="identityNumber"
           v-model="checkoutData.identityNumber"
           class="ca-checkout-carismar__input"
           validate="personalId"
-          error-message="Du måste ange ett giltigt personnummer"
+          :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
           :label="$t('LABEL_PERSONAL_ID')"
           @validation="checkValid"
         />
@@ -128,7 +131,7 @@
           @validation="checkValid"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.entryCode" class="ca-checkout-carismar__row">
         <CaInputText
           id="entryCodeBilling"
           v-model="checkoutData.billingAddress.entryCode"
@@ -137,7 +140,7 @@
           :required="false"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.message" class="ca-checkout-carismar__row">
         <CaInputTextarea
           id="message"
           v-model="checkoutData.message"
@@ -147,7 +150,10 @@
           :required="false"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div
+        v-if="$config.checkout.shippingAddress"
+        class="ca-checkout-carismar__row"
+      >
         <CaInputCheckbox
           id="addShipping"
           v-model="checkoutData.addShippingAddress"
@@ -243,7 +249,7 @@
           @validation="checkValid"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.entryCode" class="ca-checkout-carismar__row">
         <CaInputText
           id="entryCodeShipping"
           v-model="checkoutData.shippingAddress.entryCode"

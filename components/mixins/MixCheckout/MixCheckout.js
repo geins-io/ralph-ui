@@ -12,7 +12,7 @@ export default {
     cartLoading: false,
     checkoutLoading: false,
     checkout: {},
-    desiredDeliveryDate: new Date('2021-04-26'),
+    desiredDeliveryDate: null,
     message: ''
   }),
   computed: {
