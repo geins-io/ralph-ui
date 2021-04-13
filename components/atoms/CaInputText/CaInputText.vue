@@ -236,8 +236,8 @@ export default {
       } else return true;
     },
     // @vuese
-    // Used by `validateInput` to validate Swedish personal ID's
-    // @arg email (String)
+    // Used by `validateInput` to validate Swedish personal ID's (Source: https://gist.github.com/peppelorum/5856691)
+    // @arg identityNumber (String)
     validatePersonalId(identityNumber) {
       let id = identityNumber;
       const regEx = /^(\d{2})(\d{2})(\d{2})-(\d{4})|(\d{4})(\d{2})(\d{2})-(\d{4})$/;

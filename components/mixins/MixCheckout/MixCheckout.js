@@ -3,6 +3,13 @@ import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 // @group Mixins
 // @vuese
+// All functionality for the checkout
+// **Data:**<br>
+// cartLoading: `false`<br>
+// checkoutLoading: `false`<br>
+// checkout: `{}`<br>
+// desiredDeliveryDate: `null`<br>
+// message: `''`
 export default {
   name: 'MixCheckout',
   apollo: {},
@@ -16,15 +23,15 @@ export default {
     message: ''
   }),
   computed: {
-    singleShippingOption() {
-      return this.checkout.shippingMode === 'SIMPLE';
-    },
-    singlePaymentOption() {
-      return this.checkout.paymentMode === 'SIMPLE';
-    },
+    // @vuese
+    // A list of accepted consents
+    // @type Array
     acceptedConsents() {
       return this.checkout.consents?.filter(i => i.checked).map(i => i.type);
     },
+    // @vuese
+    // The checkout input object prepared for the API
+    // @type Object
     checkoutInput() {
       const obj = {};
       if (this.checkout.billingAddress) {
@@ -70,6 +77,8 @@ export default {
     this.createOrUpdateCheckout();
   },
   methods: {
+    // @vuese
+    // Handling the api call for creating an updating the checkout session
     createOrUpdateCheckout() {
       this.checkoutLoading = true;
       const vars = {
@@ -93,6 +102,9 @@ export default {
           console.log(error);
         });
     },
+    // @vuese
+    // Updating the cart if the cart is different from the existing cart
+    // @arg cart (Object)
     async updateCart(cart) {
       if (
         await this.$store.dispatch('cart/changed', {
@@ -103,6 +115,9 @@ export default {
         this.$store.dispatch('cart/update', cart);
       }
     },
+    // @vuese
+    // Updating the checkout data received from Carismar Checkout
+    // @arg data (Object)
     updateCheckoutData(data) {
       this.checkout.billingAddress = data.billingAddress;
       this.checkout.email = data.email;
@@ -112,6 +127,8 @@ export default {
         ? data.shippingAddress
         : null;
     },
+    // @vuese
+    // Placing the order and redirecting to confirm page if completed
     placeOrder() {
       this.$apollo
         .mutate({
@@ -131,6 +148,8 @@ export default {
               '&email=' +
               this.checkout.email;
             this.$router.push(confirmUrl);
+          } else {
+            this.$refs.checkoutCarismar.showErrorFeedback();
           }
         })
         .catch(error => {

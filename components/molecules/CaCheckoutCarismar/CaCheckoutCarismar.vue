@@ -341,7 +341,7 @@
 <script>
 // @group Molecules
 // @vuese
-// The Carismar checkout frame. Used for paying with manual invoice or external payment options<br><br>
+// The Carismar Checkout frame. Used for paying with manual invoice or external payment options<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
 import SlideUpDown from 'vue-slide-up-down';
 export default {
@@ -390,6 +390,9 @@ export default {
     }
   }),
   computed: {
+    // @vuese
+    // Is the order consent checked?
+    // @type Boolean
     orderConsentChecked() {
       return this.checkout.consents?.find(i => i.type === 'order').checked;
     }
@@ -406,6 +409,8 @@ export default {
       handler(val) {
         clearTimeout(this.changeTimeout);
         this.changeTimeout = setTimeout(() => {
+          // Data has changed
+          // @arg The checkout data (Object)
           this.$emit('update', val);
         }, 1000);
       }
@@ -421,6 +426,8 @@ export default {
     this.updateCheckoutData(this.checkout);
   },
   methods: {
+    // @vuese
+    // Validate all fields and emit the place-order event if valid
     placeOrder() {
       const allFieldsValid = this.validateAllFields();
       if (!allFieldsValid || !this.orderConsentChecked) {
@@ -430,9 +437,13 @@ export default {
         this.$refs.feedback.show();
       } else {
         this.loading = true;
+        // All fields are valid and the order can be placed
         this.$emit('place-order');
       }
     },
+    // @vuese
+    // Update the internal checkoutData object with data from the api
+    // @arg data (Object)
     updateCheckoutData(data) {
       if (data.billingAddress) {
         this.checkoutData.billingAddress = data.billingAddress;
@@ -449,11 +460,14 @@ export default {
     },
     // @vuese
     // Used to hide feedback if field becomes valid after error
+    // @arg valid (Boolean)
     checkValid(valid) {
       if (valid) {
         this.$refs.feedback.hide();
       }
     },
+    // @vuese
+    // Validating all input fields
     validateAllFields() {
       if (
         this.$refs.email.validateInput() &&
@@ -483,6 +497,13 @@ export default {
       } else {
         return false;
       }
+    },
+    // @vuese
+    // Show generic error
+    showErrorFeedback() {
+      this.loading = false;
+      this.feedbackMessage = this.$t('FEEDBACK_ERROR');
+      this.$refs.feedback.show();
     }
   }
 };

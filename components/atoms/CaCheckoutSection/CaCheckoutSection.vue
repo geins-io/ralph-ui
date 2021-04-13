@@ -29,6 +29,7 @@ export default {
       type: Boolean,
       default: true
     },
+    // Is the section loading?
     loading: {
       type: Boolean,
       default: false

@@ -68,6 +68,7 @@ export default {
   methods: {
     toggleLoading(loading) {
       this.loading = loading;
+      // Emits true when loading starts and false when loading ends
       this.$emit('loading', loading);
     }
   }

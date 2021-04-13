@@ -8,6 +8,7 @@ Used to wrap a section on the checkout page. Used for both the cart and the diff
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |bottomArrow|Shows an arrow at the bottom of the box|`Boolean`|`false`|true|
+|loading|Is the section loading?|`Boolean`|`false`|false|
 
 <!-- @vuese:CaCheckoutSection:props:end -->
 

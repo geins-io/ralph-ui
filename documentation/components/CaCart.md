@@ -13,3 +13,13 @@ Displaying the products in the cart, discount code field and cart summary<br><br
 <!-- @vuese:CaCart:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaCart:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|loading|Emits true when loading starts and false when loading ends|-|
+
+<!-- @vuese:CaCart:events:end -->
+
+

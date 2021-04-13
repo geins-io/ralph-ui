@@ -25,3 +25,13 @@ Checkbox input, use v-model to bind value<br><br> **SASS-path:** _./styles/compo
 <!-- @vuese:CaInputCheckbox:events:end -->
 
 
+## Slots
+
+<!-- @vuese:CaInputCheckbox:slots:start -->
+|Name|Description|Default Slot Content|
+|---|---|---|
+|default|-|-|
+
+<!-- @vuese:CaInputCheckbox:slots:end -->
+
+

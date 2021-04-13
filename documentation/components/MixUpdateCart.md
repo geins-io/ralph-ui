@@ -2,6 +2,16 @@
 
 Function to update the current cart
 
+## Events
+
+<!-- @vuese:MixUpdateCart:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|loading|-|-|
+
+<!-- @vuese:MixUpdateCart:events:end -->
+
+
 ## Methods
 
 <!-- @vuese:MixUpdateCart:methods:start -->

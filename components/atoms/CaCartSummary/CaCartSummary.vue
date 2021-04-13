@@ -78,10 +78,12 @@ export default {
       type: Object,
       required: true
     },
+    // A simpler version of the summary, only showing shipping and total
     simple: {
       type: Boolean,
       default: false
     },
+    // Is this in a cart with display mode?
     display: {
       type: Boolean,
       default: false
