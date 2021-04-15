@@ -1,0 +1,7 @@
+mutation placeOrder($cartId: String!, $checkout: CheckoutInputType!) {
+  placeOrder(cartId: $cartId, checkout: $checkout) {
+    orderId
+    redirectUrl
+    status
+  }
+}

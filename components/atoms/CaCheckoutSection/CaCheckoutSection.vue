@@ -7,6 +7,11 @@
     <div class="ca-checkout-section__content">
       <!-- Content of the section -->
       <slot></slot>
+      <transition name="fade">
+        <div v-if="loading" class="ca-checkout-section__loading">
+          <CaSpinner class="ca-checkout-section__spinner" :loading="true" />
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -23,13 +28,19 @@ export default {
     bottomArrow: {
       type: Boolean,
       default: true
+    },
+    // Is the section loading?
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'ca-checkout-section--arrow': this.bottomArrow
+        'ca-checkout-section--arrow': this.bottomArrow,
+        'ca-checkout-section--loading': this.loading
       };
     }
   },

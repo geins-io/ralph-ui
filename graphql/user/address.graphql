@@ -4,9 +4,9 @@ fragment Address on AddressType {
   careOf
   addressLine1
   addressLine2
-  addressLine3
   zip
   city
   country
+  entryCode
   mobile
 }

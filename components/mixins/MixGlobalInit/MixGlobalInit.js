@@ -9,6 +9,7 @@ export default {
   apollo: {
     getCart: {
       query: getCartQuery,
+      fetchPolicy: 'no-cache',
       variables() {
         return {
           id: this.$store.getters['cart/id']

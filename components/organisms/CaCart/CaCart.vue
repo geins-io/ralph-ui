@@ -6,6 +6,7 @@
       class="ca-cart__product"
       :item="item"
       :mode="mode"
+      @loading="toggleLoading"
     />
     <CaPromoCode
       v-if="mode !== 'display'"
@@ -19,7 +20,11 @@
         :campaigns="cart.appliedCampaigns"
         display="box"
       />
-      <CaCartTotal class="ca-cart__total" :cart-total="cart.summary.total" />
+      <CaCartSummary
+        class="ca-cart__total"
+        :summary="cart.summary"
+        :display="mode === 'display'"
+      />
     </div>
   </div>
   <div v-else class="ca-cart ca-cart--empty">
@@ -50,7 +55,9 @@ export default {
       }
     }
   },
-  data: () => ({}),
+  data: () => ({
+    loading: false
+  }),
   computed: {
     cartItems() {
       return this.cart.items ? this.cart.items : [];
@@ -58,7 +65,13 @@ export default {
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    toggleLoading(loading) {
+      this.loading = loading;
+      // Emits true when loading starts and false when loading ends
+      this.$emit('loading', loading);
+    }
+  }
 };
 </script>
 <style lang="scss">

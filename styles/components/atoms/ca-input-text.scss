@@ -30,6 +30,7 @@
     font-size: 0.8em;
     margin-left: 2px;
     transition: inherit;
+    color: $c-text-secondary;
   }
 
   &__input {
@@ -70,6 +71,7 @@
   &__help-text {
     font-size: $font-size-xs;
     padding: $px4 0 0 $px16;
+    color: $c-text-secondary;
     &--error {
       color: $c-error;
     }

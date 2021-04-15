@@ -29,6 +29,7 @@
     font-size: 0.8em;
     margin-left: 2px;
     font-weight: $font-weight-normal;
+    color: $c-text-secondary;
   }
 
   &__textarea {
@@ -40,7 +41,7 @@
     background: transparent;
     outline: none;
     font-size: $font-size-s;
-    padding: $px10 $px16;
+    padding: $px16;
     border-radius: $input-border-radius;
     line-height: $body-line-height;
     &:focus-visible {
@@ -57,6 +58,7 @@
   &__help-text {
     font-size: $font-size-xs;
     padding: $px4 0 0 $px16;
+    color: $c-text-secondary;
     &--error {
       color: $c-error;
     }

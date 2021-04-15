@@ -1,6 +1,7 @@
 .ca-checkout-section {
   $block: &;
   margin-top: $px32;
+
   &__title {
     font-size: $font-size-m;
     font-weight: $font-weight-bold;
@@ -17,11 +18,28 @@
     background: $c-white;
     padding: $px20 $px12;
     position: relative;
-
+    min-height: rem-calc(100px);
     @include bp(tablet) {
       padding: $px32;
     }
   }
+  &__loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    @include flex-calign;
+  }
+  &__spinner.ca-spinner {
+    border-color: $c-accent-color;
+    width: 30px;
+    height: 30px;
+  }
+
   &--arrow #{$block}__content::after {
     content: '';
     display: block;

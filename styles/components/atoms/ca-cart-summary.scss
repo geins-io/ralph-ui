@@ -1,0 +1,30 @@
+.ca-cart-summary {
+  $block: &;
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: rem-calc(2px) 0;
+    &--total {
+      font-size: $font-size-l;
+      font-weight: $font-weight-bold;
+      padding: rem-calc(6px) 0;
+    }
+    &--discounted {
+      color: $c-sale;
+    }
+  }
+  &__value {
+    &--free-shipping {
+      font-weight: $font-weight-bold;
+    }
+  }
+  &__amount-left {
+    width: 100%;
+    text-align: right;
+    font-size: $font-size-xs;
+  }
+  &__amount-left-sum {
+    font-weight: $font-weight-bold;
+  }
+}

@@ -19,7 +19,7 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |id|Id of field, also used as name|`String`|`false`|-|
 |valid|Used to handle validation outside input scope|`Boolean`|`false`|true|
 |errorMessage|What error text should be displayed if field not vaild|`String`|`false`|null|
-|validate|Set to use built in validation|`email`, `passwordStrength`, `passwordMatch`, `empty`|`false`|-|
+|validate|Set to use built in validation|`email`, `passwordStrength`, `passwordMatch`, `personalId`, `empty`|`false`|-|
 |passwordToMatch|The password to match if using the `passwordMatch` validation|`String`|`false`|-|
 
 <!-- @vuese:CaInputText:props:end -->
@@ -43,6 +43,7 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |---|---|---|
 |validateInput|Validate input, sets `fieldValid` and returns bool|-|
 |validateEmail|Used by `validateInput` to validate email address|email (String)|
+|validatePersonalId|Used by `validateInput` to validate Swedish personal ID's (Source: https://gist.github.com/peppelorum/5856691)|identityNumber (String)|
 |validateIfError|Validates field instantly if not valid, used on keyup|-|
 |blurHandler|Controls what happens on field blur|-|
 |togglePasswordVisible|Toggle field type for password|-|

@@ -21,6 +21,15 @@ export const actions = {
   reset({ commit }) {
     commit('setCart', null);
     this.$cookies.remove('ralph-cart');
+  },
+  changed({ state }, carts) {
+    return (
+      carts.new.items.length !== carts.old.items.length ||
+      carts.new.summary.shipping.shippingFeeIncVat !==
+        carts.old.summary.shipping.shippingFeeIncVat ||
+      carts.new.summary.total.sellingPriceIncVatFormatted !==
+        carts.old.summary.total.sellingPriceIncVatFormatted
+    );
   }
 };
 
