@@ -44,8 +44,8 @@ export default {
       if (this.checkout.identityNumber) {
         obj.identityNumber = this.checkout.identityNumber;
       }
-      if (this.checkout.message) {
-        obj.message = this.checkout.message;
+      if (this.orderMessage) {
+        obj.message = this.orderMessage;
       }
       if (this.acceptedConsents?.length) {
         obj.acceptedConsents = this.acceptedConsents;
@@ -61,6 +61,12 @@ export default {
         obj.desiredDeliveryDate = this.desiredDeliveryDate;
       }
       return obj;
+    },
+    // @vuese
+    // This is the message that gets sent to the api. Override this if more than just the user inputted message should go in there
+    // @type String
+    orderMessage() {
+      return this.message;
     },
     ...mapState(['cart'])
   },
