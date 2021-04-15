@@ -17,6 +17,12 @@ fragment Cart on CartType {
       appliedCampaigns {
         name
       }
+      prices {
+        price {
+          ...Price
+        }
+        quantity
+      }
     }
     unitPrice {
       sellingPriceIncVat
@@ -39,7 +45,6 @@ fragment Cart on CartType {
       }
     }
     quantity
-    skuQuantity
     skuId
     totalPrice {
       ...Price

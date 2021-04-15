@@ -33,8 +33,31 @@
           :name="product.name"
           name-tag="h3"
         />
-        <CaPrice class="ca-cart-product__price" :price="item.unitPrice" />
         <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
+        <ul
+          v-if="item.campaign && item.campaign.prices.length > 1"
+          class="ca-cart-product__price-group"
+        >
+          <li
+            v-for="(price, index) in item.campaign.prices"
+            :key="index"
+            class="ca-cart-product__price-group-item"
+          >
+            <span class="ca-cart-product__price-group-quantity">
+              {{ price.quantity }} x
+            </span>
+            <span class="ca-cart-product__price-group-spacer" />
+            <CaPrice
+              class="ca-cart-product__price-group-price"
+              :price="price.price"
+            />
+          </li>
+        </ul>
+        <CaPrice
+          v-else
+          class="ca-cart-product__price"
+          :price="item.unitPrice"
+        />
         <CaCampaigns
           v-if="item.campaign && item.campaign.appliedCampaigns.length"
           class="ca-cart-product__campaigns"
@@ -45,11 +68,7 @@
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
-          :max-quantity="
-            item.skuQuantity >= skuStockQuantity
-              ? item.quantity
-              : skuStockQuantity
-          "
+          :max-quantity="skuStockQuantity"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -116,19 +135,7 @@ export default {
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
-      const quantityChange = value - this.item.quantity;
-      let newQuantity = this.item.skuQuantity + quantityChange;
-
-      if (newQuantity > this.skuStockQuantity) {
-        newQuantity = this.skuStockQuantity;
-        this.$store.dispatch('snackbar/trigger', {
-          message: this.$t('CART_ADD_TOO_MANY', {
-            stock: this.skuStockQuantity
-          }),
-          placement: 'bottom-center'
-        });
-      }
-      this.updateCart(this.item.skuId, newQuantity);
+      this.updateCart(this.item.skuId, value);
     }
   }
 };

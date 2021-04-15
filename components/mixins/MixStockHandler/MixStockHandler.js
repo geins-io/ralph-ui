@@ -37,7 +37,7 @@ export default {
         const inCart = this.$store.state.cart.data.items.filter(
           i => i.skuId === this.chosenSku.id
         )[0];
-        return inCart ? inCart.skuQuantity : 0;
+        return inCart ? inCart.quantity : 0;
       } else return 0;
     },
     // @vuese

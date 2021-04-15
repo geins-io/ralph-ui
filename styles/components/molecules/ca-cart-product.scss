@@ -9,6 +9,30 @@
       width: 90px;
     }
   }
+  &__price-group {
+    margin: rem-calc(5px) 0 0;
+  }
+  &__price-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  &__price-group-quantity {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: $font-weight-bold;
+  }
+  &__price-group-spacer {
+    height: 1px;
+    width: 100%;
+    background: $c-border-light;
+    margin: 0 $px16;
+  }
+  &__price-group-price {
+    flex-shrink: 0;
+    font-size: $font-size-xs;
+  }
   &__price {
     margin: rem-calc(5px) 0 0;
   }
