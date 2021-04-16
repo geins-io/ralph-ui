@@ -1,4 +1,6 @@
 <script>
+import CaSliderArrows from '../../../components/atoms/CaSliderArrows/CaSliderArrows.vue';
+import CaSliderDots from '../../../components/atoms/CaSliderDots/CaSliderDots.vue';
 const DATA_KEYS = [
   'class',
   'staticClass',
@@ -62,13 +64,16 @@ const cloneVNode = (vnode, position, newData = {}) => {
   const childNodes = children ? children.map(c => cloneVNode(c)) : undefined;
   return h(tag, data, childNodes);
 };
-
 // @group Molecules
 // @vuese
 // A slider used for product sliding or image gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-slider.scss_
 export default {
   name: 'CaSlider',
+  components: {
+    CaSliderArrows,
+    CaSliderDots
+  },
   mixins: [],
   props: {
     // Should the slider be centered?
