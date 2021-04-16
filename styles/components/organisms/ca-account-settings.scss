@@ -18,6 +18,12 @@
       margin: 0 0 $px10;
     }
   }
+  &__setting-value {
+    &--not-specified {
+      font-size: $font-size-s;
+      color: $c-text-secondary;
+    }
+  }
   &__action {
     margin: 0 0 $px12;
   }

@@ -23,7 +23,29 @@
             {{ user.email }}
           </p>
         </div>
-
+        <CaInputText
+          v-if="editMode"
+          id="personalId"
+          v-model="userData.personalId"
+          :required="false"
+          validate="personalId"
+          :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
+          class="ca-account-settings__setting ca-account-settings__setting--edit"
+          :label="$t('LABEL_PERSONAL_ID')"
+        />
+        <div v-else class="ca-account-settings__setting">
+          <h3 class="ca-account-settings__setting-label">
+            {{ $t('LABEL_PERSONAL_ID') }}
+          </h3>
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.personalId
+            }"
+          >
+            {{ user.personalId || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
+          </p>
+        </div>
         <CaInputText
           v-if="editMode"
           id="firstname"
@@ -32,15 +54,18 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_FIRST_NAME')"
         />
-        <div
-          v-else-if="user.address.firstName"
-          class="ca-account-settings__setting"
-        >
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_FIRST_NAME') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.firstName }}
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .firstName
+            }"
+          >
+            {{ user.address.firstName || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
 
@@ -52,15 +77,18 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_LAST_NAME')"
         />
-        <div
-          v-else-if="user.address.lastName"
-          class="ca-account-settings__setting"
-        >
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_LAST_NAME') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.lastName }}
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .lastName
+            }"
+          >
+            {{ user.address.lastName || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
 
@@ -72,20 +100,24 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_PHONE_NUMBER')"
         />
-        <div
-          v-else-if="user.address.mobile"
-          class="ca-account-settings__setting"
-        >
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_PHONE_NUMBER') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.mobile }}
+
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .mobile
+            }"
+          >
+            {{ user.address.mobile || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
 
         <div
-          v-if="editMode"
+          v-if="editMode && $config.user.gender"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
         >
           <h3
@@ -101,7 +133,10 @@
             :value="gender.value"
           />
         </div>
-        <div v-else class="ca-account-settings__setting">
+        <div
+          v-else-if="$config.user.gender"
+          class="ca-account-settings__setting"
+        >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_GENDER') }}
           </h3>
@@ -154,17 +189,26 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ADDRESS_2')"
         />
-        <div
-          v-else-if="user.address.addressLine1 || user.address.addressLine2"
-          class="ca-account-settings__setting"
-        >
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_ADDRESS') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
+          <p
+            v-if="!user.address.addressLine1 && !user.address.addressLine2"
+            class="ca-account-settings__setting-value ca-account-settings__setting-value--not-specified"
+          >
+            {{ $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
+          </p>
+          <p
+            v-if="user.address.addressLine1"
+            class="ca-account-settings__setting-value"
+          >
             {{ user.address.addressLine1 }}
           </p>
-          <p class="ca-account-settings__setting-value">
+          <p
+            v-if="user.address.addressLine2"
+            class="ca-account-settings__setting-value"
+          >
             {{ user.address.addressLine2 }}
           </p>
         </div>
@@ -177,12 +221,18 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ZIP')"
         />
-        <div v-else-if="user.address.zip" class="ca-account-settings__setting">
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_ZIP') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.zip }}
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .zip
+            }"
+          >
+            {{ user.address.zip || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
 
@@ -194,17 +244,23 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_CITY')"
         />
-        <div v-else-if="user.address.city" class="ca-account-settings__setting">
+        <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_CITY') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.city }}
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .city
+            }"
+          >
+            {{ user.address.city || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
 
         <CaInputText
-          v-if="editMode"
+          v-if="editMode && $config.user.country"
           id="country"
           v-model="userData.address.country"
           :required="false"
@@ -212,14 +268,20 @@
           :label="$t('LABEL_COUNTRY')"
         />
         <div
-          v-else-if="user.address.country"
+          v-else-if="$config.user.country"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_COUNTRY') }}
           </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.address.country }}
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .country
+            }"
+          >
+            {{ user.address.country || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
       </template>
@@ -350,7 +412,8 @@ export default {
             user: {
               newsletter: this.userData.newsletter,
               address: this.addressInput,
-              gender: this.userData.gender
+              gender: this.userData.gender,
+              personalId: this.userData.personalId
             }
           },
           errorPolicy: 'all',

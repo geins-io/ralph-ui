@@ -155,7 +155,8 @@ export default {
       return {
         'ca-input-text--error': !this.allValid,
         'ca-input-text--focused': this.focused,
-        'ca-input-text--empty': !this.value
+        'ca-input-text--empty': !this.value,
+        'ca-input-text--disabled': this.disabled
       };
     },
     // @vuese

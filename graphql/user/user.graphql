@@ -3,7 +3,7 @@
 fragment User on UserType {
   email
   newsletter
-  gender
+  personalId
   address {
     ...Address
   }

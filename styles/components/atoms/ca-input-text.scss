@@ -110,4 +110,9 @@
       font-weight: $font-weight-bold;
     }
   }
+  &--disabled {
+    #{$block}__input {
+      color: $c-text-secondary;
+    }
+  }
 }
