@@ -127,8 +127,12 @@ export default {
     updateCheckoutData(data) {
       this.checkout.billingAddress = data.billingAddress;
       this.checkout.email = data.email;
-      this.checkout.identityNumber = data.identityNumber;
-      this.message = data.message;
+      if (this.$config.checkout.identityNumber) {
+        this.checkout.identityNumber = data.identityNumber;
+      }
+      if (this.$config.checkout.message) {
+        this.message = data.message;
+      }
       this.checkout.shippingAddress = data.addShippingAddress
         ? data.shippingAddress
         : null;

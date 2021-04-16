@@ -24,7 +24,7 @@
           </p>
         </div>
         <CaInputText
-          v-if="editMode"
+          v-if="editMode && $config.checkout.identityNumber"
           id="personalId"
           v-model="userData.personalId"
           :required="false"
@@ -33,7 +33,10 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_PERSONAL_ID')"
         />
-        <div v-else class="ca-account-settings__setting">
+        <div
+          v-else-if="$config.checkout.identityNumber"
+          class="ca-account-settings__setting"
+        >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_PERSONAL_ID') }}
           </h3>
