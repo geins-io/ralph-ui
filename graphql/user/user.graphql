@@ -2,7 +2,6 @@
 
 fragment User on UserType {
   email
-  newsletter
   personalId
   address {
     ...Address

@@ -290,40 +290,6 @@
       </template>
     </CaAccountSettingsBlock>
     <CaAccountSettingsBlock
-      ref="settingsNewsletter"
-      :title="$t('ACCOUNT_NEWSLETTER_TITLE')"
-      :loading="loading"
-      @save="saveUser($refs.settingsNewsletter)"
-    >
-      <template #content="{editMode}">
-        <div v-if="editMode" class="ca-account-settings__setting">
-          <h3
-            class="ca-account-settings__setting-label ca-account-settings__setting-label--edit"
-          >
-            {{ $t('LABEL_NEWSLETTER') }}
-          </h3>
-          <CaInputRadio
-            v-model="userData.newsletter"
-            :label="$t('YES')"
-            :value="true"
-          />
-          <CaInputRadio
-            v-model="userData.newsletter"
-            :label="$t('NO')"
-            :value="false"
-          />
-        </div>
-        <div v-else class="ca-account-settings__setting">
-          <h3 class="ca-account-settings__setting-label">
-            {{ $t('LABEL_NEWSLETTER') }}
-          </h3>
-          <p class="ca-account-settings__setting-value">
-            {{ user.newsletter ? $t('YES') : $t('NO') }}
-          </p>
-        </div>
-      </template>
-    </CaAccountSettingsBlock>
-    <CaAccountSettingsBlock
       :title="$t('ACCOUNT_PRIVACY_TITLE')"
       :editable="false"
     >
@@ -413,7 +379,6 @@ export default {
           mutation: updateUserMutation,
           variables: {
             user: {
-              newsletter: this.userData.newsletter,
               address: this.addressInput,
               gender: this.userData.gender,
               personalId: this.userData.personalId
