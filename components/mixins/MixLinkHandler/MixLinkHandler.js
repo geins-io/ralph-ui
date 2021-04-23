@@ -15,7 +15,10 @@ export default {
       } else return this.href;
     },
     isExternal() {
-      return this.processedHref ? this.processedHref.includes('http') : false;
+      return this.processedHref
+        ? this.processedHref.includes('http') ||
+            this.processedHref.includes(':')
+        : false;
     },
     linkBaseElem() {
       if (this.processedHref) {
@@ -24,7 +27,11 @@ export default {
     },
     linkElemAttributes() {
       if (this.processedHref) {
-        if (this.isExternal) {
+        if (this.processedHref.includes(':')) {
+          return {
+            href: this.processedHref
+          };
+        } else if (this.isExternal) {
           return {
             href: this.processedHref,
             target: '_blank',

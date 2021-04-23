@@ -9,7 +9,7 @@
       @loading="toggleLoading"
     />
     <CaPromoCode
-      v-if="mode !== 'display'"
+      v-if="mode !== 'display' && $config.checkout.promoCodes"
       class="ca-cart__promo-code"
       :active-promo-code="cart.promoCode ? cart.promoCode : ''"
     />
