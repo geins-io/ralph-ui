@@ -1,4 +1,4 @@
-import AuthClient from '~/plugins/authClient.js';
+import AuthClient from '@ralph/ralph-ui/plugins/authClient.js';
 
 export const state = () => ({
   user: null,
@@ -40,11 +40,11 @@ export const actions = {
   },
   async login({ state, dispatch }, credentials) {
     await state.client?.connect(credentials);
-    dispatch('update', credentials.username);
+    dispatch('update', credentials);
   },
   async register({ state, dispatch }, credentials) {
     await state.client?.connect(credentials, 'register');
-    dispatch('update', credentials.username);
+    dispatch('update', credentials);
   },
   async changePassword({ state, dispatch }, credentials) {
     await state.client?.connect(credentials, 'password');
@@ -54,7 +54,7 @@ export const actions = {
     await state.client?.connect(null, 'logout');
     dispatch('update');
   },
-  update({ state, commit, dispatch }, user) {
+  update({ state, commit, dispatch }, credentials) {
     if (state.client.authorized) {
       commit(
         'setTokenTimeout',
@@ -66,9 +66,12 @@ export const actions = {
         path: '/',
         maxAge: state.client.maxAge
       });
-      if (user) {
-        commit('setUser', user);
-        this.$cookies.set('ralph-user', user);
+      if (credentials) {
+        commit('setUser', credentials.username);
+        this.$cookies.set('ralph-user', credentials.username, {
+          path: '/',
+          maxAge: credentials.rememberUser ? 604800 : 1800 // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
+        });
       }
     } else {
       commit('clearTokenTimeout');
