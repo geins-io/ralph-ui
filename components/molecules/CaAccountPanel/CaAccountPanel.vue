@@ -94,14 +94,16 @@
           v-model="newsletterSubscribe"
           :label="$t('NEWSLETTER_SUBSCRIBE_CHOICE')"
         />
-        <!-- TODO: Länka villkor + integritetspolicy -->
+        <!-- TODO: Länka villkor + integritetspolicy korrekt -->
         <i18n
           path="ACCOUNT_DISCLAIMER"
           tag="div"
           class="ca-account-panel__disclaimer"
         >
-          <a href="#">{{ $t('TERMS_AND_CONDITIONS') }}</a>
-          <a href="#">{{ $t('PRIVACY_POLICY') }}</a>
+          <NuxtLink to="/kopvillkor">{{ $t('TERMS_AND_CONDITIONS') }}</NuxtLink>
+          <NuxtLink to="/integritetspolicy">
+            {{ $t('PRIVACY_POLICY') }}
+          </NuxtLink>
         </i18n>
       </div>
       <CaButton
