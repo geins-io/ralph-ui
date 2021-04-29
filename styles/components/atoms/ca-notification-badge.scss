@@ -7,8 +7,11 @@
   height: 1.8em;
   font-weight: $font-weight-bold;
   font-size: $font-size-xs;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(40%, -20%);
+
+  &--positioned {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(40%, -20%);
+  }
 }

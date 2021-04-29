@@ -1,5 +1,11 @@
 <template>
-  <div v-if="number > 0" class="ca-notification-badge">{{ number }}</div>
+  <div
+    v-if="number > 0"
+    class="ca-notification-badge"
+    :class="{ 'ca-notification-badge--positioned': positioned }"
+  >
+    {{ number }}
+  </div>
 </template>
 <script>
 // @group Atoms
@@ -13,6 +19,10 @@ export default {
     number: {
       type: [Number, String],
       required: true
+    },
+    positioned: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({}),

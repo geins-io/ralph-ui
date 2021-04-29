@@ -52,6 +52,7 @@
           v-model="checkoutData.identityNumber"
           class="ca-checkout-carismar__input"
           validate="personalId"
+          :description="$t('CHECKOUT_PERSONAL_ID_DESCRIPTION')"
           :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
           :label="$t('LABEL_PERSONAL_ID')"
           @validation="checkValid"
@@ -259,6 +260,15 @@
         />
       </div>
     </SlideUpDown>
+    <div
+      v-if="
+        $t('CHECKOUT_INVOICE_INFORMATION') !== '' ||
+          $t('CHECKOUT_INVOICE_INFORMATION') !== 'CHECKOUT_INVOICE_INFORMATION'
+      "
+      class="ca-checkout-carismar__invoice-information"
+    >
+      {{ $t('CHECKOUT_INVOICE_INFORMATION') }}
+    </div>
     <section class="ca-checkout-carismar__section">
       <h3 class="ca-checkout-carismar__title">
         {{ $t('CHECKOUT_CONSENTS_TITLE') }}
