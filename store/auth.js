@@ -66,13 +66,24 @@ export const actions = {
         path: '/',
         maxAge: state.client.maxAge
       });
+      const username = credentials
+        ? credentials.username
+        : this.$cookies.get('ralph-user');
+      let maxage = 0;
       if (credentials) {
-        commit('setUser', credentials.username);
-        this.$cookies.set('ralph-user', credentials.username, {
-          path: '/',
-          maxAge: credentials.rememberUser ? 604800 : 1800 // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
-        });
+        maxage = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
+      } else if (this.$cookies.get('ralph-user-maxage')) {
+        maxage = this.$cookies.get('ralph-user-maxage');
       }
+      commit('setUser', username);
+      this.$cookies.set('ralph-user', username, {
+        path: '/',
+        maxAge: maxage
+      });
+      this.$cookies.set('ralph-user-maxage', maxage, {
+        path: '/',
+        maxAge: maxage
+      });
     } else {
       commit('clearTokenTimeout');
       commit('setUser', null);
