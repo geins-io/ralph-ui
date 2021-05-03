@@ -69,7 +69,7 @@ export const actions = {
       const username = credentials
         ? credentials.username
         : this.$cookies.get('ralph-user');
-      let maxage = 0;
+      let maxage = 604800;
       if (credentials) {
         maxage = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
       } else if (this.$cookies.get('ralph-user-maxage')) {
@@ -89,6 +89,7 @@ export const actions = {
       commit('setUser', null);
       this.$cookies.remove('ralph-auth');
       this.$cookies.remove('ralph-user');
+      this.$cookies.remove('ralph-user-maxage');
     }
   }
 };
