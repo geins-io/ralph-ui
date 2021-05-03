@@ -1,7 +1,10 @@
 .ca-prompt {
   $block: &;
   background: $c-white;
-  width: rem-calc(480px);
+  width: 90vw;
+  @include bp(tablet) {
+    width: rem-calc(480px);
+  }
   &__header {
     height: rem-calc(58px);
     display: flex;
@@ -23,11 +26,23 @@
     padding: $px32 $px20;
   }
   &__footer {
-    height: rem-calc(75px);
-    padding: 0 $px20;
+    padding: $px20 $px20 $px12;
     border-top: $border-light;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
     align-items: center;
+    @include bp(tablet) {
+      padding: 0 $px20;
+      height: rem-calc(75px);
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+  &__button.ca-button {
+    @include bp(phone-only) {
+      width: 100%;
+    }
   }
 }

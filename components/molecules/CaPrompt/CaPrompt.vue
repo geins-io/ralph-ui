@@ -15,8 +15,18 @@
       </div>
     </div>
     <div class="ca-prompt__footer">
-      <CaButton color="transparent" @clicked="$emit('close')">Avbryt</CaButton>
-      <CaButton :color="button.color" @clicked="button.clickHandler">
+      <CaButton
+        class="ca-prompt__button"
+        color="transparent"
+        @clicked="$emit('close')"
+      >
+        {{ $t('ACCOUNT_SETTINGS_CANCEL') }}
+      </CaButton>
+      <CaButton
+        class="ca-prompt__button"
+        :color="button.color"
+        @clicked="button.clickHandler"
+      >
         {{ button.text }}
       </CaButton>
     </div>

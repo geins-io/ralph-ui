@@ -46,7 +46,7 @@
   &__invoice-information {
     color: $c-text-secondary;
     text-align: center;
-    margin: $px20 0 0;
+    margin: rem-calc(28px) 0 $px20;
   }
   &__consent {
     margin: $px16 0 0;
