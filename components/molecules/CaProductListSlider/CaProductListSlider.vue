@@ -23,8 +23,9 @@
   </CaSlider>
 </template>
 <script>
+import CaSlide from '@ralph/ralph-ui/components/atoms/CaSlide/CaSlide.vue';
 import CaProductCard from '@/components/organisms/CaProductCard/CaProductCard.vue';
-import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
+
 // @group Molecules
 // @vuese
 // A product list displayed as a slider<br><br>
