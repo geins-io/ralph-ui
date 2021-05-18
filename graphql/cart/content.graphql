@@ -23,19 +23,26 @@ fragment Cart on CartType {
       ...Price
     }
     product {
+      productId
       brand {
         name
       }
       name
       images
       alias
-
+      primaryCategory {
+        name
+      }
       skus {
         skuId
         name
         stock {
           totalStock
         }
+      }
+
+      currentProductVariant {
+        label
       }
     }
     quantity
@@ -45,17 +52,22 @@ fragment Cart on CartType {
     }
   }
   summary {
+    fixedAmountDiscountIncVat
+    fixedAmountDiscountExVat
     subTotal {
       regularPriceIncVatFormatted
       regularPriceExVatFormatted
       sellingPriceIncVatFormatted
       sellingPriceExVatFormatted
+      sellingPriceExVat
+      vat
     }
     shipping {
       amountLeftToFreeShippingFormatted
       feeExVatFormatted
       feeIncVatFormatted
       feeIncVat
+      feeExVat
     }
     total {
       isDiscounted
@@ -63,6 +75,8 @@ fragment Cart on CartType {
       sellingPriceExVatFormatted
       discountIncVatFormatted
       discountExVatFormatted
+      discountExVat
+      discountIncVat
       vatFormatted
     }
   }

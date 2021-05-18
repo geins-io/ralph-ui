@@ -4,4 +4,6 @@ fragment Price on PriceType {
   sellingPriceIncVatFormatted
   regularPriceExVatFormatted
   sellingPriceExVatFormatted
+  sellingPriceExVat
+  vat
 }
