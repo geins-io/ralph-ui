@@ -50,7 +50,7 @@ export default {
                   this.orderCart.summary.fixedAmountDiscountIncVat -
                   (this.orderCart.summary.total.discountExVat +
                     this.orderCart.summary.fixedAmountDiscountExVat),
-                timestamp: new Date(),
+                timestamp: Math.floor(Date.now() / 1000),
                 coupon: this.orderCart.promoCode
               },
               products: this.productsData

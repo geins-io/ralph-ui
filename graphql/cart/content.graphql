@@ -40,10 +40,6 @@ fragment Cart on CartType {
           totalStock
         }
       }
-
-      currentProductVariant {
-        label
-      }
     }
     quantity
     skuId
