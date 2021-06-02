@@ -380,7 +380,7 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'Sweden'
+        country: 'SE'
       },
       billingAddress: {
         firstName: '',
@@ -391,7 +391,7 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'Sweden'
+        country: 'SE'
       },
       email: '',
       identityNumber: '',

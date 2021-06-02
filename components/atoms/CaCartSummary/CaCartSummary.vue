@@ -31,9 +31,13 @@
       </span>
     </div>
     <div class="ca-cart-summary__row">
-      <span class="ca-cart-summary__label">{{
-        $t('CART_SUMMARY_SHIPPING_FEE')
-      }}</span>
+      <span class="ca-cart-summary__label">
+        {{
+          summary.shipping.isDefault
+            ? $t('CART_SUMMARY_ESTIMATED_SHIPPING_FEE')
+            : $t('CART_SUMMARY_SHIPPING_FEE')
+        }}
+      </span>
       <span
         class="ca-cart-summary__value"
         :class="{

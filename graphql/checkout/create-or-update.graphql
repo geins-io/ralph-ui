@@ -22,5 +22,6 @@ mutation createOrUpdateCheckout(
     shippingAddress {
       ...Address
     }
+    shippingData
   }
 }

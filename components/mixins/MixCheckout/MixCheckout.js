@@ -10,6 +10,9 @@ import placeOrderMutation from 'checkout/place-order.graphql';
 // checkout: `{}`<br>
 // desiredDeliveryDate: `null`<br>
 // message: `''`
+// pickupPoint: `''`,
+// externalShippingId: `''`,
+// udcValid: `false`
 export default {
   name: 'MixCheckout',
   apollo: {},
@@ -18,9 +21,13 @@ export default {
   data: () => ({
     cartLoading: false,
     checkoutLoading: false,
+    shippingLoading: false,
     checkout: {},
     desiredDeliveryDate: null,
-    message: ''
+    message: '',
+    pickupPoint: '',
+    externalShippingId: '',
+    udcValid: false
   }),
   computed: {
     // @vuese
@@ -60,6 +67,12 @@ export default {
       if (this.desiredDeliveryDate) {
         obj.desiredDeliveryDate = this.desiredDeliveryDate;
       }
+      if (this.pickupPoint) {
+        obj.pickupPoint = this.pickupPoint;
+      }
+      if (this.externalShippingId) {
+        obj.externalShippingId = this.externalShippingId;
+      }
       return obj;
     },
     // @vuese
@@ -68,25 +81,40 @@ export default {
     orderMessage() {
       return this.message;
     },
+    // @vuese
+    // The current billing zip
+    // @type String
+    currentZip() {
+      return this.checkout?.billingAddress?.zip || '';
+    },
     ...mapState(['cart'])
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
       if (
-        await this.$store.dispatch('cart/changed', { new: newVal, old: oldVal })
+        await this.$store.dispatch('cart/itemsChanged', {
+          new: newVal,
+          old: oldVal
+        })
       ) {
+        this.shippingLoading = true;
         this.createOrUpdateCheckout();
       }
     }
   },
   mounted() {
     this.createOrUpdateCheckout();
+    // Refetch checkout on window/tab focus to keep state between windows/tabs
+    window.addEventListener('focus', this.createOrUpdateCheckout);
   },
   methods: {
     // @vuese
     // Handling the api call for creating an updating the checkout session
     createOrUpdateCheckout() {
       this.checkoutLoading = true;
+      if (this.$refs.udc) {
+        this.$refs.udc.disable();
+      }
       const vars = {
         cartId: this.$store.getters['cart/id']
       };
@@ -102,6 +130,13 @@ export default {
           this.checkout = result.data.createOrUpdateCheckout;
           this.updateCart(this.checkout.cart);
           this.checkoutLoading = false;
+          this.shippingLoading = false;
+          this.cartLoading = false;
+          this.$nextTick(() => {
+            if (this.$refs.udc && this.$refs.udc.widget) {
+              this.$refs.udc.enable();
+            }
+          });
         })
         .catch(error => {
           // eslint-disable-next-line no-console
@@ -166,6 +201,34 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error);
         });
+    },
+    initUDC(zip) {
+      this.shippingLoading = true;
+      if (this.checkout.billingAddress) {
+        this.checkout.billingAddress.zip = zip;
+      } else {
+        this.checkout.billingAddress = {
+          firstName: '',
+          lastName: '',
+          careOf: '',
+          addressLine1: '',
+          zip,
+          city: '',
+          entryCode: '',
+          mobile: '',
+          country: 'SE'
+        };
+      }
+      this.createOrUpdateCheckout();
+    },
+    setUDCdata(data) {
+      this.message = data.deliveryData;
+      this.pickupPoint = data.pickupPoint;
+      if (data.selectedOptionId !== this.externalShippingId) {
+        this.externalShippingId = data.selectedOptionId;
+        this.cartLoading = true;
+        this.createOrUpdateCheckout();
+      }
     }
   }
 };

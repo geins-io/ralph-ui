@@ -40,6 +40,40 @@
     height: 30px;
   }
 
+  &__guard {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  &__guard-info {
+    @include halign;
+    background: $c-white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: $px56;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+    padding: $px24;
+    font-size: $font-size-l;
+    text-align: center;
+    width: 90%;
+    @include bp(tablet) {
+      width: 50%;
+    }
+  }
+
+  &__guard-icon {
+    font-size: rem-calc(24px);
+    margin: 0 0 $px10;
+    color: $c-info;
+  }
+
   &--arrow #{$block}__content::after {
     content: '';
     display: block;

@@ -12,6 +12,17 @@
           <CaSpinner class="ca-checkout-section__spinner" :loading="true" />
         </div>
       </transition>
+      <transition name="fade">
+        <div v-if="blocked && !loading" class="ca-checkout-section__guard">
+          <div class="ca-checkout-section__guard-info">
+            <CaIcon class="ca-checkout-section__guard-icon" name="info" />
+            <div class="ca-checkout-section__guard-text">
+              <!-- The checkout sections guard text, shown when blocked -->
+              <slot name="guard"></slot>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -31,6 +42,11 @@ export default {
     },
     // Is the section loading?
     loading: {
+      type: Boolean,
+      default: false
+    },
+    // Block this section
+    blocked: {
       type: Boolean,
       default: false
     }

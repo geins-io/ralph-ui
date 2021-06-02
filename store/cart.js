@@ -24,11 +24,17 @@ export const actions = {
   },
   changed({ state }, carts) {
     return (
-      carts.new.items.length !== carts.old.items.length ||
+      carts.new.items?.length !== carts.old.items?.length ||
       carts.new.summary.shipping.shippingFeeIncVat !==
         carts.old.summary.shipping.shippingFeeIncVat ||
       carts.new.summary.total.sellingPriceIncVatFormatted !==
         carts.old.summary.total.sellingPriceIncVatFormatted
+    );
+  },
+  itemsChanged({ state }, carts) {
+    return (
+      carts.new.summary?.subTotal.regularPriceIncVatFormatted !==
+      carts.old.summary?.subTotal.regularPriceIncVatFormatted
     );
   }
 };
