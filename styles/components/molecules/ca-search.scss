@@ -1,4 +1,5 @@
 .ca-search {
+  $search-width: 290px !default;
   @include bp(tablet-down) {
     transform: translateY(-100%);
     transition: transform 200ms ease;
@@ -21,13 +22,14 @@
     }
   }
   &__input-wrap {
+    position: relative;
     height: $search-input-height;
     width: calc(100% - #{$default-spacing});
     border: $border-light;
     background: $c-white;
     @include flex-valign;
     @include bp(laptop) {
-      width: 290px;
+      width: $search-width;
     }
   }
   &__input {
@@ -35,12 +37,28 @@
     height: 100%;
     padding: 0 $px16;
     outline: none;
+    @include bp(phone-only) {
+      font-size: $font-size-m;
+    }
+    &:focus-visible {
+      box-shadow: none;
+    }
   }
   &__button {
     height: 100%;
     width: 40px;
     @include flex-calign;
     font-size: 20px;
+  }
+
+  &__remove {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    @include flex-calign;
+    font-size: 15px;
+    right: 40px;
+    background: $c-white;
   }
 
   &__title {
@@ -60,33 +78,92 @@
     line-height: 1.6;
     @include bp(laptop) {
       margin: rem-calc(6px) 0 0;
-      width: 290px;
+      width: $search-width;
+    }
+  }
+  &__no-suggestions {
+    font-size: $font-size-xs;
+    color: $c-text-secondary;
+  }
+
+  &__spinner.ca-spinner {
+    border-color: $c-accent-color;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin: 0 -15px 0;
+    @include bp(laptop) {
+      top: 50%;
+      &.empty {
+        margin: 20px auto;
+        position: static;
+      }
     }
   }
 
   &__results {
+    $vh: calc(var(--vh, 1vh) * 100);
+    position: relative;
     background: $c-white;
-    padding: $px16 $px20 rem-calc(66px);
+
     height: calc(
       100vh - #{$top-bar-height + $header-bar-height + $search-height}
     );
-    overflow: auto;
+    height: calc(
+      #{$vh} - #{$top-bar-height + $header-bar-height + $search-height}
+    );
     @include bp(laptop) {
       position: fixed;
       margin: rem-calc(6px) 0 0;
-      padding: $px16 $px20;
+
       height: auto;
-      overflow: visible;
+      width: auto;
+      max-width: 100%;
+      transition: max-width 200ms ease;
+      &--loading-empty,
+      &--no-results {
+        width: $search-width;
+        max-width: $search-width;
+      }
     }
+    &--loading:not(&--loading-empty) {
+      .ca-search__top,
+      .ca-search__result {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__results-box {
+    padding: $px16 $px20 rem-calc(66px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    @include bp(laptop) {
+      overflow-y: hidden;
+      padding: $px16 $px20;
+    }
+  }
+
+  &__no-results {
+    color: $c-text-secondary;
+    margin: $px10 0;
+    font-size: $font-size-l;
+    text-align: center;
+    width: 100%;
   }
 
   &__results-wrap {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-content: flex-start;
     flex-wrap: wrap;
     @include bp(laptop) {
       flex-wrap: nowrap;
+      justify-content: flex-start;
     }
   }
 
@@ -107,6 +184,7 @@
     justify-content: space-between;
     width: 100%;
     margin: 0 0 $px16;
+    transition: opacity 200ms ease;
   }
 
   &__see-all {
@@ -114,17 +192,25 @@
   }
 
   &__result {
-    width: 50%;
-    @include bp(laptop) {
-      width: 320px;
-      margin: 0 0 0 $px32;
+    width: 320px;
+    margin: 0 0 0 $px32;
+    transition: opacity 200ms ease;
+    @include bp(desktop-down) {
+      width: 25vw;
+    }
+    @include bp(tablet-down) {
+      width: 48%;
+      margin: 0;
     }
     &--products {
-      width: 100%;
-      margin: 0 0 $px16;
-      @include bp(laptop) {
-        width: 420px;
-        margin: 0;
+      width: 420px;
+      margin: 0;
+      @include bp(desktop-down) {
+        width: 33vw;
+      }
+      @include bp(tablet-down) {
+        width: 100%;
+        margin: 0 0 $px16;
       }
     }
   }
@@ -150,7 +236,7 @@
     }
     &--product {
       margin: 0 0 $px4;
-      @include bp(laptop) {
+      @include bp(tablet-down) {
         margin: 0;
         &:not(:first-child) {
           margin: rem-calc(6px) 0 0;
@@ -159,9 +245,9 @@
     }
     &--tag {
       &:not(:last-child) {
-        margin: 0 0 $px12;
+        margin: 0 0 $px8;
       }
-      @include bp(laptop-down);
+      @include bp(tablet-down);
     }
   }
 
@@ -173,16 +259,26 @@
     &--tag {
       background: $c-light-gray;
       padding: rem-calc(6px) rem-calc(10px);
+
+      @include ellipsis;
       display: inline-block;
+      width: auto;
+      max-width: 100%;
     }
   }
 
   &__item-image {
     width: rem-calc(30px);
     margin: 0 $px12 0 0;
+
     @include bp(laptop) {
       width: auto;
       height: rem-calc(40px);
+      flex-grow: 1;
+      .ca-image__img {
+        width: auto;
+        height: 100%;
+      }
     }
   }
 
@@ -195,7 +291,7 @@
   }
 
   &__item-price {
-    font-weight: $font-weight-bold;
+    font-size: 0.8em;
   }
 
   &__overlay.ca-overlay {

@@ -1,5 +1,8 @@
 <template>
-  <ul class="ca-product-list">
+  <ul
+    class="ca-product-list"
+    :class="{ 'ca-product-list--empty': productsShowEmpty }"
+  >
     <CaProductCard
       v-for="(product, index) in allProducts"
       :key="index"
@@ -7,8 +10,8 @@
       :page-number="getPageNumber(index)"
       :product-card-type="productCardType"
     />
-    <li v-if="productsEmpty" class="ca-product-list__empty">
-      {{ $t('NO_PRODUCTS_MATCH') }}
+    <li v-if="productsShowEmpty" class="ca-product-list__empty">
+      {{ isSearch ? $t('SEARCH_NO_RESULTS') : $t('NO_PRODUCTS_MATCH') }}
     </li>
   </ul>
 </template>
@@ -56,13 +59,20 @@ export default {
     },
     skeletonProducts() {
       const prodArray = [];
-      for (let i = 0; i < this.pageSize; i++) {
-        prodArray.push({});
+      if (!this.productsShowEmpty) {
+        for (let i = 0; i < this.pageSize; i++) {
+          prodArray.push({});
+        }
       }
       return prodArray;
     },
-    productsEmpty() {
-      return this.products.length === 0 && this.filtersActive;
+    productsShowEmpty() {
+      return (
+        this.products.length === 0 && (this.filtersActive || this.isSearch)
+      );
+    },
+    isSearch() {
+      return this.$route?.name?.includes('search');
     }
   },
   watch: {},

@@ -1,0 +1,23 @@
+#import "product/price.graphql"
+query products($filter: FilterInputType = null) {
+  products(filter: $filter) {
+    products {
+      brand {
+        name
+        alias
+      }
+      categories {
+        name
+        alias
+      }
+      name
+      productId
+      alias
+      unitPrice {
+        ...Price
+      }
+      images
+    }
+    count
+  }
+}

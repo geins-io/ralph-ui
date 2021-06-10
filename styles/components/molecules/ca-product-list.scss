@@ -27,9 +27,16 @@
   }
   &__empty {
     width: 100%;
-    font-size: $font-size-l;
+    font-size: $font-size-m;
     text-align: center;
-    padding: $px40 $px20;
+    padding: rem-calc(30px) $px20 rem-calc(50px);
     color: $c-text-secondary;
+    @include bp(tablet) {
+      font-size: $font-size-l;
+      padding: rem-calc(60px) $px20 rem-calc(100px);
+    }
+  }
+  &--empty {
+    display: block;
   }
 }

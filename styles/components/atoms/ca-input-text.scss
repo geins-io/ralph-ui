@@ -42,6 +42,9 @@
     font-size: $font-size-s;
     padding: $px4 $px16 0 $px16;
     border-radius: $input-border-radius;
+    @include bp(phone-only) {
+      font-size: $font-size-m;
+    }
     &:focus-visible {
       box-shadow: none;
     }

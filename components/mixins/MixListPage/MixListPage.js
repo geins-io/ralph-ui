@@ -67,6 +67,9 @@ export default {
       },
       result(result) {
         this.listInfo = result.data.listPageInfo;
+      },
+      skip() {
+        return this.isSearch;
       }
     }
   },
@@ -99,22 +102,22 @@ export default {
   },
   head() {
     return {
-      title: this.metaReplacement(this.listInfo?.meta.title),
+      title: this.metaReplacement(this.listInfo?.meta?.title),
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.metaReplacement(this.listInfo?.meta.description)
+          content: this.metaReplacement(this.listInfo?.meta?.description)
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.metaReplacement(this.listInfo?.meta.title)
+          content: this.metaReplacement(this.listInfo?.meta?.title)
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.metaReplacement(this.listInfo?.meta.description)
+          content: this.metaReplacement(this.listInfo?.meta?.description)
         }
       ]
     };
@@ -204,6 +207,12 @@ export default {
       return this.type === 'brand';
     },
     // @vuese
+    // Is this list page of type search?
+    // @type Boolean
+    isSearch() {
+      return this.type === 'search';
+    },
+    // @vuese
     // Is a filter selection made?
     // @type Boolean
     filterSelectionActive() {
@@ -233,6 +242,9 @@ export default {
       }
       if (this.isBrand) {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
+      }
+      if (this.isSearch) {
+        varsObj.filter.searchText = this.currentAlias;
       }
       return varsObj;
     },
@@ -299,11 +311,26 @@ export default {
         filtersArray.push(filterObj);
       }
       return filtersArray;
+    },
+    showControls() {
+      return this.isSearch ? this.productList.length !== 0 : true;
     }
   },
   watch: {},
   created() {
     this.initProductList();
+    if (this.isSearch) {
+      const title = this.$t('SEARCH_RESULTS_PAGE_TITLE', {
+        search: this.currentAlias
+      });
+      this.listInfo = {
+        name: title,
+        meta: {
+          title,
+          description: title
+        }
+      };
+    }
   },
   mounted() {},
   methods: {

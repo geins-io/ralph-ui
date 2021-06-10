@@ -87,6 +87,11 @@ export const actions = {
       scrollbarWidth + 'px'
     );
   },
+  // Set viewport height, used to know the actual viewpoer height on mobile
+  setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  },
   nuxtServerInit({ commit, dispatch }, { req }) {
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
