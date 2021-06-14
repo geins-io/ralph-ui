@@ -96,6 +96,14 @@ export default {
       }
 
       return filtersArray;
+    },
+    breadcrumbsCurrent() {
+      return {
+        name: this.product.primaryCategory.name,
+        alias: this.product.primaryCategory.alias,
+        id: this.product.primaryCategory.categoryId,
+        type: 'category'
+      };
     }
   },
   watch: {

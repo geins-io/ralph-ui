@@ -1,7 +1,10 @@
 <template>
   <div class="ca-cart-product" :class="modifiers">
     <div class="ca-cart-product__image-wrap">
-      <NuxtLink class="ca-cart-product__image-link" :to="'/p/' + product.alias">
+      <NuxtLink
+        class="ca-cart-product__image-link"
+        :to="$config.routePaths.product + product.alias"
+      >
         <CaImage
           v-if="product.images !== null && product.images.length > 0"
           class="ca-cart-product__image"
@@ -27,7 +30,7 @@
         @clicked="updateCart(item.skuId, 0)"
       />
 
-      <NuxtLink :to="'/p/' + product.alias">
+      <NuxtLink :to="$config.routePaths.product + product.alias">
         <CaBrandAndName
           :brand="product.brand.name"
           :name="product.name"

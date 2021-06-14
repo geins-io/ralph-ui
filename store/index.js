@@ -7,7 +7,8 @@ export const state = () => ({
   viewportWidth: 0,
   hostname: '',
   config: {},
-  ancientBrowser: false
+  ancientBrowser: false,
+  categoryTree: []
 });
 
 export const mutations = {
@@ -38,6 +39,9 @@ export const mutations = {
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
+  },
+  setCategoryTree(state, tree) {
+    state.categoryTree = tree;
   }
 };
 

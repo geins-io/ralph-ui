@@ -17,6 +17,11 @@ query product($alias: String!) {
       name
       categoryId
     }
+    primaryCategory {
+      name
+      alias
+      categoryId
+    }
     unitPrice {
       ...Price
     }

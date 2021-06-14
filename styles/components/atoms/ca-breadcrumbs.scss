@@ -1,0 +1,19 @@
+.ca-breadcrumbs {
+  font-size: $font-size-s;
+  color: $c-text-secondary;
+  margin: 0 0 $px12;
+  @include bp(laptop) {
+    margin: 0 0 $px16;
+  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__link {
+    display: flex;
+    &:after {
+      content: '/';
+      padding: 0 0.3em;
+    }
+  }
+}

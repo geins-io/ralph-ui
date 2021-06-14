@@ -7,7 +7,7 @@
     >
       <CaButton
         class="ca-category-display__button"
-        :href="'/c/' + category.alias"
+        :href="$config.routePaths.category + category.alias"
         size="s"
       >
         {{ category.name }}

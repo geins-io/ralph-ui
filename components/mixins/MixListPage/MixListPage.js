@@ -312,6 +312,14 @@ export default {
       }
       return filtersArray;
     },
+    breadcrumbsCurrent() {
+      return {
+        name: this.listInfo.name,
+        alias: this.currentAlias,
+        id: this.listInfo.id,
+        type: this.type
+      };
+    },
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
     }

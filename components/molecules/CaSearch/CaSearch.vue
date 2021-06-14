@@ -127,7 +127,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--product"
-                    :to="'/p/' + product.alias"
+                    :to="$config.routePaths.product + product.alias"
                     :title="product.name"
                   >
                     <CaImage
@@ -179,7 +179,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--tag"
-                    :to="'/c/' + category.alias"
+                    :to="$config.routePaths.category + category.alias"
                     :title="category.name"
                   >
                     {{ category.name }}
@@ -200,7 +200,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--tag"
-                    :to="'/b/' + brand.alias"
+                    :to="$config.routePaths.brand + brand.alias"
                     :title="brand.name"
                   >
                     {{ brand.name }}
@@ -410,7 +410,7 @@ export default {
     goToSearchPage() {
       if (this.searchString) {
         this.setRecentSearch();
-        this.$router.push('/s/' + this.searchString);
+        this.$router.push(this.$config.routePaths.search + this.searchString);
         this.close();
       }
     },
