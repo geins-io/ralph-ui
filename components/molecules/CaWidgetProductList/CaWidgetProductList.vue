@@ -34,8 +34,7 @@ export default {
       variables() {
         return {
           take: this.take,
-          filter: this.configuration.searchParameters,
-          sort: this.configuration.searchParameters.sort
+          filter: this.configuration.searchParameters
         };
       },
       error(error) {

@@ -9,10 +9,15 @@
           'ca-filter-multi__value--selected': value.selected,
           'ca-filter-multi__value--disabled': value.count === 0
         }"
-        @click="toggleFilterValue(value.name, !value.selected)"
+        @click="
+          toggleFilterValue(
+            { id: value.id, label: value.label },
+            !value.selected
+          )
+        "
       >
         <CaIcon class="ca-filter-multi__check" name="check" />
-        {{ value.name }} ({{ value.count }})
+        {{ value.label }} ({{ value.count }})
       </li>
     </ul>
   </div>
@@ -44,7 +49,9 @@ export default {
     valuesWithSelected() {
       if (this.values && this.values.length && this.selection) {
         return this.values.map(item => {
-          const isSelected = this.currentSelection.some(el => el === item.name);
+          const isSelected = this.currentSelection.some(
+            el => el.id === item.id
+          );
           this.$set(item, 'selected', isSelected);
           return item;
         });
@@ -67,13 +74,15 @@ export default {
   methods: {
     // @vuese
     // Toggle the value of a filter and emit the updated selection
-    // @arg name (String) and selected (Boolean)
-    toggleFilterValue(name, selected) {
+    // @arg filter (Object) and selected (Boolean)
+    toggleFilterValue(filter, selected) {
       if (selected) {
-        this.currentSelection.push(name);
+        this.currentSelection.push(filter);
       } else {
-        this.currentSelection.splice(this.currentSelection.indexOf(name), 1);
+        const index = this.currentSelection.findIndex(i => i.id === filter.id);
+        this.currentSelection.splice(index, 1);
       }
+      console.log('currentSelection', this.currentSelection);
       // The selection has changed
       // @arg Updated selection (Array)
       this.$emit('selectionchange', this.currentSelection);

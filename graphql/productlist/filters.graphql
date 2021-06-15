@@ -1,15 +1,13 @@
-fragment ListFilters on PageFilterType {
-  brands {
-    count
-    name
-  }
-  categories {
-    count
-    name
-  }
-  discountCampaigns {
-    count
-    name
+fragment ListFilters on FilterCollectionType {
+  facets {
+    group
+    label
+    type
+    values {
+      count
+      id
+      label
+    }
   }
   price {
     lowest
