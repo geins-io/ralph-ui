@@ -24,33 +24,6 @@ export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement],
   apollo: {
-    // baseFilters: {
-    //   query() {
-    //     return filtersQuery;
-    //   },
-    //   variables() {
-    //     return this.productsQueryVars;
-    //   },
-    //   result(result) {
-    //     console.log('baseFilters', result);
-    //     if (result && result.data) {
-    //       if (result.data.baseFilters.filters.price) {
-    //         this.setInitPriceSelection(
-    //           result.data.baseFilters.filters.price.lowest,
-    //           result.data.baseFilters.filters.price.highest
-    //         );
-    //       }
-    //       this.setupFilters(result.data.baseFilters.filters);
-    //     }
-    //   },
-    //   skip() {
-    //     return this.filters?.categories?.length;
-    //   },
-    //   error(error) {
-    //     // eslint-disable-next-line no-console
-    //     console.log(error);
-    //   }
-    // },
     products: {
       query() {
         return productsQuery;
@@ -157,12 +130,7 @@ export default {
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
     filters: {},
-    userSelection: {
-      categories: [],
-      brands: [],
-      price: null,
-      sort: vm.$config.productListDefaultSort
-    },
+    userSelection: null,
     filterParamQuery: {},
     skipProductsQuery: false,
     currentPage: 1,
@@ -249,14 +217,17 @@ export default {
       return this.type === 'search';
     },
     selection() {
-      if (
-        this.userSelection.categories.length ||
-        this.userSelection.brands.length ||
-        !!this.userSelection.price
-      ) {
+      if (this.userSelection) {
+        console.log('userSelection', this.userSelection);
         return this.userSelection;
       } else {
-        const querySelection = this.$store.state.list.querySelection;
+        const querySelection = JSON.parse(
+          JSON.stringify(this.$store.state.list.querySelection)
+        );
+        if (!querySelection.sort) {
+          querySelection.sort = this.defaultSort;
+        }
+        console.log('querySelection', querySelection);
         return querySelection;
       }
     },
@@ -457,47 +428,6 @@ export default {
       );
     },
     // @vuese
-    // Set price filter selection
-    // @arg lowest price (Number), highest price (Number)
-    setInitPriceSelection(lowest, highest) {
-      if (!this.selection.price) {
-        this.$set(this.userSelection, 'price', {});
-      }
-      if (!this.selection.price.lowest || this.selection.price.lowest === 0) {
-        this.setInitPriceLowest(lowest);
-      }
-      if (
-        !this.selection.price.highest ||
-        this.selection.price.highest === 1000000
-      ) {
-        this.setInitPriceHighest(highest);
-      }
-    },
-    // @vuese
-    // Set price filter selection for lowest price
-    // @arg price (Number)
-    setInitPriceLowest(price) {
-      if (!this.selection.price) {
-        this.$set(this.userSelection, 'price', {});
-      }
-      if (!this.selection.price.highest) {
-        this.$set(this.userSelection.price, 'highest', 1000000);
-      }
-      this.$set(this.userSelection.price, 'lowest', price);
-    },
-    // @vuese
-    // Set price filter selection for highest price
-    // @arg price (Number)
-    setInitPriceHighest(price) {
-      if (!this.selection.price) {
-        this.$set(this.userSelection, 'price', {});
-      }
-      if (!this.selection.price.lowest) {
-        this.$set(this.userSelection.price, 'lowest', 0);
-      }
-      this.$set(this.userSelection.price, 'highest', price);
-    },
-    // @vuese
     // Update the sort setting
     // @arg new value (String)
     sortChangeHandler(newVal) {
@@ -514,6 +444,7 @@ export default {
       ) {
         this.resetCurrentPage();
       }
+      console.log('filterChange');
       const selection = newVal;
       this.$set(selection, 'sort', this.selection.sort);
       this.userSelection = selection;
@@ -551,45 +482,45 @@ export default {
     },
     // @vuese
     // Read filter selection from URL
-    readURLParams() {
-      console.log('reading params', this.$route.query.categories);
-      if (this.$route.query.categories) {
-        const categories = this.$route.query.categories.split(',');
+    // readURLParams() {
+    //   console.log('reading params', this.$route.query.categories);
+    //   if (this.$route.query.categories) {
+    //     const categories = this.$route.query.categories.split(',');
 
-        if (categories.length) {
-          const selectedCategories = categories.map(i => {
-            const label = i.split('~')[0];
-            const id = i.split('~')[1];
-            return { id, label };
-          });
-          this.userSelection.categories = selectedCategories;
-        }
-      }
-      if (this.$route.query.brands) {
-        const brands = this.$route.query.brands.split(',');
+    //     if (categories.length) {
+    //       const selectedCategories = categories.map(i => {
+    //         const label = i.split('~')[0];
+    //         const id = i.split('~')[1];
+    //         return { id, label };
+    //       });
+    //       this.userSelection.categories = selectedCategories;
+    //     }
+    //   }
+    //   if (this.$route.query.brands) {
+    //     const brands = this.$route.query.brands.split(',');
 
-        if (brands.length) {
-          const selectedBrands = brands.map(i => {
-            const label = i.split('~')[0];
-            const id = i.split('~')[1];
-            return { id, label };
-          });
-          this.userSelection.brands = selectedBrands;
-        }
-      }
-      if (this.$route.query.priceLowest) {
-        this.setInitPriceLowest(parseInt(this.$route.query.priceLowest));
-      }
-      if (this.$route.query.priceHighest) {
-        this.setInitPriceHighest(parseInt(this.$route.query.priceHighest));
-      }
-      if (this.$route.query.sort) {
-        this.userSelection.sort = this.$route.query.sort;
-      }
-      console.log('paramsRead', this.selection);
-      console.log('filterActive', this.filterSelectionActive);
-      this.URLparamsRead = true;
-    },
+    //     if (brands.length) {
+    //       const selectedBrands = brands.map(i => {
+    //         const label = i.split('~')[0];
+    //         const id = i.split('~')[1];
+    //         return { id, label };
+    //       });
+    //       this.userSelection.brands = selectedBrands;
+    //     }
+    //   }
+    //   if (this.$route.query.priceLowest) {
+    //     this.setInitPriceLowest(parseInt(this.$route.query.priceLowest));
+    //   }
+    //   if (this.$route.query.priceHighest) {
+    //     this.setInitPriceHighest(parseInt(this.$route.query.priceHighest));
+    //   }
+    //   if (this.$route.query.sort) {
+    //     this.userSelection.sort = this.$route.query.sort;
+    //   }
+    //   console.log('paramsRead', this.selection);
+    //   console.log('filterActive', this.filterSelectionActive);
+    //   this.URLparamsRead = true;
+    // },
     // @vuese
     // Sets current page from URL or saved state
     setPagingState() {
@@ -619,13 +550,16 @@ export default {
     // Run to init the product list
     initProductList() {
       this.skipProductsQuery = true;
-      this.setupFilters(this.baseFilters);
-      this.readURLParams();
       this.setPagingState();
-      this.skipProductsQuery = false;
-      // this.$apollo.queries.products.start();
-      // this.$apollo.queries.products.refetch();
-      console.log('products query started');
+
+      // this.readURLParams();
+      const interval = setInterval(() => {
+        if (Object.keys(this.baseFilters).length > 0) {
+          clearInterval(interval);
+          this.setupFilters(this.baseFilters);
+          this.skipProductsQuery = false;
+        }
+      }, 100);
     },
     // @vuese
     // Runned to relocate product on page after back navigating
@@ -646,24 +580,73 @@ export default {
         }, 500);
       }
     },
+    setupUserSelection() {
+      const selection = {};
+      const selectionPrice = {};
+
+      if (this.selection.categories) {
+        this.$set(selection, 'categories', this.selection.categories);
+      }
+
+      if (this.selection.brands) {
+        this.$set(selection, 'brands', this.selection.brands);
+      }
+
+      if (this.selection.price?.lowest) {
+        this.$set(selectionPrice, 'lowest', this.selection.price.lowest);
+      }
+      if (this.selection.price?.highest) {
+        this.$set(selectionPrice, 'highest', this.selection.price.highest);
+      }
+      if (selectionPrice.lowest || selectionPrice.highest) {
+        this.$set(selection, 'price', selectionPrice);
+      }
+
+      if (this.selection.sort) {
+        this.$set(selection, 'sort', this.selection.sort);
+      } else {
+        this.$set(selection, 'sort', this.defaultSort);
+      }
+      console.log('setupUserSelection', selection);
+      this.userSelection = selection;
+    },
     setupFilters(filters) {
+      console.log('setupFilters', filters.price);
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
-      this.setInitPriceSelection(filters.price.lowest, filters.price.highest);
-      this.$set(this.filters, 'price', filters.price);
+
       this.$set(this.filters, 'categories', categories.values);
       this.$set(this.filters, 'brands', brands.values);
       this.filtersSet = true;
+      if (Object.keys(this.$route.query).length > 0) {
+        this.setupUserSelection();
+      }
     },
     updateFilters(filters) {
-      if (this.selection.price) {
-        if (this.selection.price.lowest < filters.price.lowest) {
-          this.userSelection.price.lowest = filters.price.lowest;
-        }
-        if (this.selection.price.highest > filters.price.highest) {
-          this.userSelection.price.highest = filters.price.highest;
-        }
-      }
+      this.$set(this.filters, 'price', filters.price);
+      // const selectionPrice = {};
+      // if (this.selection.price) {
+      //   if (this.selection.price.lowest) {
+      //     // if (this.selection.price.lowest < filters.price.lowest) {
+      //     //   this.userSelection.price.lowest = filters.price.lowest;
+      //     // }
+      //   } else {
+      //     this.$set(selectionPrice, 'lowest', filters.price.lowest);
+      //   }
+      //   if (this.selection.price.highest) {
+      //     // if (this.selection.price.highest > filters.price.highest) {
+      //     //   this.userSelection.price.highest = filters.price.highest;
+      //     // }
+      //   } else {
+      //     this.$set(selectionPrice, 'highest', filters.price.highest);
+      //   }
+      // } else {
+      //   this.$set(selectionPrice, 'lowest', filters.price.lowest);
+      //   this.$set(selectionPrice, 'highest', filters.price.highest);
+      // }
+      // this.skipProductsQuery = true;
+      // this.$set(this.userSelection, 'price', selectionPrice);
+      // this.skipProductsQuery = false;
 
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');

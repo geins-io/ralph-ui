@@ -2,7 +2,10 @@ export const state = () => ({
   backNavigated: false,
   relocateAlias: '',
   relocatePage: 1,
-  querySelection: null,
+  querySelection: {
+    categories: [],
+    brands: []
+  },
   firstFilterChanged: null,
   latestFilterChanged: null
 });
@@ -68,15 +71,9 @@ export const actions = {
     }
     if (query.priceLowest) {
       selection.price.lowest = parseInt(query.priceLowest);
-      if (!query.priceHighest) {
-        selection.price.highest = 1000000;
-      }
     }
     if (query.priceHighest) {
       selection.price.highest = parseInt(query.priceHighest);
-      if (!query.priceLowest) {
-        selection.price.lowest = 0;
-      }
     }
     if (query.sort) {
       selection.sort = query.sort;
