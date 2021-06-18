@@ -66,15 +66,6 @@ export const actions = {
     } else {
       selection.brands = [];
     }
-    if (query.priceLowest || query.priceHighest) {
-      selection.price = {};
-    }
-    if (query.priceLowest) {
-      selection.price.lowest = parseInt(query.priceLowest);
-    }
-    if (query.priceHighest) {
-      selection.price.highest = parseInt(query.priceHighest);
-    }
     if (query.sort) {
       selection.sort = query.sort;
     }

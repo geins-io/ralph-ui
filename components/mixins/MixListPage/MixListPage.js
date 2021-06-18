@@ -170,20 +170,6 @@ export default {
         );
         queryObj.brands = readableParams.join();
       }
-      if (
-        this.selection.price &&
-        this.selection.price.lowest &&
-        this.selection.price.lowest !== this.filters.price.lowest
-      ) {
-        queryObj.priceLowest = this.selection.priceLowest;
-      }
-      if (
-        this.selection.price &&
-        this.selection.price.highest &&
-        this.selection.price.highest !== this.filters.price.highest
-      ) {
-        queryObj.priceHighest = this.selection.priceHighest;
-      }
       if (this.selection.sort !== this.defaultSort) {
         queryObj.sort = this.selection.sort;
       }
@@ -235,17 +221,9 @@ export default {
     // Is a filter selection made?
     // @type Boolean
     filterSelectionActive() {
-      if (
-        this.selection.categories.length > 0 ||
-        this.selection.brands.length > 0
-      ) {
-        return true;
-      } else {
-        return (
-          this.selection.price?.lowest !== this.filters.price?.lowest ||
-          this.selection.price?.highest !== this.filters.price?.highest
-        );
-      }
+      return (
+        this.selection.categories.length > 0 || this.selection.brands.length > 0
+      );
     },
     productsQueryFilter() {
       const obj = {};
@@ -255,9 +233,7 @@ export default {
 
       this.$set(obj, 'facets', categories.concat(brands));
       this.$set(obj, 'sort', this.selection.sort);
-      if (this.selection.price) {
-        this.$set(obj, 'price', this.selection.price);
-      }
+
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
       }
@@ -455,8 +431,6 @@ export default {
     resetFilters() {
       this.userSelection.categories = [];
       this.userSelection.brands = [];
-      this.userSelection.price.lowest = this.filters.price.lowest;
-      this.userSelection.price.highest = this.filters.price.highest;
     },
     // @vuese
     // Reset paging state
@@ -480,47 +454,6 @@ export default {
           .catch(() => {});
       }
     },
-    // @vuese
-    // Read filter selection from URL
-    // readURLParams() {
-    //   console.log('reading params', this.$route.query.categories);
-    //   if (this.$route.query.categories) {
-    //     const categories = this.$route.query.categories.split(',');
-
-    //     if (categories.length) {
-    //       const selectedCategories = categories.map(i => {
-    //         const label = i.split('~')[0];
-    //         const id = i.split('~')[1];
-    //         return { id, label };
-    //       });
-    //       this.userSelection.categories = selectedCategories;
-    //     }
-    //   }
-    //   if (this.$route.query.brands) {
-    //     const brands = this.$route.query.brands.split(',');
-
-    //     if (brands.length) {
-    //       const selectedBrands = brands.map(i => {
-    //         const label = i.split('~')[0];
-    //         const id = i.split('~')[1];
-    //         return { id, label };
-    //       });
-    //       this.userSelection.brands = selectedBrands;
-    //     }
-    //   }
-    //   if (this.$route.query.priceLowest) {
-    //     this.setInitPriceLowest(parseInt(this.$route.query.priceLowest));
-    //   }
-    //   if (this.$route.query.priceHighest) {
-    //     this.setInitPriceHighest(parseInt(this.$route.query.priceHighest));
-    //   }
-    //   if (this.$route.query.sort) {
-    //     this.userSelection.sort = this.$route.query.sort;
-    //   }
-    //   console.log('paramsRead', this.selection);
-    //   console.log('filterActive', this.filterSelectionActive);
-    //   this.URLparamsRead = true;
-    // },
     // @vuese
     // Sets current page from URL or saved state
     setPagingState() {
@@ -582,7 +515,6 @@ export default {
     },
     setupUserSelection() {
       const selection = {};
-      const selectionPrice = {};
 
       if (this.selection.categories) {
         this.$set(selection, 'categories', this.selection.categories);
@@ -591,17 +523,6 @@ export default {
       if (this.selection.brands) {
         this.$set(selection, 'brands', this.selection.brands);
       }
-
-      if (this.selection.price?.lowest) {
-        this.$set(selectionPrice, 'lowest', this.selection.price.lowest);
-      }
-      if (this.selection.price?.highest) {
-        this.$set(selectionPrice, 'highest', this.selection.price.highest);
-      }
-      if (selectionPrice.lowest || selectionPrice.highest) {
-        this.$set(selection, 'price', selectionPrice);
-      }
-
       if (this.selection.sort) {
         this.$set(selection, 'sort', this.selection.sort);
       } else {
@@ -611,7 +532,6 @@ export default {
       this.userSelection = selection;
     },
     setupFilters(filters) {
-      console.log('setupFilters', filters.price);
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
 
@@ -623,31 +543,6 @@ export default {
       }
     },
     updateFilters(filters) {
-      this.$set(this.filters, 'price', filters.price);
-      // const selectionPrice = {};
-      // if (this.selection.price) {
-      //   if (this.selection.price.lowest) {
-      //     // if (this.selection.price.lowest < filters.price.lowest) {
-      //     //   this.userSelection.price.lowest = filters.price.lowest;
-      //     // }
-      //   } else {
-      //     this.$set(selectionPrice, 'lowest', filters.price.lowest);
-      //   }
-      //   if (this.selection.price.highest) {
-      //     // if (this.selection.price.highest > filters.price.highest) {
-      //     //   this.userSelection.price.highest = filters.price.highest;
-      //     // }
-      //   } else {
-      //     this.$set(selectionPrice, 'highest', filters.price.highest);
-      //   }
-      // } else {
-      //   this.$set(selectionPrice, 'lowest', filters.price.lowest);
-      //   this.$set(selectionPrice, 'highest', filters.price.highest);
-      // }
-      // this.skipProductsQuery = true;
-      // this.$set(this.userSelection, 'price', selectionPrice);
-      // this.skipProductsQuery = false;
-
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
 

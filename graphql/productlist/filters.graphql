@@ -9,8 +9,4 @@ fragment ListFilters on FilterCollectionType {
       label
     }
   }
-  price {
-    lowest
-    highest
-  }
 }
