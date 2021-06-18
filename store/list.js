@@ -4,7 +4,8 @@ export const state = () => ({
   relocatePage: 1,
   querySelection: {
     categories: [],
-    brands: []
+    brands: [],
+    skus: []
   },
   firstFilterChanged: null,
   latestFilterChanged: null
@@ -23,6 +24,13 @@ export const mutations = {
   setQuerySelection(state, selection) {
     state.querySelection = selection;
   },
+  resetQuerySelection(state) {
+    state.querySelection = {
+      categories: [],
+      brands: [],
+      skus: []
+    };
+  },
   setFirstFilterChanged(state, filter) {
     state.firstFilterChanged = filter;
   },
@@ -36,18 +44,13 @@ export const actions = {
     context.commit('setBackNavigated', false);
     context.commit('setRelocateAlias', '');
   },
-  saveQuerySelection({ commit }, query) {
+  saveQuerySelection({ commit, dispatch }, query) {
     const selection = {};
     if (query.categories) {
       const categories = query.categories.split(',');
 
       if (categories.length) {
-        const selectedCategories = categories.map(i => {
-          const label = i.split('~')[0];
-          const id = i.split('~')[1];
-          return { id, label };
-        });
-        selection.categories = selectedCategories;
+        selection.categories = dispatch('processUrlParams', categories);
       }
     } else {
       selection.categories = [];
@@ -56,20 +59,31 @@ export const actions = {
       const brands = query.brands.split(',');
 
       if (brands.length) {
-        const selectedBrands = brands.map(i => {
-          const label = i.split('~')[0];
-          const id = i.split('~')[1];
-          return { id, label };
-        });
-        selection.brands = selectedBrands;
+        selection.brands = dispatch('processUrlParams', brands);
       }
     } else {
       selection.brands = [];
+    }
+    if (query.skus) {
+      const skus = query.skus.split(',');
+
+      if (skus.length) {
+        selection.skus = dispatch('processUrlParams', skus);
+      }
+    } else {
+      selection.skus = [];
     }
     if (query.sort) {
       selection.sort = query.sort;
     }
     commit('setQuerySelection', selection);
+  },
+  processUrlParams(array) {
+    return array.map(i => {
+      const label = i.split('~')[0];
+      const id = i.split('~')[1];
+      return { id, label };
+    });
   }
 };
 

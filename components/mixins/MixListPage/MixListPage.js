@@ -32,9 +32,11 @@ export default {
         return this.productsQueryVars;
       },
       deep: true,
+      fetchPolicy: 'cache-and-network',
       result(result) {
         console.log('products', result);
         if (result && result.data) {
+          console.log('filtersSet', this.filtersSet);
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
           }
@@ -170,6 +172,12 @@ export default {
         );
         queryObj.brands = readableParams.join();
       }
+      if (this.selection.skus && this.selection.skus.length) {
+        const readableParams = this.selection.skus.map(
+          i => i.label + '~' + i.id
+        );
+        queryObj.skus = readableParams.join();
+      }
       if (this.selection.sort !== this.defaultSort) {
         queryObj.sort = this.selection.sort;
       }
@@ -221,17 +229,16 @@ export default {
     // Is a filter selection made?
     // @type Boolean
     filterSelectionActive() {
-      return (
-        this.selection.categories.length > 0 || this.selection.brands.length > 0
-      );
+      return this.productsQueryFilter.facets.length > 0;
     },
     productsQueryFilter() {
       const obj = {};
 
       const categories = this.selection.categories.map(i => i.id);
       const brands = this.selection.brands.map(i => i.id);
+      const skus = this.selection.skus.map(i => i.id);
 
-      this.$set(obj, 'facets', categories.concat(brands));
+      this.$set(obj, 'facets', categories.concat(brands.concat(skus)));
       this.$set(obj, 'sort', this.selection.sort);
 
       if (this.isSearch) {
@@ -336,7 +343,14 @@ export default {
       return this.isSearch ? this.productList.length !== 0 : true;
     }
   },
-  watch: {},
+  watch: {
+    userSelection(newVal, oldVal) {
+      if (newVal && oldVal === null) {
+        this.$store.commit('list/resetQuerySelection');
+        console.log('resetted queryselection');
+      }
+    }
+  },
   created() {
     this.initProductList();
     if (this.isSearch) {
@@ -431,6 +445,7 @@ export default {
     resetFilters() {
       this.userSelection.categories = [];
       this.userSelection.brands = [];
+      this.userSelection.skus = [];
     },
     // @vuese
     // Reset paging state
@@ -485,7 +500,6 @@ export default {
       this.skipProductsQuery = true;
       this.setPagingState();
 
-      // this.readURLParams();
       const interval = setInterval(() => {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
@@ -523,6 +537,11 @@ export default {
       if (this.selection.brands) {
         this.$set(selection, 'brands', this.selection.brands);
       }
+
+      if (this.selection.skus) {
+        this.$set(selection, 'skus', this.selection.skus);
+      }
+
       if (this.selection.sort) {
         this.$set(selection, 'sort', this.selection.sort);
       } else {
@@ -532,38 +551,54 @@ export default {
       this.userSelection = selection;
     },
     setupFilters(filters) {
-      const categories = filters.facets.find(i => i.type === 'Category');
-      const brands = filters.facets.find(i => i.type === 'Brand');
+      const sortedFilters = this.getSortedFilters(filters);
 
-      this.$set(this.filters, 'categories', categories.values);
-      this.$set(this.filters, 'brands', brands.values);
+      this.$set(this.filters, 'categories', sortedFilters.categories.values);
+      this.$set(this.filters, 'brands', sortedFilters.brands.values);
+      this.$set(this.filters, 'skus', sortedFilters.skus.values);
+      this.$set(this.filters, 'parameters', sortedFilters.parameters);
       this.filtersSet = true;
       if (Object.keys(this.$route.query).length > 0) {
         this.setupUserSelection();
       }
     },
     updateFilters(filters) {
+      const sortedFilters = this.getSortedFilters(filters);
+
+      this.filters.categories = this.setNewCount(
+        this.filters.categories,
+        sortedFilters.categories
+      );
+      this.filters.brands = this.setNewCount(
+        this.filters.brands,
+        sortedFilters.brands
+      );
+      this.filters.skus = this.setNewCount(
+        this.filters.skus,
+        sortedFilters.skus
+      );
+    },
+    setNewCount(baseFilters, newFilters) {
+      const array = baseFilters.map(i => {
+        const existsInNewFilters = newFilters?.values.findIndex(
+          ii => ii.id === i.id
+        );
+        if (existsInNewFilters === -1) {
+          i.count = 0;
+        } else {
+          const newCount = newFilters?.values.find(ii => ii.id === i.id).count;
+          i.count = newCount;
+        }
+        return i;
+      });
+      return array;
+    },
+    getSortedFilters(filters) {
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
-
-      this.filters.categories.map(i => {
-        const existsInNewFilters = categories?.values.findIndex(
-          ii => ii.id === i.id
-        );
-        if (existsInNewFilters === -1) {
-          i.count = 0;
-        }
-        return i;
-      });
-      this.filters.brands.map(i => {
-        const existsInNewFilters = brands?.values.findIndex(
-          ii => ii.id === i.id
-        );
-        if (existsInNewFilters === -1) {
-          i.count = 0;
-        }
-        return i;
-      });
+      const skus = filters.facets.find(i => i.type === 'Sku');
+      const parameters = filters.facets.filter(i => i.type === 'Parameter');
+      return { categories, brands, skus, parameters };
     }
   }
 };
