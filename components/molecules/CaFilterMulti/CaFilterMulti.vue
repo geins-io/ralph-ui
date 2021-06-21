@@ -11,7 +11,7 @@
         }"
         @click="
           toggleFilterValue(
-            { id: value.id, label: value.label },
+            { id: value.facetId, label: value.label },
             !value.selected
           )
         "
@@ -50,7 +50,7 @@ export default {
       if (this.values && this.values.length && this.selection) {
         return this.values.map(item => {
           const isSelected = this.currentSelection.some(
-            el => el.id === item.id
+            el => el.id === item.facetId
           );
           this.$set(item, 'selected', isSelected);
           return item;
@@ -79,10 +79,11 @@ export default {
       if (selected) {
         this.currentSelection.push(filter);
       } else {
-        const index = this.currentSelection.findIndex(i => i.id === filter.id);
+        const index = this.currentSelection.findIndex(
+          i => i.id === filter.facetId
+        );
         this.currentSelection.splice(index, 1);
       }
-      console.log('currentSelection', this.currentSelection);
       // The selection has changed
       // @arg Updated selection (Array)
       this.$emit('selectionchange', this.currentSelection);

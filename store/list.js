@@ -5,7 +5,8 @@ export const state = () => ({
   querySelection: {
     categories: [],
     brands: [],
-    skus: []
+    skus: [],
+    parameters: {}
   },
   firstFilterChanged: null,
   latestFilterChanged: null
@@ -28,7 +29,8 @@ export const mutations = {
     state.querySelection = {
       categories: [],
       brands: [],
-      skus: []
+      skus: [],
+      parameters: {}
     };
   },
   setFirstFilterChanged(state, filter) {
@@ -44,13 +46,12 @@ export const actions = {
     context.commit('setBackNavigated', false);
     context.commit('setRelocateAlias', '');
   },
-  saveQuerySelection({ commit, dispatch }, query) {
+  async saveQuerySelection({ commit, dispatch }, query) {
     const selection = {};
     if (query.categories) {
       const categories = query.categories.split(',');
-
       if (categories.length) {
-        selection.categories = dispatch('processUrlParams', categories);
+        selection.categories = await dispatch('processUrlParams', categories);
       }
     } else {
       selection.categories = [];
@@ -59,7 +60,7 @@ export const actions = {
       const brands = query.brands.split(',');
 
       if (brands.length) {
-        selection.brands = dispatch('processUrlParams', brands);
+        selection.brands = await dispatch('processUrlParams', brands);
       }
     } else {
       selection.brands = [];
@@ -68,17 +69,30 @@ export const actions = {
       const skus = query.skus.split(',');
 
       if (skus.length) {
-        selection.skus = dispatch('processUrlParams', skus);
+        selection.skus = await dispatch('processUrlParams', skus);
       }
     } else {
       selection.skus = [];
     }
+
+    selection.parameters = {};
+
+    for (const group in query) {
+      if (group.startsWith('p-')) {
+        const groupName = group.substring(2);
+        selection.parameters[groupName] = await dispatch(
+          'processUrlParams',
+          query[group].split(',')
+        );
+      }
+    }
+
     if (query.sort) {
       selection.sort = query.sort;
     }
     commit('setQuerySelection', selection);
   },
-  processUrlParams(array) {
+  processUrlParams({ context }, array) {
     return array.map(i => {
       const label = i.split('~')[0];
       const id = i.split('~')[1];

@@ -1,11 +1,13 @@
 fragment ListFilters on FilterCollectionType {
   facets {
+    filterId
     group
     label
     type
     values {
+      _id
       count
-      id
+      facetId
       label
     }
   }

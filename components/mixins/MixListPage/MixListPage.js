@@ -32,7 +32,6 @@ export default {
         return this.productsQueryVars;
       },
       deep: true,
-      fetchPolicy: 'cache-and-network',
       result(result) {
         console.log('products', result);
         if (result && result.data) {
@@ -178,6 +177,16 @@ export default {
         );
         queryObj.skus = readableParams.join();
       }
+      if (Object.keys(this.selection.parameters).length > 0) {
+        for (const group in this.selection.parameters) {
+          const readableParams = this.selection.parameters[group].map(
+            i => i.label + '~' + i.id
+          );
+          if (readableParams.length) {
+            queryObj['p-' + group] = readableParams.join();
+          }
+        }
+      }
       if (this.selection.sort !== this.defaultSort) {
         queryObj.sort = this.selection.sort;
       }
@@ -237,8 +246,16 @@ export default {
       const categories = this.selection.categories.map(i => i.id);
       const brands = this.selection.brands.map(i => i.id);
       const skus = this.selection.skus.map(i => i.id);
-
-      this.$set(obj, 'facets', categories.concat(brands.concat(skus)));
+      const parameters = [];
+      for (const group in this.selection.parameters) {
+        const selection = this.selection.parameters[group].map(i => i.id);
+        selection.forEach(i => parameters.push(i));
+      }
+      this.$set(
+        obj,
+        'facets',
+        categories.concat(brands.concat(skus.concat(parameters)))
+      );
       this.$set(obj, 'sort', this.selection.sort);
 
       if (this.isSearch) {
@@ -446,6 +463,9 @@ export default {
       this.userSelection.categories = [];
       this.userSelection.brands = [];
       this.userSelection.skus = [];
+      this.userSelection.parameters = {};
+      this.resetCurrentPage();
+      this.pushURLParams();
     },
     // @vuese
     // Reset paging state
@@ -542,6 +562,10 @@ export default {
         this.$set(selection, 'skus', this.selection.skus);
       }
 
+      if (this.selection.parameters) {
+        this.$set(selection, 'parameters', this.selection.parameters);
+      }
+
       if (this.selection.sort) {
         this.$set(selection, 'sort', this.selection.sort);
       } else {
@@ -581,12 +605,14 @@ export default {
     setNewCount(baseFilters, newFilters) {
       const array = baseFilters.map(i => {
         const existsInNewFilters = newFilters?.values.findIndex(
-          ii => ii.id === i.id
+          ii => ii.facetId === i.facetId
         );
         if (existsInNewFilters === -1) {
           i.count = 0;
         } else {
-          const newCount = newFilters?.values.find(ii => ii.id === i.id).count;
+          const newCount = newFilters?.values.find(
+            ii => ii.facetId === i.facetId
+          ).count;
           i.count = newCount;
         }
         return i;
