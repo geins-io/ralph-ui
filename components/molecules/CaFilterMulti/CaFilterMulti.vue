@@ -79,9 +79,7 @@ export default {
       if (selected) {
         this.currentSelection.push(filter);
       } else {
-        const index = this.currentSelection.findIndex(
-          i => i.id === filter.facetId
-        );
+        const index = this.currentSelection.findIndex(i => i.id === filter.id);
         this.currentSelection.splice(index, 1);
       }
       // The selection has changed

@@ -1,5 +1,6 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import productsQuery from 'productlist/list-products.graphql';
+import { mapState } from 'vuex';
 // import filtersQuery from 'productlist/products-filter.graphql';
 // @group Mixins
 // @vuese
@@ -160,30 +161,20 @@ export default {
     filterURLparams() {
       const queryObj = {};
       if (this.selection.categories && this.selection.categories.length) {
-        const readableParams = this.selection.categories.map(
-          i => i.label + '~' + i.id
-        );
-        queryObj.categories = readableParams.join();
+        queryObj.categories = this.getReadableParams(this.selection.categories);
       }
       if (this.selection.brands && this.selection.brands.length) {
-        const readableParams = this.selection.brands.map(
-          i => i.label + '~' + i.id
-        );
-        queryObj.brands = readableParams.join();
+        queryObj.brands = this.getReadableParams(this.selection.brands);
       }
       if (this.selection.skus && this.selection.skus.length) {
-        const readableParams = this.selection.skus.map(
-          i => i.label + '~' + i.id
-        );
-        queryObj.skus = readableParams.join();
+        queryObj.skus = this.getReadableParams(this.selection.skus);
       }
       if (Object.keys(this.selection.parameters).length > 0) {
         for (const group in this.selection.parameters) {
-          const readableParams = this.selection.parameters[group].map(
-            i => i.label + '~' + i.id
-          );
-          if (readableParams.length) {
-            queryObj['p-' + group] = readableParams.join();
+          if (this.selection.parameters[group].length) {
+            queryObj['p-' + group] = this.getReadableParams(
+              this.selection.parameters[group]
+            );
           }
         }
       }
@@ -225,7 +216,7 @@ export default {
         return this.userSelection;
       } else {
         const querySelection = JSON.parse(
-          JSON.stringify(this.$store.state.list.querySelection)
+          JSON.stringify(this.list.querySelection)
         );
         if (!querySelection.sort) {
           querySelection.sort = this.defaultSort;
@@ -358,13 +349,13 @@ export default {
     },
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
-    }
+    },
+    ...mapState(['list'])
   },
   watch: {
     userSelection(newVal, oldVal) {
       if (newVal && oldVal === null) {
         this.$store.commit('list/resetQuerySelection');
-        console.log('resetted queryselection');
       }
     }
   },
@@ -444,7 +435,7 @@ export default {
     // @vuese
     // Update the filter selections
     // @arg new value (Object)
-    filterChangeHandler(newVal) {
+    filterChangeHandler(selectionData) {
       if (
         !this.$store.getters['list/backNavigated'] &&
         !this.$store.getters['list/relocateProduct']
@@ -452,9 +443,10 @@ export default {
         this.resetCurrentPage();
       }
       console.log('filterChange');
-      const selection = newVal;
+      const selection = selectionData.selection;
       this.$set(selection, 'sort', this.selection.sort);
       this.userSelection = selection;
+      this.setLatestFilterChanged(selectionData.type);
       this.pushURLParams();
     },
     // @vuese
@@ -494,7 +486,7 @@ export default {
     setPagingState() {
       if (this.$store.getters['list/backNavigated']) {
         if (this.$store.getters['list/relocateProduct']) {
-          this.currentPage = this.$store.state.list.relocatePage;
+          this.currentPage = this.list.relocatePage;
           this.pushURLParams();
         } else {
           this.$store.commit('list/setBackNavigated', false);
@@ -533,7 +525,7 @@ export default {
     relocateProduct() {
       clearTimeout(this.relocateTimeout);
       const product = document.querySelector(
-        '[data-alias="' + this.$store.state.list.relocateAlias + '"]'
+        '[data-alias="' + this.list.relocateAlias + '"]'
       );
       if (product !== null) {
         this.$nextTick(() => {
@@ -589,18 +581,33 @@ export default {
     updateFilters(filters) {
       const sortedFilters = this.getSortedFilters(filters);
 
-      this.filters.categories = this.setNewCount(
-        this.filters.categories,
-        sortedFilters.categories
-      );
-      this.filters.brands = this.setNewCount(
-        this.filters.brands,
-        sortedFilters.brands
-      );
-      this.filters.skus = this.setNewCount(
-        this.filters.skus,
-        sortedFilters.skus
-      );
+      if (this.list.firstFilterChanged !== 'categories') {
+        this.filters.categories = this.setNewCount(
+          this.filters.categories,
+          sortedFilters.categories
+        );
+      }
+      if (this.list.firstFilterChanged !== 'brands') {
+        this.filters.brands = this.setNewCount(
+          this.filters.brands,
+          sortedFilters.brands
+        );
+      }
+      if (this.list.firstFilterChanged !== 'skus') {
+        this.filters.skus = this.setNewCount(
+          this.filters.skus,
+          sortedFilters.skus
+        );
+      }
+      this.filters.parameters.map(filter => {
+        const newFilter = sortedFilters.parameters.find(
+          i => i.filterId === filter.filterId
+        );
+        if (this.list.firstFilterChanged !== filter.filterId) {
+          filter.values = this.setNewCount(filter.values, newFilter);
+        }
+        return filter;
+      });
     },
     setNewCount(baseFilters, newFilters) {
       const array = baseFilters.map(i => {
@@ -613,7 +620,7 @@ export default {
           const newCount = newFilters?.values.find(
             ii => ii.facetId === i.facetId
           ).count;
-          i.count = newCount;
+          i.count = newCount || 0;
         }
         return i;
       });
@@ -625,6 +632,59 @@ export default {
       const skus = filters.facets.find(i => i.type === 'Sku');
       const parameters = filters.facets.filter(i => i.type === 'Parameter');
       return { categories, brands, skus, parameters };
+    },
+    setLatestFilterChanged(type) {
+      if (!this.filterSelectionActive) {
+        this.$store.commit('list/setLatestFilterChanged', null);
+        this.$store.commit('list/setFirstFilterChanged', null);
+      } else if (!this.checkFilterEmpty(type)) {
+        this.$store.commit('list/setLatestFilterChanged', type);
+      }
+      if (!this.list.firstFilterChanged) {
+        this.$store.commit('list/setFirstFilterChanged', type);
+      } else if (
+        this.checkFilterEmpty(this.list.firstFilterChanged) &&
+        this.filterSelectionActive
+      ) {
+        this.$store.commit(
+          'list/setFirstFilterChanged',
+          this.list.latestFilterChanged
+        );
+        // const sortedFilters = this.getSortedFilters(this.baseFilters);
+
+        // if (this.list.latestFilterChanged.includes('_')) {
+        //   const currentFilters = this.filters.parameters.find(
+        //     i => i.filterId === this.list.latestFilterChanged
+        //   ).values;
+        //   const baseFilters = sortedFilters.parameters.find(
+        //     i => i.filterId === this.list.latestFilterChanged
+        //   );
+        //   this.filters.parameters[
+        //     this.list.latestFilterChanged
+        //   ] = this.setNewCount(currentFilters, baseFilters);
+        // } else {
+        //   const currentFilters = this.filters[this.list.latestFilterChanged]
+        //     .values;
+        //   const baseFilters = sortedFilters[this.list.latestFilterChanged];
+        //   this.filters[this.list.latestFilterChanged] = this.setNewCount(
+        //     currentFilters,
+        //     baseFilters
+        //   );
+        // }
+      }
+    },
+    getReadableParams(array) {
+      const readableParams = array.map(i => i.label + '~' + i.id);
+      return readableParams.join();
+    },
+    checkFilterEmpty(type) {
+      if (type) {
+        if (type.includes('_')) {
+          return this.selection.parameters[type].length === 0;
+        } else {
+          return this.selection[type].length === 0;
+        }
+      } else return true;
     }
   }
 };
