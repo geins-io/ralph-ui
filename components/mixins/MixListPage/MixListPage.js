@@ -8,7 +8,7 @@ import { mapState } from 'vuex';
 // **Data:**<br>
 // productList: `[]`<br>
 // totalCount: `0`<br>
-// skip: `0`<br>
+// userSkip: `0`<br>
 // pageSize: `vm.$config.productListPageSize`<br>
 // sort: `vm.$config.productListDefaultSort`<br>
 // defaultSort: `vm.$config.productListDefaultSort`<br>
@@ -42,9 +42,7 @@ export default {
           }
           this.productList = result.data.products.products;
           this.totalCount = result.data.products.count;
-          if (this.$store.getters['list/relocateProduct']) {
-            this.relocateProduct();
-          }
+
           if (this.currentMaxCount > this.totalCount) {
             this.currentMaxCount = this.totalCount;
           }
@@ -127,7 +125,7 @@ export default {
     productList: [],
     productListIdle: [],
     totalCount: 0,
-    skip: 0,
+    userSkip: 0,
     pageSize: vm.$config.productListPageSize,
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
@@ -143,6 +141,18 @@ export default {
     filtersSet: false
   }),
   computed: {
+    skip() {
+      if (
+        (this.list.backNavigated || this.$route.query.page) &&
+        this.list.relocatePage > 1
+      ) {
+        console.log('NOT userSkip');
+        return (this.list.relocatePage - 1) * this.pageSize;
+      } else {
+        console.log('userSkip');
+        return this.userSkip;
+      }
+    },
     // @vuese
     // Are all products loaded?
     // @type Boolean
@@ -446,7 +456,7 @@ export default {
       const selection = selectionData.selection;
       this.$set(selection, 'sort', this.selection.sort);
       this.userSelection = selection;
-      this.setLatestFilterChanged(selectionData.type);
+      // this.setLatestFilterChanged(selectionData.type);
       this.pushURLParams();
     },
     // @vuese
@@ -463,7 +473,7 @@ export default {
     // Reset paging state
     resetCurrentPage() {
       this.currentPage = 1;
-      this.skip = 0;
+      this.userSkip = 0;
       this.currentMinCount = 1;
       this.currentMaxCount = this.pageSize;
     },
@@ -484,38 +494,35 @@ export default {
     // @vuese
     // Sets current page from URL or saved state
     setPagingState() {
-      if (this.$store.getters['list/backNavigated']) {
+      if (
+        (this.list.backNavigated || this.$route.query.page) &&
+        this.list.relocatePage > 1
+      ) {
+        this.userSkip = this.skip;
+        this.currentPage = this.list.relocatePage;
         if (this.$store.getters['list/relocateProduct']) {
-          this.currentPage = this.list.relocatePage;
-          this.pushURLParams();
+          this.relocateProduct();
         } else {
           this.$store.commit('list/setBackNavigated', false);
-          if (this.$route.query.page) {
-            this.currentPage = parseInt(this.$route.query.page);
-          }
         }
-      } else if (this.$route.query.page) {
-        this.currentPage = parseInt(this.$route.query.page);
       }
       if (this.currentPage > 1) {
-        this.skip = (this.currentPage - 1) * this.pageSize;
         this.currentMinCount = this.skip + 1;
+        const currentMax = this.skip + this.pageSize;
         this.currentMaxCount =
-          this.skip + this.pageSize > this.totalCount
-            ? this.totalCount
-            : this.skip + this.pageSize;
+          currentMax > this.totalCount ? this.totalCount : currentMax;
       }
     },
     // @vuese
     // Run to init the product list
     initProductList() {
       this.skipProductsQuery = true;
-      this.setPagingState();
-
+      console.log('initProductList');
       const interval = setInterval(() => {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
           this.setupFilters(this.baseFilters);
+          this.setPagingState();
           this.skipProductsQuery = false;
         }
       }, 100);
@@ -539,9 +546,9 @@ export default {
         }, 500);
       }
     },
-    setupUserSelection() {
+    async setupUserSelection() {
       const selection = {};
-
+      await this.$store.dispatch('list/saveQuerySelection', this.$route.query);
       if (this.selection.categories) {
         this.$set(selection, 'categories', this.selection.categories);
       }
@@ -574,7 +581,10 @@ export default {
       this.$set(this.filters, 'skus', sortedFilters.skus.values);
       this.$set(this.filters, 'parameters', sortedFilters.parameters);
       this.filtersSet = true;
-      if (Object.keys(this.$route.query).length > 0) {
+      if (
+        Object.keys(this.$route.query).length > 0 &&
+        !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
+      ) {
         this.setupUserSelection();
       }
     },
