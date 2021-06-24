@@ -9,7 +9,8 @@ export const state = () => ({
     parameters: {}
   },
   firstFilterChanged: null,
-  latestFilterChanged: null
+  latestFilterChanged: null,
+  initSkip: 0
 });
 
 export const mutations = {
@@ -38,6 +39,9 @@ export const mutations = {
   },
   setLatestFilterChanged(state, filter) {
     state.latestFilterChanged = filter;
+  },
+  setInitSkip(state, skip) {
+    state.initSkip = skip;
   }
 };
 
@@ -89,6 +93,9 @@ export const actions = {
 
     if (query.sort) {
       selection.sort = query.sort;
+    }
+    if (query.page) {
+      commit('setRelocatePage', parseInt(query.page));
     }
     commit('setQuerySelection', selection);
   },
