@@ -46,18 +46,18 @@ export const actions = {
     context.commit('setBackNavigated', false);
     context.commit('setRelocateAlias', '');
   },
-  async saveQuerySelection({ commit, dispatch }, query) {
+  async saveQuerySelection({ commit, dispatch }, data) {
     const selection = {};
-    if (query.categories) {
-      const categories = query.categories.split(',');
+    if (data.query.categories) {
+      const categories = data.query.categories.split(',');
       if (categories.length) {
         selection.categories = await dispatch('processUrlParams', categories);
       }
     } else {
       selection.categories = [];
     }
-    if (query.brands) {
-      const brands = query.brands.split(',');
+    if (data.query.brands) {
+      const brands = data.query.brands.split(',');
 
       if (brands.length) {
         selection.brands = await dispatch('processUrlParams', brands);
@@ -65,8 +65,8 @@ export const actions = {
     } else {
       selection.brands = [];
     }
-    if (query.skus) {
-      const skus = query.skus.split(',');
+    if (data.query.skus) {
+      const skus = data.query.skus.split(',');
 
       if (skus.length) {
         selection.skus = await dispatch('processUrlParams', skus);
@@ -77,21 +77,21 @@ export const actions = {
 
     selection.parameters = {};
 
-    for (const group in query) {
+    for (const group in data.query) {
       if (group.startsWith('p-')) {
         const groupName = group.substring(2);
         selection.parameters[groupName] = await dispatch(
           'processUrlParams',
-          query[group].split(',')
+          data.query[group].split(',')
         );
       }
     }
 
-    if (query.sort) {
-      selection.sort = query.sort;
+    if (data.query.sort) {
+      selection.sort = data.query.sort;
     }
-    if (query.page) {
-      commit('setRelocatePage', parseInt(query.page));
+    if (data.query.page && data.setPage) {
+      commit('setRelocatePage', parseInt(data.query.page));
     }
     commit('setQuerySelection', selection);
   },

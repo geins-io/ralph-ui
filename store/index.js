@@ -97,7 +97,7 @@ export const actions = {
     document.documentElement.style.setProperty('--vh', vh + 'px');
   },
   nuxtServerInit({ commit, dispatch }, { req, context, route }) {
-    dispatch('list/saveQuerySelection', route.query);
+    dispatch('list/saveQuerySelection', { query: route.query, setPage: true });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {

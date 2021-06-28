@@ -141,17 +141,13 @@ export default {
   }),
   computed: {
     skip() {
-      if (this.list.backNavigated && this.list.relocatePage > 1) {
+      if (this.$store.getters['list/relocateProduct']) {
         return (this.list.relocatePage - 1) * this.pageSize;
       } else if (this.$route.query.page) {
         if (this.userHasPaged) {
           return this.userSkip;
         } else {
-          const page =
-            this.relocatePage > 1
-              ? this.list.relocatePage
-              : this.$route.query.page;
-          return (page - 1) * this.pageSize;
+          return (parseInt(this.$route.query.page) - 1) * this.pageSize;
         }
       } else {
         return this.userSkip;
@@ -508,20 +504,23 @@ export default {
     // Sets current page from URL or saved state
     setPagingState() {
       this.userSkip = this.skip;
-      if (this.list.relocatePage > 1 || this.$route.query.page) {
-        this.currentPage =
-          this.list.relocatePage > 1
-            ? this.list.relocatePage
-            : this.$route.query.page;
-        if (this.$store.getters['list/relocateProduct']) {
-          this.relocateProduct();
-        }
+      if (
+        this.$store.getters['list/relocateProduct'] ||
+        this.$route.query.page
+      ) {
+        this.currentPage = this.$store.getters['list/relocateProduct']
+          ? this.list.relocatePage
+          : parseInt(this.$route.query.page);
+      }
+      this.pushURLParams();
+      this.skipProductsQuery = false;
+      if (this.$store.getters['list/relocateProduct']) {
+        this.relocateProduct();
       }
       this.$store.commit('list/setBackNavigated', false);
       this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
         this.currentMinCount = this.skip + 1;
-        // const currentMax = this.skip + this.pageSize;
         this.currentMaxCount = this.skip + this.pageSize;
       }
     },
@@ -533,11 +532,6 @@ export default {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
           this.setupFilters(this.baseFilters);
-          this.$nextTick(() => {
-            this.setPagingState();
-          });
-
-          this.skipProductsQuery = false;
         }
       }, 100);
     },
@@ -562,7 +556,10 @@ export default {
     },
     async setupUserSelection() {
       const selection = {};
-      await this.$store.dispatch('list/saveQuerySelection', this.$route.query);
+      await this.$store.dispatch('list/saveQuerySelection', {
+        query: this.$route.query,
+        setPage: false
+      });
       if (this.selection.categories) {
         this.$set(selection, 'categories', this.selection.categories);
       }
@@ -585,6 +582,9 @@ export default {
         this.$set(selection, 'sort', this.defaultSort);
       }
       this.userSelection = selection;
+      this.$nextTick(() => {
+        this.setPagingState();
+      });
     },
     setupFilters(filters) {
       const sortedFilters = this.getSortedFilters(filters);
@@ -599,6 +599,10 @@ export default {
         !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
       ) {
         this.setupUserSelection();
+      } else {
+        this.$nextTick(() => {
+          this.setPagingState();
+        });
       }
     },
     updateFilters(filters) {
@@ -673,27 +677,6 @@ export default {
           'list/setFirstFilterChanged',
           this.list.latestFilterChanged
         );
-        // const sortedFilters = this.getSortedFilters(this.baseFilters);
-
-        // if (this.list.latestFilterChanged.includes('_')) {
-        //   const currentFilters = this.filters.parameters.find(
-        //     i => i.filterId === this.list.latestFilterChanged
-        //   ).values;
-        //   const baseFilters = sortedFilters.parameters.find(
-        //     i => i.filterId === this.list.latestFilterChanged
-        //   );
-        //   this.filters.parameters[
-        //     this.list.latestFilterChanged
-        //   ] = this.setNewCount(currentFilters, baseFilters);
-        // } else {
-        //   const currentFilters = this.filters[this.list.latestFilterChanged]
-        //     .values;
-        //   const baseFilters = sortedFilters[this.list.latestFilterChanged];
-        //   this.filters[this.list.latestFilterChanged] = this.setNewCount(
-        //     currentFilters,
-        //     baseFilters
-        //   );
-        // }
       }
     },
     getReadableParams(array) {

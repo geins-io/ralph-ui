@@ -1,7 +1,15 @@
 #import "productlist/filters.graphql"
 
-query products($categoryAlias: String = null, $brandAlias: String = null) {
-  products(categoryAlias: $categoryAlias, brandAlias: $brandAlias) {
+query products(
+  $categoryAlias: String = null
+  $brandAlias: String = null
+  $filter: FilterInputType = null
+) {
+  products(
+    categoryAlias: $categoryAlias
+    brandAlias: $brandAlias
+    filter: $filter
+  ) {
     filters {
       ...ListFilters
     }
