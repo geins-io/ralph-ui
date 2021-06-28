@@ -34,9 +34,7 @@ export default {
       },
       deep: true,
       result(result) {
-        console.log('products', result);
         if (result && result.data) {
-          console.log('filtersSet', this.filtersSet);
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
           }
@@ -138,18 +136,24 @@ export default {
     currentMaxCount: vm.$config.productListPageSize,
     relocateTimeout: null,
     URLparamsRead: false,
-    filtersSet: false
+    filtersSet: false,
+    userHasPaged: false
   }),
   computed: {
     skip() {
-      if (
-        (this.list.backNavigated || this.$route.query.page) &&
-        this.list.relocatePage > 1
-      ) {
-        console.log('NOT userSkip');
+      if (this.list.backNavigated && this.list.relocatePage > 1) {
         return (this.list.relocatePage - 1) * this.pageSize;
+      } else if (this.$route.query.page) {
+        if (this.userHasPaged) {
+          return this.userSkip;
+        } else {
+          const page =
+            this.relocatePage > 1
+              ? this.list.relocatePage
+              : this.$route.query.page;
+          return (page - 1) * this.pageSize;
+        }
       } else {
-        console.log('userSkip');
         return this.userSkip;
       }
     },
@@ -222,7 +226,6 @@ export default {
     },
     selection() {
       if (this.userSelection) {
-        console.log('userSelection', this.userSelection);
         return this.userSelection;
       } else {
         const querySelection = JSON.parse(
@@ -231,7 +234,6 @@ export default {
         if (!querySelection.sort) {
           querySelection.sort = this.defaultSort;
         }
-        console.log('querySelection', querySelection);
         return querySelection;
       }
     },
@@ -332,6 +334,15 @@ export default {
       }
       return prodArray;
     },
+    skeletonProductsNext() {
+      const prodArray = [];
+      const count = this.totalCount - this.currentMaxCount;
+      const nextPageSize = count < this.pageSize ? count : this.pageSize;
+      for (let i = 0; i < nextPageSize; i++) {
+        prodArray.push({});
+      }
+      return prodArray;
+    },
     // @vuese
     // Returns array of widget filters
     // @type Array
@@ -389,27 +400,29 @@ export default {
     // @vuese
     // Load next chunk of products
     loadMore() {
+      this.userHasPaged = true;
       const currentProductList = this.productList;
-      this.productList = [...this.productList, ...this.skeletonProducts];
+      this.productList = [...this.productList, ...this.skeletonProductsNext];
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
-      this.pushURLParams();
       this.$apollo.queries.products.fetchMore({
         variables: this.loadMoreQueryVars,
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newProducts = fetchMoreResult.products.products;
           this.currentMaxCount += newProducts.length;
           this.productList = [...currentProductList, ...newProducts];
+          this.pushURLParams();
         }
       });
     },
     // @vuese
     // Load previous chunk of products
     loadPrev() {
+      this.userHasPaged = true;
       const currentProductList = this.productList;
       const scrollHeight = this.getScrollHeight();
       this.productList = [...this.skeletonProducts, ...this.productList];
       this.currentPage = (this.currentMinCount - 1) / this.pageSize;
-      this.pushURLParams();
+
       this.$nextTick(() => {
         const scrollAmount = this.getScrollHeight() - scrollHeight;
         window.scrollBy(0, scrollAmount);
@@ -420,6 +433,7 @@ export default {
           const newProducts = fetchMoreResult.products.products;
           this.currentMinCount -= newProducts.length;
           this.productList = [...newProducts, ...currentProductList];
+          this.pushURLParams();
         }
       });
     },
@@ -452,7 +466,6 @@ export default {
       ) {
         this.resetCurrentPage();
       }
-      console.log('filterChange');
       const selection = selectionData.selection;
       this.$set(selection, 'sort', this.selection.sort);
       this.userSelection = selection;
@@ -494,35 +507,36 @@ export default {
     // @vuese
     // Sets current page from URL or saved state
     setPagingState() {
-      if (
-        (this.list.backNavigated || this.$route.query.page) &&
-        this.list.relocatePage > 1
-      ) {
-        this.userSkip = this.skip;
-        this.currentPage = this.list.relocatePage;
+      this.userSkip = this.skip;
+      if (this.list.relocatePage > 1 || this.$route.query.page) {
+        this.currentPage =
+          this.list.relocatePage > 1
+            ? this.list.relocatePage
+            : this.$route.query.page;
         if (this.$store.getters['list/relocateProduct']) {
           this.relocateProduct();
-        } else {
-          this.$store.commit('list/setBackNavigated', false);
         }
       }
+      this.$store.commit('list/setBackNavigated', false);
+      this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
         this.currentMinCount = this.skip + 1;
-        const currentMax = this.skip + this.pageSize;
-        this.currentMaxCount =
-          currentMax > this.totalCount ? this.totalCount : currentMax;
+        // const currentMax = this.skip + this.pageSize;
+        this.currentMaxCount = this.skip + this.pageSize;
       }
     },
     // @vuese
     // Run to init the product list
     initProductList() {
       this.skipProductsQuery = true;
-      console.log('initProductList');
       const interval = setInterval(() => {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
           this.setupFilters(this.baseFilters);
-          this.setPagingState();
+          this.$nextTick(() => {
+            this.setPagingState();
+          });
+
           this.skipProductsQuery = false;
         }
       }, 100);
@@ -570,7 +584,6 @@ export default {
       } else {
         this.$set(selection, 'sort', this.defaultSort);
       }
-      console.log('setupUserSelection', selection);
       this.userSelection = selection;
     },
     setupFilters(filters) {

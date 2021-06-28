@@ -9,8 +9,7 @@ export const state = () => ({
     parameters: {}
   },
   firstFilterChanged: null,
-  latestFilterChanged: null,
-  initSkip: 0
+  latestFilterChanged: null
 });
 
 export const mutations = {
@@ -39,9 +38,6 @@ export const mutations = {
   },
   setLatestFilterChanged(state, filter) {
     state.latestFilterChanged = filter;
-  },
-  setInitSkip(state, skip) {
-    state.initSkip = skip;
   }
 };
 
