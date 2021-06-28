@@ -1,24 +1,15 @@
-#import "productlist/product.graphql"
 #import "productlist/filters.graphql"
 
 query products(
-  $skip: Int = null
-  $take: Int = null
   $categoryAlias: String = null
-  $sort: SortType = null
+  $brandAlias: String = null
   $filter: FilterInputType = null
 ) {
   products(
-    skip: $skip
-    take: $take
     categoryAlias: $categoryAlias
-    sort: $sort
+    brandAlias: $brandAlias
     filter: $filter
   ) {
-    products {
-      ...ListProduct
-    }
-    count
     filters {
       ...ListFilters
     }

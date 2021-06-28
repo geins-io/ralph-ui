@@ -1,17 +1,20 @@
 import MixMetaReplacement from 'MixMetaReplacement';
+import productsQuery from 'productlist/list-products.graphql';
+import { mapState } from 'vuex';
+// import filtersQuery from 'productlist/products-filter.graphql';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
 // productList: `[]`<br>
 // totalCount: `0`<br>
-// skip: `0`<br>
+// userSkip: `0`<br>
 // pageSize: `vm.$config.productListPageSize`<br>
 // sort: `vm.$config.productListDefaultSort`<br>
 // defaultSort: `vm.$config.productListDefaultSort`<br>
 // listInfo: `null`<br>
 // filters: `{}`<br>
-// selection: `{ categories: [], brands: [] }`<br>
+// userSelection: `{ categories: [], brands: [] }`<br>
 // filterParamQuery: `{}`<br>
 // skipProductsQuery: `false`<br>
 // currentPage: `1`<br>
@@ -24,29 +27,25 @@ export default {
   apollo: {
     products: {
       query() {
-        return this.productsQuery;
+        return productsQuery;
       },
       variables() {
         return this.productsQueryVars;
       },
       deep: true,
       result(result) {
-        this.productList = result.data.products.products;
-        this.totalCount = result.data.products.count;
-        this.filters = result.data.products.filters;
-        if (result.data.products.filters.price) {
-          this.setInitPriceSelection(
-            result.data.products.filters.price.lowest,
-            result.data.products.filters.price.highest
-          );
+        if (result && result.data) {
+          if (this.filtersSet) {
+            this.updateFilters(result.data.products.filters);
+          }
+          this.productList = result.data.products.products;
+          this.totalCount = result.data.products.count;
+
+          if (this.currentMaxCount > this.totalCount) {
+            this.currentMaxCount = this.totalCount;
+          }
+          this.$store.dispatch('loading/end');
         }
-        if (this.$store.getters['list/relocateProduct']) {
-          this.relocateProduct();
-        }
-        if (this.currentMaxCount > this.totalCount) {
-          this.currentMaxCount = this.totalCount;
-        }
-        this.$store.dispatch('loading/end');
       },
       skip() {
         return this.skipProductsQuery;
@@ -88,15 +87,13 @@ export default {
       required: true
     },
     // @vuese
-    // Graphql for the products query
-    productsQuery: {
-      type: Object,
-      required: true
-    },
-    // @vuese
     // Current alias for the page
     currentAlias: {
       type: String,
+      required: true
+    },
+    baseFilters: {
+      type: Object,
       required: true
     }
   },
@@ -124,25 +121,38 @@ export default {
   },
   data: vm => ({
     productList: [],
+    productListIdle: [],
     totalCount: 0,
-    skip: 0,
+    userSkip: 0,
     pageSize: vm.$config.productListPageSize,
-    sort: vm.$config.productListDefaultSort,
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
     filters: {},
-    selection: {
-      categories: [],
-      brands: []
-    },
+    userSelection: null,
     filterParamQuery: {},
     skipProductsQuery: false,
     currentPage: 1,
     currentMinCount: 1,
     currentMaxCount: vm.$config.productListPageSize,
-    relocateTimeout: null
+    relocateTimeout: null,
+    URLparamsRead: false,
+    filtersSet: false,
+    userHasPaged: false
   }),
   computed: {
+    skip() {
+      if (this.$store.getters['list/relocateProduct']) {
+        return (this.list.relocatePage - 1) * this.pageSize;
+      } else if (this.$route.query.page) {
+        if (this.userHasPaged) {
+          return this.userSkip;
+        } else {
+          return (parseInt(this.$route.query.page) - 1) * this.pageSize;
+        }
+      } else {
+        return this.userSkip;
+      }
+    },
     // @vuese
     // Are all products loaded?
     // @type Boolean
@@ -158,30 +168,28 @@ export default {
     // @vuese
     // Returns the filter object used to query products based on filters
     // @type Object
-    filterQuery() {
+    filterURLparams() {
       const queryObj = {};
       if (this.selection.categories && this.selection.categories.length) {
-        queryObj.categories = this.selection.categories.join();
+        queryObj.categories = this.getReadableParams(this.selection.categories);
       }
       if (this.selection.brands && this.selection.brands.length) {
-        queryObj.brands = this.selection.brands.join();
+        queryObj.brands = this.getReadableParams(this.selection.brands);
       }
-      if (
-        this.selection.price &&
-        this.selection.price.lowest &&
-        this.selection.price.lowest !== this.filters.price.lowest
-      ) {
-        queryObj.priceLowest = this.selection.price.lowest;
+      if (this.selection.skus && this.selection.skus.length) {
+        queryObj.skus = this.getReadableParams(this.selection.skus);
       }
-      if (
-        this.selection.price &&
-        this.selection.price.highest &&
-        this.selection.price.highest !== this.filters.price.highest
-      ) {
-        queryObj.priceHighest = this.selection.price.highest;
+      if (Object.keys(this.selection.parameters).length > 0) {
+        for (const group in this.selection.parameters) {
+          if (this.selection.parameters[group].length) {
+            queryObj['p-' + group] = this.getReadableParams(
+              this.selection.parameters[group]
+            );
+          }
+        }
       }
-      if (this.sort !== this.defaultSort) {
-        queryObj.sort = this.sort;
+      if (this.selection.sort !== this.defaultSort) {
+        queryObj.sort = this.selection.sort;
       }
       if (this.currentPage > 1) {
         queryObj.page = this.currentPage.toString();
@@ -212,20 +220,47 @@ export default {
     isSearch() {
       return this.type === 'search';
     },
+    selection() {
+      if (this.userSelection) {
+        return this.userSelection;
+      } else {
+        const querySelection = JSON.parse(
+          JSON.stringify(this.list.querySelection)
+        );
+        if (!querySelection.sort) {
+          querySelection.sort = this.defaultSort;
+        }
+        return querySelection;
+      }
+    },
     // @vuese
     // Is a filter selection made?
     // @type Boolean
     filterSelectionActive() {
-      if (!this.selection.price) {
-        return false;
-      } else {
-        return (
-          this.selection.categories.length > 0 ||
-          this.selection.brands.length > 0 ||
-          this.selection.price.lowest !== this.filters.price.lowest ||
-          this.selection.price.highest !== this.filters.price.highest
-        );
+      return this.productsQueryFilter.facets.length > 0;
+    },
+    productsQueryFilter() {
+      const obj = {};
+
+      const categories = this.selection.categories.map(i => i.id);
+      const brands = this.selection.brands.map(i => i.id);
+      const skus = this.selection.skus.map(i => i.id);
+      const parameters = [];
+      for (const group in this.selection.parameters) {
+        const selection = this.selection.parameters[group].map(i => i.id);
+        selection.forEach(i => parameters.push(i));
       }
+      this.$set(
+        obj,
+        'facets',
+        categories.concat(brands.concat(skus.concat(parameters)))
+      );
+      this.$set(obj, 'sort', this.selection.sort);
+
+      if (this.isSearch) {
+        this.$set(obj, 'searchText', this.currentAlias);
+      }
+      return obj;
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list
@@ -234,17 +269,15 @@ export default {
       const varsObj = {
         skip: this.skip,
         take: this.pageSize,
-        sort: this.sort,
-        filter: this.selection
+        filter: this.productsQueryFilter
       };
       if (this.isCategory) {
         this.$set(varsObj, 'categoryAlias', this.currentAlias);
+        this.$set(varsObj, 'brandAlias', null);
       }
       if (this.isBrand) {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
-      }
-      if (this.isSearch) {
-        varsObj.filter.searchText = this.currentAlias;
+        this.$set(varsObj, 'categoryAlias', null);
       }
       return varsObj;
     },
@@ -255,14 +288,15 @@ export default {
       const varsObj = {
         skip: this.currentMaxCount,
         take: this.pageSize,
-        sort: this.sort,
-        filter: this.selection
+        filter: this.productsQueryFilter
       };
       if (this.isCategory) {
         this.$set(varsObj, 'categoryAlias', this.currentAlias);
+        this.$set(varsObj, 'brandAlias', null);
       }
       if (this.isBrand) {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
+        this.$set(varsObj, 'categoryAlias', null);
       }
       return varsObj;
     },
@@ -273,14 +307,15 @@ export default {
       const varsObj = {
         skip: this.currentMinCount - 1 - this.pageSize,
         take: this.pageSize,
-        sort: this.sort,
-        filter: this.selection
+        filter: this.productsQueryFilter
       };
       if (this.isCategory) {
         this.$set(varsObj, 'categoryAlias', this.currentAlias);
+        this.$set(varsObj, 'brandAlias', null);
       }
       if (this.isBrand) {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
+        this.$set(varsObj, 'categoryAlias', null);
       }
 
       return varsObj;
@@ -291,6 +326,15 @@ export default {
     skeletonProducts() {
       const prodArray = [];
       for (let i = 0; i < this.pageSize; i++) {
+        prodArray.push({});
+      }
+      return prodArray;
+    },
+    skeletonProductsNext() {
+      const prodArray = [];
+      const count = this.totalCount - this.currentMaxCount;
+      const nextPageSize = count < this.pageSize ? count : this.pageSize;
+      for (let i = 0; i < nextPageSize; i++) {
         prodArray.push({});
       }
       return prodArray;
@@ -322,9 +366,16 @@ export default {
     },
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
+    },
+    ...mapState(['list'])
+  },
+  watch: {
+    userSelection(newVal, oldVal) {
+      if (newVal && oldVal === null) {
+        this.$store.commit('list/resetQuerySelection');
+      }
     }
   },
-  watch: {},
   created() {
     this.initProductList();
     if (this.isSearch) {
@@ -345,27 +396,29 @@ export default {
     // @vuese
     // Load next chunk of products
     loadMore() {
+      this.userHasPaged = true;
       const currentProductList = this.productList;
-      this.productList = [...this.productList, ...this.skeletonProducts];
+      this.productList = [...this.productList, ...this.skeletonProductsNext];
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
-      this.pushURLParams();
       this.$apollo.queries.products.fetchMore({
         variables: this.loadMoreQueryVars,
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newProducts = fetchMoreResult.products.products;
           this.currentMaxCount += newProducts.length;
           this.productList = [...currentProductList, ...newProducts];
+          this.pushURLParams();
         }
       });
     },
     // @vuese
     // Load previous chunk of products
     loadPrev() {
+      this.userHasPaged = true;
       const currentProductList = this.productList;
       const scrollHeight = this.getScrollHeight();
       this.productList = [...this.skeletonProducts, ...this.productList];
       this.currentPage = (this.currentMinCount - 1) / this.pageSize;
-      this.pushURLParams();
+
       this.$nextTick(() => {
         const scrollAmount = this.getScrollHeight() - scrollHeight;
         window.scrollBy(0, scrollAmount);
@@ -376,6 +429,7 @@ export default {
           const newProducts = fetchMoreResult.products.products;
           this.currentMinCount -= newProducts.length;
           this.productList = [...newProducts, ...currentProductList];
+          this.pushURLParams();
         }
       });
     },
@@ -392,80 +446,43 @@ export default {
       );
     },
     // @vuese
-    // Set price filter selection
-    // @arg lowest price (Number), highest price (Number)
-    setInitPriceSelection(lowest, highest) {
-      if (!this.selection.price) {
-        this.$set(this.selection, 'price', {});
-      }
-      if (!this.selection.price.lowest || this.selection.price.lowest === 0) {
-        this.setInitPriceLowest(lowest);
-      }
-      if (
-        !this.selection.price.highest ||
-        this.selection.price.highest === 1000000
-      ) {
-        this.setInitPriceHighest(highest);
-      }
-    },
-    // @vuese
-    // Set price filter selection for lowest price
-    // @arg price (Number)
-    setInitPriceLowest(price) {
-      if (!this.selection.price) {
-        this.$set(this.selection, 'price', {});
-      }
-      if (!this.selection.price.highest) {
-        this.$set(this.selection.price, 'highest', 1000000);
-      }
-      this.$set(this.selection.price, 'lowest', price);
-    },
-    // @vuese
-    // Set price filter selection for highest price
-    // @arg price (Number)
-    setInitPriceHighest(price) {
-      if (!this.selection.price) {
-        this.$set(this.selection, 'price', {});
-      }
-      if (!this.selection.price.lowest) {
-        this.$set(this.selection.price, 'lowest', 0);
-      }
-      this.$set(this.selection.price, 'highest', price);
-    },
-    // @vuese
     // Update the sort setting
     // @arg new value (String)
     sortChangeHandler(newVal) {
-      this.sort = newVal;
+      this.userSelection.sort = newVal;
       this.pushURLParams();
     },
     // @vuese
     // Update the filter selections
     // @arg new value (Object)
-    filterChangeHandler(newVal) {
+    filterChangeHandler(selectionData) {
       if (
         !this.$store.getters['list/backNavigated'] &&
         !this.$store.getters['list/relocateProduct']
       ) {
         this.resetCurrentPage();
       }
-
-      this.selection = newVal;
+      const selection = selectionData.selection;
+      this.$set(selection, 'sort', this.selection.sort);
+      this.userSelection = selection;
+      // this.setLatestFilterChanged(selectionData.type);
       this.pushURLParams();
     },
     // @vuese
     // Resetting the filter selections
     resetFilters() {
-      this.selection.categories = [];
-      this.selection.brands = [];
-      this.selection.price.lowest = this.filters.price.lowest;
-      this.selection.price.highest = this.filters.price.highest;
+      this.userSelection.categories = [];
+      this.userSelection.brands = [];
+      this.userSelection.skus = [];
+      this.userSelection.parameters = {};
+      this.resetCurrentPage();
+      this.pushURLParams();
     },
     // @vuese
     // Reset paging state
     resetCurrentPage() {
       this.currentPage = 1;
-      this.skip = 0;
+      this.userSkip = 0;
       this.currentMinCount = 1;
       this.currentMaxCount = this.pageSize;
     },
@@ -473,73 +490,57 @@ export default {
     // Set filter selection in URL
     pushURLParams() {
       if (
-        JSON.stringify(this.$route.query) !== JSON.stringify(this.filterQuery)
+        JSON.stringify(this.$route.query) !==
+        JSON.stringify(this.filterURLparams)
       ) {
         this.$router
           .replace({
-            query: this.filterQuery
+            query: this.filterURLparams
           })
           .catch(() => {});
       }
     },
     // @vuese
-    // Read filter selection from URL
-    readURLParams() {
-      if (this.$route.query.categories) {
-        this.selection.categories = this.$route.query.categories.split(',');
-      }
-      if (this.$route.query.brands) {
-        this.selection.brands = this.$route.query.brands.split(',');
-      }
-      if (this.$route.query.priceLowest) {
-        this.setInitPriceLowest(parseInt(this.$route.query.priceLowest));
-      }
-      if (this.$route.query.priceHighest) {
-        this.setInitPriceHighest(parseInt(this.$route.query.priceHighest));
-      }
-      if (this.$route.query.sort) {
-        this.sort = this.$route.query.sort;
-      }
-    },
-    // @vuese
     // Sets current page from URL or saved state
     setPagingState() {
-      if (this.$store.getters['list/backNavigated']) {
-        if (this.$store.getters['list/relocateProduct']) {
-          this.currentPage = this.$store.state.list.relocatePage;
-          this.pushURLParams();
-        } else {
-          this.$store.commit('list/setBackNavigated', false);
-          if (this.$route.query.page) {
-            this.currentPage = parseInt(this.$route.query.page);
-          }
-        }
-      } else if (this.$route.query.page) {
-        this.currentPage = parseInt(this.$route.query.page);
+      this.userSkip = this.skip;
+      if (
+        this.$store.getters['list/relocateProduct'] ||
+        this.$route.query.page
+      ) {
+        this.currentPage = this.$store.getters['list/relocateProduct']
+          ? this.list.relocatePage
+          : parseInt(this.$route.query.page);
       }
+      this.pushURLParams();
+      this.skipProductsQuery = false;
+      if (this.$store.getters['list/relocateProduct']) {
+        this.relocateProduct();
+      }
+      this.$store.commit('list/setBackNavigated', false);
+      this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
-        this.skip = (this.currentPage - 1) * this.pageSize;
         this.currentMinCount = this.skip + 1;
-        this.currentMaxCount =
-          this.skip + this.pageSize > this.totalCount
-            ? this.totalCount
-            : this.skip + this.pageSize;
+        this.currentMaxCount = this.skip + this.pageSize;
       }
     },
     // @vuese
     // Run to init the product list
     initProductList() {
       this.skipProductsQuery = true;
-      this.readURLParams();
-      this.setPagingState();
-      this.skipProductsQuery = false;
+      const interval = setInterval(() => {
+        if (Object.keys(this.baseFilters).length > 0) {
+          clearInterval(interval);
+          this.setupFilters(this.baseFilters);
+        }
+      }, 100);
     },
     // @vuese
     // Runned to relocate product on page after back navigating
     relocateProduct() {
       clearTimeout(this.relocateTimeout);
       const product = document.querySelector(
-        '[data-alias="' + this.$store.state.list.relocateAlias + '"]'
+        '[data-alias="' + this.list.relocateAlias + '"]'
       );
       if (product !== null) {
         this.$nextTick(() => {
@@ -552,6 +553,144 @@ export default {
           this.relocateProduct();
         }, 500);
       }
+    },
+    async setupUserSelection() {
+      const selection = {};
+      await this.$store.dispatch('list/saveQuerySelection', {
+        query: this.$route.query,
+        setPage: false
+      });
+      if (this.selection.categories) {
+        this.$set(selection, 'categories', this.selection.categories);
+      }
+
+      if (this.selection.brands) {
+        this.$set(selection, 'brands', this.selection.brands);
+      }
+
+      if (this.selection.skus) {
+        this.$set(selection, 'skus', this.selection.skus);
+      }
+
+      if (this.selection.parameters) {
+        this.$set(selection, 'parameters', this.selection.parameters);
+      }
+
+      if (this.selection.sort) {
+        this.$set(selection, 'sort', this.selection.sort);
+      } else {
+        this.$set(selection, 'sort', this.defaultSort);
+      }
+      this.userSelection = selection;
+      this.$nextTick(() => {
+        this.setPagingState();
+      });
+    },
+    setupFilters(filters) {
+      const sortedFilters = this.getSortedFilters(filters);
+
+      this.$set(this.filters, 'categories', sortedFilters.categories.values);
+      this.$set(this.filters, 'brands', sortedFilters.brands.values);
+      this.$set(this.filters, 'skus', sortedFilters.skus.values);
+      this.$set(this.filters, 'parameters', sortedFilters.parameters);
+      this.filtersSet = true;
+      if (
+        Object.keys(this.$route.query).length > 0 &&
+        !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
+      ) {
+        this.setupUserSelection();
+      } else {
+        this.$nextTick(() => {
+          this.setPagingState();
+        });
+      }
+    },
+    updateFilters(filters) {
+      const sortedFilters = this.getSortedFilters(filters);
+
+      if (this.list.firstFilterChanged !== 'categories') {
+        this.filters.categories = this.setNewCount(
+          this.filters.categories,
+          sortedFilters.categories
+        );
+      }
+      if (this.list.firstFilterChanged !== 'brands') {
+        this.filters.brands = this.setNewCount(
+          this.filters.brands,
+          sortedFilters.brands
+        );
+      }
+      if (this.list.firstFilterChanged !== 'skus') {
+        this.filters.skus = this.setNewCount(
+          this.filters.skus,
+          sortedFilters.skus
+        );
+      }
+      this.filters.parameters.map(filter => {
+        const newFilter = sortedFilters.parameters.find(
+          i => i.filterId === filter.filterId
+        );
+        if (this.list.firstFilterChanged !== filter.filterId) {
+          filter.values = this.setNewCount(filter.values, newFilter);
+        }
+        return filter;
+      });
+    },
+    setNewCount(baseFilters, newFilters) {
+      const array = baseFilters.map(i => {
+        const existsInNewFilters = newFilters?.values.findIndex(
+          ii => ii.facetId === i.facetId
+        );
+        if (existsInNewFilters === -1) {
+          i.count = 0;
+        } else {
+          const newCount = newFilters?.values.find(
+            ii => ii.facetId === i.facetId
+          ).count;
+          i.count = newCount || 0;
+        }
+        return i;
+      });
+      return array;
+    },
+    getSortedFilters(filters) {
+      const categories = filters.facets.find(i => i.type === 'Category');
+      const brands = filters.facets.find(i => i.type === 'Brand');
+      const skus = filters.facets.find(i => i.type === 'Sku');
+      const parameters = filters.facets.filter(i => i.type === 'Parameter');
+      return { categories, brands, skus, parameters };
+    },
+    setLatestFilterChanged(type) {
+      if (!this.filterSelectionActive) {
+        this.$store.commit('list/setLatestFilterChanged', null);
+        this.$store.commit('list/setFirstFilterChanged', null);
+      } else if (!this.checkFilterEmpty(type)) {
+        this.$store.commit('list/setLatestFilterChanged', type);
+      }
+      if (!this.list.firstFilterChanged) {
+        this.$store.commit('list/setFirstFilterChanged', type);
+      } else if (
+        this.checkFilterEmpty(this.list.firstFilterChanged) &&
+        this.filterSelectionActive
+      ) {
+        this.$store.commit(
+          'list/setFirstFilterChanged',
+          this.list.latestFilterChanged
+        );
+      }
+    },
+    getReadableParams(array) {
+      const readableParams = array.map(i => i.label + '~' + i.id);
+      return readableParams.join();
+    },
+    checkFilterEmpty(type) {
+      if (type) {
+        if (type.includes('_')) {
+          return this.selection.parameters[type].length === 0;
+        } else {
+          return this.selection[type].length === 0;
+        }
+      } else return true;
     }
   }
 };

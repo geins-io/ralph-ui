@@ -12,13 +12,13 @@
       </span>
     </div> -->
     <VueSlider
-      v-if="initValueSet"
+      v-if="initValuesSet"
       :key="sliderKey"
       v-model="currentSelection"
       tooltip="always"
       :enable-cross="false"
-      :min="parseInt(values.lowest)"
-      :max="parseInt(values.highest)"
+      :min="parseInt(storedValues.lowest)"
+      :max="parseInt(storedValues.highest)"
       @drag-end="changeHandler"
     />
   </div>
@@ -62,7 +62,11 @@ export default {
   },
   data: () => ({
     currentSelection: [0, 0],
-    initValueSet: false,
+    initValuesSet: false,
+    storedValues: {
+      lowest: 0,
+      highest: 0
+    },
     newValue: {
       lowest: 0,
       highest: 0
@@ -77,11 +81,23 @@ export default {
       handler(val) {
         this.setCurrentSelection();
       }
+    },
+    values: {
+      deep: true,
+      handler(val) {
+        if (this.currentSelection[0] < val.lowest) {
+          this.currentSelection[0] = val.lowest;
+        }
+        if (this.currentSelection[1] > val.highest) {
+          this.currentSelection[1] = val.highest;
+        }
+        this.setValues(val);
+      }
     }
   },
   mounted() {
     this.setCurrentSelection();
-    this.initValueSet = true;
+    this.setValues(this.values);
   },
   methods: {
     // @vuese
@@ -99,6 +115,12 @@ export default {
       this.currentSelection[0] = parseInt(this.selection.lowest);
       this.currentSelection[1] = parseInt(this.selection.highest);
       this.sliderKey = !this.sliderKey;
+    },
+    // @vuese
+    // Used to set local data when mounted
+    setValues(values) {
+      this.storedValues = values;
+      this.initValuesSet = true;
     }
   }
 };

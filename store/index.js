@@ -96,7 +96,8 @@ export const actions = {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', vh + 'px');
   },
-  nuxtServerInit({ commit, dispatch }, { req }) {
+  nuxtServerInit({ commit, dispatch }, { req, context, route }) {
+    dispatch('list/saveQuerySelection', { query: route.query, setPage: true });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {

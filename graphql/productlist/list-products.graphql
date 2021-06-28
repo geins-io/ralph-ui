@@ -4,15 +4,15 @@
 query products(
   $skip: Int = null
   $take: Int = null
+  $categoryAlias: String = null
   $brandAlias: String = null
-  $sort: SortType = null
   $filter: FilterInputType = null
 ) {
   products(
     skip: $skip
     take: $take
+    categoryAlias: $categoryAlias
     brandAlias: $brandAlias
-    sort: $sort
     filter: $filter
   ) {
     products {
