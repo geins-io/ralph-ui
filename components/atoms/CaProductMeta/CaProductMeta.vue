@@ -1,53 +1,5 @@
 <template>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "Name",
-      "image": [
-        "https://example.com/photos/1x1/photo.jpg",
-        "https://example.com/photos/4x3/photo.jpg",
-        "https://example.com/photos/16x9/photo.jpg"
-      ],
-      "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
-      "sku": "0446310786",
-      "mpn": "925872",
-      "brand": {
-        "@type": "Brand",
-        "name": "ACME"
-      },
-      "review": {
-        "@type": "Review",
-        "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "4",
-          "bestRating": "5"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Fred Benson"
-        }
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.4",
-        "reviewCount": "89"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://example.com/anvil",
-        "priceCurrency": "USD",
-        "price": "119.99",
-        "priceValidUntil": "2020-11-20",
-        "itemCondition": "https://schema.org/UsedCondition",
-        "availability": "https://schema.org/InStock",
-        "seller": {
-          "@type": "Organization",
-          "name": "Executive Objects"
-        }
-      }
-    }
-  </script>
+  <script type="application/ld+json" v-html="productSchema"></script>
 </template>
 <script>
 // @group Atoms
@@ -64,9 +16,79 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    productSchema() {
+      // Add home base
+      const jsonld = [];
+      const options = this.$config.productSchemaOptions;
+      let productSchema = {};
+      let color = [];
+      if (this.product.skus?.length > 0) {
+        for (let i = 0; this.product.skus.length > i; i++) {
+          productSchema = {
+            '@context': 'http://schema.org',
+            '@type': 'Product',
+            sku: this.product.skus[i].skuId,
+            gtin: this.product.skus[i].gtin,
+            inProductGroupWithID: this.product.skus[i].productId,
+            name: this.product.name,
+            description: this.product.texts[options.productDescriptionField],
+            brand: {
+              '@type': 'Brand',
+              name: this.product.brand.name
+            },
+            offers: {
+              '@type': 'Offer',
+              url: this.product.canonicalUrl,
+              priceCurrency: 'SEK', // TODO: Currency support
+              price: this.product.unitPrice.sellingPriceIncVat,
+              availability: this.getStockStatus(
+                this.product.skus[i].stock.inStock,
+                this.product.skus[i].stock.totalStock
+              ),
+              ...options.extraOfferProperties
+            }
+          };
+          color = this.product.variantDimensions.filter(
+            d => d.dimension === 'Color'
+          );
+          productSchema.color = color[0]?.label;
+          if (options.productSkuLabelIsSize) {
+            productSchema.size = this.product.skus[i].name;
+          }
+          if (this.imgSrc) {
+            productSchema.image = this.imgSrc;
+          }
+          jsonld.push(productSchema);
+        }
+      }
+      return jsonld;
+    },
+    imgSrc() {
+      let imgSrc = false;
+      if (this.product.images?.length) {
+        imgSrc =
+          this.$config.imageServer +
+          '/product/' +
+          this.$config.productSchemaOptions.schemaImageSize +
+          '/' +
+          this.product.images[0];
+      }
+      return imgSrc;
+    }
+  },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    getStockStatus(stock, totalStock) {
+      if (totalStock === 0) {
+        return 'OutOfStock';
+      } else if (stock === 0) {
+        return 'BackOrder';
+      } else {
+        return 'InStock';
+      }
+    }
+  }
 };
 </script>

@@ -6,6 +6,7 @@
 query product($alias: String!) {
   product(alias: $alias) {
     productId
+    canonicalUrl
     name
     brand {
       name
@@ -23,6 +24,7 @@ query product($alias: String!) {
       categoryId
     }
     unitPrice {
+      sellingPriceIncVat
       ...Price
     }
     texts {
@@ -37,6 +39,16 @@ query product($alias: String!) {
         value
       }
     }
+    skus {
+      skuId
+      gtin
+      name
+      productId
+      name
+      stock {
+        ...Stock
+      }
+    }
     totalStock {
       ...Stock
     }
@@ -44,6 +56,7 @@ query product($alias: String!) {
       dimension
       value
       level
+      label
     }
     meta {
       ...Meta
