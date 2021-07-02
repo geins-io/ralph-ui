@@ -70,7 +70,8 @@ export default {
     // Alias used to fetch product data, using replaceAlias if it has a value
     // @type String
     prodAlias() {
-      return this.replaceAlias || this.$route.params.alias;
+      const routeParam = this.$route.params.alias.split('/').pop();
+      return this.replaceAlias || routeParam;
     },
     // @vuese
     // Returns array of widget filters
@@ -116,7 +117,15 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.product) {
+      const canonical = '/p' + this.product.canonicalUrl;
+      const route = this.$route.path;
+      if (canonical !== route) {
+        this.$router.replace(canonical);
+      }
+    }
+  },
   methods: {
     // @vuese
     // Handler for changing quantity
