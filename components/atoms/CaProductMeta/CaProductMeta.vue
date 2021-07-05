@@ -18,7 +18,6 @@ export default {
   data: () => ({}),
   computed: {
     productSchema() {
-      // Add home base
       const jsonld = [];
       const options = this.$config.productSchemaOptions;
       let productSchema = {};
