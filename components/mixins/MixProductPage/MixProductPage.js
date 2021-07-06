@@ -6,7 +6,6 @@ import productQuery from 'product/product.graphql';
 // **Data:**<br>
 // quantity: `1`<br>
 // replaceAlias: `null`<br>
-// error: `null`
 export default {
   name: 'MixProductPage',
   mixins: [MixMetaReplacement],
@@ -29,6 +28,15 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content: this.metaReplacement(this.product?.meta.description)
+        }
+      ],
+      link: [
+        {
+          rel: 'canonical',
+          href:
+            this.$config.baseUrl +
+            this.$config.routePaths.product +
+            this.product?.canonicalUrl
         }
       ]
     };
@@ -82,7 +90,7 @@ export default {
       if (this.product) {
         const categoryObj = {};
         categoryObj.key = 'CategoryId';
-        categoryObj.value = this.product.categories[0].categoryId.toString();
+        categoryObj.value = this.product.primaryCategory.categoryId.toString();
         filtersArray.push(categoryObj);
 
         const brandObj = {};
@@ -102,6 +110,7 @@ export default {
       return {
         name: this.product.primaryCategory.name,
         alias: this.product.primaryCategory.alias,
+        canonical: this.product.primaryCategory.canonicalUrl,
         id: this.product.primaryCategory.categoryId,
         type: 'category'
       };
@@ -118,13 +127,7 @@ export default {
     }
   },
   mounted() {
-    if (this.product) {
-      const canonical = '/p' + this.product.canonicalUrl;
-      const route = this.$route.path;
-      if (canonical !== route) {
-        this.$router.replace(canonical);
-      }
-    }
+    this.switchToCanonical();
   },
   methods: {
     // @vuese
@@ -176,6 +179,21 @@ export default {
         }),
         placement: 'bottom-center'
       });
+    },
+    // @vuese
+    // Switching to canonical url if different from route path
+    switchToCanonical() {
+      const check = setInterval(() => {
+        if (this.product) {
+          clearInterval(check);
+          const canonical =
+            this.$config.routePaths.product + this.product.canonicalUrl;
+          const route = this.$route.path;
+          if (canonical !== route) {
+            this.$router.replace(canonical);
+          }
+        }
+      }, 500);
     }
   }
 };

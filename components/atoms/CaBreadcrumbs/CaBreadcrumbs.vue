@@ -75,7 +75,10 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.parents[i].name,
-            item: this.$config.baseUrl + this.routePath + this.parents[i].alias
+            item:
+              this.$config.baseUrl +
+              this.routePath +
+              this.parents[i].canonicalUrl
           });
         }
       }
@@ -89,7 +92,7 @@ export default {
       };
       if (this.productName) {
         current.item =
-          this.$config.baseUrl + this.routePath + this.current.alias;
+          this.$config.baseUrl + this.routePath + this.current.canonical;
       }
       jsonld.itemListElement.push(current);
 

@@ -1,4 +1,4 @@
-#import "meta/meta.graphql"
+#import "global/meta.graphql"
 
 query widgetArea(
   $family: String = null

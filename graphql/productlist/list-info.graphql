@@ -1,0 +1,13 @@
+#import "global/meta.graphql"
+fragment ListInfo on PageInfoType {
+  alias
+  canonicalUrl
+  primaryImage
+  name
+  id
+  primaryDescription
+  secondaryDescription
+  meta {
+    ...Meta
+  }
+}

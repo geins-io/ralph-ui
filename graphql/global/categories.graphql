@@ -1,6 +1,7 @@
 query categories {
   categories {
     alias
+    canonicalUrl
     name
     categoryId
     parentCategoryId

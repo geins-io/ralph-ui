@@ -5,14 +5,17 @@ query products($filter: FilterInputType = null) {
       brand {
         name
         alias
+        canonicalUrl
       }
       categories {
         name
         alias
+        canonicalUrl
       }
       name
       productId
       alias
+      canonicalUrl
       unitPrice {
         ...Price
       }
