@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <script type="application/ld+json" v-html="productSchema"></script>
 </template>

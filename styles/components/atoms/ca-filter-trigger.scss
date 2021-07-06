@@ -1,0 +1,30 @@
+.ca-filter-trigger {
+  $block: &;
+  position: relative;
+  &__title {
+    padding: 0px 43px 0px 15px;
+    line-height: 38px;
+    height: 40px;
+    border: $border-light;
+    background: $c-lightest-gray;
+    transition: border-color 200ms ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  &__amount {
+    margin: 0 0 0 rem-calc(6px);
+  }
+  &__arrow {
+    @include valign;
+    right: 14px;
+    font-size: 16px;
+  }
+
+  &--chosen & {
+    &__title {
+      font-weight: $font-weight-bold;
+    }
+  }
+}

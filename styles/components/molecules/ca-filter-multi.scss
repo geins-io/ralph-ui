@@ -1,27 +1,31 @@
 .ca-filter-multi {
-  background: $c-lightest-gray;
   padding: $px12 $px16;
-  @include bp(laptop) {
-    background: transparent;
-    padding: 0;
-  }
+
   &__value {
-    padding-left: $px24;
+    padding: rem-calc(8px) 0 rem-calc(8px) $px32;
     position: relative;
-    line-height: 2;
     cursor: pointer;
+    display: flex;
+    &:first-child {
+      margin-top: rem-calc(-12px);
+    }
     &::before {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       content: '';
       display: block;
       background: $c-white;
       border: $border-light;
       @include valign;
       left: 0;
+      transition: all 200ms ease;
     }
     &--selected {
       font-weight: $font-weight-bold;
+      &::before {
+        background-color: $c-accent-color;
+        border-color: $c-accent-color;
+      }
       .ca-filter-multi__check {
         opacity: 1;
       }
@@ -36,6 +40,10 @@
     @include valign;
     left: 2px;
     transition: opacity 200ms ease;
-    color: $c-success;
+    color: $c-white;
+  }
+  &__count {
+    margin-left: auto;
+    color: $c-text-secondary;
   }
 }

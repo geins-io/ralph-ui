@@ -47,6 +47,7 @@
     z-index: 15;
     background: $c-lightest-gray;
     overflow: hidden;
+    white-space: nowrap;
   }
 
   &__option {

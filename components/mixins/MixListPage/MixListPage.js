@@ -14,13 +14,16 @@ import { mapState } from 'vuex';
 // defaultSort: `vm.$config.productListDefaultSort`<br>
 // listInfo: `null`<br>
 // filters: `{}`<br>
-// userSelection: `{ categories: [], brands: [] }`<br>
+// userSelection: `null`<br>
 // filterParamQuery: `{}`<br>
 // skipProductsQuery: `false`<br>
 // currentPage: `1`<br>
 // currentMinCount: `1`,<br>
 // currentMaxCount: `vm.$config.productListPageSize`
 // relocateTimeout: `null`
+// URLparamsRead: `false`,
+// filtersSet: `false`,
+// userHasPaged: `false`
 export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement],
@@ -92,6 +95,8 @@ export default {
       type: String,
       required: true
     },
+    // @vuese
+    // All filters for this list page before filtering is done
     baseFilters: {
       type: Object,
       required: true
@@ -140,6 +145,9 @@ export default {
     userHasPaged: false
   }),
   computed: {
+    // @vuese
+    // Current number of products to skip when querying
+    // @type Number
     skip() {
       if (this.$store.getters['list/relocateProduct']) {
         return (this.list.relocatePage - 1) * this.pageSize;
@@ -233,12 +241,10 @@ export default {
         return querySelection;
       }
     },
+
     // @vuese
-    // Is a filter selection made?
-    // @type Boolean
-    filterSelectionActive() {
-      return this.productsQueryFilter.facets.length > 0;
-    },
+    // Returns the filter object for the productsQueryVars
+    // @type Object
     productsQueryFilter() {
       const obj = {};
 
@@ -261,6 +267,18 @@ export default {
         this.$set(obj, 'searchText', this.currentAlias);
       }
       return obj;
+    },
+    // @vuese
+    // Number of total filters active
+    // @type Number
+    totalFiltersActive() {
+      return this.productsQueryFilter.facets.length;
+    },
+    // @vuese
+    // Is a filter selection made?
+    // @type Boolean
+    filterSelectionActive() {
+      return this.totalFiltersActive > 0;
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list
@@ -356,6 +374,9 @@ export default {
       }
       return filtersArray;
     },
+    // @vuese
+    // Current bredcrumb info
+    // @type Object
     breadcrumbsCurrent() {
       return {
         name: this.listInfo.name,
@@ -364,6 +385,9 @@ export default {
         type: this.type
       };
     },
+    // @vuese
+    // RShw filters and other controls
+    // @type Boolean
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
     },
@@ -449,7 +473,13 @@ export default {
     // Update the sort setting
     // @arg new value (String)
     sortChangeHandler(newVal) {
-      this.userSelection.sort = newVal;
+      if (this.userSelection) {
+        this.userSelection.sort = newVal;
+      } else {
+        const selection = this.selection;
+        this.$set(selection, 'sort', newVal);
+        this.userSelection = selection;
+      }
       this.pushURLParams();
     },
     // @vuese
@@ -462,10 +492,9 @@ export default {
       ) {
         this.resetCurrentPage();
       }
-      const selection = selectionData.selection;
+      const selection = selectionData;
       this.$set(selection, 'sort', this.selection.sort);
       this.userSelection = selection;
-      // this.setLatestFilterChanged(selectionData.type);
       this.pushURLParams();
     },
     // @vuese
@@ -504,6 +533,7 @@ export default {
     // Sets current page from URL or saved state
     setPagingState() {
       this.userSkip = this.skip;
+      this.userHasPaged = true;
       if (
         this.$store.getters['list/relocateProduct'] ||
         this.$route.query.page
@@ -554,7 +584,9 @@ export default {
         }, 500);
       }
     },
-    async setupUserSelection() {
+    // @vuese
+    // Setting up the current user selection from store
+    async setupUserSelection(sort = this.defaultSort) {
       const selection = {};
       await this.$store.dispatch('list/saveQuerySelection', {
         query: this.$route.query,
@@ -579,13 +611,16 @@ export default {
       if (this.selection.sort) {
         this.$set(selection, 'sort', this.selection.sort);
       } else {
-        this.$set(selection, 'sort', this.defaultSort);
+        this.$set(selection, 'sort', sort);
       }
       this.userSelection = selection;
       this.$nextTick(() => {
         this.setPagingState();
       });
     },
+    // @vuese
+    // Setting up all filters
+    // @arg filters (Object)
     setupFilters(filters) {
       const sortedFilters = this.getSortedFilters(filters);
 
@@ -605,6 +640,9 @@ export default {
         });
       }
     },
+    // @vuese
+    // Updating all filters
+    // @arg filters (Object)
     updateFilters(filters) {
       const sortedFilters = this.getSortedFilters(filters);
 
@@ -636,6 +674,9 @@ export default {
         return filter;
       });
     },
+    // @vuese
+    // Used to set new count of filters
+    // @arg base filters (Array), new filters (Array)
     setNewCount(baseFilters, newFilters) {
       const array = baseFilters.map(i => {
         const existsInNewFilters = newFilters?.values.findIndex(
@@ -653,6 +694,9 @@ export default {
       });
       return array;
     },
+    // @vuese
+    // Sorting all filters into groups
+    // @arg filters (Object)
     getSortedFilters(filters) {
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
@@ -660,37 +704,12 @@ export default {
       const parameters = filters.facets.filter(i => i.type === 'Parameter');
       return { categories, brands, skus, parameters };
     },
-    setLatestFilterChanged(type) {
-      if (!this.filterSelectionActive) {
-        this.$store.commit('list/setLatestFilterChanged', null);
-        this.$store.commit('list/setFirstFilterChanged', null);
-      } else if (!this.checkFilterEmpty(type)) {
-        this.$store.commit('list/setLatestFilterChanged', type);
-      }
-      if (!this.list.firstFilterChanged) {
-        this.$store.commit('list/setFirstFilterChanged', type);
-      } else if (
-        this.checkFilterEmpty(this.list.firstFilterChanged) &&
-        this.filterSelectionActive
-      ) {
-        this.$store.commit(
-          'list/setFirstFilterChanged',
-          this.list.latestFilterChanged
-        );
-      }
-    },
+    // @vuese
+    // Setting up params for filter in URL
+    // @argfilter selection (Array)
     getReadableParams(array) {
       const readableParams = array.map(i => i.label + '~' + i.id);
       return readableParams.join();
-    },
-    checkFilterEmpty(type) {
-      if (type) {
-        if (type.includes('_')) {
-          return this.selection.parameters[type].length === 0;
-        } else {
-          return this.selection[type].length === 0;
-        }
-      } else return true;
     }
   }
 };
