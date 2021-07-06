@@ -17,7 +17,8 @@
         "
       >
         <CaIcon class="ca-filter-multi__check" name="check" />
-        {{ value.label }} ({{ value.count }})
+        <span class="ca-filter-multi__label">{{ value.label }}</span>
+        <span class="ca-filter-multi__count">{{ value.count }}</span>
       </li>
     </ul>
   </div>
@@ -49,9 +50,12 @@ export default {
     valuesWithSelected() {
       if (this.values && this.values.length && this.selection) {
         return this.values.map(item => {
-          const isSelected = this.currentSelection.some(
+          let isSelected = this.currentSelection.some(
             el => el.id === item.facetId
           );
+          if (item.count === 0) {
+            isSelected = false;
+          }
           this.$set(item, 'selected', isSelected);
           return item;
         });

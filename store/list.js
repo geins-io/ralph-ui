@@ -7,9 +7,7 @@ export const state = () => ({
     brands: [],
     skus: [],
     parameters: {}
-  },
-  firstFilterChanged: null,
-  latestFilterChanged: null
+  }
 });
 
 export const mutations = {
@@ -32,12 +30,6 @@ export const mutations = {
       skus: [],
       parameters: {}
     };
-  },
-  setFirstFilterChanged(state, filter) {
-    state.firstFilterChanged = filter;
-  },
-  setLatestFilterChanged(state, filter) {
-    state.latestFilterChanged = filter;
   }
 };
 
