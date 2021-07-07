@@ -7,7 +7,7 @@
     >
       <CaButton
         class="ca-category-display__button"
-        :href="$config.routePaths.category + getUrl(category)"
+        :href="category.canonicalUrl"
         size="s"
       >
         {{ category.name }}
@@ -34,11 +34,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {
-    getUrl(category) {
-      return category.canonicalUrl ? category.canonicalUrl : category.alias; // TODO: fix this fallback when fixed in api
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">

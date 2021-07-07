@@ -17,7 +17,7 @@
             <li class="ca-navigation-mobile__sub-item">
               <NuxtLink
                 class="ca-navigation-slim__sub-link ca-navigation-slim__show-all"
-                :to="$config.routePaths.category + category.canonicalUrl"
+                :to="category.canonicalUrl"
               >
                 Visa allt {{ category.name }}
               </NuxtLink>
@@ -30,7 +30,7 @@
               class="ca-navigation-slim__sub-item"
             >
               <NuxtLink
-                :to="$config.routePaths.category + subcategory.canonicalUrl"
+                :to="subcategory.canonicalUrl"
                 class="ca-navigation-slim__sub-link"
               >
                 {{ subcategory.name }}
@@ -41,7 +41,7 @@
         <NuxtLink
           v-else
           class="ca-navigation-slim__link"
-          :to="$config.routePaths.category + category.canonicalUrl"
+          :to="category.canonicalUrl"
         >
           {{ category.name }}
         </NuxtLink>

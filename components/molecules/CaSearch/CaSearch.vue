@@ -127,7 +127,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--product"
-                    :to="$config.routePaths.product + product.canonicalUrl"
+                    :to="product.canonicalUrl"
                     :title="product.name"
                   >
                     <CaImage
@@ -179,7 +179,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--tag"
-                    :to="$config.routePaths.category + category.canonicalUrl"
+                    :to="category.canonicalUrl"
                     :title="category.name"
                   >
                     {{ category.name }}
@@ -200,7 +200,7 @@
                 >
                   <NuxtLink
                     class="ca-search__item-link ca-search__item-link--tag"
-                    :to="$config.routePaths.brand + brand.canonicalUrl"
+                    :to="brand.canonicalUrl"
                     :title="brand.name"
                   >
                     {{ brand.name }}

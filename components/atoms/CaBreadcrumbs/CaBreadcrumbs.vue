@@ -46,10 +46,6 @@ export default {
     parents: []
   }),
   computed: {
-    // Base path for current brand or category
-    routePath() {
-      return this.$config.routePaths[this.current.type];
-    },
     // Creates the schema for the breadcrumbs
     breadcrumbSchema() {
       let position = 1;
@@ -75,10 +71,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.parents[i].name,
-            item:
-              this.$config.baseUrl +
-              this.routePath +
-              this.parents[i].canonicalUrl
+            item: this.$config.baseUrl + this.parents[i].canonicalUrl
           });
         }
       }
@@ -91,8 +84,7 @@ export default {
         name: this.current.name
       };
       if (this.productName) {
-        current.item =
-          this.$config.baseUrl + this.routePath + this.current.canonical;
+        current.item = this.$config.baseUrl + this.current.canonical;
       }
       jsonld.itemListElement.push(current);
 

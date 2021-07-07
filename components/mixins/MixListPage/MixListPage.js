@@ -125,10 +125,7 @@ export default {
       link: [
         {
           rel: 'canonical',
-          href:
-            this.$config.baseUrl +
-            this.$config.routePaths[this.type] +
-            this.listInfo?.canonicalUrl
+          href: this.$config.baseUrl + this.listInfo?.canonicalUrl
         }
       ]
     };
@@ -731,11 +728,8 @@ export default {
       const check = setInterval(() => {
         if (this.listInfo) {
           clearInterval(check);
-          const canonical =
-            this.$config.routePaths[this.type] + this.listInfo.canonicalUrl;
-          const route = this.$route.path;
-          if (canonical !== route) {
-            this.$router.replace(canonical);
+          if (this.listInfo.canonicalUrl !== this.$route.path) {
+            this.$router.replace(this.listInfo.canonicalUrl);
           }
         }
       }, 500);
