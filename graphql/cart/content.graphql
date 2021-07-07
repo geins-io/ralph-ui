@@ -30,6 +30,7 @@ fragment Cart on CartType {
       name
       images
       alias
+      canonicalUrl
       primaryCategory {
         name
       }

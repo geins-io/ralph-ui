@@ -6,7 +6,6 @@ import productQuery from 'product/product.graphql';
 // **Data:**<br>
 // quantity: `1`<br>
 // replaceAlias: `null`<br>
-// error: `null`
 export default {
   name: 'MixProductPage',
   mixins: [MixMetaReplacement],
@@ -29,6 +28,12 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content: this.metaReplacement(this.product?.meta.description)
+        }
+      ],
+      link: [
+        {
+          rel: 'canonical',
+          href: this.$config.baseUrl + this.product?.canonicalUrl
         }
       ]
     };
@@ -70,7 +75,8 @@ export default {
     // Alias used to fetch product data, using replaceAlias if it has a value
     // @type String
     prodAlias() {
-      return this.replaceAlias || this.$route.params.alias;
+      const routeParam = this.$route.params.alias.split('/').pop();
+      return this.replaceAlias || routeParam;
     },
     // @vuese
     // Returns array of widget filters
@@ -81,7 +87,7 @@ export default {
       if (this.product) {
         const categoryObj = {};
         categoryObj.key = 'CategoryId';
-        categoryObj.value = this.product.categories[0].categoryId.toString();
+        categoryObj.value = this.product.primaryCategory.categoryId.toString();
         filtersArray.push(categoryObj);
 
         const brandObj = {};
@@ -101,6 +107,7 @@ export default {
       return {
         name: this.product.primaryCategory.name,
         alias: this.product.primaryCategory.alias,
+        canonical: this.product.primaryCategory.canonicalUrl,
         id: this.product.primaryCategory.categoryId,
         type: 'category'
       };
@@ -116,7 +123,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    this.switchToCanonical();
+  },
   methods: {
     // @vuese
     // Handler for changing quantity
@@ -167,6 +176,18 @@ export default {
         }),
         placement: 'bottom-center'
       });
+    },
+    // @vuese
+    // Switching to canonical url if different from route path
+    switchToCanonical() {
+      const check = setInterval(() => {
+        if (this.product) {
+          clearInterval(check);
+          if (this.product.canonicalUrl !== this.$route.path) {
+            this.$router.replace(this.product.canonicalUrl);
+          }
+        }
+      }, 500);
     }
   }
 };

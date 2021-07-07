@@ -19,10 +19,10 @@ import { mapState } from 'vuex';
 // skipProductsQuery: `false`<br>
 // currentPage: `1`<br>
 // currentMinCount: `1`,<br>
-// currentMaxCount: `vm.$config.productListPageSize`
-// relocateTimeout: `null`
-// URLparamsRead: `false`,
-// filtersSet: `false`,
+// currentMaxCount: `vm.$config.productListPageSize`<br>
+// relocateTimeout: `null`<br>
+// URLparamsRead: `false`<br>
+// filtersSet: `false`<br>
 // userHasPaged: `false`
 export default {
   name: 'MixListPage',
@@ -120,6 +120,12 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content: this.metaReplacement(this.listInfo?.meta?.description)
+        }
+      ],
+      link: [
+        {
+          rel: 'canonical',
+          href: this.$config.baseUrl + this.listInfo?.canonicalUrl
         }
       ]
     };
@@ -381,6 +387,7 @@ export default {
       return {
         name: this.listInfo.name,
         alias: this.currentAlias,
+        canonical: this.listInfo.canonicalUrl,
         id: this.listInfo.id,
         type: this.type
       };
@@ -415,7 +422,11 @@ export default {
       };
     }
   },
-  mounted() {},
+  mounted() {
+    if (!this.isSearch) {
+      this.switchToCanonical();
+    }
+  },
   methods: {
     // @vuese
     // Load next chunk of products
@@ -706,10 +717,25 @@ export default {
     },
     // @vuese
     // Setting up params for filter in URL
-    // @argfilter selection (Array)
+    // @arg filter selection (Array)
     getReadableParams(array) {
       const readableParams = array.map(i => i.label + '~' + i.id);
       return readableParams.join();
+    },
+    // @vuese
+    // Switching to canonical url if different from route path
+    switchToCanonical() {
+      const check = setInterval(() => {
+        if (this.listInfo) {
+          clearInterval(check);
+          if (this.listInfo.canonicalUrl !== this.$route.path) {
+            this.$router.replace({
+              path: this.listInfo.canonicalUrl,
+              query: this.$route.query
+            });
+          }
+        }
+      }, 500);
     }
   }
 };

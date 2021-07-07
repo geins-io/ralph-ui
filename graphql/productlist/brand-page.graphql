@@ -1,16 +1,8 @@
-#import "meta/meta.graphql"
+#import "productlist/list-info.graphql"
 
 query listPageInfo($alias: String!) {
   listPageInfo(alias: $alias) {
-    alias
-    primaryImage
     logo
-    name
-    id
-    primaryDescription
-    secondaryDescription
-    meta {
-      ...Meta
-    }
+    ...ListInfo
   }
 }
