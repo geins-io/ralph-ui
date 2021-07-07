@@ -729,7 +729,10 @@ export default {
         if (this.listInfo) {
           clearInterval(check);
           if (this.listInfo.canonicalUrl !== this.$route.path) {
-            this.$router.replace(this.listInfo.canonicalUrl);
+            this.$router.replace({
+              path: this.listInfo.canonicalUrl,
+              query: this.$route.query
+            });
           }
         }
       }, 500);
