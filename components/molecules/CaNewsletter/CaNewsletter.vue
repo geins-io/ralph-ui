@@ -94,6 +94,7 @@ export default {
             this.loading = false;
             if (result.data.subscribeToNewsletter) {
               this.showFeedback(this.feedbacks.success);
+              this.email = '';
             } else {
               this.showFeedback(this.feedbacks.fail);
             }

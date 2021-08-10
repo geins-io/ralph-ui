@@ -187,7 +187,7 @@ export default {
         if (this.product) {
           clearInterval(check);
           if (this.product.canonicalUrl !== this.$route.path) {
-            this.$router.replace(this.product.canonicalUrl);
+            history.replaceState(null, null, this.product.canonicalUrl);
           }
         }
       }, 500);

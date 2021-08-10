@@ -410,7 +410,9 @@ export default {
     goToSearchPage() {
       if (this.searchString) {
         this.setRecentSearch();
-        this.$router.push(this.$config.routePaths.search + this.searchString);
+        this.$router.push(
+          this.$config.routePaths.search + '/' + this.searchString
+        );
         this.close();
       }
     },
