@@ -234,6 +234,9 @@ export default {
     isSearch() {
       return this.type === 'search';
     },
+    // @vuese
+    // Current selection
+    // @type Object
     selection() {
       if (this.userSelection) {
         return this.userSelection;
@@ -242,7 +245,9 @@ export default {
           JSON.stringify(this.list.querySelection)
         );
         if (!querySelection.sort) {
-          querySelection.sort = this.defaultSort;
+          querySelection.sort = this.$route.query.sort
+            ? this.$route.query.sort
+            : this.defaultSort;
         }
         return querySelection;
       }
@@ -490,6 +495,13 @@ export default {
         const selection = this.selection;
         this.$set(selection, 'sort', newVal);
         this.userSelection = selection;
+      }
+      if (
+        this.userHasPaged &&
+        !this.$store.getters['list/relocateProduct'] &&
+        !this.$store.getters['list/backNavigated']
+      ) {
+        this.resetCurrentPage();
       }
       this.pushURLParams();
     },
