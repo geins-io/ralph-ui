@@ -5,22 +5,14 @@
     :design="outerContainerDesign"
     :class="outerClasses"
   >
-    <CaConditionalRootElement :render="contained">
-      <CaContainer
-        class="ca-widget-container ca-widget-container--inner"
-        :design="innerContainerDesign"
-        :class="innerClasses"
-      >
-        <CaWidget
-          v-for="(widget, index) in container.widgets"
-          :key="index"
-          :type="widget.name"
-          :configuration="widget.configuration"
-          :image-ratios="widget.images"
-          :image-sizes="imageSizes"
-        />
-      </CaContainer>
-    </CaConditionalRootElement>
+    <CaWidget
+      v-for="(widget, index) in container.widgets"
+      :key="index"
+      :type="widget.name"
+      :configuration="widget.configuration"
+      :image-ratios="widget.images"
+      :image-sizes="imageSizes"
+    />
   </CaContainer>
 </template>
 <script>

@@ -25,7 +25,7 @@ export default {
       required: true
     },
     selection: {
-      type: [Array],
+      type: Array,
       required: true
     }
   },

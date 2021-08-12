@@ -47,6 +47,9 @@ export default {
         };
       },
       result() {
+        if (!this.product) {
+          this.$nuxt.error({ statusCode: 404, message: '' });
+        }
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
         }
@@ -67,7 +70,7 @@ export default {
     // Quick ref to product images
     // @type Array
     productImages() {
-      return this.product && this.product.images && this.product.images.length
+      return this.product?.images && this.product.images.length
         ? this.product.images
         : [];
     },
@@ -105,10 +108,10 @@ export default {
     },
     breadcrumbsCurrent() {
       return {
-        name: this.product.primaryCategory.name,
-        alias: this.product.primaryCategory.alias,
-        canonical: this.product.primaryCategory.canonicalUrl,
-        id: this.product.primaryCategory.categoryId,
+        name: this.product?.primaryCategory.name,
+        alias: this.product?.primaryCategory.alias,
+        canonical: this.product?.primaryCategory.canonicalUrl,
+        id: this.product?.primaryCategory.categoryId,
         type: 'category'
       };
     }
@@ -184,7 +187,7 @@ export default {
         if (this.product) {
           clearInterval(check);
           if (this.product.canonicalUrl !== this.$route.path) {
-            this.$router.replace(this.product.canonicalUrl);
+            history.replaceState(null, null, this.product.canonicalUrl);
           }
         }
       }, 500);
