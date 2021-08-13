@@ -290,7 +290,7 @@ export default {
         if (index === -1) {
           const obj = {
             name: item.name,
-            alias: item.alias,
+            canonicalUrl: item.canonicalUrl,
             count: 1
           };
           collectedArr.push(obj);
@@ -313,7 +313,7 @@ export default {
         if (index === -1) {
           const obj = {
             name: item.name,
-            alias: item.alias,
+            canonicalUrl: item.canonicalUrl,
             count: 1
           };
           collectedArr.push(obj);
