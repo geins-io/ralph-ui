@@ -237,6 +237,10 @@ export default {
     opened: {
       type: Boolean,
       default: false
+    },
+    visibleWhenSiteIsAtTop: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
@@ -259,16 +263,23 @@ export default {
       return this.products.length > 0;
     },
     searchIsVisible() {
-      if (
-        this.$store.getters.viewport === 'phone' ||
-        this.$store.getters.viewport === 'tablet'
-      ) {
-        return this.$store.getters.siteIsAtTop || this.opened;
-      } else return true;
+      if (this.visibleWhenSiteIsAtTop) {
+        if (
+          this.$store.getters.viewport === 'phone' ||
+          this.$store.getters.viewport === 'tablet'
+        ) {
+          return this.$store.getters.siteIsAtTop || this.opened;
+        } else return true;
+      } else
+        return this.$store.getters.viewport === 'phone' ||
+          this.$store.getters.viewport === 'tablet'
+          ? this.opened
+          : true;
     },
     modifiers() {
       return {
-        'ca-search--visible': this.searchIsVisible
+        'ca-search--visible': this.searchIsVisible,
+        'ca-search--active': this.active
       };
     },
     showRecentSearches() {
