@@ -36,6 +36,7 @@ export const mutations = {
     state.config.breakpoints = config.breakpoints;
     state.config.authEndpoint = config.authEndpoint;
     state.config.signEndpoint = config.signEndpoint;
+    state.config.siteTopThreshold = config.siteTopThreshold;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -117,7 +118,7 @@ export const actions = {
 
 export const getters = {
   siteIsAtTop(state) {
-    return state.scrollTop <= 10;
+    return state.scrollTop <= state.config.siteTopThreshold;
   },
   viewportComputer(state) {
     return state.viewportWidth >= state.config.breakpoints.laptop;
