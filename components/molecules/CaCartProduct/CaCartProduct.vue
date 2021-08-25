@@ -74,7 +74,7 @@
         <div v-else class="ca-cart-product__static-quantity">
           {{ $t('QUANTITY') }}: {{ item.quantity }}
         </div>
-        <div class="ca-cart-product__total">
+        <div v-if="item.totalPrice" class="ca-cart-product__total">
           {{ $store.getters.getSellingPrice(item.totalPrice) }}
         </div>
       </div>

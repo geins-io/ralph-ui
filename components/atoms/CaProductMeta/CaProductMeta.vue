@@ -1,6 +1,8 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <script type="application/ld+json" v-html="productSchema"></script>
+  <div class="ca-product-meta">
+    <script type="application/ld+json" v-html="productSchema"></script>
+  </div>
 </template>
 <script>
 // @group Atoms

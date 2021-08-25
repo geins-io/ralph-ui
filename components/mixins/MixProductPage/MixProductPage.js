@@ -154,7 +154,7 @@ export default {
         });
       } else {
         this.addToCartLoading = true;
-        this.addToCart(this.chosenSku.id, this.quantity);
+        this.addToCart(this.chosenSku.id, this.quantity, this.product);
       }
     },
     // @vuese

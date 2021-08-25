@@ -1,0 +1,77 @@
+<template>
+  <div
+    class="ca-added-to-cart"
+    :class="{ 'ca-added-to-cart--scrolled': !$store.getters.siteIsAtTop }"
+  >
+    <CaOverlay
+      class="ca-added-to-cart__overlay"
+      :visible="visible"
+      @clicked="close"
+    />
+    <CaContainer class="ca-added-to-cart__container">
+      <div
+        class="ca-added-to-cart__box"
+        :class="{ 'ca-added-to-cart__box--visible': visible }"
+      >
+        <div class="ca-added-to-cart__header">
+          <div class="ca-added-to-cart__title">
+            {{ $tc('CART_ITEM_ADDED', quantity) }}
+          </div>
+          <CaIconButton
+            class="ca-added-to-cart__close"
+            icon-name="x"
+            :aria-label="$t('CLOSE')"
+            @clicked="close"
+          />
+        </div>
+        <div class="ca-added-to-cart__body">
+          <transition name="fade">
+            <CaCartProduct
+              v-if="visible"
+              class="ca-added-to-cart__product"
+              :item="cart.added"
+              mode="display"
+            />
+          </transition>
+          <div @click="close">
+            <CaButton type="full-width" size="m" href="checkout">
+              {{ $t('CART_TO_CHECKOUT') }}
+            </CaButton>
+          </div>
+        </div>
+      </div>
+    </CaContainer>
+  </div>
+</template>
+<script>
+import { mapState } from 'vuex';
+// @group Molecules
+// @vuese
+// (Description of component)<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-added-to-cart.scss_
+export default {
+  name: 'CaAddedToCart',
+  mixins: [],
+  props: {},
+  data: () => ({}),
+  computed: {
+    visible() {
+      return this.cart.added !== null;
+    },
+    quantity() {
+      return this.visible ? this.cart.added.quantity : 1;
+    },
+    ...mapState(['cart'])
+  },
+  watch: {},
+  mounted() {},
+  methods: {
+    close() {
+      this.$store.dispatch('cart/removeAddedNotification');
+    }
+  }
+};
+</script>
+<style lang="scss">
+@import 'molecules/ca-added-to-cart';
+</style>

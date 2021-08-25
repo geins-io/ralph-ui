@@ -16,8 +16,8 @@ export default {
   methods: {
     // @vuese
     // Add a product to the cart on the server. Performs a graphql mutation
-    // @arg sku id (Number), product quantity (Number)
-    addToCart(prodSkuId, prodQuantity) {
+    // @arg sku id (Number), product quantity (Number), product (Object)
+    addToCart(prodSkuId, prodQuantity, product) {
       const itemToAdd = {
         skuId: prodSkuId,
         quantity: prodQuantity
@@ -33,9 +33,13 @@ export default {
         .then(result => {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
-          this.$store.dispatch('snackbar/trigger', {
-            message: this.$tc('CART_ITEM_ADDED', itemToAdd.quantity)
+          this.$store.dispatch('cart/triggerAddedNotification', {
+            item: itemToAdd,
+            product
           });
+          setTimeout(() => {
+            this.$store.dispatch('cart/removeAddedNotification');
+          }, 30000);
         })
         .catch(error => {
           // eslint-disable-next-line no-console

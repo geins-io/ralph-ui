@@ -1,10 +1,14 @@
 export const state = () => ({
-  data: null
+  data: null,
+  added: null
 });
 
 export const mutations = {
   setCart(state, cart) {
     state.data = cart;
+  },
+  setAdded(state, added) {
+    state.added = added;
   }
 };
 
@@ -36,6 +40,19 @@ export const actions = {
       carts.new.summary?.subTotal.regularPriceIncVatFormatted !==
       carts.old.summary?.subTotal.regularPriceIncVatFormatted
     );
+  },
+  triggerAddedNotification({ commit }, added) {
+    const item = {
+      campaign: null, // TODO: fix campaign
+      unitPrice: added.product.unitPrice,
+      product: added.product,
+      quantity: added.item.quantity,
+      skuId: added.item.skuId
+    };
+    commit('setAdded', item);
+  },
+  removeAddedNotification({ commit }) {
+    commit('setAdded', null);
   }
 };
 

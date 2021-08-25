@@ -9,7 +9,6 @@ mutation createOrUpdateCheckout(
     cart {
       ...Cart
     }
-    paymentMode
     consents {
       type
       checked
