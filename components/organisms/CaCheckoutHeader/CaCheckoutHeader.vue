@@ -4,7 +4,7 @@
       v-if="!$store.getters.viewportComputer"
       class="ca-checkout-header__back"
       href="/"
-      icon-name="chevron-left"
+      :icon-name="iconName"
       aria-label="Back"
     />
     <NuxtLink to="/">
@@ -34,6 +34,11 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
+    iconName: {
+      type: String,
+      default: 'chevron-left'
     }
   },
   data: () => ({}),

@@ -7,7 +7,7 @@
         :positioned="false"
         class="ca-filter-trigger__amount"
       />
-      <CaIcon class="ca-filter-trigger__arrow" name="chevron-down" />
+      <CaIcon class="ca-filter-trigger__arrow" :name="iconName" />
     </div>
   </div>
 </template>
@@ -20,13 +20,20 @@ export default {
   name: 'CaFilterTrigger',
   mixins: [],
   props: {
+    // The title of the filter
     title: {
       type: String,
       required: true
     },
+    // The current filter selection
     selection: {
       type: Array,
       required: true
+    },
+    // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
+    iconName: {
+      type: String,
+      default: 'chevron-down'
     }
   },
   data: () => ({

@@ -8,6 +8,7 @@
       <CaButton
         class="ca-category-display__button"
         :href="category.canonicalUrl"
+        :color="buttonColor"
         size="s"
       >
         {{ category.name }}
@@ -28,6 +29,11 @@ export default {
     categories: {
       type: Array,
       required: true
+    },
+    // The color of the button. See documentation for [CaButton](/components/CaButton) to learn more.
+    buttonColor: {
+      type: String,
+      default: 'primary'
     }
   },
   data: () => ({}),

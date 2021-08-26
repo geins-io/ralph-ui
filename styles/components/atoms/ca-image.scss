@@ -1,5 +1,8 @@
 .ca-image {
   $block: &;
+  &__img {
+    width: 100%;
+  }
   &--loaded {
     position: relative;
     #{$block}__skeleton {

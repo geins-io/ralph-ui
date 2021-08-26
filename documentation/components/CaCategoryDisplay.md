@@ -8,6 +8,7 @@ Display list of categories as buttons. Often used in list page headers<br><br> *
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |categories|List of categories to display. Must include name and alias|`Array`|`true`|-|
+|buttonColor|The color of the button. See documentation for [CaButton](/components/CaButton) to learn more.|`String`|`false`|primary|
 
 <!-- @vuese:CaCategoryDisplay:props:end -->
 
