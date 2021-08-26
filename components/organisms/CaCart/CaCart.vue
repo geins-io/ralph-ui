@@ -27,7 +27,7 @@
       />
     </div>
   </div>
-  <div v-else class="ca-cart ca-cart--empty">
+  <div v-else-if="cart.items" class="ca-cart ca-cart--empty">
     {{ $t('CART_EMPTY') }}
   </div>
 </template>

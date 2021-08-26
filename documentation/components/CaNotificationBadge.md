@@ -8,6 +8,7 @@ Badge to show a number as a notification badge<br><br> **SASS-path:** _./styles/
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |number|The number to be displayed|`Number` /  `String`|`true`|-|
+|positioned|-|`Boolean`|`false`|true|
 
 <!-- @vuese:CaNotificationBadge:props:end -->
 

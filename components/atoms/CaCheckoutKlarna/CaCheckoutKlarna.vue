@@ -1,15 +1,10 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <div
-    v-if="klarnaResponse !== null"
-    class="ca-checkout-klarna"
-    v-html="klarnaResponse.htmlSnippet"
-  ></div>
+  <div v-if="frame" class="ca-checkout-klarna" v-html="frame"></div>
   <CaSpinner v-else class="ca-checkout-klarna__loading" />
 </template>
 <script>
-import getKlarnaQuery from 'checkout/get-klarna.graphql';
-import initKlarnaMutation from 'checkout/init-klarna.graphql';
+import getKlarnaQuery from 'checkout/get-checkout.graphql';
 // @group Atoms
 // @vuese
 // A component used to display the Klarna Checkout iFrame<br><br>
@@ -18,103 +13,58 @@ export default {
   name: 'CaCheckoutKlarna',
   mixins: [],
   props: {
-    confirm: {
+    // The response markup from Klarna
+    data: {
+      type: String,
+      default: null
+    },
+    // Is it a new checkout session?
+    newCheckoutSession: {
       type: Boolean,
       default: false
     },
-    orderMessage: {
-      type: String,
-      default: ''
+    // Is this the confirm page?
+    confirm: {
+      type: Boolean,
+      default: false
     }
   },
 
   data: () => ({
-    klarnaResponse: null,
-    cartUpdateTimeout: null,
-    unwatch: null
+    frame: null
   }),
   computed: {
+    // @vuese
+    // The Klarna order id
+    // @type String
     klarnaOrderId() {
       return this.$route.query.kid || null;
     }
   },
-  watch: {
-    orderMessage(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.fetchKlarnaData();
-      }
-    }
-  },
+  watch: {},
   mounted() {
     if (!this.confirm) {
-      this.fetchKlarnaData();
+      this.initialize();
     } else {
-      this.fetchKlarnaConfirm();
+      this.fetchConfirm();
     }
   },
-  created() {
-    if (!this.confirm) {
-      this.unwatch = this.$store.watch(
-        state => state.cart.data,
-        newVal => {
-          if (this.cartUpdateTimeout) {
-            clearTimeout(this.cartUpdateTimeout);
-          }
-          this.cartUpdateTimeout = setTimeout(() => {
-            this.fetchKlarnaData();
-          }, 100);
-        }
-      );
-    }
-  },
-  beforeDestroy() {
-    if (!this.confirm) {
-      this.unwatch();
-    }
-  },
+  created() {},
   methods: {
-    fetchKlarnaData() {
-      if (this.klarnaResponse) {
-        this.suspendKlarna();
+    // @vuese
+    // Initializing the checkout frame
+    initialize() {
+      if (this.frame && this.newCheckoutSession) {
+        this.frame = null;
       }
-      this.$apollo
-        .mutate({
-          mutation: initKlarnaMutation,
-          variables: {
-            cartId: this.$store.getters['cart/id'],
-            checkout: {
-              shippingId: null,
-              pickupPoint: null,
-              desiredDeliveryDate: null,
-              message: this.orderMessage
-            }
-          }
-        })
-        .then(result => {
-          if (
-            !this.klarnaResponse ||
-            result.data.initializeKlarna.newCheckoutSession
-          ) {
-            if (
-              this.klarnaResponse &&
-              result.data.initializeKlarna.newCheckoutSession
-            ) {
-              this.klarnaResponse = null;
-            }
-            this.klarnaResponse = result.data.initializeKlarna;
-            this.$nextTick(() => {
-              this.initializeKlarnaScript();
-            });
-          } else {
-            this.resumeKlarna();
-          }
-        })
-        .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
+      this.frame = this.data;
+      this.$nextTick(() => {
+        this.initScript();
+      });
     },
-    initializeKlarnaScript() {
+    // @vuese
+    // Initializing all scripts
+    initScript() {
       const checkoutContainer = document.getElementById(
         'klarna-checkout-container'
       );
@@ -129,32 +79,42 @@ export default {
         parentNode.appendChild(newScriptTag);
       }
     },
-    suspendKlarna() {
-      window._klarnaCheckout(function(api) {
-        api.suspend();
-      });
+    // @vuese
+    // Suspend the checkout
+    suspend() {
+      if (this.frame) {
+        window._klarnaCheckout(function(api) {
+          api.suspend();
+        });
+      }
     },
-    resumeKlarna() {
-      window._klarnaCheckout(function(api) {
-        api.resume();
-      });
+    // @vuese
+    // Resume the checkout
+    resume() {
+      if (this.frame) {
+        window._klarnaCheckout(function(api) {
+          api.resume();
+        });
+      }
     },
-    fetchKlarnaConfirm() {
+    // @vuese
+    // Fetch the confirm frame
+    fetchConfirm() {
       if (!this.klarnaOrderId) return;
       this.$apollo
         .query({
           query: getKlarnaQuery,
           variables: {
-            klarnaOrderId: this.klarnaOrderId
+            orderId: this.klarnaOrderId
           }
         })
         .then(result => {
-          if (this.klarnaResponse && result.data.getKlarna.newCheckoutSession) {
-            this.klarnaResponse = null;
+          if (this.frame) {
+            this.frame = null;
           }
-          this.klarnaResponse = result.data.getKlarna;
+          this.frame = result.data.getCheckout;
           this.$nextTick(() => {
-            this.initializeKlarnaScript();
+            this.initScript();
           });
         })
         .catch(error => {

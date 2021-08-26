@@ -9,6 +9,7 @@
     margin-bottom: $px4;
     text-align: center;
     margin-top: $px32;
+
     @include bp(laptop) {
       font-size: $font-size-l;
       margin-bottom: $px12;
@@ -44,6 +45,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
+    z-index: 10;
     left: 0;
     right: 0;
     top: 0;

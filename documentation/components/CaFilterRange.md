@@ -30,6 +30,7 @@ import 'vue-slider-component/theme/material.css'; Range type filter<br><br> **SA
 |---|---|---|
 |changeHandler|Triggered when filter is changed|-|
 |setCurrentSelection|Used to set local data when mounted|-|
+|setValues|Used to set local data when mounted|-|
 
 <!-- @vuese:CaFilterRange:methods:end -->
 

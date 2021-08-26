@@ -47,7 +47,7 @@
 import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Added to cart notification<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-added-to-cart.scss_
 export default {
   name: 'CaAddedToCart',
@@ -55,9 +55,15 @@ export default {
   props: {},
   data: () => ({}),
   computed: {
+    // @vuese
+    // Is the notification visible
+    // @type Boolean
     visible() {
       return this.cart.added !== null;
     },
+    // @vuese
+    // How many was added?
+    // @type Number
     quantity() {
       return this.visible ? this.cart.added.quantity : 1;
     },
@@ -66,6 +72,8 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    // @vuese
+    // Close the notification
     close() {
       this.$store.dispatch('cart/removeAddedNotification');
     }

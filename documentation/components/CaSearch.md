@@ -8,6 +8,7 @@ The search including search results<br><br> **SASS-path:** _./styles/components/
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |opened|Used to toogle search in mobile, set to true when user opens it|`Boolean`|`false`|false|
+|visibleWhenSiteIsAtTop|-|`Boolean`|`false`|true|
 
 <!-- @vuese:CaSearch:props:end -->
 

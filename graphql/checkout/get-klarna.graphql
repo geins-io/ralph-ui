@@ -1,7 +1,0 @@
-#import "checkout/klarna-response.graphql"
-
-query getKlarna($klarnaOrderId: String!) {
-  getKlarna(klarnaOrderId: $klarnaOrderId) {
-    ...KlarnaResponse
-  }
-}

@@ -28,7 +28,7 @@ Multi choice filter<br><br> **SASS-path:** _./styles/components/molecules/ca-fil
 <!-- @vuese:CaFilterMulti:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|toggleFilterValue|Toggle the value of a filter and emit the updated selection|name (String) and selected (Boolean)|
+|toggleFilterValue|Toggle the value of a filter and emit the updated selection|filter (Object) and selected (Boolean)|
 
 <!-- @vuese:CaFilterMulti:methods:end -->
 

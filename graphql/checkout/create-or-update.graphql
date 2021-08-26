@@ -22,5 +22,15 @@ mutation createOrUpdateCheckout(
       ...Address
     }
     shippingData
+    paymentOptions {
+      id
+      displayName
+      logo
+      paymentType
+      paymentData
+      isSelected
+      feeIncVatFormatted
+      newCheckoutSession
+    }
   }
 }

@@ -13,13 +13,14 @@ import placeOrderMutation from 'checkout/place-order.graphql';
 // pickupPoint: `''`,
 // externalShippingId: `''`,
 // udcValid: `false`
+// paymentId: `vm.$config.defaultPaymentId`
 export default {
   name: 'MixCheckout',
   apollo: {},
   mixins: [],
   props: {},
-  data: () => ({
-    cartLoading: false,
+  data: vm => ({
+    cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,
     checkout: {},
@@ -27,7 +28,8 @@ export default {
     message: '',
     pickupPoint: '',
     externalShippingId: '',
-    udcValid: false
+    udcValid: false,
+    paymentId: vm.$config.checkout.defaultPaymentId
   }),
   computed: {
     // @vuese
@@ -41,6 +43,9 @@ export default {
     // @type Object
     checkoutInput() {
       const obj = {};
+      if (this.paymentId) {
+        obj.paymentId = this.paymentId;
+      }
       if (this.checkout.billingAddress) {
         obj.billingAddress = this.checkout.billingAddress;
         delete obj.billingAddress.__typename;
@@ -87,6 +92,24 @@ export default {
     currentZip() {
       return this.checkout?.billingAddress?.zip || '';
     },
+    // @vuese
+    // Is there more than one payment option?
+    // @type Boolean
+    hasPaymentOptions() {
+      return this.checkout?.paymentOptions?.length > 1;
+    },
+    // @vuese
+    // The selected payment option
+    // @type Object
+    selectedPaymentOption() {
+      return this.checkout?.paymentOptions?.find(i => i.isSelected);
+    },
+    // @vuese
+    // The current payment type
+    // @type String
+    paymentType() {
+      return this.selectedPaymentOption?.paymentType;
+    },
     ...mapState(['cart'])
   },
   watch: {
@@ -115,6 +138,9 @@ export default {
       if (this.$refs.udc) {
         this.$refs.udc.disable();
       }
+      if (this.$refs.klarna && this.$refs.klarna.frame) {
+        this.$refs.klarna.suspend();
+      }
       const vars = {
         cartId: this.$store.getters['cart/id']
       };
@@ -135,6 +161,13 @@ export default {
           this.$nextTick(() => {
             if (this.$refs.udc && this.$refs.udc.widget) {
               this.$refs.udc.enable();
+            }
+            if (this.$refs.klarna) {
+              if (this.selectedPaymentOption.newCheckoutSession) {
+                this.$refs.klarna.initialize();
+              } else {
+                this.$refs.klarna.resume();
+              }
             }
           });
         })
@@ -202,6 +235,9 @@ export default {
           console.log(error);
         });
     },
+    // @vuese
+    // Initialize UDC
+    // @arg zip (String)
     initUDC(zip) {
       this.shippingLoading = true;
       if (this.checkout.billingAddress) {
@@ -221,6 +257,9 @@ export default {
       }
       this.createOrUpdateCheckout();
     },
+    // @vuese
+    // UDC callback handler
+    // @arg data (Object)
     setUDCdata(data) {
       this.message = data.deliveryData;
       this.pickupPoint = data.pickupPoint;
@@ -229,6 +268,13 @@ export default {
         this.cartLoading = true;
         this.createOrUpdateCheckout();
       }
+    },
+    // @vuese
+    // Handling the payment selection
+    // @arg payment id (Number)
+    paymentSelectionHandler(id) {
+      this.paymentId = id;
+      this.createOrUpdateCheckout();
     }
   }
 };

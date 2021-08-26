@@ -1,6 +1,6 @@
 # MixProductPage.js
 
-All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> replaceAlias: `null`<br> error: `null`
+All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> replaceAlias: `null`<br>
 
 ## Methods
 
@@ -12,6 +12,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|
 |sizeChangeHandler|Handler for changing the sku|data (Object)|
 |quantityThresholdHandler|Handler for reaching quantity threshold|-|
+|switchToCanonical|Switching to canonical url if different from route path|-|
 
 <!-- @vuese:MixProductPage.js:methods:end -->
 
@@ -23,8 +24,19 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |---|---|---|---|
 |productImages|`Array`|Quick ref to product images|No|
 |prodAlias|`String`|Alias used to fetch product data, using replaceAlias if it has a value|No|
+|widgetAreaFilters|`Array`|Returns array of widget filters|No|
 
 <!-- @vuese:MixProductPage.js:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:MixProductPage.js:mixIns:start -->
+|MixIn|
+|---|
+|MixMetaReplacement|
+
+<!-- @vuese:MixProductPage.js:mixIns:end -->
 
 
 ## Watch

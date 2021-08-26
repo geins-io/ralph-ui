@@ -1,6 +1,6 @@
 # MixListPage.js
 
-All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> skip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> selection: `{ categories: [], brands: [] }`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize` relocateTimeout: `null`
+import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> userSkip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`
 
 ## Props
 
@@ -9,8 +9,8 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 |---|---|---|---|---|
 |type|Type of list page|'category', 'brand', 'search', 'favorites'|`false`|-|
 |infoQuery|Graphql for the listPageInfo query|`Object`|`true`|-|
-|productsQuery|Graphql for the products query|`Object`|`true`|-|
 |currentAlias|Current alias for the page|`String`|`true`|-|
+|baseFilters|All filters for this list page before filtering is done|`Object`|`true`|-|
 
 <!-- @vuese:MixListPage.js:props:end -->
 
@@ -23,18 +23,21 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 |loadMore|Load next chunk of products|-|
 |loadPrev|Load previous chunk of products|-|
 |getScrollHeight|Get the current scroll height of the page, used to keep scroll in the right position while loading previous products|-|
-|setInitPriceSelection|Set price filter selection|lowest price (Number), highest price (Number)|
-|setInitPriceLowest|Set price filter selection for lowest price|price (Number)|
-|setInitPriceHighest|Set price filter selection for highest price|price (Number)|
 |sortChangeHandler|Update the sort setting|new value (String)|
 |filterChangeHandler|Update the filter selections|new value (Object)|
 |resetFilters|Resetting the filter selections|-|
 |resetCurrentPage|Reset paging state|-|
 |pushURLParams|Set filter selection in URL|-|
-|readURLParams|Read filter selection from URL|-|
 |setPagingState|Sets current page from URL or saved state|-|
 |initProductList|Run to init the product list|-|
 |relocateProduct|Runned to relocate product on page after back navigating|-|
+|setupUserSelection|Setting up the current user selection from store|-|
+|setupFilters|Setting up all filters|filters (Object)|
+|updateFilters|Updating all filters|filters (Object)|
+|setNewCount|Used to set new count of filters|base filters (Array), new filters (Array)|
+|getSortedFilters|Sorting all filters into groups|filters (Object)|
+|getReadableParams|Setting up params for filter in URL|filter selection (Array)|
+|switchToCanonical|Switching to canonical url if different from route path|-|
 
 <!-- @vuese:MixListPage.js:methods:end -->
 
@@ -44,19 +47,36 @@ All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> 
 <!-- @vuese:MixListPage.js:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|skip|`Number`|Current number of products to skip when querying|No|
 |allProductsLoaded|`Boolean`|Are all products loaded?|No|
 |showing|`String`|Returns string of span of products showing right now, for example '10 - 20'|No|
-|filterQuery|`Object`|Returns the filter object used to query products based on filters|No|
+|filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
 |modifier|`String`|The modifer class for the list page|No|
 |isCategory|`Boolean`|Is this list page of type category?|No|
 |isBrand|`Boolean`|Is this list page of type brand?|No|
+|isSearch|`Boolean`|Is this list page of type search?|No|
+|selection|`Object`|Current selection|No|
+|productsQueryFilter|`Object`|Returns the filter object for the productsQueryVars|No|
+|totalFiltersActive|`Number`|Number of total filters active|No|
 |filterSelectionActive|`Boolean`|Is a filter selection made?|No|
-|infoQueryVars|`Object`|Returns the object to query the list page information|No|
 |productsQueryVars|`Object`|Returns the variable object with the query parameters for the product list|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
 |loadPrevQueryVars|`Object`|Returns the variable object for loading previous products|No|
 |skeletonProducts|`Array`|Returns an array of empty objects with same lengt as pageSize|No|
+|widgetAreaFilters|`Array`|Returns array of widget filters|No|
+|breadcrumbsCurrent|`Object`|Current bredcrumb info|No|
+|showControls|`Boolean`|RShw filters and other controls|No|
 
 <!-- @vuese:MixListPage.js:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:MixListPage.js:mixIns:start -->
+|MixIn|
+|---|
+|MixMetaReplacement|
+
+<!-- @vuese:MixListPage.js:mixIns:end -->
 
 
