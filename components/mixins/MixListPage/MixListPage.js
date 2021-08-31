@@ -229,6 +229,12 @@ export default {
       return this.type === 'brand';
     },
     // @vuese
+    // Is this list page of type discount campaign?
+    // @type Boolean
+    isDiscountCampaign() {
+      return this.type === 'discountCampaign';
+    },
+    // @vuese
     // Is this list page of type search?
     // @type Boolean
     isSearch() {
@@ -308,6 +314,9 @@ export default {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
         this.$set(varsObj, 'categoryAlias', null);
       }
+      if (this.isDiscountCampaign) {
+        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
+      }
       return varsObj;
     },
     // @vuese
@@ -327,6 +336,9 @@ export default {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
         this.$set(varsObj, 'categoryAlias', null);
       }
+      if (this.isDiscountCampaign) {
+        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
+      }
       return varsObj;
     },
     // @vuese
@@ -345,6 +357,9 @@ export default {
       if (this.isBrand) {
         this.$set(varsObj, 'brandAlias', this.currentAlias);
         this.$set(varsObj, 'categoryAlias', null);
+      }
+      if (this.isDiscountCampaign) {
+        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
       }
 
       return varsObj;

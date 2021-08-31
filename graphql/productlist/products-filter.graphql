@@ -3,11 +3,13 @@
 query products(
   $categoryAlias: String = null
   $brandAlias: String = null
+  $discountCampaignAlias: String = null
   $filter: FilterInputType = null
 ) {
   products(
     categoryAlias: $categoryAlias
     brandAlias: $brandAlias
+    discountCampaignAlias: $discountCampaignAlias
     filter: $filter
   ) {
     filters {

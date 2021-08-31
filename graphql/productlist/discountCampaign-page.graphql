@@ -1,0 +1,8 @@
+#import "productlist/list-info.graphql"
+
+query listPageInfo($alias: String!) {
+  listPageInfo(alias: $alias) {
+    logo
+    ...ListInfo
+  }
+}

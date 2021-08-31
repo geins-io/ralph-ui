@@ -6,6 +6,7 @@ query products(
   $take: Int = null
   $categoryAlias: String = null
   $brandAlias: String = null
+  $discountCampaignAlias: String = null
   $filter: FilterInputType = null
 ) {
   products(
@@ -13,6 +14,7 @@ query products(
     take: $take
     categoryAlias: $categoryAlias
     brandAlias: $brandAlias
+    discountCampaignAlias: $discountCampaignAlias
     filter: $filter
   ) {
     products {
