@@ -424,6 +424,7 @@ export default {
         this.$router.push(
           this.$config.routePaths.search + '/' + this.searchString
         );
+        this.$emit('searchRouteChange');
         this.close();
       }
     },
