@@ -40,10 +40,10 @@
           :slide-index="index"
           :slide-meta="slideMeta"
           class="ca-product-gallery__slide"
+          @clicked="openModal(index)"
         >
           <CaImage
             class="ca-product-gallery__image"
-            size="600f600"
             type="product"
             :filename="image"
             :ratio="$config.productImageRatio"
@@ -55,6 +55,9 @@
             "
             sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
           />
+          <div class="ca-product-gallery__slide-overlay">
+            <CaIcon name="plus" />
+          </div>
         </CaSlide>
       </template>
     </CaSlider>
@@ -90,8 +93,20 @@ export default {
       default: 'chevron'
     }
   },
-  data: () => ({}),
-  computed: {},
+  data: () => ({
+    modalIndex: 1
+  }),
+  computed: {
+    modalProps() {
+      return {
+        images: this.images,
+        alt: this.alt,
+        arrowIconName: this.arrowIconName,
+        index: this.modalIndex,
+        ratio: this.$config.productImageRatio
+      };
+    }
+  },
   watch: {},
   mounted() {},
   methods: {
@@ -100,6 +115,14 @@ export default {
     // @arg index (Number)
     slideToIndex(index) {
       this.$refs.slider.goToSlide(index);
+    },
+    openModal(index) {
+      this.modalIndex = index;
+      const modalSettings = {
+        component: 'CaProductGalleryModal',
+        componentProps: this.modalProps
+      };
+      this.$store.commit('modal/open', modalSettings);
     }
   }
 };

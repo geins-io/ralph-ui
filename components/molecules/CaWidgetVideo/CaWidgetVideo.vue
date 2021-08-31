@@ -79,7 +79,8 @@ export default {
         videoId: this.videoId,
         videoProvider: this.videoProvider,
         playerWidth: this.playerWidth,
-        playerHeight: this.playerHeight
+        playerHeight: this.playerHeight,
+        ratio: this.playerRatio
       };
     }
   },

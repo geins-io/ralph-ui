@@ -26,10 +26,30 @@
       width: 80.15%;
     }
   }
+  &__slide-overlay {
+    display: none;
+    @include bp(laptop) {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      @include flex-calign;
+      color: $c-text-inverse;
+      font-size: 20px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 200ms ease, font-size 200ms ease;
+    }
+  }
   &__slide {
     padding: 0 $px4;
     opacity: 0.6;
     transition: opacity 200ms ease;
+    cursor: pointer;
+    position: relative;
     @include bp(laptop) {
       padding: 0;
       opacity: 1;
@@ -40,7 +60,14 @@
     .ca-slider__lane--resetting & {
       transition: none;
     }
+    &:hover {
+      #{$block}__slide-overlay {
+        opacity: 1;
+        font-size: 70px;
+      }
+    }
   }
+
   &__image {
     border: $border-light;
     @include bp(laptop) {

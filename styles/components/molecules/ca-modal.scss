@@ -8,7 +8,7 @@
   box-shadow: 0 0 15px -6px rgba(0, 0, 0, 0.06);
   transform: translate(-50%, -50%) scale(1);
   z-index: $z-index-modal;
-  width: 100%;
+  width: auto;
   max-width: 95vw;
   max-height: 95vh;
   &__close {
@@ -28,8 +28,5 @@
   &__content {
     overflow: hidden;
     border-radius: rem-calc(4px);
-  }
-  &--prompt {
-    width: auto;
   }
 }

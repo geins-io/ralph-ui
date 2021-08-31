@@ -283,7 +283,7 @@ export default {
     // @vuese
     // Handles the start of a touch or point and drag event
     gestureStart(e) {
-      if (this.slidingActive) {
+      if (this.slidingActive && e.button === 0 && e.buttons === 1) {
         this.tracking = true;
         this.targetWidth = e.target.offsetWidth;
         this.start.t = e.timeStamp;

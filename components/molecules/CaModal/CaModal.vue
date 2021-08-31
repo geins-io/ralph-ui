@@ -5,7 +5,7 @@
         v-show="contentLoaded"
         ref="modal"
         class="ca-modal"
-        :class="{ 'ca-modal--prompt': isPrompt }"
+        :style="styleAttrs"
       >
         <CaIconButton
           v-if="!isPrompt"
@@ -45,18 +45,36 @@ export default {
   props: {},
   data: () => ({
     contentLoaded: false,
-    opened: false
+    opened: false,
+    width: null
   }),
   computed: {
     isPrompt() {
       return this.modal.component === 'CaPrompt';
     },
-    ...mapState(['modal'])
+    ratio() {
+      return this.modal.componentProps.ratio
+        ? this.modal.componentProps.ratio
+        : null;
+    },
+    styleAttrs() {
+      const obj = {};
+      if (this.width) {
+        obj.width = this.width;
+      }
+      return obj;
+    },
+    ...mapState(['modal', 'viewportWidth'])
   },
   watch: {
     'modal.component'(newVal, oldVal) {
       if (oldVal === '' && newVal !== oldVal) {
         this.openModal();
+      }
+    },
+    viewportWidth(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setSize();
       }
     }
   },
@@ -71,8 +89,10 @@ export default {
       this.$store.dispatch('loading/end');
     },
     openModal() {
+      this.setSize();
       this.opened = true;
       this.$store.dispatch('loading/start');
+      this.$store.dispatch('setScrollbarWidth');
       this.$nextTick(() => {
         disableBodyScroll(this.$refs.modal);
       });
@@ -86,6 +106,18 @@ export default {
       this.$nextTick(() => {
         this.opened = false;
       });
+    },
+    setSize() {
+      if (this.ratio) {
+        const maxHeight = window.innerHeight * 0.95;
+        const maxWidth = window.innerWidth * 0.95;
+        const screenRatio = maxHeight / maxWidth;
+        let width = maxWidth;
+        if (screenRatio < this.ratio) {
+          width = maxHeight / this.ratio;
+        }
+        this.width = Math.round(width) + 'px';
+      }
     }
   }
 };
