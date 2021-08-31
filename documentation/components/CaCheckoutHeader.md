@@ -8,6 +8,7 @@ The header of the checkout containing logo, title and a button to go back<br><br
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |title|Title of the page|`String`|`true`|-|
+|iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`false`|chevron-left|
 
 <!-- @vuese:CaCheckoutHeader:props:end -->
 
