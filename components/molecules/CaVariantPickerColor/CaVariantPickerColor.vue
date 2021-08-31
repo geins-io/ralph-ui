@@ -13,7 +13,7 @@
       <CaColorIcon
         class="ca-variant-picker-color__color"
         size="big"
-        :hex-color="variant.attributes[0].value || 'FFF'"
+        :hex-color="getHexColor(variant)"
       />
     </button>
   </div>
@@ -34,7 +34,13 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    getHexColor(variant) {
+      return variant.attributes !== null && variant.attributes[0].value
+        ? variant.attributes[0].value
+        : 'FFF';
+    }
+  }
 };
 </script>
 <style lang="scss">
