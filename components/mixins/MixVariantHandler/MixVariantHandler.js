@@ -41,6 +41,9 @@ export default {
     baseVariantType() {
       return this.currentBaseVariant ? this.currentBaseVariant.dimension : null;
     },
+    baseVariantLabel() {
+      return this.currentBaseVariant ? this.currentBaseVariant.label : '';
+    },
     // @vuese
     // Does more than one dimension of variants exist on this product?
     // @type Boolean
@@ -120,6 +123,11 @@ export default {
       return this.skuIsChosen && this.chosenSkuVariant
         ? this.chosenSkuVariant.skuId
         : this.chosenSku.id;
+    },
+    chosenSkuLabel() {
+      return this.skuIsChosen && this.chosenSkuVariant
+        ? this.chosenSkuVariant.label
+        : '';
     },
     // @vuese
     // Return total stock quantity based on chosen sku variant or else product total stock. Overriding currentStock from MixStockHandler
