@@ -1,0 +1,3 @@
+mutation monitorProductAvailability($email: String!, $skuId: Int!) {
+  monitorProductAvailability(email: $email, skuId: $skuId)
+}

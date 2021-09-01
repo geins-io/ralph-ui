@@ -13,9 +13,14 @@
       >
         {{ variant.label }}
       </button>
-      <!-- <button type="button" v-if="!size.stock.totalStock" class="ca-variant-picker-display__notify">
-        Bevaka
-      </button> -->
+      <button
+        v-if="variant.stock.totalStock === 0 && variant.level === 0"
+        type="button"
+        class="ca-variant-picker-display__notify"
+        @click="$emit('notify', variant)"
+      >
+        {{ $t('NOTIFY_ME') }}
+      </button>
     </div>
   </div>
 </template>

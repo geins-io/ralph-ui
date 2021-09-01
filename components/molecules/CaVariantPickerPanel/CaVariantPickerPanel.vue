@@ -26,24 +26,38 @@
       :name="'variant-picker-' + variantsLevel"
       :title="title"
     >
-      <button
+      <div
         v-for="(variant, index) in variants"
         :key="index"
-        type="button"
-        class="ca-variant-picker-panel__choice"
-        :class="getModifiers(variant)"
-        @click="chooseVariant(variant)"
+        class="ca-variant-picker-panel__opt"
       >
-        <CaColorIcon
-          v-if="variantTypeColor && variant.attributes"
-          class="ca-variant-picker-panel__color"
-          :hex-color="variant.attributes[0].value"
-        />
-        <span class="ca-variant-picker-panel__label">{{ variant.label }}</span>
-        <span class="ca-variant-picker-panel__stock">
-          {{ getStock(variant) }}
-        </span>
-      </button>
+        <button
+          type="button"
+          class="ca-variant-picker-panel__choice"
+          :class="getModifiers(variant)"
+          @click="chooseVariant(variant)"
+        >
+          <CaColorIcon
+            v-if="variantTypeColor && variant.attributes"
+            class="ca-variant-picker-panel__color"
+            :hex-color="variant.attributes[0].value"
+          />
+          <span class="ca-variant-picker-panel__label">
+            {{ variant.label }}
+          </span>
+          <span class="ca-variant-picker-panel__stock">
+            {{ getStock(variant) }}
+          </span>
+        </button>
+        <button
+          v-if="variant.stock.totalStock === 0 && variant.level === 0"
+          type="button"
+          class="ca-variant-picker-panel__notify"
+          @click="$emit('notify', variant)"
+        >
+          {{ $t('NOTIFY_ME') }}
+        </button>
+      </div>
     </LazyCaContentPanel>
   </div>
 </template>

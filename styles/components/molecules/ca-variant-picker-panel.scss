@@ -18,7 +18,11 @@
     margin: 0 $px8 0 0;
     flex-shrink: 0;
   }
+  &__opt {
+    display: flex;
+  }
   &__choice {
+    $elem: &;
     height: rem-calc(60px);
     width: 100%;
     display: flex;
@@ -32,8 +36,10 @@
     }
     &--disabled {
       color: $c-text-secondary;
-      &#{$block}--sku {
+
+      &#{$elem}--sku {
         pointer-events: none;
+        cursor: initial;
       }
     }
   }
@@ -44,5 +50,14 @@
   &__stock {
     margin: 0 0 0 $px16;
     font-size: $font-size-xs;
+  }
+  &__notify {
+    font-size: $font-size-s;
+    margin: 0 0 0 auto;
+    text-decoration: underline;
+    height: rem-calc(60px);
+    @include flex-calign;
+    padding: 0 $px24 0 0;
+    border-bottom: $border-light;
   }
 }

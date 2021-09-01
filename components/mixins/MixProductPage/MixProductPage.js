@@ -63,7 +63,8 @@ export default {
   },
   data: () => ({
     quantity: 1,
-    replaceAlias: null
+    replaceAlias: null,
+    currentNotifyVariant: {}
   }),
   computed: {
     // @vuese
@@ -191,6 +192,14 @@ export default {
           }
         }
       }, 500);
+    },
+    notifyHandler(variant) {
+      this.currentNotifyVariant = variant;
+      this.$nextTick(() => {
+        this.$store.commit('contentpanel/open', {
+          name: 'notify'
+        });
+      });
     }
   }
 };

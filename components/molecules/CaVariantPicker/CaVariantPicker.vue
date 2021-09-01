@@ -12,6 +12,7 @@
       :title="title"
       @replaceProduct="$emit('replaceProduct', $event)"
       @changeSku="$emit('changeSku', $event)"
+      @notify="$emit('notify', $event)"
     />
   </div>
 </template>
