@@ -55,7 +55,9 @@ const cloneVNode = (vnode, position, newData = {}) => {
   const isText = !vnode.tag; // this will also match comments but those will be dropped, essentially
   const children = isComp ? vnode.componentOptions.children : vnode.children;
 
-  if (isText) return vnode.text;
+  if (isText) {
+    return vnode.text;
+  }
 
   const data = extractData(vnode, isComp, position);
 

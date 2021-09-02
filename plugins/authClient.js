@@ -1,7 +1,8 @@
 export default class AuthClient {
   constructor(signEndpoint, authEndpoint) {
-    if (!signEndpoint || !authEndpoint)
+    if (!signEndpoint || !authEndpoint) {
       throw new Error('An endpoint that can verify identities is required');
+    }
     this.authEndpoint = authEndpoint;
     this.signAccount = signEndpoint;
   }
@@ -85,9 +86,15 @@ export default class AuthClient {
   get serializedClaims() {
     const c = this.claims;
     let r = '';
-    for (const n in c)
-      if (c[n].push) for (const i in c[n]) r += ';' + n + '=' + c[n][i];
-      else r += ';' + n + '=' + c[n];
+    for (const n in c) {
+      if (c[n].push) {
+        for (const i in c[n]) {
+          r += ';' + n + '=' + c[n][i];
+        }
+      } else {
+        r += ';' + n + '=' + c[n];
+      }
+    }
     return r.substr(1);
   }
 

@@ -269,12 +269,15 @@ export default {
           this.$store.getters.viewport === 'tablet'
         ) {
           return this.$store.getters.siteIsAtTop || this.opened;
-        } else return true;
-      } else
+        } else {
+          return true;
+        }
+      } else {
         return this.$store.getters.viewport === 'phone' ||
           this.$store.getters.viewport === 'tablet'
           ? this.opened
           : true;
+      }
     },
     modifiers() {
       return {

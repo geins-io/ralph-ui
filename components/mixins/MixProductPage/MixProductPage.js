@@ -121,7 +121,9 @@ export default {
     // @vuese
     // Watching currentStock to change quantity if set higher than totalStock
     currentStock(val) {
-      if (val === 0) return;
+      if (val === 0) {
+        return;
+      }
       if (this.quantity > val) {
         this.quantity = val;
       }

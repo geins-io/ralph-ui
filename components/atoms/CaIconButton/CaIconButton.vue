@@ -48,14 +48,18 @@ export default {
     baseTag() {
       if (this.hasLink) {
         return this.href.includes('http') ? 'a' : 'NuxtLink';
-      } else return 'button';
+      } else {
+        return 'button';
+      }
     },
     attributes() {
       if (this.hasLink) {
         return this.href.includes('http')
           ? { href: this.href, target: '_blank', rel: 'noopener' }
           : { to: this.href };
-      } else return { type: 'button' };
+      } else {
+        return { type: 'button' };
+      }
     }
   },
   watch: {},

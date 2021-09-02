@@ -64,7 +64,9 @@ export const getters = {
         quantity += state.data.items[i].quantity;
       }
       return quantity;
-    } else return 0;
+    } else {
+      return 0;
+    }
   },
   id(state) {
     return state.data?.id ? state.data.id : '';

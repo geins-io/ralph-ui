@@ -38,7 +38,9 @@ export default {
           i => i.skuId === this.chosenSku.id
         )[0];
         return inCart ? inCart.quantity : 0;
-      } else return 0;
+      } else {
+        return 0;
+      }
     },
     // @vuese
     // Returns the quantity left in stock subtracting items in cart

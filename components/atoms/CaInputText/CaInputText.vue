@@ -234,7 +234,9 @@ export default {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (this.required || (!this.required && email !== '')) {
         return re.test(String(email).toLowerCase());
-      } else return true;
+      } else {
+        return true;
+      }
     },
     // @vuese
     // Used by `validateInput` to validate Swedish personal ID's (Source: https://gist.github.com/peppelorum/5856691)

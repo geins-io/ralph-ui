@@ -58,7 +58,9 @@ export default {
         return 'CaWidgetVideo';
       } else if (this.type === 'HTML') {
         return 'CaWidgetHtml';
-      } else return '';
+      } else {
+        return '';
+      }
     }
   },
   watch: {},

@@ -138,7 +138,9 @@ export default {
     // @vuese
     // Validate count input field. Can only contain number and not be above or below max count
     validateInput() {
-      if (this.inputEmpty) return;
+      if (this.inputEmpty) {
+        return;
+      }
 
       if (isNaN(this.count)) {
         this.count = this.minQuantity;

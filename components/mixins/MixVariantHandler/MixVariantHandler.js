@@ -143,7 +143,9 @@ export default {
         } else {
           return this.product.totalStock.totalStock;
         }
-      } else return 0;
+      } else {
+        return 0;
+      }
     },
     // @vuese
     // The object of data needed by the variant pickers to work properly

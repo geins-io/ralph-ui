@@ -12,7 +12,9 @@ export default {
       if (this.href && this.href.includes(this.$store.state.hostname)) {
         const url = new URL(this.href);
         return url.pathname;
-      } else return this.href;
+      } else {
+        return this.href;
+      }
     },
     isExternal() {
       return this.processedHref
@@ -23,7 +25,9 @@ export default {
     linkBaseElem() {
       if (this.processedHref) {
         return this.isExternal ? 'a' : 'NuxtLink';
-      } else return this.noLinkElement;
+      } else {
+        return this.noLinkElement;
+      }
     },
     linkElemAttributes() {
       if (this.processedHref) {
@@ -43,7 +47,9 @@ export default {
             : this.localePath(this.processedHref);
           return { to: href };
         }
-      } else return this.noLinkElement === 'button' ? { type: 'button' } : '';
+      } else {
+        return this.noLinkElement === 'button' ? { type: 'button' } : '';
+      }
     }
   },
   watch: {},

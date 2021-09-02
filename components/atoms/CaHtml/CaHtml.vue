@@ -50,7 +50,9 @@ export default {
         i++;
       }
       // If target is still not a link, ignore
-      if (!(target instanceof HTMLAnchorElement)) return;
+      if (!(target instanceof HTMLAnchorElement)) {
+        return;
+      }
       return this.redirect(target);
     },
     redirect(target) {

@@ -138,7 +138,9 @@ export default {
     // This is run to select an option
     // @arg new value (String, Number) and label (String - optional)
     selectOption(value, label = null) {
-      if (!label) label = this.getLabel(value);
+      if (!label) {
+        label = this.getLabel(value);
+      }
       this.selected.label = label;
       this.selected.value = value;
       // Triggered by user input change

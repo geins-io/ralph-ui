@@ -68,7 +68,9 @@ export default {
       const checkoutContainer = document.getElementById(
         'klarna-checkout-container'
       );
-      if (!checkoutContainer) return false;
+      if (!checkoutContainer) {
+        return false;
+      }
       const scriptsTags = checkoutContainer.getElementsByTagName('script');
       for (let i = 0; i < scriptsTags.length; i++) {
         const parentNode = scriptsTags[i].parentNode;
@@ -100,7 +102,9 @@ export default {
     // @vuese
     // Fetch the confirm frame
     fetchConfirm() {
-      if (!this.klarnaOrderId) return;
+      if (!this.klarnaOrderId) {
+        return;
+      }
       this.$apollo
         .query({
           query: getKlarnaQuery,

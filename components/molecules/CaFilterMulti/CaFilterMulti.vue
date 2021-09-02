@@ -59,7 +59,9 @@ export default {
           this.$set(item, 'selected', isSelected);
           return item;
         });
-      } else return [];
+      } else {
+        return [];
+      }
     }
   },
   watch: {

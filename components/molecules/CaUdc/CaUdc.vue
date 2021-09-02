@@ -140,7 +140,9 @@ export default {
     // @vuese
     // Disables the widget
     disable() {
-      if (this.widget) this.widget.disable();
+      if (this.widget) {
+        this.widget.disable();
+      }
     },
     // @vuese
     // Enables the widget and handles feedback

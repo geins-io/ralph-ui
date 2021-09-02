@@ -20,7 +20,9 @@ export default {
     } else {
       return children
         .map(child => {
-          if (child.children) return child.children;
+          if (child.children) {
+            return child.children;
+          }
           return child.componentOptions != null
             ? child.componentOptions.children
             : null;
