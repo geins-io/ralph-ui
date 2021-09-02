@@ -6,13 +6,15 @@ query widgetArea(
   $alias: String = null
   $displaySetting: String = null
   $filters: [PageWidgetCollectionFilterInputType] = null
+  $preview: Boolean = null
 ) {
   widgetArea(
     family: $family
     areaName: $areaName
     alias: $alias
     displaySetting: $displaySetting
-    filters: $filters
+    filters: $filters,
+    preview: $preview
   ) {
     meta {
       ...Meta

@@ -27,7 +27,8 @@ export default {
           areaName: this.areaName,
           alias: this.alias,
           displaySetting: this.displaySetting,
-          filters: this.filters
+          filters: this.filters,
+          preview: this.preview
         };
       },
       result(result) {
@@ -65,6 +66,11 @@ export default {
     filters: {
       type: Array,
       default: () => []
+    },
+    // Whether preview-mode should be toggle on
+    preview: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
