@@ -1,14 +1,19 @@
 <template>
-  <LazyCaContentPanel class="ca-notify-panel" name="notify">
+  <LazyCaContentPanel
+    class="ca-notify-panel"
+    name="notify"
+    enter-from="bottom"
+    enter-from-tablet-up="right"
+  >
     <template #header>
       <h1 class="ca-content-panel__title">
         {{ $t('NOTIFY_PANEL_TITLE') }}
-        <span class="ca-notify-panel__prod-info">
-          {{ product.name }} - {{ variant.label }}
-        </span>
       </h1>
     </template>
     <div class="ca-notify-panel__inner">
+      <h2 class="ca-notify-panel__prod-info">
+        {{ product.name }} - {{ variant.label }}
+      </h2>
       <p class="ca-notify-panel__description">
         {{ $t('NOTIFY_PANEL_DESCRIPTION') }}
       </p>

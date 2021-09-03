@@ -47,11 +47,13 @@ export default {
         };
       },
       result() {
-        if (!this.product) {
+        if (!this.product && !process.server) {
           this.$nuxt.error({ statusCode: 404, message: '' });
         }
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
+        } else if (this.skuIsChosen && !this.chosenSkuVariant) {
+          this.resetSku();
         }
         this.$store.dispatch('loading/end');
       },
