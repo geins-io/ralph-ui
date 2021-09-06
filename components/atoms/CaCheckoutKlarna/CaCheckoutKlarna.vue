@@ -94,9 +94,13 @@ export default {
     // Resume the checkout
     resume() {
       if (this.frame) {
-        window._klarnaCheckout(function(api) {
-          api.resume();
-        });
+        if (window._klarnaCheckout) {
+          window._klarnaCheckout(function(api) {
+            api.resume();
+          });
+        } else {
+          setTimeout(this.resume, 100);
+        }
       }
     },
     // @vuese

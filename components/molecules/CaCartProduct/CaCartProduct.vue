@@ -35,7 +35,11 @@
         />
         <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
         <ul
-          v-if="item.campaign && item.campaign.prices.length > 1"
+          v-if="
+            item.campaign &&
+              item.campaign.prices &&
+              item.campaign.prices.length > 1
+          "
           class="ca-cart-product__price-group"
         >
           <li
@@ -59,7 +63,11 @@
           :price="item.unitPrice"
         />
         <CaCampaigns
-          v-if="item.campaign && item.campaign.appliedCampaigns.length"
+          v-if="
+            item.campaign &&
+              item.campaign.appliedCampaigns &&
+              item.campaign.appliedCampaigns.length
+          "
           class="ca-cart-product__campaigns"
           :campaigns="item.campaign.appliedCampaigns"
         />

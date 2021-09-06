@@ -1,6 +1,9 @@
 <template>
   <div class="ca-product-gallery">
-    <ul class="ca-product-gallery__nav only-computer">
+    <ul
+      v-if="showGalleryThumbnails"
+      class="ca-product-gallery__nav only-computer"
+    >
       <li
         v-for="(image, index) in images"
         :key="index"
@@ -91,6 +94,11 @@ export default {
     arrowIconName: {
       type: String,
       default: 'chevron'
+    },
+    // Display the gallery thumbnails or not
+    showGalleryThumbnails: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({

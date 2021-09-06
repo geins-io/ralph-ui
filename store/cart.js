@@ -43,7 +43,7 @@ export const actions = {
   },
   triggerAddedNotification({ commit }, added) {
     const item = {
-      campaign: null, // TODO: fix campaign
+      campaign: { appliedCampaigns: added.product.discountCampaigns },
       unitPrice: added.product.unitPrice,
       product: added.product,
       quantity: added.item.quantity,
