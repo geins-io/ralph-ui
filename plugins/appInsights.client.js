@@ -9,12 +9,12 @@ export default function({ app }) {
   const telemetryInitializers = [apiKeyTelemetryInitializer];
 
   if (
-    !app.$appInsights.appInsights._telemetryInitializers.some(_t =>
+    !app.$appInsights?.appInsights._telemetryInitializers.some(_t =>
       telemetryInitializers.some(t => t.name === _t.name)
     )
   ) {
     telemetryInitializers.forEach(t =>
-      app.$appInsights.addTelemetryInitializer(t)
+      app.$appInsights?.addTelemetryInitializer(t)
     );
   }
 }

@@ -2,7 +2,7 @@ export default function({ app }) {
   // Filters out requests against certain file endings
   const requestFilterTelemetryProcessor = (envelope, context) => {
     const excludeFileEndings =
-      app.$appInsights.config.excludedFileEndings || [];
+      app.$appInsights?.config.excludedFileEndings || [];
 
     if (
       envelope.data.baseType === 'RequestData' &&
@@ -31,10 +31,12 @@ export default function({ app }) {
   ];
 
   if (
-    !app.$appInsights._telemetryProcessors.some(_t =>
+    !app.$appInsights?._telemetryProcessors.some(_t =>
       telemetryProcessors.some(t => t.name === _t.name)
     )
   ) {
-    telemetryProcessors.forEach(t => app.$appInsights.addTelemetryProcessor(t));
+    telemetryProcessors.forEach(t =>
+      app.$appInsights?.addTelemetryProcessor(t)
+    );
   }
 }

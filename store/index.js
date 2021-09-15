@@ -98,7 +98,7 @@ export const actions = {
     document.documentElement.style.setProperty('--vh', vh + 'px');
   },
   nuxtServerInit({ commit, dispatch }, { req, context, route }) {
-    this.$appInsights.trackTrace({
+    this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'
     });
 
