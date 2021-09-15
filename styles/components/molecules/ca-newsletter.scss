@@ -1,4 +1,6 @@
 .ca-newsletter {
+  overflow: hidden;
+  border-radius: $default-radius;
   &__feedback {
     max-width: rem-calc(410px);
     margin: 0 auto $px16;
@@ -11,10 +13,15 @@
   }
   &__input {
     width: 100%;
+    border-radius: 0;
   }
   &__button.ca-button {
     @include bp(phone-only) {
       padding: 0.65em 1em;
     }
+  }
+  .ca-input-text,
+  .ca-input-text__input {
+    border-radius: $default-radius 0 0 $default-radius;
   }
 }

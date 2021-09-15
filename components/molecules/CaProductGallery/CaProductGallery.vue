@@ -18,10 +18,12 @@
             :filename="image"
             :ratio="$config.productImageRatio"
             :alt="alt"
-            :size-array="[
-              { folder: '85f85', descriptor: '1x' },
-              { folder: '170f170', descriptor: '2x' }
-            ]"
+            :size-array="
+              $config.imageSizes.product.filter(
+                item => parseInt(item.descriptor) <= 200
+              )
+            "
+            sizes="85px"
           />
         </a>
       </li>
