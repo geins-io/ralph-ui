@@ -85,6 +85,9 @@ export default {
     loaded: false
   }),
   computed: {
+    encodedFilename() {
+      return encodeURIComponent(this.filename);
+    },
     imgSrc() {
       return this.src !== ''
         ? this.src
@@ -95,7 +98,7 @@ export default {
             (this.sizeArray?.[0]?.folder ??
               this.$config.imageSizes?.[this.type]?.[0]?.folder) +
             '/' +
-            this.filename;
+            this.encodedFilename;
     },
     imgSrcset() {
       if (this.sizeArray.length === 0 && this.src !== '') {
@@ -112,7 +115,7 @@ export default {
           '/' +
           item.folder +
           '/' +
-          this.filename;
+          this.encodedFilename;
         return src + ' ' + item.descriptor;
       });
       return srcset.toString();
