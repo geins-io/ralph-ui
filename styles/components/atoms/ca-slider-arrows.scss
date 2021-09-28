@@ -5,6 +5,7 @@
   align-items: center;
   width: 100%;
   pointer-events: none;
+  max-width: calc(100vw - var(--scrollbar-width, 17px));
   &__arrow {
     background: $c-white;
     width: 36px;
