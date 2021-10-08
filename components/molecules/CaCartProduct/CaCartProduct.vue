@@ -33,7 +33,9 @@
           :name="product.name"
           name-tag="h3"
         />
-        <p v-if="skuValue" class="ca-cart-product__variant">{{ skuValue }}</p>
+        <p v-if="skuValue && skuValue !== '-'" class="ca-cart-product__variant">
+          {{ skuValue }}
+        </p>
         <ul
           v-if="
             item.campaign &&

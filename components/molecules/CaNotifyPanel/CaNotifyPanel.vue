@@ -12,7 +12,10 @@
     </template>
     <div class="ca-notify-panel__inner">
       <h2 class="ca-notify-panel__prod-info">
-        {{ product.name }} - {{ variant.label }}
+        {{ product.name }}
+        <span v-if="variant.label && variant.label !== '-'">
+          - {{ variant.label }}
+        </span>
       </h2>
       <p class="ca-notify-panel__description">
         {{ $t('NOTIFY_PANEL_DESCRIPTION') }}

@@ -3,6 +3,7 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  opacity: 1;
   &::after {
     content: '';
     position: absolute;
@@ -22,6 +23,9 @@
   }
   &--radius {
     border-radius: 0.7em;
+  }
+  &--transparent {
+    opacity: 0;
   }
   & + & {
     margin-top: $px4;

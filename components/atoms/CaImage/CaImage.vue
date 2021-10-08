@@ -5,6 +5,7 @@
       class="ca-image__skeleton"
       :ratio="ratio"
       :radius="false"
+      :transparent="loaded"
     />
     <transition v-else name="fade">
       <CaSkeleton

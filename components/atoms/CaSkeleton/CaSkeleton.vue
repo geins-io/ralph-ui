@@ -29,6 +29,11 @@ export default {
     height: {
       type: String,
       default: '1.4em'
+    },
+    // Be transparent
+    transparent: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
@@ -38,7 +43,8 @@ export default {
     },
     modifiers() {
       return {
-        'ca-skeleton--radius': this.radius
+        'ca-skeleton--radius': this.radius,
+        'ca-skeleton--transparent': this.transparent
       };
     },
     styles() {
