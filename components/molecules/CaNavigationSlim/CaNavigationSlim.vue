@@ -68,7 +68,11 @@ export default {
   computed: {
     topLevelCategories() {
       return this.categories
-        ? this.categories.filter(i => i.parentCategoryId === 0)
+        ? this.categories
+            .filter(i => i.parentCategoryId === 0)
+            .sort((a, b) => {
+              return a.order - b.order;
+            })
         : [];
     }
   },
@@ -78,7 +82,11 @@ export default {
     // Get the sublevel categories of current category
     // @arg Category id (Number)
     getSubLevelCategories(id) {
-      return this.categories.filter(i => i.parentCategoryId === id);
+      return this.categories
+        .filter(i => i.parentCategoryId === id)
+        .sort((a, b) => {
+          return a.order - b.order;
+        });
     }
   }
 };
