@@ -12,12 +12,12 @@ export const state = () => ({
 });
 
 export const mutations = {
-  toggleFavorite(state, prodID) {
+  toggleFavorite(state, prodAlias) {
     const favorites = state.favorites;
-    if (favorites.includes(prodID)) {
-      favorites.splice(favorites.indexOf(prodID), 1);
-    } else {
-      favorites.push(prodID);
+    if (favorites.includes(prodAlias)) {
+      favorites.splice(favorites.indexOf(prodAlias), 1);
+    } else if (prodAlias) {
+      favorites.push(prodAlias);
     }
   },
   setVATincluded(state, vatincluded) {
@@ -138,8 +138,8 @@ export const getters = {
       return 'desktop';
     }
   },
-  isFavorite: state => prodId => {
-    return state.favorites.includes(prodId);
+  isFavorite: state => prodAlias => {
+    return state.favorites.includes(prodAlias);
   },
   getSellingPrice: state => price => {
     return state.VATincluded
