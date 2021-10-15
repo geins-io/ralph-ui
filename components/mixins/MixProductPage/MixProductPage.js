@@ -48,7 +48,8 @@ export default {
       },
       result() {
         if (!this.product && !process.server) {
-          this.$nuxt.error({ statusCode: 404, message: '' });
+          this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+          this.$store.dispatch('redirect404');
         }
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
