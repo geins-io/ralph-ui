@@ -136,7 +136,7 @@ export default {
           ? productVariant.alias
           : variant.variants[0].alias;
 
-        this.$store.dispatch('loading/start', 300);
+        this.$store.dispatch('loading/start');
         // @vuese
         // Non sku variant is changed
         // @arg prod alias (String)

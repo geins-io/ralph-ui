@@ -34,13 +34,31 @@ export default {
   head() {
     return this.$nuxtI18nSeo({ addSeoAttributes: true });
   },
-  data: () => ({}),
-  computed: {},
+  data: () => ({
+    apolloLoading: false,
+    loadingTimeout: undefined
+  }),
+  computed: {
+    globalLoading() {
+      return this.apolloLoading || this.$store.state.loading.loading;
+    }
+  },
   watch: {
     $route(to, from) {
       eventbus.$emit('route-change', { to, from });
       if (to.path !== from.path) {
         this.$store.dispatch('loading/start');
+      }
+    },
+    '$apollo.loading'(val) {
+      // Show loading indicator only if loading takes longer than 1000ms
+      if (val) {
+        this.loadingTimeout = setTimeout(() => {
+          this.apolloLoading = true;
+        }, 1000);
+      } else {
+        clearTimeout(this.loadingTimeout);
+        this.apolloLoading = false;
       }
     }
   },

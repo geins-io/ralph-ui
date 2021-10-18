@@ -1,7 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Component library for Ralph Storefront by Carismar",
   "author": "Olivia Axelsson & Lars Johansson",
   "private": false,

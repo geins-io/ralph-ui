@@ -23,7 +23,7 @@ export const mutations = {
 };
 
 export const actions = {
-  start(context, delay = context.delay) {
+  start(context, delay = 1000) {
     context.commit('setDelay', delay);
     context.commit('setTimeout', () => {
       context.commit('start');
