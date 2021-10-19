@@ -43,9 +43,11 @@ export default {
           }
           this.productList = result.data.products.products;
           this.totalCount = result.data.products.count;
-
           if (this.currentMaxCount > this.totalCount) {
             this.currentMaxCount = this.totalCount;
+          }
+          if (this.currentMaxCount < this.productList.length) {
+            this.currentMaxCount = this.productList.length;
           }
           this.$store.dispatch('loading/end');
         }
@@ -413,7 +415,7 @@ export default {
       };
     },
     // @vuese
-    // RShw filters and other controls
+    // Show filters and other controls
     // @type Boolean
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
@@ -424,6 +426,30 @@ export default {
     userSelection(newVal, oldVal) {
       if (newVal && oldVal === null) {
         this.$store.commit('list/resetQuerySelection');
+      }
+    },
+    async $route(to, from) {
+      // Controls routing between filtered paths on the same category/brand etc
+      if (to.path === from.path && to.fullPath !== from.fullPath) {
+        await this.$store.dispatch('list/saveQuerySelection', {
+          query: to.query,
+          setPage: false
+        });
+        let resetSelectionFromQuery = false;
+        if (this.userSelection) {
+          for (const [key, value] of Object.entries(this.list.querySelection)) {
+            if (
+              JSON.stringify(this.userSelection[key]) !== JSON.stringify(value)
+            ) {
+              resetSelectionFromQuery = true;
+            }
+          }
+        }
+        if (resetSelectionFromQuery) {
+          this.userSelection = null;
+          await this.setupUserSelection();
+          window.scrollTo(0, 0);
+        }
       }
     }
   },
