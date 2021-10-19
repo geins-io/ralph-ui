@@ -12,4 +12,8 @@ fragment ListProduct on ProductType {
     ...Price
   }
   images
+  discountCampaigns {
+    hideTitle
+    name
+  }
 }

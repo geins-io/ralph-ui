@@ -51,7 +51,11 @@
         }}
       </span>
       <div
-        v-if="!freeShipping && !display"
+        v-if="
+          !freeShipping &&
+            !display &&
+            summary.shipping.amountLeftToFreeShipping !== -1
+        "
         class="ca-cart-summary__amount-left"
       >
         <span class="ca-cart-summary__amount-left-sum">
