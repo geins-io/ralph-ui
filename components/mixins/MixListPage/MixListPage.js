@@ -70,6 +70,7 @@ export default {
         };
       },
       result(result) {
+        this.listInfoFetched = true;
         this.listInfo = result.data.listPageInfo;
       },
       skip() {
@@ -150,7 +151,8 @@ export default {
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
-    userHasPaged: false
+    userHasPaged: false,
+    listInfoFetched: false
   }),
   computed: {
     // @vuese
@@ -470,7 +472,7 @@ export default {
   },
   mounted() {
     if (!this.isSearch) {
-      this.switchToCanonical();
+      this.switchToCanonicalOr404();
     }
   },
   methods: {
@@ -625,7 +627,9 @@ export default {
       const interval = setInterval(() => {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
-          this.setupFilters(this.baseFilters);
+          if (this.baseFilters.facets.length) {
+            this.setupFilters(this.baseFilters);
+          }
         }
       }, 100);
     },
@@ -777,7 +781,7 @@ export default {
     },
     // @vuese
     // Switching to canonical url if different from route path
-    switchToCanonical() {
+    switchToCanonicalOr404() {
       const check = setInterval(() => {
         if (this.listInfo) {
           clearInterval(check);
@@ -786,7 +790,12 @@ export default {
               path: this.listInfo.canonicalUrl,
               query: this.$route.query
             });
+            this.$store.dispatch('loading/end');
           }
+        } else if (this.listInfoFetched) {
+          clearInterval(check);
+          this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+          this.$store.dispatch('redirect404');
         }
       }, 500);
     }

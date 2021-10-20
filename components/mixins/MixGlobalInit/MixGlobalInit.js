@@ -53,6 +53,7 @@ export default {
     '$apollo.loading'(val) {
       // Show loading indicator only if loading takes longer than 1000ms
       if (val) {
+        clearTimeout(this.loadingTimeout);
         this.loadingTimeout = setTimeout(() => {
           this.apolloLoading = true;
         }, 1000);

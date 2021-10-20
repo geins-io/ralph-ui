@@ -1,8 +1,5 @@
 <template>
-  <ul
-    class="ca-product-list"
-    :class="{ 'ca-product-list--empty': productsShowEmpty }"
-  >
+  <ul class="ca-product-list" :class="{ 'ca-product-list--empty': isSearch }">
     <CaProductCard
       v-for="(product, index) in allProducts"
       :key="index"
@@ -10,8 +7,8 @@
       :page-number="getPageNumber(index)"
       :product-card-type="productCardType"
     />
-    <li v-if="productsShowEmpty" class="ca-product-list__empty">
-      {{ isSearch ? $t('SEARCH_NO_RESULTS') : $t('NO_PRODUCTS_MATCH') }}
+    <li v-if="isSearch" class="ca-product-list__empty">
+      {{ $t('SEARCH_NO_RESULTS') }}
     </li>
   </ul>
 </template>
@@ -39,11 +36,6 @@ export default {
       type: Number,
       default: 0
     },
-    // Are any filters active for the products data?
-    filtersActive: {
-      type: Boolean,
-      default: false
-    },
     // Type of product card, to be able to display slightly different product cards in different product lists
     productCardType: {
       type: String,
@@ -53,23 +45,16 @@ export default {
   data: () => ({}),
   computed: {
     allProducts() {
-      return this.products.length === 0 && !this.filtersActive
-        ? this.skeletonProducts
-        : this.products;
+      return this.products.length === 0 ? this.skeletonProducts : this.products;
     },
     skeletonProducts() {
       const prodArray = [];
-      if (!this.productsShowEmpty) {
+      if (!this.isSearch) {
         for (let i = 0; i < this.pageSize; i++) {
           prodArray.push({});
         }
       }
       return prodArray;
-    },
-    productsShowEmpty() {
-      return (
-        this.products.length === 0 && (this.filtersActive || this.isSearch)
-      );
     },
     isSearch() {
       return this.$route?.name?.includes('search');
