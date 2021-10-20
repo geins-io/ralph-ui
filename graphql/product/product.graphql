@@ -2,6 +2,7 @@
 #import "product/stock.graphql"
 #import "product/variant.graphql"
 #import "global/meta.graphql"
+#import "global/campaign.graphql"
 
 query product($alias: String!) {
   product(alias: $alias) {
@@ -71,8 +72,7 @@ query product($alias: String!) {
       }
     }
     discountCampaigns {
-      hideTitle
-      name
+      ...Campaign
     }
   }
 }

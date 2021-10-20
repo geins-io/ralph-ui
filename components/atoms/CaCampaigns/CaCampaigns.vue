@@ -1,7 +1,7 @@
 <template>
   <ul v-if="display === 'list'" class="ca-campaigns">
     <li
-      v-for="(campaign, index) in campaigns"
+      v-for="(campaign, index) in visibleCampaigns"
       :key="index"
       class="ca-campaigns__item"
     >
@@ -12,7 +12,7 @@
     <h3 class="ca-campaigns__title">Aktiverade kampanjer</h3>
     <ul class="ca-campaigns__list">
       <li
-        v-for="(campaign, index) in campaigns"
+        v-for="(campaign, index) in visibleCampaigns"
         :key="index"
         class="ca-campaigns__item"
       >
@@ -46,7 +46,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    visibleCampaigns() {
+      return this.campaigns.filter(i => !i.hideTitle);
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

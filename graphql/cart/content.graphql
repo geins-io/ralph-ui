@@ -1,15 +1,16 @@
 #import "product/price.graphql"
+#import "global/campaign.graphql"
 
 fragment Cart on CartType {
   id
   promoCode
   appliedCampaigns {
-    name
+    ...Campaign
   }
   items {
     campaign {
       appliedCampaigns {
-        name
+        ...Campaign
       }
       prices {
         price {

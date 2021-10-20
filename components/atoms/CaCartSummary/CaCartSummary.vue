@@ -33,7 +33,8 @@
     <div class="ca-cart-summary__row">
       <span class="ca-cart-summary__label">
         {{
-          summary.shipping.isDefault
+          summary.shipping.isDefault &&
+          summary.shipping.amountLeftToFreeShipping > 0
             ? $t('CART_SUMMARY_ESTIMATED_SHIPPING_FEE')
             : $t('CART_SUMMARY_SHIPPING_FEE')
         }}
