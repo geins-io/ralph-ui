@@ -7,7 +7,8 @@
         class="ca-filter-multi__value"
         :class="{
           'ca-filter-multi__value--selected': value.selected,
-          'ca-filter-multi__value--disabled': value.count === 0
+          'ca-filter-multi__value--disabled': value.count === 0,
+          'ca-filter-multi__value--hidden': value.label === '-'
         }"
         @click="
           toggleFilterValue(
