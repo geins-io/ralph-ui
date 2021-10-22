@@ -33,10 +33,10 @@ export default {
     // Returns the number of items with same skuId as the chosen one that you have in cart
     // @type Number
     chosenSkuCartQuantity() {
-      if (this.chosenSku.id) {
-        const inCart = this.$store.state.cart.data.items.filter(
+      if (this.chosenSku.id && this.$store.state.cart?.data?.items) {
+        const inCart = this.$store.state.cart.data.items.find(
           i => i.skuId === this.chosenSku.id
-        )[0];
+        );
         return inCart ? inCart.quantity : 0;
       } else {
         return 0;

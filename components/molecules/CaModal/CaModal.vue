@@ -83,6 +83,9 @@ export default {
       this.closeModal();
     });
   },
+  beforeDestroy() {
+    eventbus.$off('close-modal');
+  },
   methods: {
     onReady() {
       this.contentLoaded = true;

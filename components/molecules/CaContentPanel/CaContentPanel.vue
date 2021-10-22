@@ -135,6 +135,8 @@ export default {
   },
   beforeDestroy() {
     this.close();
+    eventbus.$off('route-change');
+    eventbus.$off('close-content-panel');
   },
   methods: {
     // Open the content panel

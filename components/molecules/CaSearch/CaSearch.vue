@@ -350,6 +350,9 @@ export default {
       this.close();
     });
   },
+  beforeDestroy() {
+    eventbus.$off('route-change');
+  },
   methods: {
     // @vuese
     // Perform search

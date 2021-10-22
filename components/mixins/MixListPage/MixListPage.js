@@ -1,6 +1,7 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import productsQuery from 'productlist/list-products.graphql';
 import { mapState } from 'vuex';
+import eventbus from '~/plugins/event-bus.js';
 // import filtersQuery from 'productlist/products-filter.graphql';
 // @group Mixins
 // @vuese
@@ -429,30 +430,6 @@ export default {
       if (newVal && oldVal === null) {
         this.$store.commit('list/resetQuerySelection');
       }
-    },
-    async $route(to, from) {
-      // Controls routing between filtered paths on the same category/brand etc
-      if (to.path === from.path && to.fullPath !== from.fullPath) {
-        await this.$store.dispatch('list/saveQuerySelection', {
-          query: to.query,
-          setPage: false
-        });
-        let resetSelectionFromQuery = false;
-        if (this.userSelection) {
-          for (const [key, value] of Object.entries(this.list.querySelection)) {
-            if (
-              JSON.stringify(this.userSelection[key]) !== JSON.stringify(value)
-            ) {
-              resetSelectionFromQuery = true;
-            }
-          }
-        }
-        if (resetSelectionFromQuery) {
-          this.userSelection = null;
-          await this.setupUserSelection();
-          window.scrollTo(0, 0);
-        }
-      }
     }
   },
   created() {
@@ -474,6 +451,12 @@ export default {
     if (!this.isSearch) {
       this.switchToCanonicalOr404();
     }
+    eventbus.$on('route-change', routes => {
+      this.handleFilteredRoutesRouting(routes);
+    });
+  },
+  beforeDestroy() {
+    eventbus.$off('route-change');
   },
   methods: {
     // @vuese
@@ -798,6 +781,42 @@ export default {
           this.$store.dispatch('redirect404');
         }
       }, 500);
+    },
+    // @vuese
+    // Controls routing between filtered paths on the same category/brand etc
+    handleFilteredRoutesRouting(routes) {
+      if (
+        routes.to.path === routes.from.path &&
+        routes.to.fullPath !== routes.from.fullPath
+      ) {
+        const fixRouting = async () => {
+          await this.$store.dispatch('list/saveQuerySelection', {
+            query: routes.to.query,
+            setPage: false
+          });
+          let resetSelectionFromQuery = false;
+
+          this.userSelection = this.userSelection
+            ? this.userSelection
+            : { brands: [], categories: [], parameters: {}, skus: [] };
+
+          for (const [key, value] of Object.entries(this.list.querySelection)) {
+            if (
+              JSON.stringify(this.userSelection[key]) !== JSON.stringify(value)
+            ) {
+              resetSelectionFromQuery = true;
+            }
+          }
+          if (resetSelectionFromQuery) {
+            this.userSelection = null;
+            await this.setupUserSelection();
+            window.scrollTo(0, 0);
+          } else {
+            this.$store.commit('list/resetQuerySelection');
+          }
+        };
+        fixRouting();
+      }
     }
   }
 };
