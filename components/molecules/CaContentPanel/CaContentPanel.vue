@@ -121,28 +121,19 @@ export default {
     }
   },
   mounted() {
-    eventbus.$on('close-content-panel', () => {
-      this.close();
-    });
-    eventbus.$on('route-change', route => {
-      if (this.opened && route.to.path !== route.from.path) {
-        this.close();
-      }
-    });
     if (this.contentpanel.current === this.name) {
       this.open();
     }
   },
   beforeDestroy() {
     this.close();
-    eventbus.$off('route-change');
-    eventbus.$off('close-content-panel');
   },
   methods: {
     // Open the content panel
     open() {
       this.$store.dispatch('setScrollbarWidth');
       this.opened = true;
+      this.activateEventbusListeners();
       this.$nextTick(() => {
         disableBodyScroll(this.$refs.contentpanel);
       });
@@ -153,7 +144,22 @@ export default {
         enableBodyScroll(this.$refs.contentpanel);
         this.$store.commit('contentpanel/close');
         this.opened = false;
+        this.deactivateEventbusListeners();
       }
+    },
+    activateEventbusListeners() {
+      eventbus.$on('close-content-panel', () => {
+        this.close();
+      });
+      eventbus.$on('route-change', route => {
+        if (route.to.path !== route.from.path) {
+          this.close();
+        }
+      });
+    },
+    deactivateEventbusListeners() {
+      eventbus.$off('route-change');
+      eventbus.$off('close-content-panel');
     }
   }
 };
