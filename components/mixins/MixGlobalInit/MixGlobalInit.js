@@ -32,7 +32,7 @@ export default {
   mixins: [],
   props: {},
   head() {
-    return this.$nuxtI18nSeo({ addSeoAttributes: true });
+    return this.$nuxtI18nHead({ addSeoAttributes: true });
   },
   data: () => ({
     apolloLoading: false,

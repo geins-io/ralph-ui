@@ -29,12 +29,6 @@ export default {
           name: 'og:description',
           content: this.metaReplacement(this.product?.meta.description)
         }
-      ],
-      link: [
-        {
-          rel: 'canonical',
-          href: this.$config.baseUrl + this.product?.canonicalUrl
-        }
       ]
     };
   },

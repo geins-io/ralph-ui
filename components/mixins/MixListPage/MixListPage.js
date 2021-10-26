@@ -125,12 +125,6 @@ export default {
           name: 'og:description',
           content: this.metaReplacement(this.listInfo?.meta?.description)
         }
-      ],
-      link: [
-        {
-          rel: 'canonical',
-          href: this.$config.baseUrl + this.listInfo?.canonicalUrl
-        }
       ]
     };
   },
