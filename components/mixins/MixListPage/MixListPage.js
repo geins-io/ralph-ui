@@ -792,7 +792,13 @@ export default {
 
           this.userSelection = this.userSelection
             ? this.userSelection
-            : { brands: [], categories: [], parameters: {}, skus: [] };
+            : {
+                brands: [],
+                categories: [],
+                parameters: {},
+                skus: [],
+                sort: this.defaultSort
+              };
 
           for (const [key, value] of Object.entries(this.list.querySelection)) {
             if (
