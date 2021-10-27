@@ -71,8 +71,10 @@ export default {
         };
       },
       result(result) {
-        this.listInfoFetched = true;
         this.listInfo = result.data.listPageInfo;
+        if (!process.server && !this.isSearch) {
+          this.switchToCanonicalOr404();
+        }
       },
       skip() {
         return this.isSearch;
@@ -146,8 +148,7 @@ export default {
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
-    userHasPaged: false,
-    listInfoFetched: false
+    userHasPaged: false
   }),
   computed: {
     // @vuese
@@ -442,9 +443,6 @@ export default {
     }
   },
   mounted() {
-    if (!this.isSearch) {
-      this.switchToCanonicalOr404();
-    }
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
     });
@@ -759,22 +757,18 @@ export default {
     // @vuese
     // Switching to canonical url if different from route path
     switchToCanonicalOr404() {
-      const check = setInterval(() => {
-        if (this.listInfo) {
-          clearInterval(check);
-          if (this.listInfo.canonicalUrl !== this.$route.path) {
-            this.$router.replace({
-              path: this.listInfo.canonicalUrl,
-              query: this.$route.query
-            });
-            this.$store.dispatch('loading/end');
-          }
-        } else if (this.listInfoFetched) {
-          clearInterval(check);
-          this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
-          this.$store.dispatch('redirect404');
+      if (this.listInfo) {
+        if (this.listInfo.canonicalUrl !== this.$route.path) {
+          this.$router.replace({
+            path: this.listInfo.canonicalUrl,
+            query: this.$route.query
+          });
+          this.$store.dispatch('loading/end');
         }
-      }, 500);
+      } else {
+        this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+        this.$store.dispatch('redirect404');
+      }
     },
     // @vuese
     // Controls routing between filtered paths on the same category/brand etc
@@ -789,8 +783,9 @@ export default {
             setPage: false
           });
           let resetSelectionFromQuery = false;
+          const userSelectionExists = !!this.userSelection;
 
-          this.userSelection = this.userSelection
+          this.userSelection = userSelectionExists
             ? this.userSelection
             : {
                 brands: [],
@@ -812,6 +807,9 @@ export default {
             await this.setupUserSelection();
             window.scrollTo(0, 0);
           } else {
+            if (!userSelectionExists) {
+              this.userSelection = null;
+            }
             this.$store.commit('list/resetQuerySelection');
           }
         };
