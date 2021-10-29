@@ -72,12 +72,12 @@ export default {
       },
       result(result) {
         this.listInfo = result.data.listPageInfo;
-        if (!process.server && !this.isSearch) {
+        if (!process.server && !this.isSearch & !this.isAll) {
           this.switchToCanonicalOr404();
         }
       },
       skip() {
-        return this.isSearch;
+        return this.isSearch || this.isAll;
       }
     }
   },
@@ -85,9 +85,9 @@ export default {
     // @vuese
     // Type of list page
     type: {
-      // 'category', 'brand', 'search', 'favorites'
+      // 'category', 'brand', 'search', 'favorites', 'all'
       type: String,
-      default: 'category' // 'brand', 'search', 'favorites'
+      default: 'category' // 'brand', 'search', 'favorites', 'all'
     },
     // @vuese
     // Graphql for the listPageInfo query
@@ -106,6 +106,12 @@ export default {
     baseFilters: {
       type: Object,
       required: true
+    },
+    // @vuese
+    // Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.
+    implicitFacets: {
+      type: Array,
+      default: () => []
     }
   },
   head() {
@@ -229,16 +235,16 @@ export default {
       return this.type === 'brand';
     },
     // @vuese
-    // Is this list page of type discount campaign?
-    // @type Boolean
-    isDiscountCampaign() {
-      return this.type === 'discountCampaign';
-    },
-    // @vuese
     // Is this list page of type search?
     // @type Boolean
     isSearch() {
       return this.type === 'search';
+    },
+    // @vuese
+    // Is this list page of type all?
+    // @type Boolean
+    isAll() {
+      return this.type === 'all';
     },
     // @vuese
     // Current selection
@@ -276,7 +282,9 @@ export default {
       this.$set(
         obj,
         'facets',
-        categories.concat(brands.concat(skus.concat(parameters)))
+        categories.concat(
+          brands.concat(skus.concat(parameters.concat(this.implicitFacets)))
+        )
       );
       this.$set(obj, 'sort', this.selection.sort);
 
@@ -289,7 +297,9 @@ export default {
     // Number of total filters active
     // @type Number
     totalFiltersActive() {
-      return this.productsQueryFilter.facets.length;
+      return (
+        this.productsQueryFilter.facets.length - this.implicitFacets.length
+      );
     },
     // @vuese
     // Is a filter selection made?
@@ -306,16 +316,8 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (this.isCategory) {
-        this.$set(varsObj, 'categoryAlias', this.currentAlias);
-        this.$set(varsObj, 'brandAlias', null);
-      }
-      if (this.isBrand) {
-        this.$set(varsObj, 'brandAlias', this.currentAlias);
-        this.$set(varsObj, 'categoryAlias', null);
-      }
-      if (this.isDiscountCampaign) {
-        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
+      if (!this.isAll && !this.isSearch) {
+        this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
     },
@@ -328,16 +330,8 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (this.isCategory) {
-        this.$set(varsObj, 'categoryAlias', this.currentAlias);
-        this.$set(varsObj, 'brandAlias', null);
-      }
-      if (this.isBrand) {
-        this.$set(varsObj, 'brandAlias', this.currentAlias);
-        this.$set(varsObj, 'categoryAlias', null);
-      }
-      if (this.isDiscountCampaign) {
-        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
+      if (!this.isAll && !this.isSearch) {
+        this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
     },
@@ -350,18 +344,9 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (this.isCategory) {
-        this.$set(varsObj, 'categoryAlias', this.currentAlias);
-        this.$set(varsObj, 'brandAlias', null);
+      if (!this.isAll && !this.isSearch) {
+        this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
-      if (this.isBrand) {
-        this.$set(varsObj, 'brandAlias', this.currentAlias);
-        this.$set(varsObj, 'categoryAlias', null);
-      }
-      if (this.isDiscountCampaign) {
-        this.$set(varsObj, 'discountCampaignAlias', this.currentAlias);
-      }
-
       return varsObj;
     },
     // @vuese
@@ -429,10 +414,12 @@ export default {
   },
   created() {
     this.initProductList();
-    if (this.isSearch) {
-      const title = this.$t('SEARCH_RESULTS_PAGE_TITLE', {
-        search: this.currentAlias
-      });
+    if (this.isSearch || this.isAll) {
+      const title = this.isSearch
+        ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
+            search: this.currentAlias
+          })
+        : this.$t('ALL_PAGE_TITLE');
       this.listInfo = {
         name: title,
         meta: {
