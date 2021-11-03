@@ -5,7 +5,7 @@
     @pointerdown="gestureStart"
     @pointermove="gestureMove"
     @pointerup="gestureEnd"
-    @pointercancel="gestureEnd"
+    @pointercancel="gestureCancel"
   >
     <slot></slot>
   </div>
@@ -81,6 +81,9 @@ export default {
         }
         this.tracking = false;
       }
+    },
+    gestureCancel() {
+      this.tracking = false;
     }
   }
 };
