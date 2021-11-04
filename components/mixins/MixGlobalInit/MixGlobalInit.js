@@ -73,10 +73,7 @@ export default {
     window.addEventListener('focus', this.refetchCart);
 
     window.addEventListener('popstate', () => {
-      if (
-        this.$route.name?.includes('category') ||
-        this.$route.name?.includes('brand')
-      ) {
+      if (this.$route.name?.includes('plp')) {
         this.$store.commit('list/setBackNavigated', true);
       }
     });

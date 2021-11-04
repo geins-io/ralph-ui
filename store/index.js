@@ -37,6 +37,7 @@ export const mutations = {
     state.config.authEndpoint = config.authEndpoint;
     state.config.signEndpoint = config.signEndpoint;
     state.config.siteTopThreshold = config.siteTopThreshold;
+    state.config.productListDefaultSort = config.productListDefaultSort;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -105,13 +106,14 @@ export const actions = {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'
     });
+    commit('setHostName', req.headers.host);
+    commit('setConfig', this.$config);
 
     dispatch('list/saveQuerySelection', {
       query: route.query,
       setPage: true
     });
-    commit('setHostName', req.headers.host);
-    commit('setConfig', this.$config);
+
     if (this.$ua.deviceType() === 'pc') {
       commit('setViewportWidth', 1360);
     }

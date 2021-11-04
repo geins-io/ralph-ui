@@ -22,6 +22,7 @@ The shell for all variant pickers. displays the title above and the picker chose
 |---|---|---|
 |replaceProduct|-|-|
 |changeSku|-|-|
+|notify|-|-|
 
 <!-- @vuese:CaVariantPicker:events:end -->
 

@@ -13,6 +13,16 @@ A slide of CaSlider<br><br> **SASS-path:** _./styles/components/atoms/ca-slide.s
 <!-- @vuese:CaSlide:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaSlide:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|clicked|-|-|
+
+<!-- @vuese:CaSlide:events:end -->
+
+
 ## Slots
 
 <!-- @vuese:CaSlide:slots:start -->

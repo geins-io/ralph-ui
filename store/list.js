@@ -32,7 +32,7 @@ export const actions = {
     context.commit('setBackNavigated', false);
     context.commit('setRelocateAlias', '');
   },
-  async saveQuerySelection({ commit, dispatch }, data) {
+  async saveQuerySelection({ rootState, commit, dispatch }, data) {
     const selection = {};
     if (data.query.categories) {
       const categories = data.query.categories.split(',');
@@ -75,6 +75,8 @@ export const actions = {
 
     if (data.query.sort) {
       selection.sort = data.query.sort;
+    } else {
+      selection.sort = rootState.config.productListDefaultSort;
     }
     if (data.query.page && data.setPage) {
       commit('setRelocatePage', parseInt(data.query.page));

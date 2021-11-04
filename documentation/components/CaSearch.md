@@ -13,6 +13,16 @@ The search including search results<br><br> **SASS-path:** _./styles/components/
 <!-- @vuese:CaSearch:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaSearch:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|searchRouteChange|-|-|
+
+<!-- @vuese:CaSearch:events:end -->
+
+
 ## Methods
 
 <!-- @vuese:CaSearch:methods:start -->

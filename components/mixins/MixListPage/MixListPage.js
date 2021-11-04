@@ -805,7 +805,15 @@ export default {
             if (!userSelectionExists) {
               this.userSelection = null;
             }
-            this.$store.commit('list/resetQuerySelection');
+            if (
+              Object.keys(this.$route.query).length > 0 &&
+              !(
+                Object.keys(this.$route.query).length === 1 &&
+                this.$route.query.page
+              )
+            ) {
+              this.$store.commit('list/resetQuerySelection');
+            }
           }
         };
         fixRouting();

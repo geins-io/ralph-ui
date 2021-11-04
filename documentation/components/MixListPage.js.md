@@ -1,16 +1,17 @@
 # MixListPage.js
 
-import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> userSkip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`
+import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> userSkip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> pagingStateSet: `false`
 
 ## Props
 
 <!-- @vuese:MixListPage.js:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|type|Type of list page|'category', 'brand', 'search', 'favorites'|`false`|-|
+|type|Type of list page|'category', 'brand', 'search', 'favorites', 'all'|`false`|-|
 |infoQuery|Graphql for the listPageInfo query|`Object`|`true`|-|
 |currentAlias|Current alias for the page|`String`|`true`|-|
 |baseFilters|All filters for this list page before filtering is done|`Object`|`true`|-|
+|implicitFacets|Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.|`Array`|`false`|[]|
 
 <!-- @vuese:MixListPage.js:props:end -->
 
@@ -37,7 +38,8 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |setNewCount|Used to set new count of filters|base filters (Array), new filters (Array)|
 |getSortedFilters|Sorting all filters into groups|filters (Object)|
 |getReadableParams|Setting up params for filter in URL|filter selection (Array)|
-|switchToCanonical|Switching to canonical url if different from route path|-|
+|switchToCanonicalOr404|Switching to canonical url if different from route path|-|
+|handleFilteredRoutesRouting|Controls routing between filtered paths on the same category/brand etc|-|
 
 <!-- @vuese:MixListPage.js:methods:end -->
 
@@ -55,6 +57,7 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |isCategory|`Boolean`|Is this list page of type category?|No|
 |isBrand|`Boolean`|Is this list page of type brand?|No|
 |isSearch|`Boolean`|Is this list page of type search?|No|
+|isAll|`Boolean`|Is this list page of type all?|No|
 |selection|`Object`|Current selection|No|
 |productsQueryFilter|`Object`|Returns the filter object for the productsQueryVars|No|
 |totalFiltersActive|`Number`|Number of total filters active|No|
@@ -65,7 +68,7 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |skeletonProducts|`Array`|Returns an array of empty objects with same lengt as pageSize|No|
 |widgetAreaFilters|`Array`|Returns array of widget filters|No|
 |breadcrumbsCurrent|`Object`|Current bredcrumb info|No|
-|showControls|`Boolean`|RShw filters and other controls|No|
+|showControls|`Boolean`|Show filters and other controls|No|
 
 <!-- @vuese:MixListPage.js:computed:end -->
 
