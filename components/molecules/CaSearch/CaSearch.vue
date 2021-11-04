@@ -224,7 +224,7 @@
 </template>
 <script>
 import searchQuery from 'global/search.graphql';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 // @group Molecules
 // The search including search results<br><br>

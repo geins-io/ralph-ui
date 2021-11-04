@@ -34,7 +34,7 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // @group Molecules
 // @vuese
 // A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>

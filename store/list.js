@@ -2,12 +2,8 @@ export const state = () => ({
   backNavigated: false,
   relocateAlias: '',
   relocatePage: 1,
-  querySelection: {
-    categories: [],
-    brands: [],
-    skus: [],
-    parameters: {}
-  }
+  querySelection: null,
+  skipProductsQuery: false
 });
 
 export const mutations = {
@@ -24,12 +20,10 @@ export const mutations = {
     state.querySelection = selection;
   },
   resetQuerySelection(state) {
-    state.querySelection = {
-      categories: [],
-      brands: [],
-      skus: [],
-      parameters: {}
-    };
+    state.querySelection = null;
+  },
+  setSkipProductsQuery(state, bool) {
+    state.skipProductsQuery = bool;
   }
 };
 

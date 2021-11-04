@@ -51,7 +51,7 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 // @group Molecules
 // @vuese

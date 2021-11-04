@@ -1,7 +1,7 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import productsQuery from 'productlist/list-products.graphql';
 import { mapState } from 'vuex';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // import filtersQuery from 'productlist/products-filter.graphql';
 // @group Mixins
 // @vuese
@@ -24,7 +24,8 @@ import eventbus from '~/plugins/event-bus.js';
 // relocateTimeout: `null`<br>
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
-// userHasPaged: `false`
+// userHasPaged: `false`<br>
+// pagingStateSet: `false`
 export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement],
@@ -54,7 +55,7 @@ export default {
         }
       },
       skip() {
-        return this.skipProductsQuery;
+        return this.skipProductsQuery || this.list.skipProductsQuery;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -154,7 +155,8 @@ export default {
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
-    userHasPaged: false
+    userHasPaged: false,
+    pagingStateSet: false
   }),
   computed: {
     // @vuese
@@ -414,20 +416,6 @@ export default {
   },
   created() {
     this.initProductList();
-    if (this.isSearch || this.isAll) {
-      const title = this.isSearch
-        ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
-            search: this.currentAlias
-          })
-        : this.$t('ALL_PAGE_TITLE');
-      this.listInfo = {
-        name: title,
-        meta: {
-          title,
-          description: title
-        }
-      };
-    }
   },
   mounted() {
     eventbus.$on('route-change', routes => {
@@ -572,6 +560,7 @@ export default {
       }
       this.pushURLParams();
       this.skipProductsQuery = false;
+      this.$store.commit('list/setSkipProductsQuery', false);
       if (this.$store.getters['list/relocateProduct']) {
         this.relocateProduct();
       }
@@ -581,11 +570,30 @@ export default {
         this.currentMinCount = this.skip + 1;
         this.currentMaxCount = this.skip + this.pageSize;
       }
+      if (!process.server) {
+        this.pagingStateSet = true;
+      }
     },
     // @vuese
     // Run to init the product list
     initProductList() {
       this.skipProductsQuery = true;
+
+      if (this.isSearch || this.isAll) {
+        const title = this.isSearch
+          ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
+              search: this.currentAlias
+            })
+          : this.$t('ALL_PAGE_TITLE');
+        this.listInfo = {
+          name: title,
+          meta: {
+            title,
+            description: title
+          }
+        };
+      }
+
       const interval = setInterval(() => {
         if (Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);

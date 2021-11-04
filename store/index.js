@@ -106,7 +106,10 @@ export const actions = {
       message: 'nuxtServerInit'
     });
 
-    dispatch('list/saveQuerySelection', { query: route.query, setPage: true });
+    dispatch('list/saveQuerySelection', {
+      query: route.query,
+      setPage: true
+    });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     if (this.$ua.deviceType() === 'pc') {

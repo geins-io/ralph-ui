@@ -131,7 +131,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 // @group Organisms
 // @vuese

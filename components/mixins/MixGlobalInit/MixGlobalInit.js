@@ -1,5 +1,5 @@
 import getCartQuery from 'cart/get.graphql';
-import eventbus from '~/plugins/event-bus.js';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 // @group Mixins
 // @vuese
