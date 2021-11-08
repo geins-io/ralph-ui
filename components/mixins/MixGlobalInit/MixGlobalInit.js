@@ -18,6 +18,8 @@ export default {
       result(result) {
         if (result.data && result.data.getCart) {
           this.$store.dispatch('cart/update', result.data.getCart);
+        } else {
+          this.resetAndRefetchCart();
         }
       },
       skip() {
@@ -99,6 +101,10 @@ export default {
             return false;
         }
       }
+    },
+    async resetAndRefetchCart() {
+      await this.$store.dispatch('cart/reset');
+      this.refetchCart();
     }
   }
 };

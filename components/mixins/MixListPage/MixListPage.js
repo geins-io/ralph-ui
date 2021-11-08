@@ -25,7 +25,6 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
 // userHasPaged: `false`<br>
-// pagingStateSet: `false`
 export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement],
@@ -155,8 +154,7 @@ export default {
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
-    userHasPaged: false,
-    pagingStateSet: false
+    userHasPaged: false
   }),
   computed: {
     // @vuese
@@ -569,9 +567,6 @@ export default {
       if (this.currentPage > 1) {
         this.currentMinCount = this.skip + 1;
         this.currentMaxCount = this.skip + this.pageSize;
-      }
-      if (!process.server) {
-        this.pagingStateSet = true;
       }
     },
     // @vuese

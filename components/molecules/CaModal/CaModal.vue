@@ -1,12 +1,7 @@
 <template>
   <div>
     <transition v-if="opened" name="grow">
-      <div
-        v-show="contentLoaded"
-        ref="modal"
-        class="ca-modal"
-        :style="styleAttrs"
-      >
+      <div v-show="contentLoaded" class="ca-modal" :style="styleAttrs">
         <CaIconButton
           v-if="!isPrompt"
           class="ca-modal__close"
@@ -14,7 +9,7 @@
           aria-label="Close"
           @clicked="closeModal"
         />
-        <div class="ca-modal__content">
+        <div ref="content" class="ca-modal__content">
           <component
             :is="modal.component"
             v-bind="modal.componentProps"
@@ -97,7 +92,7 @@ export default {
       this.$store.dispatch('loading/start');
       this.$store.dispatch('setScrollbarWidth');
       this.$nextTick(() => {
-        disableBodyScroll(this.$refs.modal);
+        disableBodyScroll(this.$refs.content);
       });
     },
     closeModal(fromStateChange = false) {
@@ -105,7 +100,7 @@ export default {
       if (!fromStateChange) {
         this.$store.commit('modal/close');
       }
-      enableBodyScroll(this.$refs.modal);
+      enableBodyScroll(this.$refs.content);
       this.$nextTick(() => {
         this.opened = false;
       });

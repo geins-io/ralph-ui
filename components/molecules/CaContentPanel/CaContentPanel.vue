@@ -2,12 +2,7 @@
   <div>
     <client-only>
       <transition :name="transitionName">
-        <section
-          v-if="opened"
-          ref="contentpanel"
-          class="ca-content-panel"
-          :class="modifiers"
-        >
+        <section v-if="opened" class="ca-content-panel" :class="modifiers">
           <header class="ca-content-panel__header">
             <!-- The content panel header -->
             <slot name="header">
@@ -21,7 +16,7 @@
               @clicked="close"
             />
           </header>
-          <section class="ca-content-panel__body">
+          <section ref="content" class="ca-content-panel__body">
             <!-- The main content of the content panel. This content will be scrollable when overflowing -->
             <slot></slot>
           </section>
@@ -115,7 +110,7 @@ export default {
       if (newVal === this.name) {
         this.open();
       } else if (this.opened) {
-        enableBodyScroll(this.$refs.contentpanel);
+        enableBodyScroll(this.$refs.content);
         this.opened = false;
       }
     }
@@ -135,13 +130,13 @@ export default {
       this.opened = true;
       this.activateEventbusListeners();
       this.$nextTick(() => {
-        disableBodyScroll(this.$refs.contentpanel);
+        disableBodyScroll(this.$refs.content);
       });
     },
     // Close the content panel. Can be triggered via eventbus call `close-content-panel`
     close() {
       if (this.opened) {
-        enableBodyScroll(this.$refs.contentpanel);
+        enableBodyScroll(this.$refs.content);
         this.$store.commit('contentpanel/close');
         this.opened = false;
         this.deactivateEventbusListeners();
