@@ -3,7 +3,7 @@ export default function({ store, route, from }) {
     store.commit('list/setSkipProductsQuery', true);
     store.dispatch('list/saveQuerySelection', {
       query: route.query,
-      setPage: true
+      setPage: false
     });
   }
 }
