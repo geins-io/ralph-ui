@@ -4,5 +4,6 @@
   align-items: center;
   svg {
     width: var(--icon-size, 1.1em);
+    flex-grow: 1;
   }
 }

@@ -8,7 +8,7 @@
       :product-card-type="productCardType"
     />
     <li v-if="isEmpty" class="ca-product-list__empty">
-      {{ $t('SEARCH_NO_RESULTS') }}
+      {{ isSearch ? $t('SEARCH_NO_RESULTS') : $t('NO_PRODUCTS_MATCH') }}
     </li>
   </ul>
 </template>
@@ -40,6 +40,11 @@ export default {
     productCardType: {
       type: String,
       default: 'default'
+    },
+    // Are the products fetched yet?
+    productsFetched: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
@@ -57,9 +62,10 @@ export default {
       return prodArray;
     },
     isEmpty() {
-      return (
-        this.$route?.name?.includes('search') && this.products.length === 0
-      );
+      return this.productsFetched && this.products.length === 0;
+    },
+    isSearch() {
+      return this.$route?.name?.includes('search');
     }
   },
   watch: {},

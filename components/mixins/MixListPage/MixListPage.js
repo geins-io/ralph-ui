@@ -25,6 +25,7 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
 // userHasPaged: `false`<br>
+// productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement],
@@ -50,6 +51,7 @@ export default {
           if (this.currentMaxCount < this.productList.length) {
             this.currentMaxCount = this.productList.length;
           }
+          this.productsFetched = true;
           this.$store.dispatch('loading/end');
         }
       },
@@ -154,7 +156,8 @@ export default {
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
-    userHasPaged: false
+    userHasPaged: false,
+    productsFetched: false
   }),
   computed: {
     // @vuese
