@@ -132,7 +132,8 @@ export default {
     modifiers() {
       return {
         'ca-image--loaded': this.loaded && !this.forceRatio,
-        'ca-image--force-ratio': this.forceRatio
+        'ca-image--force-ratio': this.forceRatio,
+        'ca-image--product': this.type === 'product'
       };
     }
   },

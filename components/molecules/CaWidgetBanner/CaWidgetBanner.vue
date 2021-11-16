@@ -65,6 +65,7 @@
           v-if="configuration.buttonText"
           class="ca-widget-banner__button"
           :text-color="configuration.textColor"
+          :below-image="!fullWidth && textAndButtonPlacement === 0"
         >
           {{ configuration.buttonText }}
         </CaWidgetBannerButton>

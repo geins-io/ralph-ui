@@ -19,7 +19,7 @@
                 class="ca-navigation-slim__sub-link ca-navigation-slim__show-all"
                 :to="category.canonicalUrl"
               >
-                Visa allt {{ category.name }}
+                {{ $t('NAVIGATION_ALL_IN') }} {{ category.name }}
               </NuxtLink>
             </li>
             <li

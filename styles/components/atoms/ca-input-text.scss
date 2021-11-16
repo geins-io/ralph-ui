@@ -1,8 +1,9 @@
 .ca-input-text {
+  $input-text-height: rem-calc(50px) !default;
   $block: &;
   position: relative;
   transition: border 0.2s ease;
-  height: 50px;
+  height: $input-text-height;
   border: $input-border;
   background: $c-input-background;
   border-radius: $input-border-radius;

@@ -19,6 +19,10 @@ export default {
     textColor: {
       type: Number,
       default: 0
+    },
+    belowImage: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
