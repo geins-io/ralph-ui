@@ -5,6 +5,11 @@
       pointer-events: none;
     }
   }
+  &__input {
+    &:focus-visible {
+      box-shadow: none;
+    }
+  }
   &--default {
     display: inline-flex;
     border: $border-dark;
@@ -50,6 +55,18 @@
       background: $c-light-gray;
       @include flex-calign;
       font-size: $font-size-xl;
+    }
+  }
+
+  &--rounded {
+    display: inline-flex;
+    #{$block}__button {
+      @include iconCircle;
+    }
+    #{$block}__input {
+      width: rem-calc(30);
+      margin: 0 rem-calc(5);
+      text-align: center;
     }
   }
 }

@@ -7,14 +7,7 @@
   pointer-events: none;
   max-width: calc(100vw - var(--scrollbar-width, 17px));
   &__arrow {
-    background: $c-white;
-    width: 36px;
-    height: 36px;
-    @include flex-calign;
-    transition: all 200ms ease;
-    border-radius: 50%;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
-    border: $border-light;
+    @include iconCircle;
     pointer-events: auto;
     &--disabled {
       opacity: 0.2;

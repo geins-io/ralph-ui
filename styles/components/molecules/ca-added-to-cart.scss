@@ -52,17 +52,7 @@
     font-weight: $font-weight-bold;
   }
   &__close {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: $c-white;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-    @include flex-calign;
-    @include bp(laptop) {
-      width: 36px;
-      height: 36px;
-    }
-
+    @include iconCircle;
     @include valign;
     right: rem-calc(12);
   }
