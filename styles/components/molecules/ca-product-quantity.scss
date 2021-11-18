@@ -1,29 +1,55 @@
 .ca-product-quantity {
-  display: inline-flex;
-  border: $border-dark;
+  $block: &;
   &__button {
-    background: $c-light-gray;
-    @include flex-calign;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-size: 0.9em;
     &:disabled {
       pointer-events: none;
     }
-    @include bp(laptop) {
-      transition: background-color 150ms ease;
-      &:hover {
-        background: lighten($c-light-gray, 1%);
+  }
+  &--default {
+    display: inline-flex;
+    border: $border-dark;
+    #{$block}__button {
+      background: $c-light-gray;
+      @include flex-calign;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      font-size: 0.9em;
+      @include bp(laptop) {
+        transition: background-color 150ms ease;
+        &:hover {
+          background: lighten($c-light-gray, 1%);
+        }
       }
     }
+    #{$block}__input {
+      width: 34px;
+      height: 30px;
+      text-align: center;
+      border-left: $border-dark;
+      border-right: $border-dark;
+    }
   }
-
-  &__input {
-    width: 34px;
-    height: 30px;
-    text-align: center;
-    border-left: $border-dark;
-    border-right: $border-dark;
+  &--stacked {
+    height: rem-calc(50);
+    width: rem-calc(100);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    #{$block}__input {
+      height: 100%;
+      width: 67%;
+      border: $border-light;
+      border-right: none;
+      padding: 0 rem-calc(16);
+      font-size: $font-size-m;
+    }
+    #{$block}__button {
+      height: 50%;
+      width: 33%;
+      background: $c-light-gray;
+      @include flex-calign;
+      font-size: $font-size-xl;
+    }
   }
 }

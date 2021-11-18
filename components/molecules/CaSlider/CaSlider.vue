@@ -209,6 +209,11 @@ export default {
         this.currentSlide =
           this.slidingActive && this.infinite ? this.numberOfCopiesBefore : 0;
       }
+    },
+    'slideMeta.currentSlide'(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$emit('slideChange', newVal);
+      }
     }
   },
   mounted() {

@@ -1,6 +1,7 @@
 <template>
-  <div class="ca-product-quantity">
+  <div class="ca-product-quantity" :class="typeModifier">
     <CaIconButton
+      v-if="type !== 'stacked'"
       class="ca-product-quantity__button ca-product-quantity__button--decrease"
       icon-name="minus"
       aria-label="Decrease"
@@ -18,10 +19,18 @@
     />
     <CaIconButton
       class="ca-product-quantity__button ca-product-quantity__button--increase"
-      icon-name="plus"
+      :icon-name="type === 'stacked' ? 'chevron-up' : 'plus'"
       aria-label="Increase"
       :disabled="maxReached"
       @clicked="increase"
+    />
+    <CaIconButton
+      v-if="type === 'stacked'"
+      class="ca-product-quantity__button ca-product-quantity__button--decrease"
+      icon-name="chevron-down"
+      aria-label="Decrease"
+      :disabled="minReached"
+      @clicked="decrease"
     />
   </div>
 </template>
@@ -58,6 +67,12 @@ export default {
     threshold: {
       type: Number,
       default: -1
+    },
+    // Different style types for the counter
+    type: {
+      // `default`, `round`, `stacked`
+      type: String,
+      default: 'default'
     }
   },
   data: () => ({
@@ -75,6 +90,9 @@ export default {
     },
     stopAtThreshold() {
       return this.threshold > -1 && this.threshold < this.maxQuantity;
+    },
+    typeModifier() {
+      return 'ca-product-quantity--' + this.type;
     }
   },
   watch: {
@@ -141,7 +159,6 @@ export default {
       if (this.inputEmpty) {
         return;
       }
-
       if (isNaN(this.count)) {
         this.count = this.minQuantity;
       } else if (this.stopAtThreshold && this.count >= this.threshold) {

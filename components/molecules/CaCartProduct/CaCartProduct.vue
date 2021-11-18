@@ -33,7 +33,12 @@
           :name="product.name"
           name-tag="h3"
         />
-        <p v-if="skuValue && skuValue !== '-'" class="ca-cart-product__variant">
+        <p
+          v-if="
+            skuValue && !$config.checkout.hiddenSkuValues.includes(skuValue)
+          "
+          class="ca-cart-product__variant"
+        >
           {{ skuValue }}
         </p>
         <ul

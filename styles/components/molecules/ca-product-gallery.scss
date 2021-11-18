@@ -9,22 +9,15 @@
     --slider-item-width: 100%;
     margin: 0;
   }
-  &__nav {
-    height: auto;
-    width: 13.74%;
-    margin: -8px 0;
-  }
-  &__nav-image {
-    cursor: pointer;
-  }
-  &__nav-slide {
-    padding: 8px 0;
+  &__main {
+    position: relative;
   }
   &__slider {
     height: auto;
     position: relative;
     @include bp(laptop) {
-      width: 80.15%;
+      width: 100%;
+      margin: 0 0 rem-calc(20);
     }
   }
   &__slide-overlay {
@@ -78,5 +71,35 @@
   .ca-slider-dots {
     position: absolute;
     margin-top: -28px;
+  }
+  &__nav {
+    --slider-item-width: calc(100% / 6);
+    margin: 0 rem-calc(-10);
+  }
+  &__nav-image {
+    cursor: pointer;
+  }
+  &__nav-slide {
+    padding: 0 rem-calc(10px);
+    & > * {
+      border: 2px solid transparent;
+      transition: border-color 200ms ease;
+    }
+    &--current {
+      & > * {
+        border: 2px solid $c-border-light;
+      }
+    }
+  }
+  &__campaigns {
+    right: calc(14% + #{rem-calc(15)});
+    position: absolute;
+    top: rem-calc(15);
+    @include bp(tablet) {
+      right: calc(23.5% + #{rem-calc(15)});
+    }
+    @include bp(laptop) {
+      right: rem-calc(15);
+    }
   }
 }
