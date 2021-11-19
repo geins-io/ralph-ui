@@ -34,9 +34,7 @@
           name-tag="h3"
         />
         <p
-          v-if="
-            skuValue && !$config.checkout.hiddenSkuValues.includes(skuValue)
-          "
+          v-if="skuValue && !$config.cart.hiddenSkuValues.includes(skuValue)"
           class="ca-cart-product__variant"
         >
           {{ skuValue }}
@@ -84,6 +82,7 @@
           v-if="mode === 'default'"
           :quantity="item.quantity"
           :max-quantity="skuStockQuantity"
+          :type="$config.cart.quantityChangerType"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">

@@ -35,7 +35,14 @@
           </transition>
           <div @click="close">
             <CaButton type="full-width" size="m" href="checkout">
-              {{ $t('CART_TO_CHECKOUT') }}
+              <CaIconAndText
+                v-if="buttonIcon"
+                :icon-name="buttonIcon"
+                icon-position="right"
+              >
+                {{ $t('CART_TO_CHECKOUT') }}
+              </CaIconAndText>
+              <template v-else>{{ $t('CART_TO_CHECKOUT') }}</template>
             </CaButton>
           </div>
         </div>
@@ -52,7 +59,12 @@ import { mapState } from 'vuex';
 export default {
   name: 'CaAddedToCart',
   mixins: [],
-  props: {},
+  props: {
+    buttonIcon: {
+      type: String,
+      default: ''
+    }
+  },
   data: () => ({}),
   computed: {
     // @vuese
