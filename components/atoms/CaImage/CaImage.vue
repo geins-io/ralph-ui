@@ -125,7 +125,7 @@ export default {
       // Instead of v-show, because display none never initializes the loading of the image
       let style = '';
       if (!this.loaded) {
-        style = 'visibility: hidden; height: 0;';
+        style = 'visibility: hidden; height: 0; padding:0;';
       }
       return style;
     },
