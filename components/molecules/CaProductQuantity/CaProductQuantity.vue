@@ -76,7 +76,8 @@ export default {
     }
   },
   data: () => ({
-    count: 0
+    count: 0,
+    updateTimeout: null
   }),
   computed: {
     maxReached() {
@@ -116,9 +117,12 @@ export default {
     // @vuese
     // Update count
     update() {
-      // Count has been changed
-      // @arg new count (Number)
-      this.$emit('changed', this.count);
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = setTimeout(() => {
+        // Count has been changed
+        // @arg new count (Number)
+        this.$emit('changed', this.count);
+      }, 500);
     },
     // @vuese
     // Increase count by one

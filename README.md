@@ -4,7 +4,7 @@
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -15,8 +15,45 @@ $ npm run dev
 $ npm run build
 $ npm run start
 
-# generate static project
-$ npm run generate
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+# Changelog
+
+<!--
+Sections to use
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+-->
+
+All notable changes will be added to this section
+
+## [Unreleased]
+
+## [7.2.1] - 2021-12-03
+
+### Added
+
+- Mixin for promise queue
+- Debouncer function for createOrUpdateCheckout
+- Debouncer function for product quantity changer
+- Changelog introduced!
+
+### Changed
+
+- Enqueuing of mutation createOrUpdateCheckout
+- Enqueuing of mutation updateCart
+
+### Fixed
+
+- Checkout will not break if you enter without cartId
+- Checkout will update on every UDC/nShift update (fixes bug for not saving pickupPoint)

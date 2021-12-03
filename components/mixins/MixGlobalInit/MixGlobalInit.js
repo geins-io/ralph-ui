@@ -23,7 +23,10 @@ export default {
         }
       },
       skip() {
-        return !!this.$route?.name?.includes('checkout');
+        return (
+          !!this.$route?.name?.includes('checkout') &&
+          this.$store.getters['cart/id'] !== ''
+        );
       },
       error(error) {
         // eslint-disable-next-line no-console

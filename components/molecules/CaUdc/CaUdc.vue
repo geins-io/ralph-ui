@@ -63,7 +63,7 @@ export default {
     currentZip: '',
     loading: false,
     widget: null,
-    changeInterval: null,
+    changeTimeout: null,
     config: {
       language: 'sv',
       useIcons: true,
@@ -74,7 +74,8 @@ export default {
     widgetLoadedInterval: null,
     udcValid: false,
     optionsAvailable: false,
-    resetData: false
+    resetData: false,
+    searchWasPerformed: false
   }),
   computed: {
     // @vuese
@@ -126,6 +127,7 @@ export default {
       // Initiation is triggered
       // @arg Zip (String)
       this.$emit('init', this.currentZip);
+      this.searchWasPerformed = true;
     },
     // @vuese
     // Updates the widget with new data
@@ -156,7 +158,11 @@ export default {
         if (this.shippingData !== this.data) {
           this.update();
         }
-      } else if (!this.shippingData && this.currentZip !== '') {
+      } else if (
+        !this.shippingData &&
+        this.currentZip !== '' &&
+        this.searchWasPerformed
+      ) {
         this.$refs.feedback.show();
         this.optionsAvailable = false;
       }
@@ -164,8 +170,8 @@ export default {
     // @vuese
     // The callback function for when changes are made in the widget
     changed(data) {
-      clearInterval(this.changeInterval);
-      this.changeInterval = setInterval(() => {
+      clearTimeout(this.changeTimeout);
+      this.changeTimeout = setTimeout(() => {
         this.udcValid = data.valid;
         const udcData = {
           selectedOptionId: data.selectedOptionId,
@@ -176,8 +182,7 @@ export default {
         // A change has been made
         // @arg Selected option ID, pickup point, delivery data (Object)
         this.$emit('changed', udcData);
-        clearInterval(this.changeInterval);
-      }, 500);
+      }, 150);
     }
   }
 };

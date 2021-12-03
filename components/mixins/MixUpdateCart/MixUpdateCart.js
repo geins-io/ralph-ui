@@ -1,10 +1,11 @@
 import updateCartMutation from 'cart/update.graphql';
+import MixPromiseQueue from 'MixPromiseQueue';
 // @group Mixins
 // @vuese
 // Function to update the current cart
 export default {
   name: 'MixUpdateCart',
-  mixins: [],
+  mixins: [MixPromiseQueue],
   props: {},
   data: () => ({}),
   computed: {},
@@ -20,22 +21,24 @@ export default {
         skuId: prodSkuId,
         quantity: prodQuantity
       };
-      this.$apollo
-        .mutate({
-          mutation: updateCartMutation,
-          variables: {
-            id: this.$store.getters['cart/id'],
-            item: updateItem
-          }
-        })
-        .then(result => {
-          this.$store.dispatch('cart/update', result.data.updateCartItem);
-          this.$emit('loading', false);
-        })
-        .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
+      const updateMutation = () =>
+        this.$apollo
+          .mutate({
+            mutation: updateCartMutation,
+            variables: {
+              id: this.$store.getters['cart/id'],
+              item: updateItem
+            }
+          })
+          .then(result => {
+            this.$store.dispatch('cart/update', result.data.updateCartItem);
+            this.$emit('loading', false);
+          })
+          .catch(error => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
+      this.enqueue(updateMutation);
     }
   }
 };

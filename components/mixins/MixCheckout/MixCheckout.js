@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
+import MixPromiseQueue from 'MixPromiseQueue';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -17,7 +18,7 @@ import placeOrderMutation from 'checkout/place-order.graphql';
 export default {
   name: 'MixCheckout',
   apollo: {},
-  mixins: [],
+  mixins: [MixPromiseQueue],
   props: {},
   data: vm => ({
     cartLoading: true,
@@ -29,7 +30,9 @@ export default {
     pickupPoint: '',
     externalShippingId: '',
     udcValid: false,
-    paymentId: vm.$config.checkout.defaultPaymentId
+    paymentId: vm.$config.checkout.defaultPaymentId,
+    updateDelay: 150,
+    updateTimeout: null
   }),
   computed: {
     // @vuese
@@ -126,55 +129,67 @@ export default {
     }
   },
   mounted() {
-    this.createOrUpdateCheckout();
+    if (!this.$store.state.checkout.currentZip) {
+      this.createOrUpdateCheckout();
+    }
     // Refetch checkout on window/tab focus to keep state between windows/tabs
-    window.addEventListener('focus', this.createOrUpdateCheckout);
+    window.addEventListener('focus', this.focusListener);
+  },
+  beforeDestroy() {
+    window.removeEventListener('focus', this.focusListener);
   },
   methods: {
     // @vuese
     // Handling the api call for creating an updating the checkout session
     createOrUpdateCheckout() {
-      this.checkoutLoading = true;
-      if (this.$refs.udc) {
-        this.$refs.udc.disable();
-      }
-      if (this.$refs.klarna && this.$refs.klarna.frame) {
-        this.$refs.klarna.suspend();
-      }
-      const vars = {
-        cartId: this.$store.getters['cart/id']
-      };
-      if (Object.keys(this.checkoutInput).length) {
-        vars.checkout = this.checkoutInput;
-      }
-      this.$apollo
-        .mutate({
-          mutation: createOrUpdateCheckoutMutation,
-          variables: vars
-        })
-        .then(result => {
-          this.checkout = result.data.createOrUpdateCheckout;
-          this.updateCart(this.checkout.cart);
-          this.checkoutLoading = false;
-          this.shippingLoading = false;
-          this.cartLoading = false;
-          this.$nextTick(() => {
-            if (this.$refs.udc && this.$refs.udc.widget) {
-              this.$refs.udc.enable();
-            }
-            if (this.$refs.klarna) {
-              if (this.selectedPaymentOption.newCheckoutSession) {
-                this.$refs.klarna.initialize();
-              } else {
-                this.$refs.klarna.resume();
-              }
-            }
-          });
-        })
-        .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = setTimeout(() => {
+        this.updateDelay = 150;
+        this.checkoutLoading = true;
+        if (this.$refs.udc) {
+          this.$refs.udc.disable();
+        }
+        if (this.$refs.klarna && this.$refs.klarna.frame) {
+          this.$refs.klarna.suspend();
+        }
+        const vars = {
+          cartId: this.$store.getters['cart/id']
+        };
+        if (Object.keys(this.checkoutInput).length) {
+          vars.checkout = this.checkoutInput;
+        }
+        const updateMutation = () =>
+          this.$apollo
+            .mutate({
+              mutation: createOrUpdateCheckoutMutation,
+              variables: vars
+            })
+            .then(result => {
+              this.checkout = result.data.createOrUpdateCheckout;
+              this.updateCart(this.checkout.cart);
+              this.checkoutLoading = false;
+              this.shippingLoading = false;
+              this.cartLoading = false;
+              this.$nextTick(() => {
+                if (this.$refs.udc && this.$refs.udc.widget) {
+                  this.$refs.udc.enable();
+                }
+                if (this.$refs.klarna) {
+                  if (this.selectedPaymentOption.newCheckoutSession) {
+                    this.$refs.klarna.initialize();
+                  } else {
+                    this.$refs.klarna.resume();
+                  }
+                }
+              });
+            })
+            .catch(error => {
+              // eslint-disable-next-line no-console
+              console.log(error);
+            });
+
+        this.enqueue(updateMutation);
+      }, this.updateDelay);
     },
     // @vuese
     // Updating the cart if the cart is different from the existing cart
@@ -263,11 +278,9 @@ export default {
     setUDCdata(data) {
       this.message = data.deliveryData;
       this.pickupPoint = data.pickupPoint;
-      if (data.selectedOptionId !== this.externalShippingId) {
-        this.externalShippingId = data.selectedOptionId;
-        this.cartLoading = true;
-        this.createOrUpdateCheckout();
-      }
+      this.externalShippingId = data.selectedOptionId;
+      this.cartLoading = true;
+      this.createOrUpdateCheckout();
     },
     // @vuese
     // Handling the payment selection
@@ -275,6 +288,14 @@ export default {
     paymentSelectionHandler(id) {
       this.paymentId = id;
       this.createOrUpdateCheckout();
+    },
+    // @vuese
+    // Event listener function for window focus
+    focusListener() {
+      if (this.cart.data.items.length) {
+        this.updateDelay = 1000;
+        this.createOrUpdateCheckout('focus');
+      }
     }
   }
 };
