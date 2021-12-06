@@ -10,7 +10,7 @@
       </component>
       <ul class="ca-specifications__list">
         <li
-          v-for="(item, index1) in group.parameters"
+          v-for="(item, index1) in getGroupedParameters(group.parameters)"
           :key="index1"
           class="ca-specifications__item"
         >
@@ -45,7 +45,24 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    // @vuese
+    // Grouping parameteters with the same name and turns the combined values into one comma separated value
+    // @arg parameters (Array)
+    getGroupedParameters(parameters) {
+      const labels = [...new Set(parameters.map(i => i.name))];
+      return labels.map(i => {
+        const value = parameters
+          .filter(ii => ii.name === i)
+          .map(ii => ii.value)
+          .join(', ');
+        return {
+          name: i,
+          value
+        };
+      });
+    }
+  }
 };
 </script>
 <style lang="scss">

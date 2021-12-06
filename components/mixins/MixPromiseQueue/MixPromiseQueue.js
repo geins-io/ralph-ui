@@ -15,7 +15,7 @@ export default {
   methods: {
     // @vuese
     // A function holding the promise that should be queued `() => Promise`
-    // @type Function
+    // @arg promise (Function)
     enqueue(promise) {
       return new Promise((resolve, reject) => {
         this.promiseQueue.push({

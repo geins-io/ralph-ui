@@ -37,7 +37,11 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [Unreleased]
+## [7.3.1] - 2021-12-06
+
+### Changed
+
+- Parameters with the same name/label will now be grouped in CaSpecifications
 
 ## [7.2.1] - 2021-12-03
 
