@@ -29,7 +29,7 @@ export default {
     datalayerConfirm() {
       if (this.$gtm) {
         this.$gtm.push({
-          event: 'Purchase',
+          event: 'purchase',
           ecommerce: {
             currencyCode: 'SEK',
             purchase: {

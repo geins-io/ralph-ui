@@ -37,6 +37,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [7.3.2] - 2021-12-07
+
+### Fixed
+
+- Fixed the case for the GTM event name sent on purchase
+
 ## [7.3.1] - 2021-12-06
 
 ### Changed
