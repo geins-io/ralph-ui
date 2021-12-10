@@ -37,6 +37,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [7.3.3] - 2021-12-10
+
+### Fixed
+
+- Nullchecks for cart.data
+
 ## [7.3.2] - 2021-12-07
 
 ### Fixed

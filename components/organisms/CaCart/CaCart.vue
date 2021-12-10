@@ -60,7 +60,7 @@ export default {
   }),
   computed: {
     cartItems() {
-      return this.cart.items ? this.cart.items : [];
+      return this.cart?.items ? this.cart.items : [];
     }
   },
   watch: {},

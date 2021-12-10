@@ -292,7 +292,7 @@ export default {
     // @vuese
     // Event listener function for window focus
     focusListener() {
-      if (this.cart.data.items.length) {
+      if (this.cart.data?.items?.length) {
         this.updateDelay = 1000;
         this.createOrUpdateCheckout('focus');
       }
