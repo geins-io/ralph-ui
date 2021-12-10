@@ -1,4 +1,5 @@
 import MixMetaReplacement from 'MixMetaReplacement';
+import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/list-products.graphql';
 import { mapState } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
@@ -7,10 +8,7 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
-// productList: `[]`<br>
-// totalCount: `0`<br>
 // userSkip: `0`<br>
-// pageSize: `vm.$config.productListPageSize`<br>
 // sort: `vm.$config.productListDefaultSort`<br>
 // defaultSort: `vm.$config.productListDefaultSort`<br>
 // listInfo: `null`<br>
@@ -18,9 +16,6 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // userSelection: `null`<br>
 // filterParamQuery: `{}`<br>
 // skipProductsQuery: `false`<br>
-// currentPage: `1`<br>
-// currentMinCount: `1`,<br>
-// currentMaxCount: `vm.$config.productListPageSize`<br>
 // relocateTimeout: `null`<br>
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
@@ -28,7 +23,7 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixMetaReplacement],
+  mixins: [MixMetaReplacement, MixListPagination],
   apollo: {
     products: {
       query() {
@@ -43,14 +38,7 @@ export default {
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
           }
-          this.productList = result.data.products.products;
-          this.totalCount = result.data.products.count;
-          if (this.currentMaxCount > this.totalCount) {
-            this.currentMaxCount = this.totalCount;
-          }
-          if (this.currentMaxCount < this.productList.length) {
-            this.currentMaxCount = this.productList.length;
-          }
+          this.setupPagination(result.data.products);
           this.productsFetched = true;
           this.$store.dispatch('loading/end');
         }
@@ -139,20 +127,13 @@ export default {
     };
   },
   data: vm => ({
-    productList: [],
-    productListIdle: [],
-    totalCount: 0,
     userSkip: 0,
-    pageSize: vm.$config.productListPageSize,
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
     filters: {},
     userSelection: null,
     filterParamQuery: {},
     skipProductsQuery: false,
-    currentPage: 1,
-    currentMinCount: 1,
-    currentMaxCount: vm.$config.productListPageSize,
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
@@ -175,18 +156,6 @@ export default {
       } else {
         return this.userSkip;
       }
-    },
-    // @vuese
-    // Are all products loaded?
-    // @type Boolean
-    allProductsLoaded() {
-      return this.currentMaxCount >= this.totalCount;
-    },
-    // @vuese
-    // Returns string of span of products showing right now, for example '10 - 20'
-    // @type String
-    showing() {
-      return this.currentMinCount + ' - ' + this.currentMaxCount;
     },
     // @vuese
     // Returns the filter object used to query products based on filters
@@ -358,15 +327,6 @@ export default {
     skeletonProducts() {
       const prodArray = [];
       for (let i = 0; i < this.pageSize; i++) {
-        prodArray.push({});
-      }
-      return prodArray;
-    },
-    skeletonProductsNext() {
-      const prodArray = [];
-      const count = this.totalCount - this.currentMaxCount;
-      const nextPageSize = count < this.pageSize ? count : this.pageSize;
-      for (let i = 0; i < nextPageSize; i++) {
         prodArray.push({});
       }
       return prodArray;

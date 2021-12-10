@@ -8,13 +8,11 @@
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+# create component
+$ npm run create-component
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
+# see documentation
+$ npm run documentation-serve
 ```
 
 # Changelog
@@ -36,6 +34,16 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [7.4.3] - 2021-12-10
+
+### Added
+
+- Pagination in product list widget
+
+### Fixed
+
+- Showing "estimated shipping fee"-text even if customer has no amount limit for free shipping
 
 ## [7.3.3] - 2021-12-10
 

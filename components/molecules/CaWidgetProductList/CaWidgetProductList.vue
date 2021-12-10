@@ -6,21 +6,36 @@
     <CaProductList
       v-if="configuration.slideshowDisabled"
       class="ca-widget-product-list__list"
-      :products="allProducts"
+      :products="productList"
       :page-size="take"
     />
     <CaProductListSlider
       v-else
       class="ca-widget-product-list__list"
-      :products="allProducts"
+      :products="productList"
       :page-size="take"
       :arrows="configuration.displayNavigationArrows"
       :dots="configuration.displayNavigationLinks"
       :arrow-icon-name="$config.productListWidgetArrowIconName"
     />
+    <CaListPagination
+      v-if="
+        configuration.slideshowDisabled &&
+          !configuration.limitNrOfRows &&
+          products &&
+          products.count > take
+      "
+      direction="next"
+      :showing="showing"
+      :total-count="products.count"
+      :all-products-loaded="allProductsLoaded"
+      :loading="$apollo.queries.products.loading"
+      @loadmore="loadMore"
+    />
   </div>
 </template>
 <script>
+import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/products.graphql';
 // @group Molecules
 // @vuese
@@ -33,9 +48,14 @@ export default {
       query: productsQuery,
       variables() {
         return {
-          take: this.take,
-          filter: this.configuration.searchParameters
+          filter: this.configuration.searchParameters,
+          take: this.take
         };
+      },
+      result(result) {
+        if (result && result.data) {
+          this.setupPagination(result.data.products);
+        }
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -43,7 +63,7 @@ export default {
       }
     }
   },
-  mixins: [],
+  mixins: [MixListPagination],
   props: {
     // Widget configuration object
     configuration: {
@@ -51,13 +71,28 @@ export default {
       required: true
     }
   },
-  data: () => ({}),
+  data: () => ({
+    mainProductList: false
+  }),
   computed: {
-    allProducts() {
-      return this.products ? this.products.products : [];
-    },
+    // @vuese
+    // How many products to take
+    // @type Number
     take() {
-      return this.configuration.pageCount * this.$config.productListRowSize;
+      return this.configuration.limitNrOfRows
+        ? this.configuration.pageCount * this.$config.productListRowSize
+        : this.$config.productListPageSize;
+    },
+    // @vuese
+    // Returns the variable object for loading more products
+    // @type Object
+    loadMoreQueryVars() {
+      const varsObj = {
+        skip: this.currentMaxCount,
+        take: this.take,
+        filter: this.configuration.searchParameters
+      };
+      return varsObj;
     }
   },
   watch: {},
