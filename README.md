@@ -35,6 +35,30 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [8.0.0] - 2021-12-20
+
+### IMPORTANT
+
+- Update your storefront by merging/cherry-picking from Ralph Storefront's update to 8.0.0
+- Sync with API release of "getCheckout"-change
+
+### Added
+
+- CaCheckoutExternal - copy of CaCheckoutKlarna that handles both Klarna and SVEA
+- Debug-function for checkout
+
+### Removed
+
+- CaCheckoutKlarna, since all this functionality now exists in CaCheckoutExternal
+
+### Changed
+
+- Updated graphql-query getCheckout to include paymentType as a parameter
+
+### Fixed
+
+- Payment options will no longer have a delay before it looks selected after selecting it
+
 ## [7.4.3] - 2021-12-10
 
 ### Added

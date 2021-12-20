@@ -13,3 +13,13 @@ This is used to display product specifications in a table like format<br><br> **
 <!-- @vuese:CaSpecifications:props:end -->
 
 
+## Methods
+
+<!-- @vuese:CaSpecifications:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|getGroupedParameters|Grouping parameteters with the same name and turns the combined values into one comma separated value|parameters (Array)|
+
+<!-- @vuese:CaSpecifications:methods:end -->
+
+

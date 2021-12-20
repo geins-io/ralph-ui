@@ -1,6 +1,6 @@
 # MixCheckout
 
-All functionality for the checkout **Data:**<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` paymentId: `vm.$config.defaultPaymentId`
+All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null`
 
 ## Methods
 
@@ -14,6 +14,8 @@ All functionality for the checkout **Data:**<br> cartLoading: `false`<br> checko
 |initUDC|Initialize UDC|zip (String)|
 |setUDCdata|UDC callback handler|data (Object)|
 |paymentSelectionHandler|Handling the payment selection|payment id (Number)|
+|focusListener|Event listener function for window focus|-|
+|blurListener|Event listener function for window blur|-|
 
 <!-- @vuese:MixCheckout:methods:end -->
 
@@ -32,5 +34,15 @@ All functionality for the checkout **Data:**<br> cartLoading: `false`<br> checko
 |paymentType|`String`|The current payment type|No|
 
 <!-- @vuese:MixCheckout:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:MixCheckout:mixIns:start -->
+|MixIn|
+|---|
+|MixPromiseQueue|
+
+<!-- @vuese:MixCheckout:mixIns:end -->
 
 

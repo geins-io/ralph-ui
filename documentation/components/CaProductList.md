@@ -11,6 +11,7 @@ A list of product cards<br><br> **SASS-path:** _./styles/components/molecules/ca
 |pageSize|Current page size|`Number`|`true`|-|
 |skip|Current skip|`Number`|`false`|0|
 |productCardType|Type of product card, to be able to display slightly different product cards in different product lists|`String`|`false`|default|
+|productsFetched|Are the products fetched yet?|`Boolean`|`false`|false|
 
 <!-- @vuese:CaProductList:props:end -->
 

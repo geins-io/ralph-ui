@@ -2,6 +2,16 @@
 
 Added to cart notification<br><br> **SASS-path:** _./styles/components/molecules/ca-added-to-cart.scss_
 
+## Props
+
+<!-- @vuese:CaAddedToCart:props:start -->
+|Name|Description|Type|Required|Default|
+|---|---|---|---|---|
+|buttonIcon|-|`String`|`false`|-|
+
+<!-- @vuese:CaAddedToCart:props:end -->
+
+
 ## Methods
 
 <!-- @vuese:CaAddedToCart:methods:start -->

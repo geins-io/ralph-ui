@@ -12,3 +12,24 @@ Widget displaying a product list<br><br> **SASS-path:** _./styles/components/mol
 <!-- @vuese:CaWidgetProductList:props:end -->
 
 
+## Computed
+
+<!-- @vuese:CaWidgetProductList:computed:start -->
+|Computed|Type|Description|From Store|
+|---|---|---|---|
+|take|`Number`|How many products to take|No|
+|loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
+
+<!-- @vuese:CaWidgetProductList:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:CaWidgetProductList:mixIns:start -->
+|MixIn|
+|---|
+|MixListPagination|
+
+<!-- @vuese:CaWidgetProductList:mixIns:end -->
+
+

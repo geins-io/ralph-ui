@@ -18,6 +18,16 @@ A slider used for product sliding or image gallery<br><br> **SASS-path:** _./sty
 <!-- @vuese:CaSlider:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaSlider:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|slideChange|-|-|
+
+<!-- @vuese:CaSlider:events:end -->
+
+
 ## Slots
 
 <!-- @vuese:CaSlider:slots:start -->

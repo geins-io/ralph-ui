@@ -1,3 +1,3 @@
-query getCheckout($orderId: String!) {
-  getCheckout(orderId: $orderId)
+query getCheckout($id: String!, $paymentType: PaymentType!) {
+  getCheckout(id: $id, paymentType: $paymentType)
 }

@@ -7,9 +7,11 @@
     >
       <button
         class="ca-payment-options__option"
-        :class="{ 'ca-payment-options__option--selected': option.isSelected }"
+        :class="{
+          'ca-payment-options__option--selected': option.id === selectedId
+        }"
         type="button"
-        @click="$emit('selection', option.id)"
+        @click="selectOption(option.id)"
       >
         <CaSvgAsset
           class="ca-payment-options__logo"
@@ -39,11 +41,34 @@ export default {
       required: true
     }
   },
-  data: () => ({}),
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {}
+  data: () => ({
+    selectedId: null
+  }),
+  computed: {
+    selectedOption() {
+      return this.options.find(i => i.isSelected);
+    }
+  },
+  watch: {
+    options: {
+      deep: true,
+      handler() {
+        this.setSelected();
+      }
+    }
+  },
+  mounted() {
+    this.setSelected();
+  },
+  methods: {
+    setSelected(id = null) {
+      this.selectedId = id || this.selectedOption?.id;
+    },
+    selectOption(id) {
+      this.setSelected(id);
+      this.$emit('selection', id);
+    }
+  }
 };
 </script>
 <style lang="scss">

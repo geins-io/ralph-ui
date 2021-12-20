@@ -9,6 +9,7 @@
 |alt|The alt text for the product images|`String`|`true`|-|
 |arrowIconName|First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting|`String`|`false`|chevron|
 |showGalleryThumbnails|Display the gallery thumbnails or not|`Boolean`|`false`|true|
+|campaigns|To show campaign badge on image|`Array` /  `Boolean`|`false`|false|
 
 <!-- @vuese:CaProductGallery:props:end -->
 

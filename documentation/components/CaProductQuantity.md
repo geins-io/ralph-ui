@@ -12,6 +12,7 @@ Used to modify quantity of products<br><br> **SASS-path:** _./styles/components/
 |maxQuantity|What is the maximum quantity? Stock status|`Number`|`true`|-|
 |minQuantity|What is the minimum quantity? Default 1|`Number`|`false`|1|
 |threshold|Threshold to stop at and emit event. Used for cart vs product page stock handling|`Number`|`false`|-1|
+|type|Different style types for the counter|`default`, `round`, `stacked`|`false`|default|
 
 <!-- @vuese:CaProductQuantity:props:end -->
 

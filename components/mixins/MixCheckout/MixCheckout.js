@@ -6,6 +6,7 @@ import MixPromiseQueue from 'MixPromiseQueue';
 // @vuese
 // All functionality for the checkout
 // **Data:**<br>
+// debug: `false`<br>
 // cartLoading: `false`<br>
 // checkoutLoading: `false`<br>
 // checkout: `{}`<br>
@@ -15,12 +16,17 @@ import MixPromiseQueue from 'MixPromiseQueue';
 // externalShippingId: `''`,
 // udcValid: `false`
 // paymentId: `vm.$config.defaultPaymentId`
+// updateDelay: 150`
+// updateTimeout: `null`
+// activeElement: `null`
+// frameLoading: `false`
 export default {
   name: 'MixCheckout',
   apollo: {},
   mixins: [MixPromiseQueue],
   props: {},
   data: vm => ({
+    debug: false,
     cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,
@@ -32,7 +38,9 @@ export default {
     udcValid: false,
     paymentId: vm.$config.checkout.defaultPaymentId,
     updateDelay: 150,
-    updateTimeout: null
+    updateTimeout: null,
+    activeElement: null,
+    frameLoading: false
   }),
   computed: {
     // @vuese
@@ -124,33 +132,39 @@ export default {
         })
       ) {
         this.shippingLoading = true;
-        this.createOrUpdateCheckout();
+        this.createOrUpdateCheckout('cart changed');
       }
     }
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
-      this.createOrUpdateCheckout();
+      this.createOrUpdateCheckout('mounted');
     }
     // Refetch checkout on window/tab focus to keep state between windows/tabs
     window.addEventListener('focus', this.focusListener);
+    window.addEventListener('blur', this.blurListener);
   },
   beforeDestroy() {
     window.removeEventListener('focus', this.focusListener);
+    window.removeEventListener('blur', this.blurListener);
   },
   methods: {
     // @vuese
     // Handling the api call for creating an updating the checkout session
-    createOrUpdateCheckout() {
+    createOrUpdateCheckout(reason = 'other') {
       clearTimeout(this.updateTimeout);
       this.updateTimeout = setTimeout(() => {
+        if (this.debug) {
+          // eslint-disable-next-line no-console
+          console.log('createOrUpdateCheckout: ', reason.toUpperCase());
+        }
         this.updateDelay = 150;
         this.checkoutLoading = true;
         if (this.$refs.udc) {
           this.$refs.udc.disable();
         }
-        if (this.$refs.klarna && this.$refs.klarna.frame) {
-          this.$refs.klarna.suspend();
+        if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
+          this.$refs.externalcheckout.suspend();
         }
         const vars = {
           cartId: this.$store.getters['cart/id']
@@ -170,15 +184,16 @@ export default {
               this.checkoutLoading = false;
               this.shippingLoading = false;
               this.cartLoading = false;
+              this.frameLoading = false;
               this.$nextTick(() => {
                 if (this.$refs.udc && this.$refs.udc.widget) {
                   this.$refs.udc.enable();
                 }
-                if (this.$refs.klarna) {
+                if (this.$refs.externalcheckout) {
                   if (this.selectedPaymentOption.newCheckoutSession) {
-                    this.$refs.klarna.initialize();
+                    this.$refs.externalcheckout.initialize();
                   } else {
-                    this.$refs.klarna.resume();
+                    this.$refs.externalcheckout.resume();
                   }
                 }
               });
@@ -270,7 +285,7 @@ export default {
           country: 'SE'
         };
       }
-      this.createOrUpdateCheckout();
+      this.createOrUpdateCheckout('init UDC');
     },
     // @vuese
     // UDC callback handler
@@ -280,22 +295,30 @@ export default {
       this.pickupPoint = data.pickupPoint;
       this.externalShippingId = data.selectedOptionId;
       this.cartLoading = true;
-      this.createOrUpdateCheckout();
+      this.createOrUpdateCheckout('set UDC data');
     },
     // @vuese
     // Handling the payment selection
     // @arg payment id (Number)
     paymentSelectionHandler(id) {
+      this.frameLoading = true;
       this.paymentId = id;
-      this.createOrUpdateCheckout();
+      this.createOrUpdateCheckout('payment selection');
     },
     // @vuese
     // Event listener function for window focus
     focusListener() {
-      if (this.cart.data?.items?.length) {
+      const lastFocused = this.activeElement?.tagName;
+      if (lastFocused !== 'IFRAME' && this.cart.data?.items?.length) {
         this.updateDelay = 1000;
         this.createOrUpdateCheckout('focus');
       }
+      this.activeElement = document.activeElement;
+    },
+    // @vuese
+    // Event listener function for window blur
+    blurListener() {
+      this.activeElement = document.activeElement;
     }
   }
 };

@@ -22,3 +22,13 @@ Function to update the current cart
 <!-- @vuese:MixUpdateCart:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixUpdateCart:mixIns:start -->
+|MixIn|
+|---|
+|MixPromiseQueue|
+
+<!-- @vuese:MixUpdateCart:mixIns:end -->
+
+

@@ -1,6 +1,6 @@
 # MixListPage.js
 
-import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> productList: `[]`<br> totalCount: `0`<br> userSkip: `0`<br> pageSize: `vm.$config.productListPageSize`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> pagingStateSet: `false`
+import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
@@ -50,8 +50,6 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |Computed|Type|Description|From Store|
 |---|---|---|---|
 |skip|`Number`|Current number of products to skip when querying|No|
-|allProductsLoaded|`Boolean`|Are all products loaded?|No|
-|showing|`String`|Returns string of span of products showing right now, for example '10 - 20'|No|
 |filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
 |modifier|`String`|The modifer class for the list page|No|
 |isCategory|`Boolean`|Is this list page of type category?|No|
@@ -79,6 +77,7 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |MixIn|
 |---|
 |MixMetaReplacement|
+|MixListPagination|
 
 <!-- @vuese:MixListPage.js:mixIns:end -->
 
