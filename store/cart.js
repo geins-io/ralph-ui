@@ -32,7 +32,9 @@ export const actions = {
       carts.new.summary.shipping.shippingFeeIncVat !==
         carts.old.summary.shipping.shippingFeeIncVat ||
       carts.new.summary.total.sellingPriceIncVatFormatted !==
-        carts.old.summary.total.sellingPriceIncVatFormatted
+        carts.old.summary.total.sellingPriceIncVatFormatted ||
+      carts.new.summary.shipping.isDefault !==
+        carts.old.summary.shipping.isDefault
     );
   },
   itemsChanged({ state }, carts) {

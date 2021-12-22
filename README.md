@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [8.0.1] - 2021-12-22
+
+### Fixed
+
+- "Estimated shipping fee"-text will now be shown even for customers without a free shipping limit
+
 ## [8.0.0] - 2021-12-20
 
 ### IMPORTANT
