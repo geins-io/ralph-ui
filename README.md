@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [8.1.1] - 2021-12-28
+
+### Changed
+
+- Widget areas are now using alias-based filters. This makes it possible to show the widget areas before listInfo has been fetched
+
+### Removed
+
+- Removed categoryId and brandId from product page graphql query, since they wont be needed anymore
+
 ## [8.0.1] - 2021-12-22
 
 ### Fixed

@@ -13,14 +13,12 @@ query product($alias: String!) {
       name
       alias
       canonicalUrl
-      brandId
     }
     images
     primaryCategory {
       name
       alias
       canonicalUrl
-      categoryId
     }
     unitPrice {
       sellingPriceIncVat

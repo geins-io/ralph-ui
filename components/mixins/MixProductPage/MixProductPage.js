@@ -87,18 +87,18 @@ export default {
 
       if (this.product) {
         const categoryObj = {};
-        categoryObj.key = 'CategoryId';
-        categoryObj.value = this.product.primaryCategory.categoryId.toString();
+        categoryObj.key = 'Category';
+        categoryObj.value = this.product.primaryCategory.alias;
         filtersArray.push(categoryObj);
 
         const brandObj = {};
-        brandObj.key = 'BrandId';
-        brandObj.value = this.product.brand.brandId.toString();
+        brandObj.key = 'Brand';
+        brandObj.value = this.product.brand.alias;
         filtersArray.push(brandObj);
 
         const productObj = {};
-        productObj.key = 'ProductId';
-        productObj.value = this.product.productId.toString();
+        productObj.key = 'Product';
+        productObj.value = this.prodAlias;
         filtersArray.push(productObj);
       }
 

@@ -207,6 +207,12 @@ export default {
       return this.type === 'brand';
     },
     // @vuese
+    // Is this list page of type discountCampaign?
+    // @type Boolean
+    isCampaign() {
+      return this.type === 'discountCampaign';
+    },
+    // @vuese
     // Is this list page of type search?
     // @type Boolean
     isSearch() {
@@ -336,16 +342,17 @@ export default {
     // @type Array
     widgetAreaFilters() {
       const filtersArray = [];
-      const filterObj = {};
-      if (this.isCategory && this.listInfo) {
-        filterObj.key = 'CategoryId';
-        filterObj.value = this.listInfo.id.toString();
-        filtersArray.push(filterObj);
-      } else if (this.isBrand && this.listInfo) {
-        filterObj.key = 'BrandId';
-        filterObj.value = this.listInfo.id.toString();
-        filtersArray.push(filterObj);
+      const filterObj = {
+        value: this.currentAlias
+      };
+      if (this.isCategory) {
+        filterObj.key = 'Category';
+      } else if (this.isBrand) {
+        filterObj.key = 'Brand';
+      } else if (this.isCampaign) {
+        filterObj.key = 'Campaign';
       }
+      filtersArray.push(filterObj);
       return filtersArray;
     },
     // @vuese
