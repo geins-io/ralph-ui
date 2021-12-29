@@ -14,6 +14,7 @@
         @click="selectOption(option.id)"
       >
         <CaSvgAsset
+          v-if="option.logo"
           class="ca-payment-options__logo"
           folder="logos"
           :filename="option.logo"

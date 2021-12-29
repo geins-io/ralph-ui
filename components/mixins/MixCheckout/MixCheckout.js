@@ -37,6 +37,7 @@ export default {
     externalShippingId: '',
     udcValid: false,
     paymentId: vm.$config.checkout.defaultPaymentId,
+    shippingId: vm.$config.checkout.defaultShippingId,
     updateDelay: 150,
     updateTimeout: null,
     activeElement: null,
@@ -56,6 +57,9 @@ export default {
       const obj = {};
       if (this.paymentId) {
         obj.paymentId = this.paymentId;
+      }
+      if (this.shippingId) {
+        obj.shippingId = this.shippingId;
       }
       if (this.checkout.billingAddress) {
         obj.billingAddress = this.checkout.billingAddress;

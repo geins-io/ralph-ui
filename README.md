@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [9.0.0] - 2021-12-29
+
+### Added
+
+- Added config for default shipping id in checkout
+
 ## [8.1.1] - 2021-12-28
 
 ### Changed
