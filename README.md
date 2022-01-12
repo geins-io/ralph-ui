@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [9.0.1] - 2021-01-12
+
+### Fixed
+
+- Null check for products in search
+
 ## [9.0.0] - 2021-12-29
 
 ### Added

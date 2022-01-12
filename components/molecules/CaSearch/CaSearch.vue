@@ -375,7 +375,7 @@ export default {
             }
           })
           .then(result => {
-            this.products = result.data.products.products;
+            this.products = result?.data?.products?.products || [];
             this.loading = false;
             if (this.searchResultsExist) {
               this.totalResults = result.data.products.count;
