@@ -9,14 +9,15 @@ export default {
     productsData() {
       return this.orderCart?.items.map(item => {
         return {
-          id: item.product.productId,
-          name: item.product.name,
-          brand: item.product.brand.name,
-          category: item.product.primaryCategory.name,
+          item_id: item.product.productId,
+          item_name: item.product.name,
+          item_brand: item.product.brand.name,
+          item_category: item.product.primaryCategory.name,
           price: item.unitPrice.sellingPriceExVat,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
-          variant: item.product.skus.find(i => i.skuId === item.skuId).name,
+          item_variant: item.product.skus.find(i => i.skuId === item.skuId)
+            .name,
           sku: item.skuId
           // velocity: "EncryptMargin(item.UnitPriceExVat, item.PurchasePrice).ToString('0.0000', CultureInfo.InvariantCulture)" //Backendmagi
         };
@@ -35,8 +36,11 @@ export default {
             purchase: {
               actionField: {
                 id: this.$route.query.oid,
-                revenue: this.orderCart.summary.subTotal.sellingPriceExVat,
-                tax: this.orderCart.summary.subTotal.vat,
+                revenue: this.orderCart.summary.subTotal.sellingPriceIncVat,
+                tax:
+                  this.orderCart.summary.subTotal.vat +
+                  this.orderCart.summary.shipping.feeIncVat -
+                  this.orderCart.summary.shipping.feeExVat,
                 shipping: this.orderCart.summary.shipping.feeExVat,
                 shippingTax:
                   this.orderCart.summary.shipping.feeIncVat -
