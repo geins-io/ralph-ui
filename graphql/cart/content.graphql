@@ -58,6 +58,7 @@ fragment Cart on CartType {
       sellingPriceIncVatFormatted
       sellingPriceExVatFormatted
       sellingPriceExVat
+      sellingPriceIncVat
       vat
     }
     shipping {
@@ -73,11 +74,13 @@ fragment Cart on CartType {
       isDiscounted
       sellingPriceIncVatFormatted
       sellingPriceExVatFormatted
+      sellingPriceIncVat
       discountIncVatFormatted
       discountExVatFormatted
       discountExVat
       discountIncVat
       vatFormatted
+      vat
     }
   }
 }

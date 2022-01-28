@@ -36,11 +36,8 @@ export default {
             purchase: {
               actionField: {
                 id: this.$route.query.oid,
-                revenue: this.orderCart.summary.subTotal.sellingPriceIncVat,
-                tax:
-                  this.orderCart.summary.subTotal.vat +
-                  this.orderCart.summary.shipping.feeIncVat -
-                  this.orderCart.summary.shipping.feeExVat,
+                revenue: this.orderCart.summary.total.sellingPriceIncVat,
+                tax: this.orderCart.summary.total.vat,
                 shipping: this.orderCart.summary.shipping.feeExVat,
                 shippingTax:
                   this.orderCart.summary.shipping.feeIncVat -
