@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [9.1.1] - 2021-01-28
+
+### Fixed
+
+- Corrected the data layer variables to match the google analytics API
+
 ## [9.0.1] - 2021-01-12
 
 ### Fixed
