@@ -3,7 +3,6 @@ import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/list-products.graphql';
 import { mapState } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
-// import filtersQuery from 'productlist/products-filter.graphql';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>

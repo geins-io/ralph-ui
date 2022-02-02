@@ -1,5 +1,7 @@
 # CaCheckoutCarismar
 
+The Carismar Checkout frame. Used for paying with manual invoice or external payment options<br><br> **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
+
 ## Props
 
 <!-- @vuese:CaCheckoutCarismar:props:start -->

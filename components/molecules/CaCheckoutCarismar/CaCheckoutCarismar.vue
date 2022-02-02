@@ -349,11 +349,11 @@
   </div>
 </template>
 <script>
+import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
 // The Carismar Checkout frame. Used for paying with manual invoice or external payment options<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
-import SlideUpDown from 'vue-slide-up-down';
 export default {
   name: 'CaCheckoutCarismar',
   components: { SlideUpDown },

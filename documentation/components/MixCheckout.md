@@ -1,6 +1,6 @@
 # MixCheckout
 
-All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null`
+All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null` frameLoading: `false`
 
 ## Methods
 

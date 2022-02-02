@@ -1,4 +1,4 @@
-// @group mixins
+// @group Mixins
 // @vuese
 // Methods for queueing promises
 export default {

@@ -84,11 +84,11 @@
   </div>
 </template>
 <script>
+import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
+import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 // @group Molecules
 // The product page gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
-import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
-import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 export default {
   name: 'CaProductGallery',
   components: {

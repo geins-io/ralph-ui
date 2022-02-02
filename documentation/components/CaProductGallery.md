@@ -1,5 +1,7 @@
 # CaProductGallery
 
+The product page gallery<br><br> **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
+
 ## Props
 
 <!-- @vuese:CaProductGallery:props:start -->

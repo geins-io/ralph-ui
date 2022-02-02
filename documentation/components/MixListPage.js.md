@@ -1,6 +1,6 @@
 # MixListPage.js
 
-import filtersQuery from 'productlist/products-filter.graphql'; All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
+All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
@@ -54,6 +54,7 @@ import filtersQuery from 'productlist/products-filter.graphql'; All functionalit
 |modifier|`String`|The modifer class for the list page|No|
 |isCategory|`Boolean`|Is this list page of type category?|No|
 |isBrand|`Boolean`|Is this list page of type brand?|No|
+|isCampaign|`Boolean`|Is this list page of type discountCampaign?|No|
 |isSearch|`Boolean`|Is this list page of type search?|No|
 |isAll|`Boolean`|Is this list page of type all?|No|
 |selection|`Object`|Current selection|No|

@@ -1,4 +1,3 @@
-# Ralph-UI
+# Ralph UI Documentation
 
-This is a description of the Project.
-To find documentation on how to document with Vuese, [go here](https://vuese.org/cli/#writing-documentation-for-your-component)
+Welcome to the documentation of Ralph UI, the component library for Ralph Storfront.

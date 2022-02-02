@@ -35,7 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [9.1.1] - 2021-01-28
+## [9.1.3] - 2021-02-02
+
+### Fixed
+
+- Fixes for documentation
+
+## [9.1.2] - 2021-01-28
 
 ### Fixed
 
