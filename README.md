@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [9.1.4] - 2021-02-02
+
+### Fixed
+
+- Order ID fallback for purchase data layer
+
 ## [9.1.3] - 2021-02-02
 
 ### Fixed
