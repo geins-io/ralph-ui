@@ -35,7 +35,7 @@ export default {
             currencyCode: 'SEK',
             purchase: {
               actionField: {
-                id: this.$route.query.oid,
+                id: this.$route.query.oid || this.$route.query.cartid,
                 revenue: this.orderCart.summary.total.sellingPriceIncVat,
                 tax: this.orderCart.summary.total.vat,
                 shipping: this.orderCart.summary.shipping.feeExVat,
