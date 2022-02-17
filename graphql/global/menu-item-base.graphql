@@ -1,0 +1,11 @@
+#import "global/menu-item.graphql"
+
+fragment MenuItemBase on MenuItemType {
+  children {
+    children {
+      ...MenuItem
+    }
+    ...MenuItem
+  }
+  ...MenuItem
+}

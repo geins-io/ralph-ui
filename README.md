@@ -35,6 +35,21 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [9.2.0] - 2021-02-17
+
+### Added
+
+- Dynamic navigation components for top bar, footer, header and panel
+- Mixin for menus
+
+### Changed
+
+- Moved categories endpoint call to MixGlobalInit. Recommended to remove it from CaHeader with this update
+
+### Deprecated
+
+- CaNavigationSlim is replaced by CaPanelNavigation and can be removed when all customers are using the new menu system
+
 ## [9.1.4] - 2021-02-02
 
 ### Fixed

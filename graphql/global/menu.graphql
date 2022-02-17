@@ -1,0 +1,9 @@
+#import "global/menu-item-base.graphql"
+query getMenuAtLocation($menuLocationId: String) {
+  getMenuAtLocation(menuLocationId: $menuLocationId) {
+    title
+    menuItems {
+      ...MenuItemBase
+    }
+  }
+}

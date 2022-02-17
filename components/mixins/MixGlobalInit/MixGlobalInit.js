@@ -1,4 +1,5 @@
 import getCartQuery from 'cart/get.graphql';
+import categoriesQuery from 'global/categories.graphql';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 // @group Mixins
@@ -27,6 +28,21 @@ export default {
           !!this.$route?.name?.includes('checkout') &&
           this.$store.getters['cart/id'] !== ''
         );
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+    categories: {
+      query: categoriesQuery,
+      result(result) {
+        if (result.data && result.data.categories) {
+          this.$store.commit('setCategoryTree', result.data.categories);
+        }
+      },
+      skip() {
+        return this.$store.state.categoryTree.length > 0;
       },
       error(error) {
         // eslint-disable-next-line no-console

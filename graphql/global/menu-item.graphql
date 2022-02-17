@@ -1,0 +1,9 @@
+fragment MenuItem on MenuItemType {
+  id
+  label
+  targetBlank
+  type
+  order
+  title
+  canonicalUrl
+}

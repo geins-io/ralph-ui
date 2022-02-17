@@ -1,27 +1,29 @@
 .ca-accordion-item {
-  border-bottom: $border-light;
-  &__toggle-wrap {
-    width: 100%;
-    text-align: left;
-  }
-  &__toggle {
-    outline: none;
-    width: 100%;
-    padding: $px16;
-    display: block;
-    font-size: $font-size-m;
-    font-weight: $font-weight-bold;
-  }
-  &__icon-wrap.ca-icon-and-text {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .ca-icon {
-      font-size: 20px;
-    }
-  }
+  $block: &;
   &__content {
-    max-height: 2000px;
     overflow: hidden;
+  }
+  &--styled {
+    border-bottom: $border-light;
+    #{$block}__toggle-wrap {
+      width: 100%;
+      text-align: left;
+    }
+    #{$block}__toggle {
+      outline: none;
+      width: 100%;
+      padding: $px16;
+      display: block;
+      font-size: $font-size-m;
+      font-weight: $font-weight-bold;
+    }
+    #{$block}__icon-wrap.ca-icon-and-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .ca-icon {
+        font-size: 20px;
+      }
+    }
   }
 }

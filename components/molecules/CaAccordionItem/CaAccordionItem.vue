@@ -1,5 +1,9 @@
 <template>
-  <component :is="baseTag" class="ca-accordion-item">
+  <component
+    :is="baseTag"
+    class="ca-accordion-item"
+    :class="{ 'ca-accordion-item--styled': styled }"
+  >
     <CaClickable
       class="ca-accordion-item__toggle-wrap"
       @clicked="toggleClickHandler"
@@ -58,6 +62,12 @@ export default {
     iconClosed: {
       type: String,
       default: 'plus'
+    },
+    // Should it come with pre-defined style or none
+    styled: {
+      type: Boolean,
+      // `true`
+      default: true
     }
   },
   data: () => ({

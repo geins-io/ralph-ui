@@ -11,6 +11,7 @@ Toggle content by clicking parent<br><br> **SASS-path:** _./styles/components/mo
 |baseTag|Html tag for wrapper|`String`|`false`|div|
 |iconOpen|Icon name for when accordion is open|`String`|`false`|minus|
 |iconClosed|Icon name for when accordion is open|`String`|`false`|plus|
+|styled|Should it come with pre-defined style or none|`Boolean`|`false`|`true`|
 
 <!-- @vuese:CaAccordionItem:props:end -->
 
