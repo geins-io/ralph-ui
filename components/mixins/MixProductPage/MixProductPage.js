@@ -160,6 +160,11 @@ export default {
       if (this.quantity > val) {
         this.quantity = val;
       }
+    },
+    // @vuese
+    // Watching prodAlias to fetch request when alias state change
+    prodAlias() {
+      this.isInitialRequest = true;
     }
   },
   mounted() {
