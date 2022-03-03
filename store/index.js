@@ -116,6 +116,14 @@ export const actions = {
     commit('setCustomerType', typeObj.type);
     commit('setVatIncluded', typeObj.vat);
   },
+  setCustomerTypeCookie({ state }, customerType) {
+    if (customerType) {
+      this.$cookies.set('ralph-user-type', customerType, {
+        path: '/',
+        maxAge: 604800
+      });
+    }
+  },
   nuxtServerInit({ commit, dispatch, getters }, { req, route, app }) {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'

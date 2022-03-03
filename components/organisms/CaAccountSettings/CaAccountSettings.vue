@@ -31,7 +31,7 @@
           </h3>
           <p class="ca-account-settings__setting-value">
             {{ $t('CUSTOMER_TYPE_' + user.customerType) }} ({{
-              getVatDisplay(currentType.vat)
+              getVatDisplay(currentUserType.vat)
             }})
           </p>
         </div>
@@ -40,7 +40,7 @@
     <CaAccountSettingsBlock
       ref="settingsUser"
       :title="
-        isOrganization
+        userIsOrganization
           ? $t('ACCOUNT_ORGANIZATION_INFO_TITLE')
           : $t('ACCOUNT_USER_INFO_TITLE')
       "
@@ -69,11 +69,11 @@
           id="personalId"
           v-model="userData.personalId"
           :required="false"
-          :validate="isOrganization ? '' : 'personalId'"
+          :validate="userIsOrganization ? '' : 'personalId'"
           :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="
-            isOrganization
+            userIsOrganization
               ? $t('LABEL_ORGANIZATION_ID')
               : $t('LABEL_PERSONAL_ID')
           "
@@ -84,7 +84,7 @@
         >
           <h3 class="ca-account-settings__setting-label">
             {{
-              isOrganization
+              userIsOrganization
                 ? $t('LABEL_ORGANIZATION_ID')
                 : $t('LABEL_PERSONAL_ID')
             }}
@@ -100,14 +100,17 @@
         </div>
 
         <CaInputText
-          v-if="editMode && isOrganization"
+          v-if="editMode && userIsOrganization"
           id="company"
           v-model="userData.address.company"
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_COMPANY')"
         />
-        <div v-else class="ca-account-settings__setting">
+        <div
+          v-else-if="userIsOrganization"
+          class="ca-account-settings__setting"
+        >
           <h3 class="ca-account-settings__setting-label">
             {{ $t('LABEL_COMPANY') }}
           </h3>
@@ -438,12 +441,12 @@ export default {
     customerTypes() {
       return this.$config.customerTypes;
     },
-    currentType() {
+    currentUserType() {
       const type = this.$store.state.customerType;
-      return this.$config.customerTypes.find(i => i.type === type);
+      return this.customerTypes.find(i => i.type === type);
     },
-    isOrganization() {
-      return this.currentType.type === 'ORGANIZATION';
+    userIsOrganization() {
+      return this.currentUserType.type === 'ORGANIZATION';
     }
   },
   watch: {
@@ -480,10 +483,11 @@ export default {
               this.userData.customerType
             );
             this.$cookies.remove('ralph-user-type');
-            this.$cookies.set('ralph-user-type', this.userData.customerType, {
-              path: '/',
-              maxAge: 604800
-            });
+            this.$store.dispatch(
+              'setCustomerTypeCookie',
+              this.userData.customerType
+            );
+
             this.$emit('save', this.userData);
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('ACCOUNT_SAVE_FEEDBACK'),

@@ -298,7 +298,8 @@ export default {
           city: '',
           entryCode: '',
           mobile: '',
-          country: 'SE'
+          country: 'SE',
+          company: ''
         };
       }
       this.createOrUpdateCheckout('init UDC');

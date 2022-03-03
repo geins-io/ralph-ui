@@ -299,17 +299,6 @@ export default {
       }, 1000);
     },
     // @vuese
-    // Set a cookie with the customers type
-    // @arg Customer type (String)
-    setCustomerTypeCookie(customerType) {
-      if (customerType) {
-        this.$cookies.set('ralph-user-type', customerType, {
-          path: '/',
-          maxAge: 604800
-        });
-      }
-    },
-    // @vuese
     // Log in action
     async login() {
       this.loading = true;
@@ -330,7 +319,7 @@ export default {
                 if (!result.errors) {
                   const type = result.data?.getUser?.customerType;
                   this.$store.dispatch('changeCustomerType', type);
-                  this.setCustomerTypeCookie(type);
+                  this.$store.dispatch('setCustomerTypeCookie', type);
 
                   this.loading = false;
                   this.closePanelAfterDelay('account-orders');
@@ -386,7 +375,10 @@ export default {
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
                 if (this.$config.customerTypesToggle) {
-                  this.setCustomerTypeCookie(this.$store.state.customerType);
+                  this.$store.dispatch(
+                    'setCustomerTypeCookie',
+                    this.$store.state.customerType
+                  );
                 }
               } else {
                 this.showFeedback(this.feedback.error);

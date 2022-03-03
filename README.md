@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.2] - 2021-03-03
+
+### Fixed
+
+- Moved setCustomerTypeCookie to store
+- Changed currentUserType i account page to referance saved user
+
 ## [10.0.1] - 2021-03-03
 
 ### Fixed
