@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.1] - 2021-03-03
+
+### Fixed
+
+- Fixed broken variant picker
+
 ## [10.0.0] - 2021-03-03
 
 This update requires a few updates of your storefront repo to work properly. You can use the update of the Ralph repo to 10.0.0 as a reference/merge it into your storefront.
