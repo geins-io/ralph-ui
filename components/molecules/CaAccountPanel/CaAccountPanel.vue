@@ -157,6 +157,7 @@
 <script>
 import { mapState } from 'vuex';
 import registerMutation from 'user/register.graphql';
+import getUserQuery from 'user/get.graphql';
 import requestPasswordResetMutation from 'user/pw-reset-request.graphql';
 
 // @group Molecules
@@ -298,6 +299,17 @@ export default {
       }, 1000);
     },
     // @vuese
+    // Set a cookie with the customers type
+    // @arg Customer type (String)
+    setCustomerTypeCookie(customerType) {
+      if (customerType) {
+        this.$cookies.set('ralph-user-type', customerType, {
+          path: '/',
+          maxAge: 604800
+        });
+      }
+    },
+    // @vuese
     // Log in action
     async login() {
       this.loading = true;
@@ -307,9 +319,35 @@ export default {
       ) {
         await this.$store.dispatch('auth/login', this.credentials);
         if (this.$store.getters['auth/authenticated']) {
-          this.loading = false;
-          this.closePanelAfterDelay('account-orders');
-          this.showFeedback(this.feedback.loggedIn);
+          if (this.$config.customerTypesToggle) {
+            this.$apollo
+              .query({
+                query: getUserQuery,
+                errorPolicy: 'all',
+                fetchPolicy: 'no-cache'
+              })
+              .then(result => {
+                if (!result.errors) {
+                  const type = result.data?.getUser?.customerType;
+                  this.$store.dispatch('changeCustomerType', type);
+                  this.setCustomerTypeCookie(type);
+
+                  this.loading = false;
+                  this.closePanelAfterDelay('account-orders');
+                  this.showFeedback(this.feedback.loggedIn);
+                } else {
+                  this.showFeedback(this.feedback.error);
+                }
+              })
+              .catch(error => {
+                // eslint-disable-next-line no-console
+                console.log(error);
+              });
+          } else {
+            this.loading = false;
+            this.closePanelAfterDelay('account-orders');
+            this.showFeedback(this.feedback.loggedIn);
+          }
         } else {
           this.loading = false;
           this.showFeedback(this.feedback.wrongCredentials);
@@ -335,7 +373,8 @@ export default {
               mutation: registerMutation,
               variables: {
                 user: {
-                  newsletter: this.newsletterSubscribe
+                  newsletter: this.newsletterSubscribe,
+                  customerType: this.$store.state.customerType
                 }
               },
               errorPolicy: 'all',
@@ -346,6 +385,9 @@ export default {
               if (!result.errors) {
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
+                if (this.$config.customerTypesToggle) {
+                  this.setCustomerTypeCookie(this.$store.state.customerType);
+                }
               } else {
                 this.showFeedback(this.feedback.error);
               }

@@ -44,6 +44,9 @@ export default {
     },
     regularPrice() {
       return this.$store.getters.getRegularPrice(this.price);
+    },
+    vatIncluded() {
+      return this.$store.state.vatIncluded;
     }
   },
   watch: {},

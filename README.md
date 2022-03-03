@@ -35,6 +35,23 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.0] - 2021-03-03
+
+This update requires a few updates of your storefront repo to work properly. You can use the update of the Ralph repo to 10.0.0 as a reference/merge it into your storefront.
+
+### Added
+
+- Customer types toggle
+- Customer type handling for user
+- Price inc/ex VAT handling
+- Customer type filter for widget areas
+
+### Changed
+
+- Combined API calls for PLP
+- Combined API calls for PDP
+- Updated cart handling including broadcast between tabs
+
 ## [9.2.0] - 2021-02-17
 
 ### Added

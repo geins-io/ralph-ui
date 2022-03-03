@@ -9,7 +9,9 @@
     </li>
   </ul>
   <div v-else class="ca-campaigns ca-campaigns--box">
-    <h3 class="ca-campaigns__title">Aktiverade kampanjer</h3>
+    <h3 class="ca-campaigns__title">
+      {{ $t('CHECKOUT_ACTIVE_CAMPAIGNS') }}
+    </h3>
     <ul class="ca-campaigns__list">
       <li
         v-for="(campaign, index) in visibleCampaigns"

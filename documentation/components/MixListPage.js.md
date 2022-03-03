@@ -1,6 +1,6 @@
 # MixListPage.js
 
-All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
+All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `true`<br> initVariables: `{}`<br> baseFilters: `{}`<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
@@ -10,7 +10,7 @@ All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort
 |type|Type of list page|'category', 'brand', 'search', 'favorites', 'all'|`false`|-|
 |infoQuery|Graphql for the listPageInfo query|`Object`|`true`|-|
 |currentAlias|Current alias for the page|`String`|`true`|-|
-|baseFilters|All filters for this list page before filtering is done|`Object`|`true`|-|
+|filtersVars|Base filters for this page|`Object`|`false`|{}|
 |implicitFacets|Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.|`Array`|`false`|[]|
 
 <!-- @vuese:MixListPage.js:props:end -->
@@ -49,6 +49,7 @@ All functionality for the list page<br><br> **Data:**<br> userSkip: `0`<br> sort
 <!-- @vuese:MixListPage.js:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|filtersLoaded|`Boolean`|Status of loading filters state|No|
 |skip|`Number`|Current number of products to skip when querying|No|
 |filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
 |modifier|`String`|The modifer class for the list page|No|

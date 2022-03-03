@@ -1,5 +1,7 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import productQuery from 'product/product.graphql';
+import widgetAreaQuery from 'global/widget-area.graphql';
+import combineQuery from 'graphql-combine-query';
 // @group Mixins
 // @vuese
 // All functionality for the product page<br><br>
@@ -34,23 +36,54 @@ export default {
   },
   apollo: {
     product: {
-      query: productQuery,
-      variables() {
-        return {
-          alias: this.prodAlias
+      query() {
+        let finishQuery = {
+          document: productQuery,
+          variables: {
+            alias: this.prodAlias
+          }
         };
+
+        if (this.widgetAreaVars) {
+          finishQuery = combineQuery('withAreaCombined')
+            .add(finishQuery.document, finishQuery.variables)
+            .addN(
+              widgetAreaQuery,
+              this.widgetAreaVars.map(item => ({
+                ...item,
+                filters: this.widgetAreaFilters
+              }))
+            );
+        }
+
+        this.initVariables = finishQuery.variables;
+        return finishQuery.document;
       },
-      result() {
+      variables() {
+        return this.initVariables;
+      },
+      result(result) {
         if (!this.product && !process.server) {
           this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
           this.$store.dispatch('redirect404');
         }
+
         if (!this.hasSkuVariants) {
           this.setDefaultSku();
         } else if (this.skuIsChosen && !this.chosenSkuVariant) {
           this.resetSku();
         }
+
+        const { product, ...widgetAreaInfo } = result.data;
+
+        if (this.widgetAreaVars) {
+          this.widgetData = widgetAreaInfo;
+          this.isInitialRequest = false;
+        }
         this.$store.dispatch('loading/end');
+      },
+      skip() {
+        return !this.isInitialRequest;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -61,7 +94,10 @@ export default {
   data: () => ({
     quantity: 1,
     replaceAlias: null,
-    currentNotifyVariant: {}
+    currentNotifyVariant: {},
+    initVariables: {},
+    widgetData: {},
+    isInitialRequest: true
   }),
   computed: {
     // @vuese

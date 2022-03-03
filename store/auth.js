@@ -90,6 +90,7 @@ export const actions = {
       this.$cookies.remove('ralph-auth');
       this.$cookies.remove('ralph-user');
       this.$cookies.remove('ralph-user-maxage');
+      this.$cookies.remove('ralph-user-type');
     }
   }
 };

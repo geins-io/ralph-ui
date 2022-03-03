@@ -1,5 +1,6 @@
 <template>
   <CaAccordionItem
+    v-if="menu"
     class="ca-footer-navigation-accordion"
     :icon-closed="iconClosed"
     :icon-open="iconOpen"

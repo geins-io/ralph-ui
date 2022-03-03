@@ -11,6 +11,7 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 |createAccountHandler|Decides what action the create account button should have (different in different frames)|-|
 |showFeedback|Show feedback|Feedback (Object)|
 |closePanelAfterDelay|Closes panel after a delay of 1000 ms|-|
+|setCustomerTypeCookie|Set a cookie with the customers type|Customer type (String)|
 |login|Log in action|-|
 |createAccount|Create account action|-|
 |resetPassword|Reset password action|-|

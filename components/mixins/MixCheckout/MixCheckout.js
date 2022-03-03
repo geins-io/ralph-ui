@@ -22,7 +22,6 @@ import MixPromiseQueue from 'MixPromiseQueue';
 // frameLoading: `false`
 export default {
   name: 'MixCheckout',
-  apollo: {},
   mixins: [MixPromiseQueue],
   props: {},
   data: vm => ({
@@ -55,6 +54,10 @@ export default {
     // @type Object
     checkoutInput() {
       const obj = {};
+
+      if (this.$config.customerTypesToggle) {
+        obj.customerType = this.$store.state.customerType;
+      }
       if (this.paymentId) {
         obj.paymentId = this.paymentId;
       }
@@ -125,7 +128,7 @@ export default {
     paymentType() {
       return this.selectedPaymentOption?.paymentType;
     },
-    ...mapState(['cart'])
+    ...mapState(['cart', 'customerType'])
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
@@ -137,6 +140,15 @@ export default {
       ) {
         this.shippingLoading = true;
         this.createOrUpdateCheckout('cart changed');
+      }
+    },
+    customerType(newVal, oldVal) {
+      if (newVal !== oldVal && this.$config.customerTypesToggle) {
+        this.shippingLoading = true;
+        this.cartLoading = true;
+        this.checkoutLoading = true;
+        this.frameLoading = true;
+        this.createOrUpdateCheckout('customer type changed');
       }
     }
   },

@@ -1,8 +1,49 @@
 <template>
   <div class="ca-account-settings">
     <CaAccountSettingsBlock
+      v-if="$config.customerTypesToggle"
+      ref="settingsAccount"
+      :title="$t('ACCOUNT_ACCOUNT_SETTINGS_TITLE')"
+      :loading="loading"
+      @save="saveUser($refs.settingsAccount)"
+    >
+      <template #content="{editMode}">
+        <div
+          v-if="editMode"
+          class="ca-account-settings__setting ca-account-settings__setting--edit"
+        >
+          <h3
+            class="ca-account-settings__setting-label ca-account-settings__setting-label--edit"
+          >
+            {{ $t('LABEL_CUSTOMER_TYPE') }}
+          </h3>
+          <CaInputRadio
+            v-for="(type, index) in customerTypes"
+            :key="index"
+            v-model="userData.customerType"
+            :label="$t('CUSTOMER_TYPE_' + type.type)"
+            :value="type.type"
+          />
+        </div>
+        <div v-else class="ca-account-settings__setting">
+          <h3 class="ca-account-settings__setting-label">
+            {{ $t('LABEL_CUSTOMER_TYPE') }}
+          </h3>
+          <p class="ca-account-settings__setting-value">
+            {{ $t('CUSTOMER_TYPE_' + user.customerType) }} ({{
+              getVatDisplay(currentType.vat)
+            }})
+          </p>
+        </div>
+      </template>
+    </CaAccountSettingsBlock>
+    <CaAccountSettingsBlock
       ref="settingsUser"
-      :title="$t('ACCOUNT_USER_INFO_TITLE')"
+      :title="
+        isOrganization
+          ? $t('ACCOUNT_ORGANIZATION_INFO_TITLE')
+          : $t('ACCOUNT_USER_INFO_TITLE')
+      "
       :loading="loading"
       @save="saveUser($refs.settingsUser)"
     >
@@ -28,17 +69,25 @@
           id="personalId"
           v-model="userData.personalId"
           :required="false"
-          validate="personalId"
+          :validate="isOrganization ? '' : 'personalId'"
           :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
-          :label="$t('LABEL_PERSONAL_ID')"
+          :label="
+            isOrganization
+              ? $t('LABEL_ORGANIZATION_ID')
+              : $t('LABEL_PERSONAL_ID')
+          "
         />
         <div
           v-else-if="$config.checkout.identityNumber"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
-            {{ $t('LABEL_PERSONAL_ID') }}
+            {{
+              isOrganization
+                ? $t('LABEL_ORGANIZATION_ID')
+                : $t('LABEL_PERSONAL_ID')
+            }}
           </h3>
           <p
             class="ca-account-settings__setting-value"
@@ -49,6 +98,30 @@
             {{ user.personalId || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
           </p>
         </div>
+
+        <CaInputText
+          v-if="editMode && isOrganization"
+          id="company"
+          v-model="userData.address.company"
+          :required="false"
+          class="ca-account-settings__setting ca-account-settings__setting--edit"
+          :label="$t('LABEL_COMPANY')"
+        />
+        <div v-else class="ca-account-settings__setting">
+          <h3 class="ca-account-settings__setting-label">
+            {{ $t('LABEL_COMPANY') }}
+          </h3>
+          <p
+            class="ca-account-settings__setting-value"
+            :class="{
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .company
+            }"
+          >
+            {{ user.address.company || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
+          </p>
+        </div>
+
         <CaInputText
           v-if="editMode"
           id="firstname"
@@ -361,6 +434,16 @@ export default {
         delete address.__typename;
       }
       return address;
+    },
+    customerTypes() {
+      return this.$config.customerTypes;
+    },
+    currentType() {
+      const type = this.$store.state.customerType;
+      return this.$config.customerTypes.find(i => i.type === type);
+    },
+    isOrganization() {
+      return this.currentType.type === 'ORGANIZATION';
     }
   },
   watch: {
@@ -381,7 +464,8 @@ export default {
             user: {
               address: this.addressInput,
               gender: this.userData.gender,
-              personalId: this.userData.personalId
+              personalId: this.userData.personalId,
+              customerType: this.userData.customerType
             }
           },
           errorPolicy: 'all',
@@ -391,6 +475,15 @@ export default {
           this.loading = false;
           if (!result.errors) {
             this.userData = result.data.updateUser;
+            this.$store.dispatch(
+              'changeCustomerType',
+              this.userData.customerType
+            );
+            this.$cookies.remove('ralph-user-type');
+            this.$cookies.set('ralph-user-type', this.userData.customerType, {
+              path: '/',
+              maxAge: 604800
+            });
             this.$emit('save', this.userData);
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
@@ -453,6 +546,12 @@ export default {
           // eslint-disable-next-line no-console
           console.log(error);
         });
+    },
+    // @vuese
+    // Get label for toggle
+    // @arg Boolean
+    getVatDisplay(vat) {
+      return vat ? this.$t('INC_VAT') : this.$t('EX_VAT');
     }
   }
 };

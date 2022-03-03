@@ -1,8 +1,10 @@
+import getCartQuery from 'cart/get.graphql';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
   favorites: [],
-  VATincluded: true,
+  customerType: 'PERSON',
+  vatIncluded: true,
   scrollTop: 0,
   viewportWidth: 0,
   hostname: '',
@@ -20,8 +22,11 @@ export const mutations = {
       favorites.push(prodAlias);
     }
   },
-  setVATincluded(state, vatincluded) {
-    state.VATincluded = vatincluded;
+  setCustomerType(state, type) {
+    state.customerType = type;
+  },
+  setVatIncluded(state, vatIncluded) {
+    state.vatIncluded = vatIncluded;
   },
   setScrollTop(state) {
     state.scrollTop = window.pageYOffset;
@@ -38,6 +43,7 @@ export const mutations = {
     state.config.signEndpoint = config.signEndpoint;
     state.config.siteTopThreshold = config.siteTopThreshold;
     state.config.productListDefaultSort = config.productListDefaultSort;
+    state.config.customerTypes = config.customerTypes;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -102,7 +108,15 @@ export const actions = {
     const url = window.location.origin + '/404';
     window.location.replace(url);
   },
-  nuxtServerInit({ commit, dispatch }, { req, context, route }) {
+  changeCustomerType({ state, commit }, type) {
+    const currentType = type ?? 'PERSON';
+    const typeObj = state.config.customerTypes.find(
+      i => i.type === currentType
+    );
+    commit('setCustomerType', typeObj.type);
+    commit('setVatIncluded', typeObj.vat);
+  },
+  nuxtServerInit({ commit, dispatch, getters }, { req, route, app }) {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'
     });
@@ -119,6 +133,10 @@ export const actions = {
     }
     commit('setAncientBrowser', this.$ua.browser());
 
+    // const defaultCustomerType = this.$config.customerTypes.find(i => i.default)
+    //   .type;
+    // commit('setCustomerType', defaultCustomerType);
+
     if (req.headers.cookie) {
       const parsed = cookie.parse(req.headers.cookie);
       const user = parsed['ralph-user'] || null;
@@ -126,17 +144,33 @@ export const actions = {
       commit('auth/setUser', user);
       dispatch('cart/update', { id: cartId });
     }
+
+    const client = app.apolloProvider.defaultClient;
+    client
+      .query({
+        query: getCartQuery,
+        variables: {
+          id: getters['cart/id']
+        }
+      })
+      .then(result => {
+        dispatch('cart/update', result.data.getCart);
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
   }
 };
 
 export const getters = {
-  siteIsAtTop(state) {
+  siteIsAtTop: state => {
     return state.scrollTop <= state.config.siteTopThreshold;
   },
-  viewportComputer(state) {
+  viewportComputer: state => {
     return state.viewportWidth >= state.config.breakpoints.laptop;
   },
-  viewport(state) {
+  viewport: state => {
     if (state.viewportWidth < state.config.breakpoints.tablet) {
       return 'phone';
     } else if (state.viewportWidth < state.config.breakpoints.laptop) {
@@ -151,12 +185,12 @@ export const getters = {
     return state.favorites.includes(prodAlias);
   },
   getSellingPrice: state => price => {
-    return state.VATincluded
+    return state.vatIncluded
       ? price.sellingPriceIncVatFormatted
       : price.sellingPriceExVatFormatted;
   },
   getRegularPrice: state => price => {
-    return state.VATincluded
+    return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
   }

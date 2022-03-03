@@ -1,4 +1,3 @@
-import getCartQuery from 'cart/get.graphql';
 import categoriesQuery from 'global/categories.graphql';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
@@ -8,32 +7,6 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 export default {
   name: 'MixGlobalInit',
   apollo: {
-    getCart: {
-      query: getCartQuery,
-      fetchPolicy: 'no-cache',
-      variables() {
-        return {
-          id: this.$store.getters['cart/id']
-        };
-      },
-      result(result) {
-        if (result.data && result.data.getCart) {
-          this.$store.dispatch('cart/update', result.data.getCart);
-        } else {
-          this.resetAndRefetchCart();
-        }
-      },
-      skip() {
-        return (
-          !!this.$route?.name?.includes('checkout') &&
-          this.$store.getters['cart/id'] !== ''
-        );
-      },
-      error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
     categories: {
       query: categoriesQuery,
       result(result) {
@@ -84,7 +57,7 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('initScrollListener');
 
     this.$store.commit('setViewportWidth');
@@ -99,14 +72,19 @@ export default {
       }
     });
 
-    this.$store.dispatch('auth/initClient');
-
+    await this.$store.dispatch('auth/initClient');
+    if (
+      this.$store.getters['auth/authenticated'] &&
+      this.$config.customerTypesToggle
+    ) {
+      this.$store.dispatch(
+        'changeCustomerType',
+        this.$cookies.get('ralph-user-type')
+      );
+    }
     this.performActions();
   },
   methods: {
-    refetchCart() {
-      this.$apollo.queries.getCart.refetch();
-    },
     performActions() {
       if (this.$route.query.action) {
         switch (this.$route.query.action) {
@@ -120,10 +98,6 @@ export default {
             return false;
         }
       }
-    },
-    async resetAndRefetchCart() {
-      await this.$store.dispatch('cart/reset');
-      this.refetchCart();
     }
   }
 };

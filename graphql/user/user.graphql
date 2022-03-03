@@ -3,6 +3,7 @@
 fragment User on UserType {
   email
   personalId
+  customerType
   address {
     ...Address
   }

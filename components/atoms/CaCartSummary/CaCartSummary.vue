@@ -8,7 +8,7 @@
         {{ $t('CART_SUMMARY_REGULAR_PRICE') }}
       </span>
       <span class="ca-cart-summary__value">
-        {{ summary.subTotal.regularPriceIncVatFormatted }}
+        {{ $store.getters.getRegularPrice(summary.subTotal) }}
       </span>
     </div>
     <div
@@ -19,7 +19,12 @@
         {{ $t('CART_SUMMARY_DISCOUNT') }}
       </span>
       <span class="ca-cart-summary__value">
-        - {{ summary.total.discountIncVatFormatted }}
+        -
+        {{
+          vatIncluded
+            ? summary.total.discountIncVatFormatted
+            : summary.total.discountExVatFormatted
+        }}
       </span>
     </div>
     <div class="ca-cart-summary__row">
@@ -27,7 +32,15 @@
         {{ $t('CART_SUMMARY_SUBTOTAL') }}
       </span>
       <span class="ca-cart-summary__value">
-        {{ summary.subTotal.sellingPriceIncVatFormatted }}
+        {{ $store.getters.getSellingPrice(summary.subTotal) }}
+      </span>
+    </div>
+    <div v-if="!vatIncluded" class="ca-cart-summary__row">
+      <span class="ca-cart-summary__label">
+        {{ $t('CART_SUMMARY_VAT') }}
+      </span>
+      <span class="ca-cart-summary__value">
+        {{ summary.total.vatFormatted }}
       </span>
     </div>
     <div class="ca-cart-summary__row">
@@ -48,7 +61,9 @@
         {{
           freeShipping
             ? $t('FREE_SHIPPING')
-            : summary.shipping.feeIncVatFormatted
+            : vatIncluded
+            ? summary.shipping.feeIncVatFormatted
+            : summary.shipping.feeExVatFormatted
         }}
       </span>
       <div
@@ -102,6 +117,9 @@ export default {
   computed: {
     freeShipping() {
       return this.summary.shipping.feeIncVat === 0;
+    },
+    vatIncluded() {
+      return this.$store.state.vatIncluded;
     }
   },
   watch: {},

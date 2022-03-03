@@ -1,12 +1,17 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/list-products.graphql';
+import widgetAreaQuery from 'global/widget-area.graphql';
 import { mapState } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import combineQuery from 'graphql-combine-query';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
+// isInitialRequest: `true`<br>
+// initVariables: `{}`<br>
+// baseFilters: `{}`<br>
 // userSkip: `0`<br>
 // sort: `vm.$config.productListDefaultSort`<br>
 // defaultSort: `vm.$config.productListDefaultSort`<br>
@@ -24,6 +29,78 @@ export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement, MixListPagination],
   apollo: {
+    listPageInfo: {
+      query() {
+        let finishQuery = {
+          document: productsQuery,
+          variables: this.productsQueryVars
+        };
+
+        if (!(this.isSearch || this.isAll)) {
+          finishQuery = combineQuery('withPageInfoCombined')
+            .add(productsQuery, this.productsQueryVars)
+            .add(this.infoQuery, {
+              alias: this.currentAlias
+            });
+        }
+
+        if (this.widgetAreaVars) {
+          finishQuery = combineQuery('withAreaCombined')
+            .add(finishQuery.document, finishQuery.variables)
+            .addN(
+              widgetAreaQuery,
+              this.widgetAreaVars.map(item => ({
+                ...item,
+                filters: this.widgetAreaFilters
+              }))
+            );
+        }
+
+        this.initVariables = finishQuery.variables;
+        return finishQuery.document;
+      },
+      variables() {
+        return this.initVariables;
+      },
+      deep: true,
+      result(result) {
+        if (result && result.data) {
+          const { listPageInfo, products, ...widgetAreaInfo } = result.data;
+
+          if (listPageInfo) {
+            this.listInfo = listPageInfo;
+          }
+          if (!process.server && !this.isSearch & !this.isAll) {
+            this.switchToCanonicalOr404();
+          }
+
+          if (products?.filters.facets.length > 0) {
+            this.baseFilters = products.filters;
+          }
+
+          if (this.filtersSet) {
+            this.updateFilters(products.filters);
+          }
+
+          if (this.widgetAreaVars) {
+            this.widgetData = widgetAreaInfo;
+          }
+
+          this.setupPagination(products);
+          this.productsFetched = true;
+          this.$store.dispatch('loading/end');
+          this.isInitialRequest = false;
+        }
+      },
+      update: data => data.listPageInfo,
+      skip() {
+        return !this.isInitialRequest;
+      },
+      error(error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
     products: {
       query() {
         return productsQuery;
@@ -43,30 +120,15 @@ export default {
         }
       },
       skip() {
-        return this.skipProductsQuery || this.list.skipProductsQuery;
+        return (
+          this.isInitialRequest ||
+          this.skipProductsQuery ||
+          this.list.skipProductsQuery
+        );
       },
       error(error) {
         // eslint-disable-next-line no-console
         console.log(error);
-      }
-    },
-    listPageInfo: {
-      query() {
-        return this.infoQuery;
-      },
-      variables() {
-        return {
-          alias: this.currentAlias
-        };
-      },
-      result(result) {
-        this.listInfo = result.data.listPageInfo;
-        if (!process.server && !this.isSearch & !this.isAll) {
-          this.switchToCanonicalOr404();
-        }
-      },
-      skip() {
-        return this.isSearch || this.isAll;
       }
     }
   },
@@ -91,10 +153,10 @@ export default {
       required: true
     },
     // @vuese
-    // All filters for this list page before filtering is done
-    baseFilters: {
+    // Base filters for this page
+    filtersVars: {
       type: Object,
-      required: true
+      default: () => ({})
     },
     // @vuese
     // Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.
@@ -126,9 +188,13 @@ export default {
     };
   },
   data: vm => ({
+    isInitialRequest: true,
+    initVariables: {},
+    baseFilters: {},
     userSkip: 0,
     defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
+    widgetData: {},
     filters: {},
     userSelection: null,
     filterParamQuery: {},
@@ -140,6 +206,12 @@ export default {
     productsFetched: false
   }),
   computed: {
+    // @vuese
+    // Status of loading filters state
+    // @type Boolean
+    filtersLoaded() {
+      return Object.keys(this.baseFilters).length > 0;
+    },
     // @vuese
     // Current number of products to skip when querying
     // @type Number
@@ -289,6 +361,7 @@ export default {
     // @type Object
     productsQueryVars() {
       const varsObj = {
+        ...this.filtersVars,
         skip: this.skip,
         take: this.pageSize,
         filter: this.productsQueryFilter
@@ -393,6 +466,14 @@ export default {
     eventbus.$off('route-change');
   },
   methods: {
+    async resetAndRefetchCart() {
+      await this.$store.dispatch('cart/reset');
+      this.refetchCart();
+    },
+
+    refetchCart() {
+      this.$apollo.queries.getCart.refetch();
+    },
     // @vuese
     // Load next chunk of products
     loadMore() {
@@ -541,8 +622,6 @@ export default {
     // @vuese
     // Run to init the product list
     initProductList() {
-      this.skipProductsQuery = true;
-
       if (this.isSearch || this.isAll) {
         const title = this.isSearch
           ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
@@ -559,7 +638,7 @@ export default {
       }
 
       const interval = setInterval(() => {
-        if (Object.keys(this.baseFilters).length > 0) {
+        if (this.baseFilters && Object.keys(this.baseFilters).length > 0) {
           clearInterval(interval);
           if (this.baseFilters.facets.length) {
             this.setupFilters(this.baseFilters);

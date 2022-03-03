@@ -43,7 +43,7 @@
         />
       </div>
       <div
-        v-if="$config.checkout.identityNumber"
+        v-if="!isOrganization && $config.checkout.identityNumber"
         class="ca-checkout-carismar__row"
       >
         <CaInputText
@@ -55,6 +55,34 @@
           :description="$t('CHECKOUT_PERSONAL_ID_DESCRIPTION')"
           :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
           :label="$t('LABEL_PERSONAL_ID')"
+          @validation="checkValid"
+        />
+      </div>
+      <div
+        v-else-if="$config.checkout.identityNumber"
+        class="ca-checkout-carismar__row"
+      >
+        <CaInputText
+          id="identityNumber"
+          ref="identityNumber"
+          v-model="checkoutData.identityNumber"
+          class="ca-checkout-carismar__input"
+          validate="empty"
+          :description="$t('CHECKOUT_ORGANIZATION_ID_DESCRIPTION')"
+          :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
+          :label="$t('LABEL_ORGANIZATION_ID')"
+          @validation="checkValid"
+        />
+      </div>
+      <div v-if="isOrganization" class="ca-checkout-carismar__row">
+        <CaInputText
+          id="companyBilling"
+          ref="companyBilling"
+          v-model="checkoutData.billingAddress.company"
+          class="ca-checkout-carismar__input"
+          validate="empty"
+          :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
+          :label="$t('LABEL_COMPANY')"
           @validation="checkValid"
         />
       </div>
@@ -176,6 +204,18 @@
         <CaFlag country="se" shape="circle" />
         {{ $t('SWEDEN') }}
       </p>
+      <div v-if="isOrganization" class="ca-checkout-carismar__row">
+        <CaInputText
+          id="companyShipping"
+          ref="companyShipping"
+          v-model="checkoutData.shippingAddress.company"
+          class="ca-checkout-carismar__input"
+          validate="empty"
+          :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
+          :label="$t('LABEL_COMPANY')"
+          @validation="checkValid"
+        />
+      </div>
       <div
         class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
       >
@@ -380,7 +420,8 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'SE'
+        country: 'SE',
+        company: ''
       },
       billingAddress: {
         firstName: '',
@@ -391,7 +432,8 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'SE'
+        country: 'SE',
+        company: ''
       },
       email: '',
       identityNumber: '',
@@ -405,6 +447,9 @@ export default {
     // @type Boolean
     orderConsentChecked() {
       return this.checkout.consents?.find(i => i.type === 'order').checked;
+    },
+    isOrganization() {
+      return this.$store.state.customerType === 'ORGANIZATION';
     }
   },
   watch: {

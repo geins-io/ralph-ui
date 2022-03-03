@@ -15,6 +15,12 @@ export const mutations = {
 export const actions = {
   update({ commit }, cart) {
     commit('setCart', cart);
+
+    if (process.browser && window.BroadcastChannel) {
+      const bc = new BroadcastChannel('ralph_channel');
+      bc.postMessage(cart);
+    }
+
     if (cart.id) {
       this.$cookies.set('ralph-cart', cart.id, {
         path: '/',

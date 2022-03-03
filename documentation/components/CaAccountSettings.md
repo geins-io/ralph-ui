@@ -24,3 +24,13 @@ The settings for a users account<br><br> **SASS-path:** _./styles/components/org
 <!-- @vuese:CaAccountSettings:events:end -->
 
 
+## Methods
+
+<!-- @vuese:CaAccountSettings:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|getVatDisplay|Get label for toggle|Boolean|
+
+<!-- @vuese:CaAccountSettings:methods:end -->
+
+

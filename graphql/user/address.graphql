@@ -9,4 +9,5 @@ fragment Address on AddressType {
   country
   entryCode
   mobile
+  company
 }

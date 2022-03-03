@@ -292,6 +292,7 @@
 
   &__item-price {
     font-size: 0.8em;
+    @include ellipsis;
   }
 
   &__overlay.ca-overlay {

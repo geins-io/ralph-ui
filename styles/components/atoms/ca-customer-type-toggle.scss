@@ -1,5 +1,7 @@
-.ca-vat-toggle {
-  display: flex;
+.ca-customer-type-toggle {
+  &__toggles {
+    display: flex;
+  }
   &__link {
     &:not(:last-child) {
       margin-right: $px8;
@@ -7,5 +9,8 @@
     &--active {
       font-weight: $font-weight-bold;
     }
+  }
+  &__authenticated {
+    color: $c-text-secondary;
   }
 }

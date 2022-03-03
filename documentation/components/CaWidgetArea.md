@@ -13,6 +13,8 @@ The area that contains the widget containers and from which the graphql query fo
 |widgetImageSizes|Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set|`Object`|`false`|null|
 |filters|Filters for the area|`Array`|`false`|[]|
 |preview|Whether preview-mode should be toggle on|`Boolean`|`false`|false|
+|isParentLoaded|if true - component loads info on its own|`Boolean`|`false`|false|
+|loadedData|Data of widget that we receive from parent component. Avaible only if isParentLoaded are true|`Object`|`false`|null|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 

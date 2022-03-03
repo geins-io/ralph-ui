@@ -1,5 +1,5 @@
 <template>
-  <nav class="ca-footer-navigation">
+  <nav v-if="menu" class="ca-footer-navigation">
     <h2 v-if="menu.title" class="ca-footer-navigation__title">
       {{ menu.title }}
     </h2>

@@ -25,14 +25,18 @@ export default {
         return {
           family: this.family,
           areaName: this.areaName,
-          alias: this.alias,
+          widgetAlias: this.alias,
           displaySetting: this.displaySetting,
           filters: this.filters,
-          preview: this.preview
+          preview: this.preview,
+          customerType: this.$store.state.customerType
         };
       },
       result(result) {
         this.$emit('dataFetched', result.data);
+      },
+      skip() {
+        return this.isParentLoaded;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -71,6 +75,16 @@ export default {
     preview: {
       type: Boolean,
       default: false
+    },
+    // if true - component loads info on its own
+    isParentLoaded: {
+      type: Boolean,
+      default: false
+    },
+    // Data of widget that we receive from parent component. Avaible only if isParentLoaded are true
+    loadedData: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({}),
@@ -79,6 +93,10 @@ export default {
       return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
     },
     containers() {
+      if (this.isParentLoaded) {
+        return this.loadedData?.containers ? this.loadedData.containers : [];
+      }
+
       return this.widgetArea &&
         this.widgetArea.containers &&
         this.widgetArea.containers.length

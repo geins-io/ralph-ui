@@ -3,18 +3,20 @@
 query widgetArea(
   $family: String = null
   $areaName: String = null
-  $alias: String = null
+  $widgetAlias: String = null
   $displaySetting: String = null
   $filters: [PageWidgetCollectionFilterInputType] = null
   $preview: Boolean = null
+  $customerType: CustomerType
 ) {
   widgetArea(
     family: $family
     areaName: $areaName
-    alias: $alias
+    alias: $widgetAlias
     displaySetting: $displaySetting
-    filters: $filters,
+    filters: $filters
     preview: $preview
+    customerType: $customerType
   ) {
     meta {
       ...Meta
