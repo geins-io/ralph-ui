@@ -22,9 +22,7 @@
     font-size: 16px;
   }
 
-  &--chosen & {
-    &__title {
-      font-weight: $font-weight-bold;
-    }
+  &--hidden {
+    display: none;
   }
 }

@@ -120,7 +120,7 @@ export const actions = {
     if (customerType) {
       this.$cookies.set('ralph-user-type', customerType, {
         path: '/',
-        maxAge: 604800
+        expires: new Date(new Date().getTime() + 31536000000)
       });
     }
   },

@@ -142,6 +142,21 @@ export default {
         this.createOrUpdateCheckout('cart changed');
       }
     },
+    'checkout.paymentOptions'(newVal) {
+      if (newVal && newVal.length) {
+        let availableOptionSelected = false;
+        newVal.forEach(i => {
+          if (i.id === this.paymentId) {
+            availableOptionSelected = true;
+          }
+        });
+        if (!availableOptionSelected) {
+          const id = newVal[0].id;
+          this.paymentId = id;
+          this.createOrUpdateCheckout('payment options changed');
+        }
+      }
+    },
     customerType(newVal, oldVal) {
       if (newVal !== oldVal && this.$config.customerTypesToggle) {
         this.shippingLoading = true;

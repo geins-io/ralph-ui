@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.3] - 2021-03-04
+
+### Fixed
+
+- Updated CaFilterTrigger with hidden class
+- Changing payment id when payment options changes
+- Longer time until ralph-user-type cookie expires
+
 ## [10.0.2] - 2021-03-03
 
 ### Fixed

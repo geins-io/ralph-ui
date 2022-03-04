@@ -34,6 +34,10 @@ export default {
     iconName: {
       type: String,
       default: 'chevron-down'
+    },
+    filters: {
+      type: Array,
+      default: () => ['1', '2']
     }
   },
   data: () => ({
@@ -42,7 +46,8 @@ export default {
   computed: {
     modifiers() {
       return {
-        'ca-filter--chosen': this.selectionMade
+        'ca-filter-trigger--chosen': this.selectionMade,
+        'ca-filter-trigger--hidden': this.filters?.length <= 1
       };
     },
     selectionMade() {
