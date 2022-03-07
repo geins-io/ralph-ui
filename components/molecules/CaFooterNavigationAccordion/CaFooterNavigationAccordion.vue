@@ -10,7 +10,11 @@
     </template>
     <nav>
       <ul class="ca-footer-navigation-accordion__list">
-        <li class="ca-footer-navigation-accordion__item">
+        <li
+          v-for="item in menu.menuItems"
+          :key="item.id"
+          class="ca-footer-navigation-accordion__item"
+        >
           <component
             :is="getBaseElem(item)"
             v-bind="getAttributes(item)"

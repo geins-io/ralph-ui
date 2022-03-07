@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.4] - 2021-03-07
+
+### Fixed
+
+- Dynamic parts of CaMiniCart is now client only, solving server side rendering problems after cart call was moved to nuxtServerInit
+- Added missing for-loop in CaFooterNavigationAccoridon
+- Null-check for placeOrder
+
 ## [10.0.3] - 2021-03-04
 
 ### Fixed

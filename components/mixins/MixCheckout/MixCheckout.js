@@ -278,7 +278,10 @@ export default {
           }
         })
         .then(result => {
-          if (result.data.placeOrder.status === 'completed') {
+          if (
+            result?.data?.placeOrder &&
+            result.data.placeOrder.status === 'completed'
+          ) {
             const confirmUrl =
               '/checkout/confirm?cartid=' +
               this.$store.getters['cart/id'] +

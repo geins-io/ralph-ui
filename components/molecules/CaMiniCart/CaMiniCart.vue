@@ -10,20 +10,26 @@
   >
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
-      <CaNotificationBadge
+      <client-only>
+        <CaNotificationBadge
+          v-if="$store.getters['cart/totalQuantity'] > 0"
+          class="ca-minicart__qty"
+          :number="$store.getters['cart/totalQuantity']"
+        />
+      </client-only>
+    </div>
+    <client-only>
+      <div
         v-if="$store.getters['cart/totalQuantity'] > 0"
-        class="ca-minicart__qty"
-        :number="$store.getters['cart/totalQuantity']"
-      />
-    </div>
-    <div
-      v-if="$store.getters['cart/totalQuantity'] > 0"
-      class="ca-mini-cart__value only-computer"
-    >
-      {{
-        $store.getters.getSellingPrice($store.state.cart.data.summary.subTotal)
-      }}
-    </div>
+        class="ca-mini-cart__value only-computer"
+      >
+        {{
+          $store.getters.getSellingPrice(
+            $store.state.cart.data.summary.subTotal
+          )
+        }}
+      </div>
+    </client-only>
   </CaClickable>
 </template>
 <script>
