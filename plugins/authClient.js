@@ -9,6 +9,10 @@ export default class AuthClient {
 
   // Sets token and token max age
   setTokenData(data) {
+    console.log(data, 'setTokenData');
+    if (data.token) {
+      localStorage.setItem('isSign', true);
+    }
     this.token = data.token;
     this.maxAge = data.maxAge;
   }
@@ -20,6 +24,8 @@ export default class AuthClient {
     const url = this.authEndpoint + action;
     const getSign = !!credentials;
     const auth = { username: credentials?.username };
+    const signState = localStorage.getItem('isSign');
+    console.log(signState, credentials);
 
     const fetchOptions = {
       method: getSign ? 'POST' : 'GET',
@@ -46,22 +52,28 @@ export default class AuthClient {
       fetchOptions.body = JSON.stringify(auth);
     };
 
-    let data = await fetch(url, fetchOptions)
-      .then(response => response.json())
-      .catch(() => {});
-
-    if (data?.sign) {
-      await addCredentials(data.sign);
-
-      data = await fetch(url, fetchOptions)
+    if (signState || credentials) {
+      let data = await fetch(url, fetchOptions)
         .then(response => response.json())
         .catch(() => {});
 
-      if (data?.token) {
+      if (data?.sign) {
+        await addCredentials(data.sign);
+
+        data = await fetch(url, fetchOptions)
+          .then(response => response.json())
+          .catch(() => {});
+
+        if (data?.token) {
+          this.setTokenData(data);
+        }
+      } else if (data?.token) {
         this.setTokenData(data);
       }
-    } else if (data?.token) {
-      this.setTokenData(data);
+    }
+
+    if (action === 'logout') {
+      localStorage.removeItem('isSign');
     }
   }
 
