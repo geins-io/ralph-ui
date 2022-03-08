@@ -1,6 +1,7 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/list-products.graphql';
+import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
 import { mapState } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
@@ -702,8 +703,19 @@ export default {
     // @vuese
     // Setting up all filters
     // @arg filters (Object)
-    setupFilters(filters) {
-      const sortedFilters = this.getSortedFilters(filters);
+    async setupFilters(filters) {
+      let sortedFilters = this.getSortedFilters(filters);
+      if (Object.keys(this.$route.query).length) {
+        try {
+          const result = await this.$apollo.query({
+            query: filtersQuery,
+            variables: this.filtersVars
+          });
+          sortedFilters = this.getSortedFilters(result.data.products.filters);
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
       this.$set(this.filters, 'categories', sortedFilters.categories.values);
       this.$set(this.filters, 'brands', sortedFilters.brands.values);
