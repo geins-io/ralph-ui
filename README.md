@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.0.5] - 2021-03-08
+
+### Fixed
+
+- Total price on order summary is now shown inc VAT
+
 ## [10.0.4] - 2021-03-07
 
 ### Fixed

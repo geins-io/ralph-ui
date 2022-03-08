@@ -18,7 +18,7 @@
           </div>
           <span class="ca-order-summary__id">#{{ order.id }}</span>
           <span class="ca-order-summary__total">
-            {{ $store.getters.getSellingPrice(order.cart.summary.total) }}
+            {{ order.cart.summary.total.sellingPriceIncVatFormatted }}
           </span>
         </div>
         <CaButton
