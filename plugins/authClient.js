@@ -9,7 +9,6 @@ export default class AuthClient {
 
   // Sets token and token max age
   setTokenData(data) {
-    console.log(data, 'setTokenData');
     if (data.token) {
       localStorage.setItem('isSign', true);
     }
@@ -25,7 +24,6 @@ export default class AuthClient {
     const getSign = !!credentials;
     const auth = { username: credentials?.username };
     const signState = localStorage.getItem('isSign');
-    console.log(signState, credentials);
 
     const fetchOptions = {
       method: getSign ? 'POST' : 'GET',
