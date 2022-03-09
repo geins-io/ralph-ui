@@ -22,15 +22,7 @@ export default {
     widgetArea: {
       query: widgetAreaQuery,
       variables() {
-        return {
-          family: this.family,
-          areaName: this.areaName,
-          widgetAlias: this.alias,
-          displaySetting: this.displaySetting,
-          filters: this.filters,
-          preview: this.preview,
-          customerType: this.$store.state.customerType
-        };
+        return this.widgetAreaVariables;
       },
       result(result) {
         this.$emit('dataFetched', result.data);
@@ -92,19 +84,37 @@ export default {
     displaySetting() {
       return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
     },
+    widgetAreaVariables() {
+      return {
+        family: this.family,
+        areaName: this.areaName,
+        widgetAlias: this.alias,
+        displaySetting: this.displaySetting,
+        filters: this.filters,
+        preview: this.preview,
+        customerType: this.$store.state.customerType
+      };
+    },
     containers() {
       if (this.isParentLoaded) {
         return this.loadedData?.containers ? this.loadedData.containers : [];
       }
 
-      return this.widgetArea &&
-        this.widgetArea.containers &&
-        this.widgetArea.containers.length
+      return this.widgetArea?.containers?.length
         ? this.widgetArea.containers
         : [];
     }
   },
-  watch: {},
+  watch: {
+    widgetAreaVariables: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          this.$emit('variables-change');
+        }
+      }
+    }
+  },
   mounted() {},
   methods: {}
 };
