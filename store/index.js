@@ -141,10 +141,6 @@ export const actions = {
     }
     commit('setAncientBrowser', this.$ua.browser());
 
-    // const defaultCustomerType = this.$config.customerTypes.find(i => i.default)
-    //   .type;
-    // commit('setCustomerType', defaultCustomerType);
-
     if (req.headers.cookie) {
       const parsed = cookie.parse(req.headers.cookie);
       const user = parsed['ralph-user'] || null;
