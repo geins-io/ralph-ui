@@ -35,6 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.1.0] - 2021-03-10
+
+### Added
+
+- Save state of sign user in local store to reduce reqeusts count
+- Add hook to catch render errors on server side
+
+### Fixed
+
+- Add new event 'variables-change' and watcher to widgetAreaVariables to inform parent component, that need update child state
+- Fix problem with baseFilters, add new request if page contain variables in query
+
 ## [10.0.5] - 2021-03-08
 
 ### Fixed
