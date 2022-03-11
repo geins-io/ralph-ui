@@ -1,0 +1,7 @@
+.ca-quick-add-products {
+  &__item {
+    &:not(:first-child) {
+      margin: $px16 0 0;
+    }
+  }
+}

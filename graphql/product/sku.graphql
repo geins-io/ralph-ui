@@ -1,0 +1,10 @@
+#import "product/stock.graphql"
+fragment Sku on SkuType {
+  skuId
+  gtin
+  name
+  productId
+  stock {
+    ...Stock
+  }
+}

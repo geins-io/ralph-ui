@@ -1,6 +1,6 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import productQuery from 'product/product.graphql';
-import widgetAreaQuery from 'global/widget-area.graphql';
+import relatedProductsQuery from 'product/related-products.graphql';
 import combineQuery from 'graphql-combine-query';
 // @group Mixins
 // @vuese
@@ -43,17 +43,14 @@ export default {
             alias: this.prodAlias
           }
         };
-
-        if (this.widgetAreaVars) {
-          finishQuery = combineQuery('withAreaCombined')
-            .add(finishQuery.document, finishQuery.variables)
-            .addN(
-              widgetAreaQuery,
-              this.widgetAreaVars.map(item => ({
-                ...item,
-                filters: this.widgetAreaFilters
-              }))
-            );
+        if (this.$config.productShowRelated) {
+          finishQuery = combineQuery('withRelatedCombined')
+            .add(productQuery, {
+              alias: this.prodAlias
+            })
+            .add(relatedProductsQuery, {
+              prodAlias: this.prodAlias
+            });
         }
 
         this.initVariables = finishQuery.variables;
@@ -63,22 +60,24 @@ export default {
         return this.initVariables;
       },
       result(result) {
-        if (!this.product && !process.server) {
-          this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
-          this.$store.dispatch('redirect404');
-        }
+        if (result && result.data) {
+          if (!this.product && !process.server) {
+            this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+            this.$store.dispatch('redirect404');
+          }
 
-        if (!this.hasSkuVariants) {
-          this.setDefaultSku();
-        } else if (this.skuIsChosen && !this.chosenSkuVariant) {
-          this.resetSku();
-        }
+          if (!this.hasSkuVariants) {
+            this.setDefaultSku();
+          } else if (this.skuIsChosen && !this.chosenSkuVariant) {
+            this.resetSku();
+          }
 
-        const { product, ...widgetAreaInfo } = result.data;
+          const { product, ...relatedProducts } = result.data;
 
-        if (this.widgetAreaVars) {
-          this.widgetData = widgetAreaInfo;
-          this.isInitialRequest = false;
+          if (this.$config.productShowRelated) {
+            this.relatedProducts = relatedProducts.relatedProducts;
+            this.isInitialRequest = false;
+          }
         }
         this.$store.dispatch('loading/end');
       },
@@ -96,8 +95,8 @@ export default {
     replaceAlias: null,
     currentNotifyVariant: {},
     initVariables: {},
-    widgetData: {},
-    isInitialRequest: true
+    isInitialRequest: true,
+    relatedProducts: []
   }),
   computed: {
     // @vuese
@@ -140,6 +139,9 @@ export default {
 
       return filtersArray;
     },
+    // @vuese
+    // Current breadcrumb object
+    // @type Object
     breadcrumbsCurrent() {
       return {
         name: this.product?.primaryCategory.name,
@@ -148,6 +150,24 @@ export default {
         id: this.product?.primaryCategory.categoryId,
         type: 'category'
       };
+    },
+    // @vuese
+    // Related product with relation RELATED
+    // @type Array
+    relatedProductsRelated() {
+      return this.relatedProducts.filter(i => i.relation === 'RELATED');
+    },
+    // @vuese
+    // Related product with relation ACCESSORIES
+    // @type Array
+    relatedProductsAccessories() {
+      return this.relatedProducts.filter(i => i.relation === 'ACCESSORIES');
+    },
+    // @vuese
+    // Related product with relation SIMILAR
+    // @type Array
+    relatedProductsSimilar() {
+      return this.relatedProducts.filter(i => i.relation === 'SIMILAR');
     }
   },
   watch: {

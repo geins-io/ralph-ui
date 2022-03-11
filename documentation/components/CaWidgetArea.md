@@ -25,6 +25,7 @@ The area that contains the widget containers and from which the graphql query fo
 |Event Name|Description|Parameters|
 |---|---|---|
 |dataFetched|-|-|
+|variables-change|-|-|
 
 <!-- @vuese:CaWidgetArea:events:end -->
 

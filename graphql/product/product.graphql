@@ -1,5 +1,6 @@
 #import "product/price.graphql"
 #import "product/stock.graphql"
+#import "product/sku.graphql"
 #import "product/variant.graphql"
 #import "global/meta.graphql"
 #import "global/campaign.graphql"
@@ -37,14 +38,7 @@ query product($alias: String!) {
       }
     }
     skus {
-      skuId
-      gtin
-      name
-      productId
-      name
-      stock {
-        ...Stock
-      }
+      ...Sku
     }
     totalStock {
       ...Stock

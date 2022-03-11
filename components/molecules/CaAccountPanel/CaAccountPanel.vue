@@ -295,7 +295,9 @@ export default {
       setTimeout(() => {
         this.resetFields();
         this.$refs.contentpanel.close();
-        this.$router.push({ path: this.localePath(redirectPath) });
+        if (!this.$route?.name?.includes('checkout')) {
+          this.$router.push({ path: this.localePath(redirectPath) });
+        }
       }, 1000);
     },
     // @vuese

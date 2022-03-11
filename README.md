@@ -35,6 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.2.0] - 2021-03-11
+
+### Added
+
+- CaQuickAddProduct and CaQuickAddProducts components
+- Fetching related products for PDP
+
+### Fixed
+
+- Logging in on checkout page will no longer route you to "my account", but let you stay in checkout
+
 ## [10.1.0] - 2021-03-10
 
 ### Added
