@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.2.2] - 2021-03-15
+
+### Fixed
+
+- Replace native broadcast api to npm package. Now work in safari too
+
 ## [10.2.1] - 2021-03-15
 
 ### Fixed

@@ -1,7 +1,9 @@
-export default function({ store }) {
-  const bc = new BroadcastChannel('ralph_channel');
+import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 
-  bc.addEventListener('message', function(event) {
-    store.commit('cart/setCart', event.data);
+export default function({ store }) {
+  const bc = new BroadcastService('ralph_channel');
+
+  bc.addEventListener('message', function(data) {
+    store.commit('cart/setCart', data);
   });
 }

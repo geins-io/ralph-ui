@@ -1,3 +1,5 @@
+import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
+
 export const state = () => ({
   data: null,
   added: null
@@ -16,8 +18,8 @@ export const actions = {
   update({ commit }, cart) {
     commit('setCart', cart);
 
-    if (process.browser && window.BroadcastChannel) {
-      const bc = new BroadcastChannel('ralph_channel');
+    if (process.browser) {
+      const bc = new BroadcastService('ralph_channel');
       bc.postMessage(cart);
     }
 

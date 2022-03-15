@@ -1,7 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
-  "version": "10.2.1",
+  "version": "10.2.2",
   "description": "Component library for Ralph Storefront by Carismar",
   "author": "Olivia Axelsson & Lars Johansson",
   "private": false,
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "body-scroll-lock": "^3.1.5",
+    "broadcast-channel": "^4.10.0",
     "graphql-combine-query": "^1.2.3",
     "vue-slide-up-down": "^2.0.1",
     "vue-slider-component": "^3.2.14",
