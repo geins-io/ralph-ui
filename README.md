@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.2.1] - 2021-03-15
+
+### Fixed
+
+- Showing customer type toggle when authenticated as preview user
+
 ## [10.2.0] - 2021-03-11
 
 ### Added

@@ -1,7 +1,10 @@
 <template>
   <div class="ca-customer-type-toggle">
     <div
-      v-if="!$store.getters['auth/authenticated']"
+      v-if="
+        !$store.getters['auth/authenticated'] ||
+          $store.state.auth.user === 'preview-user@carismar.com'
+      "
       class="ca-customer-type-toggle__toggles"
     >
       <CaClickable
@@ -15,7 +18,7 @@
       </CaClickable>
     </div>
     <div v-else class="ca-customer-type-toggle__authenticated">
-      Inloggad som: {{ getLabel(currentType.type) }} ({{
+      {{ $t('ACCOUNT_LOGGED_IN_AS') }}: {{ getLabel(currentType.type) }} ({{
         getVatDisplay(currentType.vat)
       }})
     </div>
@@ -39,7 +42,9 @@ export default {
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    console.log(this.$store.state.auth.user);
+  },
   methods: {
     // @vuese
     // Set customer type in state
