@@ -126,6 +126,7 @@ export default {
   methods: {
     // Open the content panel
     open() {
+      this.$store.dispatch('setViewportHeight');
       this.$store.dispatch('setScrollbarWidth');
       this.opened = true;
       this.activateEventbusListeners();

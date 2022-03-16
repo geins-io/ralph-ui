@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.3.1] - 2021-03-16
+
+### Fixed
+
+- Viewport height fix for content panel and modal
+
 ## [10.3.0] - 2021-03-16
 
 ### Added

@@ -10,7 +10,7 @@
   z-index: $z-index-modal;
   width: auto;
   max-width: 95vw;
-  max-height: 95vh;
+  max-height: calc(var(--vh, 1vh) * 95);
   &__close {
     @include iconCircle;
     position: absolute;

@@ -90,6 +90,7 @@ export default {
       this.setSize();
       this.opened = true;
       this.$store.dispatch('loading/start');
+      this.$store.dispatch('setViewportHeight');
       this.$store.dispatch('setScrollbarWidth');
       this.$nextTick(() => {
         disableBodyScroll(this.$refs.content);

@@ -62,7 +62,7 @@
     }
   }
   &--bottom {
-    height: 93vh;
+    height: calc(var(--vh, 1vh) * 93);
     width: 100vw;
     max-width: 100vw;
     left: 0;
