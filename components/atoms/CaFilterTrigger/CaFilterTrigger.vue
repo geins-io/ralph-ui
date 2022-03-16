@@ -33,7 +33,7 @@ export default {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
-      default: 'chevron-down'
+      default: 'filter'
     },
     filters: {
       type: Array,

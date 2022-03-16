@@ -290,7 +290,7 @@
     @include ellipsis;
   }
 
-  &__item-price {
+  &__item-price.ca-price {
     font-size: 0.8em;
     @include ellipsis;
   }

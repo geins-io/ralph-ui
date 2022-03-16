@@ -35,6 +35,7 @@ query product($alias: String!) {
       parameters {
         name
         value
+        show
       }
     }
     skus {

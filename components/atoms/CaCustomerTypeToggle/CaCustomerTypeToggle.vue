@@ -42,9 +42,7 @@ export default {
     }
   },
   watch: {},
-  mounted() {
-    console.log(this.$store.state.auth.user);
-  },
+  mounted() {},
   methods: {
     // @vuese
     // Set customer type in state

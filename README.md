@@ -35,6 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.3.0] - 2021-03-16
+
+### Added
+
+- CaSpecifications will now take into account whether to "Show on site" or not
+
+### Changed
+
+- Changed default icon for filter trigger
+- Improvements of the CaInputSelect component
+
 ## [10.2.2] - 2021-03-15
 
 ### Fixed

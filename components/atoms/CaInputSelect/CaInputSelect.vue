@@ -3,7 +3,7 @@
     <label v-if="label !== ''" class="ca-input-select__label">
       {{ label }}
       <span v-if="!required" class="ca-input-select__optional">
-        (optional)
+        ({{ $t('INPUT_OPTIONAL') }})
       </span>
     </label>
     <div
@@ -34,8 +34,12 @@
       <select
         v-model="selected.value"
         class="ca-input-select__select"
+        :disabled="disabled"
         @change="selectOption($event.target.value)"
       >
+        <option v-if="placeholder" value="" selected disabled>
+          {{ placeholder }}
+        </option>
         <option
           v-for="(option, index) in options"
           :key="index"
@@ -105,7 +109,7 @@ export default {
   },
   data: () => ({
     selected: {
-      value: null,
+      value: '',
       label: ''
     },
     open: false
@@ -113,19 +117,20 @@ export default {
   computed: {
     modifiers() {
       return {
-        'ca-input-select--open': this.open
+        'ca-input-select--open': this.open,
+        'ca-input-select--disabled': this.disabled
       };
     }
   },
   watch: {
-    value() {
-      if (this.label === '') {
-        this.setInitialValue();
-      }
+    value(val) {
+      this.selectOption(val);
     }
   },
   mounted() {
-    this.setInitialValue();
+    if (!this.placeholder) {
+      this.setInitialValue();
+    }
   },
   methods: {
     // @vuese
@@ -157,7 +162,8 @@ export default {
     // Get the label for a specific value in the list of options
     // @arg value (String, Number)
     getLabel(val) {
-      return this.options.find(item => item.value === val).label;
+      const option = this.options.find(item => item.value === val);
+      return option?.label || this.placeholder;
     }
   }
 };

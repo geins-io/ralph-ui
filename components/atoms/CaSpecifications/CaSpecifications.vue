@@ -1,7 +1,7 @@
 <template>
   <div class="ca-specifications">
     <div
-      v-for="(group, index) in specificationGroups"
+      v-for="(group, index) in groups"
       :key="index"
       class="ca-specifications__group"
     >
@@ -42,7 +42,16 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    // @vuese
+    // The specification groups but with empty groups removed
+    groups() {
+      return this.specificationGroups.filter(group => {
+        const parameters = this.getGroupedParameters(group.parameters);
+        return parameters.length > 0;
+      });
+    }
+  },
   watch: {},
   mounted() {},
   methods: {
@@ -50,7 +59,9 @@ export default {
     // Grouping parameteters with the same name and turns the combined values into one comma separated value
     // @arg parameters (Array)
     getGroupedParameters(parameters) {
-      const labels = [...new Set(parameters.map(i => i.name))];
+      const labels = [
+        ...new Set(parameters.filter(i => i.show).map(i => i.name))
+      ];
       return labels.map(i => {
         const value = parameters
           .filter(ii => ii.name === i)

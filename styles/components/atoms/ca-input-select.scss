@@ -75,6 +75,7 @@
 
   &--disabled {
     color: $c-text-secondary;
+    pointer-events: none;
   }
 
   &--open {
@@ -84,7 +85,7 @@
     }
 
     #{$block}__selected {
-      border: 1px solid $c-dark-gray;
+      border: 1px solid $c-input-focused-border;
 
       &::before {
         transform: translateY(-50%) rotate(-180deg);
