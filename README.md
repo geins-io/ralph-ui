@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.3.2] - 2021-03-17
+
+### Added
+
+- Additional functions for CaInputSelect
+
 ## [10.3.1] - 2021-03-16
 
 ### Fixed

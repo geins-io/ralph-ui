@@ -156,7 +156,15 @@ export default {
     // @vuese
     // Opening and closing the dropdown
     toggleOptions() {
+      if (!this.open) {
+        this.$emit('opened');
+      }
       this.open = !this.open;
+    },
+    // @vuese
+    // Closing the dropdown
+    close() {
+      this.open = false;
     },
     // @vuese
     // Get the label for a specific value in the list of options
