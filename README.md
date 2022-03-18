@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.3.4] - 2021-03-18
+
+### Fixed
+
+- Forcing refresh of external checkout frame when changing customer type
+
 ## [10.3.3] - 2021-03-18
 
 ### Changed

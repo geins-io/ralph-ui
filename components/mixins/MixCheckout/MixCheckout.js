@@ -40,7 +40,8 @@ export default {
     updateDelay: 150,
     updateTimeout: null,
     activeElement: null,
-    frameLoading: false
+    frameLoading: false,
+    forceExternalCheckoutReset: false
   }),
   computed: {
     // @vuese
@@ -163,6 +164,7 @@ export default {
         this.cartLoading = true;
         this.checkoutLoading = true;
         this.frameLoading = true;
+        this.forceExternalCheckoutReset = true;
         this.createOrUpdateCheckout('customer type changed');
       }
     }
@@ -222,8 +224,12 @@ export default {
                   this.$refs.udc.enable();
                 }
                 if (this.$refs.externalcheckout) {
-                  if (this.selectedPaymentOption.newCheckoutSession) {
+                  if (
+                    this.selectedPaymentOption.newCheckoutSession ||
+                    this.forceExternalCheckoutReset
+                  ) {
                     this.$refs.externalcheckout.initialize();
+                    this.forceExternalCheckoutReset = false;
                   } else {
                     this.$refs.externalcheckout.resume();
                   }
