@@ -207,7 +207,8 @@ export default {
           this.$apollo
             .mutate({
               mutation: createOrUpdateCheckoutMutation,
-              variables: vars
+              variables: vars,
+              fetchPolicy: 'no-cache'
             })
             .then(result => {
               this.checkout = result.data.createOrUpdateCheckout;
