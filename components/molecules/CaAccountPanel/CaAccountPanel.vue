@@ -454,9 +454,9 @@ export default {
           this.showFeedback(this.feedback.passwordChanged);
           this.resetFields();
         } else {
-          this.$store.dispatch('auth/logout');
+          await this.$store.dispatch('auth/logout');
           if (this.$config.user.priceLists) {
-            window.location = '/';
+            location.reload();
           } else {
             this.$router.push({ path: '/' });
           }

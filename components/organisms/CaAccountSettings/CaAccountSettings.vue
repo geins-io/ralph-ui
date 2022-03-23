@@ -528,12 +528,12 @@ export default {
           errorPolicy: 'all',
           fetchPolicy: 'no-cache'
         })
-        .then(result => {
+        .then(async result => {
           this.$store.dispatch('loading/end');
           if (!result.errors && result.data.deleteUser) {
-            this.$store.dispatch('auth/logout');
+            await this.$store.dispatch('auth/logout');
             if (this.$config.user.priceLists) {
-              window.location = '/';
+              location.reload();
             } else {
               this.$router.push({ path: '/' });
             }

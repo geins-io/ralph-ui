@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.4.1] - 2021-03-23
+
+### Fixed
+
+- Awaiting logout before reloading for customers with price lists
+- Hiding activated campaigns box in cart when only campaigns with hideTitle applied
+
 ## [10.4.0] - 2021-03-23
 
 ### Added

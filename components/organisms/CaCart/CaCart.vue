@@ -15,7 +15,7 @@
     />
     <div class="ca-cart__summary">
       <CaCampaigns
-        v-if="cart.appliedCampaigns && cart.appliedCampaigns.length"
+        v-if="showCampaigns"
         class="ca-cart__campaigns"
         :campaigns="cart.appliedCampaigns"
         display="box"
@@ -61,6 +61,12 @@ export default {
   computed: {
     cartItems() {
       return this.cart?.items ? this.cart.items : [];
+    },
+    showCampaigns() {
+      const campaigns = this.cart.appliedCampaigns
+        ? this.cart.appliedCampaigns.filter(i => !i.hideTitle)
+        : [];
+      return campaigns.length > 0;
     }
   },
   watch: {},
