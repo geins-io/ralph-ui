@@ -290,15 +290,23 @@ export default {
       this.$refs.feedback.show();
     },
     // @vuese
-    // Closes panel after a delay of 1000 ms
-    closePanelAfterDelay(redirectPath) {
-      setTimeout(() => {
-        this.resetFields();
-        this.$refs.contentpanel.close();
-        if (!this.$route?.name?.includes('checkout')) {
-          this.$router.push({ path: this.localePath(redirectPath) });
-        }
-      }, 1000);
+    // Closes panel after a delay of 1000 ms to let the user see the feedback
+    closePanelAfterDelay(redirectPath = null) {
+      if (this.$config.user.priceLists && !redirectPath) {
+        this.$store.dispatch('loading/start');
+        location.reload();
+      } else {
+        setTimeout(() => {
+          this.resetFields();
+          this.$refs.contentpanel.close();
+          if (
+            !this.$route?.name?.includes('checkout') &&
+            redirectPath !== null
+          ) {
+            this.$router.push({ path: this.localePath(redirectPath) });
+          }
+        }, 1000);
+      }
     },
     // @vuese
     // Log in action
@@ -324,7 +332,7 @@ export default {
                   this.$store.dispatch('setCustomerTypeCookie', type);
 
                   this.loading = false;
-                  this.closePanelAfterDelay('account-orders');
+                  this.closePanelAfterDelay();
                   this.showFeedback(this.feedback.loggedIn);
                 } else {
                   this.showFeedback(this.feedback.error);
@@ -336,7 +344,7 @@ export default {
               });
           } else {
             this.loading = false;
-            this.closePanelAfterDelay('account-orders');
+            this.closePanelAfterDelay();
             this.showFeedback(this.feedback.loggedIn);
           }
         } else {
@@ -447,7 +455,11 @@ export default {
           this.resetFields();
         } else {
           this.$store.dispatch('auth/logout');
-          this.$router.push({ path: '/' });
+          if (this.$config.user.priceLists) {
+            window.location = '/';
+          } else {
+            this.$router.push({ path: '/' });
+          }
           this.$store.dispatch(
             'snackbar/trigger',
             this.feedback.passwordNotChanged

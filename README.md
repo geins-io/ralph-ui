@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.4.0] - 2021-03-23
+
+### Added
+
+- Authentication added to BroadcastChannel
+
+### Fixed
+
+- If customer is using price lists, reload on log in / log out to empty cache (this is a short term solution)
+
 ## [10.3.4] - 2021-03-18
 
 ### Fixed

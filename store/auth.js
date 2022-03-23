@@ -1,4 +1,5 @@
 import AuthClient from '@ralph/ralph-ui/plugins/authClient.js';
+import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 
 export const state = () => ({
   user: null,
@@ -55,6 +56,9 @@ export const actions = {
     dispatch('update');
   },
   update({ state, commit, dispatch }, credentials) {
+    let username = credentials
+      ? credentials.username
+      : this.$cookies.get('ralph-user');
     if (state.client.authorized) {
       commit(
         'setTokenTimeout',
@@ -66,9 +70,6 @@ export const actions = {
         path: '/',
         maxAge: state.client.maxAge
       });
-      const username = credentials
-        ? credentials.username
-        : this.$cookies.get('ralph-user');
       let maxage = 604800;
       if (credentials) {
         maxage = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
@@ -85,12 +86,17 @@ export const actions = {
         maxAge: maxage
       });
     } else {
+      username = null;
       commit('clearTokenTimeout');
-      commit('setUser', null);
+      commit('setUser', username);
       this.$cookies.remove('ralph-auth');
       this.$cookies.remove('ralph-user');
       this.$cookies.remove('ralph-user-maxage');
       this.$cookies.remove('ralph-user-type');
+    }
+    if (process.browser) {
+      const bc = new BroadcastService('ralph_channel');
+      bc.postMessage({ type: 'auth', data: username });
     }
   }
 };

@@ -20,7 +20,7 @@ export const actions = {
 
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');
-      bc.postMessage(cart);
+      bc.postMessage({ type: 'cart', data: cart });
     }
 
     if (cart.id) {
