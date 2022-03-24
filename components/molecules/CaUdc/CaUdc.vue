@@ -21,6 +21,7 @@
         {{ $t('CHECKOUT_SHOW_SHIPPING_OPTIONS') }}
       </CaButton>
       <LazyCaFeedback
+        v-show="!parentLoading"
         ref="feedback"
         class="ca-udc__feedback"
         type="error"
@@ -56,6 +57,11 @@ export default {
     zip: {
       type: String,
       required: true
+    },
+    // If parent step is loading
+    parentLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data: vm => ({

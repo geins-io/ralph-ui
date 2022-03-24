@@ -173,13 +173,6 @@ export default {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
-    // Refetch checkout on window/tab focus to keep state between windows/tabs
-    window.addEventListener('focus', this.focusListener);
-    window.addEventListener('blur', this.blurListener);
-  },
-  beforeDestroy() {
-    window.removeEventListener('focus', this.focusListener);
-    window.removeEventListener('blur', this.blurListener);
   },
   methods: {
     // @vuese
@@ -346,21 +339,6 @@ export default {
       this.frameLoading = true;
       this.paymentId = id;
       this.createOrUpdateCheckout('payment selection');
-    },
-    // @vuese
-    // Event listener function for window focus
-    focusListener() {
-      const lastFocused = this.activeElement?.tagName;
-      if (lastFocused !== 'IFRAME' && this.cart.data?.items?.length) {
-        this.updateDelay = 1000;
-        this.createOrUpdateCheckout('focus');
-      }
-      this.activeElement = document.activeElement;
-    },
-    // @vuese
-    // Event listener function for window blur
-    blurListener() {
-      this.activeElement = document.activeElement;
     }
   }
 };

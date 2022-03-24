@@ -17,13 +17,17 @@ export const mutations = {
 
 export const actions = {
   get({ dispatch, getters }, id = null) {
+    if (id) {
+      dispatch('update', { id });
+    }
     const client = this.app.apolloProvider.defaultClient;
     client
       .query({
         query: getCartQuery,
         variables: {
           id: id ?? getters.id
-        }
+        },
+        fetchPolicy: 'no-cache'
       })
       .then(result => {
         if (result?.data?.getCart) {

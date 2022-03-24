@@ -41,7 +41,8 @@ export default {
     }
   },
   data: () => ({
-    frame: null
+    frame: null,
+    suspended: false
   }),
   computed: {
     // @vuese
@@ -119,11 +120,13 @@ export default {
               window._klarnaCheckout(function(api) {
                 api.suspend();
               });
+              this.suspended = true;
             }
             return;
           case 'SVEA':
             if (window.scoApi) {
               window.scoApi.setCheckoutEnabled(false);
+              this.suspended = true;
             }
         }
       }
@@ -131,7 +134,7 @@ export default {
     // @vuese
     // Resume the checkout
     resume() {
-      if (this.frame) {
+      if (this.frame && this.suspended) {
         switch (this.type) {
           case 'KLARNA':
             if (window._klarnaCheckout) {
@@ -147,6 +150,8 @@ export default {
               window.scoApi.setCheckoutEnabled(true);
             }
         }
+      } else {
+        this.initialize(true);
       }
     },
     // @vuese

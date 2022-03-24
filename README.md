@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.5.1] - 2021-03-24
+
+### Removed
+
+- Focus and blur listeners for checkout
+
+### Fixed
+
+- Added 'safety nets' for external checkout and cart/get
+
 ## [10.5.0] - 2021-03-24
 
 ### Added
