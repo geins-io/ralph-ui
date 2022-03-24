@@ -467,14 +467,6 @@ export default {
     eventbus.$off('route-change');
   },
   methods: {
-    async resetAndRefetchCart() {
-      await this.$store.dispatch('cart/reset');
-      this.refetchCart();
-    },
-
-    refetchCart() {
-      this.$apollo.queries.getCart.refetch();
-    },
     // @vuese
     // Load next chunk of products
     loadMore() {

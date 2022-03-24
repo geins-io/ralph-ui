@@ -1,4 +1,3 @@
-import getCartQuery from 'cart/get.graphql';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -141,29 +140,11 @@ export const actions = {
     }
     commit('setAncientBrowser', this.$ua.browser());
 
-    if (req.headers.cookie) {
-      const parsed = cookie.parse(req.headers.cookie);
-      const user = parsed['ralph-user'] || null;
-      const cartId = parsed['ralph-cart'] || '';
-      commit('auth/setUser', user);
-      dispatch('cart/update', { id: cartId });
-    }
-
-    const client = app.apolloProvider.defaultClient;
-    client
-      .query({
-        query: getCartQuery,
-        variables: {
-          id: getters['cart/id']
-        }
-      })
-      .then(result => {
-        dispatch('cart/update', result.data.getCart);
-      })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
+    const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
+    const user = parsed['ralph-user'] || null;
+    const cartId = parsed['ralph-cart'] || '';
+    commit('auth/setUser', user);
+    dispatch('cart/get', cartId);
   }
 };
 

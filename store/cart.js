@@ -1,4 +1,5 @@
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
+import getCartQuery from 'cart/get.graphql';
 
 export const state = () => ({
   data: null,
@@ -15,6 +16,25 @@ export const mutations = {
 };
 
 export const actions = {
+  get({ dispatch, getters }, id = null) {
+    const client = this.app.apolloProvider.defaultClient;
+    client
+      .query({
+        query: getCartQuery,
+        variables: {
+          id: id ?? getters.id
+        }
+      })
+      .then(result => {
+        if (result?.data?.getCart) {
+          dispatch('update', result.data.getCart);
+        }
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+  },
   update({ commit }, cart) {
     commit('setCart', cart);
 
@@ -30,9 +50,10 @@ export const actions = {
       });
     }
   },
-  reset({ commit }) {
+  reset({ commit, dispatch }) {
     commit('setCart', null);
     this.$cookies.remove('ralph-cart');
+    dispatch('get');
   },
   changed({ state }, carts) {
     return (

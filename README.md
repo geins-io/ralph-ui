@@ -35,6 +35,21 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.5.0] - 2021-03-24
+
+### Added
+
+- getCart action in the store: `dispatch('cart/get')`
+- Mixin for confirm page, functions moved from the Ralph Storefront
+
+### Changed
+
+- Resetting the cart now also gets a brand new one right after
+
+### Removed
+
+- resetAndRefetchCart removed from MixListPAge, wasn't used anywhere
+
 ## [10.4.1] - 2021-03-23
 
 ### Fixed
