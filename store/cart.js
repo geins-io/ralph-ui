@@ -1,5 +1,6 @@
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 import getCartQuery from 'cart/get.graphql';
+import GtmService from '../services/gtm';
 
 export const state = () => ({
   data: null,
@@ -39,13 +40,42 @@ export const actions = {
         console.log(error);
       });
   },
-  update({ commit }, cart) {
-    commit('setCart', cart);
-
+  update({ commit, state, $gtm }, cart) {
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'cart', data: cart });
+
+      if (this.$gtm) {
+        const { isSame, isRemove, products } = GtmService.getCheckoutUpdate(
+          state.data.items,
+          cart.items
+        );
+
+        if (!isSame) {
+          if (isRemove) {
+            this.$gtm.push({
+              event: 'Remove from Cart',
+              ecommerce: {
+                currencyCode: 'SEK',
+                remove: { products }
+              },
+              'gtm.uniqueEventId': 12
+            });
+          } else {
+            this.$gtm.push({
+              event: 'Add to Cart',
+              ecommerce: {
+                currencyCode: 'SEK',
+                add: { products }
+              },
+              'gtm.uniqueEventId': 11
+            });
+          }
+        }
+      }
     }
+
+    commit('setCart', cart);
 
     if (cart.id) {
       this.$cookies.set('ralph-cart', cart.id, {

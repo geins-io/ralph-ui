@@ -173,8 +173,40 @@ export default {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
+    this.emitGTMEvent();
   },
   methods: {
+    // @vuese
+    // GTM event emitter
+    emitGTMEvent() {
+      if (this.$gtm) {
+        this.$gtm.push({
+          event: 'Checkout Step',
+          eventInfo: {},
+          ecommerce: {
+            currencyCode: 'SEK',
+            checkout: {
+              actionField: {
+                step: 1
+              },
+              products: this.cart?.data?.items.map(item => ({
+                id: item.product.productId,
+                name: item.product.name,
+                brand: item.product.brand?.name,
+                category: item.product.primaryCategory?.name,
+                price: item.unitPrice?.sellingPriceExVat,
+                tax: item.unitPrice.vat,
+                quantity: item.quantity,
+                variant: item.product.skus.find(i => i.skuId === item.skuId)
+                  .name,
+                sku: item.skuId
+              }))
+            }
+          },
+          'gtm.uniqueEventId': 6
+        });
+      }
+    },
     // @vuese
     // Handling the api call for creating an updating the checkout session
     createOrUpdateCheckout(reason = 'other') {

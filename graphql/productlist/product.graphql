@@ -16,4 +16,10 @@ fragment ListProduct on ProductType {
   discountCampaigns {
     ...Campaign
   }
+  primaryCategory {
+    name
+  }
+  totalStock {
+    inStock
+  }
 }

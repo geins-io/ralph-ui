@@ -192,6 +192,35 @@ export default {
   },
   methods: {
     // @vuese
+    // GTM event emitter
+    emitGTMEvent() {
+      if (this.$gtm) {
+        this.$gtm.push({
+          event: 'Product Detail Impression',
+          eventInfo: {},
+          ecommerce: {
+            currencyCode: 'SEK',
+            detail: {
+              products: [
+                {
+                  id: this.product.productId,
+                  name: this.product.name,
+                  brand: this.product.brand?.name,
+                  category: this.product.primaryCategory?.name,
+                  price: this.product.unitPrice?.sellingPriceExVat,
+                  tax: this.product.unitPrice.vat,
+                  currency: 'SEK',
+                  inStock: Boolean(this.product?.totalStock?.inStock),
+                  urgencyLabelDisplayed: false
+                }
+              ]
+            }
+          },
+          'gtm.uniqueEventId': 4
+        });
+      }
+    },
+    // @vuese
     // Handler for changing quantity
     // @arg value (Number)
     onQuantityChange(value) {
@@ -246,6 +275,7 @@ export default {
     switchToCanonical() {
       const check = setInterval(() => {
         if (this.product) {
+          this.emitGTMEvent();
           clearInterval(check);
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);
