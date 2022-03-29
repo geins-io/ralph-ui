@@ -11,7 +11,7 @@ export default {
     eventbus.$on('clear-cache', () => {
       this.isInitialRequest = true;
       Object.values(this.$apollo.queries).forEach(query => query.refetch());
-    })
+    });
   },
   beforeDestroy() {
     eventbus.$off('clear-cache');

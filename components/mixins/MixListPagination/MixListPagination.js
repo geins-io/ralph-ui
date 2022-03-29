@@ -55,8 +55,8 @@ export default {
     // Setup pagination
     // @arg products (Object)
     setupPagination(products) {
-      this.productList = products.products;
-      this.totalCount = products.count;
+      this.productList = products?.products ?? [];
+      this.totalCount = products?.count ?? 0;
       if (this.currentMaxCount > this.totalCount) {
         this.currentMaxCount = this.totalCount;
       }

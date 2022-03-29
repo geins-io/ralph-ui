@@ -105,10 +105,10 @@ export const actions = {
   clearCache() {
     if (this.$config.user.priceLists) {
       this.app.apolloProvider.defaultClient.cache.reset();
-      this.dispatch('cart/get')
+      this.dispatch('cart/get');
       eventbus.$emit('clear-cache');
     }
-  },
+  }
 };
 
 export const getters = {
