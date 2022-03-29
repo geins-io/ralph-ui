@@ -91,19 +91,21 @@ export default {
     },
 
     getGtmProductFormat() {
-      return [
-        {
-          id: this.product.productId,
-          name: this.product.name,
-          brand: this.product.brand?.name,
-          category: this.product.primaryCategory?.name,
-          price: this.product.unitPrice.sellingPriceExVat,
-          tax: this.product.unitPrice.vat,
-          inStock: Boolean(this.product?.totalStock?.inStock),
-          urgencyLabelDisplayed: false,
-          position: 1
-        }
-      ];
+      return this.productPopulated
+        ? [
+            {
+              id: this.product.productId,
+              name: this.product.name,
+              brand: this.product.brand?.name,
+              category: this.product.primaryCategory?.name,
+              price: this.product.unitPrice.sellingPriceExVat,
+              tax: this.product.unitPrice.vat,
+              inStock: Boolean(this.product?.totalStock?.inStock),
+              urgencyLabelDisplayed: false,
+              position: 1
+            }
+          ]
+        : [];
     }
   }
 };

@@ -10,7 +10,7 @@
       :page-size="take"
     />
     <CaProductListSlider
-      v-else
+      v-else-if="!(productsLoaded && productList.length === 0)"
       class="ca-widget-product-list__list"
       :products="productList"
       :page-size="take"
@@ -52,10 +52,11 @@ export default {
           take: this.take
         };
       },
+      errorPolicy: 'all',
       result(result) {
-        if (result && result.data) {
-          this.setupPagination(result.data.products);
-        }
+        const products = result?.data?.products ?? null;
+        this.setupPagination(products);
+        this.productsLoaded = true;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -72,7 +73,8 @@ export default {
     }
   },
   data: () => ({
-    mainProductList: false
+    mainProductList: false,
+    productsLoaded: false
   }),
   computed: {
     // @vuese

@@ -35,11 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [10.6.1] - 2021-03-28
+## [10.6.2] - 2021-03-29
 
-### Added
+### Fixed
 
-- Flush cache after login or unlogin user
+- Don't show widget product list skeletons when no products was found
+
+## [10.6.1] - 2021-03-29
+
+### Changed
+
+- If using price lists, flush cache after log in / log out
+- Rollback for reload on log in / log out
 
 ## [10.6.0] - 2021-03-28
 
