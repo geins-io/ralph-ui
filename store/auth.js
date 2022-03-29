@@ -1,5 +1,6 @@
 import AuthClient from '@ralph/ralph-ui/plugins/authClient.js';
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 export const state = () => ({
   user: null,
@@ -41,6 +42,7 @@ export const actions = {
   },
   async login({ state, dispatch }, credentials) {
     await state.client?.connect(credentials);
+    dispatch('clearCache');
     dispatch('update', credentials);
   },
   async register({ state, dispatch }, credentials) {
@@ -53,6 +55,7 @@ export const actions = {
   },
   async logout({ state, dispatch }) {
     await state.client?.connect(null, 'logout');
+    dispatch('clearCache');
     dispatch('update');
   },
   update({ state, commit, dispatch }, credentials) {
@@ -98,7 +101,14 @@ export const actions = {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'auth', data: username });
     }
-  }
+  },
+  clearCache() {
+    if (this.$config.user.priceLists) {
+      this.app.apolloProvider.defaultClient.cache.reset();
+      this.dispatch('cart/get')
+      eventbus.$emit('clear-cache');
+    }
+  },
 };
 
 export const getters = {

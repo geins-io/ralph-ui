@@ -532,11 +532,7 @@ export default {
           this.$store.dispatch('loading/end');
           if (!result.errors && result.data.deleteUser) {
             await this.$store.dispatch('auth/logout');
-            if (this.$config.user.priceLists) {
-              location.reload();
-            } else {
-              this.$router.push({ path: '/' });
-            }
+            this.$router.push({ path: '/' });
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
               placement: 'bottom-center',

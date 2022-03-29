@@ -2,6 +2,7 @@ import { mapState } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
+import MixCache from 'MixCache';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -22,7 +23,7 @@ import MixPromiseQueue from 'MixPromiseQueue';
 // frameLoading: `false`
 export default {
   name: 'MixCheckout',
-  mixins: [MixPromiseQueue],
+  mixins: [MixPromiseQueue, MixCache],
   props: {},
   data: vm => ({
     debug: false,

@@ -292,21 +292,13 @@ export default {
     // @vuese
     // Closes panel after a delay of 1000 ms to let the user see the feedback
     closePanelAfterDelay(redirectPath = null) {
-      if (this.$config.user.priceLists && !redirectPath) {
-        this.$store.dispatch('loading/start');
-        location.reload();
-      } else {
-        setTimeout(() => {
-          this.resetFields();
-          this.$refs.contentpanel.close();
-          if (
-            !this.$route?.name?.includes('checkout') &&
-            redirectPath !== null
-          ) {
-            this.$router.push({ path: this.localePath(redirectPath) });
-          }
-        }, 1000);
-      }
+      setTimeout(() => {
+        this.resetFields();
+        this.$refs.contentpanel.close();
+        if (!this.$route?.name?.includes('checkout') && redirectPath !== null) {
+          this.$router.push({ path: this.localePath(redirectPath) });
+        }
+      }, 1000);
     },
     // @vuese
     // Log in action
@@ -455,11 +447,7 @@ export default {
           this.resetFields();
         } else {
           await this.$store.dispatch('auth/logout');
-          if (this.$config.user.priceLists) {
-            location.reload();
-          } else {
-            this.$router.push({ path: '/' });
-          }
+          this.$router.push({ path: '/' });
           this.$store.dispatch(
             'snackbar/trigger',
             this.feedback.passwordNotChanged

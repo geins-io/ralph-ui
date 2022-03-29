@@ -1,5 +1,6 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
+import MixCache from 'MixCache';
 import productsQuery from 'productlist/list-products.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
@@ -28,7 +29,7 @@ import combineQuery from 'graphql-combine-query';
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixMetaReplacement, MixListPagination],
+  mixins: [MixMetaReplacement, MixListPagination, MixCache],
   apollo: {
     listPageInfo: {
       query() {

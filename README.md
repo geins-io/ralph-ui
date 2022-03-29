@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.6.1] - 2021-03-28
+
+### Added
+
+- Flush cache after login or unlogin user
+
 ## [10.6.0] - 2021-03-28
 
 ### Added
