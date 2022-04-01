@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [10.6.3] - 2022-04-01
+
+### Add
+
+- Append new plugin to get header 'x-channelId' and save it to store
+
 ## [10.6.2] - 2021-03-29
 
 ### Fixed

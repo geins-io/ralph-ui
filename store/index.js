@@ -9,7 +9,8 @@ export const state = () => ({
   hostname: '',
   config: {},
   ancientBrowser: false,
-  categoryTree: []
+  categoryTree: [],
+  channelId: ''
 });
 
 export const mutations = {
@@ -49,6 +50,9 @@ export const mutations = {
   },
   setCategoryTree(state, tree) {
     state.categoryTree = tree;
+  },
+  setChannelId(state, payload) {
+    state.channelId = payload;
   }
 };
 
@@ -151,6 +155,9 @@ export const actions = {
 export const getters = {
   siteIsAtTop: state => {
     return state.scrollTop <= state.config.siteTopThreshold;
+  },
+  channelId: state => {
+    return state.channelId;
   },
   viewportComputer: state => {
     return state.viewportWidth >= state.config.breakpoints.laptop;
