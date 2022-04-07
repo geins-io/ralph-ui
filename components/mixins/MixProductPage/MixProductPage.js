@@ -173,8 +173,8 @@ export default {
   },
   watch: {
     // @vuese
-    // Watching currentStock to change quantity if set higher than totalStock
-    currentStock(val) {
+    // Watching currentStock.totalStock to change quantity if set higher than totalStock
+    'currentStock.totalStock'(val) {
       if (val === 0) {
         return;
       }
@@ -237,10 +237,12 @@ export default {
         });
       } else if (
         this.quantity + this.chosenSkuCartQuantity >
-        this.currentStock
+        this.currentStock.totalStock
       ) {
         this.$store.dispatch('snackbar/trigger', {
-          message: this.$t('CART_ADD_TOO_MANY', { stock: this.currentStock }),
+          message: this.$t('CART_ADD_TOO_MANY', {
+            stock: this.currentStock.totalStock
+          }),
           placement: 'bottom-center'
         });
       } else {

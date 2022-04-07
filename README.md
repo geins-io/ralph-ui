@@ -35,9 +35,20 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.0.0] - 2022-04-07
+
+### Added
+
+- Support for oversellable stock status
+- Stock status display component
+
+### Changed
+
+- currentStock in MixStockHandler should now be the full stock object and not only a number
+
 ## [10.6.3] - 2022-04-01
 
-### Add
+### Added
 
 - Append new plugin to get header 'x-channelId' and save it to store
 

@@ -24,7 +24,7 @@
         class="ca-cart-product__remove"
         icon-name="x"
         aria-label="Close"
-        @clicked="updateCart(item.skuId, 0)"
+        @clicked="removeItem"
       />
 
       <NuxtLink :to="product.canonicalUrl">
@@ -76,12 +76,19 @@
           class="ca-cart-product__campaigns"
           :campaigns="item.campaign.appliedCampaigns"
         />
+        <CaStockDisplay
+          v-if="mode === 'default'"
+          class="ca-cart-product__stock-display"
+          :stock="currentStock"
+          :product-quantity="quantity"
+          :show-delivery-time="true"
+        />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
         <CaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
-          :max-quantity="skuStockQuantity"
+          :max-quantity="skuStock.totalStock"
           :type="$config.cart.quantityChangerType"
           @changed="onQuantityChange"
         />
@@ -97,13 +104,14 @@
 </template>
 <script>
 import MixUpdateCart from 'MixUpdateCart';
+import MixStockHandler from 'MixStockHandler';
 // @group Molecules
 // @vuese
 // A product displayed in the cart<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-cart-product.scss_
 export default {
   name: 'CaCartProduct',
-  mixins: [MixUpdateCart],
+  mixins: [MixUpdateCart, MixStockHandler],
   props: {
     // The cart product item
     item: {
@@ -120,7 +128,9 @@ export default {
       }
     }
   },
-  data: () => ({}),
+  data: () => ({
+    quantity: 1
+  }),
   computed: {
     product() {
       return this.item.product;
@@ -135,21 +145,48 @@ export default {
         this.product.skus.filter(i => i.skuId === this.item.skuId)[0].name || ''
       );
     },
-    skuStockQuantity() {
+    skuStock() {
       return (
-        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock
-          .totalStock || 0
+        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock ||
+        this.defaultStock
       );
+    },
+    currentStock() {
+      return this.skuStock;
     }
   },
-  watch: {},
-  mounted() {},
+  watch: {
+    stockStatus(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.emitStockStatus();
+      }
+    }
+  },
+  mounted() {
+    this.quantity = this.item.quantity;
+    this.emitStockStatus();
+  },
   methods: {
     // @vuese
     // Quantity change handler
     // @arg value (Number)
     onQuantityChange(value) {
+      this.quantity = value;
       this.updateCart(this.item.skuId, value);
+    },
+    // @vuese
+    // Emitting stock status change
+    emitStockStatus() {
+      this.$emit('stock-status-change', {
+        skuId: this.item.skuId,
+        stockStatus: this.stockStatus
+      });
+    },
+    // @vuese
+    // Removing item and emitting "remove"
+    removeItem() {
+      this.$emit('remove', this.item.skuId);
+      this.updateCart(this.item.skuId, 0);
     }
   }
 };

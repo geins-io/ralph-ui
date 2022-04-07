@@ -12,6 +12,9 @@
       display: flex;
     }
   }
+  &__feedback {
+    margin: 0 0 $px20;
+  }
   &__campaigns {
     margin: $px16 0;
     @include bp(tablet) {

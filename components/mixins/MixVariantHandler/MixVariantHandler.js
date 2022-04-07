@@ -133,18 +133,14 @@ export default {
     // Return total stock quantity based on chosen sku variant or else product total stock. Overriding currentStock from MixStockHandler
     // @type Number
     currentStock() {
-      if (
-        this.skuVariants &&
-        this.skuVariants.length &&
-        this.product.totalStock
-      ) {
+      if (this.skuVariants?.length && this.product.totalStock) {
         if (this.chosenSkuVariant) {
-          return this.chosenSkuVariant.stock.totalStock;
+          return this.chosenSkuVariant.stock;
         } else {
-          return this.product.totalStock.totalStock;
+          return this.product.totalStock;
         }
       } else {
-        return 0;
+        return this.defaultStock;
       }
     },
     // @vuese
@@ -159,7 +155,7 @@ export default {
     }
   },
   watch: {
-    currentStock(val) {
+    'currentStock.totalStock'(val) {
       if (val === 0) {
         // The chosen size no longer has a stock quantity, chosenSku needs a reset
         this.resetSku();

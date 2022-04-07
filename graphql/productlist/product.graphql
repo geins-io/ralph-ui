@@ -1,4 +1,5 @@
 #import "product/price.graphql"
+#import "product/stock.graphql"
 #import "global/campaign.graphql"
 
 fragment ListProduct on ProductType {
@@ -20,6 +21,6 @@ fragment ListProduct on ProductType {
     name
   }
   totalStock {
-    inStock
+    ...Stock
   }
 }

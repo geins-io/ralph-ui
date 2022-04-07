@@ -1,0 +1,38 @@
+.ca-stock-display {
+  display: flex;
+  align-items: center;
+  column-gap: 0.6em;
+  font-weight: $font-weight-bold;
+  &::before {
+    content: '';
+    display: block;
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+  }
+
+  &__delivery-time {
+    font-weight: $font-weight-normal;
+    font-size: 0.9em;
+  }
+  &--in-stock {
+    &::before {
+      background-color: $c-success;
+    }
+  }
+  &--out-of-stock {
+    &::before {
+      background-color: $c-error;
+    }
+  }
+  &--oversellable {
+    &::before {
+      background-color: $c-ok;
+    }
+  }
+  &--few-left {
+    &::before {
+      background-color: $c-ok;
+    }
+  }
+}

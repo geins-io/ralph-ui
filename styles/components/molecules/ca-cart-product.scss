@@ -59,6 +59,11 @@
     margin: $px4 0 0;
   }
 
+  &__stock-display {
+    font-size: $font-size-xs;
+    margin: $px4 0 0;
+  }
+
   &__bottom {
     display: flex;
     justify-content: space-between;

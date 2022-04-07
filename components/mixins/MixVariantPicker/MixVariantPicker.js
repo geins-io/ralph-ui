@@ -97,7 +97,7 @@ export default {
     // @arg variant (Object)
     getStock(variant) {
       if (variant.level === 0) {
-        return this.getStockStatusText(variant.stock.totalStock);
+        return this.getStockStatusText(variant.stock);
       } else if (
         variant.level === 1 &&
         !this.variantsData.hasMultipleDimensions
@@ -106,9 +106,9 @@ export default {
           i => i.value === this.variantsData.chosenSku.value
         )[0];
         if (skuVariant) {
-          return this.getStockStatusText(skuVariant.stock.totalStock);
+          return this.getStockStatusText(skuVariant.stock);
         } else {
-          return this.getStockStatusText(variant.stock.totalStock);
+          return this.getStockStatusText(variant.stock);
         }
       }
       // TODO? : Stöd för stock status för produkter med multipla varianter. Hitta stock på samma sätt som alias, em UX?

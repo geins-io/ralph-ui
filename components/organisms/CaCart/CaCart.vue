@@ -1,5 +1,11 @@
 <template>
   <div v-if="cartItems.length" class="ca-cart">
+    <CaFeedback
+      v-if="hasOversellable"
+      class="ca-cart__feedback"
+      :message="$t('OVERSELLABLE_CART_MESSAGE')"
+      :constant="true"
+    />
     <CaCartProduct
       v-for="(item, index) in cartItems"
       :key="index"
@@ -7,6 +13,8 @@
       :item="item"
       :mode="mode"
       @loading="toggleLoading"
+      @stock-status-change="handleStockStatus"
+      @remove="removeHandler"
     />
     <CaPromoCode
       v-if="mode !== 'display' && $config.checkout.promoCodes"
@@ -56,7 +64,8 @@ export default {
     }
   },
   data: () => ({
-    loading: false
+    loading: false,
+    stockStatuses: []
   }),
   computed: {
     cartItems() {
@@ -67,6 +76,12 @@ export default {
         ? this.cart.appliedCampaigns.filter(i => !i.hideTitle)
         : [];
       return campaigns.length > 0;
+    },
+    hasOversellable() {
+      const oversellable = this.stockStatuses.filter(
+        i => i.stockStatus === 'OVERSELLABLE'
+      );
+      return oversellable.length > 0;
     }
   },
   watch: {},
@@ -76,6 +91,22 @@ export default {
       this.loading = loading;
       // Emits true when loading starts and false when loading ends
       this.$emit('loading', loading);
+    },
+    handleStockStatus(data) {
+      const prod = this.stockStatuses.find(i => i.skuId === data.skuId);
+      if (prod) {
+        this.stockStatuses.map(i => {
+          if (i.skuId === data.skuId) {
+            i.stockStatus = data.stockStatus;
+          }
+          return i;
+        });
+      } else {
+        this.stockStatuses.push(data);
+      }
+    },
+    removeHandler(skuId) {
+      this.stockStatuses = this.stockStatuses.filter(i => i.skuId !== skuId);
     }
   }
 };
