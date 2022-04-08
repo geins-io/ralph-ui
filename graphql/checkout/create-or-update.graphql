@@ -22,6 +22,14 @@ mutation createOrUpdateCheckout(
       ...Address
     }
     shippingData
+    shippingOptions {
+      id
+      displayName
+      logo
+      isSelected
+      feeIncVatFormatted
+      feeExVatFormatted
+    }
     paymentOptions {
       id
       displayName
@@ -29,7 +37,6 @@ mutation createOrUpdateCheckout(
       paymentType
       paymentData
       isSelected
-      feeIncVatFormatted
       newCheckoutSession
     }
   }

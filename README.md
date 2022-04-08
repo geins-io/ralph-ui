@@ -35,6 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.1.0] - 2022-04-08
+
+### Added
+
+- Support for static stock
+- Component for shipping options
+
+### Fixed
+
+- Some documentation
+
 ## [11.0.0] - 2022-04-07
 
 ### Added

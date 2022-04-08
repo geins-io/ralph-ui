@@ -9,6 +9,7 @@ The Unifaun Delivery Checkout widget<br><br> **SASS-path:** _./styles/components
 |---|---|---|---|---|
 |shippingData|JSON string from the API|`String`|`false`|null|
 |zip|The current zip code / postal code|`String`|`true`|-|
+|parentLoading|If parent step is loading|`Boolean`|`false`|false|
 
 <!-- @vuese:CaUdc:props:end -->
 

@@ -7,6 +7,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 <!-- @vuese:MixCheckout:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
+|emitGTMEvent|GTM event emitter|-|
 |createOrUpdateCheckout|Handling the api call for creating an updating the checkout session|-|
 |updateCart|Updating the cart if the cart is different from the existing cart|cart (Object)|
 |updateCheckoutData|Updating the checkout data received from Carismar Checkout|data (Object)|
@@ -14,8 +15,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |initUDC|Initialize UDC|zip (String)|
 |setUDCdata|UDC callback handler|data (Object)|
 |paymentSelectionHandler|Handling the payment selection|payment id (Number)|
-|focusListener|Event listener function for window focus|-|
-|blurListener|Event listener function for window blur|-|
+|shippingSelectionHandler|Handling the shipping selection|shipping id (Number)|
 
 <!-- @vuese:MixCheckout:methods:end -->
 
@@ -42,6 +42,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |MixIn|
 |---|
 |MixPromiseQueue|
+|MixCache|
 
 <!-- @vuese:MixCheckout:mixIns:end -->
 

@@ -1,7 +1,7 @@
 import confirmCartQuery from 'cart/confirm.graphql';
 import completeCartMutation from 'cart/complete.graphql';
 import MixDatalayerConfirm from 'MixDatalayerConfirm';
-// @group mixins
+// @group Mixins
 // @vuese
 // All functionality for the confirm page<br><br>
 // **Data:**<br>

@@ -23,3 +23,13 @@ This is used to display product specifications in a table like format<br><br> **
 <!-- @vuese:CaSpecifications:methods:end -->
 
 
+## Computed
+
+<!-- @vuese:CaSpecifications:computed:start -->
+|Computed|Type|Description|From Store|
+|---|---|---|---|
+|groups|-|The specification groups but with empty groups removed|No|
+
+<!-- @vuese:CaSpecifications:computed:end -->
+
+

@@ -24,6 +24,7 @@ A select input that works with v-model and has a native behavior on mobile devic
 |Event Name|Description|Parameters|
 |---|---|---|
 |input|Triggered by user input change|The newly selected value (String, Number)|
+|opened|-|-|
 
 <!-- @vuese:CaInputSelect:events:end -->
 
@@ -36,6 +37,7 @@ A select input that works with v-model and has a native behavior on mobile devic
 |setInitialValue|Used to set initial value when mounted|-|
 |selectOption|This is run to select an option|new value (String, Number) and label (String - optional)|
 |toggleOptions|Opening and closing the dropdown|-|
+|close|Closing the dropdown|-|
 |getLabel|Get the label for a specific value in the list of options|value (String, Number)|
 
 <!-- @vuese:CaInputSelect:methods:end -->

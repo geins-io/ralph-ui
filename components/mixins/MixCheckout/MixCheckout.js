@@ -372,6 +372,14 @@ export default {
       this.frameLoading = true;
       this.paymentId = id;
       this.createOrUpdateCheckout('payment selection');
+    },
+    // @vuese
+    // Handling the shipping selection
+    // @arg shipping id (Number)
+    shippingSelectionHandler(id) {
+      this.frameLoading = true;
+      this.shippingId = id;
+      this.createOrUpdateCheckout('shipping selection');
     }
   }
 };

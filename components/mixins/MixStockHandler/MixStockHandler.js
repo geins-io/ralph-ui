@@ -6,6 +6,7 @@
 //     totalStock: 0,
 //      inStock: 0,
 //      oversellable: 0,
+//      static: 0,
 //      incoming: null
 //    }`<br>
 // quantity: `1`<br>
@@ -18,6 +19,7 @@ export default {
       totalStock: 0,
       inStock: 0,
       oversellable: 0,
+      static: 0,
       incoming: null
     },
     quantity: 1
@@ -30,7 +32,7 @@ export default {
       return this.defaultStock;
     },
     // @vuese
-    // Returns a stock status. Available statuses are: 'OUT_OF_STOCK', 'IN_STOCK', 'FEW_LEFT', 'OVERSELLABLE'
+    // Returns a stock status. Available statuses are: 'OUT_OF_STOCK', 'IN_STOCK', 'FEW_LEFT', 'OVERSELLABLE', 'STATIC'
     // @type String
     stockStatus() {
       return this.getStockStatus();
@@ -48,7 +50,7 @@ export default {
     // Returns the number of items with same skuId as the chosen one that you have in cart
     // @type Number
     chosenSkuCartQuantity() {
-      if (this.chosenSku.id && this.$store.state.cart?.data?.items) {
+      if (this.chosenSku?.id && this.$store.state.cart?.data?.items) {
         const inCart = this.$store.state.cart.data.items.find(
           i => i.skuId === this.chosenSku.id
         );
@@ -61,7 +63,7 @@ export default {
     // Returns the quantity left in stock subtracting items in cart
     // @type Number
     stockThreshold() {
-      return this.chosenSku.id
+      return this.chosenSku?.id
         ? this.currentStock.totalStock - this.chosenSkuCartQuantity
         : -1;
     },
@@ -73,13 +75,19 @@ export default {
   mounted() {},
   methods: {
     // @vuese
-    // Get stock status. Argument **stock** defaults to this.currentStock. Available statuses are: 'OUT_OF_STOCK', 'IN_STOCK', 'FEW_LEFT', 'OVERSELLABLE'
+    // Get stock status. Argument **stock** defaults to this.currentStock. Available statuses are: 'OUT_OF_STOCK', 'IN_STOCK', 'FEW_LEFT', 'OVERSELLABLE', 'STATIC'
     // @arg stock (Number)
     getStockStatus(stock = this.currentStock) {
       if (stock.totalStock === 0) {
         return 'OUT_OF_STOCK';
       } else if (stock.oversellable > 0 && this.quantity > stock.inStock) {
         return 'OVERSELLABLE';
+      } else if (
+        stock.static > 0 &&
+        this.quantity > stock.inStock &&
+        this.quantity > stock.oversellable
+      ) {
+        return 'STATIC';
       } else if (
         stock.inStock > 0 &&
         stock.inStock < this.$config.productStockFewLeftLimit

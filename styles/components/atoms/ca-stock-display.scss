@@ -1,3 +1,8 @@
+$c-in-stock: #00aa55 !default;
+$c-out-of-stock: #d10a0a !default;
+$c-oversellable: #fab300 !default;
+$c-few-left: $c-oversellable !default;
+$c-static-stock: $c-in-stock !default;
 .ca-stock-display {
   display: flex;
   align-items: center;
@@ -17,22 +22,27 @@
   }
   &--in-stock {
     &::before {
-      background-color: $c-success;
+      background-color: $c-in-stock;
     }
   }
   &--out-of-stock {
     &::before {
-      background-color: $c-error;
+      background-color: $c-out-of-stock;
     }
   }
   &--oversellable {
     &::before {
-      background-color: $c-ok;
+      background-color: $c-oversellable;
     }
   }
   &--few-left {
     &::before {
-      background-color: $c-ok;
+      background-color: $c-few-left;
+    }
+  }
+  &--static {
+    &::before {
+      background-color: $c-static-stock;
     }
   }
 }

@@ -7,6 +7,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 <!-- @vuese:MixProductPage.js:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
+|emitGTMEvent|GTM event emitter|-|
 |onQuantityChange|Handler for changing quantity|value (Number)|
 |addToCartClick|Action for clicking the add to cart button|-|
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|
@@ -39,6 +40,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |MixIn|
 |---|
 |MixMetaReplacement|
+|MixCache|
 
 <!-- @vuese:MixProductPage.js:mixIns:end -->
 
@@ -48,7 +50,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 <!-- @vuese:MixProductPage.js:watch:start -->
 |Name|Description|Parameters|
 |---|---|---|
-|currentStock|Watching currentStock to change quantity if set higher than totalStock|-|
+|undefined|Watching currentStock.totalStock to change quantity if set higher than totalStock|-|
 |prodAlias|Watching prodAlias to fetch request when alias state change|-|
 
 <!-- @vuese:MixProductPage.js:watch:end -->

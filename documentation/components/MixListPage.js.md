@@ -80,6 +80,7 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |---|
 |MixMetaReplacement|
 |MixListPagination|
+|MixCache|
 
 <!-- @vuese:MixListPage.js:mixIns:end -->
 

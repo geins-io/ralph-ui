@@ -10,7 +10,7 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 |setFrame|Set frame for content panel|Content panel frame (String)|
 |createAccountHandler|Decides what action the create account button should have (different in different frames)|-|
 |showFeedback|Show feedback|Feedback (Object)|
-|closePanelAfterDelay|Closes panel after a delay of 1000 ms|-|
+|closePanelAfterDelay|Closes panel after a delay of 1000 ms to let the user see the feedback|-|
 |login|Log in action|-|
 |createAccount|Create account action|-|
 |resetPassword|Reset password action|-|

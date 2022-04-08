@@ -13,12 +13,25 @@ A product displayed in the cart<br><br> **SASS-path:** _./styles/components/mole
 <!-- @vuese:CaCartProduct:props:end -->
 
 
+## Events
+
+<!-- @vuese:CaCartProduct:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|stock-status-change|-|-|
+|remove|-|-|
+
+<!-- @vuese:CaCartProduct:events:end -->
+
+
 ## Methods
 
 <!-- @vuese:CaCartProduct:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
 |onQuantityChange|Quantity change handler|value (Number)|
+|emitStockStatus|Emitting stock status change|-|
+|removeItem|Removing item and emitting "remove"|-|
 
 <!-- @vuese:CaCartProduct:methods:end -->
 
@@ -29,6 +42,7 @@ A product displayed in the cart<br><br> **SASS-path:** _./styles/components/mole
 |MixIn|
 |---|
 |MixUpdateCart|
+|MixStockHandler|
 
 <!-- @vuese:CaCartProduct:mixIns:end -->
 

@@ -9,7 +9,7 @@ Used to trigger the filter panel<br><br> **SASS-path:** _./styles/components/ato
 |---|---|---|---|---|
 |title|The title of the filter|`String`|`true`|-|
 |selection|The current filter selection|`Array`|`true`|-|
-|iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`false`|chevron-down|
+|iconName|The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.|`String`|`false`|filter|
 |filters|-|`Array`|`false`|["1","2"]|
 
 <!-- @vuese:CaFilterTrigger:props:end -->

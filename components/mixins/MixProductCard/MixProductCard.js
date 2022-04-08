@@ -1,15 +1,24 @@
+// @group Mixins
+// @vuese
+// All functionality for the product card<br><br>
+// **Data:**<br>
+// observer: `null`<br>
+// trackCounter: `0`<br>
 export default {
   name: 'MixProductCard',
   mixins: [],
   props: {
+    // Base elemetn tag
     baseTag: {
       type: String,
       default: 'li'
     },
+    // Product data
     product: {
       type: Object,
       required: true
     },
+    // Current page number
     pageNumber: {
       type: Number,
       default: 0
@@ -17,6 +26,9 @@ export default {
   },
   data: () => ({ observer: null, trackCounter: 0 }),
   computed: {
+    // @vuese
+    // Is the product populated with data
+    // @type Boolean
     productPopulated() {
       return Object.keys(this.product).length > 0;
     }
@@ -45,6 +57,8 @@ export default {
     this.observer.observe(this.$el);
   },
   methods: {
+    // @vuese
+    // Handling product click
     productClickHandler() {
       this.gtmClickEvent();
       if (this.pageNumber > 0) {
@@ -52,7 +66,8 @@ export default {
         this.$store.commit('list/setRelocateAlias', this.product.alias);
       }
     },
-
+    // @vuese
+    // Pushing GTM Product Impression
     gtmViewEvent() {
       if (this.$gtm) {
         this.$gtm.push({
@@ -68,7 +83,8 @@ export default {
         });
       }
     },
-
+    // @vuese
+    // Pushing GTM Product Click
     gtmClickEvent() {
       if (this.$gtm) {
         this.$gtm.push({
@@ -89,7 +105,8 @@ export default {
         });
       }
     },
-
+    // @vuese
+    // Getting gtm product format
     getGtmProductFormat() {
       return this.productPopulated
         ? [
