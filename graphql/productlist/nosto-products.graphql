@@ -1,0 +1,24 @@
+
+query products(
+  $skip: Int = 0
+  $limit: Int = 20
+  $sort: InputSortParam = null
+  $filter: InputFilterParams = null
+) {
+  products(
+    limit: $limit
+    offset: $skip
+    sort: $sort
+    filter: $filter
+  ) {
+    count: hits
+    products {
+      brand
+      name
+      productId
+      alias:url
+      price
+      images: imageUrl
+    }
+  }
+}

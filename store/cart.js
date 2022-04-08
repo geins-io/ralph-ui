@@ -42,6 +42,38 @@ export const actions = {
   },
   update({ commit, state, $gtm }, cart) {
     if (process.browser) {
+      if (this.$config.isNostoActive) {
+        window.nostojs(api => {
+          api
+            .defaultSession()
+            .setCart({
+              items: cart.items.map(item => ({
+                name: item.product.name,
+                price_currency_code: 'EUR',
+                product_id: item.product.productId,
+                quantity: item.quantity,
+                sku_id: item.skuId,
+                unit_price: item.unitPrice.sellingPriceIncVat
+              }))
+            })
+            .viewCart()
+            .update();
+        });
+
+        window.nostojs(api => {
+          api
+            .defaultSession()
+            .viewFrontPage()
+            .setPlacements(api.placements.getPlacements())
+            .update()
+            .then(response => {
+              /* Render content campaigns */
+              console.log(response);
+              api.placements.injectCampaigns(response.campaigns.content);
+            });
+        });
+      }
+
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'cart', data: cart });
 

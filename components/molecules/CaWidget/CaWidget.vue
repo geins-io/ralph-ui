@@ -56,6 +56,8 @@ export default {
         return 'CaWidgetBanner';
       } else if (this.type === 'Video') {
         return 'CaWidgetVideo';
+      } else if (this.type === 'Nosto feed' && this.$config.isNostoActive) {
+        return 'CaWidgetNostoProductList';
       } else if (this.type === 'HTML') {
         return 'CaWidgetHtml';
       } else {

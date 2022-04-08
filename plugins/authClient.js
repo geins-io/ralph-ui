@@ -1,3 +1,33 @@
+class NostoClient {
+  nostoService = null;
+
+  constructor(nostoService) {
+    this.nostoService = nostoService;
+  }
+
+  get isValidService() {
+    return Boolean(this.nostoService);
+  }
+
+  logout() {
+    if (!this.isValidService) {
+      return;
+    }
+
+    this.nostoService(api => api.defaultSession.setCustomer({}));
+  }
+
+  login(userInfo) {
+    if (!this.isValidService) {
+      return;
+    }
+
+    this.nostoService(api => {
+      api.defaultSession().setCustomer(userInfo);
+    });
+  }
+}
+
 export default class AuthClient {
   constructor(signEndpoint, authEndpoint) {
     if (!signEndpoint || !authEndpoint) {
@@ -5,12 +35,14 @@ export default class AuthClient {
     }
     this.authEndpoint = authEndpoint;
     this.signAccount = signEndpoint;
+    this.nostoClient = new NostoClient(window?.nostojs);
   }
 
   // Sets token and token max age
   setTokenData(data) {
     if (data.token) {
       localStorage.setItem('isSign', true);
+      this.nostoClient.login(data);
     }
     this.token = data.token;
     this.maxAge = data.maxAge;
@@ -72,6 +104,7 @@ export default class AuthClient {
 
     if (action === 'logout') {
       localStorage.removeItem('isSign');
+      this.nostoClient.logout();
     }
   }
 

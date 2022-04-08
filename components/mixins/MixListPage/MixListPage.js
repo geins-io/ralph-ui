@@ -2,6 +2,7 @@ import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixCache from 'MixCache';
 import productsQuery from 'productlist/list-products.graphql';
+import nostoProductsQuery from 'productlist/nosto-products.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
 import { mapState } from 'vuex';
@@ -125,13 +126,45 @@ export default {
         return (
           this.isInitialRequest ||
           this.skipProductsQuery ||
-          this.list.skipProductsQuery
+          this.list.skipProductsQuery ||
+          this.isNostoRequest
         );
       },
       error(error) {
         // eslint-disable-next-line no-console
         console.log(error);
       }
+    },
+    nostoProducts: {
+      client: 'nosto',
+      query() {
+        return nostoProductsQuery;
+      },
+      variables() {
+        return this.nostoQueryVars;
+      },
+      skip() {
+        return !this.isNostoRequest;
+      },
+      deep: true,
+      result(result) {
+        const products = result.data.products.products.map(product => ({
+          ...product,
+          brand: {
+            name: product.brand
+          },
+          canonicalUrl: '',
+          unitPrice: {
+            val: product.price
+          },
+          discountCampaigns: {}
+        }));
+
+        this.setupPagination({ count: result.data.products.count, products });
+        this.productsFetched = true;
+        this.$store.dispatch('loading/end');
+      },
+      update: data => data.product
     }
   },
   props: {
@@ -213,6 +246,12 @@ export default {
     // @type Boolean
     filtersLoaded() {
       return Object.keys(this.baseFilters).length > 0;
+    },
+    // @vuese
+    // Condition to skip nosto request
+    // @type Boolean
+    isNostoRequest() {
+      return this.selection.sort === 'DEFAULT' && this.$config.isNostoActive;
     },
     // @vuese
     // Current number of products to skip when querying
@@ -357,6 +396,18 @@ export default {
     // @type Boolean
     filterSelectionActive() {
       return this.totalFiltersActive > 0;
+    },
+    // @vuese
+    // Returns the variable object with the query parameters for the nosto product list
+    // @type Object
+    nostoQueryVars() {
+      const varsObj = {
+        ...this.filtersVars,
+        sort: { field: 'PRICE', reverse: true },
+        filter: { categories: this.productsQueryFilter.facets }
+      };
+
+      return varsObj;
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list
