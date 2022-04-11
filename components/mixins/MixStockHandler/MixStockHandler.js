@@ -67,6 +67,9 @@ export default {
         ? this.currentStock.totalStock - this.chosenSkuCartQuantity
         : -1;
     },
+    // @vuese
+    // Returns true if product is out of stock
+    // @type Boolean
     outOfStock() {
       return this.stockStatus === 'OUT_OF_STOCK';
     }
@@ -99,7 +102,7 @@ export default {
     },
     // @vuese
     // Get stock status lang key. Argument **stock** defaults to this.currentStock
-    // @arg stock (Number)
+    // @arg stock (Object)
     getStockStatusText(stock = this.currentStock) {
       return this.$t('STOCK_STATUS_' + this.getStockStatus(stock), {
         quantity: stock.inStock
@@ -107,11 +110,23 @@ export default {
     },
     // @vuese
     // Get stock status lang key. Argument **stock** defaults to this.currentStock
-    // @arg stock (Number)
+    // @arg stock (Object)
     getStockStatusDeliveryTime(stock = this.currentStock) {
       return this.$t(
         'STOCK_STATUS_DELIVERY_TIME_' + this.getStockStatus(stock)
       );
+    },
+    // @vuese
+    // Get stock status in kebab-case. Argument **stock** defaults to this.currentStock
+    // @arg stock (Object)
+    getStockStatusClass(stock = this.currentStock) {
+      const status = this.getStockStatus(stock);
+      return status
+        ? status
+            .toLowerCase()
+            .split('_')
+            .join('-')
+        : '';
     }
   }
 };

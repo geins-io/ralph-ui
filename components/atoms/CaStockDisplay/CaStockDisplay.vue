@@ -43,8 +43,8 @@ export default {
       return this.stock;
     },
     stockClass() {
-      const status = this.stockStatus.toLowerCase();
-      return status ? 'ca-stock-display--' + status.split('_').join('-') : '';
+      const stockClass = this.getStockStatusClass();
+      return stockClass ? 'ca-stock-display--' + stockClass : '';
     }
   },
   watch: {
