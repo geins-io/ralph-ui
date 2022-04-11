@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.2.2] - 2022-04-11
+
+### Added
+
+- Add default width and height to images && add lazy-hydrate components
+- Add delay to load banner iframe
+- Add cache components
+
 ## [11.2.1] - 2022-04-08
 
 ### Fixed

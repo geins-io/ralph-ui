@@ -16,6 +16,7 @@
           :sizes="imageSizes"
           :ratio="videoRatio"
           :force-ratio="true"
+          loading="eager"
         />
         <CaSkeleton
           v-else-if="!videoLoaded"
@@ -24,6 +25,7 @@
           :radius="false"
         />
         <div
+          v-if="startLoadingIframe"
           ref="player"
           class="ca-widget-banner__video"
           :class="{ 'ca-widget-banner__video--playing': videoLoaded }"
@@ -38,6 +40,7 @@
           :filename="filename"
           :sizes="imageSizes"
           :ratio="currentRatio"
+          loading="eager"
         />
       </div>
 
@@ -75,17 +78,17 @@
 </template>
 <script>
 import MixWidgetImage from 'MixWidgetImage';
-import { vueVimeoPlayer } from 'vue-vimeo-player';
+
 // @group Molecules
 // @vuese
 // The banner widget, displaying an image with text and button<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-banner.scss_
 export default {
   name: 'CaWidgetBanner',
-  components: { Vimeo: vueVimeoPlayer },
   mixins: [MixWidgetImage],
   props: {},
   data: () => ({
+    startLoadingIframe: false,
     videoLoaded: false,
     videoOptions: {
       responsive: true,
@@ -178,6 +181,9 @@ export default {
   },
   watch: {},
   mounted() {
+    setTimeout(() => {
+      this.startLoadingIframe = true;
+    }, 300);
     if (this.hasVideo) {
       window.addEventListener('message', this.onMessageReceived);
       this.playerId = 'player_' + this._uid;

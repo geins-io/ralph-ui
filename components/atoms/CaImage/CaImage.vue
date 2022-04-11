@@ -16,6 +16,7 @@
       />
     </transition>
     <img
+      v-if="imgSrc"
       class="ca-image__img"
       :src="imgSrc"
       :alt="alt"
@@ -23,6 +24,8 @@
       :style="loadingStyles"
       :srcset="imgSrcset"
       :sizes="sizes"
+      width="248"
+      height="248"
       @load="loadedAction"
     />
   </div>

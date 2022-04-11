@@ -1,5 +1,13 @@
 <template>
-  <img class="ca-svg-asset" :src="src" :alt="alt" :loading="loading" />
+  <img
+    v-if="src"
+    class="ca-svg-asset"
+    :src="src"
+    :alt="alt"
+    :loading="loading"
+    width="30"
+    height="30"
+  />
 </template>
 <script>
 // @group Atoms

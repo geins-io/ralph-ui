@@ -1,5 +1,12 @@
 <template>
-  <img class="ca-logo" :src="filename" :alt="alt" />
+  <img
+    v-if="filename"
+    class="ca-logo"
+    :src="filename"
+    :alt="alt"
+    width="300"
+    height="50"
+  />
 </template>
 <script>
 // @group Atoms

@@ -1,27 +1,34 @@
 <template>
-  <CaContainer
-    v-if="container.widgets"
-    class="ca-widget-container ca-widget-container--outer"
-    :design="outerContainerDesign"
-    :class="outerClasses"
-  >
-    <CaWidget
-      v-for="(widget, index) in container.widgets"
-      :key="index"
-      :type="widget.name"
-      :configuration="widget.configuration"
-      :image-ratios="widget.images"
-      :image-sizes="imageSizes"
-    />
-  </CaContainer>
+  <LazyHydrate when-visible>
+    <CaContainer
+      v-if="container.widgets"
+      class="ca-widget-container ca-widget-container--outer"
+      :design="outerContainerDesign"
+      :class="outerClasses"
+    >
+      <CaWidget
+        v-for="(widget, index) in container.widgets"
+        :key="index"
+        :type="widget.name"
+        :configuration="widget.configuration"
+        :image-ratios="widget.images"
+        :image-sizes="imageSizes"
+      />
+    </CaContainer>
+  </LazyHydrate>
 </template>
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
+
 // @group Molecules
 // @vuese
 // A container holding a set of widgets<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-container.scss_
 export default {
   name: 'CaWidgetContainer',
+  components: {
+    LazyHydrate
+  },
   mixins: [],
   props: {
     // The container data object
