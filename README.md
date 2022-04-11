@@ -35,9 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.2.1] - 2022-04-08
+
+### Fixed
+
+- Fixed crush without nosto tokens in env file
+
 ## [11.2.0] - 2022-04-08
 
 ### Added
+
 - Nosto support
 
 ## [11.1.0] - 2022-04-08
