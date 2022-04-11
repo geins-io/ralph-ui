@@ -44,6 +44,9 @@ export const mutations = {
     state.config.siteTopThreshold = config.siteTopThreshold;
     state.config.productListDefaultSort = config.productListDefaultSort;
     state.config.customerTypes = config.customerTypes;
+    state.config.nostoAccountId = config.nostoAccountId;
+    state.config.isNostoActive = config.isNostoActive;
+    state.config.nostoAccountAppsKey = config.nostoAccountAppsKey;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';

@@ -251,7 +251,10 @@ export default {
     // Condition to skip nosto request
     // @type Boolean
     isNostoRequest() {
-      return this.selection.sort === 'DEFAULT' && this.$config.isNostoActive;
+      return (
+        this.selection.sort === 'DEFAULT' &&
+        this.$store.getters['nosto/isNostoActive']
+      );
     },
     // @vuese
     // Current number of products to skip when querying

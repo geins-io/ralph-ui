@@ -68,6 +68,9 @@ export default {
         // this.setupPagination(products);
         this.productsLoaded = true;
       },
+      skip() {
+        return !this.isNostoRequest;
+      },
       error(error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -87,6 +90,12 @@ export default {
     productsLoaded: false
   }),
   computed: {
+    // @vuese
+    // Condition to skip nosto request
+    // @type Boolean
+    isNostoRequest() {
+      return this.$store.getters['nosto/isNostoActive'];
+    },
     // @vuese
     // How many products to take
     // @type Number
