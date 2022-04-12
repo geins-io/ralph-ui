@@ -84,8 +84,10 @@
   </div>
 </template>
 <script>
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
 import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
+
 // @group Molecules
 // The product page gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
@@ -140,6 +142,9 @@ export default {
   },
   watch: {},
   mounted() {},
+  beforeDestroy() {
+    eventbus.$emit('close-modal');
+  },
   methods: {
     // @vuese
     // Slide to specific image

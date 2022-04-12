@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.2.4] - 2022-04-11
+
+### Fixed
+
+- Close modal with product image after leave product page
+
 ## [11.2.3] - 2022-04-11
 
 ### Added
