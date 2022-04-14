@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.3.0] - 2022-04-14
+
+### Added
+
+- Add to cart function for product card
+
 ## [11.2.4] - 2022-04-11
 
 ### Fixed

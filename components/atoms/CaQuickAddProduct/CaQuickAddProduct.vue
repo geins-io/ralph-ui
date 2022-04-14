@@ -72,11 +72,7 @@ export default {
     // The current skuId if only one, otherwise empty string
     // @type String
     skuId() {
-      if (this.product.skus.length > 1) {
-        return '';
-      } else {
-        return this.product.skus[0].skuId;
-      }
+      return this.product.skus.length > 1 ? '' : this.product.skus[0].skuId;
     }
   },
   watch: {},
