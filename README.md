@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.3.1] - 2022-04-19
+
+### Fixed
+
+- Route to product if totalStock is 0 in productlist addToCartClick
+
 ## [11.3.0] - 2022-04-14
 
 ### Added

@@ -92,7 +92,7 @@ export default {
     // @vuese
     // Add to cart if skuId is present, otherwise go to product
     addToCartClick() {
-      if (this.skuId) {
+      if (this.skuId && this.product.totalStock.totalStock !== 0) {
         if (
           this.chosenSkuCartQuantity + 1 >
           this.product.totalStock.totalStock
