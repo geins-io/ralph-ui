@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.0] - 2022-04-19
+
+### Added
+
+- Img banner background optimized img
+
+### Fixed
+
+- Remove caching from CaTopBarNavigation && CaHeaderNavigation to prevent hydration errors
+
 ## [11.3.1] - 2022-04-19
 
 ### Fixed

@@ -81,9 +81,6 @@ import MixMenu from 'MixMenu';
 // **SASS-path:** _./styles/components/molecules/ca-header-navigation.scss_
 export default {
   name: 'CaHeaderNavigation',
-  serverCacheKey() {
-    return 'CaHeaderNavigation';
-  },
   mixins: [MixMenu],
   props: {
     // What type/style of menu should be displayed

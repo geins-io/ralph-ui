@@ -19,9 +19,6 @@ import MixMenu from 'MixMenu';
 // **SASS-path:** _./styles/components/atoms/ca-top-bar-navigation.scss_
 export default {
   name: 'CaTopBarNavigation',
-  serverCacheKey() {
-    return 'CaTopBarNavigation';
-  },
   mixins: [MixMenu],
   props: {},
   data: () => ({}),

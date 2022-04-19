@@ -51,7 +51,7 @@ export default {
       } else if (this.type === 'Buttons') {
         return 'CaWidgetButtons';
       } else if (this.type === 'Product list') {
-        return 'CaWidgetProductList';
+        return 'LazyCaWidgetProductList';
       } else if (this.type === 'Banner') {
         return 'CaWidgetBanner';
       } else if (this.type === 'Video') {
