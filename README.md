@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.1] - 2022-04-24
+
+### Fixed
+
+- Temporary rm nosto widget
+
 ## [11.4.0] - 2022-04-19
 
 ### Added

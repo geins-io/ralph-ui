@@ -68,7 +68,6 @@ export const actions = {
             .update()
             .then(response => {
               /* Render content campaigns */
-              console.log(response);
               api.placements.injectCampaigns(response.campaigns.content);
             });
         });

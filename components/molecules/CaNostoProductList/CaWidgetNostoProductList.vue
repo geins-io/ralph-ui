@@ -63,7 +63,6 @@ export default {
       },
       errorPolicy: 'all',
       result(result) {
-        console.log('CANOSTOPRODUCTLIST RESULT', result);
         // const products = result?.data?.products ?? null;
         // this.setupPagination(products);
         this.productsLoaded = true;

@@ -37,6 +37,8 @@ export const actions = {
           break;
       }
 
+      console.log(viewMethod, payload.params);
+
       window.nostojs(api => {
         api
           .defaultSession()
@@ -44,7 +46,7 @@ export const actions = {
           .setPlacements(api.placements.getPlacements())
           .load()
           .then(data => {
-            console.log(data.recommendations);
+            console.log(data.recommendations, 'Reccomendations I receive');
           });
       });
     }
