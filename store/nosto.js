@@ -42,11 +42,13 @@ export const actions = {
       window.nostojs(api => {
         api
           .defaultSession()
+          .setResponseMode('HTML')
           [viewMethod](payload.params)
           .setPlacements(api.placements.getPlacements())
           .load()
-          .then(data => {
-            console.log(data.recommendations, 'Reccomendations I receive');
+          .then(response => {
+            console.log(response, 'Response rec');
+            api.placements.injectCampaigns(response.recommendations);
           });
       });
     }

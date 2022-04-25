@@ -59,18 +59,6 @@ export const actions = {
             .viewCart()
             .update();
         });
-
-        window.nostojs(api => {
-          api
-            .defaultSession()
-            .viewFrontPage()
-            .setPlacements(api.placements.getPlacements())
-            .update()
-            .then(response => {
-              /* Render content campaigns */
-              api.placements.injectCampaigns(response.campaigns.content);
-            });
-        });
       }
 
       const bc = new BroadcastService('ralph_channel');

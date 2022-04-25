@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.2] - 2022-04-25
+
+### Fixed
+
+- Add right method to get html from nosto and render it
+
 ## [11.4.1] - 2022-04-24
 
 ### Fixed
