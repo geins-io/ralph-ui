@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div
+    :id="'ca-html-' + id"
     class="ca-html"
     :class="{ 'ca-html--styled': styled }"
     v-html="content"
@@ -27,16 +28,42 @@ export default {
       default: true
     }
   },
+  data: () => ({
+    id: 0
+  }),
   watch: {
     content: 'contentUpdated'
   },
   mounted() {
-    this.$nextTick(this.addListeners);
+    this.id = Math.random();
+    this.$nextTick(this.init);
   },
   beforeDestroy() {
     this.removeListeners();
   },
   methods: {
+    init() {
+      this.addListeners();
+      this.initScript();
+    },
+    initScript() {
+      const container = document.getElementById('ca-html-' + this.id);
+      if (!container) {
+        return;
+      }
+      const scriptsTags = container.getElementsByTagName('script');
+      for (let i = scriptsTags.length - 1; i > -1; i--) {
+        const parentNode = scriptsTags[i].parentNode;
+        const newScriptTag = document.createElement('script');
+        newScriptTag.type = 'text/javascript';
+        newScriptTag.text = scriptsTags[i].text;
+        if (scriptsTags[i].src) {
+          newScriptTag.src = scriptsTags[i].src;
+        }
+        parentNode.removeChild(scriptsTags[i]);
+        parentNode.appendChild(newScriptTag);
+      }
+    },
     navigate(event) {
       let target = event.target;
       let i = 0;

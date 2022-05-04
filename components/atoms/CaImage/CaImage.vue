@@ -1,45 +1,33 @@
 <template>
   <div class="ca-image" :class="modifiers">
-    <div v-if="'pagewidget' !== type">
+    <CaSkeleton
+      v-if="forceRatio"
+      class="ca-image__skeleton"
+      :ratio="ratio"
+      :radius="false"
+      :transparent="loaded"
+    />
+    <transition v-else name="fade">
       <CaSkeleton
-        v-if="forceRatio"
+        v-if="!loaded"
         class="ca-image__skeleton"
         :ratio="ratio"
         :radius="false"
-        :transparent="loaded"
       />
-      <transition v-else name="fade">
-        <CaSkeleton
-          v-if="!loaded"
-          class="ca-image__skeleton"
-          :ratio="ratio"
-          :radius="false"
-        />
-      </transition>
-      <img
-        v-if="imgSrc"
-        fetchpriority="high"
-        provider="demoimages"
-        class="ca-image__img"
-        :src="imgSrc"
-        :alt="alt"
-        :loading="loading"
-        :style="loadingStyles"
-        :srcset="imgSrcset"
-        :sizes="sizes"
-        width="248"
-        height="248"
-        @load="loadedAction"
-      />
-    </div>
-    <div
-      v-else
-      class="ca-image__img ca-image__img--background"
-      :style="{
-        'background-image': `url(${imgSrcHighQuality})`,
-        'padding-bottom': `${100 * ratio}%`
-      }"
-    ></div>
+    </transition>
+    <img
+      v-if="imgSrc"
+      class="ca-image__img"
+      :src="imgSrc"
+      :alt="alt"
+      :loading="loading"
+      :style="loadingStyles"
+      :srcset="imgSrcset"
+      :sizes="sizes"
+      width="248"
+      height="248"
+      @load="loadedAction"
+    />
   </div>
 </template>
 <script>
@@ -105,22 +93,16 @@ export default {
       return encodeURIComponent(this.filename);
     },
     imgSrc() {
-      return this.src !== '' ? this.src : this.getSrc(0);
-    },
-    imgSrcHighQuality() {
-      const imgSrcsetArray = this.imgSrcset.split(',');
-      let mostBiggestResolution = '0';
-      let imgIndex = 0;
-
-      imgSrcsetArray.forEach((item, index) => {
-        const parsedValue = parseInt(item.split(' ')[1]);
-        if (mostBiggestResolution < parsedValue) {
-          mostBiggestResolution = parsedValue;
-          imgIndex = index;
-        }
-      });
-
-      return imgSrcsetArray[imgIndex] && imgSrcsetArray[imgIndex].split(' ')[0];
+      return this.src !== ''
+        ? this.src
+        : this.$config.imageServer +
+            '/' +
+            this.type +
+            '/' +
+            (this.sizeArray?.[0]?.folder ??
+              this.$config.imageSizes?.[this.type]?.[0]?.folder) +
+            '/' +
+            this.encodedFilename;
     },
     imgSrcset() {
       if (this.sizeArray.length === 0 && this.src !== '') {
@@ -167,19 +149,6 @@ export default {
       this.loaded = true;
       // When image is loaded
       this.$emit('loaded');
-    },
-
-    getSrc(qualityIndex) {
-      return (
-        this.$config.imageServer +
-        '/' +
-        this.type +
-        '/' +
-        (this.sizeArray?.[qualityIndex]?.folder ??
-          this.$config.imageSizes?.[this.type]?.[qualityIndex]?.folder) +
-        '/' +
-        this.encodedFilename
-      );
     }
   }
 };

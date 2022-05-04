@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.5] - 2022-05-04
+
+### Fixed
+
+- Reverted background image for pagewidget images
+- Running scripts that is placed in HTML widget
+
 ## [11.4.4] - 2022-05-04
 
 ### Fixed
