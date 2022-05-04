@@ -12,14 +12,18 @@ export default {
   name: 'CaNostoSection',
   mixins: [],
   props: {
-    // Nosto id, need to render block
-    nostoId: {
-      type: String,
-      default: ''
+    // Widget configuration object
+    configuration: {
+      type: Object,
+      default: null
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    nostoId() {
+      return this.configuration?.nostoId;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

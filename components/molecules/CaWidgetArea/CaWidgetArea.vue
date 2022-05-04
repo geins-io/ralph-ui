@@ -6,6 +6,7 @@
         :key="index"
         :container="container"
         :widget-image-sizes="widgetImageSizes"
+        @container-mounted="containersMounted = containersMounted + 1"
       />
     </div>
   </div>
@@ -25,6 +26,8 @@ export default {
         return this.widgetAreaVariables;
       },
       result(result) {
+        this.dataFetched = true;
+        this.checkMounted();
         this.$emit('dataFetched', result.data);
       },
       skip() {
@@ -79,7 +82,7 @@ export default {
       default: null
     }
   },
-  data: () => ({}),
+  data: () => ({ containersMounted: 0 }),
   computed: {
     displaySetting() {
       return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
@@ -113,10 +116,25 @@ export default {
           this.$emit('variables-change');
         }
       }
+    },
+    containersMounted: {
+      handler() {
+        this.checkMounted();
+      },
+      immediate: true
     }
   },
   mounted() {},
-  methods: {}
+  methods: {
+    checkMounted() {
+      if (
+        this.containersMounted === this.containers?.length &&
+        (this.dataFetched || this.isParentLoaded)
+      ) {
+        this.$emit('widget-area-mounted');
+      }
+    }
+  }
 };
 </script>
 <style lang="scss">

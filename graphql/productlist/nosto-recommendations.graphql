@@ -1,20 +1,43 @@
-query products{
-  recos (preview: false, image: VERSION_7_200_200) {
-     category(
-        category: "some",
-        minProducts: 1,
-        maxProducts: 10,
-        include: {customFields: [{attribute: "Facets", values: ["p_18_47_Baz"]}]}
-        batchToken: "n200MjA2NDc0OTUyNzg1+z/wAAAAAAAA/w=="
-      )
-     {
-      primary {
-        name
-        productId
-        attributes {
-              key
-          value
+query(
+  $customerId: String!
+  $category: String!
+  $limit: Int!
+  $preview: Boolean!
+  $by: LookupParams!
+  $skipPages: Int
+  $filters: InputIncludeParams
+  $excludeFilters: InputFilterParams
+  $batchToken: String
+) {
+  session(id: $customerId, by: $by) {
+    id
+    recos(preview: $preview, image: VERSION_10_MAX_SQUARE) {
+      category(
+        category: $category
+        minProducts: 1
+        maxProducts: $limit
+        skipPages: $skipPages
+        include: $filters
+        exclude: $excludeFilters
+        skipVCEvent: true
+        batchToken: $batchToken
+      ) {
+        primary {
+          brand
+          name
+          productId
+          alias: url
+          canonicalUrl: url
+          price
+          images: imageUrl
+          attributes {
+            key
+            value
           }
+        }
+        batchToken
+        totalPrimaryCount
+        resultId
       }
     }
   }

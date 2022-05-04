@@ -88,6 +88,9 @@ export const actions = {
         path: '/',
         maxAge: maxage
       });
+      if (this.getters['nosto/isNostoActive']) {
+        this.dispatch('nosto/generateSessionToken', true);
+      }
     } else {
       username = null;
       commit('clearTokenTimeout');
@@ -96,6 +99,9 @@ export const actions = {
       this.$cookies.remove('ralph-user');
       this.$cookies.remove('ralph-user-maxage');
       this.$cookies.remove('ralph-user-type');
+      if (this.getters['nosto/isNostoActive']) {
+        this.dispatch('nosto/generateSessionToken', false);
+      }
     }
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');

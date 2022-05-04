@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.3] - 2022-05-04
+
+### Fixed
+
+- Add graphql nosto product list route to category
+- Fix nosto placements
+
 ## [11.4.2] - 2022-04-25
 
 ### Fixed

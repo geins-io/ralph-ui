@@ -1,3 +1,4 @@
+import nostoClick from 'product/nosto-click.graphql';
 import MixAddToCart from 'MixAddToCart';
 // @group Mixins
 // @vuese
@@ -27,6 +28,12 @@ export default {
   },
   data: () => ({ observer: null, trackCounter: 0 }),
   computed: {
+    // @vuese
+    // ResultId of nosto product list request
+    // @type String
+    nostoResultId() {
+      return this.product.nostoResultId;
+    },
     // @vuese
     // Is the product populated with data
     // @type Boolean
@@ -84,6 +91,9 @@ export default {
     // Handling product click
     productClickHandler() {
       this.gtmClickEvent();
+      if (this.nostoResultId) {
+        this.nostoClickEvent();
+      }
       if (this.pageNumber > 0) {
         this.$store.commit('list/setRelocatePage', this.pageNumber);
         this.$store.commit('list/setRelocateAlias', this.product.alias);
@@ -126,6 +136,25 @@ export default {
           },
           'gtm.uniqueEventId': 4
         });
+      }
+    },
+    // @vuese
+    // Pushing GTM Nosto click event
+    nostoClickEvent() {
+      if (this.$store.getters['nosto/isNostoActive']) {
+        this.$apolloProvider.clients.nosto
+          .mutate({
+            mutation: nostoClick,
+            variables: {
+              sessionId: this.$store.getters['nosto/getSessionToken'],
+              productId: this.product.productId,
+              resultId: this.nostoResultId
+            }
+          })
+          .catch(error => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
       }
     },
     // @vuese

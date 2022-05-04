@@ -2,7 +2,7 @@ import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixCache from 'MixCache';
 import productsQuery from 'productlist/list-products.graphql';
-import nostoProductsQuery from 'productlist/nosto-products.graphql';
+import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
 import { mapState } from 'vuex';
@@ -138,33 +138,24 @@ export default {
     nostoProducts: {
       client: 'nosto',
       query() {
-        return nostoProductsQuery;
+        return nostoRecommendationsQuery;
       },
       variables() {
         return this.nostoQueryVars;
       },
+      fetchPolicy: 'no-cache',
       skip() {
         return !this.isNostoRequest;
       },
       deep: true,
       result(result) {
-        const products = result.data.products.products.map(product => ({
-          ...product,
-          brand: {
-            name: product.brand
-          },
-          canonicalUrl: '',
-          unitPrice: {
-            val: product.price
-          },
-          discountCampaigns: {}
-        }));
+        const paginationData = this.formatNostoData(result.data);
 
-        this.setupPagination({ count: result.data.products.count, products });
+        this.setupPagination(paginationData);
         this.productsFetched = true;
         this.$store.dispatch('loading/end');
       },
-      update: data => data.product
+      update: data => data.session?.recos?.category?.primary
     }
   },
   props: {
@@ -241,7 +232,7 @@ export default {
     productsFetched: false
   }),
   computed: {
-    // @vuese
+    // @vuesed
     // Status of loading filters state
     // @type Boolean
     filtersLoaded() {
@@ -255,6 +246,11 @@ export default {
         this.selection.sort === 'DEFAULT' &&
         this.$store.getters['nosto/isNostoActive']
       );
+    },
+    categoryAlias() {
+      const aliasArr = this.$route.path.split('/').slice(2);
+      aliasArr.unshift('');
+      return aliasArr.join('/');
     },
     // @vuese
     // Current number of products to skip when querying
@@ -404,13 +400,13 @@ export default {
     // Returns the variable object with the query parameters for the nosto product list
     // @type Object
     nostoQueryVars() {
-      const varsObj = {
-        ...this.filtersVars,
-        sort: { field: 'PRICE', reverse: true },
-        filter: { categories: this.productsQueryFilter.facets }
-      };
-
-      return varsObj;
+      return this.generateNostoVars(this.skip);
+    },
+    loadMoreNostoVars() {
+      return this.generateNostoVars(this.currentPage - 1);
+    },
+    loadPrevNostoVars() {
+      return this.generateNostoVars(this.currentPage - 2);
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list
@@ -529,15 +525,30 @@ export default {
       const currentProductList = this.productList;
       this.productList = [...this.productList, ...this.skeletonProductsNext];
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
-      this.$apollo.queries.products.fetchMore({
-        variables: this.loadMoreQueryVars,
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newProducts = fetchMoreResult.products.products;
-          this.currentMaxCount += newProducts.length;
-          this.productList = [...currentProductList, ...newProducts];
-          this.pushURLParams();
-        }
-      });
+
+      if (this.isNostoRequest) {
+        this.$apollo.queries.nostoProducts.fetchMore({
+          variables: this.loadMoreNostoVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const { products: newProducts } = this.formatNostoData(
+              fetchMoreResult
+            );
+            this.currentMaxCount += newProducts.length;
+            this.productList = [...currentProductList, ...newProducts];
+            this.pushURLParams();
+          }
+        });
+      } else {
+        this.$apollo.queries.products.fetchMore({
+          variables: this.loadMoreQueryVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const newProducts = fetchMoreResult.products.products;
+            this.currentMaxCount += newProducts.length;
+            this.productList = [...currentProductList, ...newProducts];
+            this.pushURLParams();
+          }
+        });
+      }
     },
     // @vuese
     // Load previous chunk of products
@@ -552,15 +563,98 @@ export default {
         const scrollAmount = this.getScrollHeight() - scrollHeight;
         window.scrollBy(0, scrollAmount);
       });
-      this.$apollo.queries.products.fetchMore({
-        variables: this.loadPrevQueryVars,
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newProducts = fetchMoreResult.products.products;
-          this.currentMinCount -= newProducts.length;
-          this.productList = [...newProducts, ...currentProductList];
-          this.pushURLParams();
+
+      if (this.isNostoRequest) {
+        this.$apollo.queries.nostoProducts.fetchMore({
+          variables: this.loadPrevNostoVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const { products: newProducts } = this.formatNostoData(
+              fetchMoreResult
+            );
+            this.currentMinCount -= newProducts.length;
+            this.productList = [...newProducts, ...currentProductList];
+            this.pushURLParams();
+          }
+        });
+      } else {
+        this.$apollo.queries.products.fetchMore({
+          variables: this.loadPrevQueryVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const newProducts = fetchMoreResult.products.products;
+            this.currentMinCount -= newProducts.length;
+            this.productList = [...newProducts, ...currentProductList];
+            this.pushURLParams();
+          }
+        });
+      }
+    },
+    formatNostoData(data) {
+      const {
+        totalPrimaryCount: count,
+        primary: products,
+        resultId
+      } = data?.session?.recos?.category;
+
+      const createObjectNode = (indexKey, keys, acc, value) => {
+        acc[keys[indexKey]] = acc[keys[indexKey]]
+          ? { ...acc[keys[indexKey]] }
+          : {};
+
+        if (indexKey === keys.length - 1) {
+          acc[keys[indexKey]] = value;
+          return;
         }
-      });
+
+        createObjectNode(indexKey + 1, keys, acc[keys[indexKey]], value);
+      };
+
+      const mappedAttributesProducts = products.map(product => ({
+        ...product,
+        ...product.attributes.reduce((acc, { key, value }) => {
+          const keys = key.split('_');
+          if (keys.length > 1) {
+            createObjectNode(0, keys, acc, value);
+            return acc;
+          }
+          return { ...acc, [keys[0]]: value };
+        }, {})
+      }));
+
+      const formattedProduct = mappedAttributesProducts.map(product => ({
+        ...product,
+        nostoResultId: resultId,
+        images: product.images.split(','),
+        skus: [
+          {
+            skuId: product?.primarySku?.id,
+            productId: product.productId
+          }
+        ],
+        canonicalUrl: '/p/godis-3/god-jul-stor-1',
+        discountCampaigns: product.discountCampaigns
+          ? [product.discountCampaigns.split(',')]
+          : []
+      }));
+
+      console.log(formattedProduct);
+
+      return { count, products: formattedProduct };
+    },
+    generateNostoVars(skipPages) {
+      return {
+        ...this.filtersVars,
+        filters: {
+          customFields: [
+            { attribute: 'Facets', values: this.productsQueryFilter.facets }
+          ]
+        },
+        customerId: this.$store.getters['nosto/getSessionToken'],
+        by: 'BY_CID',
+        preview: false,
+        category: this.categoryAlias,
+        limit: this.pageSize,
+        skipPages
+      };
     },
     // @vuese
     // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products

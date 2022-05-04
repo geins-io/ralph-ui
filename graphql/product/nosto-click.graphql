@@ -1,0 +1,16 @@
+mutation($sessionId: String!, $productId: String!, $resultId: String!) {
+  updateSession(
+    by: BY_CID
+    id: $sessionId
+    params: {
+      event: {
+        type: VIEWED_PRODUCT
+        target: $productId
+        ref: $resultId
+        refType: CATEGORY_MERCHANDISING
+      }
+    }
+  ) {
+    id
+  }
+}

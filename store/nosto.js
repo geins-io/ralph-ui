@@ -1,10 +1,10 @@
 export const state = () => ({
-  loading: false
+  sessionToken: null
 });
 
 export const mutations = {
-  setDelay(state, delay) {
-    state.delay = delay;
+  setSessionToken(state, token) {
+    state.sessionToken = token;
   }
 };
 
@@ -52,6 +52,13 @@ export const actions = {
           });
       });
     }
+  },
+  generateSessionToken({ commit }, isLogin) {
+    if (isLogin) {
+      commit('setSessionToken', this.$cookies.get('2c.cId'));
+    } else {
+      commit('setSessionToken', this.$cookies.get('2c.cId'));
+    }
   }
 };
 
@@ -59,5 +66,8 @@ export const getters = {
   isNostoActive(_, _2, { config }) {
     const { isNostoActive, nostoAccountId, nostoAccountAppsKey } = config;
     return isNostoActive && nostoAccountId && nostoAccountAppsKey;
+  },
+  getSessionToken(state) {
+    return state.sessionToken;
   }
 };
