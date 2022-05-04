@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.4] - 2022-05-04
+
+### Fixed
+
+- Change label in category sort nosto to Best match
+
 ## [11.4.3] - 2022-05-04
 
 ### Fixed

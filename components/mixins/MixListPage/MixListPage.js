@@ -243,7 +243,7 @@ export default {
     // @type Boolean
     isNostoRequest() {
       return (
-        this.selection.sort === 'DEFAULT' &&
+        this.selection.sort === 'BEST_MATCH' &&
         this.$store.getters['nosto/isNostoActive']
       );
     },
@@ -375,7 +375,11 @@ export default {
           brands.concat(skus.concat(parameters.concat(this.implicitFacets)))
         )
       );
-      this.$set(obj, 'sort', this.selection.sort);
+      this.$set(
+        obj,
+        'sort',
+        this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort
+      );
 
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
@@ -636,8 +640,6 @@ export default {
           : []
       }));
 
-      console.log(formattedProduct);
-
       return { count, products: formattedProduct };
     },
     generateNostoVars(skipPages) {
@@ -648,7 +650,9 @@ export default {
             { attribute: 'Facets', values: this.productsQueryFilter.facets }
           ]
         },
-        customerId: this.$store.getters['nosto/getSessionToken'],
+        customerId:
+          this.$store.getters['nosto/getSessionToken'] ||
+          this.$cookies.get('2c.cId'),
         by: 'BY_CID',
         preview: false,
         category: this.categoryAlias,
