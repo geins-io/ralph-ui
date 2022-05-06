@@ -370,7 +370,8 @@ export default {
             query: searchQuery,
             variables: {
               filter: {
-                searchText: this.searchString
+                searchText: this.searchString,
+                sort: 'RELEVANCE'
               }
             }
           })

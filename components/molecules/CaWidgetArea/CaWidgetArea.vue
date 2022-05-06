@@ -76,13 +76,22 @@ export default {
       type: Boolean,
       default: false
     },
+    // Is loadedData loaded
+    isParentDataLoaded: {
+      type: Boolean,
+      default: false
+    },
     // Data of widget that we receive from parent component. Avaible only if isParentLoaded are true
     loadedData: {
       type: Object,
       default: null
     }
   },
-  data: () => ({ containersMounted: 0 }),
+  data: () => ({
+    containersMounted: 0,
+    dataFetched: false,
+    isComponentMount: false
+  }),
   computed: {
     displaySetting() {
       return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
@@ -128,9 +137,11 @@ export default {
   methods: {
     checkMounted() {
       if (
+        !this.isComponentMount &&
         this.containersMounted === this.containers?.length &&
-        (this.dataFetched || this.isParentLoaded)
+        (this.dataFetched || (this.isParentLoaded && this.isParentDataLoaded))
       ) {
+        this.isComponentMount = true;
         this.$emit('widget-area-mounted');
       }
     }

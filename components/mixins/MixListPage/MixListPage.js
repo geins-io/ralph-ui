@@ -89,9 +89,11 @@ export default {
             this.widgetData = widgetAreaInfo;
           }
 
-          this.setupPagination(products);
+          if (!this.isNostoRequest) {
+            this.setupPagination(products);
+            this.$store.dispatch('loading/end');
+          }
           this.productsFetched = true;
-          this.$store.dispatch('loading/end');
           this.isInitialRequest = false;
         }
       },
@@ -404,7 +406,7 @@ export default {
     // Returns the variable object with the query parameters for the nosto product list
     // @type Object
     nostoQueryVars() {
-      return this.generateNostoVars(this.skip);
+      return this.generateNostoVars(this.skip / this.pageSize);
     },
     loadMoreNostoVars() {
       return this.generateNostoVars(this.currentPage - 1);
@@ -634,7 +636,18 @@ export default {
             productId: product.productId
           }
         ],
-        canonicalUrl: '/p/godis-3/god-jul-stor-1',
+        totalStock: {
+          ...product.totalStock,
+          totalStock: product.totalStock.sellable
+        },
+        canonicalUrl: `/${product.canonicalUrl
+          .split('/')
+          .slice(3)
+          .join('/')}`,
+        alias: product.canonicalUrl
+          .split('/')
+          .slice(-1)
+          .join(''),
         discountCampaigns: product.discountCampaigns
           ? [product.discountCampaigns.split(',')]
           : []
@@ -649,6 +662,9 @@ export default {
           customFields: [
             { attribute: 'Facets', values: this.productsQueryFilter.facets }
           ]
+        },
+        excludeFilters: {
+          availability: 'InStock'
         },
         customerId:
           this.$store.getters['nosto/getSessionToken'] ||

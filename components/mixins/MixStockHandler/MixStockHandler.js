@@ -81,7 +81,7 @@ export default {
     // Get stock status. Argument **stock** defaults to this.currentStock. Available statuses are: 'OUT_OF_STOCK', 'IN_STOCK', 'FEW_LEFT', 'OVERSELLABLE', 'STATIC'
     // @arg stock (Number)
     getStockStatus(stock = this.currentStock) {
-      if (stock.totalStock === 0) {
+      if (Number(stock.totalStock) === 0) {
         return 'OUT_OF_STOCK';
       } else if (stock.oversellable > 0 && this.quantity > stock.inStock) {
         return 'OVERSELLABLE';

@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.6] - 2022-05-06
+
+### Fixed
+
+- Fix pagination and product links for "Best match" sorting in category page
+- Wrong nosto placements render
+
 ## [11.4.5] - 2022-05-04
 
 ### Fixed
