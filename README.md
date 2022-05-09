@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.9] - 2022-05-09
+
+### Fixed
+
+- Add store logs
+
 ## [11.4.8] - 2022-05-09
 
 ### Fixed
