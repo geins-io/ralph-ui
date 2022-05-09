@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.7] - 2022-05-09
+
+### Fixed
+
+- Fix channelId headers
+
 ## [11.4.6] - 2022-05-06
 
 ### Fixed
