@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.10] - 2022-05-09
+
+### Fixed
+
+- Add right naming to x-channelid header
+
+
 ## [11.4.9] - 2022-05-09
 
 ### Fixed
