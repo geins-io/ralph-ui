@@ -444,6 +444,7 @@ export default {
       this.active = false;
       this.searchString = '';
       this.products = [];
+      this.$emit('closed');
     },
     open() {
       if (!this.active) {

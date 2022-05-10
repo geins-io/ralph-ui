@@ -35,12 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.4.11] - 2022-05-10
+
+### Added
+
+- Emitting "closed" event from CaSearch
+
 ## [11.4.10] - 2022-05-09
 
 ### Fixed
 
 - Add right naming to x-channelid header
-
 
 ## [11.4.9] - 2022-05-09
 
