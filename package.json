@@ -2,8 +2,8 @@
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
   "version": "11.4.11",
-  "description": "Component library for Ralph Storefront by Carismar",
-  "author": "Olivia Axelsson & Lars Johansson",
+  "description": "Component library for Carismar Commerce Storefront ",
+  "author": "Carismar Commerce Team",
   "private": false,
   "scripts": {
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
@@ -60,5 +60,11 @@
     "stylelint": "^13.13.1",
     "uppercamelcase": "^3.0.0",
     "vue-jest": "^4.0.1"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://carismarsoftware.visualstudio.com/Ralph/_git/Ralph-UI"
+  },
+  "license": "UNLICENSED"
 }
