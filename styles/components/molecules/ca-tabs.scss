@@ -1,0 +1,18 @@
+.ca-tabs {
+  &__nav{
+    display: flex;
+  }
+
+  &__tab {
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+    padding: $px16;
+    border: 1px solid transparent;
+    border-bottom-color: $c-border-light;
+
+    &[aria-selected="true"] {
+      border-color: $c-border-light;
+      border-bottom-color: transparent;
+    }
+  }
+}

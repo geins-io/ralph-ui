@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.5.0] - 2022-05-16
+
+### Added
+
+- New CaTabs component to toggle single area content
+- New CaTabPanel component to handle CaTabs area content
+
 ## [11.4.11] - 2022-05-10
 
 ### Added
