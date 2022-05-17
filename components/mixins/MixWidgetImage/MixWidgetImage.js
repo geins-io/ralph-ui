@@ -75,6 +75,12 @@ export default {
       const height = this.currentSize?.imageHeight;
       const width = this.currentSize?.imageWidth;
       return (height || 0) / (width || 1);
+    },
+    // @vuese
+    // Is widget have full width
+    // @type Boolean
+    fullWidth() {
+      return this.configuration.classNames === 'full';
     }
   },
   watch: {},

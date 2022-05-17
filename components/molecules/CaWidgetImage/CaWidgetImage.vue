@@ -9,6 +9,7 @@
       size="1360w"
       type="pagewidget"
       :alt="altText"
+      :banner-image="fullWidth"
       :filename="filename"
       :ratio="currentRatio"
       :sizes="imageSizes"

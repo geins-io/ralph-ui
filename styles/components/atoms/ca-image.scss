@@ -4,6 +4,10 @@
   &__img {
     width: 100%;
 
+    &-wrapper {
+      background-color: $c-skeleton;
+    }
+
     &--background {
       background-repeat: 'no-repeat';
       height: 0;

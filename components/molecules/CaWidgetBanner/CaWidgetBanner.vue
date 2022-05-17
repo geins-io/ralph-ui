@@ -11,6 +11,7 @@
           v-if="!videoLoaded && placeholderImage"
           class="ca-widget-banner__image ca-widget-banner__image--placeholder"
           type="pagewidget"
+          :banner-image="fullWidth"
           :alt="altText"
           :filename="filename"
           :sizes="imageSizes"
@@ -35,6 +36,7 @@
       <div v-else class="ca-widget-banner__image-wrap">
         <CaImage
           class="ca-widget-banner__image"
+          :banner-image="fullWidth"
           type="pagewidget"
           :alt="altText"
           :filename="filename"
@@ -145,9 +147,6 @@ export default {
       return this.configuration.textColor === 0
         ? 'color-primary'
         : 'color-secondary';
-    },
-    fullWidth() {
-      return this.configuration.classNames === 'full';
     },
     hasVideo() {
       return this.$store.getters.viewport === 'phone'

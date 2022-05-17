@@ -1,33 +1,46 @@
 <template>
   <div class="ca-image" :class="modifiers">
-    <CaSkeleton
-      v-if="forceRatio"
-      class="ca-image__skeleton"
-      :ratio="ratio"
-      :radius="false"
-      :transparent="loaded"
-    />
-    <transition v-else name="fade">
+    <div v-if="bannerImage && !isDesc" class="ca-image__img-wrapper">
+      <div
+        class="ca-image__img ca-image__img--background"
+        :style="{
+          'background-image': `url(${imgSrcHighQuality})`,
+          'padding-bottom': `${100 * ratio}%`,
+          'background-size': 'cover'
+        }"
+      ></div>
+    </div>
+    <div v-else>
       <CaSkeleton
-        v-if="!loaded"
+        v-if="forceRatio"
         class="ca-image__skeleton"
         :ratio="ratio"
         :radius="false"
+        :transparent="loaded"
       />
-    </transition>
-    <img
-      v-if="imgSrc"
-      class="ca-image__img"
-      :src="imgSrc"
-      :alt="alt"
-      :loading="loading"
-      :style="loadingStyles"
-      :srcset="imgSrcset"
-      :sizes="sizes"
-      width="248"
-      height="248"
-      @load="loadedAction"
-    />
+      <transition v-else name="fade">
+        <CaSkeleton
+          v-if="!loaded"
+          class="ca-image__skeleton"
+          :ratio="ratio"
+          :radius="false"
+        />
+      </transition>
+      <img
+        v-if="imgSrc"
+        fetchpriority="high"
+        class="ca-image__img"
+        :src="imgSrc"
+        :alt="alt"
+        :loading="loading"
+        :style="loadingStyles"
+        :srcset="imgSrcset"
+        :sizes="sizes"
+        width="248"
+        height="248"
+        @load="loadedAction"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -83,26 +96,51 @@ export default {
     loading: {
       type: String,
       default: 'lazy'
+    },
+    // Image will displayd in background
+    bannerImage: {
+      type: Boolean,
+      default: false
     }
   },
-  data: () => ({
-    loaded: false
-  }),
+  data() {
+    return {
+      loaded: false
+    };
+  },
   computed: {
+    bgSize() {
+      return this.isDesc ? 'initial' : 'cover';
+    },
+    isDesc() {
+      return this.$store.getters.viewport !== 'phone';
+    },
     encodedFilename() {
       return encodeURIComponent(this.filename);
     },
     imgSrc() {
-      return this.src !== ''
-        ? this.src
-        : this.$config.imageServer +
-            '/' +
-            this.type +
-            '/' +
-            (this.sizeArray?.[0]?.folder ??
-              this.$config.imageSizes?.[this.type]?.[0]?.folder) +
-            '/' +
-            this.encodedFilename;
+      return this.src !== '' ? this.src : this.getSrc(0);
+    },
+    imgSrcHighQuality() {
+      const imgSrcsetArray = this.imgSrcset.split(',');
+      let mostBiggestResolution = '0';
+      let imgIndex = 0;
+
+      imgSrcsetArray.forEach((item, index) => {
+        const parsedValue = parseInt(item.split(' ')[1]);
+
+        if (this.isDesc) {
+          if (mostBiggestResolution < parsedValue) {
+            mostBiggestResolution = parsedValue;
+            imgIndex = index;
+          }
+        } else if (parsedValue === 500) {
+          mostBiggestResolution = parsedValue;
+          imgIndex = index;
+        }
+      });
+
+      return imgSrcsetArray[imgIndex] && imgSrcsetArray[imgIndex].split(' ')[0];
     },
     imgSrcset() {
       if (this.sizeArray.length === 0 && this.src !== '') {
@@ -149,6 +187,19 @@ export default {
       this.loaded = true;
       // When image is loaded
       this.$emit('loaded');
+    },
+
+    getSrc(qualityIndex) {
+      return (
+        this.$config.imageServer +
+        '/' +
+        this.type +
+        '/' +
+        (this.sizeArray?.[qualityIndex]?.folder ??
+          this.$config.imageSizes?.[this.type]?.[qualityIndex]?.folder) +
+        '/' +
+        this.encodedFilename
+      );
     }
   }
 };

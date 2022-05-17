@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.5.1] - 2022-05-17
+
+### Added
+
+- Modify CaImage component, add background image to improve performance
+
 ## [11.5.0] - 2022-05-16
 
 ### Added
