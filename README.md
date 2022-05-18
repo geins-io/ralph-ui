@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [11.5.2] - 2022-05-18
+
+### Fixed
+
+- Fix low resolution in background images
+
 ## [11.5.1] - 2022-05-17
 
 ### Added

@@ -134,7 +134,10 @@ export default {
             mostBiggestResolution = parsedValue;
             imgIndex = index;
           }
-        } else if (parsedValue === 500) {
+        } else if (
+          String(parsedValue).length === 3 &&
+          ['5', '6'].includes(String(parsedValue)[0])
+        ) {
           mostBiggestResolution = parsedValue;
           imgIndex = index;
         }
