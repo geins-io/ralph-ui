@@ -1,5 +1,9 @@
-mutation placeOrder($cartId: String!, $checkout: CheckoutInputType!) {
-  placeOrder(cartId: $cartId, checkout: $checkout) {
+mutation placeOrder(
+  $cartId: String!
+  $checkout: CheckoutInputType!
+  $channelId: String
+) {
+  placeOrder(cartId: $cartId, checkout: $checkout, channelId: $channelId) {
     orderId
     redirectUrl
     status

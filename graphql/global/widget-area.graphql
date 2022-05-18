@@ -8,6 +8,7 @@ query widgetArea(
   $filters: [PageWidgetCollectionFilterInputType] = null
   $preview: Boolean = null
   $customerType: CustomerType
+  $channelId: String
 ) {
   widgetArea(
     family: $family
@@ -17,6 +18,7 @@ query widgetArea(
     filters: $filters
     preview: $preview
     customerType: $customerType
+    channelId: $channelId
   ) {
     meta {
       ...Meta

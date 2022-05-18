@@ -1,7 +1,11 @@
 #import "cart/content.graphql"
 
-mutation setCartPromoCode($id: String!, $promoCode: String!) {
-  setCartPromoCode(id: $id, promoCode: $promoCode) {
+mutation setCartPromoCode(
+  $id: String!
+  $promoCode: String!
+  $channelId: String
+) {
+  setCartPromoCode(id: $id, promoCode: $promoCode, channelId: $channelId) {
     ...Cart
   }
 }

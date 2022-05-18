@@ -8,6 +8,7 @@ query products(
   $brandAlias: String = null
   $discountCampaignAlias: String = null
   $filter: FilterInputType = null
+  $channelId: String
 ) {
   products(
     skip: $skip
@@ -16,6 +17,7 @@ query products(
     brandAlias: $brandAlias
     discountCampaignAlias: $discountCampaignAlias
     filter: $filter
+    channelId: $channelId
   ) {
     products {
       ...ListProduct

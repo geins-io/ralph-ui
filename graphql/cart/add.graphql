@@ -1,7 +1,11 @@
 #import "cart/content.graphql"
 
-mutation addToCart($id: String!, $item: CartItemInputType!) {
-  addToCart(id: $id, item: $item) {
+mutation addToCart(
+  $id: String!
+  $item: CartItemInputType!
+  $channelId: String
+) {
+  addToCart(id: $id, item: $item, channelId: $channelId) {
     ...Cart
   }
 }

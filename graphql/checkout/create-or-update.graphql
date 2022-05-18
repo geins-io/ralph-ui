@@ -4,8 +4,13 @@
 mutation createOrUpdateCheckout(
   $cartId: String!
   $checkout: CheckoutInputType
+  $channelId: String
 ) {
-  createOrUpdateCheckout(cartId: $cartId, checkout: $checkout) {
+  createOrUpdateCheckout(
+    cartId: $cartId
+    checkout: $checkout
+    channelId: $channelId
+  ) {
     cart {
       ...Cart
     }

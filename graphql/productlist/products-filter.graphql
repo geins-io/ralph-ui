@@ -5,12 +5,14 @@ query products(
   $brandAlias: String = null
   $discountCampaignAlias: String = null
   $filter: FilterInputType = null
+  $channelId: String
 ) {
   products(
     categoryAlias: $categoryAlias
     brandAlias: $brandAlias
     discountCampaignAlias: $discountCampaignAlias
     filter: $filter
+    channelId: $channelId
   ) {
     filters {
       ...ListFilters

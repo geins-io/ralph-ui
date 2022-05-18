@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.0.0] - 2022-05-18
+
+This update requires you to have a folder called config in your repo, with a file called localeDomains.js. You can use the update of the Ralph repo to 12.0.0 as a reference/merge it into your storefront.
+
+### Added
+
+- ChannelId to all graphql queries
+- Config folder for extendable default configs
+- Locale domains default config
+
 ## [11.5.2] - 2022-05-18
 
 ### Fixed

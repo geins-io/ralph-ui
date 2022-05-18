@@ -1,3 +1,4 @@
+import localeDomains from '~/config/locale-domains';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -10,7 +11,8 @@ export const state = () => ({
   config: {},
   ancientBrowser: false,
   categoryTree: [],
-  channelId: ''
+  channelId: '',
+  localeDomains
 });
 
 export const mutations = {

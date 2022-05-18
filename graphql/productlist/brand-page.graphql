@@ -1,7 +1,7 @@
 #import "productlist/list-info.graphql"
 
-query listPageInfo($alias: String!) {
-  listPageInfo(alias: $alias) {
+query listPageInfo($alias: String!, $channelId: String) {
+  listPageInfo(alias: $alias, channelId: $channelId) {
     logo
     ...ListInfo
   }
