@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.0.1] - 2022-05-19
+
+### Add
+
+- Add initial setup of nosto checkout
+
 ## [12.0.0] - 2022-05-18
 
 This update requires you to have a folder called config in your repo, with a file called localeDomains.js. You can use the update of the Ralph repo to 12.0.0 as a reference/merge it into your storefront.

@@ -9,8 +9,12 @@ export const mutations = {
 };
 
 export const actions = {
-  loadRecommendations(context, payload = {}) {
+  loadRecommendations({ dispatch, rootState }, payload = {}) {
     if (process.browser && this.$config.isNostoActive) {
+      dispatch('cart/sendNostoEvent', rootState.cart.data, {
+        root: true
+      });
+
       let viewMethod = null;
 
       switch (payload.route) {

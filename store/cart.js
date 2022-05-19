@@ -40,25 +40,28 @@ export const actions = {
         console.log(error);
       });
   },
-  update({ commit, state, $gtm }, cart) {
+  sendNostoEvent(context, cart) {
+    window.nostojs(api => {
+      api
+        .defaultSession()
+        .setCart({
+          items: cart.items.map(item => ({
+            name: item.product.name,
+            price_currency_code: 'EUR',
+            product_id: item.product.productId,
+            quantity: item.quantity,
+            sku_id: item.skuId,
+            unit_price: item.unitPrice.sellingPriceIncVat
+          }))
+        })
+        .viewCart()
+        .update();
+    });
+  },
+  update({ commit, state, dispatch, $gtm }, cart) {
     if (process.browser) {
       if (this.$config.isNostoActive) {
-        window.nostojs(api => {
-          api
-            .defaultSession()
-            .setCart({
-              items: cart.items.map(item => ({
-                name: item.product.name,
-                price_currency_code: 'EUR',
-                product_id: item.product.productId,
-                quantity: item.quantity,
-                sku_id: item.skuId,
-                unit_price: item.unitPrice.sellingPriceIncVat
-              }))
-            })
-            .viewCart()
-            .update();
-        });
+        dispatch('sendNostoEvent', cart);
       }
 
       const bc = new BroadcastService('ralph_channel');
