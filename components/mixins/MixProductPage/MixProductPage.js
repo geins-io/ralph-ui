@@ -38,15 +38,19 @@ export default {
   apollo: {
     product: {
       query() {
+        const productQueryModifyed = this.removeQueryVar(
+          productQuery,
+          'channelId'
+        );
         let finishQuery = {
-          document: productQuery,
+          document: productQueryModifyed,
           variables: {
             alias: this.prodAlias
           }
         };
         if (this.$config.productShowRelated) {
           finishQuery = combineQuery('withRelatedCombined')
-            .add(productQuery, {
+            .add(productQueryModifyed, {
               alias: this.prodAlias
             })
             .add(relatedProductsQuery, {
@@ -192,6 +196,28 @@ export default {
     this.switchToCanonical();
   },
   methods: {
+    removeQueryVar(query, field) {
+      const newQuery = JSON.parse(JSON.stringify(query));
+      const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
+        item => item.variable.name.value === field
+      );
+      const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+        item => item.value.name.value === field
+      );
+
+      if (![indexQueryVariable, indexQueryField].includes(-1)) {
+        newQuery.definitions[0].variableDefinitions.splice(
+          indexQueryVariable,
+          1
+        );
+        newQuery.definitions[0].selectionSet.selections[0].arguments.splice(
+          indexQueryField,
+          1
+        );
+      }
+
+      return newQuery;
+    },
     // @vuese
     // GTM event emitter
     emitGTMEvent() {

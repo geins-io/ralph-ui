@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.0.2] - 2022-05-19
+
+### Fix
+
+- Channelid dublicate fix
+
 ## [12.0.1] - 2022-05-19
 
 ### Add
