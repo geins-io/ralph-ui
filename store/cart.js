@@ -41,22 +41,24 @@ export const actions = {
       });
   },
   sendNostoEvent(context, cart) {
-    window.nostojs(api => {
-      api
-        .defaultSession()
-        .setCart({
-          items: cart.items.map(item => ({
-            name: item.product.name,
-            price_currency_code: 'EUR',
-            product_id: item.product.productId,
-            quantity: item.quantity,
-            sku_id: item.skuId,
-            unit_price: item.unitPrice.sellingPriceIncVat
-          }))
-        })
-        .viewCart()
-        .update();
-    });
+    if (cart) {
+      window.nostojs(api => {
+        api
+          .defaultSession()
+          .setCart({
+            items: cart.items.map(item => ({
+              name: item.product.name,
+              price_currency_code: 'EUR',
+              product_id: item.product.productId,
+              quantity: item.quantity,
+              sku_id: item.skuId,
+              unit_price: item.unitPrice.sellingPriceIncVat
+            }))
+          })
+          .viewCart()
+          .update();
+      });
+    }
   },
   update({ commit, state, dispatch, $gtm }, cart) {
     if (process.browser) {
