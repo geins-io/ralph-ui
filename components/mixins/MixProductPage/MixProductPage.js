@@ -210,10 +210,6 @@ export default {
           indexQueryVariable,
           1
         );
-        newQuery.definitions[0].selectionSet.selections[0].arguments.splice(
-          indexQueryField,
-          1
-        );
       }
 
       return newQuery;

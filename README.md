@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.0.4] - 2022-05-24
+
+### Fix
+
+- Fix channelId dublication error
+
 ## [12.0.3] - 2022-05-20
 
 ### Fix

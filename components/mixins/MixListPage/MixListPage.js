@@ -56,7 +56,8 @@ export default {
               widgetAreaQuery,
               this.widgetAreaVars.map(item => ({
                 ...item,
-                filters: this.widgetAreaFilters
+                filters: this.widgetAreaFilters,
+                channelId: this.$store.getters.channelId
               }))
             );
         }
@@ -908,10 +909,6 @@ export default {
       if (![indexQueryVariable, indexQueryField].includes(-1)) {
         newQuery.definitions[0].variableDefinitions.splice(
           indexQueryVariable,
-          1
-        );
-        newQuery.definitions[0].selectionSet.selections[0].arguments.splice(
-          indexQueryField,
           1
         );
       }
