@@ -58,6 +58,9 @@ export default {
         this.setupPagination(products);
         this.productsLoaded = true;
       },
+      skip() {
+        return process.server;
+      },
       error(error) {
         // eslint-disable-next-line no-console
         console.log(error);
