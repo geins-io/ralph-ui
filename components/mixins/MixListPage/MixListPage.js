@@ -1,10 +1,9 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixCache from 'MixCache';
-import productsListQuery from 'productlist/list-products.graphql';
+import productsQuery from 'productlist/list-products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
-import productsQuery from 'productlist/extended-products.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
 import { mapState } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
@@ -81,6 +80,14 @@ export default {
             this.switchToCanonicalOr404();
           }
 
+          if (products?.filters.facets.length > 0) {
+            this.baseFilters = products.filters;
+          }
+
+          if (this.filtersSet) {
+            this.updateFilters(products.filters);
+          }
+
           if (this.widgetAreaVars) {
             this.widgetData = widgetAreaInfo;
           }
@@ -104,7 +111,7 @@ export default {
     },
     products: {
       query() {
-        return productsListQuery;
+        return productsQuery;
       },
       variables() {
         return this.productsQueryVars;
@@ -112,10 +119,6 @@ export default {
       deep: true,
       result(result) {
         if (result && result.data) {
-          if (result.data.products?.filters.facets.length > 0) {
-            this.baseFilters = result.data.products.filters;
-          }
-
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
           }
@@ -126,9 +129,9 @@ export default {
       },
       skip() {
         return (
-          process.server ||
           this.isInitialRequest ||
           this.skipProductsQuery ||
+          this.list.skipProductsQuery ||
           this.isNostoRequest
         );
       },

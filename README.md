@@ -35,13 +35,6 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [12.0.5] - 2022-05-31
-
-### Add
-
-- Divide requests to filters and products
-- Move products request to client
-
 ## [12.0.4] - 2022-05-24
 
 ### Fix
