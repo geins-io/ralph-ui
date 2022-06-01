@@ -35,12 +35,6 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [12.0.6] - 2022-05-31
-
-### Add
-
-- Add posibility to hide title on page from api
-
 ## [12.0.5] - 2022-05-31
 
 ### Add

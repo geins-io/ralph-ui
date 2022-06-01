@@ -235,12 +235,6 @@ export default {
   }),
   computed: {
     // @vuesed
-    // Determine is CaListTop are visible on page
-    // @type Boolean
-    hideListInfo() {
-      return this.listInfo.hideDescription && this.listInfo.hideTitle;
-    },
-    // @vuesed
     // Status of loading filters state
     // @type Boolean
     filtersLoaded() {
