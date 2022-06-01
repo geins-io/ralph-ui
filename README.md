@@ -35,12 +35,6 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [12.0.6] - 2022-06-01
-
-### Fix
-
-- Hidetitle option of null
-
 ## [12.0.6] - 2022-05-31
 
 ### Add
