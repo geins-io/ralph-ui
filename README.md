@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.1.0] - 2022-06-01
+
+### Fix
+
+- Revert version to 12.0.4
+
 ## [12.0.4] - 2022-05-24
 
 ### Fix
