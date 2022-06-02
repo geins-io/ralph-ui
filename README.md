@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.2.0] - 2022-06-02
+
+### Add
+
+- Extend WidgetProductList with latest viewed/favorites products mode
+
 ## [12.1.0] - 2022-06-01
 
 ### Fix

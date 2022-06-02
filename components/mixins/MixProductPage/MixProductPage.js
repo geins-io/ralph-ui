@@ -300,6 +300,7 @@ export default {
     switchToCanonical() {
       const check = setInterval(() => {
         if (this.product) {
+          this.appendProductToLatest();
           this.emitGTMEvent();
           clearInterval(check);
           if (this.product.canonicalUrl !== this.$route.path) {
@@ -307,6 +308,28 @@ export default {
           }
         }
       }, 500);
+    },
+    appendProductToLatest() {
+      const COOKIE_NAME = 'ralph-latest-products';
+      const latestProducts = this.$cookies.get(COOKIE_NAME);
+      if (!latestProducts) {
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias]);
+        return;
+      }
+
+      if (latestProducts.length > 20) {
+        latestProducts.pop();
+      }
+
+      if (!latestProducts.includes(this.prodAlias)) {
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts]);
+      } else {
+        const existingAliasIndex = latestProducts.findIndex(
+          alias => alias === this.prodAlias
+        );
+        latestProducts.splice(existingAliasIndex, 1);
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts]);
+      }
     },
     notifyHandler(variant) {
       this.currentNotifyVariant = variant;

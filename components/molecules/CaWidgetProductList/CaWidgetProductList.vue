@@ -1,6 +1,6 @@
 <template>
   <div class="ca-widget-product-list">
-    <h2 v-if="configuration.title" class="ca-widget-product-list__title">
+    <h2 v-if="isTitleVisible" class="ca-widget-product-list__title">
       {{ configuration.title }}
     </h2>
     <CaProductList
@@ -47,14 +47,14 @@ export default {
     products: {
       query: productsQuery,
       variables() {
-        return {
-          filter: this.configuration.searchParameters,
-          take: this.take
-        };
+        return this.productVars;
       },
       errorPolicy: 'all',
       result(result) {
-        const products = result?.data?.products ?? null;
+        let products = result?.data?.products ?? null;
+        if (this.checkModeConditions(null) === false) {
+          products = [];
+        }
         this.setupPagination(products);
         this.productsLoaded = true;
       },
@@ -95,11 +95,82 @@ export default {
         filter: this.configuration.searchParameters
       };
       return varsObj;
+    },
+    // @vuese
+    // Is widget on latest products mode
+    // @type Object
+    isLatestMode() {
+      return this.configuration?.mode === 'LATEST_VIEWED';
+    },
+    // @vuese
+    // Is widget on favorite products mode
+    // @type Object
+    isFavoriteMode() {
+      return this.configuration?.mode === 'FAVORITES';
+    },
+    // @vuese
+    // Is title visible
+    // @type Object
+    isTitleVisible() {
+      return this.checkModeConditions(this.configuration.title);
+    },
+    // @vuese
+    // Latest visible products (need only in latest mode)
+    // @type Object
+    latestProducts() {
+      const savedProductsAliases = this.$cookies.get('ralph-latest-products');
+      return savedProductsAliases
+        ? savedProductsAliases.map(this.formatToFacet)
+        : [''];
+    },
+    // @vuese
+    // Latest visible products (need only in favorite mode)
+    // @type Object
+    favoritesProducts() {
+      return this.$store.state.favorites.map(this.formatToFacet);
+    },
+    // @vuese
+    // Variables in product request
+    // @type Object
+    productVars() {
+      let filter = this.configuration.searchParameters;
+
+      if (this.isLatestMode) {
+        filter = {
+          facets: this.latestProducts
+        };
+      }
+
+      if (this.isFavoriteMode) {
+        filter = {
+          facets: this.favoritesProducts
+        };
+      }
+
+      return {
+        filter,
+        take: this.take
+      };
     }
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    formatToFacet(alias) {
+      return `a_${alias}`;
+    },
+    checkModeConditions(additionalCondition) {
+      if (this.isLatestMode) {
+        return Boolean(this.latestProducts.length);
+      }
+
+      if (this.isFavoriteMode) {
+        return Boolean(this.favoritesProducts.length);
+      }
+
+      return additionalCondition;
+    }
+  }
 };
 </script>
 <style lang="scss">
