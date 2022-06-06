@@ -66,7 +66,9 @@ export const actions = {
       commit(
         'setTokenTimeout',
         setTimeout(() => {
-          dispatch('refresh');
+          if (process.client) {
+            dispatch('refresh');
+          }
         }, state.client.maxAge * 900)
       );
       this.$cookies.set('ralph-auth', state.client.token, {

@@ -71,7 +71,7 @@ export const actions = {
 
       if (this.$gtm) {
         const { isSame, isRemove, products } = GtmService.getCheckoutUpdate(
-          state.data.items,
+          state.data?.items || [],
           cart.items
         );
 

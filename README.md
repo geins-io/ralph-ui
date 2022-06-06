@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [12.2.1] - 2022-06-06
+
+### Add
+
+- Add nosto checkout event
+
+### Fix
+
+- Fix headers errors
+
 ## [12.2.0] - 2022-06-02
 
 ### Add

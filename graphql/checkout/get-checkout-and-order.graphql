@@ -1,0 +1,9 @@
+query getCheckoutAndOrder($id: String!, $paymentType: PaymentType!) {
+  getCheckoutAndOrder(id: $id, paymentType: $paymentType) {
+    order {
+      orderId
+      firstName
+      lastName
+    }
+  }
+}
