@@ -1,8 +1,16 @@
 #import "product/sku.graphql"
 #import "product/price.graphql"
 
-query relatedProducts($prodAlias: String!, $channelId: String) {
-  relatedProducts(alias: $prodAlias, channelId: $channelId) {
+query relatedProducts(
+  $prodAlias: String!
+  $channelId: String
+  $languageId: String
+) {
+  relatedProducts(
+    alias: $prodAlias
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     alias
     name
     brand {

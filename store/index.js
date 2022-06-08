@@ -1,4 +1,4 @@
-import localeDomains from '~/config/locale-domains';
+import channelSettings from '~/config/channel-settings';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -12,7 +12,7 @@ export const state = () => ({
   ancientBrowser: false,
   categoryTree: [],
   channelId: '',
-  localeDomains
+  channelSettings
 });
 
 export const mutations = {
@@ -41,6 +41,7 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
+    state.config.baseUrl = config.baseUrl;
     state.config.authEndpoint = config.authEndpoint;
     state.config.signEndpoint = config.signEndpoint;
     state.config.siteTopThreshold = config.siteTopThreshold;
@@ -190,5 +191,8 @@ export const getters = {
     return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
+  },
+  currentBaseUrl: state => {
+    return state.config.baseUrl[state.channelId] || '';
   }
 };

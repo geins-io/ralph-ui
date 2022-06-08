@@ -1,5 +1,15 @@
-query getCheckoutAndOrder($id: String!, $paymentType: PaymentType!) {
-  getCheckoutAndOrder(id: $id, paymentType: $paymentType) {
+query getCheckoutAndOrder(
+  $id: String!
+  $paymentType: PaymentType!
+  $channelId: String
+  $languageId: String
+) {
+  getCheckoutAndOrder(
+    id: $id
+    paymentType: $paymentType
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     order {
       orderId
       firstName

@@ -9,6 +9,7 @@ query products(
   $discountCampaignAlias: String = null
   $filter: FilterInputType = null
   $channelId: String
+  $languageId: String
 ) {
   products(
     skip: $skip
@@ -18,6 +19,7 @@ query products(
     discountCampaignAlias: $discountCampaignAlias
     filter: $filter
     channelId: $channelId
+    languageId: $languageId
   ) {
     products {
       ...ListProduct

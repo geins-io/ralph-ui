@@ -1,3 +1,11 @@
-mutation subscribeToNewsletter($email: String!) {
-  subscribeToNewsletter(email: $email)
+mutation subscribeToNewsletter(
+  $email: String!
+  $channelId: String
+  $languageId: String
+) {
+  subscribeToNewsletter(
+    email: $email
+    channelId: $channelId
+    languageId: $languageId
+  )
 }

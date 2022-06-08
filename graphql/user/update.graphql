@@ -1,6 +1,10 @@
 #import "user/user.graphql"
-mutation updateUser($user: UserInputType!) {
-  updateUser(user: $user) {
+mutation updateUser(
+  $user: UserInputType!
+  $channelId: String
+  $languageId: String
+) {
+  updateUser(user: $user, channelId: $channelId, languageId: $languageId) {
     ...User
   }
 }

@@ -5,8 +5,8 @@
 #import "global/meta.graphql"
 #import "global/campaign.graphql"
 
-query product($alias: String!, $channelId: String) {
-  product(alias: $alias, channelId: $channelId) {
+query product($alias: String!, $channelId: String, $languageId: String) {
+  product(alias: $alias, channelId: $channelId, languageId: $languageId) {
     productId
     canonicalUrl
     name

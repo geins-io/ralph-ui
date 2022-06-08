@@ -4,8 +4,14 @@ mutation updateCartItem(
   $id: String!
   $item: CartItemInputType!
   $channelId: String
+  $languageId: String
 ) {
-  updateCartItem(id: $id, item: $item, channelId: $channelId) {
+  updateCartItem(
+    id: $id
+    item: $item
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     ...Cart
   }
 }

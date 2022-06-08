@@ -34,7 +34,10 @@ export default {
   apollo: {
     listPageInfo: {
       query() {
-        const productQuery = this.removeQueryVar(productsQuery, 'channelId');
+        const productQuery = this.removeQueryVar(productsQuery, [
+          'channelId',
+          'languageId'
+        ]);
 
         let finishQuery = {
           document: productQuery,
@@ -57,7 +60,8 @@ export default {
               this.widgetAreaVars.map(item => ({
                 ...item,
                 filters: this.widgetAreaFilters,
-                channelId: this.$store.getters.channelId
+                channelId: this.$store.getters.channelId,
+                languageId: this.$i18n.localeProperties.iso
               }))
             );
         }
@@ -903,21 +907,24 @@ export default {
         });
       }
     },
-    removeQueryVar(query, field) {
+    removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
-      const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
-        item => item.variable.name.value === field
-      );
-      const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-        item => item.value.name.value === field
-      );
 
-      if (![indexQueryVariable, indexQueryField].includes(-1)) {
-        newQuery.definitions[0].variableDefinitions.splice(
-          indexQueryVariable,
-          1
+      fields.forEach(field => {
+        const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
+          item => item.variable.name.value === field
         );
-      }
+        const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+          item => item.value.name.value === field
+        );
+
+        if (![indexQueryVariable, indexQueryField].includes(-1)) {
+          newQuery.definitions[0].variableDefinitions.splice(
+            indexQueryVariable,
+            1
+          );
+        }
+      });
 
       return newQuery;
     },

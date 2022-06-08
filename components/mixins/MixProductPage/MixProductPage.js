@@ -38,10 +38,10 @@ export default {
   apollo: {
     product: {
       query() {
-        const productQueryModifyed = this.removeQueryVar(
-          productQuery,
-          'channelId'
-        );
+        const productQueryModifyed = this.removeQueryVar(productQuery, [
+          'channelId',
+          'languageId'
+        ]);
         let finishQuery = {
           document: productQueryModifyed,
           variables: {
@@ -196,21 +196,24 @@ export default {
     this.switchToCanonical();
   },
   methods: {
-    removeQueryVar(query, field) {
+    removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
-      const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
-        item => item.variable.name.value === field
-      );
-      const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-        item => item.value.name.value === field
-      );
 
-      if (![indexQueryVariable, indexQueryField].includes(-1)) {
-        newQuery.definitions[0].variableDefinitions.splice(
-          indexQueryVariable,
-          1
+      fields.forEach(field => {
+        const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
+          item => item.variable.name.value === field
         );
-      }
+        const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+          item => item.value.name.value === field
+        );
+
+        if (![indexQueryVariable, indexQueryField].includes(-1)) {
+          newQuery.definitions[0].variableDefinitions.splice(
+            indexQueryVariable,
+            1
+          );
+        }
+      });
 
       return newQuery;
     },

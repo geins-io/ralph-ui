@@ -4,8 +4,14 @@ mutation addToCart(
   $id: String!
   $item: CartItemInputType!
   $channelId: String
+  $languageId: String
 ) {
-  addToCart(id: $id, item: $item, channelId: $channelId) {
+  addToCart(
+    id: $id
+    item: $item
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     ...Cart
   }
 }

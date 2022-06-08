@@ -1,3 +1,11 @@
-mutation requestPasswordReset($email: String!) {
-  requestPasswordReset(email: $email)
+mutation requestPasswordReset(
+  $email: String!
+  $channelId: String
+  $languageId: String
+) {
+  requestPasswordReset(
+    email: $email
+    channelId: $channelId
+    languageId: $languageId
+  )
 }

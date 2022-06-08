@@ -5,8 +5,15 @@ query products(
   $take: Int = null
   $filter: FilterInputType = null
   $channelId: String
+  $languageId: String
 ) {
-  products(skip: $skip, take: $take, filter: $filter, channelId: $channelId) {
+  products(
+    skip: $skip
+    take: $take
+    filter: $filter
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     products {
       ...ListProduct
     }

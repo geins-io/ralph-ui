@@ -1,7 +1,7 @@
 #import "productlist/list-info.graphql"
 
-query listPageInfo($alias: String!, $channelId: String) {
-  listPageInfo(alias: $alias, channelId: $channelId) {
+query listPageInfo($alias: String!, $channelId: String, $languageId: String) {
+  listPageInfo(alias: $alias, channelId: $channelId, languageId: $languageId) {
     subCategories {
       name
       alias

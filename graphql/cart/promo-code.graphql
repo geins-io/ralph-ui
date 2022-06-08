@@ -4,8 +4,14 @@ mutation setCartPromoCode(
   $id: String!
   $promoCode: String!
   $channelId: String
+  $languageId: String
 ) {
-  setCartPromoCode(id: $id, promoCode: $promoCode, channelId: $channelId) {
+  setCartPromoCode(
+    id: $id
+    promoCode: $promoCode
+    channelId: $channelId
+    languageId: $languageId
+  ) {
     ...Cart
   }
 }

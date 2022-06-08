@@ -2,10 +2,12 @@ mutation monitorProductAvailability(
   $email: String!
   $skuId: Int!
   $channelId: String
+  $languageId: String
 ) {
   monitorProductAvailability(
     email: $email
     skuId: $skuId
     channelId: $channelId
+    languageId: $languageId
   )
 }

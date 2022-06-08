@@ -73,11 +73,11 @@ export default {
               break;
 
             case '[pmax]':
-              match = this.filters.price?.highest || '';
+              match = this.filters?.price?.highest || '';
               break;
 
             case '[pmin]':
-              match = this.filters.price?.lowest || '';
+              match = this.filters?.price?.lowest || '';
               break;
 
             case '[name]':

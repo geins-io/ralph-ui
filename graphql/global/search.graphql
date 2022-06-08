@@ -1,6 +1,10 @@
 #import "product/price.graphql"
-query products($filter: FilterInputType = null, $channelId: String) {
-  products(filter: $filter, channelId: $channelId) {
+query products(
+  $filter: FilterInputType = null
+  $channelId: String
+  $languageId: String
+) {
+  products(filter: $filter, channelId: $channelId, languageId: $languageId) {
     products {
       brand {
         name

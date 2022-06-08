@@ -1,3 +1,13 @@
-mutation commitReset($resetKey: String!, $password: String!) {
-  commitReset(resetKey: $resetKey, password: $password)
+mutation commitReset(
+  $resetKey: String!
+  $password: String!
+  $channelId: String
+  $languageId: String
+) {
+  commitReset(
+    resetKey: $resetKey
+    password: $password
+    channelId: $channelId
+    languageId: $languageId
+  )
 }

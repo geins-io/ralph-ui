@@ -9,6 +9,7 @@ query widgetArea(
   $preview: Boolean = null
   $customerType: CustomerType
   $channelId: String
+  $languageId: String
 ) {
   widgetArea(
     family: $family
@@ -19,6 +20,7 @@ query widgetArea(
     preview: $preview
     customerType: $customerType
     channelId: $channelId
+    languageId: $languageId
   ) {
     meta {
       ...Meta

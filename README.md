@@ -35,49 +35,60 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.0] - 2022-06-08
+
+This update will need you to add a channelSettings.js file in the config folder and to change your environment variables. See Project Ralph for reference
+
+### Added
+
+- Added languageId to all endpoints
+- Added currentBaseUrl which is based on channelId
+- Added fallback for channelId
+- Added channelSettings to store
+
 ## [12.2.1] - 2022-06-06
 
-### Add
+### Added
 
 - Add nosto checkout event
 
-### Fix
+### Fixed
 
 - Fix headers errors
 
 ## [12.2.0] - 2022-06-02
 
-### Add
+### Added
 
 - Extend WidgetProductList with latest viewed/favorites products mode
 
 ## [12.1.0] - 2022-06-01
 
-### Fix
+### Fixed
 
 - Revert version to 12.0.4
 
 ## [12.0.4] - 2022-05-24
 
-### Fix
+### Fixed
 
 - Fix channelId dublication error
 
 ## [12.0.3] - 2022-05-20
 
-### Fix
+### Fixed
 
 - Fix empty cart checkout
 
 ## [12.0.2] - 2022-05-19
 
-### Fix
+### Fixed
 
 - Channelid dublicate fix
 
 ## [12.0.1] - 2022-05-19
 
-### Add
+### Added
 
 - Add initial setup of nosto checkout
 
