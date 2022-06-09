@@ -2,7 +2,7 @@ import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixCache from 'MixCache';
 import sampleProductsQuery from 'productlist/list-products.graphql';
-import productsQuery from 'productlist/products.graphql';
+import productsQuery from 'productlist/no-filters-products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.3] - 2022-06-09
+
+### Fix
+
+- Fix combine variables in no filter request
+
 ## [13.0.2] - 2022-06-09
 
 ### Add
