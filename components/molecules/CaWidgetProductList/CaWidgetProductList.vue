@@ -51,12 +51,12 @@ export default {
       },
       errorPolicy: 'all',
       result(result) {
-        let products = result?.data?.products ?? null;
-        if (this.checkModeConditions(null) === false) {
-          products = [];
-        }
+        const products = result?.data?.products ?? null;
         this.setupPagination(products);
         this.productsLoaded = true;
+      },
+      skip() {
+        return this.isWidgetModeEmpty;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -77,6 +77,9 @@ export default {
     productsLoaded: false
   }),
   computed: {
+    isWidgetModeEmpty() {
+      return this.checkModeConditions(null) === false;
+    },
     // @vuese
     // How many products to take
     // @type Number
@@ -121,7 +124,7 @@ export default {
       const savedProductsAliases = this.$cookies.get('ralph-latest-products');
       return savedProductsAliases
         ? savedProductsAliases.map(this.formatToFacet)
-        : [''];
+        : [];
     },
     // @vuese
     // Latest visible products (need only in favorite mode)
@@ -153,7 +156,17 @@ export default {
       };
     }
   },
-  watch: {},
+  watch: {
+    isWidgetModeEmpty: {
+      handler() {
+        if (this.isWidgetModeEmpty) {
+          this.setupPagination([]);
+          this.productsLoaded = true;
+        }
+      },
+      immediate: true
+    }
+  },
   mounted() {},
   methods: {
     formatToFacet(alias) {

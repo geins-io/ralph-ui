@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.1] - 2022-06-09
+
+### Fix
+
+- Fix nosto checkout event
+- Fix bug with latest/favorite widget
+
 ## [13.0.0] - 2022-06-08
 
 This update will need you to add a channelSettings.js file in the config folder and to change your environment variables. See Project Ralph for reference

@@ -56,7 +56,7 @@ export default {
   mounted() {},
   methods: {
     datalayerConfirm() {
-      if (this.$store.getters['nosto/isNostoActive']) {
+      if (this.$store.getters['nosto/isNostoActive'] && process.client) {
         this.$apollo
           .query({
             query: getCheckoutAndOrderQuery,
@@ -72,7 +72,9 @@ export default {
               const {
                 orderId,
                 firstName,
-                lastName
+                lastName,
+                email,
+                currency
               } = result.data?.getCheckoutAndOrder.order;
 
               window.nostojs(api => {
@@ -82,13 +84,20 @@ export default {
                     external_order_ref: this.orderId,
                     info: {
                       order_number: orderId,
-                      email: this.$route.query.email,
+                      email,
                       first_name: firstName,
                       last_name: lastName,
                       type: 'order',
                       newsletter: true
                     },
-                    items: this.nostoProducts
+                    items: this.orderCart?.items?.map(item => ({
+                      product_id: item.product.productId,
+                      name: item.product.name,
+                      unit_price: item.unitPrice.sellingPriceExVat,
+                      quantity: item.quantity,
+                      sku_id: item.skuId,
+                      price_currency_code: currency
+                    }))
                   })
                   .setPlacements(['order-related'])
                   .load()
