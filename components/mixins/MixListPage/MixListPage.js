@@ -784,10 +784,9 @@ export default {
       }, 100);
     },
     generateReqValues() {
-      const productQuery = this.removeQueryVar(productsQuery, [
-        'channelId',
-        'languageId'
-      ]);
+      const productQuery = !(this.isSearch || this.isAll)
+        ? this.removeQueryVar(productsQuery, ['channelId', 'languageId'])
+        : productsQuery;
 
       let finishQuery = {
         document: productQuery,
