@@ -1,7 +1,8 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixCache from 'MixCache';
-import productsQuery from 'productlist/list-products.graphql';
+import sampleProductsQuery from 'productlist/list-products.graphql';
+import productsQuery from 'productlist/products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
@@ -34,40 +35,7 @@ export default {
   apollo: {
     listPageInfo: {
       query() {
-        const productQuery = this.removeQueryVar(productsQuery, [
-          'channelId',
-          'languageId'
-        ]);
-
-        let finishQuery = {
-          document: productQuery,
-          variables: this.productsQueryVars
-        };
-
-        if (!(this.isSearch || this.isAll)) {
-          finishQuery = combineQuery('withPageInfoCombined')
-            .add(productQuery, this.productsQueryVars)
-            .add(this.infoQuery, {
-              alias: this.currentAlias
-            });
-        }
-
-        if (this.widgetAreaVars) {
-          finishQuery = combineQuery('withAreaCombined')
-            .add(finishQuery.document, finishQuery.variables)
-            .addN(
-              widgetAreaQuery,
-              this.widgetAreaVars.map(item => ({
-                ...item,
-                filters: this.widgetAreaFilters,
-                channelId: this.$store.getters.channelId,
-                languageId: this.$i18n.localeProperties.iso
-              }))
-            );
-        }
-
-        this.initVariables = finishQuery.variables;
-        return finishQuery.document;
+        return this.generateReqValues().document;
       },
       variables() {
         return this.initVariables;
@@ -84,14 +52,6 @@ export default {
             this.switchToCanonicalOr404();
           }
 
-          if (products?.filters.facets.length > 0) {
-            this.baseFilters = products.filters;
-          }
-
-          if (this.filtersSet) {
-            this.updateFilters(products.filters);
-          }
-
           if (this.widgetAreaVars) {
             this.widgetData = widgetAreaInfo;
           }
@@ -106,7 +66,7 @@ export default {
       },
       update: data => data.listPageInfo,
       skip() {
-        return !this.isInitialRequest;
+        return !this.isInitialRequest || !this.initVariables;
       },
       error(error) {
         // eslint-disable-next-line no-console
@@ -115,7 +75,7 @@ export default {
     },
     products: {
       query() {
-        return productsQuery;
+        return sampleProductsQuery;
       },
       variables() {
         return this.productsQueryVars;
@@ -123,6 +83,9 @@ export default {
       deep: true,
       result(result) {
         if (result && result.data) {
+          if (result.data.products?.filters.facets.length > 0) {
+            this.baseFilters = result.data.products.filters;
+          }
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
           }
@@ -133,10 +96,7 @@ export default {
       },
       skip() {
         return (
-          this.isInitialRequest ||
-          this.skipProductsQuery ||
-          this.list.skipProductsQuery ||
-          this.isNostoRequest
+          this.isInitialRequest || this.skipProductsQuery || this.isNostoRequest
         );
       },
       error(error) {
@@ -224,7 +184,7 @@ export default {
   },
   data: vm => ({
     isInitialRequest: true,
-    initVariables: {},
+    initVariables: null,
     baseFilters: {},
     userSkip: 0,
     defaultSort: vm.$config.productListDefaultSort,
@@ -797,6 +757,8 @@ export default {
     // @vuese
     // Run to init the product list
     initProductList() {
+      this.initVariables = this.generateReqValues().variables;
+
       if (this.isSearch || this.isAll) {
         const title = this.isSearch
           ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
@@ -820,6 +782,40 @@ export default {
           }
         }
       }, 100);
+    },
+    generateReqValues() {
+      const productQuery = this.removeQueryVar(productsQuery, [
+        'channelId',
+        'languageId'
+      ]);
+
+      let finishQuery = {
+        document: productQuery,
+        variables: this.productsQueryVars
+      };
+
+      if (!(this.isSearch || this.isAll)) {
+        finishQuery = combineQuery('withPageInfoCombined')
+          .add(productQuery, this.productsQueryVars)
+          .add(this.infoQuery, {
+            alias: this.currentAlias
+          });
+      }
+
+      if (this.widgetAreaVars) {
+        finishQuery = combineQuery('withAreaCombined')
+          .add(finishQuery.document, finishQuery.variables)
+          .addN(
+            widgetAreaQuery,
+            this.widgetAreaVars.map(item => ({
+              ...item,
+              filters: this.widgetAreaFilters,
+              channelId: this.$store.getters.channelId
+            }))
+          );
+      }
+
+      return finishQuery;
     },
     // @vuese
     // Runned to relocate product on page after back navigating
