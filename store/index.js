@@ -1,4 +1,3 @@
-import channelSettings from '~/config/channel-settings';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -11,8 +10,7 @@ export const state = () => ({
   config: {},
   ancientBrowser: false,
   categoryTree: [],
-  channelId: '',
-  channelSettings
+  channelId: ''
 });
 
 export const mutations = {
