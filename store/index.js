@@ -41,7 +41,6 @@ export const mutations = {
   },
   setConfig(state, config) {
     state.config.breakpoints = config.breakpoints;
-    state.config.baseUrl = JSON.parse(JSON.stringify(config.baseUrl));
     state.config.authEndpoint = config.authEndpoint;
     state.config.signEndpoint = config.signEndpoint;
     state.config.siteTopThreshold = config.siteTopThreshold;
@@ -191,8 +190,5 @@ export const getters = {
     return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
-  },
-  currentBaseUrl: state => {
-    return state.config.baseUrl[state.channelId];
   }
 };

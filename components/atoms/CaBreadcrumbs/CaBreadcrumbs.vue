@@ -59,7 +59,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.$t('BREADCRUMBS_HOME'),
-            item: this.$store.getters.currentBaseUrl + '/'
+            item: this.$config.baseUrl + '/'
           }
         ]
       };
@@ -71,8 +71,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.parents[i].name,
-            item:
-              this.$store.getters.currentBaseUrl + this.parents[i].canonicalUrl
+            item: this.$config.baseUrl + this.parents[i].canonicalUrl
           });
         }
       }
@@ -85,8 +84,7 @@ export default {
         name: this.current.name
       };
       if (this.productName) {
-        current.item =
-          this.$store.getters.currentBaseUrl + this.current.canonical;
+        current.item = this.$config.baseUrl + this.current.canonical;
       }
       jsonld.itemListElement.push(current);
 
@@ -112,7 +110,7 @@ export default {
     // Gets the stripped url to be used with NuxtLink
     // @arg url (String)
     getUrl(url) {
-      const strippedUrl = url.replace(this.$store.getters.currentBaseUrl, '');
+      const strippedUrl = url.replace(this.$config.baseUrl, '');
       return strippedUrl === '' ? '/' : strippedUrl;
     },
     // Sets all parents for current category, if category

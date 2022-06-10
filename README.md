@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.6] - 2022-06-10
+
+### Fixed
+
+- Reverted new baseUrl handling until better solution is found
+
 ## [13.0.5] - 2022-06-10
 
 ### Fixed
