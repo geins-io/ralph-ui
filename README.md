@@ -35,27 +35,33 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.5] - 2022-06-10
+
+### Fixed
+
+- JSON.parse for baseUrl
+
 ## [13.0.4] - 2022-06-09
 
-### Fix
+### Fixed
 
 - Fix search channelId empty value
 
 ## [13.0.3] - 2022-06-09
 
-### Fix
+### Fixed
 
 - Fix combine variables in no filter request
 
 ## [13.0.2] - 2022-06-09
 
-### Add
+### Added
 
 - Divide requests, move filter request from withAreaCombine
 
 ## [13.0.1] - 2022-06-09
 
-### Fix
+### Fixed
 
 - Fix nosto checkout event
 - Fix bug with latest/favorite widget
