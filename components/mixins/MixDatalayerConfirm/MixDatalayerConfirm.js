@@ -92,11 +92,11 @@ export default {
                     },
                     items: this.orderCart?.items?.map(item => ({
                       product_id: item.product.productId,
-                      name: item.product.name,
-                      unit_price: item.unitPrice.sellingPriceExVat,
-                      quantity: item.quantity,
                       sku_id: item.skuId,
-                      price_currency_code: currency
+                      name: item.product.name,
+                      quantity: item.quantity,
+                      price_currency_code: currency,
+                      unit_price: item.unitPrice.sellingPriceIncVat
                     }))
                   })
                   .setPlacements(['order-related'])

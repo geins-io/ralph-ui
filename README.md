@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.8] - 2022-06-11
+
+### Fixed
+
+- Minor nosto fix of checkout event
+
 ## [13.0.7] - 2022-06-10
 
 ### Removed
