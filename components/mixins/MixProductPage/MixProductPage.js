@@ -38,10 +38,9 @@ export default {
   apollo: {
     product: {
       query() {
-        const productQueryModifyed = this.removeQueryVar(productQuery, [
-          'channelId',
-          'languageId'
-        ]);
+        const productQueryModifyed = this.$config.productShowRelated
+          ? this.removeQueryVar(productQuery, ['channelId', 'languageId'])
+          : productQuery;
         let finishQuery = {
           document: productQueryModifyed,
           variables: {

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.0.9] - 2022-06-15
+
+### Fixed
+
+- Minor fix of product combine query
+
 ## [13.0.8] - 2022-06-11
 
 ### Fixed
