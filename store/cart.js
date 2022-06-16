@@ -127,7 +127,8 @@ export const actions = {
   itemsChanged({ state }, carts) {
     return (
       carts.new.summary?.subTotal.regularPriceIncVatFormatted !==
-      carts.old.summary?.subTotal.regularPriceIncVatFormatted
+        carts.old.summary?.subTotal.regularPriceIncVatFormatted ||
+      carts.new.promoCode !== carts.old.promoCode
     );
   },
   triggerAddedNotification({ commit }, added) {

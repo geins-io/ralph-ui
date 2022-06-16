@@ -35,6 +35,20 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.0] - 2022-06-16
+
+### Added
+
+- Walley Checkout support
+
+### Fixed
+
+- Cart items change when modifying promo code
+
+### Removed
+
+- Unnecessary check for checkout-container element on external checkout init
+
 ## [13.0.9] - 2022-06-15
 
 ### Fixed
