@@ -218,6 +218,7 @@ export default {
     // @type Boolean
     isNostoRequest() {
       return (
+        process.client &&
         this.selection.sort === 'BEST_MATCH' &&
         this.$store.getters['nosto/isNostoActive']
       );

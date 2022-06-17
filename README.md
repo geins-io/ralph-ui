@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.1] - 2022-06-17
+
+### Fixed
+
+- Move nosto product req to client
+
 ## [13.1.0] - 2022-06-16
 
 ### Added
