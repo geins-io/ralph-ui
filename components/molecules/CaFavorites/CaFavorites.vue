@@ -2,14 +2,16 @@
   <NuxtLink
     :to="localePath('favorites')"
     class="ca-favorites"
+    :class="{ 'ca-favorites--no-text': !showText }"
     :title="$t('FAVORITES_LABEL')"
   >
     <CaIcon name="heart" class="ca-favorites__icon" />
-    <span class="ca-favorites__text only-computer">
+    <span v-if="showText" class="ca-favorites__text only-computer">
       {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})
     </span>
     <CaNotificationBadge
-      class="ca-favorites__qty only-mobile"
+      class="ca-favorites__qty"
+      :class="{ 'only-mobile': showText }"
       :number="favoritesQty"
     />
   </NuxtLink>
@@ -24,9 +26,20 @@ import { mapState } from 'vuex';
 export default {
   name: 'CaFavorites',
   mixins: [],
-  props: {},
+  props: {
+    // Show 'my favorites' text next to heart
+    showText: {
+      type: Boolean,
+      default: true
+    }
+  },
   data: () => ({}),
   computed: {
+    modifiers() {
+      return {
+        'only-mobile': this.showText
+      };
+    },
     favoritesQty() {
       return this.favorites.length || 0;
     },

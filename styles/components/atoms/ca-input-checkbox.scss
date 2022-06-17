@@ -12,6 +12,7 @@
     transition: all 150ms ease;
     margin: 0 $px10 0 0;
     flex-shrink: 0;
+    border-radius: $input-border-radius;
   }
 
   &__check {

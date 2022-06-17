@@ -9,6 +9,7 @@
     text-align: left;
     display: flex;
     align-items: center;
+    border-radius: $default-radius;
   }
   &__trigger-text {
     width: 100%;

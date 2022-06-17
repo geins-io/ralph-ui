@@ -13,6 +13,8 @@
   &--default {
     display: inline-flex;
     border: $border-dark;
+    border-radius: $default-radius;
+    overflow: hidden;
     #{$block}__button {
       background: $c-light-gray;
       @include flex-calign;
@@ -48,6 +50,8 @@
       border-right: none;
       padding: 0 rem-calc(16);
       font-size: $font-size-m;
+      border-top-left-radius: $default-radius;
+      border-bottom-left-radius: $default-radius;
     }
     #{$block}__button {
       height: 50%;
@@ -55,6 +59,12 @@
       background: $c-light-gray;
       @include flex-calign;
       font-size: $font-size-xl;
+      &--increase {
+        border-top-right-radius: $default-radius;
+      }
+      &--decrease {
+        border-bottom-right-radius: $default-radius;
+      }
     }
   }
 

@@ -2,7 +2,7 @@
   margin-right: $px4;
   display: block;
   outline: none;
-  color: $c-cart-color;
+  color: var(--header-text, #{$c-cart-color});
   @include bp(laptop) {
     @include flex-valign;
   }
@@ -10,7 +10,7 @@
     position: relative;
   }
   &__icon {
-    font-size: 24px;
+    font-size: rem-calc(24);
   }
   &__value {
     font-weight: $font-weight-bold;

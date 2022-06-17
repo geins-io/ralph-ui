@@ -1,3 +1,8 @@
+$widget-column-spacing-tablet-full-width: 0 !default;
+$widget-row-spacing-tablet-full-width: 0 !default;
+$widget-column-spacing-laptop-full-width: 0 !default;
+$widget-row-spacing-laptop-full-width: 0 !default;
+
 .ca-widget-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -49,6 +54,16 @@
     }
     @if $widget-row-spacing-laptop != $widget-row-spacing-tablet {
       row-gap: $widget-row-spacing-laptop;
+    }
+  }
+  &--design-full-width {
+    @include bp(tablet) {
+      column-gap: $widget-column-spacing-tablet-full-width;
+      row-gap: $widget-row-spacing-tablet-full-width;
+    }
+    @include bp(laptop) {
+      column-gap: $widget-column-spacing-laptop-full-width;
+      row-gap: $widget-row-spacing-laptop-full-width;
     }
   }
 }

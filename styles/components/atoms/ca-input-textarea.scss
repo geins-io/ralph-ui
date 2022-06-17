@@ -4,7 +4,7 @@
   transition: border 0.2s ease;
   border: $input-border;
   background: $c-input-background;
-  border-radius: $textarea-border-radius;
+  border-radius: $input-border-radius;
   line-height: 0;
   &__wrap {
     & + & {

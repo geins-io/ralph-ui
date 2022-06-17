@@ -24,6 +24,7 @@
     transition: border-color 200ms ease;
     cursor: pointer;
     position: relative;
+    border-radius: $input-border-radius;
   }
 
   &__select-wrap {
