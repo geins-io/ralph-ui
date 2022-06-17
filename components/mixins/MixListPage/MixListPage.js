@@ -357,6 +357,12 @@ export default {
         this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort
       );
 
+      this.$set(
+        obj,
+        'filterMode',
+        this.implicitFacets.length ? 'BY_GROUP' : 'CURRENT'
+      );
+
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
       }

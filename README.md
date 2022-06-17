@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.2] - 2022-06-17
+
+### Added
+
+- Add filtermode to product request
+
 ## [13.1.1] - 2022-06-17
 
 ### Fixed
