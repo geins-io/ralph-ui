@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.3] - 2022-06-20
+
+### Added
+
+- Move nostoAppsKey to another var
+
 ## [13.1.2] - 2022-06-17
 
 ### Added

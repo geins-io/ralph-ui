@@ -220,7 +220,8 @@ export default {
       return (
         process.client &&
         this.selection.sort === 'BEST_MATCH' &&
-        this.$store.getters['nosto/isNostoActive']
+        this.$store.getters['nosto/isNostoActive'] &&
+        this.$config.nostoAccountAppsKey
       );
     },
     categoryAlias() {
