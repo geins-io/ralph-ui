@@ -62,7 +62,7 @@
     border-color: $c-success;
     cursor: initial;
     &::before {
-      background-color: $c-accent-color;
+      background-color: var(--accent-color, $c-accent-color);
     }
   }
 }

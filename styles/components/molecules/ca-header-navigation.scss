@@ -121,7 +121,7 @@
         content: '';
         width: 0%;
         height: 3px;
-        background: $c-accent-color;
+        background: var(--accent-color, $c-accent-color);
         @include halign;
         bottom: -3px;
         opacity: 0;

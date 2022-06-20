@@ -22,7 +22,7 @@
     transition: background-color 200ms ease;
     text-indent: -100000px;
     &--current {
-      background-color: $c-accent-color;
+      background-color: var(--accent-color, $c-accent-color);
     }
     @include bp(tablet) {
       width: $px24;

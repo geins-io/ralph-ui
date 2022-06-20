@@ -1,3 +1,4 @@
+$widget-row-spacing-full-width: 0 !default;
 $widget-column-spacing-tablet-full-width: 0 !default;
 $widget-row-spacing-tablet-full-width: 0 !default;
 $widget-column-spacing-laptop-full-width: 0 !default;
@@ -57,6 +58,8 @@ $widget-row-spacing-laptop-full-width: 0 !default;
     }
   }
   &--design-full-width {
+    row-gap: $widget-row-spacing-full-width;
+
     @include bp(tablet) {
       column-gap: $widget-column-spacing-tablet-full-width;
       row-gap: $widget-row-spacing-tablet-full-width;

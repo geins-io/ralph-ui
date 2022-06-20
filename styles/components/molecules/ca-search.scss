@@ -89,7 +89,7 @@
   }
 
   &__spinner.ca-spinner {
-    border-color: $c-accent-color;
+    border-color: var(--accent-color, $c-accent-color);
     width: 30px;
     height: 30px;
     position: absolute;

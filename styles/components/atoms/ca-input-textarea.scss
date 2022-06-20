@@ -1,10 +1,11 @@
+$textarea-border-radius: $input-border-radius !default;
 .ca-input-textarea {
   $block: &;
   position: relative;
   transition: border 0.2s ease;
   border: $input-border;
   background: $c-input-background;
-  border-radius: $input-border-radius;
+  border-radius: $textarea-border-radius;
   line-height: 0;
   &__wrap {
     & + & {

@@ -1,6 +1,6 @@
 .ca-checkout-external {
   &__loading {
     margin: 0 auto;
-    border-color: $c-accent-color;
+    border-color: var(--accent-color, $c-accent-color);
   }
 }

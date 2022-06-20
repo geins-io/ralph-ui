@@ -1,5 +1,5 @@
 .ca-widget-video {
-  $play-button-bg: $c-accent-color !default;
+  $play-button-bg: var(--accent-color, $c-accent-color) !default;
   $play-button-txt: $c-text-inverse !default;
   position: relative;
   &__image-wrap {
