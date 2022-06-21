@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.4] - 2022-06-21
+
+### Fixed
+
+- Fix filters cache in category page
+
 ## [13.1.3] - 2022-06-20
 
 ### Added

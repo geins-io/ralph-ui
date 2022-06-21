@@ -969,14 +969,21 @@ export default {
     // Used to set new count of filters
     // @arg base filters (Array), new filters (Array)
     setNewCount(baseFilters, newFilters) {
-      const array = baseFilters.map(i => {
-        const existsInNewFilters = newFilters?.values.findIndex(
+      if (!(baseFilters && newFilters)) {
+        return baseFilters;
+      }
+
+      const baseFiltersClone = JSON.parse(JSON.stringify(baseFilters));
+      const newFiltersClone = JSON.parse(JSON.stringify(newFilters));
+
+      const array = baseFiltersClone.map(i => {
+        const existsInNewFilters = newFiltersClone?.values.findIndex(
           ii => ii.facetId === i.facetId
         );
         if (existsInNewFilters === -1) {
           i.count = 0;
         } else {
-          const newCount = newFilters?.values.find(
+          const newCount = newFiltersClone?.values.find(
             ii => ii.facetId === i.facetId
           ).count;
           i.count = newCount || 0;
