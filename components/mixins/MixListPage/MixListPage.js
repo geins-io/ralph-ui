@@ -345,26 +345,16 @@ export default {
         const selection = this.selection.parameters[group].map(i => i.id);
         selection.forEach(i => parameters.push(i));
       }
-      this.$set(
-        obj,
-        'facets',
-        categories.concat(
-          brands.concat(skus.concat(parameters.concat(this.implicitFacets)))
-        )
-      );
+      const facets = categories.concat(brands.concat(skus.concat(parameters)));
+
+      this.$set(obj, 'facets', facets.concat(this.implicitFacets));
       this.$set(
         obj,
         'sort',
         this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort
       );
 
-      this.$set(
-        obj,
-        'filterMode',
-        obj.facets.length && !this.implicitFacets.length
-          ? 'BY_GROUP'
-          : 'CURRENT'
-      );
+      this.$set(obj, 'filterMode', facets.length ? 'BY_GROUP' : 'CURRENT');
 
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
