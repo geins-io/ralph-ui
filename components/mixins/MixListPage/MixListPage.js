@@ -361,7 +361,9 @@ export default {
       this.$set(
         obj,
         'filterMode',
-        this.implicitFacets.length ? 'BY_GROUP' : 'CURRENT'
+        obj.facets.length && !this.implicitFacets.length
+          ? 'BY_GROUP'
+          : 'CURRENT'
       );
 
       if (this.isSearch) {
