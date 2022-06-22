@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.6] - 2022-06-22
+
+### Fixed
+
+- Feedback for nShift/UDC handled correctly
+
 ## [13.1.5] - 2022-06-22
 
 ### Fixed
