@@ -37,6 +37,10 @@ All notable changes will be added to this section
 
 ## [13.1.8] - 2022-06-23
 
+### Added
+
+- Srcset prop for CaImage
+
 ### Fixed
 
 - Fix static parameters for filters
