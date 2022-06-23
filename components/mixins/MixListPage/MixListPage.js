@@ -891,6 +891,7 @@ export default {
       this.$set(this.filters, 'skus', sortedFilters.skus.values);
       this.$set(this.filters, 'parameters', sortedFilters.parameters);
       this.filtersSet = true;
+      this.updateFilters(this.baseFilters);
       if (
         Object.keys(this.$route.query).length > 0 &&
         !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
@@ -947,25 +948,33 @@ export default {
           sortedFilters.skus
         );
       }
-      this.filters.parameters.map(filter => {
+      this.filters.parameters = this.filters.parameters.map(filter => {
         const newFilter = sortedFilters.parameters.find(
           i => i.filterId === filter.filterId
         );
+        let filterClone = JSON.parse(JSON.stringify(filter));
         if (this.list.firstFilterChanged !== filter.filterId) {
-          filter.values = this.setNewCount(filter.values, newFilter);
+          filterClone = {
+            ...filterClone,
+            values: this.setNewCount(filter.values, newFilter)
+          };
         }
-        return filter;
+        return filterClone;
       });
     },
     // @vuese
     // Used to set new count of filters
     // @arg base filters (Array), new filters (Array)
     setNewCount(baseFilters, newFilters) {
-      if (!(baseFilters && newFilters)) {
+      if (!baseFilters) {
         return baseFilters;
       }
-
       const baseFiltersClone = JSON.parse(JSON.stringify(baseFilters));
+
+      if (!newFilters) {
+        return baseFiltersClone.map(i => ({ ...i, count: 0 }));
+      }
+
       const newFiltersClone = JSON.parse(JSON.stringify(newFilters));
 
       const array = baseFiltersClone.map(i => {
