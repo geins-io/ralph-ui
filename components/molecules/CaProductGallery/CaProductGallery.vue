@@ -6,7 +6,7 @@
         ref="slider"
         class="ca-product-gallery__slider"
         :centered="true"
-        :dots="images.length > 1"
+        :dots="images.length > 1 && showDots"
         :infinite="images.length > 1"
         :nr-of-slides="images.length"
         :arrow-icon-name="arrowIconName"
@@ -119,6 +119,11 @@ export default {
       type: Boolean,
       default: true
     },
+    // Display dots or not
+    showDots: {
+      type: Boolean,
+      default: true
+    },
     // To show campaign badge on image
     campaigns: {
       type: [Array, Boolean],
@@ -162,7 +167,6 @@ export default {
     },
     slideChangeHandler(index) {
       this.currentSlide = index;
-      // this.slideToIndex(index, 'navslider');
     }
   }
 };
