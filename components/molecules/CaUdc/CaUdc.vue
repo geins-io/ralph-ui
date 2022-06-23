@@ -35,7 +35,7 @@
         type="text/javascript"
         src="/vendors/unifaun-checkout-all.min.js"
         async
-      />
+      ></script>
     </client-only>
   </div>
 </template>
@@ -158,17 +158,13 @@ export default {
       if (this.widget) {
         this.widget.enable();
       }
-      if (this.shippingData) {
+      if (this.shippingData && JSON.parse(this.shippingData).options?.length) {
         this.$refs.feedback.hide();
         this.optionsAvailable = true;
         if (this.shippingData !== this.data) {
           this.update();
         }
-      } else if (
-        !this.shippingData &&
-        this.currentZip !== '' &&
-        this.searchWasPerformed
-      ) {
+      } else if (this.currentZip !== '' && this.searchWasPerformed) {
         this.$refs.feedback.show();
         this.optionsAvailable = false;
       }

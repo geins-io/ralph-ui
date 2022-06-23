@@ -68,8 +68,8 @@ export const actions = {
 
 export const getters = {
   isNostoActive(_, _2, { config }) {
-    const { isNostoActive, nostoAccountId, nostoAccountAppsKey } = config;
-    return isNostoActive && nostoAccountId && nostoAccountAppsKey;
+    const { isNostoActive, nostoAccountId } = config;
+    return isNostoActive && nostoAccountId;
   },
   getSessionToken(state) {
     return state.sessionToken;

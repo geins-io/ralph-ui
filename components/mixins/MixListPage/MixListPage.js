@@ -218,8 +218,10 @@ export default {
     // @type Boolean
     isNostoRequest() {
       return (
+        process.client &&
         this.selection.sort === 'BEST_MATCH' &&
-        this.$store.getters['nosto/isNostoActive']
+        this.$store.getters['nosto/isNostoActive'] &&
+        this.$config.nostoAccountAppsKey
       );
     },
     categoryAlias() {
@@ -343,18 +345,16 @@ export default {
         const selection = this.selection.parameters[group].map(i => i.id);
         selection.forEach(i => parameters.push(i));
       }
-      this.$set(
-        obj,
-        'facets',
-        categories.concat(
-          brands.concat(skus.concat(parameters.concat(this.implicitFacets)))
-        )
-      );
+      const facets = categories.concat(brands.concat(skus.concat(parameters)));
+
+      this.$set(obj, 'facets', facets.concat(this.implicitFacets));
       this.$set(
         obj,
         'sort',
         this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort
       );
+
+      this.$set(obj, 'filterMode', facets.length ? 'BY_GROUP' : 'CURRENT');
 
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
@@ -891,6 +891,7 @@ export default {
       this.$set(this.filters, 'skus', sortedFilters.skus.values);
       this.$set(this.filters, 'parameters', sortedFilters.parameters);
       this.filtersSet = true;
+      this.updateFilters(this.baseFilters);
       if (
         Object.keys(this.$route.query).length > 0 &&
         !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
@@ -947,28 +948,43 @@ export default {
           sortedFilters.skus
         );
       }
-      this.filters.parameters.map(filter => {
+      this.filters.parameters = this.filters.parameters.map(filter => {
         const newFilter = sortedFilters.parameters.find(
           i => i.filterId === filter.filterId
         );
+        let filterClone = JSON.parse(JSON.stringify(filter));
         if (this.list.firstFilterChanged !== filter.filterId) {
-          filter.values = this.setNewCount(filter.values, newFilter);
+          filterClone = {
+            ...filterClone,
+            values: this.setNewCount(filter.values, newFilter)
+          };
         }
-        return filter;
+        return filterClone;
       });
     },
     // @vuese
     // Used to set new count of filters
     // @arg base filters (Array), new filters (Array)
     setNewCount(baseFilters, newFilters) {
-      const array = baseFilters.map(i => {
-        const existsInNewFilters = newFilters?.values.findIndex(
+      if (!baseFilters) {
+        return baseFilters;
+      }
+      const baseFiltersClone = JSON.parse(JSON.stringify(baseFilters));
+
+      if (!newFilters) {
+        return baseFiltersClone.map(i => ({ ...i, count: 0 }));
+      }
+
+      const newFiltersClone = JSON.parse(JSON.stringify(newFilters));
+
+      const array = baseFiltersClone.map(i => {
+        const existsInNewFilters = newFiltersClone?.values.findIndex(
           ii => ii.facetId === i.facetId
         );
         if (existsInNewFilters === -1) {
           i.count = 0;
         } else {
-          const newCount = newFilters?.values.find(
+          const newCount = newFiltersClone?.values.find(
             ii => ii.facetId === i.facetId
           ).count;
           i.count = newCount || 0;

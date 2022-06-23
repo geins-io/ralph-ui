@@ -12,7 +12,7 @@
 import getCheckoutQuery from 'checkout/get-checkout.graphql';
 // @group Atoms
 // @vuese
-// Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna and SVEA Checkout<br><br>
+// Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna, SVEA and Walley Checkout<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-checkout-external.scss_
 export default {
   name: 'CaCheckoutExternal',
@@ -35,7 +35,7 @@ export default {
     },
     // What type of payment?
     type: {
-      // `KLARNA`, `SVEA`
+      // `KLARNA`, `SVEA`, `WALLEY`
       type: String,
       required: true
     }
@@ -54,6 +54,8 @@ export default {
           return this.$route.query.kid;
         case 'SVEA':
           return this.$route.query.sid;
+        case 'WALLEY':
+          return this.$route.query.wid;
         default:
           return null;
       }
@@ -88,14 +90,7 @@ export default {
     // @vuese
     // Initializing all scripts
     initScript() {
-      const type = this.type.toLowerCase();
-      const checkoutContainer = document.getElementById(
-        `${type}-checkout-container`
-      );
       const checkoutWrapper = document.getElementById('checkout-external');
-      if (!checkoutContainer) {
-        return false;
-      }
 
       const scriptsTags = checkoutWrapper.getElementsByTagName('script');
       for (let i = scriptsTags.length - 1; i > -1; i--) {
@@ -103,6 +98,11 @@ export default {
         const newScriptTag = document.createElement('script');
         newScriptTag.type = 'text/javascript';
         newScriptTag.text = scriptsTags[i].text;
+
+        if (scriptsTags[i].dataset) {
+          Object.assign(newScriptTag.dataset, scriptsTags[i].dataset);
+        }
+
         if (scriptsTags[i].src) {
           newScriptTag.src = scriptsTags[i].src;
         }
@@ -128,6 +128,12 @@ export default {
               window.scoApi.setCheckoutEnabled(false);
               this.suspended = true;
             }
+            return;
+          case 'WALLEY':
+            if (window.collector) {
+              window.collector.checkout.api.suspend();
+              this.suspended = true;
+            }
         }
       }
     },
@@ -148,6 +154,11 @@ export default {
           case 'SVEA':
             if (window.scoApi) {
               window.scoApi.setCheckoutEnabled(true);
+            }
+            return;
+          case 'WALLEY':
+            if (window.collector) {
+              window.collector.checkout.api.resume();
             }
         }
       } else {

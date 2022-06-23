@@ -35,6 +35,74 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.9] - 2022-06-23
+
+### Fixed
+
+- Fix static parameters for filters
+
+## [13.1.8] - 2022-06-23
+
+### Added
+
+- Srcset prop for CaImage
+
+## [13.1.7] - 2022-06-22
+
+### Fixed
+
+- Set Filtermode with any ui filters
+
+## [13.1.6] - 2022-06-22
+
+### Fixed
+
+- Feedback for nShift/UDC handled correctly
+
+## [13.1.5] - 2022-06-22
+
+### Fixed
+
+- Set Filtermode with right condition
+
+## [13.1.4] - 2022-06-21
+
+### Fixed
+
+- Fix filters cache in category page
+
+## [13.1.3] - 2022-06-20
+
+### Added
+
+- Move nostoAppsKey to another var
+
+## [13.1.2] - 2022-06-17
+
+### Added
+
+- Add filtermode to product request
+
+## [13.1.1] - 2022-06-17
+
+### Fixed
+
+- Move nosto product req to client
+
+## [13.1.0] - 2022-06-16
+
+### Added
+
+- Walley Checkout support
+
+### Fixed
+
+- Cart items change when modifying promo code
+
+### Removed
+
+- Unnecessary check for checkout-container element on external checkout init
+
 ## [13.0.9] - 2022-06-15
 
 ### Fixed
