@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.8] - 2022-06-23
+
+### Added
+
+- Srcset prop for CaImage
+
 ## [13.1.7] - 2022-06-22
 
 ### Fixed

@@ -101,6 +101,11 @@ export default {
     bannerImage: {
       type: Boolean,
       default: false
+    },
+    // Set srcet for image
+    srcset: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -147,7 +152,7 @@ export default {
     },
     imgSrcset() {
       if (this.sizeArray.length === 0 && this.src !== '') {
-        return this.src + ' 1x';
+        return this.srcset ? this.srcset : this.src + ' 1x';
       }
       const array = this.sizeArray?.length
         ? this.sizeArray
