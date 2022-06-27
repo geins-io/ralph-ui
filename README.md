@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.10] - 2022-06-27
+
+### Fixed
+
+- Fix server requests to product widget in CaWidgetProductList
+
 ## [13.1.9] - 2022-06-23
 
 ### Fixed
