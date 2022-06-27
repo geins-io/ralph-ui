@@ -1,60 +1,38 @@
 .ca-button {
-  display: inline-block;
-  font-size: $font-size-m;
-  font-weight: $font-weight-bold;
-  text-transform: uppercase;
-  padding: 0.65em 2em;
-  white-space: nowrap;
-  position: relative;
-  transition: background 150ms ease;
+  @include button;
+
   &__spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -10px;
-    margin-left: -10px;
+    @include button-spinner;
   }
+
   // Colors
   &--primary {
-    background: $c-button-primary-bg;
-    color: $c-button-primary-txt;
-    border: $button-primary-border;
-    &:hover {
-      background: $c-button-primary-bg-hover;
-    }
+    @include button-primary;
   }
+
   &--secondary {
-    background: $c-button-secondary-bg;
-    color: $c-button-secondary-txt;
-    border: $button-secondary-border;
-    &:hover {
-      background: $c-button-secondary-bg-hover;
-    }
+    @include button-secondary;
   }
+
   // Sizes
   &--s {
-    padding: 0.6em 0.9em;
-    font-size: $font-size-s;
+    @include button-s;
   }
+
   &--l {
-    font-size: $font-size-l;
-    padding: 0.65em 4.2em;
-    @include bp(tablet) {
-      padding: 0.65em 5em;
-    }
+    @include button-l;
   }
+
   // Types
   &--full-width {
-    width: 100%;
-    padding-left: 0.7em;
-    padding-right: 0.7em;
-    text-align: center;
+    @include button-full-width;
   }
+
   &--disabled {
-    opacity: 0.3;
-    pointer-events: none;
+    @include button-disabled;
   }
+
   &--loading {
-    color: transparent;
+    @include button-loading;
   }
 }
