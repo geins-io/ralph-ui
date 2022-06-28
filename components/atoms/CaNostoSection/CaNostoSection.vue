@@ -37,6 +37,7 @@
 </template>
 <script>
 import MixListPagination from 'MixListPagination';
+import MixNostoSection from 'MixNostoSection';
 
 // @group Atoms
 // @vuese
@@ -44,7 +45,7 @@ import MixListPagination from 'MixListPagination';
 // **SASS-path:** _./styles/components/atoms/ca-ca-nosto-section.scss_
 export default {
   name: 'CaNostoSection',
-  mixins: [MixListPagination],
+  mixins: [MixListPagination, MixNostoSection],
   props: {
     // Widget configuration object
     configuration: {
@@ -67,9 +68,6 @@ export default {
       return this.configuration.limitNrOfRows
         ? this.configuration.pageCount * this.$config.productListRowSize
         : this.$config.productListPageSize;
-    },
-    nostoData() {
-      return this.$store.state.nosto.pageWidgetsData?.[this.nostoId];
     },
     nostoTitle() {
       return this.nostoData?.title;
@@ -94,68 +92,7 @@ export default {
     }
   },
   mounted() {},
-  methods: {
-    getCanonicalUrl(url) {
-      return `/${url
-        ?.split('/')
-        ?.slice(3)
-        ?.join('/')}`;
-    },
-    getAliasUrl(url) {
-      return url
-        ?.split('/')
-        ?.slice(-1)
-        ?.join('');
-    },
-    formatNostoData(products) {
-      const createObjectNode = (indexKey, keys, acc, value) => {
-        acc[keys[indexKey]] = acc[keys[indexKey]]
-          ? { ...acc[keys[indexKey]] }
-          : {};
-
-        if (indexKey === keys.length - 1) {
-          acc[keys[indexKey]] = value;
-          return;
-        }
-
-        createObjectNode(indexKey + 1, keys, acc[keys[indexKey]], value);
-      };
-
-      const mappedAttributesProducts = products.map(product => ({
-        ...product,
-        ...Object.entries(product.custom_fields).reduce((acc, [key, value]) => {
-          const keys = key.split('_');
-          if (keys.length > 1) {
-            createObjectNode(0, keys, acc, value);
-            return acc;
-          }
-          return { ...acc, [keys[0]]: value };
-        }, {})
-      }));
-
-      const formattedProduct = mappedAttributesProducts.map(product => ({
-        ...product,
-        images: product.images.split(','),
-        skus: [
-          {
-            skuId: product?.primarySku?.id,
-            productId: product.productId
-          }
-        ],
-        totalStock: {
-          ...product.totalStock,
-          totalStock: product.totalStock.sellable
-        },
-        canonicalUrl: this.getCanonicalUrl(product.canonicalUrl || product.url),
-        alias: this.getAliasUrl(product.canonicalUrl || product.url),
-        discountCampaigns: product.discountCampaigns
-          ? [product.discountCampaigns.split(',')]
-          : []
-      }));
-
-      return formattedProduct;
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">
