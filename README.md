@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.11] - 2022-06-28
+
+### Added
+
+- Add nosto formatting data to CaQuickAddProducts
+
 ## [13.1.10] - 2022-06-27
 
 ### Fixed

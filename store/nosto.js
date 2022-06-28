@@ -1,15 +1,19 @@
 export const state = () => ({
-  sessionToken: null
+  sessionToken: null,
+  pageWidgetsData: []
 });
 
 export const mutations = {
   setSessionToken(state, token) {
     state.sessionToken = token;
+  },
+  setPageWidgetsData(state, data) {
+    state.pageWidgetsData = data;
   }
 };
 
 export const actions = {
-  loadRecommendations({ dispatch, rootState }, payload = {}) {
+  loadRecommendations({ dispatch, commit, rootState }, payload = {}) {
     if (process.browser && this.$config.isNostoActive) {
       dispatch('cart/sendNostoEvent', rootState.cart.data, {
         root: true
@@ -46,13 +50,12 @@ export const actions = {
       window.nostojs(api => {
         api
           .defaultSession()
-          .setResponseMode('HTML')
           [viewMethod](payload.params)
           .setPlacements(api.placements.getPlacements())
           .load()
           .then(response => {
             console.log(response, 'Response rec');
-            api.placements.injectCampaigns(response.recommendations);
+            commit('setPageWidgetsData', response.recommendations);
           });
       });
     }
