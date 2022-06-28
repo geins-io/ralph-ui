@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.12] - 2022-06-28
+
+### Fixed
+
+- Fix visibility title on empty nosto list
+
 ## [13.1.11] - 2022-06-28
 
 ### Added

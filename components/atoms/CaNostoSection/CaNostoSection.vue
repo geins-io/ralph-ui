@@ -1,7 +1,7 @@
 <template>
   <div class="ca-widget-product-list">
     <div :id="nostoId" class="nosto_element"></div>
-    <h2 v-if="nostoTitle" class="ca-widget-product-list__title">
+    <h2 v-if="isTitleVisible" class="ca-widget-product-list__title">
       {{ nostoTitle }}
     </h2>
     <CaProductList
@@ -57,6 +57,9 @@ export default {
     loading: true
   }),
   computed: {
+    isTitleVisible() {
+      return this.nostoTitle && this.products?.length;
+    },
     nostoId() {
       return this.configuration?.nostoId;
     },
