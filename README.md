@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.13] - 2022-06-28
+
+### Fixed
+
+- Fixes nShift bug related to input fields in nShift frame without debouncer
+- Fixed bug in gtm push that causes error in checkout on reload
+
 ## [13.1.12] - 2022-06-28
 
 ### Fixed

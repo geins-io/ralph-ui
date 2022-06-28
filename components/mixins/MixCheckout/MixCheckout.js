@@ -180,7 +180,7 @@ export default {
     // @vuese
     // GTM event emitter
     emitGTMEvent() {
-      if (this.$gtm) {
+      if (this.$gtm && this.cart?.data?.items) {
         this.$gtm.push({
           event: 'Checkout Step',
           eventInfo: {},
@@ -190,7 +190,7 @@ export default {
               actionField: {
                 step: 1
               },
-              products: this.cart?.data?.items.map(item => ({
+              products: this.cart.data.items.map(item => ({
                 id: item.product.productId,
                 name: item.product.name,
                 brand: item.product.brand?.name,
