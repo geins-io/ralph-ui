@@ -172,6 +172,19 @@ export default {
     // @vuese
     // The callback function for when changes are made in the widget
     changed(data) {
+      if (
+        JSON.stringify(data) === this.$store.state.checkout.udcData ||
+        !data.valid
+      ) {
+        return false;
+      }
+      const selected = document.getElementsByClassName(
+        'unifaun-checkout-selected0'
+      )[0];
+      const hasTextInput = !!selected.querySelector(
+        '.unifaun-checkout-text-input-input'
+      );
+      const debounce = hasTextInput ? 2000 : 150;
       clearTimeout(this.changeTimeout);
       this.changeTimeout = setTimeout(() => {
         this.udcValid = data.valid;
@@ -184,7 +197,7 @@ export default {
         // A change has been made
         // @arg Selected option ID, pickup point, delivery data (Object)
         this.$emit('changed', udcData);
-      }, 150);
+      }, debounce);
     }
   }
 };

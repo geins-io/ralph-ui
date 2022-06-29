@@ -56,7 +56,7 @@ export default {
         this.productsLoaded = true;
       },
       skip() {
-        return this.isWidgetModeEmpty;
+        return this.isWidgetModeEmpty || process.server;
       },
       error(error) {
         // eslint-disable-next-line no-console

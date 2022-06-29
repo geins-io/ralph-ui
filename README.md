@@ -35,6 +35,37 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.14] - 2022-06-28
+
+### Fixed
+
+- Fix nosto add to card && move to mixin same methods
+
+## [13.1.13] - 2022-06-28
+
+### Fixed
+
+- Fixes nShift bug related to input fields in nShift frame without debouncer
+- Fixed bug in gtm push that causes error in checkout on reload
+
+## [13.1.12] - 2022-06-28
+
+### Fixed
+
+- Fix visibility title on empty nosto list
+
+## [13.1.11] - 2022-06-28
+
+### Added
+
+- Add nosto formatting data to CaQuickAddProducts
+
+## [13.1.10] - 2022-06-27
+
+### Fixed
+
+- Fix server requests to product widget in CaWidgetProductList
+
 ## [13.1.9] - 2022-06-23
 
 ### Fixed
