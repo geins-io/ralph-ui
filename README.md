@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.15] - 2022-07-01
+
+### Fixed
+
+- Fix nosto add to card && move to mixin same methods
+
 ## [13.1.14] - 2022-06-28
 
 ### Fixed
