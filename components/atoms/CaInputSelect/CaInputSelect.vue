@@ -12,7 +12,7 @@
     >
       <div class="ca-input-select__selected" @click="toggleOptions">
         {{ selected.label || placeholder }}
-        <CaIcon class="ca-input-select__arrow" name="chevron-down" />
+        <CaIcon class="ca-input-select__arrow" :name="iconName" />
       </div>
       <SlideUpDown
         class="ca-input-select__options"
@@ -48,7 +48,7 @@
           {{ option.label }}
         </option>
       </select>
-      <CaIcon class="ca-input-select__arrow" name="chevron-down" />
+      <CaIcon class="ca-input-select__arrow" :name="iconName" />
     </div>
     <div v-if="description !== ''" class="ca-input-select__description">
       {{ description }}
@@ -105,6 +105,10 @@ export default {
       type: Boolean,
       // `false`
       default: false
+    },
+    iconName: {
+      type: String,
+      default: 'chevron-down'
     }
   },
   data: () => ({

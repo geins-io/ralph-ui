@@ -6,4 +6,5 @@ fragment Price on PriceType {
   sellingPriceExVatFormatted
   sellingPriceExVat
   vat
+  discountPercentage
 }

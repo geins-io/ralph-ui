@@ -462,13 +462,15 @@ export default {
     // Current bredcrumb info
     // @type Object
     breadcrumbsCurrent() {
-      return {
-        name: this.listInfo.name,
-        alias: this.currentAlias,
-        canonical: this.listInfo.canonicalUrl,
-        id: this.listInfo.id,
-        type: this.type
-      };
+      return this.listInfo
+        ? {
+            name: this.listInfo.name,
+            alias: this.currentAlias,
+            canonical: this.listInfo.canonicalUrl,
+            id: this.listInfo.id,
+            type: this.type
+          }
+        : {};
     },
     // @vuese
     // Show filters and other controls

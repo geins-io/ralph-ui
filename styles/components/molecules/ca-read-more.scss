@@ -3,6 +3,7 @@
   &__text {
     overflow: hidden;
     position: relative;
+    color: var(--body-text-color, $c-text-primary);
     &::after {
       content: '';
       display: block;

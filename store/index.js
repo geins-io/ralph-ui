@@ -172,8 +172,10 @@ export const getters = {
       return 'tablet';
     } else if (state.viewportWidth < state.config.breakpoints.desktop) {
       return 'laptop';
-    } else {
+    } else if (state.viewportWidth < state.config.breakpoints.desktopBig) {
       return 'desktop';
+    } else {
+      return 'desktopBig';
     }
   },
   isFavorite: state => prodAlias => {
