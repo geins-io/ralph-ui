@@ -49,7 +49,18 @@ export default {
       }
     },
     type() {
-      return this.$route.query.sid ? 'SVEA' : 'KLARNA';
+      if (this.$route.query.sid) {
+        return 'SVEA';
+      }
+
+      if (this.$route.query.kid) {
+        return 'KLARNA';
+      }
+
+      if (this.$route.query.wid) {
+        return 'WALLEY';
+      }
+      return 'KLARNA';
     }
   },
   watch: {},
