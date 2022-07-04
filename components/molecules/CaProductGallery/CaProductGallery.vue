@@ -47,9 +47,9 @@
       />
     </div>
     <CaSlider
-      v-if="showGalleryThumbnails"
+      v-if="showGalleryThumbnails && thumbnailMode === 'slider'"
       ref="navslider"
-      class="ca-product-gallery__nav only-computer"
+      class="ca-product-gallery__nav ca-product-gallery__nav--slider only-computer"
       :nr-of-slides="images.length"
       :infinite="false"
     >
@@ -81,6 +81,31 @@
         </CaSlide>
       </template>
     </CaSlider>
+    <div
+      v-if="showGalleryThumbnails && thumbnailMode === 'grid'"
+      class="ca-product-gallery__nav ca-product-gallery__nav--grid only-computer"
+    >
+      <CaClickable
+        v-for="(image, index) in images"
+        :key="index"
+        class="ca-product-gallery__nav-image-container ca-product-gallery__nav-image-container--grid"
+        @clicked="openModal(index)"
+      >
+        <CaImage
+          class="ca-product-gallery__nav-image ca-product-gallery__nav-image--grid"
+          type="product"
+          :filename="image"
+          :ratio="$config.productImageRatio"
+          :alt="alt"
+          :size-array="
+            $config.imageSizes.product.filter(
+              item => parseInt(item.descriptor) <= 500
+            )
+          "
+          sizes="(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw"
+        />
+      </CaClickable>
+    </div>
   </div>
 </template>
 <script>
@@ -118,6 +143,15 @@ export default {
     showGalleryThumbnails: {
       type: Boolean,
       default: true
+    },
+    // Thumbnail mode
+    thumbnailMode: {
+      // 'slider', 'grid'
+      type: String,
+      default: 'slider',
+      validator(value) {
+        return ['slider', 'grid'].includes(value);
+      }
     },
     // Display dots or not
     showDots: {
