@@ -2,7 +2,7 @@
   <div class="ca-product-gallery">
     <div class="ca-product-gallery__main">
       <CaSlider
-        v-if="images.length > 0"
+        v-if="images.length > 0 && galleryMode === 'slider'"
         ref="slider"
         class="ca-product-gallery__slider"
         :centered="true"
@@ -40,6 +40,28 @@
           </CaSlide>
         </template>
       </CaSlider>
+      <CaClickable
+        v-if="images.length > 0 && galleryMode === 'plain'"
+        class="ca-product-gallery__image-container ca-product-gallery__image-container--main"
+        @clicked="openModal(0)"
+      >
+        <CaImage
+          class="ca-product-gallery__image ca-product-gallery__image--main"
+          type="product"
+          :filename="images[0]"
+          :ratio="$config.productImageRatio"
+          :alt="alt"
+          :size-array="
+            $config.imageSizes.product.filter(
+              item => parseInt(item.descriptor) < 1700
+            )
+          "
+          sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
+        />
+        <div class="ca-product-gallery__slide-overlay">
+          <CaIcon name="plus" />
+        </div>
+      </CaClickable>
       <CaCampaigns
         v-if="campaigns"
         class="ca-product-gallery__campaigns"
@@ -128,6 +150,15 @@ export default {
     images: {
       type: Array,
       required: true
+    },
+    // Gallery mode
+    galleryMode: {
+      // 'slider', 'plain'
+      type: String,
+      default: 'slider',
+      validator(value) {
+        return ['slider', 'plain'].includes(value);
+      }
     },
     // The alt text for the product images
     alt: {
