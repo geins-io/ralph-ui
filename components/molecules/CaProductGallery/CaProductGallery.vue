@@ -105,16 +105,16 @@
     </CaSlider>
     <div
       v-if="showGalleryThumbnails && thumbnailMode === 'grid'"
-      class="ca-product-gallery__nav ca-product-gallery__nav--grid only-computer"
+      class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid only-computer"
     >
       <CaClickable
         v-for="(image, index) in images"
         :key="index"
-        class="ca-product-gallery__nav-image-container ca-product-gallery__nav-image-container--grid"
+        class="ca-product-gallery__thumbnail-container ca-product-gallery__thumbnail-container--grid"
         @clicked="openModal(index)"
       >
         <CaImage
-          class="ca-product-gallery__nav-image ca-product-gallery__nav-image--grid"
+          class="ca-product-gallery__thumbnail ca-product-gallery__thumbnail--grid"
           type="product"
           :filename="image"
           :ratio="$config.productImageRatio"

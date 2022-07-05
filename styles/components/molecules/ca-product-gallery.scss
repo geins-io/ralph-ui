@@ -90,25 +90,14 @@
     margin-top: -28px;
   }
 
-  &__nav:not(&__nav--grid) {
+  &__nav {
     --slider-item-width: calc(100% / 2);
 
     margin: 0 rem-calc(-10);
   }
 
-  &__nav--grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: $grid-gap;
-    margin-top: $grid-gap;
-  }
-
   &__nav-image {
     cursor: pointer;
-  }
-
-  &__nav-image-container--grid {
-    width: 100%;
   }
 
   &__nav-slide {
@@ -124,6 +113,20 @@
         border: 2px solid $c-border-light;
       }
     }
+  }
+
+  &__thumbnails {
+    margin-top: $grid-gap;
+
+    &--grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $grid-gap;
+    }
+  }
+
+  &__thumbnail-container {
+    width: 100%;
   }
 
   &__campaigns {
