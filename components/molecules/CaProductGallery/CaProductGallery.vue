@@ -58,7 +58,7 @@
           "
           sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
         />
-        <div class="ca-product-gallery__slide-overlay">
+        <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
           <CaIcon name="plus" />
         </div>
       </CaClickable>
@@ -159,6 +159,11 @@ export default {
       validator(value) {
         return ['slider', 'plain'].includes(value);
       }
+    },
+    // Use overlay
+    hasOverlay: {
+      type: Boolean,
+      default: true
     },
     // The alt text for the product images
     alt: {
