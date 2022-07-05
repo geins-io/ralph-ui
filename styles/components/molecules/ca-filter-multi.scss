@@ -1,4 +1,7 @@
 .ca-filter-multi {
+  $c-input-checkbox-bg: $c-white !default;
+  $input-checkbox-border: $border-light !default;
+
   padding: $px12 $px16;
 
   &__value {
