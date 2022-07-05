@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="ca-breadcrumbs">
+  <div class="ca-breadcrumbs" :class="modifiers">
     <script type="application/ld+json" v-html="breadcrumbSchema"></script>
     <ol class="ca-breadcrumbs__list">
       <li
@@ -46,6 +46,11 @@ export default {
     parents: []
   }),
   computed: {
+    modifiers() {
+      return {
+        'ca-breadcrumbs--product': this.productName
+      };
+    },
     // Creates the schema for the breadcrumbs
     breadcrumbSchema() {
       let position = 1;
