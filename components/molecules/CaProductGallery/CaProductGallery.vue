@@ -2,7 +2,12 @@
   <div class="ca-product-gallery">
     <div class="ca-product-gallery__main">
       <CaSlider
-        v-if="images.length > 0 && galleryMode === 'slider'"
+        v-if="
+          (images.length > 0 && galleryMode === 'slider') ||
+            (images.length > 0 &&
+              galleryMode === 'plain' &&
+              !$store.getters.viewportComputer)
+        "
         ref="slider"
         class="ca-product-gallery__slider"
         :centered="true"
@@ -41,7 +46,11 @@
         </template>
       </CaSlider>
       <CaClickable
-        v-if="images.length > 0 && galleryMode === 'plain'"
+        v-if="
+          images.length > 0 &&
+            galleryMode === 'plain' &&
+            $store.getters.viewportComputer
+        "
         class="ca-product-gallery__image-container ca-product-gallery__image-container--main"
         @clicked="openModal(0)"
       >
@@ -69,9 +78,13 @@
       />
     </div>
     <CaSlider
-      v-if="showGalleryThumbnails && thumbnailMode === 'slider'"
+      v-if="
+        showGalleryThumbnails &&
+          thumbnailMode === 'slider' &&
+          $store.getters.viewportComputer
+      "
       ref="navslider"
-      class="ca-product-gallery__nav ca-product-gallery__nav--slider only-computer"
+      class="ca-product-gallery__nav ca-product-gallery__nav--slider"
       :nr-of-slides="images.length"
       :infinite="false"
     >
@@ -104,8 +117,12 @@
       </template>
     </CaSlider>
     <div
-      v-if="showGalleryThumbnails && thumbnailMode === 'grid'"
-      class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid only-computer"
+      v-if="
+        showGalleryThumbnails &&
+          thumbnailMode === 'grid' &&
+          $store.getters.viewportComputer
+      "
+      class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"
     >
       <CaClickable
         v-for="(image, index) in images"
