@@ -1,7 +1,7 @@
 <template>
   <div class="ca-variant-picker">
     <slot name="title">
-      <p class="ca-variant-picker__title">
+      <p v-if="title" class="ca-variant-picker__title">
         {{ title }}
       </p>
     </slot>
@@ -38,7 +38,7 @@ export default {
     // The title for the picker
     title: {
       type: String,
-      required: true
+      default: ''
     },
     // The type of picker to use. Accepts `color`, `display` and `panel`
     type: {
