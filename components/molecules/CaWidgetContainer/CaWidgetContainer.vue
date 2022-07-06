@@ -1,5 +1,5 @@
 <template>
-  <LazyHydrate when-visible>
+  <Component :is="wrapperComponent" when-visible>
     <CaContainer
       v-if="container.widgets"
       class="ca-widget-container ca-widget-container--outer"
@@ -16,7 +16,7 @@
         @widget-mounted="widgetsMounted = widgetsMounted + 1"
       />
     </CaContainer>
-  </LazyHydrate>
+  </Component>
 </template>
 <script>
 import LazyHydrate from 'vue-lazy-hydration';
@@ -45,6 +45,9 @@ export default {
   },
   data: () => ({ widgetsMounted: 0 }),
   computed: {
+    wrapperComponent() {
+      return this.$store.getters['nosto/isNostoActive'] ? 'div' : LazyHydrate;
+    },
     outerClasses() {
       const arr = [];
       arr.push('ca-widget-container--design-' + this.container.design);
