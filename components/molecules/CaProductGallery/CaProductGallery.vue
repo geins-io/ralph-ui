@@ -2,12 +2,7 @@
   <div class="ca-product-gallery">
     <div class="ca-product-gallery__main">
       <CaSlider
-        v-if="
-          (images.length > 0 && galleryMode === 'slider') ||
-            (images.length > 0 &&
-              galleryMode === 'plain' &&
-              !$store.getters.viewportComputer)
-        "
+        v-if="isGalleryModeSlider"
         ref="slider"
         class="ca-product-gallery__slider"
         :centered="true"
@@ -46,11 +41,7 @@
         </template>
       </CaSlider>
       <CaClickable
-        v-if="
-          images.length > 0 &&
-            galleryMode === 'plain' &&
-            $store.getters.viewportComputer
-        "
+        v-if="isGalleryModePlain"
         class="ca-product-gallery__image-container ca-product-gallery__image-container--main"
         @clicked="openModal(0)"
       >
@@ -78,11 +69,7 @@
       />
     </div>
     <CaSlider
-      v-if="
-        showGalleryThumbnails &&
-          thumbnailMode === 'slider' &&
-          $store.getters.viewportComputer
-      "
+      v-if="isThumbnailModeSlider"
       ref="navslider"
       class="ca-product-gallery__nav ca-product-gallery__nav--slider"
       :nr-of-slides="images.length"
@@ -117,11 +104,7 @@
       </template>
     </CaSlider>
     <div
-      v-if="
-        showGalleryThumbnails &&
-          thumbnailMode === 'grid' &&
-          $store.getters.viewportComputer
-      "
+      v-if="isThumbnailModeGrid"
       class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"
     >
       <CaClickable
@@ -230,6 +213,50 @@ export default {
         index: this.modalIndex,
         ratio: this.$config.productImageRatio
       };
+    },
+    hasImages() {
+      return this.images.length > 0;
+    },
+    isGalleryModeSlider() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.galleryMode === 'slider' ||
+        (this.galleryMode === 'plain' && !this.$store.getters.viewportComputer)
+      );
+    },
+    isGalleryModePlain() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.galleryMode === 'plain' && this.$store.getters.viewportComputer
+      );
+    },
+    isThumbnailModeSlider() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.showGalleryThumbnails &&
+        this.thumbnailMode === 'slider' &&
+        this.$store.getters.viewportComputer
+      );
+    },
+    isThumbnailModeGrid() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.showGalleryThumbnails &&
+        this.thumbnailMode === 'grid' &&
+        this.$store.getters.viewportComputer
+      );
     }
   },
   watch: {},
