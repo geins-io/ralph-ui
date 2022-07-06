@@ -80,6 +80,14 @@ export const actions = {
           context.commit('setScrollTop');
 
           // Scrolling down & past main layout padding hides header
+          if (!document.querySelector('.ca-layout-default__maisn')) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              'initScrollListener: Main layout element is undefined'
+            );
+            return;
+          }
+
           const stopScrollTop = context.state.scrollTop;
           const mainLayout = document.querySelector('.ca-layout-default__main');
           const mainLayoutOffset = parseInt(
