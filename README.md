@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.17] - 2022-07-07
+
+### Fixed
+
+- Remove nosto from plugins
+
 ## [13.1.16] - 2022-07-04
 
 ### Added
