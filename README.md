@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.18] - 2022-07-07
+
+### Fixed
+
+- Fix send headers after send to the client in checkout page
+
 ## [13.1.17] - 2022-07-07
 
 ### Fixed
