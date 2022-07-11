@@ -5,6 +5,7 @@ query products(
   $brandAlias: String = null
   $discountCampaignAlias: String = null
   $filter: FilterInputType = null
+  $url: String = null
   $channelId: String
   $languageId: String
 ) {
@@ -12,6 +13,7 @@ query products(
     categoryAlias: $categoryAlias
     brandAlias: $brandAlias
     discountCampaignAlias: $discountCampaignAlias
+    url: $url
     filter: $filter
     channelId: $channelId
     languageId: $languageId
