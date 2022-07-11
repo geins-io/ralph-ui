@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.1.19] - 2022-07-11
+
+### Added
+
+- Skeleton to NostoSection
+
+### Fixed
+
+- Walley payment method fix for null orderId
+
 ## [13.1.18] - 2022-07-07
 
 ### Fixed

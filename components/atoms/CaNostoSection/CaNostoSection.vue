@@ -11,7 +11,7 @@
       :page-size="take"
     />
     <CaProductListSlider
-      v-else-if="!loading && products"
+      v-else-if="loading || products.length > 0"
       class="ca-widget-product-list__list"
       :products="products"
       :page-size="take"
@@ -84,7 +84,7 @@ export default {
     products: {
       handler(val) {
         if (val.length) {
-          this.loading = false;
+          this.loading = true;
           this.productsLoaded = true;
         }
       },

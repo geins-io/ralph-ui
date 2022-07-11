@@ -44,6 +44,8 @@ export default {
           return this.$route.query.kid;
         case 'SVEA':
           return this.$route.query.sid;
+        case 'WALLEY':
+          return this.$route.query.wid;
         default:
           return null;
       }
