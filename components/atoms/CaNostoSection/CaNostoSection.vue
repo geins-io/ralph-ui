@@ -1,8 +1,8 @@
 <template>
-  <div class="ca-widget-product-list">
+  <div v-if="!isProductsEmpty" class="ca-widget-product-list">
     <div :id="nostoId" class="nosto_element"></div>
-    <h2 v-if="isTitleVisible" class="ca-widget-product-list__title">
-      {{ nostoTitle }}
+    <h2 style="height: 25px" class="ca-widget-product-list__title">
+      <span v-if="isTitleVisible">{{ nostoTitle }}</span>
     </h2>
     <CaProductList
       v-if="configuration.slideshowDisabled"
@@ -78,17 +78,17 @@ export default {
         return this.formatNostoData(nostoProducts);
       }
       return [];
+    },
+    isProductsEmpty() {
+      return !this.loading && this.products.length === 0;
     }
   },
   watch: {
     products: {
       handler(val) {
-        if (val.length) {
-          this.loading = true;
-          this.productsLoaded = true;
-        }
-      },
-      immediate: true
+        this.loading = false;
+        this.productsLoaded = true;
+      }
     }
   },
   mounted() {},

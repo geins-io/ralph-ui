@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.2.0] - 2022-07-12
+
+### Fixed
+
+- Fix view skeleton without apiKey
+- Fix layout shift title
+
 ## [13.1.19] - 2022-07-11
 
 ### Added
