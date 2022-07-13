@@ -101,7 +101,7 @@ export const actions = {
 
     commit('setCart', cart);
 
-    if (cart.id) {
+    if (cart.id && process.client) {
       this.$cookies.set('ralph-cart', cart.id, {
         path: '/',
         expires: new Date(new Date().getTime() + 31536000000)

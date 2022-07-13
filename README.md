@@ -35,6 +35,35 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.2.0] - 2022-07-12
+
+### Fixed
+
+- Fix view skeleton without apiKey
+- Fix layout shift title
+
+## [13.1.19] - 2022-07-11
+
+### Added
+
+- Skeleton to NostoSection
+
+### Fixed
+
+- Walley payment method fix for null orderId
+
+## [13.1.18] - 2022-07-07
+
+### Fixed
+
+- Fix send headers after send to the client in checkout page
+
+## [13.1.17] - 2022-07-07
+
+### Fixed
+
+- Remove nosto from plugins
+
 ## [13.1.16] - 2022-07-04
 
 ### Added
