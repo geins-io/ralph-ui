@@ -29,12 +29,21 @@ export default {
     alt: {
       type: String,
       required: true
+    },
+    // Header theme
+    theme: {
+      type: String,
+      default: 'light'
     }
   },
   data: () => ({}),
   computed: {
     filename() {
-      return require('~/assets/logo.' + this.filetype);
+      let logoName = 'logo';
+      if (this.theme === 'dark') {
+        logoName = 'logo-theme-dark';
+      }
+      return require('~/assets/' + logoName + '.' + this.filetype);
     }
   },
   watch: {},

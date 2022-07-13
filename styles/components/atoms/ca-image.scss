@@ -35,4 +35,12 @@
       object-fit: cover;
     }
   }
+
+  &--product {
+    @include productImageOverlay;
+    #{$block}__img {
+      padding: 6%;
+      background: $c-white;
+    }
+  }
 }

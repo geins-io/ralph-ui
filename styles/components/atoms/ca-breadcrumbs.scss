@@ -1,6 +1,6 @@
 .ca-breadcrumbs {
   font-size: $font-size-s;
-  color: $c-text-secondary;
+  color: var(--secondary-text-color, $c-text-secondary);
   margin: 0 0 $px12;
   @include bp(laptop) {
     margin: 0 0 $px16;

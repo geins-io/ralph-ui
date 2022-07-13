@@ -1,0 +1,20 @@
+#import "productlist/list-info.graphql"
+
+query listPageInfo(
+  $listPageUrl: String!
+  $channelId: String
+  $languageId: String
+) {
+  listPageInfo(
+    url: $listPageUrl
+    channelId: $channelId
+    languageId: $languageId
+  ) {
+    subCategories {
+      name
+      alias
+      canonicalUrl
+    }
+    ...ListInfo
+  }
+}

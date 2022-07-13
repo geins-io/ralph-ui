@@ -2,11 +2,11 @@
   <div class="ca-product-gallery">
     <div class="ca-product-gallery__main">
       <CaSlider
-        v-if="images.length > 0"
+        v-if="isGalleryModeSlider"
         ref="slider"
         class="ca-product-gallery__slider"
         :centered="true"
-        :dots="images.length > 1"
+        :dots="images.length > 1 && showDots"
         :infinite="images.length > 1"
         :nr-of-slides="images.length"
         :arrow-icon-name="arrowIconName"
@@ -40,6 +40,28 @@
           </CaSlide>
         </template>
       </CaSlider>
+      <CaClickable
+        v-if="isGalleryModePlain"
+        class="ca-product-gallery__image-container ca-product-gallery__image-container--main"
+        @clicked="openModal(0)"
+      >
+        <CaImage
+          class="ca-product-gallery__image ca-product-gallery__image--main"
+          type="product"
+          :filename="images[0]"
+          :ratio="$config.productImageRatio"
+          :alt="alt"
+          :size-array="
+            $config.imageSizes.product.filter(
+              item => parseInt(item.descriptor) < 1700
+            )
+          "
+          sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
+        />
+        <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
+          <CaIcon name="plus" />
+        </div>
+      </CaClickable>
       <CaCampaigns
         v-if="campaigns"
         class="ca-product-gallery__campaigns"
@@ -47,9 +69,9 @@
       />
     </div>
     <CaSlider
-      v-if="showGalleryThumbnails"
+      v-if="isThumbnailModeSlider"
       ref="navslider"
-      class="ca-product-gallery__nav only-computer"
+      class="ca-product-gallery__nav ca-product-gallery__nav--slider"
       :nr-of-slides="images.length"
       :infinite="false"
     >
@@ -81,6 +103,31 @@
         </CaSlide>
       </template>
     </CaSlider>
+    <div
+      v-if="isThumbnailModeGrid"
+      class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"
+    >
+      <CaClickable
+        v-for="(image, index) in images"
+        :key="index"
+        class="ca-product-gallery__thumbnail-container ca-product-gallery__thumbnail-container--grid"
+        @clicked="openModal(index)"
+      >
+        <CaImage
+          class="ca-product-gallery__thumbnail ca-product-gallery__thumbnail--grid"
+          type="product"
+          :filename="image"
+          :ratio="$config.productImageRatio"
+          :alt="alt"
+          :size-array="
+            $config.imageSizes.product.filter(
+              item => parseInt(item.descriptor) <= 500
+            )
+          "
+          sizes="(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw"
+        />
+      </CaClickable>
+    </div>
   </div>
 </template>
 <script>
@@ -104,6 +151,20 @@ export default {
       type: Array,
       required: true
     },
+    // Gallery mode
+    galleryMode: {
+      // 'slider', 'plain'
+      type: String,
+      default: 'slider',
+      validator(value) {
+        return ['slider', 'plain'].includes(value);
+      }
+    },
+    // Use overlay
+    hasOverlay: {
+      type: Boolean,
+      default: true
+    },
     // The alt text for the product images
     alt: {
       type: String,
@@ -116,6 +177,20 @@ export default {
     },
     // Display the gallery thumbnails or not
     showGalleryThumbnails: {
+      type: Boolean,
+      default: true
+    },
+    // Thumbnail mode
+    thumbnailMode: {
+      // 'slider', 'grid'
+      type: String,
+      default: 'slider',
+      validator(value) {
+        return ['slider', 'grid'].includes(value);
+      }
+    },
+    // Display dots or not
+    showDots: {
       type: Boolean,
       default: true
     },
@@ -138,6 +213,50 @@ export default {
         index: this.modalIndex,
         ratio: this.$config.productImageRatio
       };
+    },
+    hasImages() {
+      return this.images.length > 0;
+    },
+    isGalleryModeSlider() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.galleryMode === 'slider' ||
+        (this.galleryMode === 'plain' && !this.$store.getters.viewportComputer)
+      );
+    },
+    isGalleryModePlain() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.galleryMode === 'plain' && this.$store.getters.viewportComputer
+      );
+    },
+    isThumbnailModeSlider() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.showGalleryThumbnails &&
+        this.thumbnailMode === 'slider' &&
+        this.$store.getters.viewportComputer
+      );
+    },
+    isThumbnailModeGrid() {
+      if (!this.hasImages) {
+        return;
+      }
+
+      return (
+        this.showGalleryThumbnails &&
+        this.thumbnailMode === 'grid' &&
+        this.$store.getters.viewportComputer
+      );
     }
   },
   watch: {},
@@ -162,7 +281,6 @@ export default {
     },
     slideChangeHandler(index) {
       this.currentSlide = index;
-      // this.slideToIndex(index, 'navslider');
     }
   }
 };

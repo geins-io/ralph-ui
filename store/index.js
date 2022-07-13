@@ -10,7 +10,8 @@ export const state = () => ({
   config: {},
   ancientBrowser: false,
   categoryTree: [],
-  channelId: ''
+  channelId: '',
+  headerHidden: false
 });
 
 export const mutations = {
@@ -30,6 +31,9 @@ export const mutations = {
   },
   setScrollTop(state) {
     state.scrollTop = window.pageYOffset;
+  },
+  setHeaderHidden(state, isHeaderHidden) {
+    state.headerHidden = isHeaderHidden;
   },
   setViewportWidth(state, width = window.innerWidth) {
     state.viewportWidth = width;
@@ -71,8 +75,27 @@ export const actions = {
         }
         // Setup the new requestAnimationFrame()
         timeout = window.requestAnimationFrame(function() {
-          // Run scroll functions
+          // Set scroll top
+          const startScrollTop = context.state.scrollTop;
           context.commit('setScrollTop');
+
+          // Scrolling down & past main layout padding hides header
+          if (!document.querySelector('.ca-layout-default__maisn')) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              'initScrollListener: Main layout element is undefined'
+            );
+            return;
+          }
+
+          const stopScrollTop = context.state.scrollTop;
+          const mainLayout = document.querySelector('.ca-layout-default__main');
+          const mainLayoutOffset = parseInt(
+            getComputedStyle(mainLayout).paddingTop
+          );
+          const isHeaderHidden =
+            startScrollTop > mainLayoutOffset && startScrollTop < stopScrollTop;
+          context.commit('setHeaderHidden', isHeaderHidden);
         });
       },
       { passive: true }
@@ -172,8 +195,10 @@ export const getters = {
       return 'tablet';
     } else if (state.viewportWidth < state.config.breakpoints.desktop) {
       return 'laptop';
-    } else {
+    } else if (state.viewportWidth < state.config.breakpoints.desktopBig) {
       return 'desktop';
+    } else {
+      return 'desktopBig';
     }
   },
   isFavorite: state => prodAlias => {

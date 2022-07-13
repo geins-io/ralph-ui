@@ -130,7 +130,9 @@ export default {
     // Latest visible products (need only in favorite mode)
     // @type Object
     favoritesProducts() {
-      return this.$store.state.favorites.map(this.formatToFacet);
+      return this.$store.state.favorites.length
+        ? this.$store.state.favorites.map(this.formatToFacet)
+        : [];
     },
     // @vuese
     // Variables in product request
@@ -180,7 +182,6 @@ export default {
       if (this.isFavoriteMode) {
         return Boolean(this.favoritesProducts.length);
       }
-
       return additionalCondition;
     }
   }

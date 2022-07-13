@@ -33,6 +33,7 @@
     z-index: 2;
     margin: 0 $px10 0 0;
     font-size: $font-size-s;
+    color: var(--body-text-color, $c-text-primary);
   }
   &__close {
     z-index: 2;
