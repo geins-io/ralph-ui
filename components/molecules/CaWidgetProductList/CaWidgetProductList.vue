@@ -182,7 +182,7 @@ export default {
       if (this.isFavoriteMode) {
         return Boolean(this.favoritesProducts.length);
       }
-      return !!additionalCondition;
+      return additionalCondition;
     }
   }
 };
