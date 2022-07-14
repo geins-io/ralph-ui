@@ -79,23 +79,28 @@ export const actions = {
           const startScrollTop = context.state.scrollTop;
           context.commit('setScrollTop');
 
-          // Scrolling down & past main layout padding hides header
-          if (!document.querySelector('.ca-layout-default__maisn')) {
-            // eslint-disable-next-line no-console
-            console.warn(
-              'initScrollListener: Main layout element is undefined'
-            );
-            return;
-          }
+          if (process.client) {
+            // Scrolling down & past main layout padding hides header
+            if (!document.querySelector('.ca-layout-default__main')) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                'initScrollListener: Main layout element is undefined'
+              );
+              return;
+            }
 
-          const stopScrollTop = context.state.scrollTop;
-          const mainLayout = document.querySelector('.ca-layout-default__main');
-          const mainLayoutOffset = parseInt(
-            getComputedStyle(mainLayout).paddingTop
-          );
-          const isHeaderHidden =
-            startScrollTop > mainLayoutOffset && startScrollTop < stopScrollTop;
-          context.commit('setHeaderHidden', isHeaderHidden);
+            const stopScrollTop = context.state.scrollTop;
+            const mainLayout = document.querySelector(
+              '.ca-layout-default__main'
+            );
+            const mainLayoutOffset = parseInt(
+              getComputedStyle(mainLayout).paddingTop
+            );
+            const isHeaderHidden =
+              startScrollTop > mainLayoutOffset &&
+              startScrollTop < stopScrollTop;
+            context.commit('setHeaderHidden', isHeaderHidden);
+          }
         });
       },
       { passive: true }
