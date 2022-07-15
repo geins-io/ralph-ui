@@ -35,11 +35,21 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [13.2.1] - 2022-07-15
+## [14.0.1] - 2022-07-15
 
 ### Added
 
 - Fix slow loading of layout components && move getMenuAtLocation to client
+
+## [14.0.0] - 2022-07-13
+
+### Added
+
+- Theme support for a lot of components with css variables
+- Support for new full url routing for list pages
+- Added grid mode for product gallery thumbs
+- Support for price filter
+- Support for hidden header mode on scroll
 
 ## [13.2.0] - 2022-07-12
 

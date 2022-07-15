@@ -145,7 +145,13 @@ export default {
     // Current alias for the page
     currentAlias: {
       type: String,
-      required: true
+      default: ''
+    },
+    // @vuese
+    // Current url path for the page
+    currentPath: {
+      type: String,
+      default: ''
     },
     // @vuese
     // Base filters for this page
@@ -259,6 +265,9 @@ export default {
       if (this.selection.skus && this.selection.skus.length) {
         queryObj.skus = this.getReadableParams(this.selection.skus);
       }
+      if (this.selection.price && this.selection.price.length) {
+        queryObj.price = this.getReadableParams(this.selection.price);
+      }
       if (Object.keys(this.selection.parameters).length > 0) {
         for (const group in this.selection.parameters) {
           if (this.selection.parameters[group].length) {
@@ -281,6 +290,12 @@ export default {
     // @type String
     modifier() {
       return 'ca-list-page--' + this.type;
+    },
+    // @vuese
+    // Is this list page of type list?
+    // @type Boolean
+    isList() {
+      return this.type === 'list';
     },
     // @vuese
     // Is this list page of type category?
@@ -340,12 +355,15 @@ export default {
       const categories = this.selection.categories.map(i => i.id);
       const brands = this.selection.brands.map(i => i.id);
       const skus = this.selection.skus.map(i => i.id);
+      const price = this.selection.price.map(i => i.id);
       const parameters = [];
       for (const group in this.selection.parameters) {
         const selection = this.selection.parameters[group].map(i => i.id);
         selection.forEach(i => parameters.push(i));
       }
-      const facets = categories.concat(brands.concat(skus.concat(parameters)));
+      const facets = categories.concat(
+        brands.concat(skus.concat(price.concat(parameters)))
+      );
 
       this.$set(obj, 'facets', facets.concat(this.implicitFacets));
       this.$set(
@@ -397,7 +415,9 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (!this.isAll && !this.isSearch) {
+      if (this.isList) {
+        this.$set(varsObj, 'url', this.currentPath);
+      } else if (!this.isAll && !this.isSearch) {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
@@ -411,7 +431,9 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (!this.isAll && !this.isSearch) {
+      if (this.isList) {
+        this.$set(varsObj, 'url', this.currentPath);
+      } else if (!this.isAll && !this.isSearch) {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
@@ -425,7 +447,9 @@ export default {
         take: this.pageSize,
         filter: this.productsQueryFilter
       };
-      if (!this.isAll && !this.isSearch) {
+      if (this.isList) {
+        this.$set(varsObj, 'url', this.currentPath);
+      } else if (!this.isAll && !this.isSearch) {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
@@ -444,6 +468,9 @@ export default {
     // Returns array of widget filters
     // @type Array
     widgetAreaFilters() {
+      if (this.isList) {
+        return [];
+      }
       const filtersArray = [];
       const filterObj = {
         value: this.currentAlias
@@ -462,13 +489,15 @@ export default {
     // Current bredcrumb info
     // @type Object
     breadcrumbsCurrent() {
-      return {
-        name: this.listInfo.name,
-        alias: this.currentAlias,
-        canonical: this.listInfo.canonicalUrl,
-        id: this.listInfo.id,
-        type: this.type
-      };
+      return this.listInfo
+        ? {
+            name: this.listInfo.name,
+            alias: this.currentAlias,
+            canonical: this.listInfo.canonicalUrl,
+            id: this.listInfo.id,
+            type: this.type
+          }
+        : {};
     },
     // @vuese
     // Show filters and other controls
@@ -702,6 +731,7 @@ export default {
       this.userSelection.categories = [];
       this.userSelection.brands = [];
       this.userSelection.skus = [];
+      this.userSelection.price = [];
       this.userSelection.parameters = {};
       this.resetCurrentPage();
       this.pushURLParams();
@@ -792,8 +822,13 @@ export default {
         document: productQuery,
         variables: this.productsQueryVars
       };
-
-      if (!(this.isSearch || this.isAll)) {
+      if (this.isList) {
+        finishQuery = combineQuery('withPageInfoCombined')
+          .add(productQuery, this.productsQueryVars)
+          .add(this.infoQuery, {
+            url: this.currentPath
+          });
+      } else if (!(this.isSearch || this.isAll)) {
         finishQuery = combineQuery('withPageInfoCombined')
           .add(productQuery, this.productsQueryVars)
           .add(this.infoQuery, {
@@ -855,6 +890,10 @@ export default {
         this.$set(selection, 'skus', this.selection.skus);
       }
 
+      if (this.selection.price) {
+        this.$set(selection, 'price', this.selection.price);
+      }
+
       if (this.selection.parameters) {
         this.$set(selection, 'parameters', this.selection.parameters);
       }
@@ -889,6 +928,7 @@ export default {
       this.$set(this.filters, 'categories', sortedFilters.categories.values);
       this.$set(this.filters, 'brands', sortedFilters.brands.values);
       this.$set(this.filters, 'skus', sortedFilters.skus.values);
+      this.$set(this.filters, 'price', sortedFilters.price.values);
       this.$set(this.filters, 'parameters', sortedFilters.parameters);
       this.filtersSet = true;
       this.updateFilters(this.baseFilters);
@@ -948,6 +988,12 @@ export default {
           sortedFilters.skus
         );
       }
+      if (this.list.firstFilterChanged !== 'price') {
+        this.filters.price = this.setNewCount(
+          this.filters.price,
+          sortedFilters.price
+        );
+      }
       this.filters.parameters = this.filters.parameters.map(filter => {
         const newFilter = sortedFilters.parameters.find(
           i => i.filterId === filter.filterId
@@ -1000,8 +1046,9 @@ export default {
       const categories = filters.facets.find(i => i.type === 'Category');
       const brands = filters.facets.find(i => i.type === 'Brand');
       const skus = filters.facets.find(i => i.type === 'Sku');
+      const price = filters.facets.find(i => i.type === 'Price');
       const parameters = filters.facets.filter(i => i.type === 'Parameter');
-      return { categories, brands, skus, parameters };
+      return { categories, brands, skus, price, parameters };
     },
     // @vuese
     // Setting up params for filter in URL
@@ -1046,8 +1093,9 @@ export default {
             : {
                 brands: [],
                 categories: [],
-                parameters: {},
                 skus: [],
+                price: [],
+                parameters: {},
                 sort: this.defaultSort
               };
 

@@ -6,6 +6,7 @@ export const state = () => ({
     categories: [],
     brands: [],
     skus: [],
+    price: [],
     parameters: {}
   },
   skipProductsQuery: false
@@ -29,6 +30,7 @@ export const mutations = {
       categories: [],
       brands: [],
       skus: [],
+      price: [],
       parameters: {}
     };
   },
@@ -69,6 +71,15 @@ export const actions = {
       }
     } else {
       selection.skus = [];
+    }
+    if (data.query.price) {
+      const price = data.query.price.split(',');
+
+      if (price.length) {
+        selection.price = await dispatch('processUrlParams', price);
+      }
+    } else {
+      selection.price = [];
     }
 
     selection.parameters = {};

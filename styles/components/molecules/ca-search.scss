@@ -27,6 +27,7 @@
     width: calc(100% - #{$default-spacing});
     border: $border-light;
     background: $c-white;
+    border-radius: $default-radius;
     @include flex-valign;
     @include bp(laptop) {
       width: $search-width;
@@ -76,6 +77,7 @@
     width: 100%;
     padding: $px16 $px20;
     line-height: 1.6;
+    border-radius: $default-radius;
     @include bp(laptop) {
       margin: rem-calc(6px) 0 0;
       width: $search-width;
@@ -87,7 +89,7 @@
   }
 
   &__spinner.ca-spinner {
-    border-color: $c-accent-color;
+    border-color: var(--accent-color, $c-accent-color);
     width: 30px;
     height: 30px;
     position: absolute;
@@ -107,7 +109,7 @@
     $vh: calc(var(--vh, 1vh) * 100);
     position: relative;
     background: $c-white;
-
+    border-radius: $default-radius;
     height: calc(
       100vh - #{$top-bar-height + $header-bar-height + $search-height}
     );

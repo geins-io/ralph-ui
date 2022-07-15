@@ -1,3 +1,7 @@
+$list-column-spacing-desktop: 10;
+$list-row-spacing-desktop: 10;
+$list-column-count-desktop: 5;
+
 .ca-product-list {
   display: grid;
   column-gap: $list-column-spacing;
@@ -23,6 +27,28 @@
     }
     @if $list-column-count-laptop != $list-column-count-tablet {
       grid-template-columns: repeat($list-column-count-laptop, 1fr);
+    }
+  }
+  @include bp(desktop) {
+    @if $list-column-spacing-desktop != $list-column-spacing-laptop {
+      column-gap: $list-column-spacing-desktop;
+    }
+    @if $list-row-spacing-desktop != $list-row-spacing-laptop {
+      row-gap: $list-row-spacing-desktop;
+    }
+    @if $list-column-count-desktop != $list-column-count-laptop {
+      grid-template-columns: repeat($list-column-count-desktop, 1fr);
+    }
+  }
+  @include bp(desktop-big) {
+    @if $list-column-spacing-desktop-big != $list-column-spacing-desktop {
+      column-gap: $list-column-spacing-desktop-big;
+    }
+    @if $list-row-spacing-desktop-big != $list-row-spacing-desktop {
+      row-gap: $list-row-spacing-desktop-big;
+    }
+    @if $list-column-count-desktop-big != $list-column-count-desktop {
+      grid-template-columns: repeat($list-column-count-desktop-big, 1fr);
     }
   }
   &__empty {

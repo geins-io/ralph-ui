@@ -2,7 +2,8 @@
   $block: &;
   $header-navigation-height-computer: rem-calc(50px) !default;
   height: $header-navigation-height-computer;
-  background: $c-header-bg;
+  background: var(--header-bg, #{$c-header-bg});
+  color: var(--header-text, #{$c-text-primary});
   body[style='overflow: hidden;'] & {
     padding-right: var(--scrollbar-width);
   }
@@ -38,7 +39,8 @@
   }
 
   &__children {
-    background: $c-lightest-gray;
+    background: var(--header-bg, #{$c-header-bg});
+    color: var(--header-text, #{$c-text-primary});
     opacity: 0;
     margin-top: 10px;
     pointer-events: none;
@@ -119,7 +121,7 @@
         content: '';
         width: 0%;
         height: 3px;
-        background: $c-accent-color;
+        background: var(--accent-color, $c-accent-color);
         @include halign;
         bottom: -3px;
         opacity: 0;
