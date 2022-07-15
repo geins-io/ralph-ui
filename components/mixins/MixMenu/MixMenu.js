@@ -15,10 +15,11 @@ export default {
         };
       },
       result(result) {
+        console.log('test');
         this.menu = result?.data?.getMenuAtLocation || [];
       },
       skip() {
-        return !this.menuLocationId;
+        return !this.menuLocationId || !process.client;
       },
       error(error) {
         // eslint-disable-next-line no-console

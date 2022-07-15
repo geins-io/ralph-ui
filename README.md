@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [13.2.1] - 2022-07-15
+
+### Added
+
+- Fix slow loading of layout components && move getMenuAtLocation to client
+
 ## [13.2.0] - 2022-07-12
 
 ### Fixed
