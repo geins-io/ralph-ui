@@ -925,11 +925,15 @@ export default {
         }
       }
 
-      this.$set(this.filters, 'categories', sortedFilters.categories.values);
-      this.$set(this.filters, 'brands', sortedFilters.brands.values);
-      this.$set(this.filters, 'skus', sortedFilters.skus.values);
-      this.$set(this.filters, 'price', sortedFilters.price.values);
-      this.$set(this.filters, 'parameters', sortedFilters.parameters);
+      this.$set(
+        this.filters,
+        'categories',
+        sortedFilters.categories?.values || []
+      );
+      this.$set(this.filters, 'brands', sortedFilters.brands?.values || []);
+      this.$set(this.filters, 'skus', sortedFilters.skus?.values || []);
+      this.$set(this.filters, 'price', sortedFilters.price?.values || []);
+      this.$set(this.filters, 'parameters', sortedFilters.parameters || []);
       this.filtersSet = true;
       this.updateFilters(this.baseFilters);
       if (

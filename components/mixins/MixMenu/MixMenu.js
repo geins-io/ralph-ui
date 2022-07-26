@@ -15,7 +15,6 @@ export default {
         };
       },
       result(result) {
-        console.log('test');
         this.menu = result?.data?.getMenuAtLocation || [];
       },
       skip() {

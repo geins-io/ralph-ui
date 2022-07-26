@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.0.3] - 2022-07-26
+
+### Fixed
+
+- Removed console log
+- Fixed problem with product gallery css
+- Fallback for no filters in filters callback
+
 ## [14.0.2] - 2022-07-26
 
 ### Added
