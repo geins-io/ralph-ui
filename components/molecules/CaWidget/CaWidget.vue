@@ -56,14 +56,16 @@ export default {
         return 'CaWidgetBanner';
       } else if (this.type === 'Video') {
         return 'CaWidgetVideo';
+      } else if (this.type === 'HTML') {
+        return 'CaWidgetHtml';
+      } else if (this.type === 'Rich text') {
+        return 'CaWidgetRichText';
       } else if (
         this.type === 'Nosto feed' &&
         this.$store.getters['nosto/isNostoActive'] &&
         this.$config.nostoAccountAppsKey
       ) {
         return 'CaNostoSection';
-      } else if (this.type === 'HTML') {
-        return 'CaWidgetHtml';
       } else {
         return '';
       }

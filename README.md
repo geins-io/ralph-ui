@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.1.0] - 2022-07-29
+
+### Added
+
+- Rich text widget
+
 ## [14.0.3] - 2022-07-26
 
 ### Fixed
