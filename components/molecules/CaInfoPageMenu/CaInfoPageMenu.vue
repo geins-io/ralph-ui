@@ -22,7 +22,7 @@
 import MixMenu from 'MixMenu';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// A menu suited for the info page sidebar<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-info-page-menu.scss_
 export default {
   name: 'CaInfoPageMenu',
