@@ -1,0 +1,55 @@
+.ca-info-page-menu {
+  $block: &;
+
+  @include bp(phone-only) {
+    padding: $px20 0;
+    &__list {
+      display: flex;
+      justify-content: center;
+      column-gap: $px20;
+      row-gap: $px20;
+      background-color: $c-lightest-gray;
+      padding: $px16;
+    }
+
+    &__item {
+    }
+
+    &__link-icon {
+      display: none;
+    }
+
+    &__link {
+      //text-decoration: underline;
+      &.nuxt-link-exact-active {
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+  @include bp(tablet) {
+    &__list {
+      border: $border-light;
+    }
+
+    &__item {
+      &:not(:last-child) {
+        border-bottom: $border-light;
+      }
+    }
+
+    &__link-icon {
+      opacity: 0;
+    }
+
+    &__link {
+      display: flex;
+      justify-content: space-between;
+      padding: $px16;
+      &.nuxt-link-exact-active {
+        #{$block}__link-icon {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
