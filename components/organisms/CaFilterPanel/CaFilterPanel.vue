@@ -10,7 +10,35 @@
       v-if="
         filters.categories &&
           filters.categories.length > 1 &&
-          $config.showCategoryFilter
+          $config.showCategoryFilter &&
+          $config.showCategoryTreeViewFilter
+      "
+      class="ca-filter-panel__toggle"
+      :open-on-init="contentpanel.frame === 'categories'"
+    >
+      <template #toggle-text>
+        <div class="ca-filter-panel__toggle-content">
+          <span class="ca-filter-panel__toggle-text">
+            {{ $t('FILTER_LABEL_CATEGORIES') }}
+          </span>
+          <CaNotificationBadge
+            :number="selection.categories.length"
+            :positioned="false"
+          />
+        </div>
+      </template>
+      <LazyCaFilterMultiTreeView
+        :values="filters.categories"
+        :selection="selection.categories"
+        @selectionchange="updateSelection($event, 'categories')"
+      />
+    </LazyCaAccordionItem>
+    <LazyCaAccordionItem
+      v-if="
+        filters.categories &&
+          filters.categories.length > 1 &&
+          $config.showCategoryFilter &&
+          !$config.showCategoryTreeViewFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'categories'"

@@ -8,6 +8,7 @@ fragment ListFilters on FilterCollectionType {
       _id
       count
       facetId
+      parentId
       label
     }
   }
