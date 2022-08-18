@@ -105,6 +105,9 @@ export default {
     open: false
   }),
   computed: {
+    // @vuese
+    // Adds selected property to the values returned from the api
+    // @type Array
     valuesWithSelected() {
       if (this.values && this.values.length && this.selection) {
         return this.values.map(item => {
@@ -121,6 +124,9 @@ export default {
         return [];
       }
     },
+    // @vuese
+    // Filters all the entries that dont have parentId to make them top level categories
+    // @type Array
     parentCategories() {
       if (this.valuesWithSelected && this.valuesWithSelected.length) {
         return this.valuesWithSelected.filter(item => !item.parentId);
