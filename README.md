@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.3.0] - 2022-08-18
+
+### Added
+
+- Added Tree view multi filter
+
 ## [14.2.0] - 2022-08-16
 
 ### Added
