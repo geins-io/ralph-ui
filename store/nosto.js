@@ -14,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   loadRecommendations({ dispatch, commit, rootState }, payload = {}) {
-    if (process.browser && this.$config.isNostoActive) {
+    if (process.browser && this.isNostoActive) {
       dispatch('cart/sendNostoEvent', rootState.cart.data, {
         root: true
       });
@@ -72,7 +72,11 @@ export const actions = {
 export const getters = {
   isNostoActive(_, _2, { config }) {
     const { isNostoActive, nostoAccountId } = config;
-    return isNostoActive && nostoAccountId;
+    if (isNostoActive && nostoAccountId && nostoAccountId.length) {
+      return isNostoActive && nostoAccountId;
+    } else {
+      return false;
+    }
   },
   getSessionToken(state) {
     return state.sessionToken;

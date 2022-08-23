@@ -62,7 +62,7 @@ export const actions = {
   },
   update({ commit, state, dispatch, $gtm }, cart) {
     if (process.browser) {
-      if (this.$config.isNostoActive) {
+      if (this.getters['nosto/isNostoActive']) {
         dispatch('sendNostoEvent', cart);
       }
 
