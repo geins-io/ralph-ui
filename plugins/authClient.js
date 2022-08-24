@@ -35,7 +35,9 @@ export default class AuthClient {
     }
     this.authEndpoint = authEndpoint;
     this.signAccount = signEndpoint;
-    this.nostoClient = new NostoClient(window?.nostojs);
+    if (window.nostojs) {
+      this.nostoClient = new NostoClient(window.nostojs);
+    }
   }
 
   // Sets token and token max age
