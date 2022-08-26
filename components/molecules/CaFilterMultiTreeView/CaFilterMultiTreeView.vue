@@ -55,7 +55,9 @@
             @click.stop="
               toggleFilterValue(
                 { id: child.facetId, label: child.label },
-                !child.selected
+                !child.selected,
+                parent.facetId,
+                parent.selected
               )
             "
           >
@@ -177,13 +179,22 @@ export default {
     },
     // @vuese
     // Toggle the value of a filter, emit the updated selection and expand the sub category view
+    // If a child is deselected, deselect the parent as well
     // @arg filter (Object), selected (Boolean)
-    toggleFilterValue(filter, selected) {
+    toggleFilterValue(filter, selected, parentId, parentSelected) {
+      console.log(parentId, parentSelected);
       if (selected) {
         this.currentSelection.push(filter);
       } else {
         const index = this.currentSelection.findIndex(i => i.id === filter.id);
         this.currentSelection.splice(index, 1);
+        // Check if the parent is selected
+        if (parentSelected) {
+          const parentIndex = this.currentSelection.findIndex(
+            i => i.id === parentId
+          );
+          this.currentSelection.splice(parentIndex, 1);
+        }
       }
       // The selection has changed
       // @arg Updated selection (Array)
