@@ -35,6 +35,10 @@ Sections to use
 
 All notable changes will be added to this section
 
+## Fixed [14.3.1] - 2022-08-26
+
+- When a child node is unmarked, in the filter tree view, the parent has to be unmarked as well. Otherwise nothing changes in the filtered list
+
 ## Fixed [14.3.1] - 2022-08-23
 
 - Fixed conditionals when checking for Nosto ID or Config
