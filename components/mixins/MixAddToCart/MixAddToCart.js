@@ -17,7 +17,7 @@ export default {
     // @vuese
     // Add a product to the cart on the server. Performs a graphql mutation
     // @arg sku id (Number), product quantity (Number), product (Object)
-    addToCart(prodSkuId, prodQuantity, product) {
+    addToCart(prodSkuId, prodQuantity, product = null) {
       const itemToAdd = {
         skuId: prodSkuId,
         quantity: prodQuantity
@@ -33,10 +33,12 @@ export default {
         .then(result => {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
-          this.$store.dispatch('cart/triggerAddedNotification', {
-            item: itemToAdd,
-            product
-          });
+          if (product) {
+            this.$store.dispatch('cart/triggerAddedNotification', {
+              item: itemToAdd,
+              product
+            });
+          }
           setTimeout(() => {
             this.$store.dispatch('cart/removeAddedNotification');
           }, 30000);
