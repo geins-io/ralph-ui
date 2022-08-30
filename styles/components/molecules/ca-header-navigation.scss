@@ -15,7 +15,7 @@
     .ca-icon-and-text__icon {
       transition: transform 150ms;
     }
-    &:hover {
+    &--hover {
       #{$block}__children {
         pointer-events: initial;
         margin-top: 0;

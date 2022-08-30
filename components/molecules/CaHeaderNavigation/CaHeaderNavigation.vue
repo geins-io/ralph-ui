@@ -5,6 +5,10 @@
         v-for="item in menu.menuItems"
         :key="item.id"
         class="ca-header-navigation__item"
+        :class="{ 'ca-header-navigation__item--hover': open === item.id }"
+        @mouseover="openMenu(item.id)"
+        @mouseleave="closeMenu"
+        @click="closeMenu"
       >
         <component
           :is="getBaseElem(item)"
@@ -90,7 +94,9 @@ export default {
       default: 'full-width'
     }
   },
-  data: () => ({}),
+  data: () => ({
+    open: 0
+  }),
   computed: {
     modifiers() {
       return 'ca-header-navigation--' + this.type;
@@ -101,7 +107,14 @@ export default {
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    openMenu(id) {
+      this.open = id;
+    },
+    closeMenu() {
+      this.open = 0;
+    }
+  }
 };
 </script>
 <style lang="scss">

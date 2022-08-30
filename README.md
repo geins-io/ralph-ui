@@ -35,15 +35,27 @@ Sections to use
 
 All notable changes will be added to this section
 
-## Fixed [14.3.3] - 2022-08-29
+## [14.3.4] - 2022-08-30
+
+### Changed
+
+- Added mouseover and mouseleave events for CaHeaderNavigation items so that it can close when menu item is clicked
+
+## [14.3.3] - 2022-08-29
+
+### Changed
 
 - Made the product parameter optional for the AddToCart mixin to make it possible to use mixin without triggering the info popup.
 
-## Fixed [14.3.2] - 2022-08-26
+## [14.3.2] - 2022-08-26
+
+### Fixed
 
 - When a child node is unmarked, in the filter tree view, the parent has to be unmarked as well. Otherwise nothing changes in the filtered list
 
-## Fixed [14.3.1] - 2022-08-23
+## [14.3.1] - 2022-08-23
+
+### Fixed
 
 - Fixed conditionals when checking for Nosto ID or Config
 
