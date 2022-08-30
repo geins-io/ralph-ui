@@ -35,6 +35,10 @@ Sections to use
 
 All notable changes will be added to this section
 
+## Fixed [14.3.3] - 2022-08-29
+
+- Made the product parameter optional for the AddToCart mixin to make it possible to use mixin without triggering the info popup.
+
 ## Fixed [14.3.2] - 2022-08-26
 
 - When a child node is unmarked, in the filter tree view, the parent has to be unmarked as well. Otherwise nothing changes in the filtered list
