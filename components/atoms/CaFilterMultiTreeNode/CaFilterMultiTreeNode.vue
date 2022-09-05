@@ -53,16 +53,18 @@
 import SlideUpDown from 'vue-slide-up-down';
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// Tree node child component for the Multi Choise Tree view component<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-filter-multi-tree-node.scss_
 export default {
   name: 'CaFilterMultiTreeNode',
   components: { SlideUpDown },
   props: {
+    // Gets the updated selectable values with children
     values: {
       default: () => [],
       type: Array
     },
+    // Propagates the data to the parent
     propagateData: {
       type: Function,
       default: () => ({})
