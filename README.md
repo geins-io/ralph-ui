@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.3.5] - 2022-09-05
+
+### Changed
+
+- Split Tree view component into 2 separate components, one for logic one for recursion
+- Tree View no properly works with infinite number of child categories
+
 ## [14.3.4] - 2022-08-30
 
 ### Changed
