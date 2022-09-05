@@ -1,89 +1,20 @@
 <template>
   <div class="ca-filter-multi-tree-view">
-    <ul class="ca-filter-multi-tree-view__list">
-      <li
-        v-for="(parent, index) in parentCategories"
-        :key="index"
-        class="ca-filter-multi-tree-view__value"
-        :class="{
-          'ca-filter-multi-tree-view__value--selected': parent.selected,
-          'ca-filter-multi-tree-view__value--disabled': parent.count === 0,
-          'ca-filter-multi-tree-view__value--hidden': parent.label === '-'
-        }"
-        @click="
-          toggleParentCategoryFilter(
-            parent.facetId,
-            parent.label,
-            !parent.selected,
-            index
-          )
-        "
-      >
-        <CaIcon class="ca-filter-multi-tree-view__check" name="check" />
-        <span class="ca-filter-multi-tree-view__label">{{ parent.label }}</span>
-        <span class="ca-filter-multi-tree-view__count">{{ parent.count }}</span>
-        <button
-          v-if="
-            filterChildByFacetId(parent.facetId) &&
-              filterChildByFacetId(parent.facetId).length
-          "
-          class="ca-filter-multi-tree-view__toggle"
-          aria-label="Expand Category Filters"
-          @click.stop="toggleSubCategory(index)"
-        >
-          <CaIcon :name="open === index ? 'minus' : 'plus'" />
-        </button>
-        <SlideUpDown
-          v-if="
-            filterChildByFacetId(parent.facetId) &&
-              filterChildByFacetId(parent.facetId).length
-          "
-          tag="ul"
-          :active="open === index"
-          :duration="200"
-          class="ca-filter-multi-tree-view__list ca-filter-multi-tree-view__list--sub"
-        >
-          <li
-            v-for="child in filterChildByFacetId(parent.facetId)"
-            :key="child.id"
-            class="ca-filter-multi-tree-view__value"
-            :class="{
-              'ca-filter-multi-tree-view__value--selected': child.selected,
-              'ca-filter-multi-tree-view__value--disabled': child.count === 0,
-              'ca-filter-multi-tree-view__value--hidden': child.label === '-'
-            }"
-            @click.stop="
-              toggleFilterValue(
-                { id: child.facetId, label: child.label },
-                !child.selected,
-                parent.facetId,
-                parent.selected
-              )
-            "
-          >
-            <CaIcon class="ca-filter-multi-tree-view__check" name="check" />
-            <span class="ca-filter-multi-tree-view__label">
-              {{ child.label }}
-            </span>
-            <span class="ca-filter-multi-tree-view__count">
-              {{ child.count }}
-            </span>
-          </li>
-        </SlideUpDown>
-      </li>
-    </ul>
+    <CaFilterMultiTreeNode
+      v-if="valuesWithChildren && valuesWithChildren.length"
+      :values="valuesWithChildren"
+      :propagate-data="filterProducts"
+    />
   </div>
 </template>
 
 <script>
-import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
 // Multi choice tree view filter<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-filter-multi-tree-view.scss_
 export default {
   name: 'CaFilterMultiTreeView',
-  components: { SlideUpDown },
   props: {
     // The selectable values
     values: {
@@ -103,8 +34,7 @@ export default {
     }
   },
   data: () => ({
-    currentSelection: [],
-    open: false
+    currentSelection: []
   }),
   computed: {
     // @vuese
@@ -127,14 +57,17 @@ export default {
       }
     },
     // @vuese
-    // Filters all the entries that dont have parentId to make them top level categories
+    // Adds children properties created from child categories with parentId
     // @type Array
-    parentCategories() {
-      if (this.valuesWithSelected && this.valuesWithSelected.length) {
-        return this.valuesWithSelected.filter(item => !item.parentId);
-      } else {
-        return false;
-      }
+    valuesWithChildren() {
+      const data = this.valuesWithSelected;
+      const parentCategories = data.filter(item => !item.parentId);
+
+      data.map(item => {
+        item.children = data.filter(child => child.parentId === item.facetId);
+      });
+
+      return parentCategories;
     }
   },
   watch: {
@@ -152,69 +85,68 @@ export default {
   },
   methods: {
     // @vuese
-    // Toggle the value of a parent category and its children filter, emit the updated selection and expand the sub category view
-    // @arg facetId (String), name (String), selected (Boolean), index (Number)
-    toggleParentCategoryFilter(facetId, name, selected, index) {
-      const filterData = this.filterChildByFacetId(facetId);
-      const filters = [{ id: facetId, label: name }];
-      filterData.forEach(item => {
-        filters.push({ id: item.facetId, label: item.label });
-      });
-      if (selected) {
-        this.open = index;
-        filters.forEach(item => {
-          const index = this.currentSelection.findIndex(i => i.id === item.id);
-          if (index === -1) {
-            this.currentSelection.push({ id: item.id, label: item.label });
-          }
-        });
-      } else {
-        this.open = false;
-        filters.forEach(item => {
-          const index = this.currentSelection.findIndex(i => i.id === item.id);
-          this.currentSelection.splice(index, 1);
-        });
-      }
-      this.$emit('selectionchange', this.currentSelection);
-    },
-    // @vuese
-    // Toggle the value of a filter, emit the updated selection and expand the sub category view
-    // If a child is deselected, deselect the parent as well
-    // @arg filter (Object), selected (Boolean)
-    toggleFilterValue(filter, selected, parentId, parentSelected) {
-      console.log(parentId, parentSelected);
-      if (selected) {
-        this.currentSelection.push(filter);
-      } else {
-        const index = this.currentSelection.findIndex(i => i.id === filter.id);
-        this.currentSelection.splice(index, 1);
-        // Check if the parent is selected
-        if (parentSelected) {
-          const parentIndex = this.currentSelection.findIndex(
-            i => i.id === parentId
-          );
-          this.currentSelection.splice(parentIndex, 1);
+    // Filter the prodcuts and emit the selection
+    // @arg children (Array), facetId (String), label (String), Selected (Boolean), parentId (String)
+    filterProducts(children, facetId, label, selected, parentId) {
+      if (!selected) {
+        this.pushSelection(facetId, label);
+
+        if (children && children.length) {
+          this.selectChildrenCategories(children, facetId, label, selected);
         }
+      } else if (parentId) {
+        this.removeParentCategories(facetId, parentId);
+      } else {
+        this.removeSelection(facetId);
       }
-      // The selection has changed
-      // @arg Updated selection (Array)
+
       this.$emit('selectionchange', this.currentSelection);
     },
     // @vuese
-    // Filter the child categories by facetId
-    // @arg facetId (string)
-    filterChildByFacetId(facetId) {
-      if (this.values && this.values.length && this.selection) {
-        return this.values.filter(item => item.parentId === facetId);
-      } else {
-        return false;
+    // Push the selected filters
+    // @arg facetId (String), itemLabel (string)
+    pushSelection(facetId, itemLabel) {
+      const index = this.currentSelection.findIndex(
+        item => item.id === facetId
+      );
+      if (index === -1) {
+        this.currentSelection.push({
+          id: facetId,
+          label: itemLabel
+        });
       }
     },
     // @vuese
-    // Toggle the tree view categories
-    // @arg index (Number)
-    toggleSubCategory(index) {
-      this.open !== index ? (this.open = index) : (this.open = false);
+    // Select the children when a parent is selected
+    // @arg array (Array)
+    selectChildrenCategories(array) {
+      array.forEach(item => {
+        this.pushSelection(item.facetId, item.label);
+        if (item.children && item.children.length) {
+          this.selectChildrenCategories(item.children);
+        }
+      });
+    },
+    // @vuese
+    // Remove selected filters
+    // @arg facetId (String)
+    removeSelection(facetId) {
+      this.currentSelection = this.currentSelection.filter(
+        item => item.id !== facetId
+      );
+    },
+    // @vuese
+    // Find the parents of the child category and deselct them
+    // @arg facetId (String), parentId (string)
+    removeParentCategories(facetId, parentId) {
+      const parent = this.valuesWithSelected.find(
+        item => item.facetId === parentId
+      );
+      if (parent) {
+        this.removeSelection(parent.facetId);
+        this.removeParentCategories(parent.parentId);
+      }
+      this.removeSelection(facetId);
     }
   }
 };
