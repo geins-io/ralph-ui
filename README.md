@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.3.6] - 2022-09-06
+
+### Fixed
+
+- Toggle parrent categories when rendering the tree and only a child is selected
+
 ## [14.3.5] - 2022-09-05
 
 ### Changed
