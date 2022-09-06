@@ -21,7 +21,7 @@
       "
     >
       <CaIcon class="ca-filter-multi-tree-view__check" name="check" />
-      <span class="ca-filter-multi-tree-view__label">{{ item.label }} </span>
+      <span class="ca-filter-multi-tree-view__label">{{ item.label }}</span>
       <span class="ca-filter-multi-tree-view__count">{{ item.count }}</span>
 
       <button
