@@ -373,7 +373,7 @@ export default {
 
       this.$set(obj, 'facets', facets.concat(this.implicitFacets));
 
-      if (this.excludeFacets.length > 0) {
+      if (this.excludeFacets.length) {
         this.$set(obj, 'excludeFacets', this.excludeFacets);
       }
 
