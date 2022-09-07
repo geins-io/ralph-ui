@@ -1,7 +1,14 @@
 <template>
   <div>
     <transition v-if="opened" name="grow">
-      <div v-show="contentLoaded" class="ca-modal" :style="styleAttrs">
+      <div
+        v-show="contentLoaded"
+        class="ca-modal"
+        role="dialog"
+        aria-labelledby="ca-modal__title"
+        aria-describedby="ca-modal__description"
+        :style="styleAttrs"
+      >
         <CaIconButton
           v-if="!isPrompt"
           class="ca-modal__close"
@@ -12,7 +19,7 @@
         <div ref="content" class="ca-modal__content">
           <component
             :is="modal.component"
-            v-bind="modal.componentProps"
+            v-bind="componentProps"
             @ready="onReady"
             @close="closeModal"
           />
@@ -32,7 +39,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // @group Molecules
 // @vuese
-// A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>
+// A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>(Aria label & description)[https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role] is based on element with ids "ca-modal__title" & "ca-modal__description". Make sure to specify these in loaded component
 // **SASS-path:** _./styles/components/molecules/ca-modal.scss_
 export default {
   name: 'CaModal',
@@ -44,13 +51,14 @@ export default {
     width: null
   }),
   computed: {
+    componentProps() {
+      return this.modal?.componentProps || {};
+    },
     isPrompt() {
       return this.modal.component === 'CaPrompt';
     },
     ratio() {
-      return this.modal.componentProps.ratio
-        ? this.modal.componentProps.ratio
-        : null;
+      return this.componentProps.ratio ? this.componentProps.ratio : null;
     },
     styleAttrs() {
       const obj = {};
