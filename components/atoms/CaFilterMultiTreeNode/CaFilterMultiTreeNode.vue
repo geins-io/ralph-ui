@@ -30,13 +30,16 @@
         aria-label="Expand Category Filters"
         @click.stop="toggle(item.facetId)"
       >
-        <CaIcon :name="isOpen === item.facetId ? 'minus' : 'plus'" />
+        <CaIcon
+          :name="
+            isOpen === item.facetId || selectedChildren(item) ? 'minus' : 'plus'
+          "
+        />
       </button>
-
       <SlideUpDown
         v-if="item.children && item.children.length"
         tag="div"
-        :active="isOpen === item.facetId"
+        :active="isOpen === item.facetId || selectedChildren(item)"
         :duration="200"
         class="ca-filter-multi-tree-view__list ca-filter-multi-tree-view__list--sub"
       >
@@ -74,6 +77,14 @@ export default {
     isOpen: false
   }),
   methods: {
+    // @vuese
+    // Converts the object to a string and searches if any child is selected to toggle parent and children
+    // @arg value (Object)
+    selectedChildren(value) {
+      const str = JSON.stringify(value);
+      const filter = str.search('"selected":true');
+      return filter !== -1;
+    },
     // @vuese
     // Toggle the selected accordion by id
     // @arg id (String)
