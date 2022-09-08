@@ -35,7 +35,20 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.4.1] - 2022-09-08
+
+## Changed
+
+- Reorganize tree view component
+- Proper recursion
+- Toggle acordion if selection has been made
+
+## Fixed
+
+- Fixed an issue where accordion wouldn't toggle if a child is selected
+
 ## [14.4.0] - 2022-09-07
+
 ### Changed
 
 - Enable excludeFacets for products query filter in MixtListPage
