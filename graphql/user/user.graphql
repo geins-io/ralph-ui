@@ -4,6 +4,7 @@ fragment User on UserType {
   email
   personalId
   customerType
+  balanceFormatted
   address {
     ...Address
   }

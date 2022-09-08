@@ -44,7 +44,9 @@ export default class AuthClient {
   setTokenData(data) {
     if (data.token) {
       localStorage.setItem('isSign', true);
-      this.nostoClient.login(data);
+      if (window.nostojs) {
+        this.nostoClient.login(data);
+      }
     }
     this.token = data.token;
     this.maxAge = data.maxAge;

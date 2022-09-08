@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.4.2] - 2022-09-08
+
+## Added
+
+- Fetching balanceFormatted in UserType query
+
+## Fixed
+
+- Fixed an issue where auth client breaks if customer does not have nosto
+
 ## [14.4.1] - 2022-09-08
 
 ## Changed
