@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.4.0] - 2022-09-07
+### Changed
+
+- Enable excludeFacets for products query filter in MixtListPage
+- Added ARIA label attributes & componentProps made optional for Modal
+- Hide plus icon if product gallery has no overlay
+
 ## [14.3.6] - 2022-09-06
 
 ### Fixed

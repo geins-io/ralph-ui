@@ -164,6 +164,12 @@ export default {
     implicitFacets: {
       type: Array,
       default: () => []
+    },
+    // @vuese
+    // Exclude facets by facet ids
+    excludeFacets: {
+      type: Array,
+      default: () => []
     }
   },
   head() {
@@ -366,6 +372,11 @@ export default {
       );
 
       this.$set(obj, 'facets', facets.concat(this.implicitFacets));
+
+      if (this.excludeFacets.length) {
+        this.$set(obj, 'excludeFacets', this.excludeFacets);
+      }
+
       this.$set(
         obj,
         'sort',
@@ -377,6 +388,7 @@ export default {
       if (this.isSearch) {
         this.$set(obj, 'searchText', this.currentAlias);
       }
+
       return obj;
     },
     // @vuese
