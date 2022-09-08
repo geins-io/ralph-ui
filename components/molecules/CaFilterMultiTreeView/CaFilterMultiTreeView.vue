@@ -1,8 +1,13 @@
 <template>
-  <div class="ca-filter-multi-tree-view">
+  <div
+    v-if="valuesWithChildren && valuesWithChildren.length"
+    class="ca-filter-multi-tree-view"
+  >
     <CaFilterMultiTreeNode
-      v-if="valuesWithChildren && valuesWithChildren.length"
-      :values="valuesWithChildren"
+      v-for="(item, index) in valuesWithChildren"
+      :key="index"
+      :value="item"
+      :selected="item.selected"
       :propagate-data="filterProducts"
     />
   </div>

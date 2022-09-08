@@ -1,50 +1,46 @@
 <template>
   <ul class="ca-filter-multi-tree-view__list">
     <li
-      v-for="(item, index) in values"
-      :key="index"
       class="ca-filter-multi-tree-view__value"
       :class="{
-        'ca-filter-multi-tree-view__value--selected': item.selected,
-        'ca-filter-multi-tree-view__value--disabled': item.count === 0,
-        'ca-filter-multi-tree-view__value--hidden': item.label === '-'
+        'ca-filter-multi-tree-view__value--selected': value.selected,
+        'ca-filter-multi-tree-view__value--disabled': value.count === 0,
+        'ca-filter-multi-tree-view__value--hidden': value.label === '-'
       }"
       @click.stop="
         propagateData(
-          item.children && item.children.length ? item.children : false,
-          item.facetId,
-          item.label,
-          item.selected,
-          item.parentId && item.parentId ? item.parentId : false
+          value.children && value.children.length ? value.children : false,
+          value.facetId,
+          value.label,
+          value.selected,
+          value.parentId && value.parentId ? value.parentId : false
         ),
-          toggle(item.facetId)
+          toggle
       "
     >
       <CaIcon class="ca-filter-multi-tree-view__check" name="check" />
-      <span class="ca-filter-multi-tree-view__label">{{ item.label }}</span>
-      <span class="ca-filter-multi-tree-view__count">{{ item.count }}</span>
+      <span class="ca-filter-multi-tree-view__label">{{ value.label }}</span>
+      <span class="ca-filter-multi-tree-view__count">{{ value.count }}</span>
 
       <button
-        v-if="item.children && item.children.length"
+        v-if="value.children && value.children.length"
         class="ca-filter-multi-tree-view__toggle"
         aria-label="Expand Category Filters"
-        @click.stop="toggle(item.facetId)"
+        @click.stop="toggle"
       >
-        <CaIcon
-          :name="
-            isOpen === item.facetId || selectedChildren(item) ? 'minus' : 'plus'
-          "
-        />
+        <CaIcon :name="isOpen ? 'minus' : 'plus'" />
       </button>
       <SlideUpDown
-        v-if="item.children && item.children.length"
+        v-if="value.children && value.children.length"
         tag="div"
-        :active="isOpen === item.facetId || selectedChildren(item)"
+        :active="isOpen"
         :duration="200"
         class="ca-filter-multi-tree-view__list ca-filter-multi-tree-view__list--sub"
       >
         <CaFilterMultiTreeNode
-          :values="item.children"
+          v-for="(child, index) in value.children"
+          :key="index"
+          :value="child"
           :propagate-data="propagateData"
         />
       </SlideUpDown>
@@ -63,9 +59,9 @@ export default {
   components: { SlideUpDown },
   props: {
     // Gets the updated selectable values with children
-    values: {
-      default: () => [],
-      type: Array
+    value: {
+      default: () => {},
+      type: Object
     },
     // Propagates the data to the parent
     propagateData: {
@@ -76,24 +72,37 @@ export default {
   data: () => ({
     isOpen: false
   }),
+  watch: {
+    value: {
+      deep: true,
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.selectedChildren(this.value);
+        }
+      }
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.selectedChildren(this.value);
+    });
+  },
   methods: {
     // @vuese
     // Converts the object to a string and searches if any child is selected to toggle parent and children
     // @arg value (Object)
     selectedChildren(value) {
-      const str = JSON.stringify(value);
-      const filter = str.search('"selected":true');
-      return filter !== -1;
+      if (value) {
+        const str = JSON.stringify(value);
+        const filter = str.search('"selected":true');
+        this.isOpen = filter !== -1;
+      }
     },
     // @vuese
     // Toggle the selected accordion by id
     // @arg id (String)
-    toggle(id) {
-      if (this.isOpen !== id) {
-        this.isOpen = id;
-      } else {
-        this.isOpen = false;
-      }
+    toggle() {
+      this.isOpen = !this.isOpen;
     }
   }
 };
