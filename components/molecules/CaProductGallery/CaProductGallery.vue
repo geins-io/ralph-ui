@@ -32,7 +32,7 @@
                   item => parseInt(item.descriptor) < 1700
                 )
               "
-              sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
+              :sizes="mainImageSizes"
             />
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
               <CaIcon name="plus" />
@@ -56,7 +56,7 @@
               item => parseInt(item.descriptor) < 1700
             )
           "
-          sizes="(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw"
+          :sizes="mainImageSizes"
         />
         <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
           <CaIcon name="plus" />
@@ -124,7 +124,7 @@
               item => parseInt(item.descriptor) <= 500
             )
           "
-          sizes="(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw"
+          :sizes="thumbnailSizes"
         />
       </CaClickable>
     </div>
@@ -198,6 +198,18 @@ export default {
     campaigns: {
       type: [Array, Boolean],
       default: false
+    },
+    // Sizes attribute for main image
+    mainImageSizes: {
+      type: String,
+      default:
+        '(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw'
+    },
+    // Sizes attribute for thumbnail image
+    thumbnailSizes: {
+      type: String,
+      default:
+        '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw'
     }
   },
   data: () => ({

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.4.3] - 2022-09-08
+
+## Added
+
+- Props for sizes attributes in CaProductGallery
+
 ## [14.4.2] - 2022-09-08
 
 ## Added
