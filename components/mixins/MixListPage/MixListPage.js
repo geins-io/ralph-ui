@@ -856,7 +856,8 @@ export default {
             this.widgetAreaVars.map(item => ({
               ...item,
               filters: this.widgetAreaFilters,
-              channelId: this.$store.getters.channelId
+              channelId: this.$store.getters.channelId,
+              url: this.currentPath
             }))
           );
       }

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.4.4] - 2022-09-12
+
+## Fixed
+
+- Added missing url variable for widgetArea call
+
 ## [14.4.3] - 2022-09-08
 
 ## Added

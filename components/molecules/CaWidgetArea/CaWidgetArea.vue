@@ -85,6 +85,11 @@ export default {
     loadedData: {
       type: Object,
       default: null
+    },
+    // Url for list page if using /l/ routing
+    listPageUrl: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -104,7 +109,8 @@ export default {
         displaySetting: this.displaySetting,
         filters: this.filters,
         preview: this.preview,
-        customerType: this.$store.state.customerType
+        customerType: this.$store.state.customerType,
+        url: this.listPageUrl
       };
     },
     containers() {
