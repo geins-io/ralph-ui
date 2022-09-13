@@ -1,21 +1,26 @@
 <template>
-  <component
-    :is="currentWidget"
-    class="ca-widget"
-    :configuration="confObj"
-    :image-sizes="imageSizes"
-    :image-ratios="imageRatios"
-  >
-  </component>
+  <LazyHydrate when-visible>
+    <component
+      :is="currentWidget"
+      class="ca-widget"
+      :configuration="confObj"
+      :image-sizes="imageSizes"
+      :image-ratios="imageRatios"
+    >
+    </component>
+  </LazyHydrate>
 </template>
 <script>
+import LazyHydrate from 'vue-lazy-hydration';
 // @group Molecules
 // @vuese
 // Shell for displaying widget component based on type<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 export default {
   name: 'CaWidget',
-  mixins: [],
+  components: {
+    LazyHydrate
+  },
   props: {
     // Configuration JSON object
     configuration: {
