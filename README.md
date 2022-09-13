@@ -37,7 +37,7 @@ All notable changes will be added to this section
 
 ## [14.4.5] - 2022-09-13
 
-## Fixed
+## Changed
 
 - Removed Lazy Hydration wrapper on CaWidgetContainer
   - It was wrapping all components in one therefor making it not do anything
