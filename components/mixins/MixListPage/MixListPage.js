@@ -190,6 +190,13 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content: this.metaReplacement(this.listInfo?.meta?.description)
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content:
+            this.listInfo?.primaryImage ||
+            this.$config.baseUrl + '/meta-image-fallback.jpg'
         }
       ]
     };
