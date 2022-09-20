@@ -1,6 +1,5 @@
 <template>
   <CaContainer class="ca-error" width="slim">
-    <pre>{{ error }}</pre>
     <h1 class="ca-error__title">
       {{ $t('ERROR_PAGE_TITLE') }}
     </h1>
