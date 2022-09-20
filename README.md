@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.5.0] - 2022-09-19
+
+## Added
+
+- Support for meta image with fallback
+
 ## [14.4.5] - 2022-09-13
 
 ## Changed

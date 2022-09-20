@@ -31,6 +31,12 @@ export default {
           hid: 'og:description',
           name: 'og:description',
           content: this.metaReplacement(this.product?.meta.description)
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content:
+            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg'
         }
       ]
     };
@@ -172,6 +178,21 @@ export default {
     // @type Array
     relatedProductsSimilar() {
       return this.relatedProducts.filter(i => i.relation === 'SIMILAR');
+    },
+    // @vuese
+    // Image src used for meta image
+    // @type [String, Boolean]
+    imgSrc() {
+      let imgSrc = false;
+      if (this.product?.images?.length) {
+        imgSrc =
+          this.$config.imageServer +
+          '/product/' +
+          this.$config.productSchemaOptions.schemaImageSize +
+          '/' +
+          this.product.images[0];
+      }
+      return imgSrc;
     }
   },
   watch: {
