@@ -70,7 +70,7 @@ export default {
       },
       error(error) {
         // pass the error response to the error component
-        this.$nuxt.error({ statusCode: 500, message: error });
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
     products: {
@@ -101,7 +101,7 @@ export default {
       },
       error(error) {
         // pass the error response to the error component
-        this.$nuxt.error({ statusCode: 500, message: error });
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
     nostoProducts: {
@@ -942,7 +942,7 @@ export default {
           sortedFilters = this.getSortedFilters(result.data.products.filters);
         } catch (error) {
           // pass the error response to the error component
-          this.$nuxt.error({ statusCode: 500, message: error });
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
         }
       }
 

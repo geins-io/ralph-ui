@@ -37,7 +37,7 @@ export const actions = {
       })
       .catch(error => {
         // pass the error response to the error component
-        this.$nuxt.error({ statusCode: 500, message: error });
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
   sendNostoEvent(context, cart) {
