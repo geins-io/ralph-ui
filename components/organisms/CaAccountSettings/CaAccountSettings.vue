@@ -500,8 +500,8 @@ export default {
           }
         })
         .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
+          // pass the error response to the error component
+          this.$nuxt.error({ statusCode: 500, message: error });
         });
     },
     triggerDeletePrompt() {
@@ -547,8 +547,8 @@ export default {
           }
         })
         .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
+          // pass the error response to the error component
+          this.$nuxt.error({ statusCode: 500, message: error });
         });
     },
     // @vuese

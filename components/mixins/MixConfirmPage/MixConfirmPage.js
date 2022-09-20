@@ -37,8 +37,8 @@ export default {
         return this.cartId === '' || this.orderCart !== null;
       },
       error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        // pass the error response to the error component
+        this.$nuxt.error({ statusCode: 500, message: error });
       }
     }
   },
@@ -80,8 +80,8 @@ export default {
           this.cartCompleted = true;
         })
         .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log(error);
+          // pass the error response to the error component
+          this.$nuxt.error({ statusCode: 500, message: error });
         });
     }
   }
