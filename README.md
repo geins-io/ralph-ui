@@ -34,6 +34,11 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+## [14.5.1] - 2022-09-22
+
+## Updated
+
+- Deselecting parent category in the tree view will deselect all children
 
 ## [14.5.0] - 2022-09-19
 
