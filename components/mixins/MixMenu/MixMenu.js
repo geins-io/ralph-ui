@@ -14,6 +14,7 @@ export default {
           menuLocationId: this.menuLocationId
         };
       },
+      errorPolicy: 'all',
       result(result) {
         this.menu = result?.data?.getMenuAtLocation || [];
       },
@@ -21,7 +22,6 @@ export default {
         return !this.menuLocationId || !process.client;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }

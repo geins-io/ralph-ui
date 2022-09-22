@@ -35,7 +35,6 @@ export default {
             this.$emit('loading', false);
           })
           .catch(error => {
-            // pass the error response to the error component
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       this.enqueue(updateMutation);

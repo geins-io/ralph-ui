@@ -59,7 +59,6 @@ export default {
         return this.isWidgetModeEmpty || process.server;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }

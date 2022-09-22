@@ -37,7 +37,6 @@ export default {
         return this.cartId === '' || this.orderCart !== null;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }
@@ -80,7 +79,6 @@ export default {
           this.cartCompleted = true;
         })
         .catch(error => {
-          // pass the error response to the error component
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     }

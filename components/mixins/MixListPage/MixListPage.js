@@ -41,6 +41,7 @@ export default {
         return this.initVariables;
       },
       deep: true,
+      errorPolicy: 'all',
       result(result) {
         if (result && result.data) {
           const { listPageInfo, products, ...widgetAreaInfo } = result.data;
@@ -69,7 +70,6 @@ export default {
         return !this.isInitialRequest || !this.initVariables;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
@@ -100,7 +100,6 @@ export default {
         );
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
@@ -941,7 +940,6 @@ export default {
           });
           sortedFilters = this.getSortedFilters(result.data.products.filters);
         } catch (error) {
-          // pass the error response to the error component
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         }
       }

@@ -25,6 +25,7 @@ export default {
       variables() {
         return this.widgetAreaVariables;
       },
+      errorPolicy: 'all',
       result(result) {
         this.dataFetched = true;
         this.checkMounted();
@@ -34,7 +35,6 @@ export default {
         return this.isParentLoaded;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }

@@ -44,7 +44,6 @@ export default {
           }, 30000);
         })
         .catch(error => {
-          // pass the error response to the error component
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     }

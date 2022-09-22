@@ -69,6 +69,7 @@ export default {
       variables() {
         return this.initVariables;
       },
+      errorPolicy: 'all',
       result(result) {
         if (result && result.data) {
           if (!this.product && !process.server) {
@@ -95,7 +96,6 @@ export default {
         return !this.isInitialRequest;
       },
       error(error) {
-        // pass the error response to the error component
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }
