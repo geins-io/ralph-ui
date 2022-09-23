@@ -9,6 +9,7 @@ export default {
   apollo: {
     categories: {
       query: categoriesQuery,
+      errorPolicy: 'all',
       result(result) {
         if (result.data && result.data.categories) {
           this.$store.commit('setCategoryTree', result.data.categories);
@@ -18,8 +19,7 @@ export default {
         return this.$store.state.categoryTree.length > 0;
       },
       error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }
   },

@@ -25,6 +25,7 @@ export default {
       variables() {
         return this.widgetAreaVariables;
       },
+      errorPolicy: 'all',
       result(result) {
         this.dataFetched = true;
         this.checkMounted();
@@ -34,8 +35,7 @@ export default {
         return this.isParentLoaded;
       },
       error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }
   },

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.6.0] - 2022-09-20
+
+## Added
+
+- Error handling and logging
+
 ## [14.5.0] - 2022-09-19
 
 ## Added
