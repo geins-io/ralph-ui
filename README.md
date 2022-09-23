@@ -34,6 +34,13 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [14.6.2] - 2022-09-23
+
+## Fixed
+
+- Bug in authClient not setting token for some clients
+
 ## [14.6.1] - 2022-09-22
 
 ## Updated

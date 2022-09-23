@@ -6,6 +6,7 @@
     &__list {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       column-gap: $px20;
       row-gap: $px20;
       background-color: $c-lightest-gray;
@@ -20,7 +21,7 @@
     }
 
     &__link {
-      //text-decoration: underline;
+      white-space: nowrap;
       &.nuxt-link-exact-active {
         font-weight: $font-weight-bold;
       }

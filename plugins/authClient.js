@@ -93,14 +93,14 @@ export default class AuthClient {
 
       if (data?.sign) {
         await addCredentials(data.sign);
-
         data = await fetch(url, fetchOptions)
           .then(response => response.json())
+          .then(data => {
+            if (data?.token) {
+              this.setTokenData(data);
+            }
+          })
           .catch(() => {});
-
-        if (data?.token) {
-          this.setTokenData(data);
-        }
       } else if (data?.token) {
         this.setTokenData(data);
       }
@@ -108,7 +108,9 @@ export default class AuthClient {
 
     if (action === 'logout') {
       localStorage.removeItem('isSign');
-      this.nostoClient.logout();
+      if (window.nostojs) {
+        this.nostoClient.logout();
+      }
     }
   }
 
