@@ -103,6 +103,10 @@ export default {
         this.removeParentCategories(facetId, parentId);
       } else {
         this.removeSelection(facetId);
+
+        if (children && children.length) {
+          this.removeChildrenCategories(children, facetId, label, selected);
+        }
       }
 
       this.$emit('selectionchange', this.currentSelection);
@@ -129,6 +133,17 @@ export default {
         this.pushSelection(item.facetId, item.label);
         if (item.children && item.children.length) {
           this.selectChildrenCategories(item.children);
+        }
+      });
+    },
+    // @vuese
+    // Remove the children when a parent is deselected
+    // @arg array (Array)
+    removeChildrenCategories(array) {
+      array.forEach(item => {
+        this.removeSelection(item.facetId);
+        if (item.children && item.children.length) {
+          this.removeChildrenCategories(item.children);
         }
       });
     },
