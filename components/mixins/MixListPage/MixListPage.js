@@ -41,6 +41,7 @@ export default {
         return this.initVariables;
       },
       deep: true,
+      errorPolicy: 'all',
       result(result) {
         if (result && result.data) {
           const { listPageInfo, products, ...widgetAreaInfo } = result.data;
@@ -69,8 +70,7 @@ export default {
         return !this.isInitialRequest || !this.initVariables;
       },
       error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
     products: {
@@ -100,8 +100,7 @@ export default {
         );
       },
       error(error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     },
     nostoProducts: {
@@ -941,7 +940,7 @@ export default {
           });
           sortedFilters = this.getSortedFilters(result.data.products.filters);
         } catch (error) {
-          console.log(error);
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
         }
       }
 
@@ -1093,8 +1092,11 @@ export default {
           this.$store.dispatch('loading/end');
         }
       } else {
-        this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
-        this.$store.dispatch('redirect404');
+        this.$nuxt.error({
+          statusCode: 404,
+          message: 'Page not found',
+          url: this.route.path
+        });
       }
     },
     // @vuese

@@ -385,8 +385,7 @@ export default {
             }
           })
           .catch(error => {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       } else {
         this.products = [];

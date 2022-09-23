@@ -115,13 +115,14 @@ export default {
                   .setPlacements(['order-related'])
                   .load()
                   .then(data => {
+                    // eslint-disable-next-line
                     console.log(data.recommendations);
                   });
               });
             }
           })
           .catch(error => {
-            console.log(error);
+            this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       }
       if (this.$gtm) {
