@@ -29,10 +29,12 @@ export default {
   methods: {
     // send the errors to the required service
     logError() {
-      /* eslint-disable */
-      console.log({
-        statusCode: this.error.statusCode,
-        url: this.$route.fullPath
+      this.$appInsights?.trackPageView({
+        name: '404 error',
+        pageType: 'errorPage',
+        properties: {
+          responseCode: 404
+        }
       });
     }
   }
