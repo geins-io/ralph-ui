@@ -35,21 +35,21 @@ export default class AuthClient {
     }
     this.authEndpoint = authEndpoint;
     this.signAccount = signEndpoint;
-    if (window.nostojs) {
+    if (window.nostojs && this.nostoClient) {
       this.nostoClient = new NostoClient(window.nostojs);
     }
   }
 
   // Sets token and token max age
   setTokenData(data) {
+    this.token = data.token;
+    this.maxAge = data.maxAge;
     if (data.token) {
       localStorage.setItem('isSign', true);
-      if (window.nostojs) {
+      if (window.nostojs && this.nostoClient) {
         this.nostoClient.login(data);
       }
     }
-    this.token = data.token;
-    this.maxAge = data.maxAge;
   }
 
   // Connects to auth endpoint with selected action. If no credentials or action is passed, a token refresh is made
@@ -90,7 +90,6 @@ export default class AuthClient {
       let data = await fetch(url, fetchOptions)
         .then(response => response.json())
         .catch(() => {});
-
       if (data?.sign) {
         await addCredentials(data.sign);
         data = await fetch(url, fetchOptions)
@@ -108,7 +107,7 @@ export default class AuthClient {
 
     if (action === 'logout') {
       localStorage.removeItem('isSign');
-      if (window.nostojs) {
+      if (window.nostojs && this.nostoClient) {
         this.nostoClient.logout();
       }
     }
