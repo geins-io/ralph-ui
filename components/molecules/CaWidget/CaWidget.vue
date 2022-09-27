@@ -68,7 +68,7 @@ export default {
       } else if (
         this.type === 'Nosto feed' &&
         this.$store.getters['nosto/isNostoActive'] &&
-        this.$config.nostoAccountAppsKey
+        this.$config.nostoAccountId
       ) {
         return 'CaNostoSection';
       } else {

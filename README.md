@@ -34,16 +34,24 @@ Sections to use
 -->
 
 All notable changes will be added to this section
-## [14.6.4] - 2022-09-27
+## [14.6.5] - 2022-09-27
 
 ## Updated
 
 - Load menus serverside
+
+# [14.6.4] - 2022-09-27
+
+## Fixed
+
+- Checking nostoAccountId instead of nostoAccountAppsKey for displaying nosto widget
+
 ## [14.6.3] - 2022-09-27
 
 ## Updated
 
 - Revert the way 404 are handled
+
 ## [14.6.2] - 2022-09-23
 
 ## Fixed
