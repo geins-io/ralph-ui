@@ -155,6 +155,32 @@
         "
       />
     </LazyCaAccordionItem>
+    <LazyCaAccordionItem
+      v-if="
+        filters.discount &&
+          filters.discount.length > 1 &&
+          $config.showDiscountFilter
+      "
+      class="ca-filter-panel__toggle"
+      :open-on-init="contentpanel.frame === 'discount'"
+    >
+      <template #toggle-text>
+        <div class="ca-filter-panel__toggle-content">
+          <span class="ca-filter-panel__toggle-text">
+            {{ $t('FILTER_LABEL_DISCOUNT') }}
+          </span>
+          <CaNotificationBadge
+            :number="selection.discount.length"
+            :positioned="false"
+          />
+        </div>
+      </template>
+      <LazyCaFilterMulti
+        :values="filters.discount"
+        :selection="selection.discount"
+        @selectionchange="updateSelection($event, 'discount')"
+      />
+    </LazyCaAccordionItem>
     <template #footer>
       <div class="ca-filter-panel__footer">
         <div class="ca-filter-panel__list-info">
