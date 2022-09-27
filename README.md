@@ -34,6 +34,11 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+## [14.6.4] - 2022-09-27
+
+## Updated
+
+- Load menus serverside
 ## [14.6.3] - 2022-09-27
 
 ## Updated
