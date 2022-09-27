@@ -34,6 +34,11 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [14.6.6] - 2022-09-27
+
+## Added
+- Nosto check for log in /out, memory leak tests
 ## [14.6.5] - 2022-09-27
 
 ## Updated
