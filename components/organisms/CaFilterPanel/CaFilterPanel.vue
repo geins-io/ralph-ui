@@ -9,7 +9,7 @@
     <LazyCaAccordionItem
       v-if="
         filters.categories &&
-          filters.categories.length > 1 &&
+          filters.categories.length &&
           $config.showCategoryFilter &&
           $config.showCategoryTreeViewFilter
       "
@@ -36,7 +36,7 @@
     <LazyCaAccordionItem
       v-if="
         filters.categories &&
-          filters.categories.length > 1 &&
+          filters.categories.length &&
           $config.showCategoryFilter &&
           !$config.showCategoryTreeViewFilter
       "
@@ -61,9 +61,7 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="
-        filters.brands && filters.brands.length > 1 && $config.showBrandsFilter
-      "
+      v-if="filters.brands && filters.brands.length && $config.showBrandsFilter"
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'brands'"
     >
@@ -85,7 +83,7 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="filters.skus && filters.skus.length > 1 && $config.showSkuFilter"
+      v-if="filters.skus && filters.skus.length && $config.showSkuFilter"
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'skus'"
     >
@@ -107,9 +105,7 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="
-        filters.price && filters.price.length > 1 && $config.showPriceFilter
-      "
+      v-if="filters.price && filters.price.length && $config.showPriceFilter"
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'price'"
     >
@@ -153,6 +149,32 @@
         @selectionchange="
           updateSelection($event, 'parameters', filter.filterId)
         "
+      />
+    </LazyCaAccordionItem>
+    <LazyCaAccordionItem
+      v-if="
+        filters.discount &&
+          filters.discount.length &&
+          $config.showDiscountFilter
+      "
+      class="ca-filter-panel__toggle"
+      :open-on-init="contentpanel.frame === 'discount'"
+    >
+      <template #toggle-text>
+        <div class="ca-filter-panel__toggle-content">
+          <span class="ca-filter-panel__toggle-text">
+            {{ $t('FILTER_LABEL_DISCOUNT') }}
+          </span>
+          <CaNotificationBadge
+            :number="selection.discount.length"
+            :positioned="false"
+          />
+        </div>
+      </template>
+      <LazyCaFilterMulti
+        :values="filters.discount"
+        :selection="selection.discount"
+        @selectionchange="updateSelection($event, 'discount')"
       />
     </LazyCaAccordionItem>
     <template #footer>

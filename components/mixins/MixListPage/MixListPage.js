@@ -280,6 +280,9 @@ export default {
       if (this.selection.price && this.selection.price.length) {
         queryObj.price = this.getReadableParams(this.selection.price);
       }
+      if (this.selection.discount && this.selection.discount.length) {
+        queryObj.discount = this.getReadableParams(this.selection.discount);
+      }
       if (Object.keys(this.selection.parameters).length > 0) {
         for (const group in this.selection.parameters) {
           if (this.selection.parameters[group].length) {
@@ -368,13 +371,14 @@ export default {
       const brands = this.selection.brands.map(i => i.id);
       const skus = this.selection.skus.map(i => i.id);
       const price = this.selection.price.map(i => i.id);
+      const discount = this.selection.discount.map(i => i.id);
       const parameters = [];
       for (const group in this.selection.parameters) {
         const selection = this.selection.parameters[group].map(i => i.id);
         selection.forEach(i => parameters.push(i));
       }
       const facets = categories.concat(
-        brands.concat(skus.concat(price.concat(parameters)))
+        brands.concat(skus.concat(price.concat(discount.concat(parameters))))
       );
 
       this.$set(obj, 'facets', facets.concat(this.implicitFacets));
@@ -750,6 +754,7 @@ export default {
       this.userSelection.brands = [];
       this.userSelection.skus = [];
       this.userSelection.price = [];
+      this.userSelection.discount = [];
       this.userSelection.parameters = {};
       this.resetCurrentPage();
       this.pushURLParams();
@@ -913,6 +918,10 @@ export default {
         this.$set(selection, 'price', this.selection.price);
       }
 
+      if (this.selection.discount) {
+        this.$set(selection, 'discount', this.selection.discount);
+      }
+
       if (this.selection.parameters) {
         this.$set(selection, 'parameters', this.selection.parameters);
       }
@@ -952,6 +961,7 @@ export default {
       this.$set(this.filters, 'brands', sortedFilters.brands?.values || []);
       this.$set(this.filters, 'skus', sortedFilters.skus?.values || []);
       this.$set(this.filters, 'price', sortedFilters.price?.values || []);
+      this.$set(this.filters, 'discount', sortedFilters.discount?.values || []);
       this.$set(this.filters, 'parameters', sortedFilters.parameters || []);
       this.filtersSet = true;
       this.updateFilters(this.baseFilters);
@@ -1017,6 +1027,12 @@ export default {
           sortedFilters.price
         );
       }
+      if (this.list.firstFilterChanged !== 'discount') {
+        this.filters.discount = this.setNewCount(
+          this.filters.discount,
+          sortedFilters.discount
+        );
+      }
       this.filters.parameters = this.filters.parameters.map(filter => {
         const newFilter = sortedFilters.parameters.find(
           i => i.filterId === filter.filterId
@@ -1070,8 +1086,9 @@ export default {
       const brands = filters.facets.find(i => i.type === 'Brand');
       const skus = filters.facets.find(i => i.type === 'Sku');
       const price = filters.facets.find(i => i.type === 'Price');
+      const discount = filters.facets.find(i => i.type === 'Discount');
       const parameters = filters.facets.filter(i => i.type === 'Parameter');
-      return { categories, brands, skus, price, parameters };
+      return { categories, brands, skus, price, discount, parameters };
     },
     // @vuese
     // Setting up params for filter in URL
@@ -1121,6 +1138,7 @@ export default {
                 categories: [],
                 skus: [],
                 price: [],
+                discount: [],
                 parameters: {},
                 sort: this.defaultSort
               };
