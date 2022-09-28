@@ -6,7 +6,6 @@
         :key="index"
         :container="container"
         :widget-image-sizes="widgetImageSizes"
-        @container-mounted="containersMounted = containersMounted + 1"
       />
     </div>
   </div>
@@ -28,7 +27,7 @@ export default {
       errorPolicy: 'all',
       result(result) {
         this.dataFetched = true;
-        this.checkMounted();
+        // this.checkMounted();
         this.$emit('dataFetched', result.data);
       },
       skip() {
@@ -93,7 +92,7 @@ export default {
     }
   },
   data: () => ({
-    containersMounted: 0,
+    // containersMounted: 0,
     dataFetched: false,
     isComponentMount: false
   }),
@@ -131,13 +130,13 @@ export default {
           this.$emit('variables-change');
         }
       }
-    },
-    containersMounted: {
-      handler() {
-        this.checkMounted();
-      },
-      immediate: true
     }
+    // containersMounted: {
+    //   handler() {
+    //     this.checkMounted();
+    //   },
+    //   immediate: true
+    // }
   },
   mounted() {},
   methods: {
