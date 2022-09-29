@@ -34,7 +34,15 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [14.6.8] - 2022-09-29
+
+## Reverted
+
+- Revert the removal of propagation, done in 14.6.6, as it didn't help the memory leak
+
 ## [14.6.7] - 2022-09-27
+
 ## Fixed
 
 - Added support for discount filter
@@ -42,6 +50,7 @@ All notable changes will be added to this section
 ## [14.6.6] - 2022-09-27
 
 ## Added
+
 - Nosto check for log in /out, memory leak tests
 
 ## [14.6.5] - 2022-09-27
