@@ -4,6 +4,7 @@
     class="ca-widget-container ca-widget-container--outer"
     :design="outerContainerDesign"
     :class="outerClasses"
+    @widget-mounted="widgetsMounted = widgetsMounted + 1"
   >
     <CaWidget
       v-for="(widget, index) in container.widgets"
@@ -35,7 +36,7 @@ export default {
       default: null
     }
   },
-  // data: () => ({ widgetsMounted: 0 }),
+  data: () => ({ widgetsMounted: 0 }),
   computed: {
     outerClasses() {
       const arr = [];
@@ -71,16 +72,16 @@ export default {
       return this.container.design.includes('contained');
     }
   },
-  // watch: {
-  //   widgetsMounted: {
-  //     handler() {
-  //       if (this.widgetsMounted === this.container.widgets?.length) {
-  //         this.$emit('container-mounted', this.container.widgets);
-  //       }
-  //     },
-  //     immediate: true
-  //   }
-  // },
+  watch: {
+    widgetsMounted: {
+      handler() {
+        if (this.widgetsMounted === this.container.widgets?.length) {
+          this.$emit('container-mounted', this.container.widgets);
+        }
+      },
+      immediate: true
+    }
+  },
   mounted() {},
   methods: {}
 };

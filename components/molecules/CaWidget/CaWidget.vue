@@ -78,7 +78,7 @@ export default {
   },
   watch: {},
   mounted() {
-    // this.$emit('widget-mounted');
+    this.$emit('widget-mounted');
   },
   methods: {}
 };
