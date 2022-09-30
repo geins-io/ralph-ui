@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.7.0] - 2022-09-30
+
+## Update
+
+- Bump version to be same as deployed one on artifacts
+
 ## [14.6.8] - 2022-09-29
 
 ## Reverted
