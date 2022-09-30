@@ -185,7 +185,12 @@ export default {
           event: 'Checkout Step',
           eventInfo: {},
           ecommerce: {
-            currencyCode: 'SEK',
+            currencyCode:
+              this.$i18n &&
+              this.$i18n.localeProperties.currency &&
+              this.$i18n.localeProperties.currency.length
+                ? this.$i18n.localeProperties.currency
+                : 'Currency not set up in Storefront Config',
             checkout: {
               actionField: {
                 step: 1

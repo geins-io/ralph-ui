@@ -79,7 +79,12 @@ export const actions = {
             this.$gtm.push({
               event: 'Remove from Cart',
               ecommerce: {
-                currencyCode: 'SEK',
+                currencyCode:
+                  this.$i18n &&
+                  this.$i18n.localeProperties.currency &&
+                  this.$i18n.localeProperties.currency.length
+                    ? this.$i18n.localeProperties.currency
+                    : 'Currency not set up in Storefront Config',
                 remove: { products }
               },
               'gtm.uniqueEventId': 12
@@ -88,7 +93,12 @@ export const actions = {
             this.$gtm.push({
               event: 'Add to Cart',
               ecommerce: {
-                currencyCode: 'SEK',
+                currencyCode:
+                  this.$i18n &&
+                  this.$i18n.localeProperties.currency &&
+                  this.$i18n.localeProperties.currency.length
+                    ? this.$i18n.localeProperties.currency
+                    : 'Currency not set up in Storefront Config',
                 add: { products }
               },
               'gtm.uniqueEventId': 11

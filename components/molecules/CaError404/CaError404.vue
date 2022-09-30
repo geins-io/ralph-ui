@@ -29,13 +29,15 @@ export default {
   methods: {
     // send the errors to the required service
     logError() {
-      this.$appInsights?.trackPageView({
-        name: '404 error',
-        pageType: 'errorPage',
-        properties: {
-          responseCode: 404
-        }
-      });
+      if (this.$appInsights) {
+        this.$appInsights?.trackPageView({
+          name: '404 error',
+          pageType: 'errorPage',
+          properties: {
+            responseCode: 404
+          }
+        });
+      }
     }
   }
 };

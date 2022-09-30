@@ -129,7 +129,12 @@ export default {
         this.$gtm.push({
           event: 'purchase',
           ecommerce: {
-            currencyCode: 'SEK',
+            currencyCode:
+              this.$i18n &&
+              this.$i18n.localeProperties.currency &&
+              this.$i18n.localeProperties.currency.length
+                ? this.$i18n.localeProperties.currency
+                : 'Currency not set up in Storefront Config',
             purchase: {
               actionField: {
                 id: this.$route.query.oid || this.$route.query.cartid,
