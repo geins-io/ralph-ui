@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.7.1] - 2022-09-30
+
+## Added
+
+- Dynamic currency for gtm events
+
 ## [14.7.0] - 2022-09-30
 
 ## Update
@@ -65,7 +71,7 @@ All notable changes will be added to this section
 
 - Load menus serverside
 
-# [14.6.4] - 2022-09-27
+## [14.6.4] - 2022-09-27
 
 ## Fixed
 
