@@ -45,13 +45,12 @@ export default {
       result(result) {
         if (result && result.data) {
           const { listPageInfo, products, ...widgetAreaInfo } = result.data;
-
           if (listPageInfo) {
             this.listInfo = listPageInfo;
           }
-          if (!process.server && !this.isSearch & !this.isAll) {
-            this.switchToCanonicalOr404();
-          }
+          // if (!process.server && !this.isSearch & !this.isAll) {
+          //   this.switchToCanonicalOr404();
+          // }
 
           if (this.widgetAreaVars) {
             this.widgetData = widgetAreaInfo;

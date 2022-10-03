@@ -6,6 +6,7 @@
         :key="index"
         :container="container"
         :widget-image-sizes="widgetImageSizes"
+        :is-first="index === 0"
         @container-mounted="containersMounted = containersMounted + 1"
       />
     </div>

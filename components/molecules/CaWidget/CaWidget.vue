@@ -6,8 +6,8 @@
       :configuration="confObj"
       :image-sizes="imageSizes"
       :image-ratios="imageRatios"
-    >
-    </component>
+      :is-first="isFirst"
+    />
   </LazyHydrate>
 </template>
 <script>
@@ -41,6 +41,10 @@ export default {
     imageRatios: {
       type: Array,
       required: true
+    },
+    isFirst: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),

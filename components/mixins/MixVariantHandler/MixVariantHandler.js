@@ -195,11 +195,20 @@ export default {
     // Looks for the product variant level until found and then returns the current Product variant
     // @arg variants (Array)
     checkForProductVariant(variants) {
-      const currentVariant = this.getCurrentVariant(variants);
-      if (currentVariant.level === 1) {
-        return currentVariant;
+      if (!variants[0]) {
+        const currentVariant = this.getCurrentVariant(variants.slice(1));
+        if (currentVariant?.level === 1) {
+          return currentVariant;
+        } else {
+          return this.checkForProductVariant(currentVariant?.variants);
+        }
       } else {
-        return this.checkForProductVariant(currentVariant.variants);
+        const currentVariant = this.getCurrentVariant(variants);
+        if (currentVariant?.level === 1) {
+          return currentVariant;
+        } else {
+          return this.checkForProductVariant(currentVariant?.variants);
+        }
       }
     },
     // @vuese
@@ -209,9 +218,10 @@ export default {
       return (
         variants.filter(
           i =>
-            i.value ===
-            this.product.variantDimensions.filter(ii => ii.level === i.level)[0]
-              .value
+            i?.value ===
+            this.product.variantDimensions.filter(
+              ii => ii?.level === i?.level
+            )[0]?.value
         )[0] || variants[0]
       );
     }

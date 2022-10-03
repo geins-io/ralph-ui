@@ -13,6 +13,7 @@
       :filename="filename"
       :ratio="currentRatio"
       :sizes="imageSizes"
+      :loading="isParrentFirst"
     />
   </component>
 </template>
@@ -25,9 +26,22 @@ import MixWidgetImage from 'MixWidgetImage';
 export default {
   name: 'CaWidgetImage',
   mixins: [MixWidgetImage],
-  props: {},
+  props: {
+    isFirst: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({}),
-  computed: {},
+  computed: {
+    isParrentFirst() {
+      if (this.isFirst) {
+        return 'eager';
+      } else {
+        return 'lazy';
+      }
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

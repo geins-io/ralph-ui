@@ -13,6 +13,7 @@
       :configuration="widget.configuration"
       :image-ratios="widget.images"
       :image-sizes="imageSizes"
+      :is-first="isFirst"
     />
   </CaContainer>
 </template>
@@ -34,6 +35,10 @@ export default {
     widgetImageSizes: {
       type: Object,
       default: null
+    },
+    isFirst: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({ widgetsMounted: 0 }),

@@ -73,7 +73,6 @@ export default {
       result(result) {
         if (result && result.data) {
           if (!this.product && !process.server) {
-            this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
             this.$store.dispatch('redirect404');
           }
 

@@ -35,6 +35,20 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.7.1] - 2022-10-03
+
+## Added
+
+- Disabled lazy load if first widget of the page is image
+
+## Fixed
+
+- Proper check for product variant, to stop crashing the node server
+
+## Updated
+
+- Removed console logs
+
 ## [14.7.1] - 2022-09-30
 
 ## Added
