@@ -35,7 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [14.7.1] - 2022-10-03
+## [14.7.3] - 2022-10-04
+
+## Fixed
+
+- Check for nosto activated
+
+## [14.7.2] - 2022-10-03
 
 ## Added
 

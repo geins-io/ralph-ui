@@ -14,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   loadRecommendations({ dispatch, commit, rootState }, payload = {}) {
-    if (process.browser && this.isNostoActive) {
+    if (process.browser && this.$config.isNostoActive) {
       dispatch('cart/sendNostoEvent', rootState.cart.data, {
         root: true
       });

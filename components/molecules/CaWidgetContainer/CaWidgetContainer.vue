@@ -4,7 +4,6 @@
     class="ca-widget-container ca-widget-container--outer"
     :design="outerContainerDesign"
     :class="outerClasses"
-    @widget-mounted="widgetsMounted = widgetsMounted + 1"
   >
     <CaWidget
       v-for="(widget, index) in container.widgets"
@@ -14,6 +13,7 @@
       :image-ratios="widget.images"
       :image-sizes="imageSizes"
       :is-first="isFirst"
+      @widget-mounted="widgetsMounted = widgetsMounted + 1"
     />
   </CaContainer>
 </template>
