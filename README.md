@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.7.4] - 2022-10-05
+
+## Fixed
+
+- Removed last bit of LazyHydrate, it was preventing nosto from loading
+
 ## [14.7.3] - 2022-10-04
 
 ## Fixed
