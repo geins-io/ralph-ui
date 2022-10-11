@@ -105,7 +105,8 @@ export default {
     currentNotifyVariant: {},
     initVariables: {},
     isInitialRequest: true,
-    relatedProducts: []
+    relatedProducts: [],
+    interval: null
   }),
   computed: {
     // @vuese
@@ -213,6 +214,9 @@ export default {
   },
   mounted() {
     this.switchToCanonical();
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
   methods: {
     removeQueryVar(query, fields) {
@@ -325,11 +329,11 @@ export default {
     // @vuese
     // Switching to canonical url if different from route path
     switchToCanonical() {
-      const check = setInterval(() => {
+      this.interval = setInterval(() => {
+        clearInterval(this.interval);
         if (this.product) {
           this.appendProductToLatest();
           this.emitGTMEvent();
-          clearInterval(check);
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);
           }

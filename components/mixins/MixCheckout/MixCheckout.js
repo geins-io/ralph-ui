@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
+import getMarketsQuerry from 'checkout/get-checkout-markets.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import MixCache from 'MixCache';
 // @group Mixins
@@ -42,7 +43,9 @@ export default {
     updateTimeout: null,
     activeElement: null,
     frameLoading: false,
-    forceExternalCheckoutReset: false
+    forceExternalCheckoutReset: false,
+    markets: [],
+    marketId: ''
   }),
   computed: {
     // @vuese
@@ -169,10 +172,20 @@ export default {
         this.createOrUpdateCheckout('customer type changed');
       }
     }
+    // marketId() {
+    //   this.createOrUpdateCheckout('customer location changed');
+    // }
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
+    }
+    if (this.$config.showMultipleMarkets) {
+      if (this.$i18n.localeProperties.channelId) {
+        this.getMarkets(this.$i18n.localeProperties.channelId);
+      } else {
+        console.log('Channel ID is not set for i18n in nuxt.config.js');
+      }
     }
     this.emitGTMEvent();
   },
@@ -236,6 +249,7 @@ export default {
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
         }
+        vars.marketId = this.marketId;
         const updateMutation = () =>
           this.$apollo
             .mutate({
@@ -314,7 +328,8 @@ export default {
           mutation: placeOrderMutation,
           variables: {
             cartId: this.$store.getters['cart/id'],
-            checkout: this.checkoutInput
+            checkout: this.checkoutInput,
+            marketId: this.marketId
           }
         })
         .then(result => {
@@ -386,6 +401,37 @@ export default {
       this.frameLoading = true;
       this.shippingId = id;
       this.createOrUpdateCheckout('shipping selection');
+    },
+    // @vuese
+    // Get the markets for the storefront from the channelId taken from nuxt.config on the storefront under '@nuxtjs/i18n'
+    // @arg channel id (string)
+    getMarkets(id) {
+      if (id) {
+        this.$apollo
+          .query({
+            query: getMarketsQuerry,
+            variables: {
+              channelId: id
+            }
+          })
+          .then(response => {
+            const res = response?.data?.channel?.markets;
+            const marketCollection = [];
+            res.forEach(item => {
+              marketCollection.push({
+                label: item.country.name,
+                value: item.id
+              });
+            });
+            this.markets = marketCollection;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    setMarketId(value) {
+      this.marketId = value;
     }
   }
 };

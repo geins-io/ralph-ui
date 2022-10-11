@@ -215,7 +215,8 @@ export default {
     URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
-    productsFetched: false
+    productsFetched: false,
+    interval: null
   }),
   computed: {
     // @vuesed
@@ -535,15 +536,14 @@ export default {
       }
     }
   },
-  created() {
-    this.initProductList();
-  },
   mounted() {
+    this.initProductList();
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
     });
   },
   beforeDestroy() {
+    clearInterval(this.interval);
     eventbus.$off('route-change');
   },
   methods: {
@@ -826,9 +826,9 @@ export default {
         };
       }
 
-      const interval = setInterval(() => {
+      this.interval = setInterval(() => {
+        clearInterval(this.interval);
         if (this.baseFilters && Object.keys(this.baseFilters).length > 0) {
-          clearInterval(interval);
           if (this.baseFilters.facets.length) {
             this.setupFilters(this.baseFilters);
           }

@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.0] - 2022-10-11
+
+## Added
+
+- Country selector for sotrefronts with multiple markets
+
+## Fixed
+
+- Proper clear of setInterval
+
 ## [14.7.4] - 2022-10-05
 
 ## Fixed

@@ -1,0 +1,10 @@
+query markets($channelId: String) {
+  channel(channelId: $channelId) {
+    markets {
+      id
+      country {
+        name
+      }
+    }
+  }
+}

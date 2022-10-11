@@ -3,14 +3,17 @@ mutation placeOrder(
   $checkout: CheckoutInputType!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   placeOrder(
     cartId: $cartId
     checkout: $checkout
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     orderId
+    marketId
     redirectUrl
     status
   }
