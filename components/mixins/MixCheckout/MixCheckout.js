@@ -181,7 +181,11 @@ export default {
       this.createOrUpdateCheckout('mounted');
     }
     if (this.$config.showMultipleMarkets) {
-      this.getMarkets(this.$i18n.localeProperties.channelId);
+      if (this.$i18n.localeProperties.channelId) {
+        this.getMarkets(this.$i18n.localeProperties.channelId);
+      } else {
+        console.log('Channel ID is not set for i18n in nuxt.config.js');
+      }
     }
     this.emitGTMEvent();
   },
@@ -244,8 +248,8 @@ export default {
         };
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
-          vars.marketId = this.marketId;
         }
+        vars.marketId = this.marketId;
         const updateMutation = () =>
           this.$apollo
             .mutate({
@@ -428,7 +432,6 @@ export default {
     },
     setMarketId(value) {
       this.marketId = value;
-      console.log(this.marketId);
     }
   }
 };
