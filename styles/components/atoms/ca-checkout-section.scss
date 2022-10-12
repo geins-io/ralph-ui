@@ -25,15 +25,15 @@
     }
   }
   &__loading {
-    width: 100%;
+    @include flex-calign;
+    background: #fff;
+    bottom: 0;
     height: 100%;
-    position: absolute;
     left: 0;
+    position: absolute;
     right: 0;
     top: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.5);
-    @include flex-calign;
+    width: 100%;
   }
   &__spinner.ca-spinner {
     border-color: var(--accent-color, $c-accent-color);
@@ -42,15 +42,15 @@
   }
 
   &__guard {
-    width: 100%;
+    background: #fff;
+    bottom: 0;
     height: 100%;
-    position: absolute;
-    z-index: 10;
     left: 0;
+    position: absolute;
     right: 0;
     top: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    z-index: 10;
   }
 
   &__guard-info {
