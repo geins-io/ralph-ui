@@ -171,10 +171,10 @@ export default {
         this.forceExternalCheckoutReset = true;
         this.createOrUpdateCheckout('customer type changed');
       }
+    },
+    marketId() {
+      this.createOrUpdateCheckout('customer location changed');
     }
-    // marketId() {
-    //   this.createOrUpdateCheckout('customer location changed');
-    // }
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
