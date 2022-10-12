@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.2] - 2022-10-12
+
+## Changed
+
+- Removed opacity on checkout guards
+
 ## [14.8.1] - 2022-10-12
 
 ## Fixed
