@@ -423,6 +423,9 @@ export default {
                 value: item.id
               });
             });
+            if (marketCollection.length <= 1) {
+              this.marketId = marketCollection[0].value;
+            }
             this.markets = marketCollection;
           })
           .catch(error => {

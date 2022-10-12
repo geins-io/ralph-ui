@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.3] - 2022-10-12
+
+## Update
+
+- Set default market id if only one market
+
 ## [14.8.2] - 2022-10-12
 
 ## Changed
