@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.1] - 2022-10-12
+
+## Fixed
+
+- Refresh cart on location change
+
 ## [14.8.0] - 2022-10-11
 
 ## Added
