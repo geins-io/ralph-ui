@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.4] - 2022-10-13
+
+## Fixed
+
+- Pass product SKU to variant picker
+
 ## [14.8.3] - 2022-10-12
 
 ## Update

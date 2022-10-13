@@ -163,7 +163,7 @@ export default {
     },
     chosenSkuId(val) {
       if (val !== this.chosenSku.id && val !== null) {
-        this.setSku(val, this.chosenSku.value);
+        this.setSku(this.product.skus[0].skuId, this.chosenSku.value);
       }
     }
   },
@@ -176,7 +176,7 @@ export default {
         i => i.stock.totalStock > 0
       )[0];
       if (firstAvailable) {
-        this.setSku(firstAvailable.skuId, firstAvailable.value);
+        this.setSku(this.product.skus[0].skuId, firstAvailable.value);
       }
     },
     // @vuese
