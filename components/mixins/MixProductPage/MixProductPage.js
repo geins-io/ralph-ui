@@ -330,8 +330,8 @@ export default {
     // Switching to canonical url if different from route path
     switchToCanonical() {
       this.interval = setInterval(() => {
-        clearInterval(this.interval);
         if (this.product) {
+          clearInterval(this.interval);
           this.appendProductToLatest();
           this.emitGTMEvent();
           if (this.product.canonicalUrl !== this.$route.path) {

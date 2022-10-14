@@ -827,8 +827,8 @@ export default {
       }
 
       this.interval = setInterval(() => {
-        clearInterval(this.interval);
         if (this.baseFilters && Object.keys(this.baseFilters).length > 0) {
+          clearInterval(this.interval);
           if (this.baseFilters.facets.length) {
             this.setupFilters(this.baseFilters);
           }

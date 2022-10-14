@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.5] - 2022-10-14
+
+## Fixed
+
+- Filters not showing due to interavl beeing cleared too soon
+
 ## [14.8.4] - 2022-10-13
 
 ## Fixed

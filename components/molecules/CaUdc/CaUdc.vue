@@ -111,8 +111,8 @@ export default {
     this.data = this.shippingData;
     this.resetData = !!this.$store.state.checkout.udcData;
     this.widgetLoadedInterval = setInterval(() => {
-      clearInterval(this.widgetLoadedInterval);
       if (window.UnifaunCheckout) {
+        clearInterval(this.widgetLoadedInterval);
         this.widget = window.UnifaunCheckout.createAt(
           this.$refs.widget,
           this.config
