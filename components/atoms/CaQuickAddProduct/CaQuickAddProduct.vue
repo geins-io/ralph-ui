@@ -68,6 +68,7 @@ export default {
       type: Object,
       required: true
     },
+    // Product card design option
     useProductCard: {
       type: Boolean,
       default: false

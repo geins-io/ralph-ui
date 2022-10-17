@@ -35,6 +35,7 @@ export default {
       type: [String, null],
       default: null
     },
+    // Product card design option
     useProductCard: {
       type: Boolean,
       default: false
