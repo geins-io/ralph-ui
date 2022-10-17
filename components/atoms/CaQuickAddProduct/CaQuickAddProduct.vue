@@ -1,6 +1,8 @@
 <template>
   <div class="ca-quick-add-product">
-    <CaProductCard v-if="useProductCard" :product="product" />
+    <client-only v-if="useProductCard">
+      <CaProductCard :product="product" />
+    </client-only>
     <div v-else class="ca-quick-add-product__card">
       <div class="ca-quick-add-product__image-wrap">
         <NuxtLink
