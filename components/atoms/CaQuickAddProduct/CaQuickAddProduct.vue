@@ -1,44 +1,49 @@
 <template>
   <div class="ca-quick-add-product">
-    <div class="ca-quick-add-product__image-wrap">
-      <NuxtLink
-        class="ca-quick-add-product__image-link"
-        :to="product.canonicalUrl"
-      >
-        <CaImage
-          v-if="product.images !== null && product.images.length > 0"
-          class="ca-quick-add-product__image"
-          type="product"
-          :size-array="
-            $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) <= 180
-            )
-          "
-          :alt="product.name"
-          :filename="product.images[0]"
-          :ratio="$config.productImageRatio"
-          sizes="(min-width: 768px) 90px, 60px"
-        />
-      </NuxtLink>
-    </div>
-    <div class="ca-quick-add-product__info">
-      <NuxtLink class="ca-quick-add-product__link" :to="product.canonicalUrl">
-        <CaBrandAndName
-          class="ca-quick-add-product__brand-name"
-          :brand="product.brand.name"
-          :name="product.name"
-          name-tag="h3"
-        />
-        <CaPrice
-          class="ca-quick-add-product__price"
-          :price="product.unitPrice"
-        />
-        <CaCampaigns
-          v-if="product.discountCampaigns && product.discountCampaigns.length"
-          class="ca-quick-add-product__campaigns"
-          :campaigns="product.discountCampaigns"
-        />
-      </NuxtLink>
+    <client-only v-if="useProductCard">
+      <CaProductCard :product="product" />
+    </client-only>
+    <div v-else class="ca-quick-add-product__card">
+      <div class="ca-quick-add-product__image-wrap">
+        <NuxtLink
+          class="ca-quick-add-product__image-link"
+          :to="product.canonicalUrl"
+        >
+          <CaImage
+            v-if="product.images !== null && product.images.length > 0"
+            class="ca-quick-add-product__image"
+            type="product"
+            :size-array="
+              $config.imageSizes.product.filter(
+                item => parseInt(item.descriptor) <= 180
+              )
+            "
+            :alt="product.name"
+            :filename="product.images[0]"
+            :ratio="$config.productImageRatio"
+            sizes="(min-width: 768px) 90px, 60px"
+          />
+        </NuxtLink>
+      </div>
+      <div class="ca-quick-add-product__info">
+        <NuxtLink class="ca-quick-add-product__link" :to="product.canonicalUrl">
+          <CaBrandAndName
+            class="ca-quick-add-product__brand-name"
+            :brand="product.brand.name"
+            :name="product.name"
+            name-tag="h3"
+          />
+          <CaPrice
+            class="ca-quick-add-product__price"
+            :price="product.unitPrice"
+          />
+          <CaCampaigns
+            v-if="product.discountCampaigns && product.discountCampaigns.length"
+            class="ca-quick-add-product__campaigns"
+            :campaigns="product.discountCampaigns"
+          />
+        </NuxtLink>
+      </div>
     </div>
     <CaButton
       class="ca-quick-add-product__button"
@@ -64,6 +69,11 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    // Product card design option
+    useProductCard: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),

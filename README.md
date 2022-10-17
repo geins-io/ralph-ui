@@ -35,6 +35,11 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.6] - 2022-10-17
+
+## Added
+
+- Enable option of product card design for quick add products
 ## [14.8.5] - 2022-10-14
 
 ## Fixed
