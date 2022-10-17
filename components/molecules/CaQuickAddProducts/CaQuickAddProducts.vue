@@ -7,7 +7,10 @@
         :key="index"
         class="ca-quick-add-products__item"
       >
-        <CaQuickAddProduct :product="product" />
+        <CaQuickAddProduct
+          :use-product-card="useProductCard"
+          :product="product"
+        />
       </li>
     </ul>
   </div>
@@ -31,6 +34,10 @@ export default {
     nostoId: {
       type: [String, null],
       default: null
+    },
+    useProductCard: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
