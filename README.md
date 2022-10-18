@@ -35,7 +35,7 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [14.8.6] - 2022-10-18
+## [14.8.7] - 2022-10-18
 
 ## Fixed
 
