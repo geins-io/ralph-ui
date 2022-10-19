@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.9] - 2022-10-19
+
+## Fixed
+
+- Nosto js init only clientside
+
 ## [14.8.8] - 2022-10-19
 
 ## Revert
