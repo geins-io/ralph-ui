@@ -13,4 +13,5 @@ fragment Variant on VariantType {
   stock {
     ...Stock
   }
+  primaryImage
 }

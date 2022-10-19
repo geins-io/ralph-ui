@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.7] - 2022-11-15
+
+## Added
+
+- Option to display variants using images
+- Pass widget variables to config object
+- Enable open class on toggle for accordions
+
 ## [14.9.6] - 2022-11-15
 
 ## Changed

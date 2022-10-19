@@ -5,6 +5,7 @@
         v-for="(container, index) in containers"
         :key="index"
         :container="container"
+        :widget-area-variables="widgetAreaVariables"
         :widget-image-sizes="widgetImageSizes"
         :is-first="index === 0"
         @container-mounted="containersMounted = containersMounted + 1"
