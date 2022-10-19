@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.8] - 2022-10-19
+
+## Revert
+
+- Changes to MixVariantHandler from [14.8.4]
+
 ## [14.8.7] - 2022-10-18
 
 ## Fixed
