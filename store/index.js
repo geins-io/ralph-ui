@@ -11,7 +11,8 @@ export const state = () => ({
   ancientBrowser: false,
   categoryTree: [],
   channelId: '',
-  headerHidden: false
+  headerHidden: false,
+  globalCartId: ''
 });
 
 export const mutations = {
@@ -158,7 +159,7 @@ export const actions = {
       });
     }
   },
-  nuxtServerInit({ commit, dispatch, getters }, { req, route, app }) {
+  nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'
     });
@@ -180,6 +181,7 @@ export const actions = {
     const cartId = parsed['ralph-cart'] || '';
     commit('auth/setUser', user);
     dispatch('cart/get', cartId);
+    state.globalCartId = cartId;
   }
 };
 

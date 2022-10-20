@@ -92,7 +92,7 @@ export default {
         this.$store.dispatch('loading/end');
       },
       skip() {
-        return !this.isInitialRequest;
+        return !this.isInitialRequest || !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });

@@ -40,6 +40,7 @@ export default {
       variables() {
         return this.initVariables;
       },
+      fetchPolicy: 'no-cache',
       deep: true,
       errorPolicy: 'all',
       result(result) {
@@ -48,9 +49,9 @@ export default {
           if (listPageInfo) {
             this.listInfo = listPageInfo;
           }
-          // if (!process.server && !this.isSearch & !this.isAll) {
-          //   this.switchToCanonicalOr404();
-          // }
+          if (!process.server && !this.isSearch & !this.isAll) {
+            this.switchToCanonicalOr404();
+          }
 
           if (this.widgetAreaVars) {
             this.widgetData = widgetAreaInfo;
@@ -64,9 +65,11 @@ export default {
           this.isInitialRequest = false;
         }
       },
-      update: data => data.listPageInfo,
+      update(data) {
+        return data.listPageInfo;
+      },
       skip() {
-        return !this.isInitialRequest || !this.initVariables;
+        return !this.isInitialRequest || !this.initVariables || !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -95,7 +98,10 @@ export default {
       },
       skip() {
         return (
-          this.isInitialRequest || this.skipProductsQuery || this.isNostoRequest
+          this.isInitialRequest ||
+          this.skipProductsQuery ||
+          this.isNostoRequest ||
+          !process.client
         );
       },
       error(error) {
@@ -112,7 +118,7 @@ export default {
       },
       fetchPolicy: 'no-cache',
       skip() {
-        return !this.isNostoRequest;
+        return !this.isNostoRequest || !process.client;
       },
       deep: true,
       result(result) {

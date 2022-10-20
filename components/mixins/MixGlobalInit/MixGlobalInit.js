@@ -16,7 +16,7 @@ export default {
         }
       },
       skip() {
-        return this.$store.state.categoryTree.length > 0;
+        return this.$store.state.categoryTree.length || !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
