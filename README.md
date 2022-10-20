@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.11] - 2022-10-20
+
+## Removed
+
+- Client render on widgets
+
 ## [14.8.10] - 2022-10-20
 
 ## Added
