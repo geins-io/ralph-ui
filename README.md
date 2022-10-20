@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.10] - 2022-10-20
+
+## Added
+
+- Moved requests client side to increase TTFB
+- Added Global cart id to load cart client side
+
 ## [14.8.9] - 2022-10-19
 
 ## Fixed
