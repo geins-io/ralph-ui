@@ -18,6 +18,9 @@ export default {
       result(result) {
         this.menu = result?.data?.getMenuAtLocation || [];
       },
+      skip() {
+        return !this.menuLocationId || !process.client;
+      },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }

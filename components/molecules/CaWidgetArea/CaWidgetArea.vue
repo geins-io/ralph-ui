@@ -33,7 +33,7 @@ export default {
         this.$emit('dataFetched', result.data);
       },
       skip() {
-        return this.isParentLoaded;
+        return this.isParentLoaded || !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
