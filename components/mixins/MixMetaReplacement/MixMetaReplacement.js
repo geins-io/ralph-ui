@@ -20,6 +20,18 @@ export default {
   name: 'MixMetaReplacement',
   methods: {
     // @vuese
+    // Capitalize first letter of a string
+    // @arg string (String)
+    capitalize(string) {
+      if (string) {
+        const str = string;
+        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+        return str2;
+      } else {
+        return false;
+      }
+    },
+    // @vuese
     // Replace meta placeholders with correct values
     // @arg Meta string (String)
     metaReplacement(string) {
@@ -50,7 +62,9 @@ export default {
               break;
 
             case '[gender]':
-              match = '';
+              match = this.capitalize(this.gender)
+                ? 'For ' + this.capitalize(this.gender)
+                : '';
               break;
 
             case '[brand]':
@@ -63,7 +77,7 @@ export default {
 
             case '[cat]':
             case '[category]':
-              match = '';
+              match = this.listInfo?.name || '';
               break;
 
             case '[price]':
