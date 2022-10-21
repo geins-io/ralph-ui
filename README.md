@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.12] - 2022-10-21
+
+## Added
+
+- Meta replacment for gender and brand
+
 ## [14.8.11] - 2022-10-20
 
 ## Removed
