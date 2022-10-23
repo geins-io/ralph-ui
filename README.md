@@ -35,7 +35,7 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [14.8.17] - 2022-10-23
+## [14.8.18] - 2022-10-23
 
 ## Fixed
 
@@ -44,6 +44,7 @@ All notable changes will be added to this section
 ## Added
 
 - wrap nosto method in timeout
+- reduce timeout
 
 ## [14.8.13] - 2022-10-23
 

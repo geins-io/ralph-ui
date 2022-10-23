@@ -57,7 +57,7 @@ export const actions = {
               commit('setPageWidgetsData', response.recommendations);
             });
         });
-      }, 2000);
+      }, 1000);
     }
   },
   generateSessionToken({ commit }, isLogin) {
