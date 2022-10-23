@@ -35,11 +35,15 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [14.8.16] - 2022-10-23
+## [14.8.17] - 2022-10-23
 
 ## Fixed
 
 - Hide the default nosto widget html
+
+## Added
+
+- wrap nosto method in timeout
 
 ## [14.8.13] - 2022-10-23
 

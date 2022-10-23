@@ -13,6 +13,7 @@ export const mutations = {
 };
 
 export const actions = {
+  /* eslint-disable */
   loadRecommendations({ dispatch, commit, rootState }, payload = {}) {
     if (process.browser && this.$config.isNostoActive) {
       dispatch('cart/sendNostoEvent', rootState.cart.data, {
@@ -45,16 +46,18 @@ export const actions = {
           break;
       }
 
-      window.nostojs(api => {
-        api
-          .defaultSession()
-          [viewMethod](payload.params)
-          .setPlacements(api.placements.getPlacements())
-          .load()
-          .then(response => {
-            commit('setPageWidgetsData', response.recommendations);
-          });
-      });
+      setTimeout(() => {
+        window.nostojs(api => {
+          api
+            .defaultSession()
+            [viewMethod](payload.params)
+            .setPlacements(api.placements.getPlacements())
+            .load()
+            .then(response => {
+              commit('setPageWidgetsData', response.recommendations);
+            });
+        });
+      }, 2000);
     }
   },
   generateSessionToken({ commit }, isLogin) {
