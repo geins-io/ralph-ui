@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isProductsEmpty" class="ca-widget-product-list">
-    <div :id="nostoId" class="nosto_element"></div>
+    <div :id="nostoId" class="nosto_element" style="display: none" />
     <h2 style="height: 25px" class="ca-widget-product-list__title">
       <span v-if="isTitleVisible">{{ nostoTitle }}</span>
     </h2>

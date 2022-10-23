@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.14] - 2022-10-23
+
+## Fixed
+
+- Hide the default nosto widget html
+
 ## [14.8.13] - 2022-10-23
 
 ## Added
