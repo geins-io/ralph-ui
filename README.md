@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.13] - 2022-10-23
+
+## Added
+
+- Gender to meta replacment
+
 ## [14.8.12] - 2022-10-21
 
 ## Added

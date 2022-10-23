@@ -18,7 +18,116 @@
 
 export default {
   name: 'MixMetaReplacement',
+  data() {
+    return {
+      genders: [
+        'man-1',
+        'kvinna-1',
+        'unisex',
+        'kille-1',
+        'tjej-1',
+        'ungdom-1',
+        'unisex-youth',
+        'girl-1',
+        'boy-1',
+        'unisex',
+        'woman-1',
+        'man-1',
+        'mann',
+        'kvinne',
+        'unisex',
+        'gutt',
+        'jente',
+        'unisex-ungdom',
+        'unisex-nuoret',
+        'tytöt',
+        'pojat',
+        'unisex',
+        'nainen',
+        'mies',
+        'mand',
+        'kvinde',
+        'unisex',
+        'dreng',
+        'pige',
+        'ungdom',
+        'unisex-youth',
+        'girl',
+        'boy',
+        'unisex',
+        'woman',
+        'man'
+      ]
+    };
+  },
+  computed: {
+    arrayFromRoute() {
+      const route = this.$route.path;
+      const array = route.split('/');
+      return array;
+    }
+  },
   methods: {
+    // @vuese
+    // Check if string is included in array of genedrs
+    // @arg string (String)
+    checkForGender(string) {
+      if (this.genders.some(element => element === string)) {
+        // Danish
+        if (string === 'mand' || string === 'mand-1') {
+          return 'For mænd og drenge';
+        }
+        if (string === 'kvinde' || string === 'kvinde-1') {
+          return 'For kvinder og piger';
+        }
+        if (string === 'dreng' || string === 'dreng-1') {
+          return 'For drenge';
+        }
+        if (string === 'pige' || string === 'pige-1') {
+          return 'For piger';
+        }
+        if (string === 'ungdom' || string === 'ungdom-1') {
+          return 'For unge';
+        }
+        // Swedish
+        if (string === 'man' || string === 'man-1') {
+          return 'för män och killar';
+        }
+        if (string === 'kvinna' || string === 'kvinna-1') {
+          return 'för kvinnor och tjejer';
+        }
+        if (string === 'kille' || string === 'kille-1') {
+          return 'för killar';
+        }
+        if (string === 'tjej' || string === 'tjej-1') {
+          return 'för tjejer';
+        }
+        if (string === 'ungdom' || string === 'ungdom-1') {
+          return 'för ungdomar';
+        }
+        return this.unslug(string);
+      } else {
+        return false;
+      }
+    },
+    // @vuese
+    // Convert slug into words with capital letters
+    // @arg slug (String)
+    unslug(slug) {
+      const regexp = /[_,\- ]+/;
+      if (slug && isNaN(slug)) {
+        const words = slug.split(regexp);
+
+        for (let i = 0; i < words.length; i++) {
+          const word = words[i];
+          words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+        }
+
+        return words.join(' ');
+      } else {
+        return slug;
+      }
+    },
     // @vuese
     // Capitalize first letter of a string
     // @arg string (String)
@@ -62,8 +171,8 @@ export default {
               break;
 
             case '[gender]':
-              match = this.capitalize(this.gender)
-                ? 'For ' + this.capitalize(this.gender)
+              match = this.checkForGender(this.gender)
+                ? this.checkForGender(this.gender)
                 : '';
               break;
 
