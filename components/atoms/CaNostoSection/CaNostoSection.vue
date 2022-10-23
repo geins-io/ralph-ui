@@ -97,4 +97,7 @@ export default {
 </script>
 <style lang="scss">
 @import 'atoms/ca-nosto-section';
+.nosto_element {
+  display: none !important;
+}
 </style>
