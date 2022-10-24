@@ -45,13 +45,11 @@ export const actions = {
           viewMethod = 'viewOther';
           break;
       }
-      console.log(payload);
 
       setTimeout(() => {
         window.nostojs(api => {
           api
             .defaultSession()
-            [viewMethod](payload.params)
             .setPlacements(api.placements.getPlacements())
             .load()
             .then(response => {
