@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.21] - 2022-10-24
+
+## Changed
+
+- Added check for if price is discounted in mixprice
+
 ## [14.8.20] - 2022-10-24
 
 ## Changed

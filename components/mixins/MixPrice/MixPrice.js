@@ -36,7 +36,7 @@ export default {
   computed: {
     modifiers() {
       return {
-        'ca-price--sale': this.price.isDiscounted
+        'ca-price--sale': this.covertToBoolean(this.price.isDiscounted)
       };
     },
     sellingPrice() {
@@ -51,5 +51,13 @@ export default {
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    covertToBoolean(value) {
+      if (typeof value !== 'boolean') {
+        return JSON.parse(value.toLowerCase());
+      } else {
+        return value;
+      }
+    }
+  }
 };

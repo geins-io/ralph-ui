@@ -45,6 +45,7 @@ export const actions = {
           viewMethod = 'viewOther';
           break;
       }
+      console.log(payload);
 
       setTimeout(() => {
         window.nostojs(api => {
