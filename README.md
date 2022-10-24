@@ -35,11 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [14.8.19] - 2022-10-24
+## [14.8.20] - 2022-10-24
 
 ## Changed
 
 - Removed temp identifiers from genders
+- Check for nosto data
 
 ## [14.8.18] - 2022-10-23
 
