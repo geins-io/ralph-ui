@@ -50,6 +50,7 @@ export const actions = {
         window.nostojs(api => {
           api
             .defaultSession()
+            [viewMethod](payload.params)
             .setPlacements(api.placements.getPlacements())
             .load()
             .then(response => {
