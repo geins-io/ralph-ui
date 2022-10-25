@@ -88,7 +88,7 @@ export default {
     // Is all input valid?
     // @type Boolean
     valid() {
-      return this.currentZip !== '' && this.udcValid && this.optionsAvailable;
+      return this.currentZip !== '' && this.optionsAvailable;
     }
   },
   watch: {

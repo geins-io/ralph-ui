@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.22] - 2022-10-25
+
+## Fixed
+
+- Check if the shipping is valid
+
 ## [14.8.21] - 2022-10-24
 
 ## Changed
