@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.24] - 2022-10-27
+
+## Fixed
+
+- Hide footer acordions if there are no menu items
+
 ## [14.8.22] - 2022-10-25
 
 ## Fixed
