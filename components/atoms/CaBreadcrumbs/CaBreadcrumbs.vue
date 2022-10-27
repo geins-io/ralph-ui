@@ -2,7 +2,6 @@
 <template>
   <div class="ca-breadcrumbs" :class="modifiers">
     <script type="application/ld+json" v-html="breadcrumbSchema"></script>
-    {{ breadcrumbSchema.itemListElement }}
     <ol class="ca-breadcrumbs__list">
       <li
         v-for="(elem, index) in breadcrumbSchema.itemListElement"
