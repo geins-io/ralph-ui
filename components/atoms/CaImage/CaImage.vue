@@ -187,7 +187,9 @@ export default {
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    this.loadedAction();
+  },
   methods: {
     // @vuese
     // Action for when image is loaded

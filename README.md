@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.8.25] - 2022-10-27
+
+## Fixed
+
+- Gallery on ios devices
+
 ## [14.8.24] - 2022-10-27
 
 ## Fixed
