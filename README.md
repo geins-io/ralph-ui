@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.1] - 2022-11-1
+
+## Fixed
+
+- Separate nosto and gtm events in different conditionals
+
 ## [14.9.0] - 2022-11-1
 
 ## Fixed

@@ -74,27 +74,26 @@ export default {
   mounted() {},
   methods: {
     datalayerConfirm() {
-      if (this.$store.getters['nosto/isNostoActive'] && process.client) {
-        this.$apollo
-          .query({
-            query: getCheckoutAndOrderQuery,
-            errorPolicy: 'all',
-            fetchPolicy: 'no-cache',
-            variables: {
-              id: this.orderId,
-              paymentType: this.type
-            }
-          })
-          .then(result => {
-            if (!result.errors) {
-              const {
-                orderId,
-                firstName,
-                lastName,
-                email,
-                currency
-              } = result.data?.getCheckoutAndOrder.order;
-
+      this.$apollo
+        .query({
+          query: getCheckoutAndOrderQuery,
+          errorPolicy: 'all',
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: this.orderId,
+            paymentType: this.type
+          }
+        })
+        .then(result => {
+          if (!result.errors) {
+            const {
+              orderId,
+              firstName,
+              lastName,
+              email,
+              currency
+            } = result.data?.getCheckoutAndOrder.order;
+            if (this.$store.getters['nosto/isNostoActive'] && process.client) {
               window.nostojs(api => {
                 api
                   .defaultSession()
@@ -124,45 +123,44 @@ export default {
                     console.log(data.recommendations);
                   });
               });
-
-              if (this.$gtm) {
-                this.$gtm.push({
-                  event: 'purchase',
-                  ecommerce: {
-                    currencyCode: currency,
-                    purchase: {
-                      actionField: {
-                        id: orderId,
-                        revenue: this.orderCart.summary.total
-                          .sellingPriceIncVat,
-                        tax: this.orderCart.summary.total.vat,
-                        shipping: this.orderCart.summary.shipping.feeExVat,
-                        shippingTax:
-                          this.orderCart.summary.shipping.feeIncVat -
-                          this.orderCart.summary.shipping.feeExVat,
-                        // sumPayedFromBalance: 'FormatPrice(itemsSummary.Balance)',
-                        discount:
-                          this.orderCart.summary.total.discountExVat +
-                          this.orderCart.summary.fixedAmountDiscountExVat,
-                        discountTax:
-                          this.orderCart.summary.total.discountIncVat +
-                          this.orderCart.summary.fixedAmountDiscountIncVat -
-                          (this.orderCart.summary.total.discountExVat +
-                            this.orderCart.summary.fixedAmountDiscountExVat),
-                        timestamp: Math.floor(Date.now() / 1000),
-                        coupon: this.orderCart.promoCode
-                      },
-                      products: this.productsData
-                    }
-                  }
-                });
-              }
             }
-          })
-          .catch(error => {
-            this.$nuxt.error({ statusCode: error.statusCode, message: error });
-          });
-      }
+
+            if (this.$gtm) {
+              this.$gtm.push({
+                event: 'purchase',
+                ecommerce: {
+                  currencyCode: currency,
+                  purchase: {
+                    actionField: {
+                      id: orderId,
+                      revenue: this.orderCart.summary.total.sellingPriceIncVat,
+                      tax: this.orderCart.summary.total.vat,
+                      shipping: this.orderCart.summary.shipping.feeExVat,
+                      shippingTax:
+                        this.orderCart.summary.shipping.feeIncVat -
+                        this.orderCart.summary.shipping.feeExVat,
+                      // sumPayedFromBalance: 'FormatPrice(itemsSummary.Balance)',
+                      discount:
+                        this.orderCart.summary.total.discountExVat +
+                        this.orderCart.summary.fixedAmountDiscountExVat,
+                      discountTax:
+                        this.orderCart.summary.total.discountIncVat +
+                        this.orderCart.summary.fixedAmountDiscountIncVat -
+                        (this.orderCart.summary.total.discountExVat +
+                          this.orderCart.summary.fixedAmountDiscountExVat),
+                      timestamp: Math.floor(Date.now() / 1000),
+                      coupon: this.orderCart.promoCode
+                    },
+                    products: this.productsData
+                  }
+                }
+              });
+            }
+          }
+        })
+        .catch(error => {
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+        });
     }
   }
 };
