@@ -32,7 +32,12 @@ export default {
         unit_price: item.unitPrice.sellingPriceExVat,
         quantity: item.quantity,
         sku_id: item.skuId,
-        price_currency_code: 'EUR'
+        price_currency_code:
+          this.$i18n &&
+          this.$i18n.localeProperties.currency &&
+          this.$i18n.localeProperties.currency.length
+            ? this.$i18n.localeProperties.currency
+            : 'Currency not set up in Storefront Config'
       }));
     },
     // @vuese
@@ -119,47 +124,44 @@ export default {
                     console.log(data.recommendations);
                   });
               });
+
+              if (this.$gtm) {
+                this.$gtm.push({
+                  event: 'purchase',
+                  ecommerce: {
+                    currencyCode: currency,
+                    purchase: {
+                      actionField: {
+                        id: orderId,
+                        revenue: this.orderCart.summary.total
+                          .sellingPriceIncVat,
+                        tax: this.orderCart.summary.total.vat,
+                        shipping: this.orderCart.summary.shipping.feeExVat,
+                        shippingTax:
+                          this.orderCart.summary.shipping.feeIncVat -
+                          this.orderCart.summary.shipping.feeExVat,
+                        // sumPayedFromBalance: 'FormatPrice(itemsSummary.Balance)',
+                        discount:
+                          this.orderCart.summary.total.discountExVat +
+                          this.orderCart.summary.fixedAmountDiscountExVat,
+                        discountTax:
+                          this.orderCart.summary.total.discountIncVat +
+                          this.orderCart.summary.fixedAmountDiscountIncVat -
+                          (this.orderCart.summary.total.discountExVat +
+                            this.orderCart.summary.fixedAmountDiscountExVat),
+                        timestamp: Math.floor(Date.now() / 1000),
+                        coupon: this.orderCart.promoCode
+                      },
+                      products: this.productsData
+                    }
+                  }
+                });
+              }
             }
           })
           .catch(error => {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
-      }
-      if (this.$gtm) {
-        this.$gtm.push({
-          event: 'purchase',
-          ecommerce: {
-            currencyCode:
-              this.$i18n &&
-              this.$i18n.localeProperties.currency &&
-              this.$i18n.localeProperties.currency.length
-                ? this.$i18n.localeProperties.currency
-                : 'Currency not set up in Storefront Config',
-            purchase: {
-              actionField: {
-                id: this.$route.query.oid || this.$route.query.cartid,
-                revenue: this.orderCart.summary.total.sellingPriceIncVat,
-                tax: this.orderCart.summary.total.vat,
-                shipping: this.orderCart.summary.shipping.feeExVat,
-                shippingTax:
-                  this.orderCart.summary.shipping.feeIncVat -
-                  this.orderCart.summary.shipping.feeExVat,
-                // sumPayedFromBalance: 'FormatPrice(itemsSummary.Balance)',
-                discount:
-                  this.orderCart.summary.total.discountExVat +
-                  this.orderCart.summary.fixedAmountDiscountExVat,
-                discountTax:
-                  this.orderCart.summary.total.discountIncVat +
-                  this.orderCart.summary.fixedAmountDiscountIncVat -
-                  (this.orderCart.summary.total.discountExVat +
-                    this.orderCart.summary.fixedAmountDiscountExVat),
-                timestamp: Math.floor(Date.now() / 1000),
-                coupon: this.orderCart.promoCode
-              },
-              products: this.productsData
-            }
-          }
-        });
       }
     }
   }

@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.0] - 2022-11-1
+
+## Fixed
+
+- Set default color on icons and links fix for ios
+- Pass order id and currency to gtm and nosto
+
 ## [14.8.25] - 2022-10-27
 
 ## Fixed

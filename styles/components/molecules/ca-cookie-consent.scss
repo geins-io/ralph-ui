@@ -33,6 +33,7 @@
     &--decline.ca-button {
       margin: $px4 0 0;
       order: 3;
+      color: $c-text-primary;
       @include bp(tablet) {
         padding-left: 0;
         order: unset;
