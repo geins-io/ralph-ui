@@ -33,7 +33,6 @@
                 )
               "
               :sizes="mainImageSizes"
-              @loaded="doesthiswork()"
             />
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
               <CaIcon name="plus" />
@@ -278,9 +277,6 @@ export default {
     eventbus.$emit('close-modal');
   },
   methods: {
-    doesthiswork() {
-      console.log('lsss');
-    },
     // @vuese
     // Slide to specific image
     // @arg index (Number)

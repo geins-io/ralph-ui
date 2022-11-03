@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.3] - 2022-11-3
+
+## Fixed
+
+- Breadcrumbs component to show all categories
+
 ## [14.9.2] - 2022-11-3
 
 ## Added

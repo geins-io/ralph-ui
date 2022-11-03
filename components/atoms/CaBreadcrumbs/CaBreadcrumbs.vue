@@ -40,12 +40,25 @@ export default {
     productName: {
       type: String,
       default: ''
+    },
+    gender: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     parents: []
   }),
   computed: {
+    isParentCategory() {
+      const array = this.$route.fullPath.split('/');
+
+      return array.length > 3;
+    },
+    category() {
+      const path = this.$route?.params[0] || '';
+      return path ? path.split('/')[0] : '';
+    },
     modifiers() {
       return {
         'ca-breadcrumbs--product': this.productName
@@ -109,7 +122,12 @@ export default {
   },
   watch: {},
   created() {
-    this.setParent(this.current.alias);
+    if (this.current.alias && this.current.alias !== this.category) {
+      this.setParent(this.current.alias);
+    }
+    if (!this.current.alias && this.isParentCategory) {
+      this.setDefaultParent(this.category);
+    }
   },
   methods: {
     // Gets the stripped url to be used with NuxtLink
@@ -122,13 +140,23 @@ export default {
     // @arg alias (String)
     setParent(alias) {
       const current = this.categoryTree.find(i => i.alias === alias);
-
       if (current?.parentCategoryId > 0) {
         const parent = this.categoryTree.find(
           i => i.categoryId === current.parentCategoryId
         );
         this.parents.push(parent);
         this.setParent(parent.alias);
+      }
+    },
+    // Sets default "parent" for current parent, if no category
+    // @arg alias (String)
+    setDefaultParent(alias) {
+      const current = this.categoryTree.find(i => i.alias === alias);
+      if (!current?.parentCategoryId) {
+        const parent = this.categoryTree.find(
+          i => i.categoryId === current.categoryId
+        );
+        this.parents.push(parent);
       }
     }
   }
