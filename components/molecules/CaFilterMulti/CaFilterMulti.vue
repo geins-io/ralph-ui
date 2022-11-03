@@ -2,7 +2,7 @@
   <div class="ca-filter-multi">
     <ul class="ca-filter-multi__list">
       <li
-        v-for="(value, index) in valuesWithSelected"
+        v-for="(value, index) in sortByOrder(valuesWithSelected)"
         :key="index"
         class="ca-filter-multi__value"
         :class="{
@@ -79,6 +79,16 @@ export default {
     this.currentSelection = this.selection;
   },
   methods: {
+    // @vuese
+    // Orders the data by its order prop
+    // @arg data (Array)
+    sortByOrder(data) {
+      const ordered = data.sort((a, b) => {
+        return a.order - b.order || a.facetId.localeCompare(b.facetId);
+      });
+
+      return ordered;
+    },
     // @vuese
     // Toggle the value of a filter and emit the updated selection
     // @arg filter (Object) and selected (Boolean)

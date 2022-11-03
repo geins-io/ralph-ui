@@ -10,6 +10,7 @@ fragment ListFilters on FilterCollectionType {
       facetId
       parentId
       label
+      order
     }
   }
 }

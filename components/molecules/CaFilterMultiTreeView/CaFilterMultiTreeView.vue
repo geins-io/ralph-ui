@@ -65,9 +65,8 @@ export default {
     // Adds children properties created from child categories with parentId
     // @type Array
     valuesWithChildren() {
-      const data = this.valuesWithSelected;
+      const data = this.sortByOrder(this.valuesWithSelected);
       const parentCategories = data.filter(item => !item.parentId);
-
       data.map(item => {
         item.children = data.filter(child => child.parentId === item.facetId);
       });
@@ -89,6 +88,16 @@ export default {
     this.currentSelection = this.selection;
   },
   methods: {
+    // @vuese
+    // Orders the data by its order prop
+    // @arg data (Array)
+    sortByOrder(data) {
+      const ordered = data.sort((a, b) => {
+        return a.order - b.order || a.facetId.localeCompare(b.facetId);
+      });
+
+      return ordered;
+    },
     // @vuese
     // Filter the prodcuts and emit the selection
     // @arg children (Array), facetId (String), label (String), Selected (Boolean), parentId (String)
