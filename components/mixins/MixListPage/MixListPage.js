@@ -1117,7 +1117,7 @@ export default {
         this.$nuxt.error({
           statusCode: 404,
           message: 'Page not found',
-          url: this.route.path
+          url: this.$route.path
         });
       }
     },

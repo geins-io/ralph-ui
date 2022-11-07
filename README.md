@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.4] - 2022-11-7
+
+## Added
+
+- Identifier in product query
+
+## Fixed
+
+- Wrong path in switchToCanonicalor404
+
 ## [14.9.3] - 2022-11-3
 
 ## Fixed

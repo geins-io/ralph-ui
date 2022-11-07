@@ -36,6 +36,7 @@ query product($alias: String!, $channelId: String, $languageId: String) {
         name
         value
         show
+        identifier
       }
     }
     skus {
