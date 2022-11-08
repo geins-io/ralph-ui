@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.5] - 2022-11-8
+
+## Added
+
+- Aditional check for widonw.nosto
+
 ## [14.9.4] - 2022-11-7
 
 ## Added

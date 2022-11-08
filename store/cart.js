@@ -40,7 +40,7 @@ export const actions = {
       });
   },
   sendNostoEvent(context, cart) {
-    if (cart) {
+    if (window.nostojs && cart) {
       window.nostojs(api => {
         api
           .defaultSession()

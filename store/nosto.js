@@ -15,7 +15,7 @@ export const mutations = {
 export const actions = {
   /* eslint-disable */
   loadRecommendations({ dispatch, commit, rootState }, payload = {}) {
-    if (process.browser && this.$config.isNostoActive) {
+    if (process.browser && this.$config.isNostoActive && window.nostojs) {
       dispatch('cart/sendNostoEvent', rootState.cart.data, {
         root: true
       });
