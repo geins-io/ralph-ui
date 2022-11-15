@@ -35,7 +35,7 @@ export default {
             this.$emit('loading', false);
           })
           .catch(error => {
-            this.$nuxt.error({ statusCode: error.statusCode, message: error });
+            console.log('MixUpdateCart: ' + error);
           });
       this.enqueue(updateMutation);
     }

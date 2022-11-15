@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.6] - 2022-11-15
+
+## Changed
+
+- Prevent cart from crashing application when id not found
+
 ## [14.9.5] - 2022-11-8
 
 ## Added
