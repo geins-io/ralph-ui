@@ -9,7 +9,10 @@
       @clicked="toggleClickHandler"
     >
       <slot name="toggle-content" :open="open">
-        <div class="ca-accordion-item__toggle">
+        <div
+          class="ca-accordion-item__toggle"
+          :class="{ 'ca-accordion-item__toggle--open': open }"
+        >
           <CaIconAndText
             class="ca-accordion-item__icon-wrap"
             :icon-name="currentIcon"

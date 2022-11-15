@@ -40,14 +40,14 @@ export default {
       type: String,
       default: ''
     },
-    // The type of picker to use. Accepts `color`, `display` and `panel`
+    // The type of picker to use. Accepts `color`, `display`, `panel` & `image`
     type: {
-      // `color`, `display`, `panel`
+      // `color`, `display`, `panel`, `image`
       type: String,
       // `panel`
       default: 'panel',
       validator(value) {
-        return ['color', 'display', 'panel'].includes(value);
+        return ['color', 'display', 'panel', 'image'].includes(value);
       }
     }
   },
@@ -59,6 +59,8 @@ export default {
           return 'CaVariantPickerColor';
         case 'display':
           return 'CaVariantPickerDisplay';
+        case 'image':
+          return 'CaVariantPickerImage';
         default:
           return 'CaVariantPickerPanel';
       }

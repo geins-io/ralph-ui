@@ -39,12 +39,17 @@ export default {
     isFirst: {
       type: Boolean,
       default: false
+    },
+    widgetAreaVariables: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({}),
   computed: {
     confObj() {
-      return JSON.parse(this.configuration);
+      const config = JSON.parse(this.configuration);
+      return Object.assign(config, this.widgetAreaVariables);
     },
     currentWidget() {
       if (this.type === 'Image') {

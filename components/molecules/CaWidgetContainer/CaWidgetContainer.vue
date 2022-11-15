@@ -13,6 +13,7 @@
       :image-ratios="widget.images"
       :image-sizes="imageSizes"
       :is-first="isFirst"
+      :widget-area-variables="widgetAreaVariables"
       @widget-mounted="widgetsMounted = widgetsMounted + 1"
     />
   </CaContainer>
@@ -39,6 +40,10 @@ export default {
     isFirst: {
       type: Boolean,
       default: false
+    },
+    widgetAreaVariables: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({ widgetsMounted: 0 }),
