@@ -2,7 +2,7 @@
   <div class="ca-filter-multi">
     <ul class="ca-filter-multi__list">
       <li
-        v-for="(value, index) in sortByOrder(valuesWithSelected)"
+        v-for="(value, index) in sortByOrder(filterValues)"
         :key="index"
         class="ca-filter-multi__value"
         :class="{
@@ -42,6 +42,11 @@ export default {
     selection: {
       type: Array,
       required: true
+    },
+    // Option to hide values
+    hideValues: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -63,6 +68,14 @@ export default {
       } else {
         return [];
       }
+    },
+    valuesExcludeHidden() {
+      return this.valuesWithSelected.filter(el => !el.hidden);
+    },
+    filterValues() {
+      return !this.hideValues
+        ? this.valuesWithSelected
+        : this.valuesExcludeHidden;
     }
   },
   watch: {
