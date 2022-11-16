@@ -11,6 +11,7 @@ fragment ListFilters on FilterCollectionType {
       parentId
       label
       order
+      hidden
     }
   }
 }
