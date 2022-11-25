@@ -19,7 +19,7 @@
       enter-from-tablet-up="right"
       :title="$t('PRICE_HISTORY_TITLE')"
     >
-      <CaProductPriceHistory @lowest-price="data => (lowestPrice = data)" />
+      <CaProductPriceHistory />
     </CaContentPanel>
   </div>
 </template>
@@ -33,9 +33,7 @@ export default {
   name: 'CaProductPriceHistoryPanel',
   mixins: [],
   props: {},
-  data: () => ({
-    lowestPrice: 0
-  }),
+  data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},

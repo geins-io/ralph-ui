@@ -10,7 +10,7 @@
         }}</span>
       </li>
       <li
-        v-for="(item, index) in sortedPriceHistory"
+        v-for="(item, index) in priceLog"
         :key="index"
         class="ca-product-price-history__list-item"
       >
@@ -19,17 +19,12 @@
         }}</span>
         <span
           class="ca-product-price-history__text"
-          :class="
-            isLowestPrice(item.newPrice) &&
-              'ca-product-price-history__text--lowest'
-          "
+          :class="item.isLowest && 'ca-product-price-history__text--lowest'"
         >
-          <span
-            v-if="isLowestPrice(item.newPrice)"
-            class="ca-product-price-history__lowest"
+          <span v-if="item.isLowest" class="ca-product-price-history__lowest"
             >Lowest price</span
           >
-          {{ item.newPrice }}</span
+          {{ item.price }}</span
         >
       </li>
     </ul>
@@ -40,9 +35,33 @@
 // @vuese
 // (Description of component)<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-product-price-history.scss_
+import productPriceHistoryQuery from 'product/product-price-history.graphql';
+
 export default {
   name: 'CaProductPriceHistory',
   mixins: [],
+  apollo: {
+    product: {
+      query: productPriceHistoryQuery,
+      variables() {
+        return {
+          alias: this.productAlias
+        };
+      },
+      errorPolicy: 'all',
+      result(result) {
+        const { product } = result.data;
+        this.priceLog = product.priceLog;
+        this.unitPrice = product.unitPrice;
+        console.log('priceLog', this.priceLog);
+        console.log('unitPrice', this.unitPrice);
+      },
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      }
+    }
+  },
+
   props: {
     // language used for date, like so: 'sv'. Defaults to $config.currentChannelSettings.locale if not set
     language: {
@@ -56,29 +75,13 @@ export default {
     }
   },
   data: () => ({
-    priceHistory: [
-      {
-        date: new Date('October 17'),
-        prevPrice: 399,
-        newPrice: 249
-      },
-      {
-        date: new Date('October 5'),
-        prevPrice: 279,
-        newPrice: 399
-      },
-      {
-        date: new Date('4 dec'),
-        prevPrice: 249,
-        newPrice: 399
-      }
-    ]
+    priceLog: [],
+    unitPrice: {},
+    productAlias: ''
   }),
   computed: {
     dateLanguage() {
-      return this.language
-        ? this.language
-        : this.$config.currentChannelSettings.locale;
+      return this.language ? this.language : this.$i18n.defaultLocale;
     },
     monthFormat() {
       return this.fullMonth ? 'long' : 'short';
@@ -92,19 +95,19 @@ export default {
       const sortedPrices = [...this.priceHistory].sort(
         (a, b) => Number(b.date) - Number(a.date)
       );
-      console.log(this.priceHistory);
       return sortedPrices;
     }
   },
   watch: {},
-  mounted() {
-    this.$emit('lowest-price', this.lowestPrice);
+  mounted() {},
+  created() {
+    this.productAlias = this.$route.params.alias;
   },
   methods: {
     getDate(date) {
-      console.log(this.$config.currentChannelSettings);
-      const day = date.getDate();
-      const month = date
+      const newDate = new Date(date);
+      const day = newDate.getDate();
+      const month = newDate
         .toLocaleString(this.dateLanguage, { month: this.monthFormat })
         .replace('.', '');
       return `${day} ${month}`;

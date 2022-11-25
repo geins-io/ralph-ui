@@ -1,6 +1,6 @@
 .ca-product-price-history-panel {
   .ca-product-price-history {
-    font-size: $font-size-xs;
+    font-size: $font-size-s;
     &__list-item{
       height: 36px;
       font-weight: $font-weight-normal;
@@ -12,7 +12,7 @@
       font-weight: $font-weight-bold;
     }
     &__lowest {
-      font-size: $font-size-xxs;
+      font-size: $font-size-xs;
       color: $c-text-secondary;
       font-weight: $font-weight-normal;
     }
