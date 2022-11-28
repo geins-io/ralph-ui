@@ -1,17 +1,22 @@
 .ca-product-price-history-panel {
   .ca-product-price-history {
     font-size: $font-size-s;
-    &__list-item{
+    padding: 10px;
+
+    &__list-item {
       height: 36px;
       font-weight: $font-weight-normal;
+
     &:nth-child(even) {
       background: $c-medium-gray;
     }
   }
-    &__text--lowest {
-      font-weight: $font-weight-bold;
-    }
-    &__lowest {
+
+    &__text--lowest{
+        font-weight: $font-weight-bold;
+    } 
+
+    &__lowest, &__year {
       font-size: $font-size-xs;
       color: $c-text-secondary;
       font-weight: $font-weight-normal;

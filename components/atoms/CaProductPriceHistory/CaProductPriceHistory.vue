@@ -1,6 +1,13 @@
 <template>
   <div class="ca-product-price-history">
-    <ul>
+    <p v-if="simple && product">
+      {{
+        $t('PRICE_HISTORY_LOWEST_PRICE', {
+          lowestPrice
+        })
+      }}
+    </p>
+    <ul v-else-if="!simple && product">
       <li class="ca-product-price-history__list-item">
         <span class="ca-product-price-history__title">{{
           $t('PRICE_HISTORY_DATE')
@@ -14,18 +21,23 @@
         :key="index"
         class="ca-product-price-history__list-item"
       >
-        <span class="ca-product-price-history__text">{{
-          getDate(item.date)
-        }}</span>
+        <span class="ca-product-price-history__text"
+          >{{ getDate(item.date).date }}
+          <span
+            v-if="!getDate(item.date).isThisYear"
+            class="ca-product-price-history__year"
+            >({{ getDate(item.date).year }})</span
+          >
+        </span>
         <span
           class="ca-product-price-history__text"
           :class="item.isLowest && 'ca-product-price-history__text--lowest'"
         >
-          <span v-if="item.isLowest" class="ca-product-price-history__lowest"
-            >Lowest price</span
-          >
-          {{ item.price }}</span
-        >
+          <span v-if="item.isLowest" class="ca-product-price-history__lowest">{{
+            $t('PRICE_HISTORY_LOWEST')
+          }}</span>
+          {{ item.sellingPriceIncVatFormatted }}
+        </span>
       </li>
     </ul>
   </div>
@@ -45,7 +57,7 @@ export default {
       query: productPriceHistoryQuery,
       variables() {
         return {
-          alias: this.productAlias
+          alias: this.$route.params.alias
         };
       },
       errorPolicy: 'all',
@@ -53,8 +65,6 @@ export default {
         const { product } = result.data;
         this.priceLog = product.priceLog;
         this.unitPrice = product.unitPrice;
-        console.log('priceLog', this.priceLog);
-        console.log('unitPrice', this.unitPrice);
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -63,57 +73,54 @@ export default {
   },
 
   props: {
-    // language used for date, like so: 'sv'. Defaults to $config.currentChannelSettings.locale if not set
-    language: {
+    // locale used for date, like so: 'sv' or 'sv-SE'. Defaults to $i18n.defaultLocale if not set
+    locale: {
       type: String,
       default: ''
     },
     // Set to true to display full month like so: 'december'. Defaults to short like so: 'dec'
-    fullMonth: {
+    showFullMonth: {
+      type: Boolean,
+      default: false
+    },
+    // Set to true to display only one line with lowest price.
+    simple: {
       type: Boolean,
       default: false
     }
   },
   data: () => ({
     priceLog: [],
-    unitPrice: {},
-    productAlias: ''
+    unitPrice: {}
   }),
   computed: {
-    dateLanguage() {
-      return this.language ? this.language : this.$i18n.defaultLocale;
+    dateLocale() {
+      return this.locale ? this.locale : this.$i18n.defaultLocale;
     },
     monthFormat() {
-      return this.fullMonth ? 'long' : 'short';
+      return this.showFullMonth ? 'long' : 'short';
     },
     lowestPrice() {
-      return this.priceHistory.reduce((prev, curr) => {
-        return curr.newPrice < prev.newPrice ? curr : prev;
-      }).newPrice;
-    },
-    sortedPriceHistory() {
-      const sortedPrices = [...this.priceHistory].sort(
-        (a, b) => Number(b.date) - Number(a.date)
-      );
-      return sortedPrices;
+      return this.priceLog.find(price => price.isLowest)
+        .sellingPriceIncVatFormatted;
     }
   },
   watch: {},
   mounted() {},
-  created() {
-    this.productAlias = this.$route.params.alias;
-  },
+  created() {},
   methods: {
     getDate(date) {
-      const newDate = new Date(date);
-      const day = newDate.getDate();
-      const month = newDate
-        .toLocaleString(this.dateLanguage, { month: this.monthFormat })
+      const changeDate = new Date(date);
+      const year = changeDate.getFullYear();
+      const month = changeDate
+        .toLocaleString(this.dateLocale, { month: this.monthFormat })
         .replace('.', '');
-      return `${day} ${month}`;
-    },
-    isLowestPrice(price) {
-      return price === this.lowestPrice;
+      const day = changeDate.getDate();
+      return {
+        date: `${day} ${month}`,
+        isThisYear: year === new Date().getFullYear(),
+        year
+      };
     }
   }
 };

@@ -23,10 +23,16 @@ query productPriceHistory(
       isDiscounted
     }
     priceLog {
-      price
-      regularPrice
+      sellingPriceIncVat
+      sellingPriceExVat
+      regularPriceIncVat
+      regularPriceExVat
+      sellingPriceIncVatFormatted
+      sellingPriceExVatFormatted
+      isDiscounted
+      discountIncVat
+      discountExVat
       isLowest
-      discounted
       date
     }
   }
