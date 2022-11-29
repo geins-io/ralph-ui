@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.9] - 2022-11-29
+
+## Added
+
+- Component that displaying product price history as table or panel.
+
 ## [14.9.8] - 2022-11-16
 
 ## Added
