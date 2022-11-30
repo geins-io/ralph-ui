@@ -26,7 +26,7 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// A component that displays CaProductPriceHistory in a content panel.<br><br>
 
 // **SASS-path:** _./styles/components/molecules/ca-product-price-history-panel.scss_
 export default {

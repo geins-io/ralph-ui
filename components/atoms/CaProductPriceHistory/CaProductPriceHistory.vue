@@ -1,41 +1,38 @@
 <template>
   <div class="ca-product-price-history">
-    <p v-if="simple && product">
-      {{
-        $t('PRICE_HISTORY_LOWEST_PRICE', {
-          lowestPrice
-        })
-      }}
+    <p v-if="simple">
+      {{ $t('PRICE_HISTORY_LOWEST_PRICE', { lowestPrice }) }}
     </p>
-    <ul v-else-if="!simple && product">
+    <ul v-else>
       <li class="ca-product-price-history__list-item">
-        <span class="ca-product-price-history__title">{{
-          $t('PRICE_HISTORY_DATE')
-        }}</span>
-        <span class="ca-product-price-history__title">{{
-          $t('PRICE_HISTORY_NEW_PRICE')
-        }}</span>
+        <span class="ca-product-price-history__title">
+          {{ $t('PRICE_HISTORY_DATE') }}
+        </span>
+        <span class="ca-product-price-history__title">
+          {{ $t('PRICE_HISTORY_NEW_PRICE') }}
+        </span>
       </li>
       <li
         v-for="(item, index) in priceLog"
         :key="index"
         class="ca-product-price-history__list-item"
       >
-        <span class="ca-product-price-history__text"
-          >{{ getDate(item.date).date }}
+        <span class="ca-product-price-history__text">
+          {{ getDate(item.date).date }}
           <span
             v-if="!getDate(item.date).isThisYear"
             class="ca-product-price-history__year"
-            >({{ getDate(item.date).year }})</span
           >
+            ({{ getDate(item.date).year }})
+          </span>
         </span>
         <span
           class="ca-product-price-history__text"
-          :class="item.isLowest && 'ca-product-price-history__text--lowest'"
+          :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
         >
-          <span v-if="item.isLowest" class="ca-product-price-history__lowest">{{
-            $t('PRICE_HISTORY_LOWEST')
-          }}</span>
+          <span v-if="item.isLowest" class="ca-product-price-history__lowest">
+            {{ $t('PRICE_HISTORY_LOWEST') }}
+          </span>
           {{ item.sellingPriceIncVatFormatted }}
         </span>
       </li>
@@ -45,7 +42,7 @@
 <script>
 // @group Atoms
 // @vuese
-// (Description of component)<br><br>
+// A component that displays price history of product. <br><br>
 // **SASS-path:** _./styles/components/atoms/ca-product-price-history.scss_
 import productPriceHistoryQuery from 'product/product-price-history.graphql';
 
@@ -63,8 +60,8 @@ export default {
       errorPolicy: 'all',
       result(result) {
         const { product } = result.data;
-        this.priceLog = product.priceLog;
-        this.unitPrice = product.unitPrice;
+        this.priceLog = product?.priceLog;
+        this.unitPrice = product?.unitPrice;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
