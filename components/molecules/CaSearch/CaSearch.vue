@@ -256,6 +256,18 @@ export default {
     noResults: false
   }),
   computed: {
+    setSearchLink() {
+      if (this.$i18n.locale !== this.$i18n.defaultLocale) {
+        return (
+          '/' +
+          this.$i18n.locale +
+          this.$config.routePaths.search +
+          '/' +
+          this.searchString
+        );
+      }
+      return this.$config.routePaths.search + '/' + this.searchString;
+    },
     searchResultsVisible() {
       return this.$store.getters.viewport === 'phone' ? 5 : 10;
     },
@@ -427,9 +439,7 @@ export default {
     goToSearchPage() {
       if (this.searchString) {
         this.setRecentSearch();
-        this.$router.push(
-          this.$config.routePaths.search + '/' + this.searchString
-        );
+        this.$router.push(this.setSearchLink + this.searchString);
         this.$emit('searchRouteChange');
         this.close();
       }
