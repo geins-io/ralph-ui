@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.11] - 2022-12-01
+
+## Added
+
+- Graphql query for listpage info
+
 ## [14.9.10] - 2022-12-01
 
 ## Added

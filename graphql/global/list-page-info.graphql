@@ -1,0 +1,8 @@
+query listPageInfo($channelId: String, $languageId: String) {
+  listPageInfo(channelId: $channelId, languageId: $languageId) {
+    meta {
+      description
+      title
+    }
+  }
+}
