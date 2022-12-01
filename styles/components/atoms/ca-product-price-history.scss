@@ -1,0 +1,18 @@
+.ca-product-price-history {
+  width: 100%;
+  color: $c-text-primary;
+
+  &__list-item {
+    padding: $px10;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-weight: $font-weight-bold;
+  }
+
+  &__lowest, &__year {
+    margin: 0 $px8;
+  }
+}
