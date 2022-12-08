@@ -1,42 +1,44 @@
 <template>
   <div class="ca-product-price-history">
-    <p v-if="simple">
-      {{ $t('PRICE_HISTORY_LOWEST_PRICE', { lowestPrice }) }}
-    </p>
-    <ul v-else>
-      <li class="ca-product-price-history__list-item">
-        <span class="ca-product-price-history__title">
-          {{ $t('PRICE_HISTORY_DATE') }}
-        </span>
-        <span class="ca-product-price-history__title">
-          {{ $t('PRICE_HISTORY_NEW_PRICE') }}
-        </span>
-      </li>
-      <li
-        v-for="(item, index) in priceLog"
-        :key="index"
-        class="ca-product-price-history__list-item"
-      >
-        <span class="ca-product-price-history__text">
-          {{ getDate(item.date).date }}
-          <span
-            v-if="!getDate(item.date).isThisYear"
-            class="ca-product-price-history__year"
-          >
-            ({{ getDate(item.date).year }})
+    <template v-if="product">
+      <p v-if="simple">
+        {{ $t('PRICE_HISTORY_LOWEST_PRICE', { lowestPrice }) }}
+      </p>
+      <ul v-else>
+        <li class="ca-product-price-history__list-item">
+          <span class="ca-product-price-history__title">
+            {{ $t('PRICE_HISTORY_DATE') }}
           </span>
-        </span>
-        <span
-          class="ca-product-price-history__text"
-          :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
+          <span class="ca-product-price-history__title">
+            {{ $t('PRICE_HISTORY_NEW_PRICE') }}
+          </span>
+        </li>
+        <li
+          v-for="(item, index) in priceLog"
+          :key="index"
+          class="ca-product-price-history__list-item"
         >
-          <span v-if="item.isLowest" class="ca-product-price-history__lowest">
-            {{ $t('PRICE_HISTORY_LOWEST') }}
+          <span class="ca-product-price-history__text">
+            {{ getDate(item.date).date }}
+            <span
+              v-if="!getDate(item.date).isThisYear"
+              class="ca-product-price-history__year"
+            >
+              ({{ getDate(item.date).year }})
+            </span>
           </span>
-          {{ item.sellingPriceIncVatFormatted }}
-        </span>
-      </li>
-    </ul>
+          <span
+            class="ca-product-price-history__text"
+            :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
+          >
+            <span v-if="item.isLowest" class="ca-product-price-history__lowest">
+              {{ $t('PRICE_HISTORY_LOWEST') }}
+            </span>
+            {{ item.sellingPriceIncVatFormatted }}
+          </span>
+        </li>
+      </ul>
+    </template>
   </div>
 </template>
 <script>
