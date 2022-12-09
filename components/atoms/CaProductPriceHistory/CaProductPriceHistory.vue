@@ -14,7 +14,7 @@
           </span>
         </li>
         <li
-          v-for="(item, index) in priceLog"
+          v-for="(item, index) in pricesToRender"
           :key="index"
           class="ca-product-price-history__list-item"
         >
@@ -90,7 +90,8 @@ export default {
   },
   data: () => ({
     priceLog: [],
-    unitPrice: {}
+    unitPrice: {},
+    latestPrice: null
   }),
   computed: {
     dateLocale() {
@@ -102,6 +103,18 @@ export default {
     lowestPrice() {
       return this.priceLog.find(price => price.isLowest)
         .sellingPriceIncVatFormatted;
+    },
+    pricesToRender() {
+      const reversedPriceLog = [...this.priceLog].reverse();
+      let latestPrice = null;
+      const pricesToRender = [];
+      reversedPriceLog.forEach(price => {
+        if (price.sellingPriceIncVat !== latestPrice) {
+          pricesToRender.unshift(price);
+        }
+        latestPrice = price.sellingPriceIncVat;
+      });
+      return pricesToRender;
     }
   },
   watch: {},
