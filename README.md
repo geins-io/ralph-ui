@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.12] - 2022-12-08
+
+## Fixed
+
+- Conditions for rendering in product price history
+
 ## [14.9.11] - 2022-12-01
 
 ## Added
