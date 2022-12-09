@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.13] - 2022-12-09
+
+## Fixed
+
+- Prevent duplicated price changes in product price history
+
 ## [14.9.12] - 2022-12-08
 
 ## Fixed
