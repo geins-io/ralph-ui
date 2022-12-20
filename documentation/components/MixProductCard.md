@@ -22,7 +22,7 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |productClickHandler|Handling product click|-|
 |gtmViewEvent|Pushing GTM Product Impression|-|
 |gtmClickEvent|Pushing GTM Product Click|-|
-|getGtmProductFormat|Getting gtm product format|-|
+|getGtmProduct|Getting gtm formatted product|-|
 
 <!-- @vuese:MixProductCard:methods:end -->
 

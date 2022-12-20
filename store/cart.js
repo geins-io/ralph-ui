@@ -73,6 +73,9 @@ export const actions = {
           state.data?.items || [],
           cart.items
         );
+        const key = this.$config.gtm?.showProductsAsItems
+          ? 'items'
+          : 'products';
 
         if (!isSame) {
           if (isRemove) {
@@ -85,7 +88,9 @@ export const actions = {
                   this.$i18n.localeProperties.currency.length
                     ? this.$i18n.localeProperties.currency
                     : 'Currency not set up in Storefront Config',
-                remove: { products }
+                remove: {
+                  [`${key}`]: products
+                }
               },
               'gtm.uniqueEventId': 12
             });
@@ -99,7 +104,9 @@ export const actions = {
                   this.$i18n.localeProperties.currency.length
                     ? this.$i18n.localeProperties.currency
                     : 'Currency not set up in Storefront Config',
-                add: { products }
+                add: {
+                  [`${key}`]: products
+                }
               },
               'gtm.uniqueEventId': 11
             });

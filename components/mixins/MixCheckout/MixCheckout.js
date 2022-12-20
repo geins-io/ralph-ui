@@ -194,6 +194,21 @@ export default {
     // GTM event emitter
     emitGTMEvent() {
       if (this.$gtm && this.cart?.data?.items) {
+        const items = this.cart.data.items.map(item => ({
+          id: item.product.productId,
+          name: item.product.name,
+          brand: item.product.brand?.name,
+          category: item.product.primaryCategory?.name,
+          price: item.unitPrice?.sellingPriceExVat,
+          tax: item.unitPrice.vat,
+          quantity: item.quantity,
+          variant: item.product.skus.find(i => i.skuId === item.skuId).name,
+          sku: item.skuId
+        }));
+        const key = this.$config.gtm?.showProductsAsItems
+          ? 'items'
+          : 'products';
+
         this.$gtm.push({
           event: 'Checkout Step',
           eventInfo: {},
@@ -207,26 +222,9 @@ export default {
             checkout: {
               actionField: {
                 step: 1
-              },
-              products: this.cart.data.items.map(item => ({
-                id: item.product.productId,
-                name: item.product.name,
-                brand: item.product.brand?.name,
-                category: item.product.primaryCategory?.name,
-                price: item.unitPrice?.sellingPriceExVat,
-                currency:
-                  this.$i18n &&
-                  this.$i18n.localeProperties.currency &&
-                  this.$i18n.localeProperties.currency.length
-                    ? this.$i18n.localeProperties.currency
-                    : 'Currency not set up in Storefront Config',
-                tax: item.unitPrice.vat,
-                quantity: item.quantity,
-                variant: item.product.skus.find(i => i.skuId === item.skuId)
-                  .name,
-                sku: item.skuId
-              }))
-            }
+              }
+            },
+            [`${key}`]: items
           },
           'gtm.uniqueEventId': 6
         });
