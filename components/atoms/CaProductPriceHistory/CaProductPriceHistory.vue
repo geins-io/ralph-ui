@@ -4,40 +4,37 @@
       <p v-if="simple">
         {{ $t('PRICE_HISTORY_LOWEST_PRICE', { lowestPrice }) }}
       </p>
-      <ul v-else>
-        <li class="ca-product-price-history__list-item">
-          <span class="ca-product-price-history__title">
-            {{ $t('PRICE_HISTORY_DATE') }}
-          </span>
-          <span class="ca-product-price-history__title">
-            {{ $t('PRICE_HISTORY_NEW_PRICE') }}
-          </span>
-        </li>
-        <li
-          v-for="(item, index) in pricesToRender"
-          :key="index"
-          class="ca-product-price-history__list-item"
-        >
-          <span class="ca-product-price-history__text">
-            {{ getDate(item.date).date }}
-            <span
-              v-if="!getDate(item.date).isThisYear"
+      <table v-else>
+        <thead>
+          <tr class="ca-product-price-history__head">
+            <th class="ca-product-price-history__title">{{ $t('PRICE_HISTORY_DATE') }}</th>
+            <th class="ca-product-price-history__title">{{ $t('PRICE_HISTORY_NEW_PRICE') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in pricesToRender" :key="index" class="ca-product-price-history__list-item">
+            <td class="ca-product-price-history__text">
+              {{ getDate(item.date).date }}
+            </td>
+            <td 
+              v-if="!getDate(item.date).isThisYear" 
               class="ca-product-price-history__year"
             >
               ({{ getDate(item.date).year }})
-            </span>
-          </span>
-          <span
-            class="ca-product-price-history__text"
-            :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
-          >
-            <span v-if="item.isLowest" class="ca-product-price-history__lowest">
-              {{ $t('PRICE_HISTORY_LOWEST') }}
-            </span>
-            {{ item.sellingPriceIncVatFormatted }}
-          </span>
-        </li>
-      </ul>
+            </td>
+
+            <td v-if="item.isLowest" class="ca-product-price-history__lowest">
+                {{ $t('PRICE_HISTORY_LOWEST') }}
+            </td>
+            <td
+              class="ca-product-price-history__text"
+              :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
+            >
+              {{ item.sellingPriceIncVatFormatted }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </template>
   </div>
 </template>
@@ -70,7 +67,6 @@ export default {
       }
     }
   },
-
   props: {
     // locale used for date, like so: 'sv' or 'sv-SE'. Defaults to $i18n.defaultLocale if not set
     locale: {
