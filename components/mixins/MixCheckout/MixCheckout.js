@@ -214,6 +214,12 @@ export default {
                 brand: item.product.brand?.name,
                 category: item.product.primaryCategory?.name,
                 price: item.unitPrice?.sellingPriceExVat,
+                currency:
+                  this.$i18n &&
+                  this.$i18n.localeProperties.currency &&
+                  this.$i18n.localeProperties.currency.length
+                    ? this.$i18n.localeProperties.currency
+                    : 'Currency not set up in Storefront Config',
                 tax: item.unitPrice.vat,
                 quantity: item.quantity,
                 variant: item.product.skus.find(i => i.skuId === item.skuId)
