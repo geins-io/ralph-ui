@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.14] - 2022-12-27
+
+## Added
+
+- Currency to gtm purchase event
+
 ## [14.9.13] - 2022-12-09
 
 ## Fixed
