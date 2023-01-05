@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.15] - 2023-01-05
+
+## Fixed
+
+- Search check for multi language
+
 ## [14.9.14] - 2022-12-27
 
 ## Added

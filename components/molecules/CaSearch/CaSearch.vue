@@ -438,8 +438,11 @@ export default {
     },
     goToSearchPage() {
       if (this.searchString) {
+        const search = this.$config.isMultiLanguage
+          ? this.setSearchLink + this.searchString
+          : this.searchString;
         this.setRecentSearch();
-        this.$router.push(this.setSearchLink + this.searchString);
+        this.$router.push(search);
         this.$emit('searchRouteChange');
         this.close();
       }
