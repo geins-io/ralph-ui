@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.17] - 2023-01-09
+
+## Fixed
+
+- Improve check for current breadcrumb level
+
 ## [14.9.16] - 2023-01-05
 
 ## Fixed
