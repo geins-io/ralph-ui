@@ -152,7 +152,7 @@ export default {
     // @arg alias (String)
     setDefaultParent(alias) {
       const current = this.categoryTree.find(i => i.alias === alias);
-      if (!current?.parentCategoryId) {
+      if (current && !current?.parentCategoryId) {
         const parent = this.categoryTree.find(
           i => i.categoryId === current.categoryId
         );
