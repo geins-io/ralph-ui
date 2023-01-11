@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.18] - 2023-01-11
+
+## Fixed
+
+- Added discount percentage to product object
+
 ## [14.9.17] - 2023-01-09
 
 ## Fixed

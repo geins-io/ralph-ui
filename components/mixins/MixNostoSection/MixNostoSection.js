@@ -51,8 +51,19 @@ export default {
         }, {})
       }));
 
+      const countPercentageDiscount = (partialValue, totalValue) =>
+        // ~~ shorthand for Math.round
+        100 - ~~((partialValue / totalValue) * 100);
+
       const formattedProduct = mappedAttributesProducts.map(product => ({
         ...product,
+        unitPrice: {
+          ...product.unitPrice,
+          discountPercentage: countPercentageDiscount(
+            product.price,
+            product.list_price
+          )
+        },
         images: product.images.split(','),
         skus: [
           {
