@@ -126,9 +126,7 @@ export default {
     gtmViewEvent() {
       if (this.$gtm) {
         const item = this.getGtmProduct();
-        const key = this.$config.gtm?.showProductsAsItems
-          ? 'items'
-          : 'products';
+        const key = this.$store.getters.getGtmProductsKey;
 
         this.$gtm.push({
           event: 'Product Impression',
@@ -171,9 +169,7 @@ export default {
     gtmClickEvent() {
       if (this.$gtm) {
         const item = this.getGtmProduct();
-        const key = this.$config.gtm?.showProductsAsItems
-          ? 'items'
-          : 'products';
+        const key = this.$store.getters.getGtmProductsKey;
 
         this.$gtm.push({
           event: 'Product Click',

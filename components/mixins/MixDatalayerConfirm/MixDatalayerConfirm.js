@@ -127,9 +127,7 @@ export default {
 
             if (this.$gtm) {
               const items = this.productsData;
-              const key = this.$config.gtm?.showProductsAsItems
-                ? 'items'
-                : 'products';
+              const key = this.$store.getters.getGtmProductsKey;
 
               this.$gtm.push({
                 event: 'purchase',

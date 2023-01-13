@@ -257,10 +257,7 @@ export default {
             urgencyLabelDisplayed: false
           }
         ];
-        const key = this.$config.gtm?.showProductsAsItems
-          ? 'items'
-          : 'products';
-
+        const key = this.$store.getters.getGtmProductsKey;
         this.$gtm.push({
           event: 'Product Detail Impression',
           eventInfo: {},

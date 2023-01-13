@@ -205,9 +205,7 @@ export default {
           variant: item.product.skus.find(i => i.skuId === item.skuId).name,
           sku: item.skuId
         }));
-        const key = this.$config.gtm?.showProductsAsItems
-          ? 'items'
-          : 'products';
+        const key = this.$store.getters.getGtmProductsKey;
 
         this.$gtm.push({
           event: 'Checkout Step',
