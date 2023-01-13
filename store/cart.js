@@ -13,6 +13,9 @@ export const mutations = {
   },
   setAdded(state, added) {
     state.added = added;
+  },
+  setConfig(state, config) {
+    state.config.gtmIsProductsKeyItems = config.gtm.isProductsKeyItems;
   }
 };
 
@@ -73,6 +76,7 @@ export const actions = {
           state.data?.items || [],
           cart.items
         );
+        const key = this.getters.getGtmProductsKey;
 
         if (!isSame) {
           if (isRemove) {
@@ -85,7 +89,9 @@ export const actions = {
                   this.$i18n.localeProperties.currency.length
                     ? this.$i18n.localeProperties.currency
                     : 'Currency not set up in Storefront Config',
-                remove: { products }
+                remove: {
+                  [`${key}`]: products
+                }
               },
               'gtm.uniqueEventId': 12
             });
@@ -99,7 +105,9 @@ export const actions = {
                   this.$i18n.localeProperties.currency.length
                     ? this.$i18n.localeProperties.currency
                     : 'Currency not set up in Storefront Config',
-                add: { products }
+                add: {
+                  [`${key}`]: products
+                }
               },
               'gtm.uniqueEventId': 11
             });
@@ -169,5 +177,8 @@ export const getters = {
   },
   id(state) {
     return state.data?.id ? state.data.id : '';
+  },
+  getGtmProductsKey: state => {
+    return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
   }
 };

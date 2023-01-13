@@ -125,6 +125,9 @@ export default {
     // Pushing GTM Product Impression
     gtmViewEvent() {
       if (this.$gtm) {
+        const item = this.getGtmProduct();
+        const key = this.$store.getters.getGtmProductsKey;
+
         this.$gtm.push({
           event: 'Product Impression',
           eventInfo: {},
@@ -136,7 +139,7 @@ export default {
                 ? this.$i18n.localeProperties.currency
                 : 'Currency not set up in Storefront Config',
             detail: {
-              products: this.getGtmProductFormat()
+              [`${key}`]: item
             }
           },
           'gtm.uniqueEventId': 4
@@ -165,6 +168,9 @@ export default {
     // Pushing GTM Product Click
     gtmClickEvent() {
       if (this.$gtm) {
+        const item = this.getGtmProduct();
+        const key = this.$store.getters.getGtmProductsKey;
+
         this.$gtm.push({
           event: 'Product Click',
           eventInfo: {
@@ -176,7 +182,7 @@ export default {
                 list: 'Outlet',
                 action: 'click'
               },
-              products: this.getGtmProductFormat()
+              [`${key}`]: item
             }
           },
           'gtm.uniqueEventId': 12
@@ -185,7 +191,7 @@ export default {
     },
     // @vuese
     // Getting gtm product format
-    getGtmProductFormat() {
+    getGtmProduct() {
       return this.productPopulated
         ? [
             {

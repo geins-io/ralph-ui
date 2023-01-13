@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.19] - 2023-01-13
+
+## Added
+
+- Option to switch the key for GTM event items between `products` or `items` (defaults to products)
+
 ## [14.9.18] - 2023-01-11
 
 ## Fixed

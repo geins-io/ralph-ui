@@ -126,6 +126,9 @@ export default {
             }
 
             if (this.$gtm) {
+              const items = this.productsData;
+              const key = this.$store.getters.getGtmProductsKey;
+
               this.$gtm.push({
                 event: 'purchase',
                 ecommerce: {
@@ -151,7 +154,7 @@ export default {
                       timestamp: Math.floor(Date.now() / 1000),
                       coupon: this.orderCart.promoCode
                     },
-                    products: this.productsData
+                    [`${key}`]: items
                   }
                 }
               });

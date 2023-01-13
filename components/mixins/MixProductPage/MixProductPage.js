@@ -244,6 +244,20 @@ export default {
     // GTM event emitter
     emitGTMEvent() {
       if (this.$gtm) {
+        const item = [
+          {
+            id: this.product.productId,
+            name: this.product.name,
+            brand: this.product.brand?.name,
+            category: this.product.primaryCategory?.name,
+            price: this.product.unitPrice?.sellingPriceExVat,
+            tax: this.product.unitPrice.vat,
+            currency: 'SEK',
+            inStock: Boolean(this.product?.totalStock?.inStock),
+            urgencyLabelDisplayed: false
+          }
+        ];
+        const key = this.$store.getters.getGtmProductsKey;
         this.$gtm.push({
           event: 'Product Detail Impression',
           eventInfo: {},
@@ -255,19 +269,7 @@ export default {
                 ? this.$i18n.localeProperties.currency
                 : 'Currency not set up in Storefront Config',
             detail: {
-              products: [
-                {
-                  id: this.product.productId,
-                  name: this.product.name,
-                  brand: this.product.brand?.name,
-                  category: this.product.primaryCategory?.name,
-                  price: this.product.unitPrice?.sellingPriceExVat,
-                  tax: this.product.unitPrice.vat,
-                  currency: 'SEK',
-                  inStock: Boolean(this.product?.totalStock?.inStock),
-                  urgencyLabelDisplayed: false
-                }
-              ]
+              [`${key}`]: item
             }
           },
           'gtm.uniqueEventId': 4
