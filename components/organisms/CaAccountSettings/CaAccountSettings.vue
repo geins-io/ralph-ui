@@ -482,7 +482,7 @@ export default {
               'changeCustomerType',
               this.userData.customerType
             );
-            this.$cookies.remove('ralph-user-type');
+            this.$cookies.remove('ralph-user-type', { path: '/' });
             this.$store.dispatch(
               'setCustomerTypeCookie',
               this.userData.customerType

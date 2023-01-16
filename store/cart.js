@@ -127,7 +127,7 @@ export const actions = {
   },
   reset({ commit, dispatch }) {
     commit('setCart', null);
-    this.$cookies.remove('ralph-cart');
+    this.$cookies.remove('ralph-cart', { path: '/' });
     dispatch('get');
   },
   changed({ state }, carts) {

@@ -346,7 +346,7 @@ export default {
       const COOKIE_NAME = 'ralph-latest-products';
       const latestProducts = this.$cookies.get(COOKIE_NAME);
       if (!latestProducts) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias]);
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias], { path: '/' });
         return;
       }
 
@@ -355,13 +355,17 @@ export default {
       }
 
       if (!latestProducts.includes(this.prodAlias)) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts]);
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
+          path: '/'
+        });
       } else {
         const existingAliasIndex = latestProducts.findIndex(
           alias => alias === this.prodAlias
         );
         latestProducts.splice(existingAliasIndex, 1);
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts]);
+        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
+          path: '/'
+        });
       }
     },
     notifyHandler(variant) {

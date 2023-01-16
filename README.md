@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.20] - 2023-01-16
+
+## Added
+
+- Add missing path attribute to cookie methods set/remove
+
 ## [14.9.19] - 2023-01-13
 
 ## Added

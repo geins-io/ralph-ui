@@ -97,10 +97,10 @@ export const actions = {
       username = null;
       commit('clearTokenTimeout');
       commit('setUser', username);
-      this.$cookies.remove('ralph-auth');
-      this.$cookies.remove('ralph-user');
-      this.$cookies.remove('ralph-user-maxage');
-      this.$cookies.remove('ralph-user-type');
+      this.$cookies.remove('ralph-auth', { path: '/' });
+      this.$cookies.remove('ralph-user', { path: '/' });
+      this.$cookies.remove('ralph-user-maxage', { path: '/' });
+      this.$cookies.remove('ralph-user-type', { path: '/' });
       if (this.getters['nosto/isNostoActive']) {
         this.dispatch('nosto/generateSessionToken', false);
       }
