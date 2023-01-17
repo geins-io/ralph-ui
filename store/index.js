@@ -52,7 +52,7 @@ export const mutations = {
     state.config.nostoAccountId = config.nostoAccountId;
     state.config.isNostoActive = config.isNostoActive;
     state.config.nostoAccountAppsKey = config.nostoAccountAppsKey;
-    state.config.gtmIsProductsKeyItems = config.gtm?.isProductsKeyItems;
+    state.config.gtmIsProductsKeyItems = config.gtm.isProductsKeyItems;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
