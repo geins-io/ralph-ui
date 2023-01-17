@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.21] - 2023-01-17
+
+## Fixed
+
+- Semantic improvements for presenting price data in price history component.
+
 ## [14.9.20] - 2023-01-16
 
 ## Added

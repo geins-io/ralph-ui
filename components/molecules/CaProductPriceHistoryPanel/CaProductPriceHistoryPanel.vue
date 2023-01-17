@@ -1,13 +1,11 @@
 <template>
   <div class="ca-product-price-history-panel">
     <CaClickable
-      class="ca-mini-cart"
-      :aria-label="$t('CART')"
-      @clicked="
-        $store.commit('contentpanel/open', {
+      class="ca-product-price-history-panel__link"
+      :aria-label="$t('PRICE_HISTORY_SHOW')"
+      @clicked="$store.commit('contentpanel/open', {
           name: 'product-price-history'
-        })
-      "
+        })"
     >
       <p>{{ $t('PRICE_HISTORY_SHOW') }}</p>
     </CaClickable>
@@ -27,7 +25,6 @@
 // @group Molecules
 // @vuese
 // A component that displays CaProductPriceHistory in a content panel.<br><br>
-
 // **SASS-path:** _./styles/components/molecules/ca-product-price-history-panel.scss_
 export default {
   name: 'CaProductPriceHistoryPanel',

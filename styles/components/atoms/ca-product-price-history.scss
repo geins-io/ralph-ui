@@ -1,18 +1,40 @@
 .ca-product-price-history {
-  width: 100%;
-  color: $c-text-primary;
-
+  color: $c-black;
+  font-size: $font-size-s;
+  
+  table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
   &__list-item {
+    font-weight: $font-weight-normal;
+    height: rem-calc(36);
+    display: grid;
+    grid-template-columns: 1fr repeat(2, max-content);
     padding: $px10;
+    
+    &:nth-child(odd) {
+      background-color: $c-medium-gray;
+    }
+  }
+  
+  &__head {
     display: flex;
     justify-content: space-between;
+    padding: 0 $px10 $px10;
   }
-
+  
+  &__text--lowest, 
+  &__lowest, 
+  &__year,
   &__title {
     font-weight: $font-weight-bold;
   }
-
-  &__lowest, &__year {
+  
+  &__lowest, 
+  &__year {
     margin: 0 $px8;
   }
 }
