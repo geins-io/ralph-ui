@@ -7,28 +7,38 @@
       <table v-else>
         <thead>
           <tr class="ca-product-price-history__head">
-            <th class="ca-product-price-history__title">{{ $t('PRICE_HISTORY_DATE') }}</th>
-            <th class="ca-product-price-history__title">{{ $t('PRICE_HISTORY_NEW_PRICE') }}</th>
+            <th class="ca-product-price-history__title">
+              {{ $t('PRICE_HISTORY_DATE') }}
+            </th>
+            <th class="ca-product-price-history__title">
+              {{ $t('PRICE_HISTORY_NEW_PRICE') }}
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in pricesToRender" :key="index" class="ca-product-price-history__list-item">
+          <tr
+            v-for="(item, index) in pricesToRender"
+            :key="index"
+            class="ca-product-price-history__list-item"
+          >
             <td class="ca-product-price-history__text">
               {{ getDate(item.date).date }}
             </td>
-            <td 
-              v-if="!getDate(item.date).isThisYear" 
+            <td
+              v-if="!getDate(item.date).isThisYear"
               class="ca-product-price-history__year"
             >
               ({{ getDate(item.date).year }})
             </td>
 
             <td v-if="item.isLowest" class="ca-product-price-history__lowest">
-                {{ $t('PRICE_HISTORY_LOWEST') }}
+              {{ $t('PRICE_HISTORY_LOWEST') }}
             </td>
             <td
               class="ca-product-price-history__text"
-              :class="{ 'ca-product-price-history__text--lowest': item.isLowest }"
+              :class="{
+                'ca-product-price-history__text--lowest': item.isLowest
+              }"
             >
               {{ item.sellingPriceIncVatFormatted }}
             </td>
