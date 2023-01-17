@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.21] - 2023-01-17
+
+## Fixed
+
+- Optional chaining/null check for gtm config object
+
 ## [14.9.20] - 2023-01-16
 
 ## Added
