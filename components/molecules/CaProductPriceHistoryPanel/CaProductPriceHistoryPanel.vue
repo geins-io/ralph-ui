@@ -3,9 +3,11 @@
     <CaClickable
       class="ca-product-price-history-panel__link"
       :aria-label="$t('PRICE_HISTORY_SHOW')"
-      @clicked="$store.commit('contentpanel/open', {
+      @clicked="
+        $store.commit('contentpanel/open', {
           name: 'product-price-history'
-        })"
+        })
+      "
     >
       <p>{{ $t('PRICE_HISTORY_SHOW') }}</p>
     </CaClickable>
