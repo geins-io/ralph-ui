@@ -40,6 +40,7 @@ All notable changes will be added to this section
 ## Fixed
 
 - Optional chaining/null check for gtm config object
+- Linting issues for CaProductPriceHistory
 
 ## [14.9.21] - 2023-01-17
 
