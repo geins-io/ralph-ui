@@ -1,6 +1,5 @@
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 import getCartQuery from 'cart/get.graphql';
-import GtmService from '../services/gtm';
 
 export const state = () => ({
   data: null,
@@ -62,63 +61,20 @@ export const actions = {
       });
     }
   },
-  update({ commit, state, dispatch, $gtm }, cart) {
-    if (process.browser) {
-      if (this.getters['nosto/isNostoActive']) {
-        dispatch('sendNostoEvent', cart);
-      }
-
-      const bc = new BroadcastService('ralph_channel');
-      bc.postMessage({ type: 'cart', data: cart });
-
-      if (this.$gtm) {
-        const { isSame, isRemove, products } = GtmService.getCheckoutUpdate(
-          state.data?.items || [],
-          cart.items
-        );
-        const key = this.getters.getGtmProductsKey;
-
-        if (!isSame) {
-          if (isRemove) {
-            this.$gtm.push({
-              event: 'Remove from Cart',
-              ecommerce: {
-                currencyCode:
-                  this.$i18n &&
-                  this.$i18n.localeProperties.currency &&
-                  this.$i18n.localeProperties.currency.length
-                    ? this.$i18n.localeProperties.currency
-                    : 'Currency not set up in Storefront Config',
-                remove: {
-                  [`${key}`]: products
-                }
-              },
-              'gtm.uniqueEventId': 12
-            });
-          } else {
-            this.$gtm.push({
-              event: 'Add to Cart',
-              ecommerce: {
-                currencyCode:
-                  this.$i18n &&
-                  this.$i18n.localeProperties.currency &&
-                  this.$i18n.localeProperties.currency.length
-                    ? this.$i18n.localeProperties.currency
-                    : 'Currency not set up in Storefront Config',
-                add: {
-                  [`${key}`]: products
-                }
-              },
-              'gtm.uniqueEventId': 11
-            });
-          }
-        }
-      }
-    }
-
+  update({ commit, dispatch }, cart) {
     commit('setCart', cart);
 
-    if (cart.id && process.client) {
+    if (process.server) {
+      return;
+    }
+
+    if (this.getters['nosto/isNostoActive']) {
+      dispatch('sendNostoEvent', cart);
+    }
+    const bc = new BroadcastService('ralph_channel');
+    bc.postMessage({ type: 'cart', data: cart });
+
+    if (cart.id) {
       this.$cookies.set('ralph-cart', cart.id, {
         path: '/',
         expires: new Date(new Date().getTime() + 31536000000)

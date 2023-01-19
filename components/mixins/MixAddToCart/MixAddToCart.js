@@ -1,4 +1,5 @@
 import addToCartMutation from 'cart/add.graphql';
+import * as GTMEvent from '../../../services/gtm';
 
 // @group Mixins
 // @vuese
@@ -33,10 +34,30 @@ export default {
         .then(result => {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
+
           if (product) {
             this.$store.dispatch('cart/triggerAddedNotification', {
               item: itemToAdd,
               product
+            });
+            // unit price data differs between api and store because of discounts
+            const unitPriceWithDiscounts = result.data.addToCart.items.find(
+              ({ skuId }) => skuId === prodSkuId
+            );
+            const products = GTMEvent.transformProductForGTM([
+              {
+                ...itemToAdd,
+                ...product,
+                unitPrice: unitPriceWithDiscounts?.unitPrice
+              }
+            ]);
+            GTMEvent.addToCart({
+              gtmInputs: {
+                gtm: this.$gtm,
+                i18n: this.$i18n,
+                key: this.$store.getters.getGtmProductsKey
+              },
+              products
             });
           }
           setTimeout(() => {

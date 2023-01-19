@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [14.9.23] - 2023-01-19
+
+## Fixed
+
+- Fix 'Add to Cart' and 'Remove from Cart' gtm events
+
 ## [14.9.22] - 2023-01-17
 
 ## Fixed

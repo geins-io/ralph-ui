@@ -1,55 +1,63 @@
-export class GtmService {
-  getCheckoutUpdate(oldItems, newItems) {
-    const newCartItems = newItems.slice();
-    const getProductId = ({ product }) => product?.productId;
-
-    for (const item of oldItems) {
-      const itemIndex = newCartItems.findIndex(
-        newItem => getProductId(newItem) === getProductId(item)
-      );
-      const newItem = newCartItems[itemIndex];
-
-      if (itemIndex !== -1 && newItem.quantity !== item.quantity) {
-        const isRemove = newItem.quantity < item.quantity;
-        const remain = newItem.quantity - item.quantity;
-        return {
-          isRemove,
-          products: this.transformProduct([
-            {
-              ...newItem,
-              quantity: isRemove ? -remain : remain
-            }
-          ])
-        };
-      } else if (itemIndex === -1) {
-        return { isRemove: true, products: this.transformProduct([item]) };
-      }
-
-      if (itemIndex !== -1) {
-        newCartItems.splice(itemIndex, 1);
-      }
-    }
-
-    if (newCartItems.length) {
-      return { isRemove: false, products: this.transformProduct(newCartItems) };
-    }
-
-    return { isSame: true };
+export const updateProductQuantityInCart = ({
+  gtmInputs,
+  products,
+  previousQuantity,
+  currentQuantity
+}) => {
+  if (currentQuantity > previousQuantity) {
+    addToCart({ gtmInputs, products });
+    return;
   }
+  removeFromCart({ gtmInputs, products });
+};
 
-  transformProduct(items) {
-    return items.map(item => ({
-      id: item.product.productId,
-      name: item.product.name,
-      brand: item.product.brand?.name,
-      category: item.product.primaryCategory?.name,
-      price: item.unitPrice?.sellingPriceExVat,
-      tax: item.unitPrice.vat,
-      quantity: item.quantity,
-      variant: item.product.skus.find(i => i.skuId === item.skuId).name,
-      sku: item.skuId
-    }));
-  }
-}
+export const addToCart = ({ gtmInputs: { gtm, i18n, key }, products }) => {
+  gtm.push({
+    event: 'Add to Cart',
+    ecommerce: {
+      currencyCode:
+        i18n &&
+        i18n.localeProperties.currency &&
+        i18n.localeProperties.currency.length
+          ? i18n.localeProperties.currency
+          : 'Currency not set up in Storefront Config',
+      add: {
+        [`${key}`]: products
+      }
+    },
+    'gtm.uniqueEventId': 11
+  });
+};
 
-export default new GtmService();
+export const removeFromCart = ({ gtmInputs: { gtm, i18n, key }, products }) => {
+  gtm.push({
+    event: 'Remove from Cart',
+    ecommerce: {
+      currencyCode:
+        i18n &&
+        i18n.localeProperties.currency &&
+        i18n.localeProperties.currency.length
+          ? i18n.localeProperties.currency
+          : 'Currency not set up in Storefront Config',
+      remove: {
+        [`${key}`]: products
+      }
+    },
+    'gtm.uniqueEventId': 12
+  });
+};
+
+// mapper to match gtm event interface with data from api
+export const transformProductForGTM = items => {
+  return items.map(item => ({
+    id: item.productId,
+    name: item.name,
+    brand: item.brand?.name,
+    category: item.primaryCategory?.name,
+    price: item.unitPrice?.sellingPriceExVat,
+    tax: item.unitPrice.vat,
+    quantity: item.quantity,
+    variant: item.skus.find(i => i.skuId === item.skuId).name,
+    sku: item.skuId
+  }));
+};
