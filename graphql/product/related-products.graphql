@@ -5,11 +5,13 @@ query relatedProducts(
   $prodAlias: String!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   relatedProducts(
     alias: $prodAlias
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     alias
     name

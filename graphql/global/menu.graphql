@@ -3,11 +3,13 @@ query getMenuAtLocation(
   $menuLocationId: String
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   getMenuAtLocation(
     menuLocationId: $menuLocationId
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     title
     menuItems {

@@ -45,7 +45,11 @@ export default {
     product: {
       query() {
         const productQueryModifyed = this.$config.productShowRelated
-          ? this.removeQueryVar(productQuery, ['channelId', 'languageId'])
+          ? this.removeQueryVar(productQuery, [
+              'channelId',
+              'languageId',
+              'marketId'
+            ])
           : productQuery;
         let finishQuery = {
           document: productQueryModifyed,
@@ -252,7 +256,7 @@ export default {
             category: this.product.primaryCategory?.name,
             price: this.product.unitPrice?.sellingPriceExVat,
             tax: this.product.unitPrice.vat,
-            currency: 'SEK',
+            currency: this.$store.getters.getCurrency,
             inStock: Boolean(this.product?.totalStock?.inStock),
             urgencyLabelDisplayed: false
           }
@@ -262,12 +266,7 @@ export default {
           event: 'Product Detail Impression',
           eventInfo: {},
           ecommerce: {
-            currencyCode:
-              this.$i18n &&
-              this.$i18n.localeProperties.currency &&
-              this.$i18n.localeProperties.currency.length
-                ? this.$i18n.localeProperties.currency
-                : 'Currency not set up in Storefront Config',
+            currencyCode: this.$store.getters.getCurrency,
             detail: {
               [`${key}`]: item
             }

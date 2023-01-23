@@ -11,6 +11,7 @@ query products(
   $filter: FilterInputType = null
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   products(
     skip: $skip
@@ -22,6 +23,7 @@ query products(
     filter: $filter
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     products {
       ...ListProduct

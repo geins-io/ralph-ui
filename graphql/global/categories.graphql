@@ -1,5 +1,9 @@
-query categories($channelId: String, $languageId: String) {
-  categories(channelId: $channelId, languageId: $languageId) {
+query categories($channelId: String, $languageId: String, $marketId: String) {
+  categories(
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     alias
     canonicalUrl
     name

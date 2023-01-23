@@ -42,7 +42,7 @@ export default {
             offers: {
               '@type': 'Offer',
               url: this.product.canonicalUrl,
-              priceCurrency: 'SEK', // TODO: Currency support
+              priceCurrency: this.$store.getters.getCurrency,
               price: this.product.unitPrice.sellingPriceIncVat,
               availability: this.getStockStatus(
                 this.product.skus[i].stock.inStock,

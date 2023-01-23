@@ -35,6 +35,25 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.0.0] - 2023-01-23
+
+## Added
+
+- Global multiple language, market and currency support
+- Country selector component
+
+## Changed
+
+- Favorites are now using product id instead of alias, but will support alias
+- Moved apollo-config.js into Ralph UI
+- Moved call for global meta into Ralph UI
+
+## Fixed
+
+- Fix product list slider (add error in case of missing config variable). Clients' storefronts should be updated.
+  Please make sure in nuxt.config.js in property `publicRuntimeConfig`:
+  - Check if property `breakpoints` and `productListScrollSize` have a property `desktopBig` with a value set
+
 ## [14.9.23] - 2023-01-19
 
 ## Fixed

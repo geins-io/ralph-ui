@@ -8,6 +8,7 @@ query products(
   $url: String = null
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   products(
     categoryAlias: $categoryAlias
@@ -17,6 +18,7 @@ query products(
     filter: $filter
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     filters {
       ...ListFilters

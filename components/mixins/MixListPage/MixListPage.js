@@ -517,10 +517,13 @@ export default {
     // Current bredcrumb info
     // @type Object
     breadcrumbsCurrent() {
+      const currentAlias = this.isList
+        ? this.currentPath.split('/').pop()
+        : this.currentAlias;
       return this.listInfo
         ? {
             name: this.listInfo.name,
-            alias: this.currentAlias,
+            alias: currentAlias,
             canonical: this.listInfo.canonicalUrl,
             id: this.listInfo.id,
             type: this.type
@@ -843,7 +846,11 @@ export default {
     },
     generateReqValues() {
       const productQuery = !(this.isSearch || this.isAll)
-        ? this.removeQueryVar(productsQuery, ['channelId', 'languageId'])
+        ? this.removeQueryVar(productsQuery, [
+            'channelId',
+            'languageId',
+            'marketId'
+          ])
         : productsQuery;
 
       let finishQuery = {
@@ -872,8 +879,10 @@ export default {
             this.widgetAreaVars.map(item => ({
               ...item,
               filters: this.widgetAreaFilters,
-              channelId: this.$store.getters.channelId,
-              url: this.currentPath
+              channelId: this.$store.state.channelId,
+              url: this.currentPath,
+              languageId: this.$i18n.localeProperties.iso,
+              marketId: this.$store.state.marketId
             }))
           );
       }

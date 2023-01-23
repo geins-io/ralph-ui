@@ -10,18 +10,19 @@ export const state = () => ({
   config: {},
   ancientBrowser: false,
   categoryTree: [],
-  channelId: '',
   headerHidden: false,
-  globalCartId: ''
+  channelId: '',
+  marketId: '',
+  fallbackCurrency: ''
 });
 
 export const mutations = {
-  toggleFavorite(state, prodAlias) {
+  toggleFavorite(state, productId) {
     const favorites = state.favorites;
-    if (favorites.includes(prodAlias)) {
-      favorites.splice(favorites.indexOf(prodAlias), 1);
-    } else if (prodAlias) {
-      favorites.push(prodAlias);
+    if (favorites.includes(productId)) {
+      favorites.splice(favorites.indexOf(productId), 1);
+    } else if (productId) {
+      favorites.push(productId);
     }
   },
   setCustomerType(state, type) {
@@ -62,6 +63,12 @@ export const mutations = {
   },
   setChannelId(state, payload) {
     state.channelId = payload;
+  },
+  setMarketId(state, id) {
+    state.marketId = id;
+  },
+  setFallbackCurrency(state, currency) {
+    state.fallbackCurrency = currency;
   }
 };
 
@@ -178,20 +185,20 @@ export const actions = {
     commit('setAncientBrowser', this.$ua.browser());
 
     const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
+    const marketId = parsed['selected-market'] || this.$config.fallbackMarketId;
+    const currency = this.$i18n?.localeProperties?.currency;
     const user = parsed['ralph-user'] || null;
     const cartId = parsed['ralph-cart'] || '';
+    commit('setMarketId', marketId);
+    commit('setFallbackCurrency', currency);
     commit('auth/setUser', user);
     dispatch('cart/get', cartId);
-    state.globalCartId = cartId;
   }
 };
 
 export const getters = {
   siteIsAtTop: state => {
     return state.scrollTop <= state.config.siteTopThreshold;
-  },
-  channelId: state => {
-    return state.channelId;
   },
   viewportComputer: state => {
     return state.viewportWidth >= state.config.breakpoints.laptop;
@@ -224,5 +231,9 @@ export const getters = {
   },
   getGtmProductsKey: state => {
     return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
+  },
+  getCurrency: state => {
+    const currency = state.marketId?.split('|');
+    return currency ? currency[1] : state.fallbackCurrency;
   }
 };

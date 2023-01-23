@@ -1,0 +1,49 @@
+.ca-currency-selector {
+  $gap: rem-calc(5);
+
+  &__nav {
+    display: flex;
+    gap: $gap;
+  }
+
+  &__item {
+    &.is-selected {
+      font-weight: 700;
+    }
+
+    &:not(:first-of-type) {
+      &:before {
+        content: '/';
+        margin-right: $gap;
+      }
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__label {
+    text-transform: uppercase;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.ca-header .ca-language-selector {
+  @include bp(laptop-down) {
+    // @include visually-hidden;
+  }
+}
+
+.ca-menu-panel .ca-language-selector {
+  &__item {
+    display: inline;
+  }
+
+  &__label {
+    text-transform: capitalize;
+  }
+}

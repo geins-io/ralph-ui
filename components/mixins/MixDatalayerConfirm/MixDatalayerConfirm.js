@@ -32,12 +32,7 @@ export default {
         unit_price: item.unitPrice.sellingPriceExVat,
         quantity: item.quantity,
         sku_id: item.skuId,
-        price_currency_code:
-          this.$i18n &&
-          this.$i18n.localeProperties.currency &&
-          this.$i18n.localeProperties.currency.length
-            ? this.$i18n.localeProperties.currency
-            : 'Currency not set up in Storefront Config'
+        price_currency_code: this.$store.getters.getCurrency
       }));
     },
     // @vuese

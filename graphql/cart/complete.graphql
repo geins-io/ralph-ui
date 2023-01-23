@@ -1,7 +1,17 @@
 #import "cart/content.graphql"
 
-mutation completeCart($id: String!, $channelId: String, $languageId: String) {
-  completeCart(id: $id, channelId: $channelId, languageId: $languageId) {
+mutation completeCart(
+  $id: String!
+  $channelId: String
+  $languageId: String
+  $marketId: String
+) {
+  completeCart(
+    id: $id
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     isCompleted
     ...Cart
   }

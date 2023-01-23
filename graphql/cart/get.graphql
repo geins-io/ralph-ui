@@ -1,7 +1,17 @@
 #import "cart/content.graphql"
 
-query getCart($id: String!, $channelId: String, $languageId: String) {
-  getCart(id: $id, channelId: $channelId, languageId: $languageId) {
+query getCart(
+  $id: String!
+  $channelId: String
+  $languageId: String
+  $marketId: String
+) {
+  getCart(
+    id: $id
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     ...Cart
   }
 }

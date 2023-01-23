@@ -1,11 +1,17 @@
 #import "cart/content.graphql"
 
-query getCart($id: String!, $channelId: String, $languageId: String) {
+query getCart(
+  $id: String!
+  $channelId: String
+  $languageId: String
+  $marketId: String
+) {
   getCart(
     id: $id
     includeCompleted: true
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     isCompleted
     ...Cart

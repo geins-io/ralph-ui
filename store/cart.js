@@ -12,9 +12,6 @@ export const mutations = {
   },
   setAdded(state, added) {
     state.added = added;
-  },
-  setConfig(state, config) {
-    state.config.gtmIsProductsKeyItems = config.gtm.isProductsKeyItems;
   }
 };
 
@@ -41,7 +38,7 @@ export const actions = {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
-  sendNostoEvent(context, cart) {
+  sendNostoEvent({ rootGetters }, cart) {
     if (window.nostojs && cart) {
       window.nostojs(api => {
         api
@@ -49,7 +46,7 @@ export const actions = {
           .setCart({
             items: cart.items.map(item => ({
               name: item.product.name,
-              price_currency_code: 'EUR',
+              price_currency_code: rootGetters.getCurrency,
               product_id: item.product.productId,
               quantity: item.quantity,
               sku_id: item.skuId,
@@ -133,8 +130,5 @@ export const getters = {
   },
   id(state) {
     return state.data?.id ? state.data.id : '';
-  },
-  getGtmProductsKey: state => {
-    return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
   }
 };

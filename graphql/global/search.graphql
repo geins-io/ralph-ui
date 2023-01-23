@@ -3,8 +3,14 @@ query products(
   $filter: FilterInputType = null
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
-  products(filter: $filter, channelId: $channelId, languageId: $languageId) {
+  products(
+    filter: $filter
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     products {
       brand {
         name

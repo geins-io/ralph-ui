@@ -77,7 +77,16 @@ export default {
       return prodArray;
     },
     slidesToScroll() {
-      return this.$config.productListScrollSize[this.$store.getters.viewport];
+      const scrollSize = this.$config.productListScrollSize[
+        this.$store.getters.viewport
+      ];
+      if (isFinite(scrollSize)) {
+        return scrollSize;
+      }
+      console.error(
+        `Missing product list scroll size for viewport ${this.$store.getters.viewport}. Check config.`
+      );
+      return 1;
     }
   },
   watch: {},

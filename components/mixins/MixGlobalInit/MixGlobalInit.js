@@ -1,5 +1,6 @@
 import categoriesQuery from 'global/categories.graphql';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import listPageInfo from 'global/list-page-info.graphql';
 
 // @group Mixins
 // @vuese
@@ -21,16 +22,39 @@ export default {
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
+    },
+    listPageInfo: {
+      query: listPageInfo,
+      errorPolicy: 'all',
+      result(result) {
+        if (result && result.data.length) {
+          this.listPageInfo = result.data;
+        }
+      }
     }
   },
   mixins: [],
   props: {},
   head() {
-    return this.$nuxtI18nHead({ addSeoAttributes: true });
+    // TODO: Implement working multilang function for alternate links and canonical
+    // const obj = this.$nuxtI18nHead({ addSeoAttributes: true });
+
+    const obj = {};
+    obj.title = this.listPageInfo.meta.title;
+    obj.meta = [
+      {
+        hid: 'description',
+        name: 'description',
+        content: this.listPageInfo.meta.description
+      }
+    ];
+    return obj;
   },
   data: () => ({
+    error: false,
     apolloLoading: false,
-    loadingTimeout: undefined
+    loadingTimeout: undefined,
+    listPageInfo: null
   }),
   computed: {
     globalLoading() {

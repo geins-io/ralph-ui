@@ -73,8 +73,8 @@ export default {
 
             GTM.updateProductQuantityInCart({
               gtmInputs: {
-                i18n: this.$i18n,
                 gtm: this.$gtm,
+                currency: this.$store.getters.getCurrency,
                 key: this.$store.getters.getGtmProductsKey
               },
               previousQuantity: previousProductQuantity,
@@ -83,7 +83,7 @@ export default {
             });
           })
           .catch(error => {
-            console.log('MixUpdateCart: ' + error);
+            console.error('MixUpdateCart: ' + error);
           });
       this.enqueue(updateMutation);
     }

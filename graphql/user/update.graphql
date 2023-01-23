@@ -3,8 +3,14 @@ mutation updateUser(
   $user: UserInputType!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
-  updateUser(user: $user, channelId: $channelId, languageId: $languageId) {
+  updateUser(
+    user: $user
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     ...User
   }
 }

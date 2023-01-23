@@ -1,5 +1,9 @@
-query listPageInfo($channelId: String, $languageId: String) {
-  listPageInfo(channelId: $channelId, languageId: $languageId) {
+query listPageInfo($channelId: String, $languageId: String, $marketId: String) {
+  listPageInfo(
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     meta {
       description
       title

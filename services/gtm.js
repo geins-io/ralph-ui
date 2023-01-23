@@ -11,16 +11,11 @@ export const updateProductQuantityInCart = ({
   removeFromCart({ gtmInputs, products });
 };
 
-export const addToCart = ({ gtmInputs: { gtm, i18n, key }, products }) => {
+export const addToCart = ({ gtmInputs: { gtm, currency, key }, products }) => {
   gtm.push({
     event: 'Add to Cart',
     ecommerce: {
-      currencyCode:
-        i18n &&
-        i18n.localeProperties.currency &&
-        i18n.localeProperties.currency.length
-          ? i18n.localeProperties.currency
-          : 'Currency not set up in Storefront Config',
+      currencyCode: currency,
       add: {
         [`${key}`]: products
       }
@@ -29,16 +24,14 @@ export const addToCart = ({ gtmInputs: { gtm, i18n, key }, products }) => {
   });
 };
 
-export const removeFromCart = ({ gtmInputs: { gtm, i18n, key }, products }) => {
+export const removeFromCart = ({
+  gtmInputs: { gtm, currency, key },
+  products
+}) => {
   gtm.push({
     event: 'Remove from Cart',
     ecommerce: {
-      currencyCode:
-        i18n &&
-        i18n.localeProperties.currency &&
-        i18n.localeProperties.currency.length
-          ? i18n.localeProperties.currency
-          : 'Currency not set up in Storefront Config',
+      currencyCode: currency,
       remove: {
         [`${key}`]: products
       }

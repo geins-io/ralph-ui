@@ -2,10 +2,12 @@ mutation requestPasswordReset(
   $email: String!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   requestPasswordReset(
     email: $email
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   )
 }

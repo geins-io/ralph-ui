@@ -3,11 +3,13 @@ query getCheckout(
   $paymentType: PaymentType!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   getCheckout(
     id: $id
     paymentType: $paymentType
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   )
 }

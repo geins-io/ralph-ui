@@ -1,8 +1,12 @@
 #import "cart/content.graphql"
 #import "user/address.graphql"
 
-query getOrders($channelId: String, $languageId: String) {
-  getOrders(channelId: $channelId, languageId: $languageId) {
+query getOrders($channelId: String, $languageId: String, $marketId: String) {
+  getOrders(
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
     cart {
       ...Cart
     }

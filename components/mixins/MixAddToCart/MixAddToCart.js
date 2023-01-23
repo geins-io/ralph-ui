@@ -54,7 +54,7 @@ export default {
             GTMEvent.addToCart({
               gtmInputs: {
                 gtm: this.$gtm,
-                i18n: this.$i18n,
+                currency: this.$store.getters.getCurrency,
                 key: this.$store.getters.getGtmProductsKey
               },
               products

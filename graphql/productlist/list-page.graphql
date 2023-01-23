@@ -4,11 +4,13 @@ query listPageInfo(
   $listPageUrl: String!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   listPageInfo(
     url: $listPageUrl
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   ) {
     subCategories {
       name

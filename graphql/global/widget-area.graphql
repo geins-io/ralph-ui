@@ -11,6 +11,7 @@ query widgetArea(
   $channelId: String
   $languageId: String
   $url: String
+  $marketId: String
 ) {
   widgetArea(
     family: $family
@@ -23,6 +24,7 @@ query widgetArea(
     channelId: $channelId
     languageId: $languageId
     url: $url
+    marketId: $marketId
   ) {
     meta {
       ...Meta

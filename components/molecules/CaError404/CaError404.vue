@@ -4,7 +4,10 @@
       {{ $t('ERROR_PAGE_404_TITLE') }}
     </h1>
 
-    <a class="ca-button ca-button--primary ca-error404__button" href="/">
+    <a
+      class="ca-button ca-button--primary ca-error404__button"
+      :href="localePath('index')"
+    >
       {{ $t('ERROR_PAGE_BUTTON') }}
     </a>
   </CaContainer>

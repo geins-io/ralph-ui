@@ -132,12 +132,7 @@ export default {
           event: 'Product Impression',
           eventInfo: {},
           ecommerce: {
-            currencyCode:
-              this.$i18n &&
-              this.$i18n.localeProperties.currency &&
-              this.$i18n.localeProperties.currency.length
-                ? this.$i18n.localeProperties.currency
-                : 'Currency not set up in Storefront Config',
+            currencyCode: this.$store.getters.getCurrency,
             detail: {
               [`${key}`]: item
             }

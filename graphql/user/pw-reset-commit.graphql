@@ -3,11 +3,13 @@ mutation commitReset(
   $password: String!
   $channelId: String
   $languageId: String
+  $marketId: String
 ) {
   commitReset(
     resetKey: $resetKey
     password: $password
     channelId: $channelId
     languageId: $languageId
+    marketId: $marketId
   )
 }

@@ -1,7 +1,7 @@
 import { mapState } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
-import getMarketsQuerry from 'checkout/get-checkout-markets.graphql';
+import getMarketsQuery from 'checkout/get-checkout-markets.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import MixCache from 'MixCache';
 // @group Mixins
@@ -173,19 +173,15 @@ export default {
       }
     },
     marketId() {
-      this.createOrUpdateCheckout('customer location changed');
+      this.createOrUpdateCheckout('market id changed');
     }
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
-    if (this.$config.showMultipleMarkets) {
-      if (this.$i18n.localeProperties.channelId) {
-        this.getMarkets(this.$i18n.localeProperties.channelId);
-      } else {
-        console.log('Channel ID is not set for i18n in nuxt.config.js');
-      }
+    if (this.$config.checkout.showMultipleMarkets) {
+      this.getMarkets();
     }
     this.emitGTMEvent();
   },
@@ -200,6 +196,7 @@ export default {
           brand: item.product.brand?.name,
           category: item.product.primaryCategory?.name,
           price: item.unitPrice?.sellingPriceExVat,
+          currency: this.$store.getters.getCurrency,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
           variant: item.product.skus.find(i => i.skuId === item.skuId).name,
@@ -211,12 +208,7 @@ export default {
           event: 'Checkout Step',
           eventInfo: {},
           ecommerce: {
-            currencyCode:
-              this.$i18n &&
-              this.$i18n.localeProperties.currency &&
-              this.$i18n.localeProperties.currency.length
-                ? this.$i18n.localeProperties.currency
-                : 'Currency not set up in Storefront Config',
+            currencyCode: this.$store.getters.getCurrency,
             checkout: {
               actionField: {
                 step: 1
@@ -246,12 +238,12 @@ export default {
           this.$refs.externalcheckout.suspend();
         }
         const vars = {
-          cartId: this.$store.getters['cart/id']
+          cartId: this.$store.getters['cart/id'],
+          marketId: this.marketId
         };
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
         }
-        vars.marketId = this.marketId;
         const updateMutation = () =>
           this.$apollo
             .mutate({
@@ -407,35 +399,35 @@ export default {
     // @vuese
     // Get the markets for the storefront from the channelId taken from nuxt.config on the storefront under '@nuxtjs/i18n'
     // @arg channel id (string)
-    getMarkets(id) {
-      if (id) {
-        this.$apollo
-          .query({
-            query: getMarketsQuerry,
-            variables: {
-              channelId: id
-            }
-          })
-          .then(response => {
-            const res = response?.data?.channel?.markets;
-            const marketCollection = [];
-            res.forEach(item => {
-              marketCollection.push({
-                label: item.country.name,
-                value: item.id
-              });
+    getMarkets() {
+      this.$apollo
+        .query({
+          query: getMarketsQuery
+        })
+        .then(response => {
+          const res = response?.data?.channel?.markets;
+          const marketCollection = [];
+          res.forEach(item => {
+            marketCollection.push({
+              label: item.country.name,
+              value: item.id
             });
-            if (marketCollection.length <= 1) {
-              this.marketId = marketCollection[0].value;
-            }
-            this.markets = marketCollection;
-          })
-          .catch(error => {
-            console.log(error);
           });
-      }
+          if (marketCollection.length <= 1) {
+            this.marketId = marketCollection[0].value;
+          }
+          this.markets = marketCollection;
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     setMarketId(value) {
+      this.$store.commit('setMarketId', value);
+      this.$cookies.set('selected-market', value, {
+        path: '/',
+        expires: new Date(new Date().getTime() + 31536000000)
+      });
       this.marketId = value;
     }
   }

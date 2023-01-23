@@ -257,16 +257,12 @@ export default {
   }),
   computed: {
     setSearchLink() {
-      if (this.$i18n.locale !== this.$i18n.defaultLocale) {
-        return (
-          '/' +
-          this.$i18n.locale +
-          this.$config.routePaths.search +
-          '/' +
-          this.searchString
-        );
-      }
-      return this.$config.routePaths.search + '/' + this.searchString;
+      return (
+        this.localePath('index') +
+        this.$config.routePaths.search +
+        '/' +
+        this.searchString
+      );
     },
     searchResultsVisible() {
       return this.$store.getters.viewport === 'phone' ? 5 : 10;

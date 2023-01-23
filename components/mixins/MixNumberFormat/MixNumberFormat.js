@@ -2,8 +2,6 @@
 // @vuese
 // Mixin for formatting of numbers.<br><br>
 // **Data:**<br>
-// langCode: `'sv-SE'`<br>
-// currency: `'SEK'`<br>
 // currencyDisplay: `'symbol'`<br>
 // minDecimals: `0`<br>
 // maxDecimals: `0`
@@ -12,13 +10,24 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    langCode: 'sv-SE',
-    currency: 'SEK',
     currencyDisplay: 'symbol',
     minDecimals: 0,
     maxDecimals: 0
   }),
-  computed: {},
+  computed: {
+    // @vuese
+    // Current langCode from $i18n
+    // @type String
+    langCode() {
+      return this.$i18n?.localeProperties?.iso || 'sv-SE';
+    },
+    // @vuese
+    // Current currency from marketId
+    // @type String
+    currency() {
+      return this.$store.getters.getCurrency;
+    }
+  },
   watch: {},
   mounted() {},
   methods: {

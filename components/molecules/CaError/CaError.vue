@@ -4,7 +4,10 @@
       {{ $t('ERROR_PAGE_TITLE') }}
     </h1>
 
-    <a class="ca-button ca-button--primary ca-error__button" href="/">
+    <a
+      class="ca-button ca-button--primary ca-error__button"
+      :href="localePath('index')"
+    >
       {{ $t('ERROR_PAGE_BUTTON') }}
     </a>
   </CaContainer>
@@ -31,7 +34,7 @@ export default {
     // send the errors to the required service
     logError() {
       /* eslint-disable */
-      console.log({
+      console.error({
         errorMessage: this.error,
         url: this.$route.fullPath
       });

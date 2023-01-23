@@ -1,0 +1,13 @@
+query channel($channelId: String) {
+  channel(channelId: $channelId) {
+    defaultMarketId
+    markets {
+      id
+      defaultLanguageId
+      country {
+        name
+        code
+      }
+    }
+  }
+}

@@ -26,6 +26,11 @@ export default {
   data: () => ({
     selection: ''
   }),
+  mounted() {
+    if (this.$store.state.marketId) {
+      this.selection = this.$store.state.marketId;
+    }
+  },
   methods: {
     getSelected(value) {
       this.$emit('input', value);
