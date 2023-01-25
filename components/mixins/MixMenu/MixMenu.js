@@ -1,4 +1,5 @@
 import menuQuery from 'global/menu.graphql';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
 // Functionality and endpoint call for menus
@@ -6,6 +7,7 @@ import menuQuery from 'global/menu.graphql';
 // menu: `null`<br>
 export default {
   name: 'MixMenu',
+  mixins: [MixApolloRefetch],
   apollo: {
     getMenuAtLocation: {
       query: menuQuery,
@@ -27,7 +29,6 @@ export default {
       }
     }
   },
-  mixins: [],
   props: {
     // The location id for the menu
     menuLocationId: {

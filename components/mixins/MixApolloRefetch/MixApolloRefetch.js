@@ -1,20 +1,20 @@
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 export default {
-  name: 'MixCache',
+  name: 'MixApolloRefetch',
   mixins: [],
   props: {},
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {
-    eventbus.$on('clear-cache', () => {
+    eventbus.$on('refetch-apollo-queries', () => {
       this.isInitialRequest = true;
       Object.values(this.$apollo.queries).forEach(query => query.refetch());
     });
   },
   beforeDestroy() {
-    eventbus.$off('clear-cache');
+    eventbus.$off('refetch-apollo-queries');
   },
   methods: {}
 };

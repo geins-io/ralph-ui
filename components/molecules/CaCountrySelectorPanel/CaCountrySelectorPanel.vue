@@ -88,11 +88,7 @@ export default {
       return code;
     },
     setMarket(id) {
-      this.$store.commit('setMarketId', id);
-      this.$cookies.set('selected-market', id, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7
-      });
+      this.$store.dispatch('setMarketId', id);
       this.$store.commit('contentpanel/close');
     }
   }

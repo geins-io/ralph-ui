@@ -1,3 +1,4 @@
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -167,6 +168,19 @@ export const actions = {
       });
     }
   },
+  setMarketId({ commit, dispatch }, id) {
+    commit('setMarketId', id);
+    this.$cookies.set('ralph-selected-market', id, {
+      path: '/',
+      expires: new Date(new Date().getTime() + 31536000000)
+    });
+    dispatch('clearAndRefetchApollo');
+  },
+  clearAndRefetchApollo({ dispatch }) {
+    this.app.apolloProvider.defaultClient.cache.reset();
+    eventbus.$emit('refetch-apollo-queries');
+    dispatch('cart/get');
+  },
   nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit'
@@ -185,7 +199,8 @@ export const actions = {
     commit('setAncientBrowser', this.$ua.browser());
 
     const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
-    const marketId = parsed['selected-market'] || this.$config.fallbackMarketId;
+    const marketId =
+      parsed['ralph-selected-market'] || this.$config.fallbackMarketId;
     const currency = this.$i18n?.localeProperties?.currency;
     const user = parsed['ralph-user'] || null;
     const cartId = parsed['ralph-cart'] || '';

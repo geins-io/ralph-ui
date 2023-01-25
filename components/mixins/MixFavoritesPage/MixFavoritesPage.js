@@ -1,5 +1,6 @@
 import { mapState } from 'vuex';
 import productsQuery from 'productlist/products.graphql';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
 // All functionality for the favorites page<br><br>
@@ -7,7 +8,7 @@ import productsQuery from 'productlist/products.graphql';
 // allProducts: `[]`<br>
 export default {
   name: 'CaFavoritesPage',
-  mixins: [],
+  mixins: [MixApolloRefetch],
   apollo: {
     products: {
       query: productsQuery,

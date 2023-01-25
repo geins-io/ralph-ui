@@ -3,7 +3,7 @@
     <CaInputSelect
       v-model="selection"
       :options="data"
-      :placeholder="$t('CHOOSE')"
+      :placeholder="$t('CHECKOUT_CHOOSE_COUNTRY')"
       class="ca-country-selector__input"
       @input="getSelected($event)"
     />

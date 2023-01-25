@@ -1,12 +1,13 @@
 import categoriesQuery from 'global/categories.graphql';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 import listPageInfo from 'global/list-page-info.graphql';
-
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
   name: 'MixGlobalInit',
+  mixins: [MixApolloRefetch],
   apollo: {
     categories: {
       query: categoriesQuery,
@@ -26,26 +27,23 @@ export default {
     listPageInfo: {
       query: listPageInfo,
       errorPolicy: 'all',
-      result(result) {
-        if (result && result.data.length) {
-          this.listPageInfo = result.data;
-        }
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
     }
   },
-  mixins: [],
   props: {},
   head() {
     // TODO: Implement working multilang function for alternate links and canonical
     // const obj = this.$nuxtI18nHead({ addSeoAttributes: true });
 
     const obj = {};
-    obj.title = this.listPageInfo.meta.title;
+    obj.title = this.listPageInfo?.meta?.title || '';
     obj.meta = [
       {
         hid: 'description',
         name: 'description',
-        content: this.listPageInfo.meta.description
+        content: this.listPageInfo?.meta?.description || ''
       }
     ];
     return obj;
@@ -53,8 +51,7 @@ export default {
   data: () => ({
     error: false,
     apolloLoading: false,
-    loadingTimeout: undefined,
-    listPageInfo: null
+    loadingTimeout: undefined
   }),
   computed: {
     globalLoading() {

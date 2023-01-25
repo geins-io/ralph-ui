@@ -3,7 +3,7 @@
     <nav class="ca-currency-selector__nav">
       <button
         class="ca-currency-selector__item"
-        :class="{ 'is-selected': $store.state.marketId === 'SE|SEK' }"
+        :class="{ 'is-selected': $store.getters.getCurrency === 'SEK' }"
         @click="setMarket('SE|SEK')"
       >
         <span class="ca-currency-selector__label">
@@ -12,7 +12,7 @@
       </button>
       <button
         class="ca-currency-selector__item"
-        :class="{ 'is-selected': $store.state.marketId === 'EU|EUR' }"
+        :class="{ 'is-selected': $store.getters.getCurrency === 'EUR' }"
         @click="setMarket('EU|EUR')"
       >
         <span class="ca-currency-selector__label">
@@ -43,12 +43,7 @@ export default {
   mounted() {},
   methods: {
     setMarket(id) {
-      this.$store.commit('setMarketId', id);
-      this.$cookies.set('selected-market', id, {
-        path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
-      });
-      this.$store.dispatch('cart/get');
+      this.$store.dispatch('setMarketId', id);
     }
   }
 };

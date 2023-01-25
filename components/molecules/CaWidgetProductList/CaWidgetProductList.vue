@@ -37,12 +37,14 @@
 <script>
 import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/products.graphql';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Molecules
 // @vuese
 // Widget displaying a product list<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-product-list.scss_
 export default {
   name: 'CaWidgetProductList',
+  mixins: [MixApolloRefetch, MixListPagination],
   apollo: {
     products: {
       query: productsQuery,
@@ -63,7 +65,6 @@ export default {
       }
     }
   },
-  mixins: [MixListPagination],
   props: {
     // Widget configuration object
     configuration: {

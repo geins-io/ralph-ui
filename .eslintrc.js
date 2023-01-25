@@ -20,7 +20,6 @@ module.exports = {
     'linebreak-style': 0,
     quotes: ['error', 'single'],
     'vue/no-unused-components': 1,
-    curly: 2,
-    'no-console': ['error', { allow: ['error'] }]
+    curly: 2
   }
 };

@@ -3,7 +3,7 @@ import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 import getMarketsQuery from 'checkout/get-checkout-markets.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
-import MixCache from 'MixCache';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -24,7 +24,7 @@ import MixCache from 'MixCache';
 // frameLoading: `false`
 export default {
   name: 'MixCheckout',
-  mixins: [MixPromiseQueue, MixCache],
+  mixins: [MixPromiseQueue, MixApolloRefetch],
   props: {},
   data: vm => ({
     debug: false,
@@ -423,11 +423,7 @@ export default {
         });
     },
     setMarketId(value) {
-      this.$store.commit('setMarketId', value);
-      this.$cookies.set('selected-market', value, {
-        path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
-      });
+      this.$store.dispatch('setMarketId', value);
       this.marketId = value;
     }
   }

@@ -49,15 +49,15 @@
   </div>
 </template>
 <script>
+import productPriceHistoryQuery from 'product/product-price-history.graphql';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Atoms
 // @vuese
 // A component that displays price history of product. <br><br>
 // **SASS-path:** _./styles/components/atoms/ca-product-price-history.scss_
-import productPriceHistoryQuery from 'product/product-price-history.graphql';
-
 export default {
   name: 'CaProductPriceHistory',
-  mixins: [],
+  mixins: [MixApolloRefetch],
   apollo: {
     product: {
       query: productPriceHistoryQuery,

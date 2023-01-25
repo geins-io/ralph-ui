@@ -15,12 +15,14 @@
 </template>
 <script>
 import widgetAreaQuery from 'global/widget-area.graphql';
+import MixApolloRefetch from 'MixApolloRefetch';
 // @group Molecules
 // @vuese
 // The area that contains the widget containers and from which the graphql query for widgets is made.<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-area.scss_
 export default {
   name: 'CaWidgetArea',
+  mixins: [MixApolloRefetch],
   apollo: {
     widgetArea: {
       query: widgetAreaQuery,
@@ -41,7 +43,6 @@ export default {
       }
     }
   },
-  mixins: [],
   props: {
     // The widget area family
     family: {

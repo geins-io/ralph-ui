@@ -1,6 +1,6 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
-import MixCache from 'MixCache';
+import MixApolloRefetch from 'MixApolloRefetch';
 import sampleProductsQuery from 'productlist/list-products.graphql';
 import productsQuery from 'productlist/no-filters-products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
@@ -31,7 +31,7 @@ import combineQuery from 'graphql-combine-query';
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixMetaReplacement, MixListPagination, MixCache],
+  mixins: [MixMetaReplacement, MixListPagination, MixApolloRefetch],
   apollo: {
     listPageInfo: {
       query() {

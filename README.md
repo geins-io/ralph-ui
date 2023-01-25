@@ -35,6 +35,24 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.1.1] - 2023-01-25
+
+## Added
+
+- Global function to clear apollo cache in store
+
+## Changed
+
+- Name of MixCache to more describing MixApolloRefetch
+
+## Fixed
+
+- Changing marketId will now trigger refetch of active Apollo queries
+
+## [15.1.0] - 2023-01-25
+
+This version number ha already been wrongly used by a dev release, will release 15.1.1 as next
+
 ## [15.0.0] - 2023-01-23
 
 ## Added

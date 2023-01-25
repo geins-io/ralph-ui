@@ -1,5 +1,5 @@
 import MixMetaReplacement from 'MixMetaReplacement';
-import MixCache from 'MixCache';
+import MixApolloRefetch from 'MixApolloRefetch';
 import productQuery from 'product/product.graphql';
 import relatedProductsQuery from 'product/related-products.graphql';
 import combineQuery from 'graphql-combine-query';
@@ -11,7 +11,7 @@ import combineQuery from 'graphql-combine-query';
 // replaceAlias: `null`<br>
 export default {
   name: 'MixProductPage',
-  mixins: [MixMetaReplacement, MixCache],
+  mixins: [MixMetaReplacement, MixApolloRefetch],
   props: {},
   head() {
     return {

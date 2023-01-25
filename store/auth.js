@@ -1,6 +1,5 @@
 import AuthClient from '@ralph/ralph-ui/plugins/authClient.js';
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 
 export const state = () => ({
   user: null,
@@ -110,11 +109,9 @@ export const actions = {
       bc.postMessage({ type: 'auth', data: username });
     }
   },
-  clearCache() {
+  clearCache({ dispatch }) {
     if (this.$config.user.priceLists) {
-      this.app.apolloProvider.defaultClient.cache.reset();
-      this.dispatch('cart/get');
-      eventbus.$emit('clear-cache');
+      dispatch('clearAndRefetchApollo', null, { root: true });
     }
   }
 };
