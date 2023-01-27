@@ -80,8 +80,8 @@ export default {
           });
 
           this.favorites.forEach(favorite => {
-            if (!productAliases.includes(favorite.alias)) {
-              this.$store.commit('toggleFavorite', favorite.alias);
+            if (!productAliases.includes(favorite)) {
+              this.$store.commit('toggleFavorite', favorite);
             }
           });
         }

@@ -10,7 +10,7 @@
     >
       <span class="ca-country-selector-panel__description">
         {{ $t('CHOOSE_YOUR_COUNTRY') }}:
-        <span>{{ selectedMarket.country.name }}</span>
+        <span>{{ selectedMarketName }}</span>
       </span>
     </button>
 
@@ -77,6 +77,9 @@ export default {
         return selectedMarket;
       }
       return '';
+    },
+    selectedMarketName() {
+      return this.selectedMarket?.country?.name;
     }
   },
   watch: {},

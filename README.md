@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.1.2] - 2023-01-27
+
+## Fixed
+
+- Fix for non functioning favorite removal
+
 ## [15.1.1] - 2023-01-25
 
 ## Added
