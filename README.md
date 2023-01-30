@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.1.3] - 2023-01-30
+
+## Fixed
+
+- Fix for nShift (udc) bug in setting externalShippingId. Needs addition of `:data-is-set="udcDataSet"` to CaUdc widget in CaCheckout
+
 ## [15.1.2] - 2023-01-27
 
 ## Fixed

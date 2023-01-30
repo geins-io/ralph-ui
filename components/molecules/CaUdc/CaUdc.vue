@@ -62,6 +62,12 @@ export default {
     parentLoading: {
       type: Boolean,
       default: false
+    },
+    // Pass true if UDC data has been set in the checkout
+    dataIsSet: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   data: vm => ({
@@ -176,8 +182,9 @@ export default {
     // The callback function for when changes are made in the widget
     changed(data) {
       if (
-        JSON.stringify(data) === this.$store.state.checkout.udcData ||
-        !data.valid
+        this.dataIsSet &&
+        (JSON.stringify(data) === this.$store.state.checkout.udcData ||
+          !data.valid)
       ) {
         return false;
       }

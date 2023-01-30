@@ -17,11 +17,15 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // pickupPoint: `''`,
 // externalShippingId: `''`,
 // udcValid: `false`
+// udcDataSet: `false`
 // paymentId: `vm.$config.defaultPaymentId`
 // updateDelay: 150`
 // updateTimeout: `null`
 // activeElement: `null`
 // frameLoading: `false`
+// forceExternalCheckoutReset: `false`
+// markets: `[]`
+// marketId: `''`
 export default {
   name: 'MixCheckout',
   mixins: [MixPromiseQueue, MixApolloRefetch],
@@ -37,6 +41,7 @@ export default {
     pickupPoint: '',
     externalShippingId: '',
     udcValid: false,
+    udcDataSet: false,
     paymentId: vm.$config.checkout.defaultPaymentId,
     shippingId: vm.$config.checkout.defaultShippingId,
     updateDelay: 150,
@@ -378,6 +383,7 @@ export default {
       this.pickupPoint = data.pickupPoint;
       this.externalShippingId = data.selectedOptionId;
       this.cartLoading = true;
+      this.udcDataSet = true;
       this.createOrUpdateCheckout('set UDC data');
     },
     // @vuese
