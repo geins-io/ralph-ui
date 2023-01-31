@@ -174,6 +174,15 @@ export default {
         this.forceExternalCheckoutReset = true;
         this.createOrUpdateCheckout('customer type changed');
       }
+    },
+    marketId(newVal, oldVal) {
+      const newCurrency = newVal?.split('|') ? newVal.split('|')[1] : '';
+      const oldCurrency = oldVal?.split('|') ? oldVal.split('|')[1] : '';
+      // If marketId changed but currency stays the same, we need to trigger a checkout update.
+      // Otherwise, when currency changes, the checkout will be updated following the cart change
+      if (newCurrency === oldCurrency) {
+        this.createOrUpdateCheckout('market id changed');
+      }
     }
   },
   mounted() {
