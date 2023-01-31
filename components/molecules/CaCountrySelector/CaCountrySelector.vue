@@ -10,9 +10,10 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// A country selector for checkout<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-country-selector.scss_
 export default {
   name: 'CaCountrySelector',
@@ -26,13 +27,20 @@ export default {
   data: () => ({
     selection: ''
   }),
-  mounted() {
-    if (this.$store.state.marketId) {
-      this.selection = this.$store.state.marketId;
+  computed: {
+    ...mapState(['marketId'])
+  },
+  watch: {
+    marketId() {
+      this.selection = this.marketId;
     }
+  },
+  mounted() {
+    this.selection = this.marketId;
   },
   methods: {
     getSelected(value) {
+      this.selection = value;
       this.$emit('input', value);
     }
   }

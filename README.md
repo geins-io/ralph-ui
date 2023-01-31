@@ -35,6 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.1.4] - 2023-01-31
+
+## Added
+
+- Broadcasting change of marketId between tabs
+
+## Changed
+
+- MarketId now only has one source of truth, removing unnecessary calls to createOrUpdateCheckout
+- Country selector now updating according to external changes in marketId
+
 ## [15.1.3] - 2023-01-30
 
 ## Fixed

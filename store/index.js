@@ -1,4 +1,5 @@
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -174,6 +175,10 @@ export const actions = {
       path: '/',
       expires: new Date(new Date().getTime() + 31536000000)
     });
+    if (process.browser) {
+      const bc = new BroadcastService('ralph_channel');
+      bc.postMessage({ type: 'market', data: id });
+    }
     dispatch('clearAndRefetchApollo');
   },
   clearAndRefetchApollo({ dispatch }) {

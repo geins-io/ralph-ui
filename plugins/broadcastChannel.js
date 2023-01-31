@@ -8,6 +8,8 @@ export default function({ store }) {
       store.commit('cart/setCart', params.data);
     } else if (params.type === 'auth') {
       store.commit('auth/setUser', params.data);
+    } else if (params.type === 'market') {
+      store.commit('setMarketId', params.data);
     }
   };
   bc.addEventListener('message', handler);

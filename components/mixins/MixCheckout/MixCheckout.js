@@ -25,7 +25,6 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // frameLoading: `false`
 // forceExternalCheckoutReset: `false`
 // markets: `[]`
-// marketId: `''`
 export default {
   name: 'MixCheckout',
   mixins: [MixPromiseQueue, MixApolloRefetch],
@@ -49,8 +48,7 @@ export default {
     activeElement: null,
     frameLoading: false,
     forceExternalCheckoutReset: false,
-    markets: [],
-    marketId: ''
+    markets: []
   }),
   computed: {
     // @vuese
@@ -138,7 +136,7 @@ export default {
     paymentType() {
       return this.selectedPaymentOption?.paymentType;
     },
-    ...mapState(['cart', 'customerType'])
+    ...mapState(['cart', 'customerType', 'marketId'])
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
@@ -176,9 +174,6 @@ export default {
         this.forceExternalCheckoutReset = true;
         this.createOrUpdateCheckout('customer type changed');
       }
-    },
-    marketId() {
-      this.createOrUpdateCheckout('market id changed');
     }
   },
   mounted() {
@@ -243,8 +238,7 @@ export default {
           this.$refs.externalcheckout.suspend();
         }
         const vars = {
-          cartId: this.$store.getters['cart/id'],
-          marketId: this.marketId
+          cartId: this.$store.getters['cart/id']
         };
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
@@ -327,8 +321,7 @@ export default {
           mutation: placeOrderMutation,
           variables: {
             cartId: this.$store.getters['cart/id'],
-            checkout: this.checkoutInput,
-            marketId: this.marketId
+            checkout: this.checkoutInput
           }
         })
         .then(result => {
@@ -420,7 +413,7 @@ export default {
             });
           });
           if (marketCollection.length <= 1) {
-            this.marketId = marketCollection[0].value;
+            this.setMarketId(marketCollection[0].value);
           }
           this.markets = marketCollection;
         })
@@ -430,7 +423,6 @@ export default {
     },
     setMarketId(value) {
       this.$store.dispatch('setMarketId', value);
-      this.marketId = value;
     }
   }
 };
