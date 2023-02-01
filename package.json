@@ -1,7 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
-  "version": "15.1.5",
+  "version": "15.1.6",
   "description": "Component library for Carismar Commerce Storefront ",
   "author": "Carismar Commerce Team",
   "private": false,
@@ -38,7 +38,9 @@
       "**/*.vue",
       "components/mixins/**/*.js"
     ],
-    "exclude": "scripts/component-template/component.vue"
+    "exclude": "scripts/component-template/component.vue",
+    "host": "127.0.0.1",
+    "port": 6001
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^4.0.0",

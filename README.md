@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.1.6] - 2023-02-01
+
+## Added
+
+- Define default host and port for Vuese
+- Script to run documentation in parallel during the development
+
+
 ## [15.1.5] - 2023-01-31
 
 ## Fixed
