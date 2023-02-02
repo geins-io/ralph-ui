@@ -189,7 +189,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address.mobile
+              'ca-account-settings__setting-value--not-specified': !user.address
+                .mobile
             }"
           >
             {{ user.address.mobile || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -300,7 +301,6 @@
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_ZIP')"
-          type="number"
         />
         <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">

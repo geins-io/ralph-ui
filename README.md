@@ -35,11 +35,11 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [15.1.7] - 2023-02-01
+## [15.1.7] - 2023-02-02
 
 ## Changed
 
-- Improved input types in account settings for better user experience.
+- Improved input types in account settings and checkout for better user experience.
 
 ## [15.1.6] - 2023-02-01
 
