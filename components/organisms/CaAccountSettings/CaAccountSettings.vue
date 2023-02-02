@@ -55,6 +55,7 @@
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :disabled="true"
           :label="$t('EMAIL')"
+          type="email"
         />
         <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
@@ -178,6 +179,7 @@
           :required="false"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
           :label="$t('LABEL_PHONE_NUMBER')"
+          type="tel"
         />
         <div v-else class="ca-account-settings__setting">
           <h3 class="ca-account-settings__setting-label">
