@@ -35,6 +35,19 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [15.2.0] - 2023-02-09
+
+## Added
+
+- New prop to control in which state to open the menu - `hover` or `click`. Defaults to `hover`. How to use: 
+```js
+<CaHeaderNavigation
+  menu-state="click"
+  class="only-computer"
+  menu-location-id="main-desktop"
+/>
+```
+
 ## [15.1.7] - 2023-02-02
 
 ## Changed

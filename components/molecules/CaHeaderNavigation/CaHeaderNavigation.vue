@@ -5,13 +5,21 @@
         v-for="item in menu.menuItems"
         :key="item.id"
         class="ca-header-navigation__item"
-        :class="{ 'ca-header-navigation__item--hover': open === item.id }"
-        @mouseover="openMenu(item.id)"
-        @mouseleave="closeMenu"
-        @click="closeMenu"
+        :class="{ 'ca-header-navigation__item--open': open === item.id }"
+        @mouseover="handleMouseOver(item.id)"
+        @mouseleave="handleMouseLeave"
+        @click="handleClick(item.id)"
       >
+        <button
+          v-if="menuState === 'click'"
+          type="button"
+          class="ca-header-navigation__link"
+        >
+          {{ getLabel(item) }}
+        </button>
         <component
           :is="getBaseElem(item)"
+          v-if="menuState === 'hover'"
           v-bind="getAttributes(item)"
           class="ca-header-navigation__link"
         >
@@ -29,6 +37,14 @@
             :is="containerElem"
             class="ca-header-navigation__children-container"
           >
+            <component
+              :is="getBaseElem(item)"
+              v-if="menuState === 'click'"
+              v-bind="getAttributes(item)"
+              class="ca-header-navigation__children-show-all only-computer"
+            >
+              {{ $t('NAVIGATION_ALL_IN') }} {{ getLabel(item) }}
+            </component>
             <ul class="ca-header-navigation__children-list">
               <li
                 v-for="childItem in item.children"
@@ -92,6 +108,14 @@ export default {
       // `full-width` / `boxed`
       type: String,
       default: 'full-width'
+    },
+    // Choose between hover or click to open menu
+    menuState: {
+      type: String,
+      default: 'hover',
+      validator(value) {
+        return ['click', 'hover'].includes(value);
+      }
     }
   },
   data: () => ({
@@ -113,6 +137,31 @@ export default {
     },
     closeMenu() {
       this.open = 0;
+    },
+    toggleMenu(id) {
+      if (this.open !== id) {
+        this.closeMenu();
+        this.openMenu(id);
+      } else {
+        this.closeMenu();
+      }
+    },
+    handleClick(id) {
+      if (this.menuState === 'click') {
+        this.toggleMenu(id);
+      } else {
+        this.closeMenu();
+      }
+    },
+    handleMouseOver(id) {
+      if (this.menuState === 'hover') {
+        this.openMenu(id);
+      }
+    },
+    handleMouseLeave() {
+      if (this.menuState === 'hover') {
+        this.closeMenu();
+      }
     }
   }
 };
