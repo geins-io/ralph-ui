@@ -4,6 +4,7 @@ query channel($channelId: String) {
     markets {
       id
       defaultLanguageId
+      alias
       country {
         name
         code

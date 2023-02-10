@@ -418,7 +418,7 @@ export default {
           res.forEach(item => {
             marketCollection.push({
               label: item.country.name,
-              value: item.id
+              value: item.alias
             });
           });
           if (marketCollection.length <= 1) {

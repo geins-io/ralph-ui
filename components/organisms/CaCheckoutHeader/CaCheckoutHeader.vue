@@ -3,11 +3,11 @@
     <CaIconButton
       v-if="!$store.getters.viewportComputer"
       class="ca-checkout-header__back"
-      :href="localePath('index')"
+      :href="$getPath('index')"
       :icon-name="iconName"
       aria-label="Back"
     />
-    <NuxtLink :to="localePath('index')">
+    <NuxtLink :to="$getPath('index')">
       <CaLogo class="ca-checkout-header__logo" alt="Logo" />
     </NuxtLink>
     <h1 class="ca-checkout-header__title">{{ title }}</h1>
@@ -15,7 +15,7 @@
       v-if="$store.getters.viewportComputer"
       class="ca-checkout-header__button"
       color="secondary"
-      :href="localePath('index')"
+      :href="$getPath('index')"
     >
       {{ $t('CONTINUE_SHOPPING') }}
     </CaButton>

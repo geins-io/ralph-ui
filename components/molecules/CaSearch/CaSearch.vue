@@ -258,7 +258,7 @@ export default {
   computed: {
     setSearchLink() {
       return (
-        this.localePath('index') +
+        this.$getPath('index') +
         this.$config.routePaths.search +
         '/' +
         this.searchString

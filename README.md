@@ -35,11 +35,25 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [16.0.0] - 2023-02-10
+
+This update will require you to add settings `marketInPath` and `useStartPage` to publicRuntimeConfig in nuxt.config.js. Also some changes to start page/front page. See commit in Ralph for reference
+
+## Added
+
+- Support for market in path / route
+- Global getPath function to get internal paths with market
+
+## Changed
+
+- Using @nuxtjs/router module with the router.js file to modify all routes
+
 ## [15.2.0] - 2023-02-09
 
 ## Added
 
-- New prop to control in which state to open the menu - `hover` or `click`. Defaults to `hover`. How to use: 
+- New prop to control in which state to open the menu - `hover` or `click`. Defaults to `hover`. How to use:
+
 ```js
 <CaHeaderNavigation
   menu-state="click"
@@ -60,7 +74,6 @@ All notable changes will be added to this section
 
 - Define default host and port for Vuese
 - Script to run documentation in parallel during the development
-
 
 ## [15.1.5] - 2023-01-31
 

@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="localePath('favorites')"
+    :to="$getPath('favorites')"
     class="ca-favorites"
     :class="{ 'ca-favorites--no-text': !showText }"
     :title="$t('FAVORITES_LABEL')"

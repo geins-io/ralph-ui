@@ -64,7 +64,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.$t('BREADCRUMBS_HOME'),
-            item: this.localePath('index')
+            item: this.$getPath('index')
           }
         ]
       };
@@ -116,7 +116,7 @@ export default {
     // @arg url (String)
     getUrl(url) {
       const strippedUrl = url.replace(this.$config.baseUrl, '');
-      return strippedUrl === '' ? '/' : strippedUrl;
+      return strippedUrl === '' ? this.$getPath('index') : strippedUrl;
     },
     // Sets all parents for current category, if category
     // @arg alias (String)

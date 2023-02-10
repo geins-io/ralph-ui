@@ -2,6 +2,7 @@ query markets($channelId: String) {
   channel(channelId: $channelId) {
     markets {
       id
+      alias
       country {
         name
       }

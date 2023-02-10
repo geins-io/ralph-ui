@@ -6,7 +6,7 @@
 
     <a
       class="ca-button ca-button--primary ca-error__button"
-      :href="localePath('index')"
+      :href="$getPath('index')"
     >
       {{ $t('ERROR_PAGE_BUTTON') }}
     </a>

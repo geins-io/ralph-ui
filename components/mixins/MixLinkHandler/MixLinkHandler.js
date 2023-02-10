@@ -44,7 +44,7 @@ export default {
         } else {
           const href = this.processedHref.startsWith('/')
             ? this.processedHref
-            : this.localePath(this.processedHref);
+            : this.$getPath(this.processedHref);
           return { to: href };
         }
       } else {

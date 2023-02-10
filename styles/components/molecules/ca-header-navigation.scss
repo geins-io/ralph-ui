@@ -4,31 +4,31 @@
   height: $header-navigation-height-computer;
   background-color: var(--header-bg, #{$c-header-bg});
   color: var(--header-text, #{$c-text-primary});
-  
+
   body[style='overflow: hidden;'] & {
     padding-right: var(--scrollbar-width);
   }
-  
+
   &__items {
     @include flex-calign;
     height: $header-navigation-height-computer;
   }
-  
+
   &__item {
     .ca-icon-and-text__icon {
       transition: transform 150ms;
     }
-  
+
     &--open {
       #{$block}__children {
         pointer-events: initial;
         margin-top: 0;
         opacity: 1;
       }
-  
+
       > #{$block}__link {
         .ca-icon-and-text {
-          column-gap: $px6;
+          column-gap: rem-calc(6);
         }
 
         .ca-icon-and-text__text {
@@ -83,15 +83,15 @@
       grid-template-columns: repeat(4, 1fr);
       column-gap: rem-calc(40px);
       row-gap: rem-calc(40px);
-    
+
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);
       }
-    
+
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);
       }
-    
+
       @media screen and (min-width: $site-width) {
         grid-template-columns: repeat(6, 1fr);
       }
@@ -119,12 +119,12 @@
       min-width: 180px;
       padding: rem-calc(18) 0;
     }
-    
+
     #{$block}__child-item,
     #{$block}__grand-child-item {
       position: relative;
       padding: rem-calc(10) rem-calc(50) rem-calc(10) rem-calc(28);
-    
+
       &--parent {
         &:hover {
           #{$block}__grand-children {
@@ -140,13 +140,13 @@
       width: 100%;
       justify-content: space-between;
     }
-    
+
     #{$block}__child-link,
     #{$block}__grand-child-link {
       display: inline-block;
       white-space: nowrap;
       position: relative;
-    
+
       &:before {
         content: '';
         width: 0%;
@@ -164,7 +164,7 @@
           width: 100%;
         }
       }
-      
+
       &.nuxt-link-active {
         &:before {
           opacity: 1;
@@ -177,7 +177,7 @@
       @include valign;
       right: rem-calc(18);
     }
-    
+
     #{$block}__grand-children {
       background-color: $c-white;
       position: absolute;

@@ -1,6 +1,7 @@
 import categoriesQuery from 'global/categories.graphql';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 import listPageInfo from 'global/list-page-info.graphql';
+import getMarkets from 'global/markets.graphql';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
@@ -22,6 +23,30 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      }
+    },
+    channel: {
+      query: getMarkets,
+      errorPolicy: 'all',
+      result(result) {
+        this.$store.commit('setMarkets', result?.data?.channel?.markets || []);
+        if (!process.client) {
+          return;
+        }
+        const markets = this.$store.state.markets.map(market => market.alias);
+        if (!markets.includes(this.$store.state.marketId)) {
+          const correctPath = this.$route.path.replace(
+            this.$store.state.marketId,
+            this.$config.fallbackMarketId
+          );
+          this.$store.dispatch('setMarketId', this.$config.fallbackMarketId);
+          this.$nextTick(() => {
+            this.$router.replace(correctPath);
+          });
+        }
+      },
+      error(error) {
+        console.error(error);
       }
     },
     listPageInfo: {

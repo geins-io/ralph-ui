@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!error">
+  <div>
     <button
       class="ca-country-selector-panel"
       @click="
@@ -26,13 +26,13 @@
         class="ca-country-selector-panel__opt"
       >
         <a
-          :href="'/' + getCodeFromId(market.defaultLanguageId)"
+          :href="getLink(market.defaultLanguageId, market.alias)"
           class="ca-country-selector-panel__choice"
           :class="{
             'ca-country-selector-panel__choice--disabled':
-              market.id === $store.state.marketId
+              market.alias === $store.state.marketId
           }"
-          @click="setMarket(market.id)"
+          @click="setMarket(market.alias)"
         >
           {{ market.country.name }}
         </a>
@@ -43,35 +43,18 @@
 <script>
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Country selector panel<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-country-selector-panel.scss_
-import getMarkets from 'global/markets.graphql';
+import { mapState } from 'vuex';
 export default {
   name: 'CaCountrySelectorPanel',
-  apollo: {
-    channel: {
-      query: getMarkets,
-      errorPolicy: 'all',
-      result(result) {
-        this.markets = result?.data?.channel?.markets || [];
-      },
-      error(error) {
-        /* eslint-disable no-console */
-        console.error(error);
-        this.error = true;
-      }
-    }
-  },
   mixins: [],
   props: {},
-  data: () => ({
-    markets: [],
-    error: false
-  }),
+  data: () => ({}),
   computed: {
     selectedMarket() {
       const selectedMarket = this.markets?.find(
-        market => market.id === this.$store.state.marketId
+        market => market.alias === this.$store.state.marketId
       );
       if (selectedMarket) {
         return selectedMarket;
@@ -80,7 +63,8 @@ export default {
     },
     selectedMarketName() {
       return this.selectedMarket?.country?.name;
-    }
+    },
+    ...mapState(['markets'])
   },
   watch: {},
   mounted() {},
@@ -89,6 +73,11 @@ export default {
       const result = id.split('-');
       const [code] = result;
       return code;
+    },
+    getLink(id, alias) {
+      const market = this.$config.marketInPath ? '/' + alias : '';
+      const language = this.getCodeFromId(id);
+      return `${market}/${language}`;
     },
     setMarket(id) {
       this.$store.dispatch('setMarketId', id);

@@ -14,6 +14,7 @@ export const state = () => ({
   categoryTree: [],
   headerHidden: false,
   channelId: '',
+  markets: [],
   marketId: '',
   fallbackCurrency: ''
 });
@@ -65,6 +66,9 @@ export const mutations = {
   },
   setChannelId(state, payload) {
     state.channelId = payload;
+  },
+  setMarkets(state, markets) {
+    state.markets = markets;
   },
   setMarketId(state, id) {
     state.marketId = id;
@@ -205,7 +209,7 @@ export const actions = {
 
     const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
     const marketId =
-      parsed['ralph-selected-market'] || this.$config.fallbackMarketId;
+      parsed['ralph-selected-market'] ?? this.$config.fallbackMarketId;
     const currency = this.$i18n?.localeProperties?.currency;
     const user = parsed['ralph-user'] || null;
     const cartId = parsed['ralph-cart'] || '';

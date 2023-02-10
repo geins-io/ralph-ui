@@ -296,7 +296,9 @@ export default {
         this.resetFields();
         this.$refs.contentpanel.close();
         if (!this.$route?.name?.includes('checkout') && redirectPath !== null) {
-          this.$router.push({ path: this.localePath(redirectPath) });
+          this.$router.push({
+            path: this.$getPath(redirectPath)
+          });
         }
       }, 1000);
     },
@@ -450,7 +452,7 @@ export default {
           this.resetFields();
         } else {
           await this.$store.dispatch('auth/logout');
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: this.$getPath('index') });
           this.$store.dispatch(
             'snackbar/trigger',
             this.feedback.passwordNotChanged
