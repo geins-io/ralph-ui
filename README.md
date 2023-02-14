@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [16.1.0] - 2023-02-14
+
+## Added
+
+- Components for a review(comment) section: stars voting, form to add review, list of reviews with pagination
+- ! please make sure to set up 2 new properties in publicRuntimeConfig in nuxt.config.js: `showProductReviewSection` and `showStarsInProductReviewForm`
+
 ## [16.0.0] - 2023-02-10
 
 This update will require you to add settings `marketInPath` and `useStartPage` to publicRuntimeConfig in nuxt.config.js. Also some changes to start page/front page. See commit in Ralph for reference

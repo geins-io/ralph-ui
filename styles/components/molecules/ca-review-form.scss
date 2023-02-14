@@ -1,0 +1,41 @@
+.ca-review-form {
+  $block: &;
+  color: $c-text-primary;
+  margin: $px8;
+  width: auto;
+  @include bp(laptop) {
+    margin: rem-calc(40px);
+    width: rem-calc(730px);
+  }
+
+  &__header {
+    font-size: $font-size-xxl;
+    margin: $px32 $px32 $px10 0;
+  }
+
+  &__login-message {
+    margin-bottom: $px16;
+  }
+
+  &__form {
+    &-stars {
+      font-size: x-large;
+      margin: $px10 0;
+    }
+
+    &-feedback {
+      margin-bottom: $px16;
+    }
+
+    &-comment,
+    &-button,
+    &-author {
+      margin-top: $px10;
+    }
+  }
+
+  &-success {
+    font-size: $font-size-m;
+    font-weight: 400;
+  }
+}

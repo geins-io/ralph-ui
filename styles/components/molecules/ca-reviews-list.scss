@@ -1,0 +1,99 @@
+.ca-reviews-list {
+  $block: &;
+  color: $c-text-primary;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    font-size: $px32;
+    font-weight: $font-weight-bold;
+    white-space: nowrap;
+    @include bp(laptop) {
+      flex-direction: row;
+    }
+
+    &-counter {
+      font-size: $px16;
+      margin-left: 0;
+      @include bp(laptop) {
+        margin-left: $px16;
+      }
+    }
+  }
+
+  &__empty {
+    font-size: $font-size-xl;
+    padding: $px8;
+
+    @include bp(laptop) {
+      padding: rem-calc(44px) 0 rem-calc(40px) rem-calc(40px);
+    }
+  }
+
+  &__reviews {
+    display: flex;
+    flex-direction: column;
+    margin-top: $px32;
+    max-width: rem-calc(744px);
+    padding-left: rem-calc(40px);
+    text-align: justify;
+
+    &-comment {
+      font-size: $font-size-m;
+      line-height: 136%;
+      margin-top: $px8;
+    }
+
+    &-info {
+      margin: $px8 0;
+
+      &-written-by {
+        font-weight: $font-weight-bold;
+      }
+
+      &-separator {
+        margin: 0 $px4;
+      }
+
+      &-written-by,
+      &-author,
+      &-separator,
+      &-date {
+        font-size: $font-size-m;
+        line-height: 136%;
+      }
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: $px16 0;
+    max-width: rem-calc(744px);
+    padding-left: 0;
+
+    @include bp(laptop) {
+      justify-content: flex-start;
+      padding-left: rem-calc(40px);
+    }
+
+    &-item {
+      cursor: pointer;
+      margin: 0 $px8;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &--active {
+        font-weight: bold;
+        margin: 0 $px8;
+      }
+    }
+
+    &-item-inner {
+      cursor: pointer;
+    }
+  }
+}

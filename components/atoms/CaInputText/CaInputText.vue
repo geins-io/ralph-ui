@@ -16,6 +16,7 @@
         :value="value"
         :disabled="disabled"
         :name="id"
+        :maxlength="maxlength"
         v-bind="$attrs"
         v-on="inputListeners"
         @keyup="validateIfError"
@@ -139,6 +140,10 @@ export default {
     passwordToMatch: {
       type: String,
       default: ''
+    },
+    maxlength: {
+      type: Number,
+      default: null
     }
   },
   data: () => ({

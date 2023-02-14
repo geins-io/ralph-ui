@@ -1,0 +1,26 @@
+.ca-star-rating {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  &__link {
+    align-items: center;
+    display: flex;
+  }
+
+  &__star {
+    color: $c-darkest-gray;
+
+    &--default-color {
+      // brightness(0) saturate(100%) make icon black and filter svg for specific color
+      filter: brightness(0) saturate(100%) invert(47%) sepia(3%) saturate(9%)
+        hue-rotate(314deg) brightness(91%) contrast(86%);
+    }
+  }
+  &__counter {
+    display: inline-block;
+    font-size: $font-size-m;
+    padding-left: $px8;
+    white-space: nowrap;
+  }
+}

@@ -78,5 +78,9 @@ query product(
     discountCampaigns {
       ...Campaign
     }
+    rating {
+      score
+      voteCount
+    }
   }
 }

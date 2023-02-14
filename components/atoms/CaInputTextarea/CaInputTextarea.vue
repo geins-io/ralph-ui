@@ -14,6 +14,7 @@
         :placeholder="placeholder"
         :disabled="disabled"
         :name="id"
+        :maxlength="maxlength"
         v-bind="$attrs"
         v-on="inputListeners"
         @keyup="validateIfError"
@@ -89,6 +90,10 @@ export default {
     // What error text should be displayed if field not vaild
     errorMessage: {
       type: String,
+      default: null
+    },
+    maxlength: {
+      type: Number,
       default: null
     }
   },
