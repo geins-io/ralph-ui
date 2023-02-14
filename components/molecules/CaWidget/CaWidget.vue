@@ -68,6 +68,8 @@ export default {
         return 'CaWidgetHtml';
       } else if (this.type === 'Rich text') {
         return 'CaWidgetRichText';
+      } else if (this.type === 'Flowbox') {
+        return 'CaWidgetFlowbox';
       } else if (
         this.type === 'Nosto feed' &&
         this.$store.getters['nosto/isNostoActive'] &&

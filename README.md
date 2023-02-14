@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [16.2.0] - 2023-02-14
+
+## Added
+
+- Add Flowbox widget
+
 ## [16.1.0] - 2023-02-14
 
 ## Added
