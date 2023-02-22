@@ -13,8 +13,8 @@
       </h3>
       <p class="ca-checkout-carismar__subtitle">
         {{ $t('CHECKOUT_SUBTITLE_COUNTRY_INFO') }}
-        <CaFlag country="se" shape="circle" />
-        {{ $t('SWEDEN') }}
+        <CaFlag :country="currentCountry.code" shape="circle" />
+        {{ currentCountry.name }}
       </p>
       <div
         class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
@@ -203,8 +203,8 @@
       </h3>
       <p class="ca-checkout-carismar__subtitle">
         {{ $t('CHECKOUT_SUBTITLE_COUNTRY_INFO') }}
-        <CaFlag country="se" shape="circle" />
-        {{ $t('SWEDEN') }}
+        <CaFlag :country="currentCountry.code" shape="circle" />
+        {{ currentCountry.name }}
       </p>
       <div v-if="isOrganization" class="ca-checkout-carismar__row">
         <CaInputText
@@ -407,7 +407,7 @@ export default {
       required: true
     }
   },
-  data: () => ({
+  data: vm => ({
     showSummary: false,
     loading: false,
     changeTimeout: null,
@@ -422,7 +422,6 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'SE',
         company: ''
       },
       billingAddress: {
@@ -434,7 +433,6 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        country: 'SE',
         company: ''
       },
       email: '',
@@ -452,6 +450,9 @@ export default {
     },
     isOrganization() {
       return this.$store.state.customerType === 'ORGANIZATION';
+    },
+    currentCountry() {
+      return this.$store.getters['channel/checkoutMarketObj'].country;
     }
   },
   watch: {

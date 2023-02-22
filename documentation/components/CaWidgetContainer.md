@@ -9,7 +9,19 @@ A container holding a set of widgets<br><br> **SASS-path:** _./styles/components
 |---|---|---|---|---|
 |container|The container data object|`Object`|`true`|-|
 |widgetImageSizes|Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set|`Object`|`false`|null|
+|isFirst|-|`Boolean`|`false`|false|
+|widgetAreaVariables|-|`Object`|`true`|-|
 
 <!-- @vuese:CaWidgetContainer:props:end -->
+
+
+## Events
+
+<!-- @vuese:CaWidgetContainer:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|container-mounted|-|-|
+
+<!-- @vuese:CaWidgetContainer:events:end -->
 
 

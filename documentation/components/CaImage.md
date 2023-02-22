@@ -16,6 +16,8 @@ Display an image in a specific size<br><br> **SASS-path:** _./styles/components/
 |forceRatio|Force the image to keep supplied ratio|`Boolean`|`false`|false|
 |src|Direct link to image if not from image service|`String`|`false`|-|
 |loading|Value for the loading attribute|`String`|`false`|lazy|
+|bannerImage|Image will displayd in background|`Boolean`|`false`|false|
+|srcset|Set srcet for image|`String`|`false`|-|
 
 <!-- @vuese:CaImage:props:end -->
 

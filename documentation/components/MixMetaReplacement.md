@@ -7,6 +7,9 @@ Used to replace meta placeholders with the actual value [count] = Number of prod
 <!-- @vuese:MixMetaReplacement:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
+|checkForGender|Check if string is included in array of genedrs|string (String)|
+|unslug|Convert slug into words with capital letters|slug (String)|
+|capitalize|Capitalize first letter of a string|string (String)|
 |metaReplacement|Replace meta placeholders with correct values|Meta string (String)|
 
 <!-- @vuese:MixMetaReplacement:methods:end -->

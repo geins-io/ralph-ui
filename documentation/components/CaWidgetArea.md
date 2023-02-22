@@ -14,7 +14,9 @@ The area that contains the widget containers and from which the graphql query fo
 |filters|Filters for the area|`Array`|`false`|[]|
 |preview|Whether preview-mode should be toggle on|`Boolean`|`false`|false|
 |isParentLoaded|if true - component loads info on its own|`Boolean`|`false`|false|
+|isParentDataLoaded|Is loadedData loaded|`Boolean`|`false`|false|
 |loadedData|Data of widget that we receive from parent component. Avaible only if isParentLoaded are true|`Object`|`false`|null|
+|listPageUrl|Url for list page if using /l/ routing|`String`|`false`|-|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 
@@ -26,7 +28,18 @@ The area that contains the widget containers and from which the graphql query fo
 |---|---|---|
 |dataFetched|-|-|
 |variables-change|-|-|
+|widget-area-mounted|-|-|
 
 <!-- @vuese:CaWidgetArea:events:end -->
+
+
+## MixIns
+
+<!-- @vuese:CaWidgetArea:mixIns:start -->
+|MixIn|
+|---|
+|MixApolloRefetch|
+
+<!-- @vuese:CaWidgetArea:mixIns:end -->
 
 

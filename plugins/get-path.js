@@ -1,7 +1,13 @@
-export default ({ $config, store, app }, inject) => {
-  const getPath = path => {
-    const market = $config.marketInPath ? `/${store.state.marketId}` : '';
-    const newPath = market + app.localePath(path);
+export default ({ $config, store, app, i18n }, inject) => {
+  const getPath = (
+    path,
+    market = store.state.channel.currentMarket,
+    locale = i18n.localeProperties.code
+  ) => {
+    const marketPath = $config.marketInPath ? `/${market}` : '';
+    const localePath =
+      app.localePath(path, locale) === '/' ? '' : app.localePath(path, locale);
+    const newPath = marketPath + localePath;
     return newPath;
   };
 

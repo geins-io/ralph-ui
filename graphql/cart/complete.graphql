@@ -4,13 +4,13 @@ mutation completeCart(
   $id: String!
   $channelId: String
   $languageId: String
-  $marketId: String
+  $checkoutMarket: String
 ) {
   completeCart(
     id: $id
     channelId: $channelId
     languageId: $languageId
-    marketId: $marketId
+    marketId: $checkoutMarket
   ) {
     isCompleted
     ...Cart

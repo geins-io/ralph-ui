@@ -11,7 +11,29 @@ Shell for displaying widget component based on type<br><br> **SASS-path:** _./st
 |type|Type of widget|'Image', 'Text', 'Product list'|`true`|-|
 |imageSizes|Sizes attribute for the widget image|`String`|`true`|-|
 |imageRatios|-|`Array`|`true`|-|
+|isFirst|-|`Boolean`|`false`|false|
+|widgetAreaVariables|-|`Object`|`true`|-|
 
 <!-- @vuese:CaWidget:props:end -->
+
+
+## Events
+
+<!-- @vuese:CaWidget:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|widget-mounted|-|-|
+
+<!-- @vuese:CaWidget:events:end -->
+
+
+## MixIns
+
+<!-- @vuese:CaWidget:mixIns:start -->
+|MixIn|
+|---|
+|MixWidgetType|
+
+<!-- @vuese:CaWidget:mixIns:end -->
 
 

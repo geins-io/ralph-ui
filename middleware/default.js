@@ -1,33 +1,88 @@
 export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
+  store.commit('setCurrentRouteName', route.name);
+
   if ($config.marketInPath) {
-    let currentMarket = store.state.marketId;
+    let currentMarket = store.state.channel.currentMarket;
     const marketInPath = route.params.market;
+    const currentLanguage = i18n.localeProperties.code;
     const startPageName = 'start';
 
+    // Function to check if language is allowed for a market and redirect otherwise
+    const checkIfLanguageAllowed = market => {
+      const marketObj = store.state.channel.markets.find(
+        m => m.alias === market
+      );
+
+      if (!marketObj) {
+        // eslint-disable-next-line no-console
+        console.error(
+          'Market with alias "' + market + '" not available in markets array'
+        );
+        return;
+      }
+
+      const defaultLanguage = marketObj.defaultLanguageId.split('-')[0];
+      const allowedLanguages = marketObj.allowedLanguages.map(
+        ({ code }) => code
+      );
+
+      // If specific allowed languages exists for this market and if the current language is not on the list, change to default language
+      if (
+        allowedLanguages.length &&
+        !allowedLanguages.includes(currentLanguage)
+      ) {
+        const fallbackPath = route.path.replace(
+          currentLanguage,
+          defaultLanguage
+        );
+        return redirect(fallbackPath);
+      }
+    };
+
     // If market in path is different from current market, set current market to match
+    // If market in path is not in markets, redirect to fallback market
     if (marketInPath && marketInPath !== currentMarket) {
-      store.dispatch('setMarketId', marketInPath);
-      currentMarket = store.state.marketId;
+      const marketAliases = store.state.channel.markets.map(
+        ({ alias }) => alias
+      );
+
+      // If market exists
+      if (marketAliases.includes(marketInPath)) {
+        store.dispatch('channel/setCurrentMarket', marketInPath);
+        currentMarket = store.state.channel.currentMarket;
+
+        // Check if current language is allowed on this market and redirect otherwise
+        checkIfLanguageAllowed(currentMarket);
+
+        // Market exists and language allowed, return here
+        return;
+      }
+
+      // Change to fallback market if market in path doesn't exist
+      const fallbackPath = route.path.replace(
+        marketInPath,
+        $config.fallbackMarketAlias
+      );
+      store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
+
+      return redirect(fallbackPath);
     }
 
     // If i18n redirects wrong, redirect to correct path
-    if (route.path === '/' + i18n.localeProperties.code + '/' + currentMarket) {
-      return redirect('/' + currentMarket + '/' + i18n.localeProperties.code);
+    if (route.path === '/' + currentLanguage + '/' + currentMarket) {
+      return redirect('/' + currentMarket + '/' + currentLanguage);
     }
 
     // If no route matching, strip path from market, rebuild it and redirect
     if (!route.name) {
       const splitPath = route.path.split('/');
-      if (
-        splitPath[1] === currentMarket &&
-        splitPath[2] === i18n.localeProperties.code
-      ) {
+      if (splitPath[1] === currentMarket && splitPath[2] === currentLanguage) {
         return;
       }
 
       const strippedPath = route.fullPath
         .replace('/' + currentMarket, '')
-        .replace('/' + i18n.localeProperties.code, '');
+        .replace('/' + currentLanguage, '');
       return redirect(
         '/' + currentMarket + app.localePath('index') + strippedPath
       );
@@ -42,6 +97,9 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
     if (route.name !== startPageName && !marketInPath) {
       return redirect('/' + currentMarket + route.fullPath);
     }
+
+    // Check if current language is allowed on this market and redirect otherwise
+    checkIfLanguageAllowed(currentMarket);
   }
 
   if ($gtm) {

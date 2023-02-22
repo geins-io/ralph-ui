@@ -16,7 +16,7 @@ export const mutations = {
 };
 
 export const actions = {
-  get({ dispatch, getters }, id = null) {
+  get({ dispatch, getters, rootGetters }, id = null) {
     if (id) {
       dispatch('update', { id });
     }
@@ -25,7 +25,8 @@ export const actions = {
       .query({
         query: getCartQuery,
         variables: {
-          id: id ?? getters.id
+          id: id ?? getters.id,
+          cartMarketAlias: rootGetters['channel/cartMarketAlias']
         },
         fetchPolicy: 'no-cache'
       })
@@ -46,7 +47,7 @@ export const actions = {
           .setCart({
             items: cart.items.map(item => ({
               name: item.product.name,
-              price_currency_code: rootGetters.getCurrency,
+              price_currency_code: rootGetters['channel/currentCurrency'],
               product_id: item.product.productId,
               quantity: item.quantity,
               sku_id: item.skuId,

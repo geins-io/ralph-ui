@@ -1,6 +1,6 @@
 # CaCheckoutExternal
 
-Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna and SVEA Checkout<br><br> **SASS-path:** _./styles/components/atoms/ca-checkout-external.scss_
+Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna, SVEA and Walley Checkout<br><br> **SASS-path:** _./styles/components/atoms/ca-checkout-external.scss_
 
 ## Props
 
@@ -10,7 +10,7 @@ Renders the external checkout frame from a snippet given by the API. Has built i
 |data|The external checkout snippet received from the api|`String`|`false`|null|
 |newCheckoutSession|Is it a new checkout session?|`Boolean`|`false`|false|
 |confirm|Is this the confirm page?|`Boolean`|`false`|false|
-|type|What type of payment?|`KLARNA`, `SVEA`|`true`|-|
+|type|What type of payment?|`KLARNA`, `SVEA`, `WALLEY`|`true`|-|
 
 <!-- @vuese:CaCheckoutExternal:props:end -->
 

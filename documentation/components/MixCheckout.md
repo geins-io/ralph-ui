@@ -1,6 +1,6 @@
 # MixCheckout
 
-All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null` frameLoading: `false`
+All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` udcDataSet: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null` frameLoading: `false` forceExternalCheckoutReset: `false`
 
 ## Methods
 
@@ -16,6 +16,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |setUDCdata|UDC callback handler|data (Object)|
 |paymentSelectionHandler|Handling the payment selection|payment id (Number)|
 |shippingSelectionHandler|Handling the shipping selection|shipping id (Number)|
+|setCheckoutMarket|Handling the checkout market selection|market (String)|
 
 <!-- @vuese:MixCheckout:methods:end -->
 
@@ -32,6 +33,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |hasPaymentOptions|`Boolean`|Is there more than one payment option?|No|
 |selectedPaymentOption|`Object`|The selected payment option|No|
 |paymentType|`String`|The current payment type|No|
+|selectableMarkets|`Array`|All selectable markets|No|
 
 <!-- @vuese:MixCheckout:computed:end -->
 
@@ -42,7 +44,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |MixIn|
 |---|
 |MixPromiseQueue|
-|MixCache|
+|MixApolloRefetch|
 
 <!-- @vuese:MixCheckout:mixIns:end -->
 

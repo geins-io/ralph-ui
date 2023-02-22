@@ -12,3 +12,13 @@ Global initiation for the site, used in layout files. Gets the cart from the ser
 <!-- @vuese:MixGlobalInit:events:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixGlobalInit:mixIns:start -->
+|MixIn|
+|---|
+|MixApolloRefetch|
+
+<!-- @vuese:MixGlobalInit:mixIns:end -->
+
+

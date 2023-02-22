@@ -6,14 +6,14 @@ mutation createOrUpdateCheckout(
   $checkout: CheckoutInputType
   $channelId: String
   $languageId: String
-  $marketId: String
+  $checkoutMarketId: String
 ) {
   createOrUpdateCheckout(
     cartId: $cartId
     checkout: $checkout
     channelId: $channelId
     languageId: $languageId
-    marketId: $marketId
+    marketId: $checkoutMarketId
   ) {
     cart {
       ...Cart

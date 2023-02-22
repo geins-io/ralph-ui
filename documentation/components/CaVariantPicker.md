@@ -9,8 +9,8 @@ The shell for all variant pickers. displays the title above and the picker chose
 |---|---|---|---|---|
 |variants|A list of variants (VariantType from the API)|`Array`|`true`|-|
 |variantsData|Variants picker data. A object consisting of variantDimensions, chosenSku and hasMultipleDimensions passed from MixVariantHandler|`Object`|`true`|-|
-|title|The title for the picker|`String`|`true`|-|
-|type|The type of picker to use. Accepts `color`, `display` and `panel`|`color`, `display`, `panel`|`false`|`panel`|
+|title|The title for the picker|`String`|`false`|-|
+|type|The type of picker to use. Accepts `color`, `display`, `panel` & `image`|`color`, `display`, `panel`, `image`|`false`|`panel`|
 
 <!-- @vuese:CaVariantPicker:props:end -->
 

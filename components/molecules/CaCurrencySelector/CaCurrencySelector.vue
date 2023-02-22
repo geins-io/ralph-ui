@@ -3,8 +3,10 @@
     <nav class="ca-currency-selector__nav">
       <button
         class="ca-currency-selector__item"
-        :class="{ 'is-selected': $store.getters.getCurrency === 'SEK' }"
-        @click="setMarket('SE|SEK')"
+        :class="{
+          'is-selected': $store.getters['channel/currentCurrency'] === 'SEK'
+        }"
+        @click="setMarket('se')"
       >
         <span class="ca-currency-selector__label">
           SEK
@@ -12,8 +14,10 @@
       </button>
       <button
         class="ca-currency-selector__item"
-        :class="{ 'is-selected': $store.getters.getCurrency === 'EUR' }"
-        @click="setMarket('EU|EUR')"
+        :class="{
+          'is-selected': $store.getters['channel/currentCurrency'] === 'EUR'
+        }"
+        @click="setMarket('eu')"
       >
         <span class="ca-currency-selector__label">
           EUR
@@ -42,8 +46,8 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    setMarket(id) {
-      this.$store.dispatch('setMarketId', id);
+    setMarket(alias) {
+      this.$store.dispatch('channel/setCurrentMarket', alias);
     }
   }
 };

@@ -1,6 +1,6 @@
 # CaProductGalleryModal
 
-(Description of component)<br><br> **SASS-path:** _./styles/components/molecules/ca-product-gallery-modal.scss_
+Product gallery to be placed in modal<br><br> **SASS-path:** _./styles/components/molecules/ca-product-gallery-modal.scss_
 
 ## Props
 

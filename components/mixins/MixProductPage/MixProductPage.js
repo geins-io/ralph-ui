@@ -256,7 +256,7 @@ export default {
             category: this.product.primaryCategory?.name,
             price: this.product.unitPrice?.sellingPriceExVat,
             tax: this.product.unitPrice.vat,
-            currency: this.$store.getters.getCurrency,
+            currency: this.$store.getters['channel/currentCurrency'],
             inStock: Boolean(this.product?.totalStock?.inStock),
             urgencyLabelDisplayed: false
           }
@@ -266,7 +266,7 @@ export default {
           event: 'Product Detail Impression',
           eventInfo: {},
           ecommerce: {
-            currencyCode: this.$store.getters.getCurrency,
+            currencyCode: this.$store.getters['channel/currentCurrency'],
             detail: {
               [`${key}`]: item
             }

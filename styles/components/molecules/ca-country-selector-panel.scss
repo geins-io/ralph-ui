@@ -45,4 +45,11 @@
       }
     }
   }
+  &__flag {
+    margin-right: $px12;
+  }
+  &__currency {
+    margin-left: $px8;
+    font-size: $font-size-xs;
+  }
 }

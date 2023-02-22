@@ -1,5 +1,4 @@
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
-import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -13,10 +12,7 @@ export const state = () => ({
   ancientBrowser: false,
   categoryTree: [],
   headerHidden: false,
-  channelId: '',
-  markets: [],
-  marketId: '',
-  fallbackCurrency: ''
+  currentRouteName: ''
 });
 
 export const mutations = {
@@ -64,17 +60,8 @@ export const mutations = {
   setCategoryTree(state, tree) {
     state.categoryTree = tree;
   },
-  setChannelId(state, payload) {
-    state.channelId = payload;
-  },
-  setMarkets(state, markets) {
-    state.markets = markets;
-  },
-  setMarketId(state, id) {
-    state.marketId = id;
-  },
-  setFallbackCurrency(state, currency) {
-    state.fallbackCurrency = currency;
+  setCurrentRouteName(state, name) {
+    state.currentRouteName = name;
   }
 };
 
@@ -97,10 +84,6 @@ export const actions = {
           if (process.client) {
             // Scrolling down & past main layout padding hides header
             if (!document.querySelector('.ca-layout-default__main')) {
-              // eslint-disable-next-line no-console
-              console.warn(
-                'initScrollListener: Main layout element is undefined'
-              );
               return;
             }
 
@@ -173,18 +156,6 @@ export const actions = {
       });
     }
   },
-  setMarketId({ commit, dispatch }, id) {
-    commit('setMarketId', id);
-    this.$cookies.set('ralph-selected-market', id, {
-      path: '/',
-      expires: new Date(new Date().getTime() + 31536000000)
-    });
-    if (process.browser) {
-      const bc = new BroadcastService('ralph_channel');
-      bc.postMessage({ type: 'market', data: id });
-    }
-    dispatch('clearAndRefetchApollo');
-  },
   clearAndRefetchApollo({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
     eventbus.$emit('refetch-apollo-queries');
@@ -208,14 +179,26 @@ export const actions = {
     commit('setAncientBrowser', this.$ua.browser());
 
     const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
-    const marketId =
-      parsed['ralph-selected-market'] ?? this.$config.fallbackMarketId;
-    const currency = this.$i18n?.localeProperties?.currency;
+
+    // Set current market from cookie if exists, otherwise fallback market
+    const currentMarket =
+      parsed['ralph-selected-market'] ?? this.$config.fallbackMarketAlias;
+    const checkoutMarket = parsed['ralph-checkout-market'] ?? currentMarket;
+
+    // Set fallback markets for first routing (before API call is done)
+    commit('channel/setMarkets', this.$config.markets);
+    // Get markets from API
+    dispatch('channel/getMarkets');
+    // Set current market
+    commit('channel/setCurrentMarket', currentMarket);
+    commit('channel/setCheckoutMarket', checkoutMarket);
+
+    // Set user from cookie
     const user = parsed['ralph-user'] || null;
-    const cartId = parsed['ralph-cart'] || '';
-    commit('setMarketId', marketId);
-    commit('setFallbackCurrency', currency);
     commit('auth/setUser', user);
+
+    // Set cart id from cookie and get cart
+    const cartId = parsed['ralph-cart'] || '';
     dispatch('cart/get', cartId);
   }
 };
@@ -255,9 +238,5 @@ export const getters = {
   },
   getGtmProductsKey: state => {
     return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
-  },
-  getCurrency: state => {
-    const currency = state.marketId?.split('|');
-    return currency ? currency[1] : state.fallbackCurrency;
   }
 };

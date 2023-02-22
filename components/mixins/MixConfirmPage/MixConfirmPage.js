@@ -40,7 +40,8 @@ export default {
         .mutate({
           mutation: completeCartMutation,
           variables: {
-            id: this.cartId
+            id: this.cartId,
+            checkoutMarket: this.$store.state.channel.checkoutMarket
           },
           fetchPolicy: 'no-cache'
         })
@@ -59,7 +60,8 @@ export default {
         .query({
           query: confirmCartQuery,
           variables: {
-            id: this.cartId
+            id: this.cartId,
+            checkoutMarket: this.$store.state.channel.checkoutMarket
           }
         })
         .then(result => {

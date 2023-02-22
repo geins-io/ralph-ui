@@ -8,6 +8,7 @@ A summary of a product with a buy button<br><br> **SASS-path:** _./styles/compon
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |product|The product data|`Object`|`true`|-|
+|useProductCard|Product card design option|`Boolean`|`false`|false|
 
 <!-- @vuese:CaQuickAddProduct:props:end -->
 

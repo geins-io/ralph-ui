@@ -9,7 +9,9 @@ export default function({ store }) {
     } else if (params.type === 'auth') {
       store.commit('auth/setUser', params.data);
     } else if (params.type === 'market') {
-      store.commit('setMarketId', params.data);
+      store.commit('channel/setCurrentMarket', params.data);
+    } else if (params.type === 'checkout-market') {
+      store.commit('channel/setCheckoutMarket', params.data);
     }
   };
   bc.addEventListener('message', handler);

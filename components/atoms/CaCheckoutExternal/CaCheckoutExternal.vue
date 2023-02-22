@@ -92,7 +92,7 @@ export default {
     initScript() {
       const checkoutWrapper = document.getElementById('checkout-external');
 
-      const scriptsTags = checkoutWrapper.getElementsByTagName('script');
+      const scriptsTags = checkoutWrapper?.getElementsByTagName('script') || [];
       for (let i = scriptsTags.length - 1; i > -1; i--) {
         const parentNode = scriptsTags[i].parentNode;
         const newScriptTag = document.createElement('script');

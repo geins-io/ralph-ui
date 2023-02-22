@@ -109,7 +109,9 @@ export default {
       if (!fromStateChange) {
         this.$store.commit('modal/close');
       }
-      enableBodyScroll(this.$refs.content);
+      if (this.$refs.content) {
+        enableBodyScroll(this.$refs.content);
+      }
       this.$nextTick(() => {
         this.opened = false;
       });

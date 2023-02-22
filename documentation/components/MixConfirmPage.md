@@ -8,6 +8,7 @@ All functionality for the confirm page<br><br> **Data:**<br> orderCart: `null`<b
 |Method|Description|Parameters|
 |---|---|---|
 |completeCart|Performs the complete cart mutation and resets the cart|-|
+|confirmCartQuery|Calls the summary once the component is mounted|-|
 
 <!-- @vuese:MixConfirmPage:methods:end -->
 

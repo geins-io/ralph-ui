@@ -10,6 +10,7 @@ The Unifaun Delivery Checkout widget<br><br> **SASS-path:** _./styles/components
 |shippingData|JSON string from the API|`String`|`false`|null|
 |zip|The current zip code / postal code|`String`|`true`|-|
 |parentLoading|If parent step is loading|`Boolean`|`false`|false|
+|dataIsSet|Pass true if UDC data has been set in the checkout|`Boolean`|`true`|false|
 
 <!-- @vuese:CaUdc:props:end -->
 

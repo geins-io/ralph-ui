@@ -21,6 +21,7 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |errorMessage|What error text should be displayed if field not vaild|`String`|`false`|null|
 |validate|Set to use built in validation|`email`, `passwordStrength`, `passwordMatch`, `personalId`, `empty`|`false`|-|
 |passwordToMatch|The password to match if using the `passwordMatch` validation|`String`|`false`|-|
+|maxlength|-|`Number`|`false`|null|
 
 <!-- @vuese:CaInputText:props:end -->
 

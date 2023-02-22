@@ -1,0 +1,26 @@
+.ca-market-item {
+  $block: &;
+  &__title-wrap {
+    display: flex;
+    align-items: center;
+    column-gap: rem-calc(6);
+    font-weight: $font-weight-bold;
+    margin: 0 0 $px4;
+  }
+  &__flag {
+    font-size: $font-size-m;
+  }
+  &__title {
+    text-transform: uppercase;
+  }
+  &__languages {
+    margin: $px4 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: $px8;
+    row-gap: $px4;
+  }
+  &__language {
+    text-decoration: underline;
+  }
+}

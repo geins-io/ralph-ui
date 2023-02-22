@@ -21,7 +21,7 @@
       class="ca-filter-panel"
     >
       <div
-        v-for="(market, index) in markets"
+        v-for="(market, index) in selectableMarkets"
         :key="index"
         class="ca-country-selector-panel__opt"
       >
@@ -54,7 +54,7 @@ export default {
   computed: {
     selectedMarket() {
       const selectedMarket = this.markets?.find(
-        market => market.alias === this.$store.state.marketId
+        market => market.alias === this.currentMarket
       );
       if (selectedMarket) {
         return selectedMarket;
@@ -64,7 +64,13 @@ export default {
     selectedMarketName() {
       return this.selectedMarket?.country?.name;
     },
-    ...mapState(['markets'])
+    selectableMarkets() {
+      return this.markets.filter(market => !market.onlyDisplayInCheckout);
+    },
+    ...mapState({
+      markets: state => state.channel.markets,
+      currentMarket: state => state.channel.currentMarket
+    })
   },
   watch: {},
   mounted() {},
@@ -79,8 +85,8 @@ export default {
       const language = this.getCodeFromId(id);
       return `${market}/${language}`;
     },
-    setMarket(id) {
-      this.$store.dispatch('setMarketId', id);
+    setMarket(alias) {
+      this.$store.dispatch('channel/setCurrentMarket', alias);
       this.$store.commit('contentpanel/close');
     }
   }

@@ -132,7 +132,7 @@ export default {
           event: 'Product Impression',
           eventInfo: {},
           ecommerce: {
-            currencyCode: this.$store.getters.getCurrency,
+            currencyCode: this.$store.getters['channel/currentCurrency'],
             detail: {
               [`${key}`]: item
             }

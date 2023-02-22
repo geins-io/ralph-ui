@@ -30,6 +30,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |relatedProductsRelated|`Array`|Related product with relation RELATED|No|
 |relatedProductsAccessories|`Array`|Related product with relation ACCESSORIES|No|
 |relatedProductsSimilar|`Array`|Related product with relation SIMILAR|No|
+|imgSrc|`[String, Boolean]`|Image src used for meta image|No|
 
 <!-- @vuese:MixProductPage.js:computed:end -->
 
@@ -40,7 +41,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |MixIn|
 |---|
 |MixMetaReplacement|
-|MixCache|
+|MixApolloRefetch|
 
 <!-- @vuese:MixProductPage.js:mixIns:end -->
 

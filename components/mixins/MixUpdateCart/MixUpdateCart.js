@@ -1,10 +1,10 @@
 import updateCartMutation from 'cart/update.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
+import { mapState } from 'vuex';
+import * as GTM from '../../../services/gtm';
 // @group Mixins
 // @vuese
 // Function to update the current cart
-import { mapState } from 'vuex';
-import * as GTM from '../../../services/gtm';
 export default {
   name: 'MixUpdateCart',
   mixins: [MixPromiseQueue],
@@ -74,7 +74,7 @@ export default {
             GTM.updateProductQuantityInCart({
               gtmInputs: {
                 gtm: this.$gtm,
-                currency: this.$store.getters.getCurrency,
+                currency: this.$store.getters['channel/currentCurrency'],
                 key: this.$store.getters.getGtmProductsKey
               },
               previousQuantity: previousProductQuantity,

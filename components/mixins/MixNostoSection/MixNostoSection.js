@@ -1,7 +1,8 @@
-// @group mixins
+// @group Mixins
 // @vuese
+// Mixin for Nosto section
 export default {
-  name: 'CaNostoSection',
+  name: 'MixNostoSection',
   mixins: [],
   props: {},
   data: () => ({}),

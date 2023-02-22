@@ -26,6 +26,7 @@ Shared functionality between widgets that has images
 |filenameTabletUp|`String`|File names if not phone|No|
 |currentSize|`Object`|The current largest size for the image, object containing height and width|No|
 |currentRatio|`Number`|The current image ratio|No|
+|fullWidth|`Boolean`|Is widget have full width|No|
 
 <!-- @vuese:MixWidgetImage:computed:end -->
 

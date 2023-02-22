@@ -42,7 +42,7 @@ import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
 import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 // @group Molecules
 // @vuese
-// (Description of component)<br><br>
+// Product gallery to be placed in modal<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-gallery-modal.scss_
 export default {
   name: 'CaProductGalleryModal',

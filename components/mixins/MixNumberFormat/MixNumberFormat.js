@@ -22,10 +22,10 @@ export default {
       return this.$i18n?.localeProperties?.iso || 'sv-SE';
     },
     // @vuese
-    // Current currency from marketId
+    // Current currency
     // @type String
     currency() {
-      return this.$store.getters.getCurrency;
+      return this.$store.getters['channel/currentCurrency'];
     }
   },
   watch: {},

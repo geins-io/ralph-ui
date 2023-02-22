@@ -22,21 +22,38 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    // Is the Country selector used in checkout?
+    inCheckout: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
     selection: ''
   }),
   computed: {
-    ...mapState(['marketId'])
+    ...mapState({
+      currentMarket: state => state.channel.currentMarket,
+      checkoutMarket: state => state.channel.checkoutMarket
+    })
   },
   watch: {
-    marketId() {
-      this.selection = this.marketId;
+    currentMarket() {
+      if (this.inCheckout) {
+        return;
+      }
+      this.selection = this.currentMarket;
+    },
+    checkoutMarket() {
+      if (!this.inCheckout) {
+        return;
+      }
+      this.selection = this.checkoutMarket;
     }
   },
   mounted() {
-    this.selection = this.marketId;
+    this.selection = this.inCheckout ? this.checkoutMarket : this.currentMarket;
   },
   methods: {
     getSelected(value) {

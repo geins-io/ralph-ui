@@ -24,16 +24,16 @@ export default ctx => {
       });
     }
 
-    if (ctx.store.state.channelId) {
+    if (ctx.store.state.channel.id) {
       operation.variables = {
         ...operation.variables,
-        channelId: ctx.store.state.channelId
+        channelId: ctx.store.state.channel.id
       };
     }
-    if (ctx.store.state.marketId) {
+    if (ctx.store.state.channel.currentMarket) {
       operation.variables = {
         ...operation.variables,
-        marketId: ctx.store.state.marketId
+        marketId: ctx.store.state.channel.currentMarket
       };
     }
     if (ctx.i18n.localeProperties.iso) {

@@ -47,8 +47,10 @@
     width: 100%;
     z-index: 15;
     background: $c-lightest-gray;
-    overflow: hidden;
+    overflow: auto;
     white-space: nowrap;
+    max-height: rem-calc(320);
+    @include scrollbarStyle($c-dark-gray, $c-darkest-gray);
   }
 
   &__option {

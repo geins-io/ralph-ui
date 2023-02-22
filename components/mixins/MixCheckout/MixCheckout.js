@@ -1,7 +1,6 @@
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
-import getMarketsQuery from 'checkout/get-checkout-markets.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
@@ -24,7 +23,6 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // activeElement: `null`
 // frameLoading: `false`
 // forceExternalCheckoutReset: `false`
-// markets: `[]`
 export default {
   name: 'MixCheckout',
   mixins: [MixPromiseQueue, MixApolloRefetch],
@@ -47,8 +45,7 @@ export default {
     updateTimeout: null,
     activeElement: null,
     frameLoading: false,
-    forceExternalCheckoutReset: false,
-    markets: []
+    forceExternalCheckoutReset: false
   }),
   computed: {
     // @vuese
@@ -136,7 +133,29 @@ export default {
     paymentType() {
       return this.selectedPaymentOption?.paymentType;
     },
-    ...mapState(['cart', 'customerType', 'marketId'])
+    // @vuese
+    // All selectable markets
+    // @type Array
+    selectableMarkets() {
+      return this.markets
+        .filter(market => !market.virtual)
+        .map(market => {
+          return {
+            label: market.country.name,
+            value: market.alias
+          };
+        });
+    },
+    ...mapState({
+      markets: state => state.channel.markets,
+      currentMarket: state => state.channel.currentMarket,
+      checkoutMarket: state => state.channel.checkoutMarket,
+      customerType: state => state.customerType,
+      cart: state => state.cart
+    }),
+    ...mapGetters({
+      checkoutMarketObj: 'channel/checkoutMarketObj'
+    })
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
@@ -175,22 +194,21 @@ export default {
         this.createOrUpdateCheckout('customer type changed');
       }
     },
-    marketId(newVal, oldVal) {
-      const newCurrency = newVal?.split('|') ? newVal.split('|')[1] : '';
-      const oldCurrency = oldVal?.split('|') ? oldVal.split('|')[1] : '';
-      // If marketId changed but currency stays the same, we need to trigger a checkout update.
-      // Otherwise, when currency changes, the checkout will be updated following the cart change
-      if (newCurrency === oldCurrency) {
-        this.createOrUpdateCheckout('market id changed');
+    checkoutMarketObj: {
+      deep: true,
+      handler(newVal, oldVal) {
+        // When market changes and currency stays the same, we need to update the checkout from here.
+        // When market is changed and currency changes, cart will update and that will trigger an update of the checkout,
+        // so we don't need to do it here
+        if (newVal?.currency?.code === oldVal?.currency?.code) {
+          this.createOrUpdateCheckout('market changed');
+        }
       }
     }
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
-    }
-    if (this.$config.checkout.showMultipleMarkets) {
-      this.getMarkets();
     }
     this.emitGTMEvent();
   },
@@ -205,7 +223,7 @@ export default {
           brand: item.product.brand?.name,
           category: item.product.primaryCategory?.name,
           price: item.unitPrice?.sellingPriceExVat,
-          currency: this.$store.getters.getCurrency,
+          currency: this.$store.getters['channel/currentCurrency'],
           tax: item.unitPrice.vat,
           quantity: item.quantity,
           variant: item.product.skus.find(i => i.skuId === item.skuId).name,
@@ -217,7 +235,7 @@ export default {
           event: 'Checkout Step',
           eventInfo: {},
           ecommerce: {
-            currencyCode: this.$store.getters.getCurrency,
+            currencyCode: this.$store.getters['channel/currentCurrency'],
             checkout: {
               actionField: {
                 step: 1
@@ -247,7 +265,8 @@ export default {
           this.$refs.externalcheckout.suspend();
         }
         const vars = {
-          cartId: this.$store.getters['cart/id']
+          cartId: this.$store.getters['cart/id'],
+          checkoutMarketId: this.checkoutMarket
         };
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
@@ -330,6 +349,7 @@ export default {
           mutation: placeOrderMutation,
           variables: {
             cartId: this.$store.getters['cart/id'],
+            checkoutMarketId: this.checkoutMarket,
             checkout: this.checkoutInput
           }
         })
@@ -371,7 +391,6 @@ export default {
           city: '',
           entryCode: '',
           mobile: '',
-          country: 'SE',
           company: ''
         };
       }
@@ -405,33 +424,10 @@ export default {
       this.createOrUpdateCheckout('shipping selection');
     },
     // @vuese
-    // Get the markets for the storefront from the channelId taken from nuxt.config on the storefront under '@nuxtjs/i18n'
-    // @arg channel id (string)
-    getMarkets() {
-      this.$apollo
-        .query({
-          query: getMarketsQuery
-        })
-        .then(response => {
-          const res = response?.data?.channel?.markets;
-          const marketCollection = [];
-          res.forEach(item => {
-            marketCollection.push({
-              label: item.country.name,
-              value: item.alias
-            });
-          });
-          if (marketCollection.length <= 1) {
-            this.setMarketId(marketCollection[0].value);
-          }
-          this.markets = marketCollection;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
-    setMarketId(value) {
-      this.$store.dispatch('setMarketId', value);
+    // Handling the checkout market selection
+    // @arg market (String)
+    setCheckoutMarket(value) {
+      this.$store.dispatch('channel/setCheckoutMarket', value);
     }
   }
 };

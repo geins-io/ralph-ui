@@ -879,10 +879,10 @@ export default {
             this.widgetAreaVars.map(item => ({
               ...item,
               filters: this.widgetAreaFilters,
-              channelId: this.$store.state.channelId,
+              channelId: this.$store.state.channel.id,
               url: this.currentPath,
               languageId: this.$i18n.localeProperties.iso,
-              marketId: this.$store.state.marketId
+              marketId: this.$store.state.channel.currentMarket
             }))
           );
       }

@@ -25,3 +25,13 @@ Functionality and endpoint call for menus **Data:**<br> menu: `null`<br>
 <!-- @vuese:MixMenu:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixMenu:mixIns:start -->
+|MixIn|
+|---|
+|MixApolloRefetch|
+
+<!-- @vuese:MixMenu:mixIns:end -->
+
+

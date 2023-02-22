@@ -3,14 +3,14 @@ query getCheckoutAndOrder(
   $paymentType: PaymentType!
   $channelId: String
   $languageId: String
-  $marketId: String
+  $checkoutMarket: String
 ) {
   getCheckoutAndOrder(
     id: $id
     paymentType: $paymentType
     channelId: $channelId
     languageId: $languageId
-    marketId: $marketId
+    marketId: $checkoutMarket
   ) {
     order {
       orderId
@@ -18,7 +18,6 @@ query getCheckoutAndOrder(
       lastName
       email
       currency
-      marketId
     }
   }
 }

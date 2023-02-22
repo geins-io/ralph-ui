@@ -1,0 +1,18 @@
+.ca-market-group {
+  $block: &;
+  margin: 0 0 $px20;
+  &__title {
+    font-size: $font-size-l;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    border-bottom: $border-light;
+    padding: 0 0 $px4;
+    margin: 0 0 $px20;
+  }
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: $px20;
+    column-gap: $px20;
+  }
+}

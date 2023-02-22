@@ -16,6 +16,7 @@ Text field, use v-model to bind value<br><br> **SASS-path:** _./styles/component
 |id|Id of field, also used as name|`String`|`false`|-|
 |valid|Used to handle validation outside input scope|`Boolean`|`false`|true|
 |errorMessage|What error text should be displayed if field not vaild|`String`|`false`|null|
+|maxlength|-|`Number`|`false`|null|
 
 <!-- @vuese:CaInputTextarea:props:end -->
 

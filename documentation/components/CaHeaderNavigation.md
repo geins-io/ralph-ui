@@ -8,6 +8,7 @@ Navigation fitting for the header. Supports three levels<br><br> **SASS-path:** 
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |type|What type/style of menu should be displayed|`full-width` / `boxed`|`false`|full-width|
+|menuState|Choose between hover or click to open menu|`String`|`false`|hover|
 
 <!-- @vuese:CaHeaderNavigation:props:end -->
 

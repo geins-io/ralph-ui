@@ -32,7 +32,7 @@ export default {
         unit_price: item.unitPrice.sellingPriceExVat,
         quantity: item.quantity,
         sku_id: item.skuId,
-        price_currency_code: this.$store.getters.getCurrency
+        price_currency_code: this.$store.getters['channel/currentCurrency']
       }));
     },
     // @vuese
@@ -76,7 +76,8 @@ export default {
           fetchPolicy: 'no-cache',
           variables: {
             id: this.orderId,
-            paymentType: this.type
+            paymentType: this.type,
+            checkoutMarket: this.$store.state.channel.checkoutMarket
           }
         })
         .then(result => {

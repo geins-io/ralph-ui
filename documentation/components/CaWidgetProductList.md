@@ -19,6 +19,12 @@ Widget displaying a product list<br><br> **SASS-path:** _./styles/components/mol
 |---|---|---|---|
 |take|`Number`|How many products to take|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
+|isLatestMode|`Object`|Is widget on latest products mode|No|
+|isFavoriteMode|`Object`|Is widget on favorite products mode|No|
+|isTitleVisible|`Object`|Is title visible|No|
+|latestProducts|`Object`|Latest visible products (need only in latest mode)|No|
+|favoritesProducts|`Object`|Latest visible products (need only in favorite mode)|No|
+|productVars|`Object`|Variables in product request|No|
 
 <!-- @vuese:CaWidgetProductList:computed:end -->
 
@@ -28,6 +34,7 @@ Widget displaying a product list<br><br> **SASS-path:** _./styles/components/mol
 <!-- @vuese:CaWidgetProductList:mixIns:start -->
 |MixIn|
 |---|
+|MixApolloRefetch|
 |MixListPagination|
 
 <!-- @vuese:CaWidgetProductList:mixIns:end -->

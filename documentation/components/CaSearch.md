@@ -19,6 +19,7 @@ The search including search results<br><br> **SASS-path:** _./styles/components/
 |Event Name|Description|Parameters|
 |---|---|---|
 |searchRouteChange|-|-|
+|closed|-|-|
 
 <!-- @vuese:CaSearch:events:end -->
 

@@ -9,12 +9,14 @@
   />
 </template>
 <script>
+import MixWidgetType from 'MixWidgetType';
 // @group Molecules
 // @vuese
 // Shell for displaying widget component based on type<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget.scss_
 export default {
   name: 'CaWidget',
+  mixins: [MixWidgetType],
   props: {
     // Configuration JSON object
     configuration: {
@@ -50,35 +52,6 @@ export default {
     confObj() {
       const config = JSON.parse(this.configuration);
       return Object.assign(config, this.widgetAreaVariables);
-    },
-    currentWidget() {
-      if (this.type === 'Image') {
-        return 'CaWidgetImage';
-      } else if (this.type === 'Text') {
-        return 'CaWidgetText';
-      } else if (this.type === 'Buttons') {
-        return 'CaWidgetButtons';
-      } else if (this.type === 'Product list') {
-        return 'LazyCaWidgetProductList';
-      } else if (this.type === 'Banner') {
-        return 'CaWidgetBanner';
-      } else if (this.type === 'Video') {
-        return 'CaWidgetVideo';
-      } else if (this.type === 'HTML') {
-        return 'CaWidgetHtml';
-      } else if (this.type === 'Rich text') {
-        return 'CaWidgetRichText';
-      } else if (this.type === 'Flowbox') {
-        return 'CaWidgetFlowbox';
-      } else if (
-        this.type === 'Nosto feed' &&
-        this.$store.getters['nosto/isNostoActive'] &&
-        this.$config.nostoAccountId
-      ) {
-        return 'CaNostoSection';
-      } else {
-        return '';
-      }
     }
   },
   watch: {},

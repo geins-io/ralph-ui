@@ -71,7 +71,7 @@ export default {
       type: Array,
       required: true
     },
-    // The from element label
+    // The form element label
     label: {
       type: String,
       // ''
