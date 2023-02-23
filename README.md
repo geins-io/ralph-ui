@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.1.1] - 2023-02-23
+
+## Fix
+
+- Widget Flowbox - fixed bug with initialization (generating pseudo id), loading widget only on client side, handle dynamic product flow option
+
 ## [17.1.0] - 2023-02-23
 
 ## Added

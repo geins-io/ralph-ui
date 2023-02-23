@@ -11,9 +11,12 @@
 // @vuese
 // Flowbox widget handler component<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-flowbox.scss_
+
+import MixProductPage from 'MixProductPage';
+import MixVariantHandler from 'MixVariantHandler';
 export default {
   name: 'CaWidgetFlowbox',
-  mixins: [],
+  mixins: [MixProductPage, MixVariantHandler],
   props: {
     // Widget configuration object
     configuration: {
@@ -53,8 +56,7 @@ export default {
           dynamicProductFlow,
           dynamicTagFlow,
           tags,
-          tagOperator: tagsOperator,
-          productId
+          tagOperator: tagsOperator
         } = this.configuration;
         this.isFlowboxActive = active;
 
@@ -68,17 +70,17 @@ export default {
         if (!active) {
           return;
         }
-
         // there is no productID which disables option to display dynamic flow
-        if (dynamicProductFlow && !productId) {
+        if (dynamicProductFlow && !this.product?.productId) {
           console.error('Missing product id for dynamic product flow');
         }
-        if (dynamicProductFlow && productId) {
+
+        if (dynamicProductFlow && this.product?.productId) {
           window?.flowbox('init', {
             // Init for dynamic product flow
             container: `#${this.widgetSectionId}`,
             key: flowkey,
-            productId,
+            productId: this.product.productId,
             locale
           });
         } else if (dynamicTagFlow) {

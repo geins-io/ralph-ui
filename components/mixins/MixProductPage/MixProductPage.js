@@ -96,7 +96,7 @@ export default {
         this.$store.dispatch('loading/end');
       },
       skip() {
-        return !this.isInitialRequest || !process.client;
+        return !this.prodAlias || !this.isInitialRequest || !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -125,7 +125,7 @@ export default {
     // Alias used to fetch product data, using replaceAlias if it has a value
     // @type String
     prodAlias() {
-      const routeParam = this.$route.params.alias.split('/').pop();
+      const routeParam = this.$route.params?.alias?.split('/').pop();
       return this.replaceAlias || routeParam;
     },
     // @vuese
