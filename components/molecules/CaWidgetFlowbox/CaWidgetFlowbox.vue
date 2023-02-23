@@ -1,6 +1,8 @@
 <template>
   <div class="ca-widget-flowbox__container">
-    <div :id="widgetSectionId" class="ca-widget-flowbox__widget"></div>
+    <client-only>
+      <div :id="widgetSectionId" class="ca-widget-flowbox__widget"></div>
+    </client-only>
   </div>
 </template>
 <!-- eslint-disable no-console -->
@@ -24,9 +26,7 @@ export default {
     isFlowboxActive: false,
     // ID to distinguish flowbox sections
     // TODO: replace pseudo-id
-    widgetSectionId:
-      'flowbox-widget-' +
-      (Math.random().toString(36) + Date.now().toString(36)).substring(2, 20)
+    widgetSectionId: ''
   }),
   computed: {},
   watch: {
@@ -36,7 +36,9 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.widgetSectionId = this.generatePseudoId();
+  },
   mounted() {},
   methods: {
     // @vuese
@@ -71,7 +73,6 @@ export default {
         if (dynamicProductFlow && !productId) {
           console.error('Missing product id for dynamic product flow');
         }
-
         if (dynamicProductFlow && productId) {
           window?.flowbox('init', {
             // Init for dynamic product flow
@@ -100,6 +101,14 @@ export default {
       } catch (error) {
         console.error('Something went wrong with flowbox initialization');
       }
+    },
+    // @vuese
+    // temporary method to generate id for widget (to identify more widgets on the same page)
+    generatePseudoId() {
+      return (
+        'flowbox-widget-' +
+        (Math.random().toString(36) + Date.now().toString(36)).substring(2, 20)
+      );
     }
   },
   head() {

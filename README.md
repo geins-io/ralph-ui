@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.1.0] - 2023-02-23
+
+## Added
+
+- Add widget Category Puffs
+
 ## [17.0.0] - 2023-02-21
 
 This update will require you to add `channel.js` to your store folder. You will also need to update your .env-file to use `FALLBACK_MARKET_ALIAS` instead of `FALLBACK_MARKET_ID` and the format should be for example "se" for Sweden. Also, fallback markets need to be fetched from the api in nuxt.config. You also need to add `@mixin scrollbarStyle`. See commit in Ralph for reference for all this.

@@ -1,0 +1,63 @@
+.ca-widget-category-puffs {
+  $block: &;
+
+  &__heading {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-l;
+    margin-bottom: $px16;
+  }
+
+  &__list {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: $px20;
+
+    @include bp(laptop) {
+      align-items: baseline;
+    }
+
+    &-element {
+      display: flex;
+      flex: 1 0 auto;
+      margin: 0 $px16;
+
+      @include bp(laptop) {
+        align-items: baseline;
+        flex: 1 2 auto;
+      }
+    }
+  }
+
+  &__picture {
+    display: block;
+    margin: 0 auto;
+  }
+
+  &__image {
+    height: 90px;
+    object-fit: contain;
+    object-position: bottom center;
+    margin: 0 auto;
+    width: 90px;
+
+    @include bp(laptop) {
+      height: 180px;
+      width: 180px;
+    }
+  }
+
+  &__category-title {
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+    text-align: center;
+  }
+
+  &__category-subtitle {
+    font-size: $font-size-s;
+    font-weight: $font-weight-normal;
+    text-align: center;
+  }
+}
