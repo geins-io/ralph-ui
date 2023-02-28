@@ -3,27 +3,35 @@
   $default-site-width-spacing-tablet: $px40 !default;
   $default-site-width-spacing-laptop: $px40 !default;
   $default-site-width-spacing-desktop: rem-calc(60) !default;
+  
   position: relative;
   margin: 0 auto;
   width: calc(100% - #{$default-site-width-spacing});
+  
   @include bp(tablet) {
     width: calc(100% - #{$default-site-width-spacing-tablet});
   }
+  
   @include bp(laptop) {
     width: calc(100% - #{$default-site-width-spacing-laptop});
   }
+  
   @include bp(desktop) {
     width: calc(100% - #{$default-site-width-spacing-desktop});
   }
+  
   &--default {
     max-width: $site-width;
   }
+  
   &--narrow {
     max-width: $site-width-narrow;
   }
+  
   &--full-width {
     max-width: none;
     width: 100%;
+  
     @include bp(tablet) {
       width: 100%;
     }

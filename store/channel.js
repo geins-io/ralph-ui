@@ -80,7 +80,7 @@ export const getters = {
     return state.markets.find(market => market.alias === state.checkoutMarket);
   },
   cartMarketAlias: (state, getters, rootState) => {
-    return rootState.currentRouteName.includes('checkout')
+    return rootState.currentRouteName?.includes('checkout')
       ? state.checkoutMarket
       : state.currentMarket;
   }

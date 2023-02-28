@@ -1,9 +1,11 @@
 .ca-read-more {
   $block: &;
+
   &__text {
     overflow: hidden;
     position: relative;
     color: var(--body-text-color, $c-text-primary);
+  
     &::after {
       content: '';
       display: block;
@@ -18,16 +20,19 @@
       transition: opacity 200ms ease;
     }
   }
+  
   &__button {
     font-weight: $font-weight-bold;
     text-transform: uppercase;
     margin-top: $px8;
   }
+  
   &--visible & {
     &__text::after {
       opacity: 0;
     }
   }
+  
   &--ready {
     #{$block}__text {
       transition: height 200ms ease;

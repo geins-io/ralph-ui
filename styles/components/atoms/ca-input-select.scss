@@ -1,26 +1,29 @@
 .ca-input-select {
   $block: &;
+  
   position: relative;
   width: 165px;
+
   &__label {
     left: 10px;
     font-size: $font-size-xs;
     transition: all 150ms ease;
     pointer-events: none;
     padding: 2px 5px;
-    background: $c-white;
+    background-color: $c-white;
     position: absolute;
     transform: translateY(-50%);
     top: 0;
     z-index: 10;
   }
+
   &__selected,
   &__select-wrap {
     padding: 0px 43px 0px 15px;
     line-height: 38px;
     height: 40px;
     border: $border-light;
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     transition: border-color 200ms ease;
     cursor: pointer;
     position: relative;
@@ -30,23 +33,26 @@
   &__select-wrap {
     padding: 0;
   }
+
   &__select {
     padding: 0px 43px 0px 15px;
     width: 100%;
     height: 100%;
   }
+  
   &__arrow {
     @include valign;
     right: 14px;
     font-size: 16px;
   }
+  
   &__options {
     border: $border-light;
     position: absolute;
     margin-top: 2px;
     width: 100%;
     z-index: 15;
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     overflow: auto;
     white-space: nowrap;
     max-height: rem-calc(320);
@@ -57,11 +63,11 @@
     line-height: 40px;
     padding: 0px 15px;
     cursor: pointer;
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     transition: all 200ms ease;
 
     &:hover {
-      background: $c-light-gray;
+      background-color: $c-light-gray;
     }
   }
 
@@ -70,6 +76,7 @@
     color: $c-text-secondary;
     margin: 5px 0px 0px 15px;
   }
+
   &__optional {
     font-size: 0.9em;
     color: $c-text-secondary;

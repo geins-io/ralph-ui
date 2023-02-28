@@ -35,9 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.1.2] - 2023-02-28
+
+## Fixed
+
+- CSS code standard improvements
+- Bug in getPath for sites not using marketInPath
+
 ## [17.1.1] - 2023-02-23
 
-## Fix
+## Fixed
 
 - Widget Flowbox - fixed bug with initialization (generating pseudo id), loading widget only on client side, handle dynamic product flow option
 

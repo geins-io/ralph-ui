@@ -1,6 +1,7 @@
 .ca-notification-badge {
   @include flex-calign;
-  background: $c-notification-badge-bg;
+
+  background-color: $c-notification-badge-bg;
   color: $c-notification-badge-txt;
   border-radius: 50%;
   width: 1.8em;

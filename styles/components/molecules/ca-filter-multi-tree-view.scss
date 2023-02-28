@@ -18,16 +18,16 @@
     position: relative;
 
     &::before {
-      background: $c-input-checkbox-bg;
-      border: $input-checkbox-border;
       content: '';
+      background-color: $c-input-checkbox-bg;
+      border: $input-checkbox-border;
       display: block;
+      width: 20px;
       height: 20px;
-      left: 0;
       position: absolute;
       top: rem-calc(8px);
+      left: 0;
       transition: all 200ms ease;
-      width: 20px;
     }
 
     &--selected {
@@ -55,10 +55,10 @@
 
   &__check {
     color: $c-white;
-    left: 2px;
     opacity: 0;
     position: absolute;
     top: 10px;
+    left: 2px;
     transition: opacity 200ms ease;
   }
 

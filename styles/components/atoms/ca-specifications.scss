@@ -2,6 +2,7 @@
   @include bp(laptop) {
     padding: 0 1rem 1rem;
   }
+
   &__group {
     &:not(:last-child) {
       margin-bottom: $px20;
@@ -15,16 +16,19 @@
     width: 100%;
     border-bottom: 1px solid $c-darkest-gray;
   }
+  
   &__item {
     height: rem-calc(46px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: $border-light;
+  
     @include bp(laptop) {
       font-size: $font-size-m;
     }
   }
+  
   &__label {
     font-weight: $font-weight-bold;
   }

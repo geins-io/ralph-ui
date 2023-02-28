@@ -3,27 +3,33 @@
     display: flex;
     align-items: center;
   }
+  
   &__toggle-text {
     margin: 0 rem-calc(6) 0 0;
   }
+  
   &__footer {
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
     padding: $px12;
   }
+  
   &__list-info {
     text-align: center;
     margin: 0 0 $px10 0;
   }
+  
   &__buttons-wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+  
   &__button-apply.ca-button {
     flex: 1;
     margin-left: $px12;
     border: 1px solid $c-button-primary-bg;
   }
+  
   &__button-reset {
     flex: 0;
   }

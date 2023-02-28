@@ -1,6 +1,8 @@
 .ca-image {
   $block: &;
+  
   position: relative;
+
   &__img {
     width: 100%;
 
@@ -9,11 +11,11 @@
     }
 
     &--background {
+      background-position: center center;
+      background-size: 100%;
       background-repeat: 'no-repeat';
       height: 0;
       padding: 0;
-      background-position: center center;
-      background-size: 100%;
     }
   }
   &--loaded {
@@ -24,6 +26,7 @@
       z-index: 1;
     }
   }
+
   &--force-ratio {
     #{$block}__img {
       position: absolute;
@@ -38,9 +41,10 @@
 
   &--product {
     @include productImageOverlay;
+
     #{$block}__img {
       padding: 6%;
-      background: $c-white;
+      background-color: $c-white;
     }
   }
 }

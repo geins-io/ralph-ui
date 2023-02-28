@@ -1,18 +1,20 @@
 .ca-feedback {
   $block: &;
+  
   display: flex;
   padding: rem-calc(14px) $px12 rem-calc(14px) rem-calc(18px);
   border-radius: rem-calc(4px);
-  background: $c-info;
+  background-color: $c-info;
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   text-align: left;
+
   &::before {
     content: '';
     display: block;
     opacity: 0.96;
-    background: $c-white;
+    background-color: $c-white;
     width: calc(100% - #{rem-calc(6px)});
     height: 100%;
     position: absolute;
@@ -22,6 +24,7 @@
     left: 6px;
     z-index: 1;
   }
+
   &__icon {
     z-index: 2;
     flex-shrink: 0;
@@ -29,12 +32,14 @@
     margin-right: $px10;
     color: $c-info;
   }
+
   &__message {
     z-index: 2;
     margin: 0 $px10 0 0;
     font-size: $font-size-s;
     color: var(--body-text-color, $c-text-primary);
   }
+
   &__close {
     z-index: 2;
     flex-shrink: 0;
@@ -43,13 +48,16 @@
   }
 
   &--success {
-    background: $c-success;
+    background-color: $c-success;
+    
     #{$block}__icon {
       color: $c-success;
     }
   }
+
   &--error {
-    background: $c-error;
+    background-color: $c-error;
+    
     #{$block}__icon {
       color: $c-error;
     }

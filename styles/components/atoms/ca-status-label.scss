@@ -5,17 +5,21 @@
   text-transform: capitalize;
   background-color: $c-medium-gray;
   font-size: $font-size-xs;
+  
   @include bp(laptop) {
     padding: rem-calc(2px) rem-calc(7px);
     font-size: $font-size-s;
   }
+  
   &--processing {
     background-color: $c-ok;
   }
+  
   &--completed {
     background-color: $c-success;
     color: $c-text-inverse;
   }
+  
   &--cancelled {
     background-color: $c-error;
     color: $c-text-inverse;

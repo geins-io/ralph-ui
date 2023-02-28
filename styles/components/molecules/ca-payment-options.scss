@@ -2,6 +2,7 @@
   display: grid;
   grid-auto-rows: repeat(3, 1fr);
   row-gap: rem-calc(16);
+  
   &__option {
     border: 2px solid $c-border-light;
     position: relative;
@@ -9,6 +10,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+
     &::before {
       content: '';
       display: block;
@@ -18,30 +20,35 @@
       background-color: #fff;
       border: 4px solid #fff;
       transform: translateY(-50%);
-      top: 50%;
       position: absolute;
+      top: 50%;
       left: 18px;
       border-radius: 50%;
       transition: background-color 200ms ease;
     }
+
     &:hover {
       &::before {
         background-color: hexToRgba($c-accent-color, 0.4);
       }
     }
+    
     &--selected {
       border-color: $c-success;
       cursor: initial;
+    
       &::before {
         background-color: var(--accent-color, $c-accent-color) !important;
       }
     }
   }
+  
   &__logo {
     width: rem-calc(50);
     height: auto;
     margin: 0 rem-calc(20) 0 0;
   }
+  
   &__name {
     padding: $px4 0;
   }

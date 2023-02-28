@@ -3,13 +3,16 @@
     font-size: $font-size-l;
     margin-bottom: $px12;
     font-weight: $font-weight-bold;
+
     &:not(:first-child) {
       margin-top: $px20;
     }
+    
     @include bp(tablet) {
       font-size: $font-size-xl;
     }
   }
+  
   &__item {
     text-decoration: underline;
   }

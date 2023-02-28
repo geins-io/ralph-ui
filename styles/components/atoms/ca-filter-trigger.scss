@@ -1,21 +1,25 @@
 .ca-filter-trigger {
   $block: &;
+  
   position: relative;
+  
   &__title {
     padding: 0px 43px 0px 15px;
     line-height: 38px;
     height: 40px;
     border: $border-light;
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     transition: border-color 200ms ease;
-    cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
+  
   &__amount {
     margin: 0 0 0 rem-calc(6px);
   }
+  
   &__arrow {
     @include valign;
     right: 14px;

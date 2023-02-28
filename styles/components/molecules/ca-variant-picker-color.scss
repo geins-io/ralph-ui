@@ -2,42 +2,50 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
   &__choice {
     margin: $px4 0;
     position: relative;
     outline: none;
+  
     &:not(:last-child) {
       margin-right: $px20;
     }
+  
     &::before {
+      @include calign;
+  
       content: '';
       width: rem-calc(34px);
       height: rem-calc(34px);
       display: block;
       border: 1px solid transparent;
       transition: border-color 200ms ease;
-      @include calign;
       border-radius: 50%;
     }
+  
     &:hover::before,
     &:focus::before {
       border-color: $c-border-dark;
     }
+  
     &--chosen {
       &::before,
       &:focus::before,
       &:hover::before {
-        border-color: #000;
+        border-color: $c-black;
       }
     }
+  
     &--disabled {
       opacity: 0.2;
+  
       &::after {
         content: '';
         display: block;
         width: 1px;
         height: 35px;
-        background: #545454;
+        background-color: #545454;
         position: absolute;
         left: 50%;
         top: 50%;

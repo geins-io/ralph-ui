@@ -1,15 +1,18 @@
 .ca-category-display {
   display: flex;
   overflow: auto;
+
   @include bp(laptop) {
     overflow: hidden;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
+  
   &__item {
     @include bp(laptop-down) {
       margin-right: $px12;
     }
+  
     @include bp(laptop) {
       margin: $px8;
     }

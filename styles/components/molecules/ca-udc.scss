@@ -6,14 +6,17 @@
     max-width: 300px;
     margin: $px20 auto $px40;
   }
+
   &__text {
     text-align: center;
     font-size: $font-size-l;
   }
+  
   &__input {
     width: 100%;
     margin: $px20 0 $px10;
   }
+  
   &__feedback {
     margin: $px10 0 0;
   }
@@ -35,9 +38,11 @@
   flex-direction: column;
   cursor: pointer;
   transition: border-color 200ms ease;
+  
   &:not(:last-child) {
     margin: 0 0 $px16;
   }
+
   &::before {
     content: '';
     display: block;
@@ -52,15 +57,18 @@
     border-radius: 50%;
     transition: background-color 200ms ease;
   }
+  
   &:hover {
     &::before {
       background-color: hexToRgba($c-accent-color, 0.4);
     }
   }
+
   &.unifaun-checkout-selected0,
   &.unifaun-checkout-selected1 {
     border-color: $c-success;
     cursor: initial;
+
     &::before {
       background-color: var(--accent-color, $c-accent-color);
     }
@@ -87,10 +95,12 @@
 .unifaun-checkout-option-prefix-icon,
 .unifaun-checkout-option-suffix-icon {
   margin-bottom: 5px;
+
   img {
     max-width: 70px;
     max-height: 20px;
   }
+  
   @include bp(tablet) {
     position: absolute;
     right: 15px;
@@ -104,10 +114,12 @@
   font-size: $font-size-m;
   font-weight: $font-weight-bold;
   cursor: pointer;
+
   @include bp(phone-only) {
     padding-right: rem-calc(50px);
   }
 }
+
 .unifaun-checkout-option-delivery,
 .unifaun-checkout-option-description1 {
   margin: 5px 0;
@@ -131,12 +143,14 @@
   top: 15px;
   font-weight: $font-weight-bold;
   font-size: 17px;
-  background: $c-white;
+  background-color: $c-white;
 }
+
 .unifaun-checkout-option-sub-options {
   padding: $px16 0 $px12;
   margin: $px16 0 0;
   border-top: $border-light;
+
   @include bp(tablet) {
     padding-right: rem-calc(100px);
   }
@@ -146,6 +160,7 @@
   &:not(:only-child) {
     @include bp(tablet) {
       margin-right: -100px;
+
       &:not(:last-child) {
         margin: 0 -100px $px16 0;
       }
@@ -163,16 +178,17 @@
   cursor: pointer;
   position: relative;
   margin: $px10 0 0;
+
   &::after {
+    @include valign;
     content: '';
-    background: $c-input-background;
-    width: 45px;
-    height: calc(100% - 2px);
+    background-color: $c-input-background;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-position: center center;
     background-size: 20px 20px;
     background-repeat: no-repeat;
-    @include valign;
+    width: 45px;
+    height: calc(100% - 2px);
     right: 1px;
     pointer-events: none;
   }
@@ -185,29 +201,32 @@
   height: 48px;
   padding: 0 $px16;
   border: $input-border;
-  background: $c-input-background;
+  background-color: $c-input-background;
   border-radius: $input-border-radius;
   transition: border-color 200ms ease;
+
   &:focus {
     border-color: $c-input-focused-border;
   }
+  
   &:focus-visible {
     box-shadow: none;
   }
 }
+
 .unifaun-checkout-option-agent-info-onoff-link {
   display: inline-flex;
   align-items: center;
   margin: 0 0 $px8;
-
   position: relative;
+
   &::before {
     content: '';
-    position: absolute;
-    bottom: 0;
     width: calc(100% - 14px);
     height: 1px;
-    background: $c-text-primary;
+    background-color: $c-text-primary;
+    position: absolute;
+    bottom: 0;
     right: 0;
   }
 }
@@ -230,13 +249,16 @@
 
 .unifaun-checkout-option-agent-opening-hours {
   margin: $px8 0 0;
+
   tr:first-child td {
     border-bottom: $border-dark;
     font-weight: $font-weight-bold;
   }
+  
   tr td {
     padding: $px4;
   }
+  
   tr:nth-child(2) td {
     padding: $px8 $px4 $px4;
   }
@@ -251,25 +273,28 @@
 
 .unifaun-checkout-text-input-label,
 .unifaun-checkout-list-input-label {
-  left: $px10;
-  transition: top 0.2s ease, transform 0.2s ease;
   pointer-events: none;
   padding: rem-calc(1px) rem-calc(6px);
-  position: absolute;
   transform-origin: left center;
   font-size: $font-size-xs;
   border-radius: rem-calc(10px);
-  background: $c-input-background;
+  background-color: $c-input-background;
   transform: translateY(-50%) scale(1.15);
+  transition: top 0.2s ease, transform 0.2s ease;
+  position: absolute;
   top: 50%;
+  left: $px10;
+
   .unifaun-checkout-invalid & {
     top: 34%;
   }
+
   .unifaun-checkout-active & {
     font-weight: $font-weight-bold;
     transform: translateY(-50%) scale(1);
     top: 0;
   }
+
   .unifaun-checkout-disabled & {
     color: $c-text-secondary;
     background-color: $c-lightest-gray;
@@ -285,7 +310,6 @@
 .unifaun-checkout-list-input-label-message {
   font-size: $font-size-xs;
   color: $c-text-secondary;
-
   order: 3;
   display: block;
 
@@ -301,24 +325,22 @@
 .unifaun-checkout-text-input-input {
   height: 40px;
   border: $input-border;
-  background: $c-input-background;
+  background-color: $c-input-background;
   border-radius: $input-border-radius;
   transition: border-color 200ms ease;
   padding: 0 $px16;
   width: 100%;
+  
   &:focus {
     border-color: $c-input-focused-border;
   }
+
   &:focus-visible {
     box-shadow: none;
   }
+
   .unifaun-checkout-text-input.unifaun-checkout-disabled & {
     background-color: $c-lightest-gray;
-  }
-}
-
-.unifaun-checkout-list-input-select {
-  .unifaun-checkout-text-input.unifaun-checkout-disabled & {
   }
 }
 
@@ -332,14 +354,15 @@
   margin: 0 0 $px16;
   cursor: pointer;
 }
+
 .unifaun-checkout-custom-checkbox {
   width: $px20;
   height: $px20;
-  background-color: $c-white;
   border: $border-dark;
   transition: all 150ms ease;
   margin: 0 $px10 0 0;
   flex-shrink: 0;
+  background-color: $c-white;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
   background-size: 15px 15px;
   background-position: center center;
@@ -350,8 +373,10 @@
     background-color: $c-input-checkbox-checked-bg;
     border-color: $c-input-checkbox-checked-bg;
   }
+
   &:disabled + .unifaun-checkout-custom-checkbox {
     opacity: 0.7;
+  
     & ~ span {
       color: $c-text-secondary;
     }

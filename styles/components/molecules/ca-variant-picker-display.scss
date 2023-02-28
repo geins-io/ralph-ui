@@ -1,14 +1,17 @@
 .ca-variant-picker-display {
   display: flex;
+
   &__holder {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: $px4 0;
+  
     &:not(:last-child) {
       margin-right: $px20;
     }
   }
+  
   &__choice {
     width: 48px;
     height: 48px;
@@ -20,15 +23,18 @@
     justify-content: center;
     text-align: center;
     transition: all 200ms ease;
+  
     &:hover {
       border: 1px solid $c-darkest-gray;
     }
+  
     &--chosen {
-      background: $c-darkest-gray;
+      background-color: $c-darkest-gray;
       border-color: $c-darkest-gray;
       color: $c-text-inverse;
       font-weight: $font-weight-bold;
     }
+  
     &--disabled {
       opacity: 0.9;
       color: $c-text-secondary;
@@ -36,29 +42,33 @@
       pointer-events: none;
       position: relative;
       text-shadow: 0px 0px 5px $c-white;
+  
       &::before {
         content: '';
         display: block;
         width: 1px;
         height: 48px;
-        background: $c-border-dark;
+        background-color: $c-border-dark;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%) rotate(45deg);
         z-index: -2;
       }
+  
       &::after {
+        @include calign;
+  
         content: '';
         display: block;
         width: 20px;
         height: 20px;
-        background: $c-white;
-        @include calign;
+        background-color: $c-white;
         z-index: -1;
       }
     }
   }
+  
   &__notify {
     text-decoration: underline;
     margin: $px4 0 0;

@@ -3,40 +3,50 @@
     text-align: center;
     margin: 0 0 $px10;
   }
+  
   &__active-code {
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     padding: rem-calc(2px) $px4;
     font-weight: $font-weight-bold;
     border-radius: rem-calc(4px);
     border: $border-light;
     word-break: break-all;
   }
+  
   &__remove {
     text-decoration: underline;
   }
+  
   &__accordion.ca-accordion-item {
-    background: $c-lightest-gray;
+    background-color: $c-lightest-gray;
     border: $border-light;
   }
+  
   &__content {
     padding: $px10 $px16 $px16;
+
     @include bp(tablet) {
       padding: $px16 $px20 $px20;
     }
   }
+  
   &__feedback {
     margin-bottom: $px20;
   }
+  
   &__form {
     @include bp(tablet) {
       display: flex;
     }
   }
+  
   &__input {
     flex: 1;
   }
+  
   &__button.ca-button {
     margin: $px12 0 0;
+
     @include bp(tablet) {
       margin: 0;
     }

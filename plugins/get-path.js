@@ -6,7 +6,9 @@ export default ({ $config, store, app, i18n }, inject) => {
   ) => {
     const marketPath = $config.marketInPath ? `/${market}` : '';
     const localePath =
-      app.localePath(path, locale) === '/' ? '' : app.localePath(path, locale);
+      $config.marketInPath && app.localePath(path, locale) === '/'
+        ? ''
+        : app.localePath(path, locale);
     const newPath = marketPath + localePath;
     return newPath;
   };

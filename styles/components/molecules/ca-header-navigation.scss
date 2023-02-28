@@ -1,6 +1,7 @@
 .ca-header-navigation {
   $block: &;
   $header-navigation-height-computer: rem-calc(50px) !default;
+
   height: $header-navigation-height-computer;
   background-color: var(--header-bg, #{$c-header-bg});
   color: var(--header-text, #{$c-text-primary});
@@ -148,11 +149,11 @@
       position: relative;
 
       &:before {
+        @include halign;
         content: '';
         width: 0%;
         height: 3px;
         background-color: var(--accent-color, $c-accent-color);
-        @include halign;
         bottom: -3px;
         opacity: 0;
         transition: all 250ms ease;

@@ -4,20 +4,26 @@
     font-size: $font-size-m;
     margin: 0 0 $px10;
   }
+  
   &__inner {
     padding: $px20;
+
     @include bp(tablet) {
       font-size: $font-size-m;
     }
   }
+  
   &__feedback {
     margin: 0 0 $px24;
   }
+  
   &__description {
     margin: 0 0 $px20;
   }
+  
   &__button {
     margin: $px16 0 0;
+    
     @include bp(tablet) {
       margin: $px20 0 0;
     }

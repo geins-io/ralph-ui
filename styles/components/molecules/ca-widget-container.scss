@@ -7,7 +7,6 @@ $widget-row-spacing-laptop-full-width: 0 !default;
 .ca-widget-container {
   display: grid;
   grid-template-columns: 1fr;
-
   column-gap: $widget-column-spacing;
   row-gap: $widget-row-spacing;
 
@@ -15,6 +14,7 @@ $widget-row-spacing-laptop-full-width: 0 !default;
     &:not(:first-child) {
       margin: $widget-container-spacing auto 0;
     }
+
     @include bp(tablet) {
       @if $widget-container-spacing-tablet != $widget-container-spacing {
         &:not(:first-child) {
@@ -22,6 +22,7 @@ $widget-row-spacing-laptop-full-width: 0 !default;
         }
       }
     }
+    
     @include bp(laptop) {
       @if $widget-container-spacing-laptop != $widget-container-spacing-tablet {
         &:not(:first-child) {
@@ -35,9 +36,11 @@ $widget-row-spacing-laptop-full-width: 0 !default;
     &--half {
       grid-template-columns: repeat(2, 1fr);
     }
+
     &--third {
       grid-template-columns: repeat(3, 1fr);
     }
+    
     &--quarter {
       grid-template-columns: repeat(4, 1fr);
     }
@@ -45,18 +48,22 @@ $widget-row-spacing-laptop-full-width: 0 !default;
     @if $widget-column-spacing-tablet != $widget-column-spacing {
       column-gap: $widget-column-spacing-tablet;
     }
+    
     @if $widget-row-spacing-tablet != $widget-row-spacing {
       row-gap: $widget-row-spacing-tablet;
     }
   }
+
   @include bp(laptop) {
     @if $widget-column-spacing-laptop != $widget-column-spacing-tablet {
       column-gap: $widget-column-spacing-laptop;
     }
+  
     @if $widget-row-spacing-laptop != $widget-row-spacing-tablet {
       row-gap: $widget-row-spacing-laptop;
     }
   }
+  
   &--design-full-width {
     row-gap: $widget-row-spacing-full-width;
 
@@ -64,6 +71,7 @@ $widget-row-spacing-laptop-full-width: 0 !default;
       column-gap: $widget-column-spacing-tablet-full-width;
       row-gap: $widget-row-spacing-tablet-full-width;
     }
+  
     @include bp(laptop) {
       column-gap: $widget-column-spacing-laptop-full-width;
       row-gap: $widget-row-spacing-laptop-full-width;

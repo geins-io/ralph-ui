@@ -3,8 +3,10 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
   &__button {
     margin: $px8 $px8;
+  
     @include bp(laptop) {
       margin: $px8 $px32;
     }

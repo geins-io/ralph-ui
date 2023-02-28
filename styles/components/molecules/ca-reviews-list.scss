@@ -8,6 +8,7 @@
     font-size: $px32;
     font-weight: $font-weight-bold;
     white-space: nowrap;
+
     @include bp(laptop) {
       flex-direction: row;
     }
@@ -15,6 +16,7 @@
     &-counter {
       font-size: $px16;
       margin-left: 0;
+      
       @include bp(laptop) {
         margin-left: $px16;
       }

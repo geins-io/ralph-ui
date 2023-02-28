@@ -1,10 +1,12 @@
 .ca-prompt {
   $block: &;
-  background: $c-white;
+  background-color: $c-white;
   width: 90vw;
+  
   @include bp(tablet) {
     width: rem-calc(480px);
   }
+  
   &__header {
     height: rem-calc(58px);
     display: flex;
@@ -13,18 +15,22 @@
     border-bottom: $border-light;
     padding: 0 $px20;
   }
+  
   &__title {
     font-weight: $font-weight-bold;
     font-size: $font-size-l;
   }
+  
   &__close {
     cursor: pointer;
     font-size: $px20;
     line-height: 0;
   }
+  
   &__body {
     padding: $px32 $px20;
   }
+  
   &__footer {
     padding: $px20 $px20 $px12;
     border-top: $border-light;
@@ -32,6 +38,7 @@
     flex-direction: column-reverse;
     justify-content: flex-start;
     align-items: center;
+
     @include bp(tablet) {
       padding: 0 $px20;
       height: rem-calc(75px);
@@ -40,6 +47,7 @@
       align-items: center;
     }
   }
+  
   &__button.ca-button {
     @include bp(phone-only) {
       width: 100%;

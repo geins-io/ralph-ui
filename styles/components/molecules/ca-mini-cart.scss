@@ -3,15 +3,19 @@
   display: block;
   outline: none;
   color: var(--header-text, #{$c-cart-color});
+  
   @include bp(laptop) {
     @include flex-valign;
   }
+  
   &__wrap {
     position: relative;
   }
+  
   &__icon {
     font-size: rem-calc(24);
   }
+  
   &__value {
     font-weight: $font-weight-bold;
     margin-left: $px12;

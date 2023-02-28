@@ -1,26 +1,31 @@
 .ca-content-panel {
   $block: &;
-  z-index: $z-index-panel;
-  background: $c-white;
-  position: fixed;
-  bottom: 0;
+
+  background-color: $c-white;
   display: flex;
   flex-direction: column;
   max-width: 500px;
+  position: fixed;
+  bottom: 0;
+  z-index: $z-index-panel;
 
+  
   &__header {
     height: $content-panel-header-height;
     border-bottom: $border-light;
+
     @include flex-valign;
     justify-content: space-between;
-    background: $c-content-panel-header-bg;
+    background-color: $c-content-panel-header-bg;
     color: $c-content-panel-header-txt;
     padding: 0 $px10;
+    
     @include bp(laptop) {
       height: $content-panel-header-height-computer;
       padding: 0 $px16;
     }
   }
+  
   &__title {
     font-weight: $font-weight-bold;
     font-size: $font-size-l;
@@ -28,15 +33,18 @@
       font-size: $font-size-xl;
     }
   }
+  
   &__close-icon {
     @include iconCircle;
   }
+  
   &__body {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
   }
+  
   &__close-button {
     height: 50px;
     background-color: $c-white;
@@ -45,31 +53,38 @@
     border-top: $border-light;
     text-align: center;
   }
+
   &--left {
     top: 0;
     left: 0;
     width: 90vw;
+
     #{$block}__close-icon {
       right: -27px;
     }
   }
+
   &--right {
     top: 0;
     right: 0;
     width: 90vw;
+
     #{$block}__close-icon {
       left: -27px;
     }
   }
+
   &--bottom {
     height: calc(var(--vh, 1vh) * 93);
     width: 100vw;
     max-width: 100vw;
     left: 0;
     right: 0;
+
     #{$block}__header {
       justify-content: center;
     }
+    
     #{$block}__close-icon {
       display: none;
     }

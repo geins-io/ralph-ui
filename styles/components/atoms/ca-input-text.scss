@@ -1,19 +1,22 @@
 .ca-input-text {
   $input-text-height: rem-calc(50px) !default;
   $block: &;
+
   position: relative;
   transition: border 0.2s ease;
   height: $input-text-height;
   border: $input-border;
-  background: $c-input-background;
+  background-color: $c-input-background;
   border-radius: $input-border-radius;
 
   &__wrap {
     text-align: left;
+
     & + & {
       margin: $px16 0 0;
     }
   }
+
   &__label {
     left: $px10;
     transition: top 0.2s ease, transform 0.2s ease;
@@ -25,8 +28,9 @@
     top: 0;
     font-size: $font-size-xs;
     border-radius: rem-calc(10px);
-    background: $c-input-background;
+    background-color: $c-input-background;
   }
+
   &__optional {
     font-size: 0.8em;
     margin-left: 2px;
@@ -38,14 +42,16 @@
     border: none;
     height: 100%;
     width: 100%;
-    background: transparent;
+    background-color: transparent;
     outline: none;
     font-size: $font-size-s;
     padding: $px4 $px16 0 $px16;
     border-radius: $input-border-radius;
+
     @include bp(phone-only) {
       font-size: $font-size-m;
     }
+    
     &:focus-visible {
       box-shadow: none;
     }
@@ -54,14 +60,14 @@
   &__spinner {
     @include valign;
     right: $px16;
-    background: $c-input-background;
+    background-color: $c-input-background;
   }
 
   &__toggle-password {
     @include valign;
     right: $px16;
     padding: $px4 $px10;
-    background: $c-medium-gray;
+    background-color: $c-medium-gray;
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
   }
@@ -76,6 +82,7 @@
     font-size: $font-size-xs;
     padding: $px4 0 0 $px16;
     color: $c-text-secondary;
+
     &--error {
       color: $c-error;
     }
@@ -89,6 +96,7 @@
     bottom: 0;
     height: 17px;
   }
+
   &__password-meter {
     height: 2px !important;
   }
@@ -101,19 +109,24 @@
       }
     }
   }
+  
   &--focused {
     border-color: $c-input-focused-border;
+  
     #{$block}__label {
       font-weight: $font-weight-bold;
     }
   }
+  
   &--error {
     border-color: $c-error;
+  
     #{$block}__label {
       color: $c-error;
       font-weight: $font-weight-bold;
     }
   }
+  
   &--disabled {
     #{$block}__input {
       color: $c-text-secondary;

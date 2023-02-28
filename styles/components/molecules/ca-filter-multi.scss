@@ -17,11 +17,11 @@
     &::before {
       @include valign;
 
+      content: '';
       width: 20px;
       height: 20px;
-      content: '';
       display: block;
-      background: $c-input-checkbox-bg;
+      background-color: $c-input-checkbox-bg;
       border: $input-checkbox-border;
       left: 0;
       transition: all 200ms ease;
@@ -50,8 +50,8 @@
     }
   }
   &__check {
-    opacity: 0;
     @include valign;
+    opacity: 0;
     left: 2px;
     transition: opacity 200ms ease;
     color: $c-white;

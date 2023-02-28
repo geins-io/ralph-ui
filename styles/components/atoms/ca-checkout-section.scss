@@ -1,5 +1,6 @@
 .ca-checkout-section {
   $block: &;
+  
   margin-top: $px32;
 
   &__title {
@@ -15,18 +16,21 @@
       margin-bottom: $px12;
     }
   }
+
   &__content {
-    background: $c-white;
+    background-color: $c-white;
     padding: $px20 $px12;
     position: relative;
     min-height: rem-calc(100px);
+
     @include bp(tablet) {
       padding: $px32;
     }
   }
+
   &__loading {
     @include flex-calign;
-    background: #fff;
+    background-color: $c-white;
     bottom: 0;
     height: 100%;
     left: 0;
@@ -35,6 +39,7 @@
     top: 0;
     width: 100%;
   }
+
   &__spinner.ca-spinner {
     border-color: var(--accent-color, $c-accent-color);
     width: 30px;
@@ -42,7 +47,7 @@
   }
 
   &__guard {
-    background: #fff;
+    background-color: $c-white;
     bottom: 0;
     height: 100%;
     left: 0;
@@ -55,7 +60,7 @@
 
   &__guard-info {
     @include halign;
-    background: $c-white;
+    background-color: $c-white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,6 +70,7 @@
     font-size: $font-size-l;
     text-align: center;
     width: 90%;
+
     @include bp(tablet) {
       width: 50%;
     }

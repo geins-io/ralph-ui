@@ -1,5 +1,6 @@
 .ca-input-radio {
   $block: &;
+
   &__value {
     position: relative;
     padding-left: 30px;
@@ -31,6 +32,7 @@
       }
     }
   }
+  
   &__button {
     display: none;
 
