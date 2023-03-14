@@ -36,6 +36,7 @@
         :style="loadingStyles"
         :srcset="imgSrcset"
         :sizes="sizes"
+        :usemap="usemap"
         width="248"
         height="248"
         @load="loadedAction"
@@ -104,6 +105,11 @@ export default {
     },
     // Set srcet for image
     srcset: {
+      type: String,
+      default: ''
+    },
+    // used as reference for image map areas
+    usemap: {
       type: String,
       default: ''
     }

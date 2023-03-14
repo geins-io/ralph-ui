@@ -1,0 +1,12 @@
+.ca-widget-link-area {
+  $block: &;
+
+  &__icon {
+    transform: rotate(45deg);
+  }
+
+  &__icon,
+  &__product-info {
+    position: absolute;
+  }
+}

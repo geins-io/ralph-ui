@@ -1,0 +1,31 @@
+#import "product/price.graphql"
+query widgetImageMapProducts(
+  $skip: Int = null
+  $take: Int = null
+  $filter: FilterInputType = null
+  $channelId: String
+  $languageId: String
+  $marketId: String
+) {
+  products(
+    skip: $skip
+    take: $take
+    filter: $filter
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
+    products {
+      productId
+      name
+      alias
+      canonicalUrl
+      brand {
+        name
+      }
+      unitPrice {
+        ...Price
+      }
+    }
+  }
+}

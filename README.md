@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.2.0] - 2023-03-14
+
+## Added
+
+- Add widgets: `Image Map` and `Text On Image`
+
 ## [17.1.2] - 2023-02-28
 
 ## Fixed

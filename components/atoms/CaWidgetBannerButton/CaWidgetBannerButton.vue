@@ -3,6 +3,7 @@
     class="ca-widget-banner-button"
     :size="$store.getters.viewportComputer ? 'm' : 's'"
     :no-function="true"
+    :style="customStyles"
   >
     <slot></slot>
   </CaButton>
@@ -23,6 +24,10 @@ export default {
     belowImage: {
       type: Boolean,
       default: false
+    },
+    customStyles: {
+      type: Object,
+      default: () => {}
     }
   },
   data: () => ({}),
