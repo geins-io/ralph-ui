@@ -1,4 +1,5 @@
 .ca-filter-multi {
+  $block: &;
   $c-input-checkbox-bg: $c-white !default;
   $input-checkbox-border: $border-light !default;
 
@@ -35,7 +36,7 @@
         border-color: var(--accent-color, $c-accent-color);
       }
 
-      .ca-filter-multi__check {
+      #{$block}__check {
         opacity: 1;
       }
     }

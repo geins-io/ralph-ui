@@ -1,4 +1,5 @@
 .ca-filter-multi-tree-view {
+  $block: &;
   $c-input-checkbox-bg: $c-white !default;
   $input-checkbox-border: $border-light !default;
 
@@ -38,7 +39,7 @@
         border-color: var(--accent-color, $c-accent-color);
       }
 
-      .ca-filter-multi-tree-view__check {
+      #{$block}__check {
         opacity: 1;
       }
     }

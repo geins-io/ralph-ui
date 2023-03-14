@@ -1,6 +1,7 @@
 <template>
   <div class="ca-variant-picker-panel">
     <button
+      v-if="renderMode !== 'only-panel'"
       type="button"
       class="ca-variant-picker-panel__trigger"
       @click="
@@ -23,6 +24,7 @@
       </CaIconAndText>
     </button>
     <LazyCaContentPanel
+      v-if="renderMode !== 'only-button'"
       :name="'variant-picker-' + variantsLevel"
       :title="title"
     >
@@ -70,7 +72,14 @@ import MixVariantPicker from 'MixVariantPicker';
 export default {
   name: 'CaVariantPickerPanel',
   mixins: [MixVariantPicker],
-  props: {},
+  props: {
+    // Use if panel needs to be separated from button in layout
+    renderMode: {
+      type: String,
+      default: 'both',
+      validator: value => ['both', 'only-panel', 'only-button'].includes(value)
+    }
+  },
   data: () => ({
     baseClass: 'ca-variant-picker-panel'
   }),

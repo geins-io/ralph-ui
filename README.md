@@ -35,28 +35,45 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.3.0] - 2023-03-14
+
+### Added
+
+- `renderMode` for CaVariantPickerPanel to separate panel from button if needed for layout reasons
+- CSS variables for ca-icon-and-text
+
+### Changed
+
+- Separated functionality from CaSearch to MixSearch
+
+### Fixed
+
+- Fix for weird behaviour in multi filter tree view + better markup
+- Ratio fix for CaImage
+- Support for links in menu without children when using menuState 'click'
+
 ## [17.2.0] - 2023-03-14
 
-## Added
+### Added
 
 - Add widgets: `Image Map` and `Text On Image`
 
 ## [17.1.2] - 2023-02-28
 
-## Fixed
+### Fixed
 
 - CSS code standard improvements
 - Bug in getPath for sites not using marketInPath
 
 ## [17.1.1] - 2023-02-23
 
-## Fixed
+### Fixed
 
 - Widget Flowbox - fixed bug with initialization (generating pseudo id), loading widget only on client side, handle dynamic product flow option
 
 ## [17.1.0] - 2023-02-23
 
-## Added
+### Added
 
 - Add widget Category Puffs
 
@@ -64,7 +81,7 @@ All notable changes will be added to this section
 
 This update will require you to add `channel.js` to your store folder. You will also need to update your .env-file to use `FALLBACK_MARKET_ALIAS` instead of `FALLBACK_MARKET_ID` and the format should be for example "se" for Sweden. Also, fallback markets need to be fetched from the api in nuxt.config. You also need to add `@mixin scrollbarStyle`. See commit in Ralph for reference for all this.
 
-## Added
+### Added
 
 - Redirect for not allowed langugaes on market
 - New market selector panel
@@ -73,7 +90,7 @@ This update will require you to add `channel.js` to your store folder. You will 
 - Generated documentation files
 - `currentRouterName` in store
 
-## Changed
+### Changed
 
 - Moved channelId, marketAlias and markets into new section of store: channel
 - All market routing is now handled through default middleware
@@ -82,23 +99,23 @@ This update will require you to add `channel.js` to your store folder. You will 
 - Separated currentWidget function from CaWidget to make it easier to override
 - .env-variable `FALLBACK_MARKET_ID` is now called `FALLBACK_MARKET_ALIAS`
 
-## Deprecated
+### Deprecated
 
 - CaCountrySelectorPanel - use CaMarketPanel instead
 
-## Fixed
+### Fixed
 
 - Fix for console error for enableBodyScroll when leaving PDP
 
 ## [16.2.0] - 2023-02-14
 
-## Added
+### Added
 
 - Add Flowbox widget
 
 ## [16.1.0] - 2023-02-14
 
-## Added
+### Added
 
 - Components for a review(comment) section: stars voting, form to add review, list of reviews with pagination
 - ! please make sure to set up 2 new properties in publicRuntimeConfig in nuxt.config.js: `showProductReviewSection` and `showStarsInProductReviewForm`
@@ -107,18 +124,18 @@ This update will require you to add `channel.js` to your store folder. You will 
 
 This update will require you to add settings `marketInPath` and `useStartPage` to publicRuntimeConfig in nuxt.config.js. Also some changes to start page/front page. See commit in Ralph for reference
 
-## Added
+### Added
 
 - Support for market in path / route
 - Global getPath function to get internal paths with market
 
-## Changed
+### Changed
 
 - Using @nuxtjs/router module with the router.js file to modify all routes
 
 ## [15.2.0] - 2023-02-09
 
-## Added
+### Added
 
 - New prop to control in which state to open the menu - `hover` or `click`. Defaults to `hover`. How to use:
 
@@ -132,57 +149,57 @@ This update will require you to add settings `marketInPath` and `useStartPage` t
 
 ## [15.1.7] - 2023-02-02
 
-## Changed
+### Changed
 
 - Improved input types in account settings and checkout for better user experience.
 
 ## [15.1.6] - 2023-02-01
 
-## Added
+### Added
 
 - Define default host and port for Vuese
 - Script to run documentation in parallel during the development
 
 ## [15.1.5] - 2023-01-31
 
-## Fixed
+### Fixed
 
 - Checkout not updating when changing marketId but keeping same currency
 
 ## [15.1.4] - 2023-01-31
 
-## Added
+### Added
 
 - Broadcasting change of marketId between tabs
 
-## Changed
+### Changed
 
 - MarketId now only has one source of truth, removing unnecessary calls to createOrUpdateCheckout
 - Country selector now updating according to external changes in marketId
 
 ## [15.1.3] - 2023-01-30
 
-## Fixed
+### Fixed
 
 - Fix for nShift (udc) bug in setting externalShippingId. Needs addition of `:data-is-set="udcDataSet"` to CaUdc widget in CaCheckout
 
 ## [15.1.2] - 2023-01-27
 
-## Fixed
+### Fixed
 
 - Fix for non functioning favorite removal
 
 ## [15.1.1] - 2023-01-25
 
-## Added
+### Added
 
 - Global function to clear apollo cache in store
 
-## Changed
+### Changed
 
 - Name of MixCache to more describing MixApolloRefetch
 
-## Fixed
+### Fixed
 
 - Changing marketId will now trigger refetch of active Apollo queries
 
@@ -192,18 +209,18 @@ This version number ha already been wrongly used by a dev release, will release 
 
 ## [15.0.0] - 2023-01-23
 
-## Added
+### Added
 
 - Global multiple language, market and currency support
 - Country selector component
 
-## Changed
+### Changed
 
 - Favorites are now using product id instead of alias, but will support alias
 - Moved apollo-config.js into Ralph UI
 - Moved call for global meta into Ralph UI
 
-## Fixed
+### Fixed
 
 - Fix product list slider (add error in case of missing config variable). Clients' storefronts should be updated.
   Please make sure in nuxt.config.js in property `publicRuntimeConfig`:
@@ -211,98 +228,98 @@ This version number ha already been wrongly used by a dev release, will release 
 
 ## [14.9.23] - 2023-01-19
 
-## Fixed
+### Fixed
 
 - Fix 'Add to Cart' and 'Remove from Cart' gtm events
 
 ## [14.9.22] - 2023-01-17
 
-## Fixed
+### Fixed
 
 - Optional chaining/null check for gtm config object
 - Linting issues for CaProductPriceHistory
 
 ## [14.9.21] - 2023-01-17
 
-## Fixed
+### Fixed
 
 - Semantic improvements for presenting price data in price history component.
 
 ## [14.9.20] - 2023-01-16
 
-## Added
+### Added
 
 - Add missing path attribute to cookie methods set/remove
 
 ## [14.9.19] - 2023-01-13
 
-## Added
+### Added
 
 - Option to switch the key for GTM event items between `products` or `items` (defaults to products)
 
 ## [14.9.18] - 2023-01-11
 
-## Fixed
+### Fixed
 
 - Added discount percentage to product object
 
 ## [14.9.17] - 2023-01-09
 
-## Fixed
+### Fixed
 
 - Improve check for current breadcrumb level
 
 ## [14.9.16] - 2023-01-05
 
-## Fixed
+### Fixed
 
 - Search check for multi language
 
 ## [14.9.14] - 2022-12-27
 
-## Added
+### Added
 
 - Currency to gtm purchase event
 
 ## [14.9.13] - 2022-12-09
 
-## Fixed
+### Fixed
 
 - Prevent duplicated price changes in product price history
 
 ## [14.9.12] - 2022-12-08
 
-## Fixed
+### Fixed
 
 - Conditions for rendering in product price history
 
 ## [14.9.11] - 2022-12-01
 
-## Added
+### Added
 
 - Graphql query for listpage info
 
 ## [14.9.10] - 2022-12-01
 
-## Added
+### Added
 
 - Support to search for multi language
 
 ## [14.9.9] - 2022-11-29
 
-## Added
+### Added
 
 - Component that displaying product price history as table or panel.
 
 ## [14.9.8] - 2022-11-16
 
-## Added
+### Added
 
 - Option to hide filter values
 
 ## [14.9.7] - 2022-11-15
 
-## Added
+### Added
 
 - Option to display variants using images
 - Pass widget variables to config object
@@ -310,283 +327,283 @@ This version number ha already been wrongly used by a dev release, will release 
 
 ## [14.9.6] - 2022-11-15
 
-## Changed
+### Changed
 
 - Prevent cart from crashing application when id not found
 
 ## [14.9.5] - 2022-11-8
 
-## Added
+### Added
 
 - Aditional check for widonw.nosto
 
 ## [14.9.4] - 2022-11-7
 
-## Added
+### Added
 
 - Identifier in product query
 
-## Fixed
+### Fixed
 
 - Wrong path in switchToCanonicalor404
 
 ## [14.9.3] - 2022-11-3
 
-## Fixed
+### Fixed
 
 - Breadcrumbs component to show all categories
 
 ## [14.9.2] - 2022-11-3
 
-## Added
+### Added
 
 - Order filters by their order property
 
 ## [14.9.1] - 2022-11-1
 
-## Fixed
+### Fixed
 
 - Separate nosto and gtm events in different conditionals
 
 ## [14.9.0] - 2022-11-1
 
-## Fixed
+### Fixed
 
 - Set default color on icons and links fix for ios
 - Pass order id and currency to gtm and nosto
 
 ## [14.8.25] - 2022-10-27
 
-## Fixed
+### Fixed
 
 - Gallery on ios devices
 
 ## [14.8.24] - 2022-10-27
 
-## Fixed
+### Fixed
 
 - Hide footer acordions if there are no menu items
 
 ## [14.8.22] - 2022-10-25
 
-## Fixed
+### Fixed
 
 - Check if the shipping is valid
 
 ## [14.8.21] - 2022-10-24
 
-## Changed
+### Changed
 
 - Added check for if price is discounted in mixprice
 
 ## [14.8.20] - 2022-10-24
 
-## Changed
+### Changed
 
 - Removed temp identifiers from genders
 - Check for nosto data
 
 ## [14.8.18] - 2022-10-23
 
-## Fixed
+### Fixed
 
 - Hide the default nosto widget html
 
-## Added
+### Added
 
 - wrap nosto method in timeout
 - reduce timeout
 
 ## [14.8.13] - 2022-10-23
 
-## Added
+### Added
 
 - Gender to meta replacment
 
 ## [14.8.12] - 2022-10-21
 
-## Added
+### Added
 
 - Meta replacment for gender and brand
 
 ## [14.8.11] - 2022-10-20
 
-## Removed
+### Removed
 
 - Client render on widgets
 
 ## [14.8.10] - 2022-10-20
 
-## Added
+### Added
 
 - Moved requests client side to increase TTFB
 - Added Global cart id to load cart client side
 
 ## [14.8.9] - 2022-10-19
 
-## Fixed
+### Fixed
 
 - Nosto js init only clientside
 
 ## [14.8.8] - 2022-10-19
 
-## Revert
+### Revert
 
 - Changes to MixVariantHandler from [14.8.4]
 
 ## [14.8.7] - 2022-10-18
 
-## Fixed
+### Fixed
 
 - Nosto widgets on load
 
 ## [14.8.6] - 2022-10-17
 
-## Added
+### Added
 
 - Enable option of product card design for quick add products
 
 ## [14.8.5] - 2022-10-14
 
-## Fixed
+### Fixed
 
 - Filters not showing due to interavl beeing cleared too soon
 
 ## [14.8.4] - 2022-10-13
 
-## Fixed
+### Fixed
 
 - Pass product SKU to variant picker
 
 ## [14.8.3] - 2022-10-12
 
-## Update
+### Update
 
 - Set default market id if only one market
 
 ## [14.8.2] - 2022-10-12
 
-## Changed
+### Changed
 
 - Removed opacity on checkout guards
 
 ## [14.8.1] - 2022-10-12
 
-## Fixed
+### Fixed
 
 - Refresh cart on location change
 
 ## [14.8.0] - 2022-10-11
 
-## Added
+### Added
 
 - Country selector for sotrefronts with multiple markets
 
-## Fixed
+### Fixed
 
 - Proper clear of setInterval
 
 ## [14.7.4] - 2022-10-05
 
-## Fixed
+### Fixed
 
 - Removed last bit of LazyHydrate, it was preventing nosto from loading
 
 ## [14.7.3] - 2022-10-04
 
-## Fixed
+### Fixed
 
 - Check for nosto activated
 
 ## [14.7.2] - 2022-10-03
 
-## Added
+### Added
 
 - Disabled lazy load if first widget of the page is image
 
-## Fixed
+### Fixed
 
 - Proper check for product variant, to stop crashing the node server
 
-## Updated
+### Updated
 
 - Removed console logs
 
 ## [14.7.1] - 2022-09-30
 
-## Added
+### Added
 
 - Dynamic currency for gtm events
 
 ## [14.7.0] - 2022-09-30
 
-## Update
+### Update
 
 - Bump version to be same as deployed one on artifacts
 
 ## [14.6.8] - 2022-09-29
 
-## Reverted
+### Reverted
 
 - Revert the removal of propagation, done in 14.6.6, as it didn't help the memory leak
 
 ## [14.6.7] - 2022-09-27
 
-## Fixed
+### Fixed
 
 - Added support for discount filter
 
 ## [14.6.6] - 2022-09-27
 
-## Added
+### Added
 
 - Nosto check for log in /out, memory leak tests
 
 ## [14.6.5] - 2022-09-27
 
-## Updated
+### Updated
 
 - Load menus serverside
 
 ## [14.6.4] - 2022-09-27
 
-## Fixed
+### Fixed
 
 - Checking nostoAccountId instead of nostoAccountAppsKey for displaying nosto widget
 
 ## [14.6.3] - 2022-09-27
 
-## Updated
+### Updated
 
 - Revert the way 404 are handled
 
 ## [14.6.2] - 2022-09-23
 
-## Fixed
+### Fixed
 
 - Bug in authClient not setting token for some clients
 
 ## [14.6.1] - 2022-09-22
 
-## Updated
+### Updated
 
 - Deselecting parent category in the tree view will deselect all children
 
 ## [14.6.0] - 2022-09-20
 
-## Added
+### Added
 
 - Error handling and logging
 
 ## [14.5.0] - 2022-09-19
 
-## Added
+### Added
 
 - Support for meta image with fallback
 
 ## [14.4.5] - 2022-09-13
 
-## Changed
+### Changed
 
 - Removed Lazy Hydration wrapper on CaWidgetContainer
   - It was wrapping all components in one therefor making it not do anything
@@ -594,35 +611,35 @@ This version number ha already been wrongly used by a dev release, will release 
 
 ## [14.4.4] - 2022-09-12
 
-## Fixed
+### Fixed
 
 - Added missing url variable for widgetArea call
 
 ## [14.4.3] - 2022-09-08
 
-## Added
+### Added
 
 - Props for sizes attributes in CaProductGallery
 
 ## [14.4.2] - 2022-09-08
 
-## Added
+### Added
 
 - Fetching balanceFormatted in UserType query
 
-## Fixed
+### Fixed
 
 - Fixed an issue where auth client breaks if customer does not have nosto
 
 ## [14.4.1] - 2022-09-08
 
-## Changed
+### Changed
 
 - Reorganize tree view component
 - Proper recursion
 - Toggle acordion if selection has been made
 
-## Fixed
+### Fixed
 
 - Fixed an issue where accordion wouldn't toggle if a child is selected
 

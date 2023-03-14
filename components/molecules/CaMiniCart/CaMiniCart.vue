@@ -13,7 +13,7 @@
       <client-only>
         <CaNotificationBadge
           v-if="$store.getters['cart/totalQuantity'] > 0"
-          class="ca-minicart__qty"
+          class="ca-mini-cart__qty"
           :number="$store.getters['cart/totalQuantity']"
         />
       </client-only>

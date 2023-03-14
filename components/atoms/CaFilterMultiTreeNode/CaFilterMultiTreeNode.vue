@@ -1,11 +1,14 @@
 <template>
-  <ul class="ca-filter-multi-tree-view__list">
-    <li
+  <li class="ca-filter-multi-tree-view__item">
+    <div
       class="ca-filter-multi-tree-view__value"
       :class="{
+        'ca-filter-multi-tree-view__value--parent':
+          value.children && value.children.length,
         'ca-filter-multi-tree-view__value--selected': value.selected,
         'ca-filter-multi-tree-view__value--disabled': value.count === 0,
-        'ca-filter-multi-tree-view__value--hidden': value.label === '-'
+        'ca-filter-multi-tree-view__value--hidden': value.label === '-',
+        'ca-filter-multi-tree-view__value--open': isOpen
       }"
       @click.stop="
         propagateData(
@@ -25,14 +28,16 @@
       <button
         v-if="value.children && value.children.length"
         class="ca-filter-multi-tree-view__toggle"
-        aria-label="Expand Category Filters"
+        :aria-label="
+          isOpen ? 'Collapse category filters' : 'Expand category filters'
+        "
         @click.stop="toggle"
       >
         <CaIcon :name="isOpen ? 'minus' : 'plus'" />
       </button>
       <SlideUpDown
         v-if="value.children && value.children.length"
-        tag="div"
+        tag="ul"
         :active="isOpen"
         :duration="200"
         class="ca-filter-multi-tree-view__list ca-filter-multi-tree-view__list--sub"
@@ -44,12 +49,14 @@
           :propagate-data="propagateData"
         />
       </SlideUpDown>
-    </li>
-  </ul>
+    </div>
+  </li>
 </template>
 
 <script>
 import SlideUpDown from 'vue-slide-up-down';
+import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+
 // @group Atoms
 // @vuese
 // Tree node child component for the Multi Choise Tree view component<br><br>
@@ -77,32 +84,44 @@ export default {
       deep: true,
       handler(newVal, oldVal) {
         if (newVal !== oldVal) {
-          this.selectedChildren(this.value);
+          this.selectChildren(this.value, true);
         }
       }
     }
   },
   mounted() {
     this.$nextTick(() => {
-      this.selectedChildren(this.value);
+      this.selectChildren(this.value, false);
     });
+    eventbus.$on('close-content-panel', () => {
+      this.close();
+    });
+  },
+  beforeDestroy() {
+    eventbus.$off('close-content-panel');
   },
   methods: {
     // @vuese
     // Converts the object to a string and searches if any child is selected to toggle parent and children
     // @arg value (Object)
-    selectedChildren(value) {
+    selectChildren(value, shouldOpen) {
       if (value) {
         const str = JSON.stringify(value);
         const filter = str.search('"selected":true');
-        this.isOpen = filter !== -1;
+        if (shouldOpen) {
+          this.isOpen = filter !== -1;
+        }
       }
     },
     // @vuese
-    // Toggle the selected accordion by id
-    // @arg id (String)
+    // Toggle the selected accordion
     toggle() {
       this.isOpen = !this.isOpen;
+    },
+    // @vuese
+    // Close the accordion
+    close() {
+      this.isOpen = false;
     }
   }
 };

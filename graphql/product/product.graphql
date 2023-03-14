@@ -42,6 +42,7 @@ query product(
     }
     parameterGroups {
       name
+      parameterGroupId
       parameters {
         name
         value

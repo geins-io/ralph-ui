@@ -5,32 +5,30 @@
         v-for="item in menu.menuItems"
         :key="item.id"
         class="ca-header-navigation__item"
-        :class="{ 'ca-header-navigation__item--open': open === item.id }"
+        :class="{
+          'ca-header-navigation__item--open':
+            open === item.id && item.children.length
+        }"
         @mouseover="handleMouseOver(item.id)"
         @mouseleave="handleMouseLeave"
         @click="handleClick(item.id)"
       >
-        <button
-          v-if="menuState === 'click'"
-          type="button"
-          class="ca-header-navigation__link"
-        >
-          {{ getLabel(item) }}
-        </button>
         <component
-          :is="getBaseElem(item)"
-          v-if="menuState === 'hover'"
-          v-bind="getAttributes(item)"
+          :is="getElem(item)"
+          v-bind="getAttrs(item)"
           class="ca-header-navigation__link"
         >
           <CaIconAndText
             v-if="item.children.length"
             icon-name="chevron-down"
             icon-position="right"
+            class="ca-header-navigation__link-label"
           >
             {{ getLabel(item) }}
           </CaIconAndText>
-          <span v-else>{{ getLabel(item) }}</span>
+          <span v-else class="ca-header-navigation__link-label">
+            {{ getLabel(item) }}
+          </span>
         </component>
         <div v-if="item.children.length" class="ca-header-navigation__children">
           <component
@@ -39,7 +37,7 @@
           >
             <component
               :is="getBaseElem(item)"
-              v-if="menuState === 'click'"
+              v-if="menuState === 'click' && showAllLink"
               v-bind="getAttributes(item)"
               class="ca-header-navigation__children-show-all only-computer"
             >
@@ -116,6 +114,11 @@ export default {
       validator(value) {
         return ['click', 'hover'].includes(value);
       }
+    },
+    // Show the "show all" link in the menu
+    showAllLink: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -162,6 +165,23 @@ export default {
       if (this.menuState === 'hover') {
         this.closeMenu();
       }
+    },
+    getElem(item) {
+      if (this.menuState === 'hover') {
+        return this.getBaseElem(item);
+      }
+      return item.children.length ? 'button' : this.getBaseElem(item);
+    },
+    getAttrs(item) {
+      if (this.menuState === 'hover') {
+        return this.getAttributes(item);
+      }
+      return item.children.length
+        ? {
+            type: 'button',
+            'aria-expanded': this.open === item.id
+          }
+        : this.getAttributes(item);
     }
   }
 };

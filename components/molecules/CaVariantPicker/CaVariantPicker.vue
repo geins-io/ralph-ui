@@ -1,7 +1,10 @@
 <template>
   <div class="ca-variant-picker">
     <slot name="title">
-      <p v-if="title" class="ca-variant-picker__title">
+      <p
+        v-if="title && panelRenderMode !== 'only-panel'"
+        class="ca-variant-picker__title"
+      >
         {{ title }}
       </p>
     </slot>
@@ -10,6 +13,7 @@
       :variants="variants"
       :variants-data="variantsData"
       :title="title"
+      :render-mode="panelRenderMode"
       @replaceProduct="$emit('replaceProduct', $event)"
       @changeSku="$emit('changeSku', $event)"
       @notify="$emit('notify', $event)"
@@ -48,6 +52,15 @@ export default {
       default: 'panel',
       validator(value) {
         return ['color', 'display', 'panel', 'image'].includes(value);
+      }
+    },
+    // Use if using type panel and the panel needs to be separated from button in layout)
+    panelRenderMode: {
+      // `both`, `only-panel`, `only-button`
+      type: String,
+      default: 'both',
+      validator(value) {
+        return ['both', 'only-panel', 'only-button'].includes(value);
       }
     }
   },

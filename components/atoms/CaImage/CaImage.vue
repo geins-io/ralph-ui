@@ -36,9 +36,9 @@
         :style="loadingStyles"
         :srcset="imgSrcset"
         :sizes="sizes"
+        width="100"
+        :height="100 * ratio"
         :usemap="usemap"
-        width="248"
-        height="248"
         @load="loadedAction"
       />
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div
+  <ul
     v-if="valuesWithChildren && valuesWithChildren.length"
     class="ca-filter-multi-tree-view"
   >
@@ -10,7 +10,7 @@
       :selected="item.selected"
       :propagate-data="filterProducts"
     />
-  </div>
+  </ul>
 </template>
 
 <script>
