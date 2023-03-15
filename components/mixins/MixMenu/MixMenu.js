@@ -37,7 +37,8 @@ export default {
     }
   },
   data: () => ({
-    menu: null
+    menu: null,
+    defaultElementTag: 'span'
   }),
   computed: {},
   watch: {},
@@ -47,23 +48,37 @@ export default {
     // Get attributes for link
     // @arg item (Object)
     getAttributes(item) {
-      if (item.targetBlank) {
+      const path = this.processedUrl(item.canonicalUrl);
+
+      if (this.isExternal(path)) {
         return {
-          href: item.canonicalUrl,
-          target: '_blank',
-          rel: 'noopener'
-        };
-      } else {
-        return {
-          to: item.canonicalUrl
+          href: path,
+          rel: 'noopener',
+          ...(item.targetBlank ? { target: '_blank' } : {})
         };
       }
+      const href = path.startsWith('/') ? path : this.$getPath(path);
+      return { to: href };
     },
     // @vuese
     // Get base element for link
     // @arg item (Object)
     getBaseElem(item) {
-      return item.targetBlank ? 'a' : 'NuxtLink';
+      const path = this.processedUrl(item.canonicalUrl);
+      if (path) {
+        return this.isExternal(path) ? 'a' : 'NuxtLink';
+      }
+      return this.defaultElementTag;
+    },
+    // @vuese
+    // Convert to valid url - encodeURI
+    // @arg item String
+    processedUrl(pathUrl) {
+      if (pathUrl?.includes(this.$store.state.hostname)) {
+        const url = new URL(encodeURI(pathUrl));
+        return url.pathname;
+      }
+      return encodeURI(pathUrl);
     },
     // @vuese
     // Get label for for link
@@ -80,6 +95,12 @@ export default {
           ? this.$t('NAVIGATION_GO_TO')
           : this.$t('NAVIGATION_ALL_IN');
       return text + ' ' + this.getLabel(item);
+    },
+    // @vuese
+    // Check if provided path is external (url) or internal
+    // @arg path String
+    isExternal(path) {
+      return path.includes('http') || path.includes(':');
     }
   }
 };

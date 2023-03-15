@@ -35,6 +35,17 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.3.1] - 2023-03-15
+
+### Added
+
+- SASS-variable for `$c-input-checkbox-check`
+
+### Fixed
+
+- Menu item with external link opened with same tab or window (when missing `targetBlank` property)
+- encodeURI for links
+
 ## [17.3.0] - 2023-03-14
 
 ### Added

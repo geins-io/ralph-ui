@@ -10,10 +10,10 @@ export default {
   computed: {
     processedHref() {
       if (this.href && this.href.includes(this.$store.state.hostname)) {
-        const url = new URL(this.href);
+        const url = new URL(encodeURI(this.href));
         return url.pathname;
       } else {
-        return this.href;
+        return encodeURI(this.href);
       }
     },
     isExternal() {
@@ -30,26 +30,27 @@ export default {
       }
     },
     linkElemAttributes() {
-      if (this.processedHref) {
-        if (this.processedHref.includes(':')) {
-          return {
-            href: this.processedHref
-          };
-        } else if (this.isExternal) {
-          return {
-            href: this.processedHref,
-            target: '_blank',
-            rel: 'noopener'
-          };
-        } else {
-          const href = this.processedHref.startsWith('/')
-            ? this.processedHref
-            : this.$getPath(this.processedHref);
-          return { to: href };
-        }
-      } else {
+      if (!this.processedHref) {
         return this.noLinkElement === 'button' ? { type: 'button' } : '';
       }
+
+      if (this.processedHref.includes(':')) {
+        return {
+          href: this.processedHref
+        };
+      }
+
+      if (this.isExternal) {
+        return {
+          href: this.processedHref,
+          target: '_blank',
+          rel: 'noopener'
+        };
+      }
+      const href = this.processedHref.startsWith('/')
+        ? this.processedHref
+        : this.$getPath(this.processedHref);
+      return { to: href };
     }
   },
   watch: {},
