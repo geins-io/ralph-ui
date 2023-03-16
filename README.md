@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.3.2] - 2023-03-16
+
+### Fixed
+
+- Breadcrumbs computations - category tree added as dependency
+
 ## [17.3.1] - 2023-03-15
 
 ### Added

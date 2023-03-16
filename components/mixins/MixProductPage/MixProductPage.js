@@ -44,7 +44,7 @@ export default {
   apollo: {
     product: {
       query() {
-        const productQueryModifyed = this.$config.productShowRelated
+        const productQueryModified = this.$config.productShowRelated
           ? this.removeQueryVar(productQuery, [
               'channelId',
               'languageId',
@@ -52,14 +52,14 @@ export default {
             ])
           : productQuery;
         let finishQuery = {
-          document: productQueryModifyed,
+          document: productQueryModified,
           variables: {
             alias: this.prodAlias
           }
         };
         if (this.$config.productShowRelated) {
           finishQuery = combineQuery('withRelatedCombined')
-            .add(productQueryModifyed, {
+            .add(productQueryModified, {
               alias: this.prodAlias
             })
             .add(relatedProductsQuery, {

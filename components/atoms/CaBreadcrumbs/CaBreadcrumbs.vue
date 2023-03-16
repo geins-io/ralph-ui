@@ -68,7 +68,8 @@ export default {
           }
         ]
       };
-      if (this.parents.length) {
+
+      if (this.parents.length && this.categoryTree.length) {
         // Add dynamic category parents
         for (let i = this.parents.length - 1; i >= 0; i--) {
           position++;
@@ -102,12 +103,17 @@ export default {
           name: this.productName
         });
       }
-
       return jsonld;
     },
     ...mapState(['categoryTree'])
   },
-  watch: {},
+  watch: {
+    categoryTree(currentValue) {
+      if (currentValue?.length) {
+        this.setParent(this.current.alias);
+      }
+    }
+  },
   created() {
     this.setParent(this.current.alias);
   },
