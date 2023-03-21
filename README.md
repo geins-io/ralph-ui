@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.4.0] - 2023-03-21
+
+### Added
+
+- Support for Avarda checkout in CaCheckoutExternal
+
+### Fixed
+
+- Nullcheck in CaMarketSelectorButton to avoid error when non existing market is selected by wrong env or cookie
+
 ## [17.3.2] - 2023-03-16
 
 ### Fixed

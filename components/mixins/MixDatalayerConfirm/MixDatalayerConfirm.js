@@ -46,6 +46,8 @@ export default {
           return this.$route.query.sid;
         case 'WALLEY':
           return this.$route.query.wid;
+        case 'AVARDA':
+          return this.$route.query.aid;
         default:
           return null;
       }
@@ -61,6 +63,10 @@ export default {
 
       if (this.$route.query.wid) {
         return 'WALLEY';
+      }
+
+      if (this.$route.query.aid) {
+        return 'AVARDA';
       }
       return 'KLARNA';
     }

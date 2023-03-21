@@ -4,6 +4,7 @@
     v-if="frame"
     id="checkout-external"
     class="ca-checkout-external"
+    :class="modifiers"
     v-html="frame"
   ></div>
   <CaSpinner v-else class="ca-checkout-external__loading" />
@@ -35,7 +36,7 @@ export default {
     },
     // What type of payment?
     type: {
-      // `KLARNA`, `SVEA`, `WALLEY`
+      // `KLARNA`, `SVEA`, `WALLEY`, `AVARDA`
       type: String,
       required: true
     }
@@ -56,9 +57,20 @@ export default {
           return this.$route.query.sid;
         case 'WALLEY':
           return this.$route.query.wid;
+        case 'AVARDA':
+          return this.$route.query.aid;
         default:
           return null;
       }
+    },
+    // @vuese
+    // Modifier for checkout. Add suspended class if avarda since avard doesn't have a suspended state
+    // @type Object
+    modifiers() {
+      return {
+        'ca-checkout-external--suspended':
+          this.suspended && this.type === 'AVARDA'
+      };
     }
   },
   watch: {
@@ -120,21 +132,23 @@ export default {
               window._klarnaCheckout(function(api) {
                 api.suspend();
               });
-              this.suspended = true;
             }
             return;
           case 'SVEA':
             if (window.scoApi) {
               window.scoApi.setCheckoutEnabled(false);
-              this.suspended = true;
             }
             return;
           case 'WALLEY':
             if (window.collector) {
               window.collector.checkout.api.suspend();
-              this.suspended = true;
+            }
+            return;
+          case 'AVARDA':
+            if (window.avardaCheckout) {
             }
         }
+        this.suspended = true;
       }
     },
     // @vuese
@@ -160,7 +174,13 @@ export default {
             if (window.collector) {
               window.collector.checkout.api.resume();
             }
+            return;
+          case 'AVARDA':
+            if (window.avardaCheckout) {
+              window.avardaCheckout.refreshForm();
+            }
         }
+        this.suspended = false;
       } else {
         this.initialize(true);
       }

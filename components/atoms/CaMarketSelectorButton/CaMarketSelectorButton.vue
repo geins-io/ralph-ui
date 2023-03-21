@@ -12,11 +12,11 @@
       <CaFlag
         v-if="showFlag"
         class="ca-market-selector-button__flag"
-        :country="selectedMarket.country.code"
+        :country="selectedCountryCode"
         shape="circle"
       />
       <span class="ca-market-selector-button__name">
-        {{ selectedMarket.country.name }} ({{ selectedMarket.currency.code }})
+        {{ selectedCountryName }} ({{ selectedCurrencyCode }})
       </span>
     </span>
   </button>
@@ -41,6 +41,15 @@ export default {
   computed: {
     selectedMarket() {
       return this.markets?.find(market => market.alias === this.currentMarket);
+    },
+    selectedCountryCode() {
+      return this.selectedMarket?.country?.code || '';
+    },
+    selectedCountryName() {
+      return this.selectedMarket?.country?.name || '';
+    },
+    selectedCurrencyCode() {
+      return this.selectedMarket?.currency?.code || '';
     },
     ...mapState({
       markets: state => state.channel.markets,

@@ -3,4 +3,9 @@
     margin: 0 auto;
     border-color: var(--accent-color, $c-accent-color);
   }
+
+  &--suspended {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
