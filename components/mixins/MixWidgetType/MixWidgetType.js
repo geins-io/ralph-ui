@@ -26,12 +26,6 @@ export default {
         return 'CaWidgetRichText';
       } else if (this.type === 'Flowbox') {
         return 'CaWidgetFlowbox';
-      } else if (this.type === 'Category puffs') {
-        return 'CaWidgetCategoryPuffs';
-      } else if (this.type === 'Text on image') {
-        return 'CaWidgetTextOnImage';
-      } else if (this.type === 'Image map') {
-        return 'CaWidgetImageMap';
       } else if (
         this.type === 'Nosto feed' &&
         this.$store.getters['nosto/isNostoActive'] &&

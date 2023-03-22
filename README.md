@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [17.4.1] - 2023-03-22
+
+### Removed
+
+- Removed customer specific widgets until they will be available to all
+
 ## [17.4.0] - 2023-03-21
 
 ### Added
