@@ -1,5 +1,4 @@
 import searchQuery from 'global/search.graphql';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 // Main search functionality
@@ -31,7 +30,7 @@ export default {
     noResults: false
   }),
   computed: {
-    setSearchLink() {
+    searchUrl() {
       const index =
         this.$getPath('index') === '/' ? '' : this.$getPath('index');
       return index + this.$config.routePaths.search + '/' + this.searchString;
@@ -120,18 +119,18 @@ export default {
         .slice(0, this.searchResultsVisible);
     }
   },
-  watch: {},
+  watch: {
+    $route(to, from) {
+      if (to.path !== from.path) {
+        this.close();
+      }
+    }
+  },
   mounted() {
     this.searchStorage = window.localStorage;
     this.recentSearches = this.searchStorage.getItem('recentSearches')
       ? JSON.parse(localStorage.getItem('recentSearches'))
       : [];
-    eventbus.$on('route-change', () => {
-      this.close();
-    });
-  },
-  beforeDestroy() {
-    eventbus.$off('route-change');
   },
   methods: {
     // @vuese
@@ -207,7 +206,7 @@ export default {
     goToSearchPage() {
       if (this.searchString) {
         this.setRecentSearch();
-        this.$router.push(this.setSearchLink);
+        this.$router.push(this.searchUrl);
         this.$emit('searchRouteChange');
         this.close();
       }

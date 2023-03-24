@@ -133,9 +133,19 @@ export default {
     // @vuese
     // Type of list page
     type: {
-      // 'category', 'brand', 'search', 'favorites', 'all'
+      // 'list', 'category', 'brand', 'search', 'favorites', 'all'
       type: String,
-      default: 'category' // 'brand', 'search', 'favorites', 'all'
+      default: 'list',
+      validator: value => {
+        return [
+          'list',
+          'category',
+          'brand',
+          'search',
+          'favorites',
+          'all'
+        ].includes(value);
+      }
     },
     // @vuese
     // Graphql for the listPageInfo query
@@ -245,6 +255,9 @@ export default {
         this.$config.nostoAccountAppsKey
       );
     },
+    // @vuese
+    // Returns the current category alias
+    // @type String
     categoryAlias() {
       const aliasArr = this.$route.path.split('/').slice(2);
       aliasArr.unshift('');
@@ -783,8 +796,9 @@ export default {
     // Set filter selection in URL
     pushURLParams() {
       if (
+        this.filterURLparams &&
         JSON.stringify(this.$route.query) !==
-        JSON.stringify(this.filterURLparams)
+          JSON.stringify(this.filterURLparams)
       ) {
         this.$router
           .replace({
