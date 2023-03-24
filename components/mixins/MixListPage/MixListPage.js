@@ -17,8 +17,6 @@ import combineQuery from 'graphql-combine-query';
 // initVariables: `{}`<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
-// sort: `vm.$config.productListDefaultSort`<br>
-// defaultSort: `vm.$config.productListDefaultSort`<br>
 // listInfo: `null`<br>
 // filters: `{}`<br>
 // userSelection: `null`<br>
@@ -210,7 +208,6 @@ export default {
     initVariables: null,
     baseFilters: {},
     userSkip: 0,
-    defaultSort: vm.$config.productListDefaultSort,
     listInfo: null,
     widgetData: {},
     filters: {},
@@ -298,6 +295,7 @@ export default {
           }
         }
       }
+
       if (this.selection.sort !== this.defaultSort) {
         queryObj.sort = this.selection.sort;
       }
@@ -535,6 +533,12 @@ export default {
     // @type Boolean
     showControls() {
       return this.isSearch ? this.productList.length !== 0 : true;
+    },
+    // @vuese
+    // Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config
+    // @type String
+    defaultSort() {
+      return this.isSearch ? 'RELEVANCE' : this.$config.productListDefaultSort;
     },
     ...mapState(['list'])
   },

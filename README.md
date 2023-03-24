@@ -35,6 +35,15 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [18.0.0] - 2023-03-24
+
+You will need to either update your `sortOptions` data in `CaListSettings.vue` to include the new `RELEVANCE` option or you can use the new mixin `MixProductListSort` to handle the sort options. If you decide to use the new mixin (strongly recommended!), make sure to update your lang keys accordinlgy and to remove existing variables, props and watch in `CaListSettings.vue`, see update commit in Ralph for reference.
+
+### Added
+
+- `RELEVANCE` sort option for product list (only used on search page)
+- Mixin `MixProductListSort` for handling product list sort options
+
 ## [17.4.1] - 2023-03-22
 
 ### Removed

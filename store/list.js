@@ -105,11 +105,16 @@ export const actions = {
       }
     }
 
+    const isOnSearchPage = rootState.currentRouteName?.includes('search');
+
     if (data.query.sort) {
       selection.sort = data.query.sort;
     } else {
-      selection.sort = rootState.config.productListDefaultSort;
+      selection.sort = isOnSearchPage
+        ? 'RELEVANCE'
+        : rootState.config.productListDefaultSort;
     }
+
     if (data.query.page && data.setPage) {
       commit('setRelocatePage', parseInt(data.query.page));
     }
