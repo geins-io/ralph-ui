@@ -310,6 +310,10 @@ export default {
       }
 
       if (this.selection.sort !== this.defaultSort) {
+        if (this.selection.sort === 'RELEVANCE' && !this.isSearch) {
+          return;
+        }
+
         queryObj.sort = this.selection.sort;
       }
       if (this.currentPage > 1) {

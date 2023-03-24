@@ -35,9 +35,15 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [18.0.2] - 2023-03-24
+
+### Fixed
+
+- Secure being on search page before setting "RELEVANCE" as sort option (can happen while routing to search page)
+
 ## [18.0.1] - 2023-03-24
 
-You will need to either update your `sortOptions` data in `CaListSettings.vue` to include the new `RELEVANCE` option or you can use the new mixin `MixProductListSort` to handle the sort options. If you decide to use the new mixin (strongly recommended!), make sure to update your lang keys accordinlgy and to remove existing variables, props and watch in `CaListSettings.vue`, see update commit in Ralph for reference.
+You will need to either update your `sortOptions` data in `CaListSettings.vue` to include the new `RELEVANCE` option or you can use the new mixin `MixProductListSort` to handle the sort options. If you decide to use the new mixin (strongly recommended!), make sure to update your lang keys accordinlgy and to remove existing variables, props and watch in `CaListSettings.vue`, see update commit (to Ralph UI 18.0.2) in Ralph for reference.
 
 ### Added
 
