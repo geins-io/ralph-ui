@@ -1,6 +1,10 @@
 <template>
   <div class="ca-info-page-menu">
-    <ul v-if="menu" class="ca-info-page-menu__list">
+    <CaAccordionNavigation
+      v-if="$store.getters.viewport === 'phone' && isAccordion"
+      menu-location-id="info-pages"
+    />
+    <ul v-else-if="menu" class="ca-info-page-menu__list">
       <li
         v-for="item in menu.menuItems"
         :key="item.id"
@@ -14,6 +18,25 @@
           {{ getLabel(item) }}
           <CaIcon class="ca-info-page-menu__link-icon" name="chevron-right" />
         </component>
+        <ul v-if="item.children.length" class="ca-info-page-menu__submenu-list">
+          <li
+            v-for="childItem in item.children"
+            :key="childItem.id"
+            class="ca-info-page-menu__submenu-item"
+          >
+            <component
+              :is="getBaseElem(childItem)"
+              v-bind="getAttributes(childItem)"
+              class="ca-info-page-menu__submenu-link"
+            >
+              {{ getLabel(childItem) }}
+              <CaIcon
+                class="ca-info-page-menu__link-icon"
+                name="chevron-right"
+              />
+            </component>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -27,9 +50,25 @@ import MixMenu from 'MixMenu';
 export default {
   name: 'CaInfoPageMenu',
   mixins: [MixMenu],
-  props: {},
+  props: {
+    // How to display info-menu in smaller devices
+    phoneMode: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return ['default', 'accordion'].includes(value);
+      }
+    }
+  },
   data: () => ({}),
-  computed: {},
+  computed: {
+    // @vuese
+    // If the phone mode is an accordion
+    // @type String
+    isAccordion() {
+      return this.phoneMode === 'accordion';
+    }
+  },
   watch: {},
   mounted() {},
   methods: {}

@@ -1,0 +1,62 @@
+.ca-accordion-navigation {
+  $block: &;
+  --icon-size: 1em;
+  --accordion-nav-border: 1px solid #e6e5e5;
+
+  border-top: var(--accordion-nav-border);
+  
+  &__inner {
+    border-bottom: var(--accordion-nav-border);
+  }
+
+  &__submenu-list {
+    border-top: var(--accordion-nav-border);
+    padding-top: rem-calc(6);
+    padding-bottom: rem-calc(6);
+  }
+
+  &__link,
+  &__submenu-link {
+    display: block;
+
+    &.nuxt-link-exact-active {
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  &__link {
+    padding: rem-calc(20) rem-calc(8);
+  }
+
+  &__submenu-link {
+    padding: rem-calc(15) 0 rem-calc(15) rem-calc(24);
+    
+    @include bp(tablet) {
+      padding: rem-calc(7) 0 rem-calc(7) rem-calc(28);
+    }
+  }
+
+  .ca-icon {
+    color: #5a5656;
+    flex-shrink: 0;
+  }
+
+  .ca-accordion-item__toggle-wrap {
+    display: block;
+  }
+
+  .ca-icon-and-text__text {
+    width: 100%;
+    margin-right: auto;
+  }
+
+  .ca-accordion-item--styled {
+    border: 0;
+  }
+
+  .ca-accordion-item--styled .ca-accordion-item__toggle {
+    font-size: rem-calc(14);
+    font-weight: normal;
+    padding: 0;
+  }
+}

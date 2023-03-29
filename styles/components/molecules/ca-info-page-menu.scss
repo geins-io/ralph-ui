@@ -1,6 +1,30 @@
 .ca-info-page-menu {
   $block: &;
 
+  &__submenu-list {
+    border-top: $border-light;
+    padding: rem-calc(10) 0;
+
+    @include bp(phone-only) {
+      display: none;
+    }
+  }
+
+  &__submenu-link {
+    display: block;
+    padding: rem-calc(6) rem-calc(16) rem-calc(6) rem-calc(30);
+
+    &.nuxt-link-exact-active {
+      display: flex;
+      justify-content: space-between;
+      font-weight: $font-weight-bold;
+      
+      #{$block}__link-icon {
+        opacity: 1;
+      }
+    }
+  }
+
   @include bp(phone-only) {
     padding: $px20 0;
 
