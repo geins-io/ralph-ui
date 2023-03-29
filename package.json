@@ -7,9 +7,7 @@
   "private": false,
   "scripts": {
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest",
-    "create-index-files": "node ./scripts/create-index-files.cjs",
-    "create-component": "node ./scripts/create-component.cjs",
+    "ralph-create": "node ./scripts/ralph-create.cjs",
     "documentation": "vuese gen",
     "documentation-serve": "vuese gen && vuese serve --open"
   },

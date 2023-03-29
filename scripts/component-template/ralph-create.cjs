@@ -29,7 +29,7 @@ const questions = [
     type: 'text',
     name: 'name',
     message: 'Enter the name for the component',
-    initial: 'banner'
+    initial: 'banner-image'
   }
 ];
 
@@ -43,12 +43,15 @@ const questions = [
   createComponent(component, name);
 
   function createComponent(componentFolder, componentName) {
+    const ComponentPrefix = componentFolder === 'mixins' ? 'mix' : 'ca';
     const ComponentType = componentFolder;
     const ComponentTypeCamelCase = uppercamelcase(componentFolder);
     const ComponentName = uppercamelcase(componentName);
-    const ComponentNameCamelCase = 'Ca' + ComponentName;
+    const ComponentNameCamelCase = uppercamelcase(
+      ComponentPrefix + ComponentName
+    );
     const ComponentNameKebabCase =
-      'ca' +
+      ComponentPrefix +
       ComponentName.replace(
         /([A-Z])(?=\w)/g,
         (s1, s2) => '-' + s2.toLowerCase()
@@ -79,7 +82,7 @@ const questions = [
 
     fs.readdirSync(fwFolder).forEach(file => {
       let fileName;
-      let filePath = file.includes('.scss') ? SASSpath : PackagePath;
+      const filePath = file.includes('.scss') ? SASSpath : PackagePath;
 
       if (file.includes('.vue') && componentFolder === 'mixins') {
         return;
@@ -103,8 +106,6 @@ const questions = [
       }
       if (file.includes('.mixin.js') && componentFolder === 'mixins') {
         fileName = fileName.replace('.mixin.js', '.js');
-        fileName = fileName.replace(/^Ca/, 'Mix');
-        filePath = filePath.replace('mixins\\Ca', 'mixins\\Mix');
       }
 
       let content = fs.readFileSync(fwFolder + file, 'utf8');
