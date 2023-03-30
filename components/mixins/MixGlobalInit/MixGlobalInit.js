@@ -36,17 +36,31 @@ export default {
   head() {
     // TODO: Implement working multilang function for alternate links and canonical
     // const obj = this.$nuxtI18nHead({ addSeoAttributes: true });
-
-    const obj = {};
-    obj.title = this.listPageInfo?.meta?.title || '';
-    obj.meta = [
-      {
-        hid: 'description',
-        name: 'description',
-        content: this.listPageInfo?.meta?.description || ''
-      }
-    ];
-    return obj;
+    return {
+      title: this.listPageInfo?.meta?.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.listPageInfo?.meta?.description
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.listPageInfo?.meta?.title
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.listPageInfo?.meta?.description
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.$config.baseUrl + '/meta-image-fallback.jpg'
+        }
+      ]
+    };
   },
   data: () => ({
     error: false,
