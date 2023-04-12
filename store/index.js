@@ -167,6 +167,7 @@ export const actions = {
     });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
+    commit('setCurrentRouteName', route.name);
 
     dispatch('list/saveQuerySelection', {
       query: route.query,

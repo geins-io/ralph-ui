@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [18.1.2] - 2023-04-12
+
+### Fixed
+
+- Fixed error with sorting set to default when server-side rendering search page
+
 ## [18.1.1] - 2023-03-30
 
 Make sure your storefront does not overwrite the `head()` in `layout/default.vue` if you want to use the default meta data functionality. Also, if you have multilang support in your site, remove the meta settings of pwa module in `nuxt.config.js` to avoid problems with default meta not translating.
