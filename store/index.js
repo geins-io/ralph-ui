@@ -24,6 +24,12 @@ export const mutations = {
       favorites.push(productId);
     }
   },
+  addFavorite(state, productId) {
+    state.favorites.push(productId);
+  },
+  removeFavorite(state, productId) {
+    state.favorites.splice(state.favorites.indexOf(productId), 1);
+  },
   setCustomerType(state, type) {
     state.customerType = type;
   },
@@ -66,6 +72,23 @@ export const mutations = {
 };
 
 export const actions = {
+  toggleFavorite({ state, commit, dispatch }, productId) {
+    const favorites = state.favorites;
+
+    if (favorites.includes(productId)) {
+      commit('removeFavorite', productId);
+      dispatch('events/pushEvent', {
+        type: 'favorite:remove',
+        data: { productId }
+      });
+    } else if (productId) {
+      commit('addFavorite', productId);
+      dispatch('events/pushEvent', {
+        type: 'favorite:add',
+        data: { productId }
+      });
+    }
+  },
   initScrollListener(context) {
     let timeout;
     window.addEventListener(
@@ -193,6 +216,10 @@ export const actions = {
     // Set current market
     commit('channel/setCurrentMarket', currentMarket);
     commit('channel/setCheckoutMarket', checkoutMarket);
+
+    // Set current locale and currency
+    commit('channel/setCurrentLocale', this.$i18n.localeProperties.iso);
+    commit('channel/setCurrentCurrency', getters['channel/currentCurrency']);
 
     // Set user from cookie
     const user = parsed['ralph-user'] || null;

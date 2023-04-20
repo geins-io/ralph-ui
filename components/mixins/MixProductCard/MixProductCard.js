@@ -74,6 +74,11 @@ export default {
         if (this.trackCounter <= 1) {
           if (this.trackCounter === 1) {
             this.gtmViewEvent();
+
+            this.$store.dispatch('events/pushEvent', {
+              type: 'product:impression',
+              data: { product: this.product, page: this.pageNumber }
+            });
           }
           this.trackCounter = this.trackCounter + 1;
         } else {
@@ -94,6 +99,12 @@ export default {
       if (this.nostoResultId) {
         this.nostoClickEvent();
       }
+
+      this.$store.dispatch('events/pushEvent', {
+        type: 'product:click',
+        data: { product: this.product, page: this.pageNumber }
+      });
+
       if (this.pageNumber > 0) {
         this.$store.commit('list/setRelocatePage', this.pageNumber);
         this.$store.commit('list/setRelocateAlias', this.product.alias);

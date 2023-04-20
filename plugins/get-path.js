@@ -1,3 +1,4 @@
+// DEPRECATED file - use plugins\ralph-injects.js instead
 export default ({ $config, store, app, i18n }, inject) => {
   const getPath = (
     path,

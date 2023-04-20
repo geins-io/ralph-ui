@@ -5,7 +5,9 @@ export const state = () => ({
   id: '',
   currentMarket: '',
   markets: [],
-  checkoutMarket: ''
+  checkoutMarket: '',
+  currentLocale: '',
+  currentCurrency: ''
 });
 
 export const mutations = {
@@ -20,6 +22,12 @@ export const mutations = {
   },
   setCheckoutMarket(state, market) {
     state.checkoutMarket = market;
+  },
+  setCurrentLocale(state, locale) {
+    state.currentLocale = locale;
+  },
+  setCurrentCurrency(state, currency) {
+    state.currentCurrency = currency;
   }
 };
 
@@ -39,26 +47,32 @@ export const actions = {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
-  setCurrentMarket({ commit, dispatch }, alias) {
+  setCurrentMarket({ commit, dispatch, getters }, alias) {
     commit('setCurrentMarket', alias);
     commit('setCheckoutMarket', alias);
+    commit('setCurrentCurrency', getters.currentCurrency);
+
     this.$cookies.set('ralph-selected-market', alias, {
       path: '/',
       expires: new Date(new Date().getTime() + 31536000000)
     });
+
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'market', data: alias });
     }
+
     dispatch('clearAndRefetchApollo', null, { root: true });
   },
   setCheckoutMarket({ commit, dispatch }, alias) {
     commit('setCheckoutMarket', alias);
     dispatch('cart/get', null, { root: true });
+
     this.$cookies.set('ralph-checkout-market', alias, {
       path: '/',
       expires: new Date(new Date().getTime() + 31536000000)
     });
+
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'checkout-market', data: alias });

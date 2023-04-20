@@ -81,6 +81,30 @@ export default {
               currentQuantity: prodQuantity,
               products: countCurrentProducts()
             });
+
+            if (previousProductQuantity > prodQuantity) {
+              const quantity = previousProductQuantity - prodQuantity;
+              updateItem.quantity = quantity;
+
+              this.$store.dispatch('events/pushEvent', {
+                type: 'cart:remove',
+                data: {
+                  item: updateItem,
+                  product: productStateBeforeUpdate
+                }
+              });
+            } else if (prodQuantity > previousProductQuantity) {
+              const quantity = prodQuantity - previousProductQuantity;
+              updateItem.quantity = quantity;
+
+              this.$store.dispatch('events/pushEvent', {
+                type: 'cart:add',
+                data: {
+                  item: updateItem,
+                  product: productStateBeforeUpdate
+                }
+              });
+            }
           })
           .catch(error => {
             console.error('MixUpdateCart: ' + error);

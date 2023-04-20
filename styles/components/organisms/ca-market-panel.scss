@@ -2,15 +2,14 @@
   $block: &;
 
   &__simple-list,
-  
   &__wrap {
     background-color: $c-lightest-gray;
   }
-  
+
   &__opt {
     display: flex;
   }
-  
+
   &__choice {
     $elem: &;
     height: rem-calc(60px);
@@ -24,24 +23,23 @@
     &--chosen {
       background-color: $c-lightest-gray;
       font-weight: $font-weight-bold;
-      cursor: not-allowed;
     }
-    
+
     &--disabled {
       color: $c-text-secondary;
       pointer-events: none;
     }
   }
-  
+
   &__flag {
     margin-right: $px12;
   }
-  
+
   &__currency {
     margin-left: $px8;
     font-size: $font-size-xs;
   }
-  
+
   &__wrap {
     padding: $px24;
   }

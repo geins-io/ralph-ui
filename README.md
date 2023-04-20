@@ -35,6 +35,53 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.0.0] - 2023-04-20
+
+### Added
+
+- `events` (store/ralphevents.js) added to store with the following events emitted:
+
+  - `cart:add` - data payload: `{ item, product }`
+  - `cart:remove` - data payload: `{ item, product }`
+  - `page:impression` - data payload: `{ route }`
+  - `product:click` - data payload: `{ product, page }`
+  - `product-detail:impression` - data payload: `{ product }`
+  - `favorite:add` - data payload: `{ productId }`
+  - `favorite:remove` - data payload: `{ productId }`
+  - `checkout:impression` - data payload: `{}`
+  - `checkout:purchase` - data payload: `{ order }`
+
+  All events also has a payload of:
+
+  - `type` - the type of event (e.g. `cart:add`)
+  - `timestamp` - the timestamp of the event
+  - `state` - the current state of the store with these properites:
+    - `auth`
+    - `cart`
+    - `channel`
+    - `checkout`
+    - `currentRouteName`
+    - `customerType`
+    - `favorites`
+    - `vatIncluded`
+
+- `CaToggleFavorite` component (moved from Ralph Storefront to Ralph UI)
+- Global log function `$ralphLog` used like so: `this.$ralphLog(message, ...args)`
+- `currentLocale`and `currentCurency`in store/channel for it to be included in the state in event payload
+
+### Changed
+
+- Using toggleFavorite acrion instead of toggleFavorite mutation to be able to emit events
+
+### Fixed
+
+- Fixed error with server side rendering checkout page without cart id
+- Moved `ralph-create` script from wrong folder so that it works now
+
+### Deprecated
+
+- `plugins/get-path.js` - use `plugins/ralph.js` instead
+
 ## [18.1.2] - 2023-04-12
 
 ### Fixed

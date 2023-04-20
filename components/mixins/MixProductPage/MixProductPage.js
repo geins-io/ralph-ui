@@ -218,6 +218,10 @@ export default {
   },
   mounted() {
     this.switchToCanonical();
+    this.$store.dispatch('events/pushEvent', {
+      type: 'product-detail:impression',
+      data: { product: this.product }
+    });
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -335,6 +339,7 @@ export default {
           clearInterval(this.interval);
           this.appendProductToLatest();
           this.emitGTMEvent();
+
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);
           }
