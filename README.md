@@ -35,7 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [19.0.0] - 2023-04-20
+## [19.0.0] - 2023-04-21
+
+You will need to make these updates to your storefront to be able to use this version of Ralph UI:
+
+- Remove CaToggleFavorite from your storefront to use the one from Ralph UI instead
+- Remove `plugins/get-path.js` and use `plugins/ralph.js` instead
+- Add `events.js` to your store folder and import store from `ralphevents` (see commit in Ralph Storefront for reference)
+- Update click handlers for CaProductCard (see commit in Ralph Storefront for reference)
 
 ### Added
 
@@ -81,6 +88,7 @@ All notable changes will be added to this section
 ### Deprecated
 
 - `plugins/get-path.js` - use `plugins/ralph.js` instead
+- Mutaion `toggleFavorite` - use action `toggleFavorite` instead
 
 ## [18.1.2] - 2023-04-12
 
