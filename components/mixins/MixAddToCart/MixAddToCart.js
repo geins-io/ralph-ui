@@ -35,6 +35,11 @@ export default {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
 
+          this.$store.dispatch('events/push', {
+            type: 'cart:add',
+            data: { item: itemToAdd, product }
+          });
+
           if (product) {
             this.$store.dispatch('cart/triggerAddedNotification', {
               item: itemToAdd,
@@ -51,6 +56,7 @@ export default {
                 unitPrice: unitPriceWithDiscounts?.unitPrice
               }
             ]);
+
             GTMEvent.addToCart({
               gtmInputs: {
                 gtm: this.$gtm,

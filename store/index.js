@@ -24,6 +24,12 @@ export const mutations = {
       favorites.push(productId);
     }
   },
+  addFavorite(state, productId) {
+    state.favorites.push(productId);
+  },
+  removeFavorite(state, productId) {
+    state.favorites.splice(state.favorites.indexOf(productId), 1);
+  },
   setCustomerType(state, type) {
     state.customerType = type;
   },
@@ -66,6 +72,23 @@ export const mutations = {
 };
 
 export const actions = {
+  toggleFavorite({ state, commit, dispatch }, productId) {
+    const favorites = state.favorites;
+
+    if (favorites.includes(productId)) {
+      commit('removeFavorite', productId);
+      dispatch('events/push', {
+        type: 'favorite:remove',
+        data: { productId }
+      });
+    } else if (productId) {
+      commit('addFavorite', productId);
+      dispatch('events/push', {
+        type: 'favorite:add',
+        data: { productId }
+      });
+    }
+  },
   initScrollListener(context) {
     let timeout;
     window.addEventListener(
@@ -140,13 +163,16 @@ export const actions = {
     const url = window.location.origin + '/404';
     window.location.replace(url);
   },
-  changeCustomerType({ state, commit }, type) {
+  changeCustomerType({ state, commit, dispatch }, type) {
     const currentType = type ?? 'PERSON';
     const typeObj = state.config.customerTypes.find(
       i => i.type === currentType
     );
     commit('setCustomerType', typeObj.type);
     commit('setVatIncluded', typeObj.vat);
+    dispatch('events/push', {
+      type: 'customer-type:change'
+    });
   },
   setCustomerTypeCookie({ state }, customerType) {
     if (customerType) {
@@ -193,6 +219,10 @@ export const actions = {
     // Set current market
     commit('channel/setCurrentMarket', currentMarket);
     commit('channel/setCheckoutMarket', checkoutMarket);
+
+    // Set current locale and currency
+    commit('channel/setCurrentLocale', this.$i18n.localeProperties.iso);
+    commit('channel/setCurrentCurrency', getters['channel/currentCurrency']);
 
     // Set user from cookie
     const user = parsed['ralph-user'] || null;

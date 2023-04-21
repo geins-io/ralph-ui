@@ -312,6 +312,9 @@ export default {
       ) {
         await this.$store.dispatch('auth/login', this.credentials);
         if (this.$store.getters['auth/authenticated']) {
+          this.$store.dispatch('events/push', {
+            type: 'user:login'
+          });
           if (this.$config.customerTypesToggle) {
             this.$apollo
               .query({
@@ -378,6 +381,9 @@ export default {
             .then(result => {
               this.loading = false;
               if (!result.errors) {
+                this.$store.dispatch('events/push', {
+                  type: 'user:register'
+                });
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
                 if (this.$config.customerTypesToggle) {
@@ -421,9 +427,16 @@ export default {
           })
           .then(result => {
             this.loading = false;
-            if (!result.errors && result.data.requestPasswordReset) {
+            if (result?.data?.requestPasswordReset && !result.errors) {
               this.resetFields();
               this.showFeedback(this.feedback.passwordResetted);
+              this.$store.dispatch('events/push', {
+                type: 'user:password-reset',
+                data: {
+                  email: this.email,
+                  resetKey: result.data.requestPasswordReset
+                }
+              });
             } else {
               this.showFeedback(this.feedback.error);
             }

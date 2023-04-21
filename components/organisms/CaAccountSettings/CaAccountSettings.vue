@@ -539,6 +539,9 @@ export default {
               placement: 'bottom-center',
               mode: 'success'
             });
+            this.$store.dispatch('events/push', {
+              type: 'user:delete'
+            });
           } else {
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('FEEDBACK_ERROR'),

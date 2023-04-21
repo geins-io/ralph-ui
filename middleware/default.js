@@ -102,6 +102,13 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
     checkIfLanguageAllowed(currentMarket);
   }
 
+  // Dispatch page impression event
+  const { name, meta, path, hash, query, params, fullPath } = route;
+  store.dispatch('events/push', {
+    type: 'page:impression',
+    data: { route: { name, meta, path, hash, query, params, fullPath } }
+  });
+
   if ($gtm) {
     $gtm.push({
       event: 'Page Impression',

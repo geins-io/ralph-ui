@@ -95,6 +95,12 @@ export default {
               email,
               currency
             } = result.data?.getCheckoutAndOrder.order;
+
+            this.$store.dispatch('events/push', {
+              type: 'checkout:purchase',
+              data: { order: result.data?.getCheckoutAndOrder.order }
+            });
+
             if (this.$store.getters['nosto/isNostoActive'] && process.client) {
               window.nostojs(api => {
                 api

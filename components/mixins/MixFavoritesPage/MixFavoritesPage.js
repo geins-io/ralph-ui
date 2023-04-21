@@ -71,7 +71,7 @@ export default {
           });
           this.favorites.forEach(favorite => {
             if (!productIds.includes(favorite)) {
-              this.$store.commit('toggleFavorite', favorite);
+              this.$store.dispatch('toggleFavorite', favorite);
             }
           });
         } else {
@@ -81,7 +81,7 @@ export default {
 
           this.favorites.forEach(favorite => {
             if (!productAliases.includes(favorite)) {
-              this.$store.commit('toggleFavorite', favorite);
+              this.$store.dispatch('toggleFavorite', favorite);
             }
           });
         }

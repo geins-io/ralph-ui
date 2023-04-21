@@ -160,10 +160,12 @@ export default {
   watch: {
     async 'cart.data'(newVal, oldVal) {
       if (
-        await this.$store.dispatch('cart/itemsChanged', {
+        newVal &&
+        oldVal &&
+        (await this.$store.dispatch('cart/itemsChanged', {
           new: newVal,
           old: oldVal
-        })
+        }))
       ) {
         this.shippingLoading = true;
         this.createOrUpdateCheckout('cart changed');
@@ -210,12 +212,16 @@ export default {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
-    this.emitGTMEvent();
+    this.emitEvent();
   },
   methods: {
     // @vuese
     // GTM event emitter
-    emitGTMEvent() {
+    emitEvent() {
+      this.$store.dispatch('events/push', {
+        type: 'checkout:impression'
+      });
+
       if (this.$gtm && this.cart?.data?.items) {
         const items = this.cart.data.items.map(item => ({
           id: item.product.productId,
@@ -252,6 +258,10 @@ export default {
     createOrUpdateCheckout(reason = 'other') {
       clearTimeout(this.updateTimeout);
       this.updateTimeout = setTimeout(() => {
+        if (!this.$store.getters['cart/id']) {
+          this.cartLoading = false;
+          return;
+        }
         if (this.debug) {
           // eslint-disable-next-line no-console
           console.log('createOrUpdateCheckout: ', reason.toUpperCase());
@@ -285,6 +295,10 @@ export default {
               this.shippingLoading = false;
               this.cartLoading = false;
               this.frameLoading = false;
+              this.$store.dispatch('events/push', {
+                type: 'checkout:update',
+                data: { checkout: this.checkout }
+              });
               this.$nextTick(() => {
                 if (this.$refs.udc && this.$refs.udc.widget) {
                   this.$refs.udc.enable();
