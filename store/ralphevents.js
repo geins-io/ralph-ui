@@ -22,7 +22,8 @@ export const mutations = {
 };
 
 export const actions = {
-  pushEvent({ commit, rootState }, { type, data = {} }) {
+  push({ commit, rootState }, { type, data = {} }) {
+    // Select parts of state to push with event, to not bloat it
     const {
       auth,
       cart,
@@ -45,8 +46,11 @@ export const actions = {
       vatIncluded
     };
 
+    // Create event and push it to the store
     const event = RalphEvent.createEvent(type, data, state);
     commit('pushEvent', event);
+
+    // Log event to console
     this.app.$ralphLog(event.type, event);
   }
 };

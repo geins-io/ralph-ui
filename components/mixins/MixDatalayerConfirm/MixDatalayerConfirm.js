@@ -96,7 +96,7 @@ export default {
               currency
             } = result.data?.getCheckoutAndOrder.order;
 
-            this.$store.dispatch('events/pushEvent', {
+            this.$store.dispatch('events/push', {
               type: 'checkout:purchase',
               data: { order: result.data?.getCheckoutAndOrder.order }
             });

@@ -77,13 +77,13 @@ export const actions = {
 
     if (favorites.includes(productId)) {
       commit('removeFavorite', productId);
-      dispatch('events/pushEvent', {
+      dispatch('events/push', {
         type: 'favorite:remove',
         data: { productId }
       });
     } else if (productId) {
       commit('addFavorite', productId);
-      dispatch('events/pushEvent', {
+      dispatch('events/push', {
         type: 'favorite:add',
         data: { productId }
       });
@@ -163,13 +163,16 @@ export const actions = {
     const url = window.location.origin + '/404';
     window.location.replace(url);
   },
-  changeCustomerType({ state, commit }, type) {
+  changeCustomerType({ state, commit, dispatch }, type) {
     const currentType = type ?? 'PERSON';
     const typeObj = state.config.customerTypes.find(
       i => i.type === currentType
     );
     commit('setCustomerType', typeObj.type);
     commit('setVatIncluded', typeObj.vat);
+    dispatch('events/push', {
+      type: 'customer-type:change'
+    });
   },
   setCustomerTypeCookie({ state }, customerType) {
     if (customerType) {

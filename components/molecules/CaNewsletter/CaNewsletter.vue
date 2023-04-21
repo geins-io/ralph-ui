@@ -92,8 +92,14 @@ export default {
           })
           .then(result => {
             this.loading = false;
-            if (result.data.subscribeToNewsletter) {
+            if (result?.data?.subscribeToNewsletter) {
               this.showFeedback(this.feedbacks.success);
+              this.$store.dispatch('events/push', {
+                type: 'newsletter:subscribe',
+                data: {
+                  email: this.email
+                }
+              });
               this.email = '';
             } else {
               this.showFeedback(this.feedbacks.fail);

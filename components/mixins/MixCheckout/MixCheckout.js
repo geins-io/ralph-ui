@@ -218,7 +218,7 @@ export default {
     // @vuese
     // GTM event emitter
     emitEvent() {
-      this.$store.dispatch('events/pushEvent', {
+      this.$store.dispatch('events/push', {
         type: 'checkout:impression'
       });
 
@@ -295,6 +295,10 @@ export default {
               this.shippingLoading = false;
               this.cartLoading = false;
               this.frameLoading = false;
+              this.$store.dispatch('events/push', {
+                type: 'checkout:update',
+                data: { checkout: this.checkout }
+              });
               this.$nextTick(() => {
                 if (this.$refs.udc && this.$refs.udc.widget) {
                   this.$refs.udc.enable();

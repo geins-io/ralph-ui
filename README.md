@@ -51,26 +51,34 @@ You will need to make these updates to your storefront to be able to use this ve
   - `cart:add` - data payload: `{ item, product }`
   - `cart:remove` - data payload: `{ item, product }`
   - `page:impression` - data payload: `{ route }`
-  - `product:click` - data payload: `{ product, page }`
+  - `product:click` - data payload: `{ product, page, index, pageSize }`
   - `product-detail:impression` - data payload: `{ product }`
   - `favorite:add` - data payload: `{ productId }`
   - `favorite:remove` - data payload: `{ productId }`
   - `checkout:impression` - data payload: `{}`
+  - `checkout:update` - data payload: `{ checkout }`
   - `checkout:purchase` - data payload: `{ order }`
+  - `user:login` - data payload: `{}`
+  - `user:logout` - data payload: `{}`
+  - `user:register` - data payload: `{}`
+  - `user:password-reset` - data payload: `{ email, resetKey }`
+  - `user:delete` - data payload: `{}`
+  - `newsletter:subscribe` - data payload: `{ email }`
 
-  All events also has a payload of:
+All events also has a payload of:
 
-  - `type` - the type of event (e.g. `cart:add`)
-  - `timestamp` - the timestamp of the event
-  - `state` - the current state of the store with these properites:
-    - `auth`
-    - `cart`
-    - `channel`
-    - `checkout`
-    - `currentRouteName`
-    - `customerType`
-    - `favorites`
-    - `vatIncluded`
+- `type` - the type of event (e.g. `cart:add`)
+- `timestamp` - the timestamp of the event
+- `state` - the current state of the store with these properites:
+
+  - `auth`
+  - `cart`
+  - `channel`
+  - `checkout`
+  - `currentRouteName`
+  - `customerType`
+  - `favorites`
+  - `vatIncluded`
 
 - `CaToggleFavorite` component (moved from Ralph Storefront to Ralph UI)
 - Global log function `$ralphLog` used like so: `this.$ralphLog(message, ...args)`

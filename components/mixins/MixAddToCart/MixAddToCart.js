@@ -35,7 +35,7 @@ export default {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
 
-          this.$store.dispatch('events/pushEvent', {
+          this.$store.dispatch('events/push', {
             type: 'cart:add',
             data: { item: itemToAdd, product }
           });

@@ -218,7 +218,7 @@ export default {
   },
   mounted() {
     this.switchToCanonical();
-    this.$store.dispatch('events/pushEvent', {
+    this.$store.dispatch('events/push', {
       type: 'product-detail:impression',
       data: { product: this.product }
     });

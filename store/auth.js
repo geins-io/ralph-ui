@@ -54,6 +54,13 @@ export const actions = {
   },
   async logout({ state, dispatch }) {
     await state.client?.connect(null, 'logout');
+    dispatch(
+      'events/push',
+      {
+        type: 'user:logout'
+      },
+      { root: true }
+    );
     dispatch('clearCache');
     dispatch('update');
   },

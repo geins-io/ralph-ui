@@ -104,7 +104,7 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
 
   // Dispatch page impression event
   const { name, meta, path, hash, query, params, fullPath } = route;
-  store.dispatch('events/pushEvent', {
+  store.dispatch('events/push', {
     type: 'page:impression',
     data: { route: { name, meta, path, hash, query, params, fullPath } }
   });

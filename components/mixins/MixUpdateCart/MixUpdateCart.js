@@ -86,7 +86,7 @@ export default {
               const quantity = previousProductQuantity - prodQuantity;
               updateItem.quantity = quantity;
 
-              this.$store.dispatch('events/pushEvent', {
+              this.$store.dispatch('events/push', {
                 type: 'cart:remove',
                 data: {
                   item: updateItem,
@@ -97,7 +97,7 @@ export default {
               const quantity = prodQuantity - previousProductQuantity;
               updateItem.quantity = quantity;
 
-              this.$store.dispatch('events/pushEvent', {
+              this.$store.dispatch('events/push', {
                 type: 'cart:add',
                 data: {
                   item: updateItem,

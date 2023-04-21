@@ -75,7 +75,7 @@ export default {
           if (this.trackCounter === 1) {
             this.gtmViewEvent();
 
-            this.$store.dispatch('events/pushEvent', {
+            this.$store.dispatch('events/push', {
               type: 'product:impression',
               data: { product: this.product, page: this.pageNumber }
             });
@@ -100,9 +100,16 @@ export default {
         this.nostoClickEvent();
       }
 
-      this.$store.dispatch('events/pushEvent', {
+      const index = this.$vnode.key + 1;
+
+      this.$store.dispatch('events/push', {
         type: 'product:click',
-        data: { product: this.product, page: this.pageNumber }
+        data: {
+          product: this.product,
+          page: this.pageNumber,
+          index,
+          pageSize: this.$config.productListPageSize
+        }
       });
 
       if (this.pageNumber > 0) {
