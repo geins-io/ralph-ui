@@ -22,7 +22,7 @@ export default {
         this.$store.dispatch('cart/get');
       },
       skip() {
-        return !this.menuLocationId || !process.client;
+        return !this.menuLocationId || (!process.client && this.onlyClientSide);
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -34,6 +34,11 @@ export default {
     menuLocationId: {
       type: [String, null],
       default: null
+    },
+    // If true, the menu will be fetched only on client side
+    onlyClientSide: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -101,6 +106,16 @@ export default {
     // @arg path String
     isExternal(path) {
       return path.includes('http') || path.includes(':');
+    },
+    // @vuese
+    // Pushing the menu:click event
+    clickHandler(item) {
+      this.$store.dispatch('events/push', {
+        type: 'menu:click',
+        data: {
+          item
+        }
+      });
     }
   }
 };

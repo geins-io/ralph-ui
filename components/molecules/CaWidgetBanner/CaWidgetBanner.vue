@@ -5,6 +5,7 @@
       :is="linkBaseElem"
       v-bind="linkElemAttributes"
       class="ca-widget-banner__inner"
+      @click.native="clickHandler"
     >
       <div v-if="hasVideo" class="ca-widget-banner__video-wrap">
         <CaImage
@@ -250,6 +251,16 @@ export default {
         data,
         this.playerOrigin
       );
+    },
+    // @vuese
+    // Pushing the widget:click event
+    clickHandler() {
+      this.$store.dispatch('events/push', {
+        type: 'widget:click',
+        data: {
+          href: this.processedHref
+        }
+      });
     }
   }
 };

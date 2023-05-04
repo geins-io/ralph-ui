@@ -14,6 +14,7 @@
           :is="getBaseElem(item)"
           v-bind="getAttributes(item)"
           class="ca-info-page-menu__link"
+          @click.native="clickHandler(item)"
         >
           {{ getLabel(item) }}
           <CaIcon class="ca-info-page-menu__link-icon" name="chevron-right" />
@@ -28,6 +29,7 @@
               :is="getBaseElem(childItem)"
               v-bind="getAttributes(childItem)"
               class="ca-info-page-menu__submenu-link"
+              @click.native="clickHandler(childItem)"
             >
               {{ getLabel(childItem) }}
               <CaIcon

@@ -47,6 +47,7 @@
               type="button"
               class="ca-search__suggestion-link"
               @mousedown="setSearchString(search)"
+              @click="clickHandler({ type: 'suggestion', data: search })"
             >
               {{ search }}
             </button>
@@ -129,6 +130,9 @@
                     class="ca-search__item-link ca-search__item-link--product"
                     :to="product.canonicalUrl"
                     :title="product.name"
+                    @click.native="
+                      clickHandler({ type: 'product', data: product })
+                    "
                   >
                     <CaImage
                       v-if="
@@ -181,6 +185,9 @@
                     class="ca-search__item-link ca-search__item-link--tag"
                     :to="category.canonicalUrl"
                     :title="category.name"
+                    @click.native="
+                      clickHandler({ type: 'category', data: category })
+                    "
                   >
                     {{ category.name }}
                   </NuxtLink>
@@ -202,6 +209,7 @@
                     class="ca-search__item-link ca-search__item-link--tag"
                     :to="brand.canonicalUrl"
                     :title="brand.name"
+                    @click.native="clickHandler({ type: 'brand', data: brand })"
                   >
                     {{ brand.name }}
                   </NuxtLink>

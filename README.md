@@ -35,6 +35,26 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.1.0] - 2023-05-04
+
+This update improves the events push and adds some events.
+
+### Added
+
+- Events:
+  - `widget:click` - data payload: `{ href }`
+  - `menu:click` - data payload: `{ item }`
+  - `search:click` - data payload: `{ type, data }`
+
+### Changed
+
+- Menus are now again fetched even server-side. Added a prop to MixMenu to fetch only client-side if needed: `onlyClientSide`
+- State removed from events payload since it's reachable anyways
+
+### Fixed
+
+- Fixed warning about stringify of non-POJO object
+
 ## [19.0.0] - 2023-04-21
 
 You will need to make these updates to your storefront to be able to use this version of Ralph UI:
@@ -52,6 +72,7 @@ You will need to make these updates to your storefront to be able to use this ve
   - `cart:remove` - data payload: `{ item, product }`
   - `page:impression` - data payload: `{ route }`
   - `product:click` - data payload: `{ product, page, index, pageSize }`
+  - `product:impression` - data payload: `{ product, page }`
   - `product-detail:impression` - data payload: `{ product }`
   - `favorite:add` - data payload: `{ productId }`
   - `favorite:remove` - data payload: `{ productId }`
