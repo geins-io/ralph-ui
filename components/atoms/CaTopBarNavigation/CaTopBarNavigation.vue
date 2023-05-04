@@ -5,6 +5,7 @@
         :is="getBaseElem(item)"
         v-bind="getAttributes(item)"
         class="ca-top-bar-navigation__link"
+        @click.native="clickHandler(item)"
       >
         {{ getLabel(item) }}
       </component>

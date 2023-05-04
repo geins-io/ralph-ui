@@ -19,6 +19,7 @@
             :is="getBaseElem(item)"
             v-bind="getAttributes(item)"
             class="ca-footer-navigation-accordion__link"
+            @click.native="clickHandler(item)"
           >
             {{ getLabel(item) }}
           </component>

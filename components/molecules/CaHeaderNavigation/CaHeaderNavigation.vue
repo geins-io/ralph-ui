@@ -17,6 +17,7 @@
           :is="getElem(item)"
           v-bind="getAttrs(item)"
           class="ca-header-navigation__link"
+          @click.native="clickHandler(item)"
         >
           <CaIconAndText
             v-if="item.children.length"
@@ -40,6 +41,7 @@
               v-if="menuState === 'click' && showAllLink"
               v-bind="getAttributes(item)"
               class="ca-header-navigation__children-show-all only-computer"
+              @click.native="clickHandler(item)"
             >
               {{ $t('NAVIGATION_ALL_IN') }} {{ getLabel(item) }}
             </component>
@@ -57,6 +59,7 @@
                   :is="getBaseElem(childItem)"
                   v-bind="getAttributes(childItem)"
                   class="ca-header-navigation__child-link"
+                  @click.native="clickHandler(childItem)"
                 >
                   {{ getLabel(childItem) }}
                 </component>
@@ -78,6 +81,7 @@
                       :is="getBaseElem(grandChildItem)"
                       v-bind="getAttributes(grandChildItem)"
                       class="ca-header-navigation__grand-child-link"
+                      @click.native="clickHandler(grandChildItem)"
                     >
                       {{ getLabel(grandChildItem) }}
                     </component>

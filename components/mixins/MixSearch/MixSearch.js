@@ -229,6 +229,12 @@ export default {
         this.$store.dispatch('setScrollbarWidth');
         document.body.style.overflow = 'hidden';
       }
+    },
+    clickHandler(item) {
+      this.$store.dispatch('events/push', {
+        type: 'search:click',
+        data: item
+      });
     }
   }
 };

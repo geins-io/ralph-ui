@@ -107,6 +107,7 @@ export default {
             }
           })
           .catch(error => {
+            // eslint-disable-next-line no-console
             console.error('MixUpdateCart: ' + error);
           });
       this.enqueue(updateMutation);

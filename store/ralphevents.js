@@ -1,57 +1,38 @@
 class RalphEvent {
-  constructor(type, data, state) {
-    this.type = type;
+  constructor(type, data) {
     this.data = data;
-    this.state = state;
     this.timestamp = new Date();
+    this.type = type;
   }
 
-  static createEvent(type, data, state) {
-    return new RalphEvent(type, data, state);
+  static createEvent(type, data) {
+    return new RalphEvent(type, data);
   }
 }
-
 export const state = () => ({
   events: []
 });
 
 export const mutations = {
-  pushEvent(state, event) {
+  push(state, event) {
     state.events.push(event);
   }
 };
 
 export const actions = {
-  push({ commit, rootState }, { type, data = {} }) {
-    // Select parts of state to push with event, to not bloat it
-    const {
-      auth,
-      cart,
-      channel,
-      checkout,
-      currentRouteName,
-      customerType,
-      favorites,
-      vatIncluded
-    } = rootState;
-
-    const state = {
-      auth,
-      cart,
-      channel,
-      checkout,
-      currentRouteName,
-      customerType,
-      favorites,
-      vatIncluded
-    };
+  push({ commit }, { type, data = {} }) {
+    // Clone data to avoid mutation
+    const clonedData = JSON.parse(JSON.stringify(data));
 
     // Create event and push it to the store
-    const event = RalphEvent.createEvent(type, data, state);
-    commit('pushEvent', event);
+    const event = RalphEvent.createEvent(type, clonedData);
+    commit('push', event);
+
+    let logEvent = Object.assign({}, event);
+    logEvent = JSON.parse(JSON.stringify(logEvent));
 
     // Log event to console
-    this.app.$ralphLog(event.type, event);
+    this.app.$ralphLog(event.type, logEvent);
   }
 };
 

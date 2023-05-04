@@ -20,6 +20,7 @@
             :is="getBaseElem(item)"
             v-bind="getAttributes(item)"
             class="ca-accordion-navigation__link"
+            @click.native="clickHandler(item)"
           >
             {{ getLabel(item) }}
           </component>
@@ -34,6 +35,7 @@
               :is="getBaseElem(childItem)"
               v-bind="getAttributes(childItem)"
               class="ca-accordion-navigation__submenu-link"
+              @click.native="clickHandler(childItem)"
             >
               {{ getLabel(childItem) }}
             </component>
@@ -45,6 +47,7 @@
         v-else
         v-bind="getAttributes(item)"
         class="ca-accordion-navigation__link"
+        @click.native="clickHandler(item)"
       >
         {{ getLabel(item) }}
       </component>

@@ -22,6 +22,7 @@
                 :is="getBaseElem(item)"
                 v-bind="getAttributes(item)"
                 class="ca-panel-navigation__child-link ca-panel-navigation__child-link--all"
+                @click.native="clickHandler(item)"
               >
                 {{ getParentLinkLabel(item) }}
               </component>
@@ -47,6 +48,7 @@
                       :is="getBaseElem(childItem)"
                       v-bind="getAttributes(childItem)"
                       class="ca-panel-navigation__grand-child-link ca-panel-navigation__grand-child-link--all"
+                      @click.native="clickHandler(childItem)"
                     >
                       {{ getParentLinkLabel(childItem) }}
                     </component>
@@ -60,6 +62,7 @@
                       :is="getBaseElem(grandChildItem)"
                       v-bind="getAttributes(grandChildItem)"
                       class="ca-panel-navigation__grand-child-link"
+                      @click.native="clickHandler(grandChildItem)"
                     >
                       {{ getLabel(grandChildItem) }}
                     </component>
@@ -71,6 +74,7 @@
                 v-else
                 v-bind="getAttributes(childItem)"
                 class="ca-panel-navigation__child-link"
+                @click.native="clickHandler(childItem)"
               >
                 {{ getLabel(childItem) }}
               </component>
@@ -82,6 +86,7 @@
           v-else
           v-bind="getAttributes(item)"
           class="ca-panel-navigation__link"
+          @click.native="clickHandler(item)"
         >
           {{ getLabel(item) }}
         </component>

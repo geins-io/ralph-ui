@@ -218,10 +218,6 @@ export default {
   },
   mounted() {
     this.switchToCanonical();
-    this.$store.dispatch('events/push', {
-      type: 'product-detail:impression',
-      data: { product: this.product }
-    });
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -343,6 +339,11 @@ export default {
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);
           }
+
+          this.$store.dispatch('events/push', {
+            type: 'product-detail:impression',
+            data: { product: this.product }
+          });
         }
       }, 500);
     },

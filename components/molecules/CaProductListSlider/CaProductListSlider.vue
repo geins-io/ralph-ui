@@ -17,7 +17,7 @@
         :slide-meta="slideMeta"
         class="ca-product-list-slider__slide"
       >
-        <CaProductCard :product="product" base-tag="div" />
+        <CaProductCard :key="index" :product="product" base-tag="div" />
       </CaSlide>
     </template>
   </CaSlider>
@@ -83,6 +83,7 @@ export default {
       if (isFinite(scrollSize)) {
         return scrollSize;
       }
+      // eslint-disable-next-line no-console
       console.error(
         `Missing product list scroll size for viewport ${this.$store.getters.viewport}. Check config.`
       );

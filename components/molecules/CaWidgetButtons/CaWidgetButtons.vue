@@ -5,6 +5,7 @@
       :key="index"
       :href="button.url"
       class="ca-widget-buttons__button"
+      @clicked="clickHandler"
     >
       {{ button.buttonText }}
     </CaButton>
@@ -29,7 +30,18 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {
+    // @vuese
+    // Pushing the widget:click event
+    clickHandler() {
+      this.$store.dispatch('events/push', {
+        type: 'widget:click',
+        data: {
+          href: this.button.url
+        }
+      });
+    }
+  }
 };
 </script>
 <style lang="scss">
