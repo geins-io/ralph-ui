@@ -834,7 +834,9 @@ export default {
       this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
         this.currentMinCount = this.skip + 1;
-        this.currentMaxCount = this.skip + this.pageSize;
+        const count = this.skip + this.pageSize;
+        this.currentMaxCount =
+          count >= this.totalCount ? this.totalCount : count;
       }
     },
     // @vuese
