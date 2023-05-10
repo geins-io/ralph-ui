@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.1.1] - 2023-05-10
+
+### Fixed
+
+- Fixed bug with currentMaxCount being wrong when server side rendering paginated list
+
 ## [19.1.0] - 2023-05-04
 
 This update improves the events push and adds some events.
@@ -50,10 +56,6 @@ This update improves the events push and adds some events.
 
 - Menus are now again fetched even server-side. Added a prop to MixMenu to fetch only client-side if needed: `onlyClientSide`
 - State removed from events payload since it's reachable anyways
-
-### Fixed
-
-- Fixed warning about stringify of non-POJO object
 
 ## [19.0.0] - 2023-04-21
 
