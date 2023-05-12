@@ -9,7 +9,7 @@
 $ npm install
 
 # create component
-$ npm run create-component
+$ npm run ralph-create
 
 # see documentation
 $ npm run documentation-serve
@@ -34,6 +34,13 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [19.2.0] - 2023-05-12
+
+### Added
+
+- Possibility to add an external shipping fee in checkout
+- Possibility to add full product object to favorite data payload
 
 ## [19.1.1] - 2023-05-10
 
