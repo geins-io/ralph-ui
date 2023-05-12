@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
+import setCartShippingFeeMutaion from 'checkout/set-cart-shipping-fee.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
@@ -28,7 +29,7 @@ export default {
   mixins: [MixPromiseQueue, MixApolloRefetch],
   props: {},
   data: vm => ({
-    debug: false,
+    debug: true,
     cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,
@@ -101,6 +102,9 @@ export default {
       if (this.externalShippingId) {
         obj.externalShippingId = this.externalShippingId;
       }
+      if (this.externalShippingFee || this.externalShippingFee === 0) {
+        obj.externalShippingFee = this.externalShippingFee;
+      }
       return obj;
     },
     // @vuese
@@ -151,7 +155,8 @@ export default {
       currentMarket: state => state.channel.currentMarket,
       checkoutMarket: state => state.channel.checkoutMarket,
       customerType: state => state.customerType,
-      cart: state => state.cart
+      cart: state => state.cart,
+      externalShippingFee: state => state.checkout.externalShippingFee
     }),
     ...mapGetters({
       checkoutMarketObj: 'channel/checkoutMarketObj'
@@ -205,6 +210,12 @@ export default {
         if (newVal?.currency?.code === oldVal?.currency?.code) {
           this.createOrUpdateCheckout('market changed');
         }
+      }
+    },
+    externalShippingFee(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setCartShippingFee(newVal);
+        // this.createOrUpdateCheckout('external shipping fee changed');
       }
     }
   },
@@ -442,6 +453,33 @@ export default {
     // @arg market (String)
     setCheckoutMarket(value) {
       this.$store.dispatch('channel/setCheckoutMarket', value);
+    },
+    setCartShippingFee(fee) {
+      this.cartLoading = true;
+      const vars = {
+        cartId: this.$store.getters['cart/id'],
+        checkoutMarketId: this.checkoutMarket,
+        shippingFee: fee
+      };
+
+      this.$apollo
+        .mutate({
+          mutation: setCartShippingFeeMutaion,
+          variables: vars,
+          fetchPolicy: 'no-cache'
+        })
+        .then(result => {
+          if (result?.data?.setCartShippingFee?.cart) {
+            this.updateCart(result.data.setCartShippingFee.cart);
+            this.cartLoading = false;
+          }
+        })
+        .catch(error => {
+          this.$nuxt.error({
+            statusCode: error.statusCode,
+            message: error
+          });
+        });
     }
   }
 };

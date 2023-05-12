@@ -1,15 +1,15 @@
 #import "checkout/checkout.graphql"
 
-mutation createOrUpdateCheckout(
+mutation setCartShippingFee(
   $cartId: String!
-  $checkout: CheckoutInputType
+  $shippingFee: Decimal!
   $channelId: String
   $languageId: String
   $checkoutMarketId: String
 ) {
-  createOrUpdateCheckout(
+  setCartShippingFee(
     cartId: $cartId
-    checkout: $checkout
+    shippingFee: $shippingFee
     channelId: $channelId
     languageId: $languageId
     marketId: $checkoutMarketId
