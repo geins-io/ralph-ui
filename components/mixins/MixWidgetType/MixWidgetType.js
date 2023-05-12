@@ -2,7 +2,7 @@
 // @vuese
 // Override this mixin to extend the widget types with your own
 export default {
-  name: 'CaWidgetType',
+  name: 'MixWidgetType',
   mixins: [],
   props: {},
   data: () => ({}),

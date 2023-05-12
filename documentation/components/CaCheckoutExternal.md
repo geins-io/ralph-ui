@@ -10,7 +10,7 @@ Renders the external checkout frame from a snippet given by the API. Has built i
 |data|The external checkout snippet received from the api|`String`|`false`|null|
 |newCheckoutSession|Is it a new checkout session?|`Boolean`|`false`|false|
 |confirm|Is this the confirm page?|`Boolean`|`false`|false|
-|type|What type of payment?|`KLARNA`, `SVEA`, `WALLEY`|`true`|-|
+|type|What type of payment?|`KLARNA`, `SVEA`, `WALLEY`, `AVARDA`|`true`|-|
 
 <!-- @vuese:CaCheckoutExternal:props:end -->
 
@@ -35,6 +35,7 @@ Renders the external checkout frame from a snippet given by the API. Has built i
 |Computed|Type|Description|From Store|
 |---|---|---|---|
 |orderId|`String`|The external order id|No|
+|modifiers|`Object`|Modifier for checkout. Add suspended class if avarda since avard doesn't have a suspended state|No|
 
 <!-- @vuese:CaCheckoutExternal:computed:end -->
 

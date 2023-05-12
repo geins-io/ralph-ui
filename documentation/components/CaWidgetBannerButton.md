@@ -9,6 +9,7 @@ The button in the banner widget. Component made to be overridden if necessary<br
 |---|---|---|---|---|
 |textColor|-|`Number`|`false`|0|
 |belowImage|-|`Boolean`|`false`|false|
+|customStyles|-|`Object`|`false`|-|
 
 <!-- @vuese:CaWidgetBannerButton:props:end -->
 

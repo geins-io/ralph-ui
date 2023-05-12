@@ -1,5 +1,7 @@
 # CaReviewForm
 
+Form component to add review (comment) <br><br> **SASS-path:** _./styles/components/molecules/ca-review-form.scss_
+
 ## Props
 
 <!-- @vuese:CaReviewForm:props:start -->

@@ -12,3 +12,13 @@ A widget tha displays one or more buttons<br><br> **SASS-path:** _./styles/compo
 <!-- @vuese:CaWidgetButtons:props:end -->
 
 
+## Methods
+
+<!-- @vuese:CaWidgetButtons:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|clickHandler|Pushing the widget:click event|-|
+
+<!-- @vuese:CaWidgetButtons:methods:end -->
+
+

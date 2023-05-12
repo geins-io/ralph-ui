@@ -7,13 +7,12 @@
 </template>
 <!-- eslint-disable no-console -->
 <script>
+import MixProductPage from 'MixProductPage';
+import MixVariantHandler from 'MixVariantHandler';
 // @group Molecules
 // @vuese
 // Flowbox widget handler component<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-flowbox.scss_
-
-import MixProductPage from 'MixProductPage';
-import MixVariantHandler from 'MixVariantHandler';
 export default {
   name: 'CaWidgetFlowbox',
   mixins: [MixProductPage, MixVariantHandler],

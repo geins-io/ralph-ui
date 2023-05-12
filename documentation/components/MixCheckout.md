@@ -7,8 +7,8 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 <!-- @vuese:MixCheckout:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|emitGTMEvent|GTM event emitter|-|
-|createOrUpdateCheckout|Handling the api call for creating an updating the checkout session|-|
+|emitEvent|GTM event emitter|-|
+|createOrUpdateCheckout|Handling the api call for creating an updating the checkout session|reason (String)|
 |updateCart|Updating the cart if the cart is different from the existing cart|cart (Object)|
 |updateCheckoutData|Updating the checkout data received from Carismar Checkout|data (Object)|
 |placeOrder|Placing the order and redirecting to confirm page if completed|-|
@@ -17,6 +17,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |paymentSelectionHandler|Handling the payment selection|payment id (Number)|
 |shippingSelectionHandler|Handling the shipping selection|shipping id (Number)|
 |setCheckoutMarket|Handling the checkout market selection|market (String)|
+|setCartShippingFee|Handling setting of the external shipping fee|fee (Number)|
 
 <!-- @vuese:MixCheckout:methods:end -->
 

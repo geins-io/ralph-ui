@@ -1,13 +1,13 @@
 # MixListPage
 
-All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `true`<br> initVariables: `{}`<br> baseFilters: `{}`<br> userSkip: `0`<br> sort: `vm.$config.productListDefaultSort`<br> defaultSort: `vm.$config.productListDefaultSort`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
+All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `true`<br> initVariables: `{}`<br> baseFilters: `{}`<br> userSkip: `0`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
 <!-- @vuese:MixListPage:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|type|Type of list page|'category', 'brand', 'search', 'favorites', 'all'|`false`|-|
+|type|Type of list page|'list', 'category', 'brand', 'search', 'favorites', 'all'|`false`|-|
 |infoQuery|Graphql for the listPageInfo query|`Object`|`true`|-|
 |currentAlias|Current alias for the page|`String`|`false`|-|
 |currentPath|Current url path for the page|`String`|`false`|-|
@@ -52,6 +52,7 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |Computed|Type|Description|From Store|
 |---|---|---|---|
 |isNostoRequest|`Boolean`|Condition to skip nosto request|No|
+|categoryAlias|`String`|Returns the current category alias|No|
 |skip|`Number`|Current number of products to skip when querying|No|
 |filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
 |modifier|`String`|The modifer class for the list page|No|
@@ -73,6 +74,7 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |widgetAreaFilters|`Array`|Returns array of widget filters|No|
 |breadcrumbsCurrent|`Object`|Current bredcrumb info|No|
 |showControls|`Boolean`|Show filters and other controls|No|
+|defaultSort|`String`|Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config|No|
 
 <!-- @vuese:MixListPage:computed:end -->
 

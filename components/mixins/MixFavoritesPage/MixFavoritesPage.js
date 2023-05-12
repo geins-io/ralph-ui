@@ -7,7 +7,7 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // **Data:**<br>
 // allProducts: `[]`<br>
 export default {
-  name: 'CaFavoritesPage',
+  name: 'MixFavoritesPage',
   mixins: [MixApolloRefetch],
   apollo: {
     products: {

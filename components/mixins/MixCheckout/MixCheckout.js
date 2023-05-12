@@ -266,6 +266,7 @@ export default {
     },
     // @vuese
     // Handling the api call for creating an updating the checkout session
+    // @arg reason (String)
     createOrUpdateCheckout(reason = 'other') {
       clearTimeout(this.updateTimeout);
       this.updateTimeout = setTimeout(() => {
@@ -454,6 +455,9 @@ export default {
     setCheckoutMarket(value) {
       this.$store.dispatch('channel/setCheckoutMarket', value);
     },
+    // @vuese
+    // Handling setting of the external shipping fee
+    // @arg fee (Number)
     setCartShippingFee(fee) {
       this.cartLoading = true;
       const vars = {

@@ -1,5 +1,7 @@
 # CaReviewsList
 
+Component to display paginated reviews (comments) for specific product<br><br> **SASS-path:** _./styles/components/molecules/ca-reviews-list.scss_
+
 ## Props
 
 <!-- @vuese:CaReviewsList:props:start -->

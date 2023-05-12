@@ -2,35 +2,13 @@
 
 The search including search results<br><br> **SASS-path:** _./styles/components/molecules/ca-search.scss_
 
-## Props
+## MixIns
 
-<!-- @vuese:CaSearch:props:start -->
-|Name|Description|Type|Required|Default|
-|---|---|---|---|---|
-|opened|Used to toogle search in mobile, set to true when user opens it|`Boolean`|`false`|false|
-|visibleWhenSiteIsAtTop|-|`Boolean`|`false`|true|
+<!-- @vuese:CaSearch:mixIns:start -->
+|MixIn|
+|---|
+|MixSearch|
 
-<!-- @vuese:CaSearch:props:end -->
-
-
-## Events
-
-<!-- @vuese:CaSearch:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|searchRouteChange|-|-|
-|closed|-|-|
-
-<!-- @vuese:CaSearch:events:end -->
-
-
-## Methods
-
-<!-- @vuese:CaSearch:methods:start -->
-|Method|Description|Parameters|
-|---|---|---|
-|handleSearchInput|Perform search|-|
-
-<!-- @vuese:CaSearch:methods:end -->
+<!-- @vuese:CaSearch:mixIns:end -->
 
 

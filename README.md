@@ -42,6 +42,10 @@ All notable changes will be added to this section
 - Possibility to add an external shipping fee in checkout
 - Possibility to add full product object to favorite data payload
 
+### Fixed
+
+- Updated vuese documentation
+
 ## [19.1.1] - 2023-05-10
 
 ### Fixed
