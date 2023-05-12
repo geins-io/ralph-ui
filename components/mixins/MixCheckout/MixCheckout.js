@@ -29,7 +29,7 @@ export default {
   mixins: [MixPromiseQueue, MixApolloRefetch],
   props: {},
   data: vm => ({
-    debug: true,
+    debug: false,
     cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,

@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.2.1] - 2023-05-12
+
+### Fixed
+
+- Turned of debugging in checkout
+
 ## [19.2.0] - 2023-05-12
 
 ### Added
