@@ -85,11 +85,12 @@
 </template>
 <script>
 import postProductReviewMutation from 'product/post-product-review.graphql';
+import { mapGetters } from 'vuex';
+
 // @group Molecules
 // @vuese
 // Form component to add review (comment) <br><br>
 // **SASS-path:** _./styles/components/molecules/ca-review-form.scss_
-import { mapGetters } from 'vuex';
 export default {
   name: 'CaReviewForm',
   mixins: [],

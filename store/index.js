@@ -72,20 +72,22 @@ export const mutations = {
 };
 
 export const actions = {
-  toggleFavorite({ state, commit, dispatch }, productId) {
+  toggleFavorite({ state, commit, dispatch }, data) {
     const favorites = state.favorites;
+    const productId = data?.productId || data;
+    const product = data?.product || null;
 
     if (favorites.includes(productId)) {
       commit('removeFavorite', productId);
       dispatch('events/push', {
         type: 'favorite:remove',
-        data: { productId }
+        data: { productId, product }
       });
     } else if (productId) {
       commit('addFavorite', productId);
       dispatch('events/push', {
         type: 'favorite:add',
-        data: { productId }
+        data: { productId, product }
       });
     }
   },

@@ -18,6 +18,7 @@ Display an image in a specific size<br><br> **SASS-path:** _./styles/components/
 |loading|Value for the loading attribute|`String`|`false`|lazy|
 |bannerImage|Image will displayd in background|`Boolean`|`false`|false|
 |srcset|Set srcet for image|`String`|`false`|-|
+|usemap|used as reference for image map areas|`String`|`false`|-|
 
 <!-- @vuese:CaImage:props:end -->
 

@@ -18,8 +18,9 @@ Tree node child component for the Multi Choise Tree view component<br><br> **SAS
 <!-- @vuese:CaFilterMultiTreeNode:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|selectedChildren|Converts the object to a string and searches if any child is selected to toggle parent and children|value (Object)|
-|toggle|Toggle the selected accordion by id|id (String)|
+|selectChildren|Converts the object to a string and searches if any child is selected to toggle parent and children|value (Object)|
+|toggle|Toggle the selected accordion|-|
+|close|Close the accordion|-|
 
 <!-- @vuese:CaFilterMultiTreeNode:methods:end -->
 

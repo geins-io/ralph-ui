@@ -1,0 +1,38 @@
+#import "cart/content.graphql"
+#import "user/address.graphql"
+
+fragment Checkout on CheckoutType {
+  cart {
+    ...Cart
+  }
+  consents {
+    type
+    checked
+  }
+  email
+  identityNumber
+  billingAddress {
+    ...Address
+  }
+  shippingAddress {
+    ...Address
+  }
+  shippingData
+  shippingOptions {
+    id
+    displayName
+    logo
+    isSelected
+    feeIncVatFormatted
+    feeExVatFormatted
+  }
+  paymentOptions {
+    id
+    displayName
+    logo
+    paymentType
+    paymentData
+    isSelected
+    newCheckoutSession
+  }
+}

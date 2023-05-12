@@ -32,6 +32,11 @@ export default {
     iconName: {
       type: String,
       default: 'heart'
+    },
+    // The product object, if added here it will get sent to the datalayer
+    product: {
+      type: Object,
+      default: () => ({})
     }
   },
   data: () => ({}),
@@ -62,8 +67,11 @@ export default {
     toggleFavorite() {
       const favorites = this.$store.state.favorites;
       const isAliases = favorites.length && typeof favorites[0] === 'string';
-      const newFavorite = isAliases ? this.prodAlias : this.prodId;
-      this.$store.dispatch('toggleFavorite', newFavorite);
+      const favorite = isAliases ? this.prodAlias : this.prodId;
+      this.$store.dispatch('toggleFavorite', {
+        productId: favorite,
+        product: this.product
+      });
     }
   }
 };

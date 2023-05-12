@@ -67,14 +67,13 @@
 </template>
 <script>
 import reviews from 'product/reviews.graphql';
+// indicates how many reviews should be displayed on 1 page in pagination
+const REVIEWS_PER_PAGE = 5;
+
 // @group Molecules
 // @vuese
 // Component to display paginated reviews (comments) for specific product<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-reviews-list.scss_
-
-// indicates how many reviews should be displayed on 1 page in pagination
-const REVIEWS_PER_PAGE = 5;
-
 export default {
   name: 'CaReviewsList',
   apollo: {

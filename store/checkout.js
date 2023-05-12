@@ -1,6 +1,7 @@
 export const state = () => ({
   udcData: null,
-  currentZip: ''
+  currentZip: '',
+  externalShippingFee: null
 });
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
   },
   setCurrentZip(state, zip) {
     state.currentZip = zip;
+  },
+  setExternalShippingFee(state, fee) {
+    state.externalShippingFee = fee;
   }
 };
 

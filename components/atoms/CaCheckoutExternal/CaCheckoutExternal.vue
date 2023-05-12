@@ -91,6 +91,7 @@ export default {
     // @vuese
     // Initializing the checkout frame
     initialize(reset = false) {
+      this.suspended = false;
       if ((this.frame && this.newCheckoutSession) || reset) {
         this.frame = null;
       }
