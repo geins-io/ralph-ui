@@ -35,6 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.3.0] - 2023-05-17
+
+### Added
+
+- Added `merchentData` to the checkout store. Will get sent with createOrUpdateCheckout if set
+- Making `articleNumber` and `sellingPriceIncVat` always available
+- Added `index` and `pageSize` to the `product:impression` event payload
+
+### Fixed
+
+- Correct product to be sent with `cart:add` and `cart:remove` events
+
 ## [19.2.1] - 2023-05-12
 
 ### Fixed

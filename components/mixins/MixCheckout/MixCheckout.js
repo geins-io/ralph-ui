@@ -105,6 +105,9 @@ export default {
       if (this.externalShippingFee || this.externalShippingFee === 0) {
         obj.externalShippingFee = this.externalShippingFee;
       }
+      if (this.merchantData) {
+        obj.merchantData = this.merchantData;
+      }
       return obj;
     },
     // @vuese
@@ -156,7 +159,8 @@ export default {
       checkoutMarket: state => state.channel.checkoutMarket,
       customerType: state => state.customerType,
       cart: state => state.cart,
-      externalShippingFee: state => state.checkout.externalShippingFee
+      externalShippingFee: state => state.checkout.externalShippingFee,
+      merchantData: state => state.checkout.merchantData
     }),
     ...mapGetters({
       checkoutMarketObj: 'channel/checkoutMarketObj'
