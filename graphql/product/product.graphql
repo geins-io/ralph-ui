@@ -18,6 +18,7 @@ query product(
     marketId: $marketId
   ) {
     productId
+    articleNumber
     canonicalUrl
     name
     brand {
@@ -32,7 +33,6 @@ query product(
       canonicalUrl
     }
     unitPrice {
-      sellingPriceIncVat
       ...Price
     }
     texts {

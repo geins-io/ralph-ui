@@ -90,7 +90,10 @@ export default {
                 type: 'cart:remove',
                 data: {
                   item: updateItem,
-                  product: productStateBeforeUpdate
+                  product: {
+                    campaign: productStateBeforeUpdate.campaign,
+                    ...productStateBeforeUpdate.product
+                  }
                 }
               });
             } else if (prodQuantity > previousProductQuantity) {
@@ -101,7 +104,10 @@ export default {
                 type: 'cart:add',
                 data: {
                   item: updateItem,
-                  product: productStateBeforeUpdate
+                  product: {
+                    campaign: productStateBeforeUpdate.campaign,
+                    ...productStateBeforeUpdate.product
+                  }
                 }
               });
             }

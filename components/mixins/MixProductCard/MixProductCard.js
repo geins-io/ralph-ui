@@ -61,6 +61,12 @@ export default {
       } else {
         return 0;
       }
+    },
+    // @vuese
+    // Returns the index of the product in the list
+    // @type Number
+    listIndex() {
+      return Number(this.$vnode.key + 1);
     }
   },
   watch: {},
@@ -77,7 +83,12 @@ export default {
 
             this.$store.dispatch('events/push', {
               type: 'product:impression',
-              data: { product: this.product, page: this.pageNumber }
+              data: {
+                product: this.product,
+                page: this.pageNumber,
+                index: this.listIndex,
+                pageSize: this.$config.productListPageSize
+              }
             });
           }
           this.trackCounter = this.trackCounter + 1;
@@ -100,14 +111,12 @@ export default {
         this.nostoClickEvent();
       }
 
-      const index = this.$vnode.key + 1;
-
       this.$store.dispatch('events/push', {
         type: 'product:click',
         data: {
           product: this.product,
           page: this.pageNumber,
-          index,
+          index: this.listIndex,
           pageSize: this.$config.productListPageSize
         }
       });

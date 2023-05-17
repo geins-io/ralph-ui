@@ -21,11 +21,11 @@ fragment Cart on CartType {
       }
     }
     unitPrice {
-      sellingPriceIncVat
       ...Price
     }
     product {
       productId
+      articleNumber
       brand {
         name
       }
@@ -42,6 +42,9 @@ fragment Cart on CartType {
         stock {
           ...Stock
         }
+      }
+      unitPrice {
+        ...Price
       }
     }
     quantity
