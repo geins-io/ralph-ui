@@ -214,6 +214,13 @@ export default {
     // Watching prodAlias to fetch request when alias state change
     prodAlias() {
       this.isInitialRequest = true;
+    },
+    // @vuese
+    // Watching productId to send impression event when changing variant
+    'product.productId'(newVal, oldVal) {
+      if (oldVal && newVal !== oldVal) {
+        this.sendImpressionEvent();
+      }
     }
   },
   mounted() {
@@ -340,10 +347,7 @@ export default {
             history.replaceState(null, null, this.product.canonicalUrl);
           }
 
-          this.$store.dispatch('events/push', {
-            type: 'product-detail:impression',
-            data: { product: this.product }
-          });
+          this.sendImpressionEvent();
         }
       }, 500);
     },
@@ -373,12 +377,23 @@ export default {
         });
       }
     },
+    // @vuese
+    // Handler for clicking the notify button
+    // @arg variant (Object)
     notifyHandler(variant) {
       this.currentNotifyVariant = variant;
       this.$nextTick(() => {
         this.$store.commit('contentpanel/open', {
           name: 'notify'
         });
+      });
+    },
+    // @vuese
+    // Sending the product detail impression event
+    sendImpressionEvent() {
+      this.$store.dispatch('events/push', {
+        type: 'product-detail:impression',
+        data: { product: this.product }
       });
     }
   }

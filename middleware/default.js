@@ -1,4 +1,4 @@
-export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
+export default ({ redirect, route, $gtm, $config, app, store, i18n, req }) => {
   store.commit('setCurrentRouteName', route.name);
 
   if ($config.marketInPath) {
@@ -102,11 +102,19 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
     checkIfLanguageAllowed(currentMarket);
   }
 
+  const protocol = req?.headers['x-forwarded-proto'] || 'http'; // Check if the request went through a proxy/load balancer
+  const host = req?.headers?.host || $config.baseUrl;
+  const fullUrl = req ? `${protocol}://${host}${req.url}` : route.fullPath;
+
   // Dispatch page impression event
   const { name, meta, path, hash, query, params, fullPath } = route;
   store.dispatch('events/push', {
     type: 'page:impression',
-    data: { route: { name, meta, path, hash, query, params, fullPath } }
+    data: {
+      route: { name, meta, path, hash, query, params, fullPath },
+      isSSR: process.server,
+      requestUrl: fullUrl
+    }
   });
 
   if ($gtm) {
