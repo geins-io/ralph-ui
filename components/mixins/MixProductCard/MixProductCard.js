@@ -151,7 +151,7 @@ export default {
     // @vuese
     // Pushing GTM Product Impression
     gtmViewEvent() {
-      if (this.$gtm) {
+      if (this.$gtm && !this.$config.useExternalGtm) {
         const item = this.getGtmProduct();
         const key = this.$store.getters.getGtmProductsKey;
 
@@ -189,7 +189,7 @@ export default {
     // @vuese
     // Pushing GTM Product Click
     gtmClickEvent() {
-      if (this.$gtm) {
+      if (this.$gtm && !this.$config.useExternalGtm) {
         const item = this.getGtmProduct();
         const key = this.$store.getters.getGtmProductsKey;
 

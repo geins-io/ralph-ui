@@ -35,6 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.4.0] - 2023-05-20
+
+### Added
+
+- Option to set `$config.useExternalGtm` to use disable the internal pushes to GTM
+- Added `orderCart` and `orderId` to `checkout:purchase` event payload
+
+### Fixed
+
+- Sending `product-detail:impression` event when changing variant on product page
+- Only sending `page:impression` if path has actually changed (not just query params)
+
 ## [19.3.0] - 2023-05-17
 
 ### Added

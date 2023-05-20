@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex';
 import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
-import setCartShippingFeeMutaion from 'checkout/set-cart-shipping-fee.graphql';
+import setCartShippingFeeMutation from 'checkout/set-cart-shipping-fee.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
@@ -217,9 +217,8 @@ export default {
       }
     },
     externalShippingFee(newVal, oldVal) {
-      if (newVal !== oldVal) {
+      if (newVal && newVal !== oldVal) {
         this.setCartShippingFee(newVal);
-        // this.createOrUpdateCheckout('external shipping fee changed');
       }
     }
   },
@@ -237,7 +236,7 @@ export default {
         type: 'checkout:impression'
       });
 
-      if (this.$gtm && this.cart?.data?.items) {
+      if (this.$gtm && this.cart?.data?.items && !this.$config.useExternalGtm) {
         const items = this.cart.data.items.map(item => ({
           id: item.product.productId,
           name: item.product.name,
@@ -472,7 +471,7 @@ export default {
 
       this.$apollo
         .mutate({
-          mutation: setCartShippingFeeMutaion,
+          mutation: setCartShippingFeeMutation,
           variables: vars,
           fetchPolicy: 'no-cache'
         })

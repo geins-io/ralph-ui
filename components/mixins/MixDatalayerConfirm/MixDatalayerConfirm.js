@@ -98,7 +98,11 @@ export default {
 
             this.$store.dispatch('events/push', {
               type: 'checkout:purchase',
-              data: { order: result.data?.getCheckoutAndOrder.order }
+              data: {
+                order: result.data?.getCheckoutAndOrder.order,
+                orderCart: this.orderCart,
+                orderId: this.orderId
+              }
             });
 
             if (this.$store.getters['nosto/isNostoActive'] && process.client) {
@@ -133,7 +137,7 @@ export default {
               });
             }
 
-            if (this.$gtm) {
+            if (this.$gtm && !this.$config.useExternalGtm) {
               const items = this.productsData;
               const key = this.$store.getters.getGtmProductsKey;
 

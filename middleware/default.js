@@ -1,5 +1,8 @@
-export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
+export default ({ redirect, route, $gtm, $config, app, store, i18n, req }) => {
+  const isSamePath = store.state.currentPath === route.path;
+
   store.commit('setCurrentRouteName', route.name);
+  store.commit('setCurrentPath', route.path);
 
   if ($config.marketInPath) {
     let currentMarket = store.state.channel.currentMarket;
@@ -102,14 +105,24 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n }) => {
     checkIfLanguageAllowed(currentMarket);
   }
 
-  // Dispatch page impression event
-  const { name, meta, path, hash, query, params, fullPath } = route;
-  store.dispatch('events/push', {
-    type: 'page:impression',
-    data: { route: { name, meta, path, hash, query, params, fullPath } }
-  });
+  const protocol = req?.headers['x-forwarded-proto'] || 'http'; // Check if the request went through a proxy/load balancer
+  const host = req?.headers?.host || $config.baseUrl;
+  const fullUrl = req ? `${protocol}://${host}${req.url}` : route.fullPath;
 
-  if ($gtm) {
+  if (!isSamePath) {
+    // Dispatch page impression event
+    const { name, meta, path, hash, query, params, fullPath } = route;
+    store.dispatch('events/push', {
+      type: 'page:impression',
+      data: {
+        route: { name, meta, path, hash, query, params, fullPath },
+        isSSR: process.server,
+        requestUrl: fullUrl
+      }
+    });
+  }
+
+  if ($gtm && !$config.useExternalGtm) {
     $gtm.push({
       event: 'Page Impression',
       environmentInfo: {
