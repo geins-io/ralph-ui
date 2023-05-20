@@ -14,6 +14,8 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |sizeChangeHandler|Handler for changing the sku|data (Object)|
 |quantityThresholdHandler|Handler for reaching quantity threshold|-|
 |switchToCanonical|Switching to canonical url if different from route path|-|
+|notifyHandler|Handler for clicking the notify button|variant (Object)|
+|sendImpressionEvent|Sending the product detail impression event|-|
 
 <!-- @vuese:MixProductPage.js:methods:end -->
 
@@ -53,6 +55,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |---|---|---|
 |undefined|Watching currentStock.totalStock to change quantity if set higher than totalStock|-|
 |prodAlias|Watching prodAlias to fetch request when alias state change|-|
+|undefined|Watching productId to send impression event when changing variant|-|
 
 <!-- @vuese:MixProductPage.js:watch:end -->
 
