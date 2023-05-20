@@ -236,7 +236,7 @@ export default {
         type: 'checkout:impression'
       });
 
-      if (this.$gtm && this.cart?.data?.items) {
+      if (this.$gtm && this.cart?.data?.items && !this.$config.useExternalGtm) {
         const items = this.cart.data.items.map(item => ({
           id: item.product.productId,
           name: item.product.name,

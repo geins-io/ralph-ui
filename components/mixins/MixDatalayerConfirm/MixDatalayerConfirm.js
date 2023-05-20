@@ -137,7 +137,7 @@ export default {
               });
             }
 
-            if (this.$gtm) {
+            if (this.$gtm && !this.$config.useExternalGtm) {
               const items = this.productsData;
               const key = this.$store.getters.getGtmProductsKey;
 

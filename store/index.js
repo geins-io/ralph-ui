@@ -12,7 +12,8 @@ export const state = () => ({
   ancientBrowser: false,
   categoryTree: [],
   headerHidden: false,
-  currentRouteName: ''
+  currentRouteName: '',
+  currentPath: ''
 });
 
 export const mutations = {
@@ -68,6 +69,9 @@ export const mutations = {
   },
   setCurrentRouteName(state, name) {
     state.currentRouteName = name;
+  },
+  setCurrentPath(state, path) {
+    state.currentPath = path;
   }
 };
 

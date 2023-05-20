@@ -57,14 +57,16 @@ export default {
               }
             ]);
 
-            GTMEvent.addToCart({
-              gtmInputs: {
-                gtm: this.$gtm,
-                currency: this.$store.getters['channel/currentCurrency'],
-                key: this.$store.getters.getGtmProductsKey
-              },
-              products
-            });
+            if (!this.$config.useExternalGtm) {
+              GTMEvent.addToCart({
+                gtmInputs: {
+                  gtm: this.$gtm,
+                  currency: this.$store.getters['channel/currentCurrency'],
+                  key: this.$store.getters.getGtmProductsKey
+                },
+                products
+              });
+            }
           }
           setTimeout(() => {
             this.$store.dispatch('cart/removeAddedNotification');

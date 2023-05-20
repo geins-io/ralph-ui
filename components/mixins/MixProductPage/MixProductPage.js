@@ -254,7 +254,7 @@ export default {
     // @vuese
     // GTM event emitter
     emitGTMEvent() {
-      if (this.$gtm) {
+      if (this.$gtm && !this.$config.useExternalGtm) {
         const item = [
           {
             id: this.product.productId,
