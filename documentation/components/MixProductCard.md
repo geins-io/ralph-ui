@@ -38,6 +38,7 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |productPopulated|`Boolean`|Is the product populated with data|No|
 |skuId|`String`|The current skuId if only one, otherwise empty string|No|
 |chosenSkuCartQuantity|`Number`|Returns the number of items with same skuId as the chosen one that you have in cart|No|
+|listIndex|`Number`|Returns the index of the product in the list|No|
 
 <!-- @vuese:MixProductCard:computed:end -->
 

@@ -35,9 +35,16 @@ export default {
   props: {},
   head() {
     // TODO: Implement working multilang function for alternate links and canonical
-    // const obj = this.$nuxtI18nHead({ addSeoAttributes: true });
-    return {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+    const canonical = i18nHead.link.find(link => link.rel === 'canonical');
+
+    if (this.$route?.query?.page) {
+      canonical.href = canonical.href + '?page=' + this.$route.query.page;
+    }
+
+    const head = {
       title: this.listPageInfo?.meta?.title,
+      htmlAttrs: i18nHead.htmlAttrs,
       meta: [
         {
           hid: 'description',
@@ -58,9 +65,12 @@ export default {
           hid: 'og:image',
           property: 'og:image',
           content: this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
+        },
+        ...i18nHead.meta
+      ],
+      link: [canonical]
     };
+    return head;
   },
   data: () => ({
     error: false,

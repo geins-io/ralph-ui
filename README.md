@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.5.0] - 2023-05-20
+
+Note! If you want to use the morte SEO-friendly version of the list pagination, you have to remove CaListPagination from your storefront to use the one from Ralph UI instead.
+
+### Added
+
+- CaListPagination component (moved from Ralph Storefront to Ralph UI and improved according to SEO standards)
+- Html attributes from i18n
+- Canonical from i18n
+
 ## [19.4.0] - 2023-05-20
 
 ### Added
