@@ -1,5 +1,6 @@
 import confirmCartQuery from 'cart/confirm.graphql';
 import completeCartMutation from 'cart/complete.graphql';
+import checkoutConfirmQuery from 'checkout/checkout-confirm.graphql';
 import MixDatalayerConfirm from 'MixDatalayerConfirm';
 // @group Mixins
 // @vuese
@@ -11,7 +12,8 @@ export default {
   mixins: [MixDatalayerConfirm],
   props: {},
   data: () => ({
-    orderCart: null
+    orderCart: null,
+    checkoutConfirmData: null
   }),
   computed: {
     // @vuese
@@ -35,7 +37,7 @@ export default {
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
-      this.datalayerConfirm();
+      this.checkoutConfirm();
       this.$apollo
         .mutate({
           mutation: completeCartMutation,
@@ -77,6 +79,29 @@ export default {
             ) {
               this.$store.dispatch('cart/reset');
             }
+          }
+        })
+        .catch(error => {
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+        });
+    },
+    // @vuese
+    checkoutConfirm() {
+      this.$apollo
+        .query({
+          query: checkoutConfirmQuery,
+          errorPolicy: 'all',
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: this.orderId,
+            paymentType: this.type,
+            checkoutMarket: this.$store.state.channel.checkoutMarket
+          }
+        })
+        .then(result => {
+          if (!result.errors && result?.data?.checkout) {
+            this.checkoutConfirmData = result.data.checkout;
+            this.sendDataLayerEvents(this.checkoutConfirmData);
           }
         })
         .catch(error => {

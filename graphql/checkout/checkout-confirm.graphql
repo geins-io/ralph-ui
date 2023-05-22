@@ -1,18 +1,19 @@
-### DEPRECATED - use checkout-confirm.grpahql instead ###
-query getCheckoutAndOrder(
+query checkout(
   $id: String!
   $paymentType: PaymentType!
   $channelId: String
   $languageId: String
   $checkoutMarket: String
 ) {
-  getCheckoutAndOrder(
+  checkout(
     id: $id
     paymentType: $paymentType
     channelId: $channelId
     languageId: $languageId
     marketId: $checkoutMarket
   ) {
+    htmlSnippet
+    completed
     order {
       orderId
       firstName
@@ -20,5 +21,6 @@ query getCheckoutAndOrder(
       email
       currency
     }
+    nthPurchase
   }
 }
