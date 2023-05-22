@@ -101,6 +101,12 @@ export default {
         .then(result => {
           if (!result.errors && result?.data?.checkout) {
             this.checkoutConfirmData = result.data.checkout;
+            if (
+              this.checkoutConfirmData.completed !== null &&
+              this.checkoutConfirmData.completed === false
+            ) {
+              this.$router.push(this.$getPath('checkout'));
+            }
             this.sendDataLayerEvents(this.checkoutConfirmData);
           }
         })
