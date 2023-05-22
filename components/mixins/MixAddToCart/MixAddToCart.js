@@ -28,7 +28,10 @@ export default {
           mutation: addToCartMutation,
           variables: {
             id: this.$store.getters['cart/id'],
-            item: itemToAdd
+            item: itemToAdd,
+            allowExternalShippingFee: this.$store.state.currentRouteName?.includes(
+              'checkout'
+            )
           }
         })
         .then(result => {

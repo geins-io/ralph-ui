@@ -16,7 +16,7 @@ export const mutations = {
 };
 
 export const actions = {
-  get({ dispatch, getters, rootGetters }, id = null) {
+  get({ dispatch, getters, rootState, rootGetters }, id = null) {
     if (id) {
       dispatch('update', { id });
     }
@@ -26,7 +26,10 @@ export const actions = {
         query: getCartQuery,
         variables: {
           id: id ?? getters.id,
-          cartMarketAlias: rootGetters['channel/cartMarketAlias']
+          cartMarketAlias: rootGetters['channel/cartMarketAlias'],
+          allowExternalShippingFee: rootState.currentRouteName?.includes(
+            'checkout'
+          )
         },
         fetchPolicy: 'no-cache'
       })

@@ -61,7 +61,8 @@ export default {
           query: confirmCartQuery,
           variables: {
             id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket
+            checkoutMarket: this.$store.state.channel.checkoutMarket,
+            allowExternalShippingFee: true
           }
         })
         .then(result => {
