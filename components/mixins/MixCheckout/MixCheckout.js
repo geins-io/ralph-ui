@@ -217,7 +217,7 @@ export default {
       }
     },
     externalShippingFee(newVal, oldVal) {
-      if (newVal && newVal !== oldVal) {
+      if (newVal >= 0 && newVal !== oldVal) {
         this.setCartShippingFee(newVal);
       }
     }
