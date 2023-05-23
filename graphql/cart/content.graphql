@@ -71,14 +71,15 @@ fragment Cart on CartType {
       feeExVatFormatted
       feeIncVatFormatted
       feeIncVat
-      isDefault
       feeExVat
+      isDefault
     }
     total {
       isDiscounted
       sellingPriceIncVatFormatted
       sellingPriceExVatFormatted
       sellingPriceIncVat
+      sellingPriceExVat
       discountIncVatFormatted
       discountExVatFormatted
       discountExVat

@@ -16,10 +16,13 @@ query checkout(
     completed
     order {
       orderId
+      transactionId
       firstName
       lastName
       email
       currency
+      itemValueExVat
+      itemValueIncVat
     }
     nthPurchase
   }
