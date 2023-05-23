@@ -20,10 +20,12 @@
       @click.prevent="$emit('loadmore')"
     >
       {{ $t('LOAD_MORE') }}
-      <CaSpinner
-        class="ca-list-pagination__button-spinner"
-        :loading="loading"
-      />
+      <client-only>
+        <CaSpinner
+          class="ca-list-pagination__button-spinner"
+          :loading="loading"
+        />
+      </client-only>
     </a>
     <a
       v-else
@@ -35,10 +37,12 @@
       @click.prevent="$emit('loadprev')"
     >
       {{ $t('LOAD_PREVIOUS') }}
-      <CaSpinner
-        class="ca-list-pagination__button-spinner"
-        :loading="loading"
-      />
+      <client-only>
+        <CaSpinner
+          class="ca-list-pagination__button-spinner"
+          :loading="loading"
+        />
+      </client-only>
     </a>
   </div>
 </template>

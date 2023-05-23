@@ -14,7 +14,6 @@ import combineQuery from 'graphql-combine-query';
 // All functionality for the list page<br><br>
 // **Data:**<br>
 // isInitialRequest: `true`<br>
-// initVariables: `{}`<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
 // listInfo: `null`<br>
@@ -33,20 +32,33 @@ export default {
   apollo: {
     listPageInfo: {
       query() {
+        return this.infoQuery;
+      },
+      variables() {
+        return this.infoQueryVars;
+      },
+      result(result) {
+        if (result && result.data) {
+          this.listInfo = result.data.listPageInfo;
+        }
+      },
+      skip() {
+        return this.isSearch || this.isAll;
+      }
+    },
+    widgetArea_0: {
+      query() {
         return this.generateReqValues().document;
       },
       variables() {
-        return this.initVariables;
+        return this.generateReqValues().variables;
       },
-      fetchPolicy: 'no-cache',
       deep: true,
       errorPolicy: 'all',
       result(result) {
         if (result && result.data) {
-          const { listPageInfo, products, ...widgetAreaInfo } = result.data;
-          if (listPageInfo) {
-            this.listInfo = listPageInfo;
-          }
+          const { products, ...widgetAreaInfo } = result.data;
+
           if (!process.server && !this.isSearch & !this.isAll) {
             this.switchToCanonicalOr404();
           }
@@ -63,11 +75,8 @@ export default {
           this.isInitialRequest = false;
         }
       },
-      update(data) {
-        return data.listPageInfo;
-      },
       skip() {
-        return !this.isInitialRequest || !this.initVariables || !process.client;
+        return !this.isInitialRequest;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -215,7 +224,6 @@ export default {
   },
   data: vm => ({
     isInitialRequest: true,
-    initVariables: null,
     baseFilters: {},
     userSkip: 0,
     listInfo: null,
@@ -464,6 +472,22 @@ export default {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
+    },
+    // @vuese
+    // Returns the variable object with the query parameters for the product list information
+    // @type Object
+    infoQueryVars() {
+      if (this.isList) {
+        return {
+          listPageUrl: this.currentPath
+        };
+      }
+      if (!(this.isSearch || this.isAll)) {
+        return {
+          alias: this.currentAlias
+        };
+      }
+      return {};
     },
     // @vuese
     // Returns the variable object for loading more products
@@ -842,8 +866,6 @@ export default {
     // @vuese
     // Run to init the product list
     initProductList() {
-      this.initVariables = this.generateReqValues().variables;
-
       if (this.isSearch || this.isAll) {
         const title = this.isSearch
           ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
@@ -869,34 +891,13 @@ export default {
       }, 100);
     },
     generateReqValues() {
-      const productQuery = !(this.isSearch || this.isAll)
-        ? this.removeQueryVar(productsQuery, [
-            'channelId',
-            'languageId',
-            'marketId'
-          ])
-        : productsQuery;
-
       let finishQuery = {
-        document: productQuery,
+        document: productsQuery,
         variables: this.productsQueryVars
       };
-      if (this.isList) {
-        finishQuery = combineQuery('withPageInfoCombined')
-          .add(productQuery, this.productsQueryVars)
-          .add(this.infoQuery, {
-            url: this.currentPath
-          });
-      } else if (!(this.isSearch || this.isAll)) {
-        finishQuery = combineQuery('withPageInfoCombined')
-          .add(productQuery, this.productsQueryVars)
-          .add(this.infoQuery, {
-            alias: this.currentAlias
-          });
-      }
 
       if (this.widgetAreaVars) {
-        finishQuery = combineQuery('withAreaCombined')
+        finishQuery = combineQuery('productsAndWidgetArea')
           .add(finishQuery.document, finishQuery.variables)
           .addN(
             widgetAreaQuery,
