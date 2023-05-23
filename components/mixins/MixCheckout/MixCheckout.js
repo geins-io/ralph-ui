@@ -102,12 +102,14 @@ export default {
       if (this.externalShippingId) {
         obj.externalShippingId = this.externalShippingId;
       }
-      if (this.externalShippingFee || this.externalShippingFee === 0) {
-        obj.externalShippingFee = this.externalShippingFee;
-      }
       if (this.merchantData) {
         obj.merchantData = this.merchantData;
       }
+
+      obj.externalShippingFee = this.externalShippingFeeSet
+        ? this.externalShippingFee
+        : -1;
+
       return obj;
     },
     // @vuese
@@ -152,6 +154,12 @@ export default {
             value: market.alias
           };
         });
+    },
+    // @vuese
+    // Is external shipping fee set?
+    // @type Boolean
+    externalShippingFeeSet() {
+      return this.externalShippingFee !== null && this.externalShippingFee >= 0;
     },
     ...mapState({
       markets: state => state.channel.markets,
@@ -223,6 +231,9 @@ export default {
     }
   },
   mounted() {
+    if (this.externalShippingFeeSet) {
+      this.setCartShippingFee(this.externalShippingFee);
+    }
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
