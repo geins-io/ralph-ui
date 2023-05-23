@@ -10,10 +10,39 @@ import MixDatalayerConfirm from 'MixDatalayerConfirm';
 export default {
   name: 'MixConfirmPage',
   mixins: [MixDatalayerConfirm],
+  apollo: {
+    checkout: {
+      query: checkoutConfirmQuery,
+      errorPolicy: 'all',
+      fetchPolicy: 'no-cache',
+      variables() {
+        return {
+          id: this.orderId,
+          paymentType: this.type,
+          checkoutMarket: this.$store.state.channel.checkoutMarket
+        };
+      },
+      result(result) {
+        if (!result.errors && result?.data?.checkout) {
+          const completed = result.data.checkout.completed;
+
+          if (completed !== null && completed === false) {
+            this.$router.push(this.$getPath('checkout'));
+            return;
+          }
+          this.checkoutConfirmData = result.data.checkout;
+        }
+      },
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      }
+    }
+  },
   props: {},
   data: () => ({
     orderCart: null,
-    checkoutConfirmData: null
+    checkoutConfirmData: null,
+    loading: true
   }),
   computed: {
     // @vuese
@@ -29,15 +58,20 @@ export default {
       return this.cartId === '' && this.orderCart === null;
     }
   },
-  watch: {},
-  mounted() {
-    this.confirmCartQuery();
+  watch: {
+    checkoutConfirmData(newVal, oldVal) {
+      if (oldVal === null && newVal !== oldVal) {
+        this.loading = false;
+        this.confirmCartQuery();
+      }
+    }
   },
+  mounted() {},
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
-      this.checkoutConfirm();
+      this.sendDataLayerEvents(this.checkoutConfirmData);
       this.$apollo
         .mutate({
           mutation: completeCartMutation,
@@ -79,35 +113,6 @@ export default {
             ) {
               this.$store.dispatch('cart/reset');
             }
-          }
-        })
-        .catch(error => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
-    },
-    // @vuese
-    checkoutConfirm() {
-      this.$apollo
-        .query({
-          query: checkoutConfirmQuery,
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: this.orderId,
-            paymentType: this.type,
-            checkoutMarket: this.$store.state.channel.checkoutMarket
-          }
-        })
-        .then(result => {
-          if (!result.errors && result?.data?.checkout) {
-            this.checkoutConfirmData = result.data.checkout;
-            if (
-              this.checkoutConfirmData.completed !== null &&
-              this.checkoutConfirmData.completed === false
-            ) {
-              this.$router.push(this.$getPath('checkout'));
-            }
-            this.sendDataLayerEvents(this.checkoutConfirmData);
           }
         })
         .catch(error => {
