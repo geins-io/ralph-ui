@@ -225,7 +225,7 @@ export default {
       }
     },
     externalShippingFee(newVal, oldVal) {
-      if (newVal >= 0 && newVal !== oldVal) {
+      if (newVal !== oldVal && this.externalShippingFeeSet) {
         this.setCartShippingFee(newVal);
       }
     }
@@ -474,6 +474,9 @@ export default {
     // Handling setting of the external shipping fee
     // @arg fee (Number)
     setCartShippingFee(fee) {
+      if (!fee) {
+        return;
+      }
       this.cartLoading = true;
       const vars = {
         cartId: this.$store.getters['cart/id'],
