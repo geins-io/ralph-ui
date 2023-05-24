@@ -3,6 +3,7 @@ query checkout(
   $paymentType: PaymentType!
   $channelId: String
   $languageId: String
+  $cartId: String
   $checkoutMarket: String
 ) {
   checkout(
@@ -10,6 +11,7 @@ query checkout(
     paymentType: $paymentType
     channelId: $channelId
     languageId: $languageId
+    cartId: $cartId
     marketId: $checkoutMarket
   ) {
     htmlSnippet

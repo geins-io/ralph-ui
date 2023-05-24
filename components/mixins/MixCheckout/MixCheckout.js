@@ -231,13 +231,14 @@ export default {
     }
   },
   mounted() {
-    if (this.externalShippingFeeSet) {
-      this.setCartShippingFee(this.externalShippingFee);
-    }
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
     this.emitEvent();
+  },
+  beforeDestroy() {
+    // Reset external shipping fee
+    this.$store.commit('checkout/setExternalShippingFee', null);
   },
   methods: {
     // @vuese

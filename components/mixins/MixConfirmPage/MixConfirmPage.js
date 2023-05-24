@@ -19,7 +19,8 @@ export default {
         return {
           id: this.orderId,
           paymentType: this.type,
-          checkoutMarket: this.$store.state.channel.checkoutMarket
+          checkoutMarket: this.$store.state.channel.checkoutMarket,
+          cartId: this.cartId
         };
       },
       result(result) {
@@ -32,6 +33,9 @@ export default {
           }
           this.checkoutConfirmData = result.data.checkout;
         }
+      },
+      skip() {
+        return process.server;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
