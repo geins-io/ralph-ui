@@ -96,7 +96,7 @@ export default {
         this.$store.dispatch('loading/end');
       },
       skip() {
-        return !this.prodAlias || !this.isInitialRequest || !process.client;
+        return !this.prodAlias || !this.isInitialRequest;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
