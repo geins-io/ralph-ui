@@ -6,7 +6,7 @@ import productsQuery from 'productlist/no-filters-products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import filtersQuery from 'productlist/products-filter.graphql';
 import widgetAreaQuery from 'global/widget-area.graphql';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 import combineQuery from 'graphql-combine-query';
 // @group Mixins
@@ -43,7 +43,7 @@ export default {
         }
       },
       skip() {
-        return this.isSearch || this.isAll;
+        return this.isSearch || this.isAll || this.customListInfo;
       }
     },
     widgetArea_0: {
@@ -191,6 +191,12 @@ export default {
     excludeFacets: {
       type: Array,
       default: () => []
+    },
+    // @vuese
+    // Use custom list info instead of fetching it from the server (e.g. { name: '', primaryDescription: '', meta: { title: '', description: ''}};)
+    customListInfo: {
+      type: Object,
+      default: null
     }
   },
   head() {
@@ -389,7 +395,6 @@ export default {
         return querySelection;
       }
     },
-
     // @vuese
     // Returns the filter object for the productsQueryVars
     // @type Object
@@ -579,9 +584,15 @@ export default {
     // Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config
     // @type String
     defaultSort() {
+      if (this.customDefaultSort) {
+        return this.customDefaultSort;
+      }
       return this.isSearch ? 'RELEVANCE' : this.$config.productListDefaultSort;
     },
-    ...mapState(['list'])
+    ...mapState(['list']),
+    ...mapGetters({
+      customDefaultSort: 'list/customDefaultSort'
+    })
   },
   watch: {
     userSelection(newVal, oldVal) {
@@ -866,7 +877,9 @@ export default {
     // @vuese
     // Run to init the product list
     initProductList() {
-      if (this.isSearch || this.isAll) {
+      if (this.customListInfo) {
+        this.listInfo = this.customListInfo;
+      } else if (this.isSearch || this.isAll) {
         const title = this.isSearch
           ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
               search: this.currentAlias
