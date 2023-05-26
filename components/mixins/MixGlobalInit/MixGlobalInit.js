@@ -38,6 +38,9 @@ export default {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
     const canonical = i18nHead.link.find(link => link.rel === 'canonical');
 
+    // Decode canonical url
+    canonical.href = decodeURIComponent(canonical.href);
+
     if (this.$route?.query?.page) {
       canonical.href = canonical.href + '?page=' + this.$route.query.page;
     }

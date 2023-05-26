@@ -55,8 +55,23 @@ export default {
     // Setup pagination
     // @arg products (Object)
     setupPagination(products) {
-      this.productList = products?.products ?? [];
       this.totalCount = products?.count ?? 0;
+
+      // 404 if page number requested too high
+      if (
+        this.$route.query?.page &&
+        Number(this.$route.query?.page) >
+          Math.ceil(this.totalCount / this.pageSize)
+      ) {
+        this.$nuxt.error({
+          statusCode: 404,
+          message: 'Page not found',
+          url: this.$route.fullPath
+        });
+      }
+
+      this.productList = products?.products ?? [];
+
       if (this.currentMaxCount > this.totalCount) {
         this.currentMaxCount = this.totalCount;
       }

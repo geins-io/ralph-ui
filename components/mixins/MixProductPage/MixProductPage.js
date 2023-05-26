@@ -92,6 +92,14 @@ export default {
             this.relatedProducts = relatedProducts.relatedProducts;
             this.isInitialRequest = false;
           }
+
+          if (this.product.variantGroup === null) {
+            this.$ralphLog('WARNING:', 'Product has no variantGroup');
+          }
+
+          if (!this.product.primaryCategory) {
+            this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+          }
         }
         this.$store.dispatch('loading/end');
       },
@@ -158,10 +166,10 @@ export default {
     // @type Object
     breadcrumbsCurrent() {
       return {
-        name: this.product?.primaryCategory.name,
-        alias: this.product?.primaryCategory.alias,
-        canonical: this.product?.primaryCategory.canonicalUrl,
-        id: this.product?.primaryCategory.categoryId,
+        name: this.product?.primaryCategory?.name,
+        alias: this.product?.primaryCategory?.alias,
+        canonical: this.product?.primaryCategory?.canonicalUrl,
+        id: this.product?.primaryCategory?.categoryId,
         type: 'category'
       };
     },

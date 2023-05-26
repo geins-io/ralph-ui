@@ -19,19 +19,19 @@ export default {
     // A list of variants on the base level of variants data
     // @type Array
     baseVariants() {
-      return this.product ? this.product.variantGroup.variants : [];
+      return this.product ? this.product.variantGroup?.variants || [] : [];
     },
     // @vuese
     // Does more than one base variant exist?
     // @type Boolean
     hasVariants() {
-      return this.baseVariants.length > 1;
+      return this.baseVariants?.length > 1;
     },
     // @vuese
     // Current variant on the base level
     // @type Object
     currentBaseVariant() {
-      return this.baseVariants.length
+      return this.baseVariants?.length
         ? this.getCurrentVariant(this.baseVariants)
         : null;
     },
@@ -48,7 +48,7 @@ export default {
     // Does more than one dimension of variants exist on this product?
     // @type Boolean
     hasMultipleDimensions() {
-      return this.baseVariants.length
+      return this.baseVariants?.length
         ? this.currentBaseVariant.level > 1
         : false;
     },
@@ -78,7 +78,7 @@ export default {
     // The variant object for the current product
     // @type Object
     currentProductVariant() {
-      return this.baseVariants.length
+      return this.baseVariants?.length
         ? this.checkForProductVariant(this.baseVariants)
         : null;
     },

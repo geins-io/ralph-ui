@@ -40,6 +40,14 @@ export default {
       result(result) {
         if (result && result.data) {
           this.listInfo = result.data.listPageInfo;
+
+          if (
+            !process.server &&
+            !this.isSearch & !this.isAll &&
+            !this.customListInfo
+          ) {
+            this.switchToCanonicalOr404();
+          }
         }
       },
       skip() {
@@ -58,10 +66,6 @@ export default {
       result(result) {
         if (result && result.data) {
           const { products, ...widgetAreaInfo } = result.data;
-
-          if (!process.server && !this.isSearch & !this.isAll) {
-            this.switchToCanonicalOr404();
-          }
 
           if (this.widgetAreaVars) {
             this.widgetData = widgetAreaInfo;
@@ -1161,6 +1165,7 @@ export default {
           this.$store.dispatch('loading/end');
         }
       } else {
+        console.log('no listinfo', this.listInfo);
         this.$nuxt.error({
           statusCode: 404,
           message: 'Page not found',

@@ -12,7 +12,7 @@ export default {
           item_id: item.product.productId,
           item_name: item.product.name,
           item_brand: item.product.brand.name,
-          item_category: item.product.primaryCategory.name,
+          item_category: item.product.primaryCategory?.name,
           price: item.unitPrice.sellingPriceExVat,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
