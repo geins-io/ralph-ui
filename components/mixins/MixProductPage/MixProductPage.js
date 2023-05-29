@@ -93,11 +93,11 @@ export default {
             this.isInitialRequest = false;
           }
 
-          if (this.product.variantGroup === null) {
+          if (this.product?.variantGroup === null) {
             this.$ralphLog('WARNING:', 'Product has no variantGroup');
           }
 
-          if (!this.product.primaryCategory) {
+          if (!this.product?.primaryCategory) {
             this.$ralphLog('WARNING:', 'Product has no primaryCategory');
           }
         }

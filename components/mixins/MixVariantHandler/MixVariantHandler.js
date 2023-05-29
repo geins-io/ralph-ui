@@ -19,7 +19,7 @@ export default {
     // A list of variants on the base level of variants data
     // @type Array
     baseVariants() {
-      return this.product ? this.product.variantGroup?.variants || [] : [];
+      return this.product ? this.product?.variantGroup?.variants || [] : [];
     },
     // @vuese
     // Does more than one base variant exist?
