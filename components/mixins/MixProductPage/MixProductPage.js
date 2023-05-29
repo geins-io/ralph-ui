@@ -145,12 +145,12 @@ export default {
       if (this.product) {
         const categoryObj = {};
         categoryObj.key = 'Category';
-        categoryObj.value = this.product.primaryCategory.alias;
+        categoryObj.value = this.product?.primaryCategory?.alias;
         filtersArray.push(categoryObj);
 
         const brandObj = {};
         brandObj.key = 'Brand';
-        brandObj.value = this.product.brand.alias;
+        brandObj.value = this.product?.brand?.alias;
         filtersArray.push(brandObj);
 
         const productObj = {};
