@@ -28,4 +28,10 @@
   &__showing {
     margin-bottom: $px12;
   }
+
+  &__back-link {
+    margin: $px12 0 0;
+    font-size: $font-size-xs;
+    color: $c-text-secondary;
+  }
 }

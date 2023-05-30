@@ -631,7 +631,7 @@ export default {
             const { products: newProducts } = this.formatNostoData(
               fetchMoreResult
             );
-            this.currentMaxCount += newProducts.length;
+            this.currentMaxCountSet += newProducts.length;
             this.productList = [...currentProductList, ...newProducts];
             this.pushURLParams();
           }
@@ -641,7 +641,7 @@ export default {
           variables: this.loadMoreQueryVars,
           updateQuery: (previousResult, { fetchMoreResult }) => {
             const newProducts = fetchMoreResult.products.products;
-            this.currentMaxCount += newProducts.length;
+            this.currentMaxCountSet += newProducts.length;
             this.productList = [...currentProductList, ...newProducts];
             this.pushURLParams();
           }
@@ -669,7 +669,7 @@ export default {
             const { products: newProducts } = this.formatNostoData(
               fetchMoreResult
             );
-            this.currentMinCount -= newProducts.length;
+            this.currentMinCountSet -= newProducts.length;
             this.productList = [...newProducts, ...currentProductList];
             this.pushURLParams();
           }
@@ -679,7 +679,7 @@ export default {
           variables: this.loadPrevQueryVars,
           updateQuery: (previousResult, { fetchMoreResult }) => {
             const newProducts = fetchMoreResult.products.products;
-            this.currentMinCount -= newProducts.length;
+            this.currentMinCountSet -= newProducts.length;
             this.productList = [...newProducts, ...currentProductList];
             this.pushURLParams();
           }
@@ -832,8 +832,8 @@ export default {
     resetCurrentPage() {
       this.currentPage = 1;
       this.userSkip = 0;
-      this.currentMinCount = 1;
-      this.currentMaxCount = this.pageSize;
+      this.currentMinCountSet = 1;
+      this.currentMaxCountSet = this.pageSize;
     },
     // @vuese
     // Set filter selection in URL
@@ -872,9 +872,9 @@ export default {
       this.$store.commit('list/setBackNavigated', false);
       this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
-        this.currentMinCount = this.skip + 1;
+        this.currentMinCountSet = this.skip + 1;
         const count = this.skip + this.pageSize;
-        this.currentMaxCount =
+        this.currentMaxCountSet =
           count >= this.totalCount ? this.totalCount : count;
       }
     },

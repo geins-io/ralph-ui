@@ -15,8 +15,8 @@ export default {
   props: {},
   data: vm => ({
     currentPage: 1,
-    currentMinCount: 1,
-    currentMaxCount: vm.$config.productListPageSize,
+    currentMinCountSet: null,
+    currentMaxCountSet: null,
     pageSize: vm.$config.productListPageSize,
     totalCount: 0,
     productList: [],
@@ -46,6 +46,41 @@ export default {
     // @type String
     showing() {
       return this.currentMinCount + ' - ' + this.currentMaxCount;
+    },
+    // @vuese
+    // Returns the correct current page when SSR
+    // @type Number
+    pagingPage() {
+      const routePage = this.$route.query.page
+        ? Number(this.$route.query.page)
+        : 1;
+      return routePage > 1 && this.currentPage === 1
+        ? routePage
+        : this.currentPage;
+    },
+    // @vuese
+    // Returns the current min count
+    // @type Number
+    currentMinCount() {
+      if (this.currentMinCountSet) {
+        return this.currentMinCountSet;
+      }
+
+      return this.pagingPage > 1 ? this.skip + 1 : 1;
+    },
+    // @vuese
+    // Returns the current max count
+    // @type Number
+    currentMaxCount() {
+      if (this.currentMaxCountSet) {
+        return this.currentMaxCountSet;
+      }
+      const count =
+        this.pagingPage > 1 ? this.skip + this.pageSize : this.pageSize;
+      const maxCount = count >= this.totalCount ? this.totalCount : count;
+      const returnCount =
+        maxCount < this.productList.length ? this.productList.length : maxCount;
+      return returnCount;
     }
   },
   watch: {},
@@ -72,11 +107,15 @@ export default {
 
       this.productList = products?.products ?? [];
 
-      if (this.currentMaxCount > this.totalCount) {
-        this.currentMaxCount = this.totalCount;
+      if (!this.currentMaxCountSet) {
+        return;
       }
-      if (this.currentMaxCount < this.productList.length) {
-        this.currentMaxCount = this.productList.length;
+
+      if (this.currentMaxCountSet > this.totalCount) {
+        this.currentMaxCountSet = this.totalCount;
+      }
+      if (this.currentMaxCountSet < this.productList.length) {
+        this.currentMaxCountSet = this.productList.length;
       }
     },
     // @vuese

@@ -44,6 +44,14 @@
         />
       </client-only>
     </a>
+    <NuxtLink
+      v-show="page > 1 && minCount > 1 && !hideBackLink"
+      :to="$route.path"
+      class="ca-list-pagination__back-link"
+      @click.native.prevent="$emit('reset')"
+    >
+      {{ $t('PAGINATION_BACK') }}
+    </NuxtLink>
   </div>
 </template>
 <script>
@@ -88,6 +96,11 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+    // Hide the back link, this exists mainly for SEO purposes
+    hideBackLink: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
