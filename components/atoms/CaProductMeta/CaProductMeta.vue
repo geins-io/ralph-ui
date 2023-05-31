@@ -25,13 +25,18 @@ export default {
       const options = this.$config.productSchemaOptions;
       let productSchema = {};
       let color = [];
+
       if (this.product.skus?.length > 0) {
         for (let i = 0; this.product.skus.length > i; i++) {
+          let gtin = this.product.skus[i].gtin;
+          const isGtin12 = gtin?.length === 12;
+          gtin = isGtin12 && options.useGtin13 ? `0${gtin}` : gtin;
+
           productSchema = {
             '@context': 'http://schema.org',
             '@type': 'Product',
             sku: this.product.skus[i].skuId,
-            gtin: this.product.skus[i].gtin,
+            gtin,
             inProductGroupWithID: this.product.skus[i].productId,
             name: this.product.name,
             description: this.product.texts[options.productDescriptionField],
