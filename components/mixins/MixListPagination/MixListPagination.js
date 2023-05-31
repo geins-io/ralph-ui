@@ -15,8 +15,8 @@ export default {
   props: {},
   data: vm => ({
     currentPage: 1,
-    currentMinCountSet: null,
-    currentMaxCountSet: null,
+    currentMinCountSet: 0,
+    currentMaxCountSet: 0,
     pageSize: vm.$config.productListPageSize,
     totalCount: 0,
     productList: [],
@@ -126,18 +126,77 @@ export default {
       }
       const currentProductList = this.productList;
       this.productList = [...this.productList, ...this.skeletonProductsNext];
+
+      this.currentMaxCountSet = this.currentMaxCountSet
+        ? this.currentMaxCountSet
+        : this.pageSize;
+
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
-      this.$apollo.queries.products.fetchMore({
-        variables: this.loadMoreQueryVars,
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newProducts = fetchMoreResult.products.products;
-          this.currentMaxCount += newProducts.length;
-          this.productList = [...currentProductList, ...newProducts];
-          if (this.mainProductList) {
+
+      if (this.isNostoRequest) {
+        this.$apollo.queries.nostoProducts.fetchMore({
+          variables: this.loadMoreNostoVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const { products: newProducts } = this.formatNostoData(
+              fetchMoreResult
+            );
+            this.currentMaxCountSet += newProducts.length;
+
+            this.productList = [...currentProductList, ...newProducts];
             this.pushURLParams();
           }
-        }
+        });
+      } else {
+        this.$apollo.queries.products.fetchMore({
+          variables: this.loadMoreQueryVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const newProducts = fetchMoreResult.products.products;
+            this.currentMaxCountSet += newProducts.length;
+            this.productList = [...currentProductList, ...newProducts];
+            if (this.mainProductList) {
+              this.pushURLParams();
+            }
+          }
+        });
+      }
+    },
+    // @vuese
+    // Load previous chunk of products
+    loadPrev() {
+      this.userHasPaged = true;
+      const currentProductList = this.productList;
+      const scrollHeight = this.getScrollHeight();
+      this.productList = [...this.skeletonProducts, ...this.productList];
+      this.currentPage = (this.currentMinCount - 1) / this.pageSize;
+
+      this.$nextTick(() => {
+        const scrollAmount = this.getScrollHeight() - scrollHeight;
+        window.scrollBy(0, scrollAmount);
       });
+
+      if (this.isNostoRequest) {
+        this.$apollo.queries.nostoProducts.fetchMore({
+          variables: this.loadPrevNostoVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const { products: newProducts } = this.formatNostoData(
+              fetchMoreResult
+            );
+            this.currentMinCountSet -= newProducts.length;
+            this.productList = [...newProducts, ...currentProductList];
+            this.pushURLParams();
+          }
+        });
+      } else {
+        this.$apollo.queries.products.fetchMore({
+          variables: this.loadPrevQueryVars,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const newProducts = fetchMoreResult.products.products;
+            this.currentMinCountSet -= newProducts.length;
+            this.productList = [...newProducts, ...currentProductList];
+            this.pushURLParams();
+          }
+        });
+      }
     }
   }
 };
