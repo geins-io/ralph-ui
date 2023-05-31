@@ -605,8 +605,10 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.initProductList();
+  },
+  mounted() {
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
     });
