@@ -33,6 +33,16 @@ export default {
     maxHeight: {
       type: Number,
       default: 60
+    },
+    // Icon name for open state
+    iconNameOpen: {
+      type: String,
+      default: 'chevron-up'
+    },
+    // Icon name for closed state
+    iconNameClosed: {
+      type: String,
+      default: 'chevron-down'
     }
   },
   data: () => ({
@@ -55,7 +65,7 @@ export default {
       return this.scrollHeight > this.maxHeight;
     },
     iconName() {
-      return this.visible ? 'chevron-up' : 'chevron-down';
+      return this.visible ? this.iconNameOpen : this.iconNameClosed;
     },
     textHeightComputed() {
       return !this.textHeight ? this.maxHeight : this.textHeight;
@@ -69,11 +79,13 @@ export default {
     // @vuese
     // Set heights
     setHeights() {
-      this.scrollHeight = this.$refs.text.scrollHeight;
-      this.textHeight = this.toggleActive
-        ? this.maxHeight
-        : this.$refs.text.scrollHeight;
-      this.ready = true;
+      this.$nextTick(() => {
+        this.scrollHeight = this.$refs.text.scrollHeight;
+        this.textHeight = this.toggleActive
+          ? this.maxHeight
+          : this.$refs.text.scrollHeight;
+        this.ready = true;
+      });
     },
     // @vuese
     // Toggle read more/read less
