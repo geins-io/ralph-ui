@@ -17,7 +17,7 @@
         :slide-meta="slideMeta"
         class="ca-product-list-slider__slide"
       >
-        <CaProductCard :key="index" :product="product" base-tag="div" />
+        <CaProductCard :key="index" :product-data="product" base-tag="div" />
       </CaSlide>
     </template>
   </CaSlider>
