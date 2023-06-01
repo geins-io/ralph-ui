@@ -5,10 +5,19 @@ class RalphEvent {
     this.type = type;
   }
 
+  toJSON() {
+    return {
+      data: this.data,
+      timestamp: this.timestamp,
+      type: this.type
+    };
+  }
+
   static createEvent(type, data) {
     return new RalphEvent(type, data);
   }
 }
+
 export const state = () => ({
   events: []
 });
@@ -28,11 +37,11 @@ export const actions = {
     const event = RalphEvent.createEvent(type, clonedData);
     commit('push', event);
 
-    let logEvent = Object.assign({}, event);
-    logEvent = JSON.parse(JSON.stringify(logEvent));
+    // Clone event for better log output
+    const logEvent = JSON.parse(JSON.stringify(event));
 
     // Log event to console
-    this.app.$ralphLog(event.type, logEvent);
+    this.app.$ralphLog(logEvent.type, logEvent);
   }
 };
 
