@@ -606,9 +606,10 @@ export default {
     }
   },
   created() {
-    this.initProductList();
+    this.setListInfo();
   },
   mounted() {
+    this.initProductList();
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
     });
@@ -811,8 +812,8 @@ export default {
       }
     },
     // @vuese
-    // Run to init the product list
-    initProductList() {
+    // Sets the list info for non dynamic pages
+    setListInfo() {
       if (this.customListInfo) {
         this.listInfo = this.customListInfo;
       } else if (this.isSearch || this.isAll) {
@@ -829,7 +830,10 @@ export default {
           }
         };
       }
-
+    },
+    // @vuese
+    // Run to init the product list
+    initProductList() {
       this.interval = setInterval(() => {
         if (this.baseFilters && Object.keys(this.baseFilters).length > 0) {
           clearInterval(this.interval);
