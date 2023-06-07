@@ -83,5 +83,25 @@ query product(
       score
       voteCount
     }
+    type
+    productPackage {
+      groups {
+        groupId
+        name
+        description
+        image
+        required
+        sortOrder
+        options {
+          optionId
+          quantity
+          isSelected
+          sortOrder
+          product {
+            ...ListProduct
+          }
+        }
+      }
+    }
   }
 }

@@ -28,4 +28,5 @@ fragment ListProduct on ProductType {
   skus {
     ...Sku
   }
+  type
 }

@@ -52,6 +52,10 @@ fragment Cart on CartType {
     totalPrice {
       ...Price
     }
+    groupKey
+    productPackage {
+      packageId
+    }
   }
   summary {
     fixedAmountDiscountIncVat

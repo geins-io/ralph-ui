@@ -1,4 +1,5 @@
 import updateCartMutation from 'cart/update.graphql';
+import updateCartGroupMutation from 'cart/update-group.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import { mapState } from 'vuex';
 import * as GTM from '../../../services/gtm';
@@ -11,6 +12,16 @@ export default {
   props: {},
   data: () => ({}),
   computed: {
+    // @vuese
+    // If is a product package
+    isPackage() {
+      return this.item?.groupKey && this.item?.groupKey.length;
+    },
+    // @vuese
+    // Mutation based on if is a package or not
+    mutation() {
+      return !this.isPackage ? updateCartMutation : updateCartGroupMutation;
+    },
     ...mapState({
       cart: state => state.cart.data
     })
@@ -21,101 +32,102 @@ export default {
     // @vuese
     // Update the cart. Will perform a graphql mutation
     // @arg sku id (Number), product quantity (Number)
-    updateCart(prodSkuId, prodQuantity) {
-      const productStateBeforeUpdate = this.cart?.items?.find(
-        item => item.skuId === prodSkuId
-      );
-      const previousProductQuantity = productStateBeforeUpdate?.quantity || 0;
-
+    updateCart(updateId, productQuantity) {
       this.$emit('loading', true);
-      const updateItem = {
-        skuId: prodSkuId,
-        quantity: prodQuantity
-      };
+
+      const productPreUpdate = this.cart?.items?.find(
+        item => item.skuId === updateId
+      );
+      const productQuantityPreUpdate = productPreUpdate?.quantity || 0;
+      const updateItem = !this.isPackage
+        ? {
+            skuId: updateId,
+            quantity: productQuantity
+          }
+        : {
+            groupKey: updateId,
+            quantity: productQuantity
+          };
       const countUpdatedProductQuantity = () => {
         // remove totally item from cart
-        if (prodQuantity === previousProductQuantity) {
-          return previousProductQuantity;
+        if (productQuantity === productQuantityPreUpdate) {
+          return productQuantityPreUpdate;
         }
         // decrease or increase items in cart
-        return Math.abs(previousProductQuantity - prodQuantity);
+        return Math.abs(productQuantityPreUpdate - productQuantity);
       };
+
       const updateMutation = () =>
         this.$apollo
           .mutate({
-            mutation: updateCartMutation,
+            mutation: this.mutation,
             variables: {
               id: this.$store.getters['cart/id'],
               item: updateItem
             }
           })
           .then(result => {
-            this.$store.dispatch('cart/update', result.data.updateCartItem);
+            const response = !this.isPackage
+              ? result.data.updateCartItem
+              : result.data.updateCartGroup;
+
+            this.$store.dispatch('cart/update', response);
             this.$emit('loading', false);
 
             const countCurrentProducts = () => {
-              const product = result.data.updateCartItem.items.find(
-                item => item.skuId === prodSkuId
+              const product = response.items.find(
+                item => item.skuId === updateId
               );
 
               if (!product) {
                 // get item from store (item removed so whole quantity taken)
-                return [productStateBeforeUpdate];
+                return [productPreUpdate];
               }
               // get item from api response and update quantity as difference
-              return result.data.updateCartItem.items
-                .filter(item => item.skuId === prodSkuId)
+              return response.items
+                .filter(item => item.skuId === updateId)
                 .map(item => ({
                   ...item,
                   quantity: countUpdatedProductQuantity()
                 }));
             };
 
-            if (!this.$config.useExternalGtm) {
-              GTM.updateProductQuantityInCart({
-                gtmInputs: {
-                  gtm: this.$gtm,
-                  currency: this.$store.getters['channel/currentCurrency'],
-                  key: this.$store.getters.getGtmProductsKey
-                },
-                previousQuantity: previousProductQuantity,
-                currentQuantity: prodQuantity,
-                products: countCurrentProducts()
-              });
-            }
+            GTM.updateProductQuantityInCart({
+              gtmInputs: {
+                gtm: this.$gtm,
+                currency: this.$store.getters['channel/currentCurrency'],
+                key: this.$store.getters.getGtmProductsKey
+              },
+              previousQuantity: productQuantityPreUpdate,
+              currentQuantity: productQuantity,
+              products: countCurrentProducts()
+            });
 
-            if (previousProductQuantity > prodQuantity) {
-              const quantity = previousProductQuantity - prodQuantity;
+            if (productQuantityPreUpdate > productQuantity) {
+              const quantity = productQuantityPreUpdate - productQuantity;
               updateItem.quantity = quantity;
 
               this.$store.dispatch('events/push', {
                 type: 'cart:remove',
                 data: {
                   item: updateItem,
-                  product: {
-                    campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product
-                  }
+                  product: productPreUpdate
                 }
               });
-            } else if (prodQuantity > previousProductQuantity) {
-              const quantity = prodQuantity - previousProductQuantity;
+            } else if (productQuantity > productQuantityPreUpdate) {
+              const quantity = productQuantity - productQuantityPreUpdate;
               updateItem.quantity = quantity;
 
               this.$store.dispatch('events/push', {
                 type: 'cart:add',
                 data: {
                   item: updateItem,
-                  product: {
-                    campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product
-                  }
+                  product: productPreUpdate
                 }
               });
             }
           })
           .catch(error => {
-            // eslint-disable-next-line no-console
             console.error('MixUpdateCart: ' + error);
           });
       this.enqueue(updateMutation);

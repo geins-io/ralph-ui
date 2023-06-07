@@ -2,20 +2,22 @@
   <LazyCaContentPanel
     class="ca-display-cart"
     name="cart"
-    :title="$t('CART') + ' (' + $store.getters['cart/totalQuantity'] + ')'"
+    :title="$t('CART') + ' (' + cartItems.length + ')'"
   >
     <div
-      v-if="cart && cart.items && cart.items.length"
+      v-if="cart && cartItems && cartItems.length"
       class="ca-display-cart__products"
     >
-      <CaCartProduct
-        v-for="(item, index) in cart.items"
-        :key="index"
-        class="ca-display-cart__product"
-        :item="item"
-      />
+      <div v-for="(item, index) in cartItems" :key="index">
+        <CaCartProduct
+          class="ca-display-cart__product"
+          :item="!item.productPackage ? item : item.productPackage"
+        />
+      </div>
     </div>
-    <div v-else class="ca-display-cart__empty">{{ $t('CART_EMPTY') }}</div>
+    <div v-else class="ca-display-cart__empty">
+      {{ $t('CART_EMPTY') }}
+    </div>
     <template v-if="cart && cart.items && cart.items.length" #footer>
       <div class="ca-display-cart__footer">
         <CaCartSummary
@@ -31,7 +33,9 @@
           >
             {{ $t('CART_TO_CHECKOUT') }}
           </CaIconAndText>
-          <template v-else>{{ $t('CART_TO_CHECKOUT') }}</template>
+          <template v-else>
+            {{ $t('CART_TO_CHECKOUT') }}
+          </template>
         </CaButton>
       </div>
     </template>
@@ -45,22 +49,97 @@ import { mapState } from 'vuex';
 // **SASS-path:** _./styles/components/molecules/ca-display-cart.scss_
 export default {
   name: 'CaDisplayCart',
-  mixins: [],
   props: {
     buttonIcon: {
       type: String,
       default: ''
     }
   },
-  data: () => ({}),
   computed: {
     ...mapState({
-      cart: state => state.cart.data
-    })
+      cart: state => state.cart.data,
+      cartmeta: state => state.cartmeta
+    }),
+    hasItems() {
+      return this.cart && this.cart.items && this.cart.items.length;
+    },
+    hasAnyProductPackage() {
+      return this.cartmeta?.productPackages?.length;
+    },
+    // Returns an array of items to display in the cart
+    // Group items with the same packageId into one item
+    cartItems() {
+      const items = [];
+
+      if (!this.hasItems) {
+        return items;
+      }
+
+      if (!this.hasAnyProductPackage) {
+        return this.cart.items;
+      }
+
+      this.cart.items.forEach(item => {
+        if (!item?.productPackage) {
+          items.push(item);
+          return false;
+        }
+
+        // Find the package in items
+        const pkg = items.find(
+          pkg => pkg.packageId === item.productPackage.packageId
+        );
+
+        // If the package already exists, do nothing
+        if (pkg) {
+          return false;
+        }
+
+        // If the pkg doesn't exist, add it
+        const productPackage = this.getProductPackageAsCartItem(
+          item?.productPackage?.packageId
+        );
+
+        items.push({
+          packageId: item.productPackage.packageId,
+          productPackage
+        });
+      });
+
+      return items;
+    },
+    packagesInCart() {
+      return this.cartmeta?.productPackages || [];
+    }
   },
-  watch: {},
-  mounted() {},
-  methods: {}
+  created() {
+    this.$store.subscribe(mutation => {
+      if (mutation.type === 'cart/setAdded') {
+        const product = mutation?.payload?.product || {};
+
+        if (!product?.productPackage) {
+          return;
+        }
+
+        this.$store.dispatch('cartmeta/addProductPackage', product);
+      }
+    });
+  },
+  methods: {
+    // Find the corresponding package in packagesInCart by matching productId and
+    // return an object with brand, image, url & price
+    getProductPackageAsCartItem(packageId) {
+      const productPackage = this.packagesInCart.find(
+        item => item.product.productId === packageId
+      );
+
+      if (!productPackage) {
+        return {};
+      }
+
+      return productPackage;
+    }
+  }
 };
 </script>
 <style lang="scss">

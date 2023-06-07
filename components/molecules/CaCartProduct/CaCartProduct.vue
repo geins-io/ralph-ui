@@ -26,7 +26,6 @@
         aria-label="Close"
         @clicked="removeItem"
       />
-
       <NuxtLink :to="product.canonicalUrl">
         <CaBrandAndName
           :brand="product.brand.name"
@@ -67,6 +66,29 @@
           class="ca-cart-product__price"
           :price="item.unitPrice"
         />
+        <ul
+          v-if="
+            productPackage &&
+              productPackageSelectedOptions &&
+              productPackageSelectedOptions.length
+          "
+          class="ca-cart-product__package"
+        >
+          <li
+            v-for="(option, index) in productPackageSelectedOptions"
+            :key="index"
+            class="ca-cart-product__package-group"
+          >
+            <p class="ca-cart-product__package-option">
+              <span class="ca-cart-product__package-option-quantity">
+                {{ option.quantity }}x
+              </span>
+              <span class="ca-cart-product__package-option-name">
+                {{ option.product.name }}
+              </span>
+            </p>
+          </li>
+        </ul>
         <CaCampaigns
           v-if="
             item.campaign &&
@@ -153,6 +175,20 @@ export default {
     },
     currentStock() {
       return this.skuStock;
+    },
+    updateId() {
+      return !this.isPackage ? this.item.skuId : this.item.groupKey;
+    },
+    productPackage() {
+      return this.item.product.productPackage;
+    },
+    productPackageGroups() {
+      return this.productPackage.groups;
+    },
+    productPackageSelectedOptions() {
+      return this.productPackageGroups.map(group => {
+        return group.options.filter(option => option.isSelected);
+      });
     }
   },
   watch: {
@@ -172,7 +208,7 @@ export default {
     // @arg value (Number)
     onQuantityChange(value) {
       this.quantity = value;
-      this.updateCart(this.item.skuId, value);
+      this.updateCart(this.updateId, value);
     },
     // @vuese
     // Emitting stock status change
@@ -186,7 +222,7 @@ export default {
     // Removing item and emitting "remove"
     removeItem() {
       this.$emit('remove', this.item.skuId);
-      this.updateCart(this.item.skuId, 0);
+      this.updateCart(this.updateId, 0);
     }
   }
 };

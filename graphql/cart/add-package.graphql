@@ -1,0 +1,21 @@
+#import "cart/content.graphql"
+
+mutation addPackageToCart(
+  $id: String!
+  $packageId: Int!
+  $selections: [ProductPackageSelectionType]
+  $channelId: String
+  $languageId: String
+  $marketId: String
+) {
+  addPackageToCart(
+    id: $id
+    packageId: $packageId
+    selections: $selections
+    channelId: $channelId
+    languageId: $languageId
+    marketId: $marketId
+  ) {
+    ...Cart
+  }
+}
