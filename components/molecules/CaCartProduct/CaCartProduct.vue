@@ -66,29 +66,15 @@
           class="ca-cart-product__price"
           :price="item.unitPrice"
         />
-        <ul
+        <CaProductPackageSelectedOptionsList
           v-if="
             productPackage &&
               productPackageSelectedOptions &&
               productPackageSelectedOptions.length
           "
-          class="ca-cart-product__package"
-        >
-          <li
-            v-for="(option, index) in productPackageSelectedOptions"
-            :key="index"
-            class="ca-cart-product__package-group"
-          >
-            <p class="ca-cart-product__package-option">
-              <span class="ca-cart-product__package-option-quantity">
-                {{ option.quantity }}x
-              </span>
-              <span class="ca-cart-product__package-option-name">
-                {{ option.product.name }}
-              </span>
-            </p>
-          </li>
-        </ul>
+          class="ca-product-page__product-package-selected-options-list"
+          :options="productPackageSelectedOptions"
+        />
         <CaCampaigns
           v-if="
             item.campaign &&
@@ -185,10 +171,20 @@ export default {
     productPackageGroups() {
       return this.productPackage.groups;
     },
+    // Array of selected options based on the product package groups
     productPackageSelectedOptions() {
-      return this.productPackageGroups.map(group => {
-        return group.options.filter(option => option.isSelected);
+      const items = [];
+      this.productPackageGroups.forEach(group => {
+        group.options.forEach(option => {
+          if (option.isSelected) {
+            items.push({
+              quantity: option.quantity,
+              product: option.product
+            });
+          }
+        });
       });
+      return items;
     }
   },
   watch: {
