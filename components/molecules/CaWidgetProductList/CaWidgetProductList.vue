@@ -54,7 +54,7 @@ export default {
       errorPolicy: 'all',
       result(result) {
         const products = result?.data?.products ?? null;
-        this.setupPagination(products);
+        this.setupPagination(products?.count);
         this.productsLoaded = true;
       },
       skip() {
@@ -162,7 +162,7 @@ export default {
     isWidgetModeEmpty: {
       handler() {
         if (this.isWidgetModeEmpty) {
-          this.setupPagination([]);
+          this.setupPagination(0);
           this.productsLoaded = true;
         }
       },

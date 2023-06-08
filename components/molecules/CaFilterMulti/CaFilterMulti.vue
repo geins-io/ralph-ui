@@ -46,7 +46,7 @@ export default {
     // Option to hide values
     hideValues: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data: () => ({

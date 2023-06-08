@@ -88,9 +88,9 @@ export default {
   methods: {
     // @vuese
     // Setup pagination
-    // @arg products (Object)
-    setupPagination(products) {
-      this.totalCount = products?.count ?? 0;
+    // @arg count (Number)
+    setupPagination(count) {
+      this.totalCount = count || 0;
 
       // 404 if page number requested too high
       if (
@@ -104,8 +104,6 @@ export default {
           url: this.$route.fullPath
         });
       }
-
-      this.productList = products?.products ?? [];
 
       if (!this.currentMaxCountSet) {
         return;

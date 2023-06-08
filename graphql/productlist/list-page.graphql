@@ -1,13 +1,13 @@
 #import "productlist/list-info.graphql"
 
 query listPageInfo(
-  $listPageUrl: String!
+  $url: String!
   $channelId: String
   $languageId: String
   $marketId: String
 ) {
   listPageInfo(
-    url: $listPageUrl
+    url: $url
     channelId: $channelId
     languageId: $languageId
     marketId: $marketId
