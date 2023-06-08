@@ -16,7 +16,6 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // filters: `{}`<br>
 // userSelection: `null`<br>
 // filterParamQuery: `{}`<br>
-// skipProductsQuery: `false`<br>
 // relocateTimeout: `null`<br>
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
@@ -70,6 +69,9 @@ export default {
           }
         }
       },
+      skip() {
+        return this.isNostoRequest;
+      },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       }
@@ -79,7 +81,7 @@ export default {
         return filtersQuery;
       },
       variables() {
-        return this.productsQueryVars;
+        return this.filtersQueryVars;
       },
       deep: true,
       result(result) {
@@ -94,7 +96,7 @@ export default {
       },
       update: data => data.products.filters,
       skip() {
-        return this.skipProductsQuery || this.isNostoRequest || !process.client;
+        return !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -221,22 +223,29 @@ export default {
     filters: {},
     userSelection: null,
     filterParamQuery: {},
-    skipProductsQuery: false,
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
-    productsFetched: false,
-    interval: null
+    productsFetched: false
   }),
   computed: {
-    // @vuesed
+    // @vuese
+    // Is list filtered by facet in url?
+    // @type Boolean
+    urlFilteredList() {
+      return (
+        Object.keys(this.$route.query).length > 0 &&
+        !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
+      );
+    },
+    // @vuese
     // Determine is CaListTop are visible on page
     // @type Boolean
     hideListInfo() {
       return this.listInfo?.hideDescription && this.listInfo?.hideTitle;
     },
-    // @vuesed
+    // @vuese
     // Status of loading filters state
     // @type Boolean
     filtersLoaded() {
@@ -461,6 +470,15 @@ export default {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
+    },
+    filtersQueryVars() {
+      if (!this.urlFilteredList || this.filtersSet) {
+        return this.productsQueryVars;
+      }
+
+      return {
+        url: this.currentPath
+      };
     },
     // @vuese
     // Returns the variable object with the query parameters for the product list information
@@ -776,8 +794,6 @@ export default {
           : parseInt(this.$route.query.page);
       }
       this.pushURLParams();
-      this.skipProductsQuery = false;
-      this.$store.commit('list/setSkipProductsQuery', false);
       if (this.$store.getters['list/relocateProduct']) {
         this.relocateProduct();
       }
@@ -1076,13 +1092,7 @@ export default {
             if (!userSelectionExists) {
               this.userSelection = null;
             }
-            if (
-              Object.keys(this.$route.query).length > 0 &&
-              !(
-                Object.keys(this.$route.query).length === 1 &&
-                this.$route.query.page
-              )
-            ) {
+            if (this.urlFilteredList) {
               this.$store.commit('list/resetQuerySelection');
             }
           }

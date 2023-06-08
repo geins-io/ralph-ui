@@ -9,8 +9,7 @@ export const state = () => ({
     price: [],
     discount: [],
     parameters: {}
-  },
-  skipProductsQuery: false
+  }
 });
 
 export const mutations = {
@@ -35,9 +34,6 @@ export const mutations = {
       discount: [],
       parameters: {}
     };
-  },
-  setSkipProductsQuery(state, bool) {
-    state.skipProductsQuery = bool;
   }
 };
 
