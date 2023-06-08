@@ -16,7 +16,7 @@ export default {
       default: 'li'
     },
     // Product data
-    product: {
+    productData: {
       type: Object,
       required: true
     },
@@ -26,8 +26,20 @@ export default {
       default: 0
     }
   },
-  data: () => ({ observer: null, trackCounter: 0 }),
+  data: () => ({
+    observer: null,
+    trackCounter: 0,
+    currentProduct: {}
+  }),
   computed: {
+    // @vuese
+    // The product data
+    // @type Object
+    product() {
+      return Object.keys(this.currentProduct).length > 0
+        ? this.currentProduct
+        : this.productData;
+    },
     // @vuese
     // ResultId of nosto product list request
     // @type String
@@ -69,7 +81,6 @@ export default {
       return Number(this.$vnode.key + 1);
     }
   },
-  watch: {},
   created() {
     if (process.client) {
       const options = {
@@ -229,6 +240,11 @@ export default {
             }
           ]
         : [];
+    },
+    // @vuese
+    // Setting product of the product card if other than productData)
+    setProduct(product) {
+      this.currentProduct = product;
     }
   }
 };

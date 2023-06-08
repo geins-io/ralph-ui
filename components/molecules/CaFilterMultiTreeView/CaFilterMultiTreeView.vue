@@ -36,6 +36,11 @@ export default {
       type: Boolean,
       // `false`
       default: false
+    },
+    // Option to hide values
+    hideValues: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => ({
@@ -65,13 +70,27 @@ export default {
     // Adds children properties created from child categories with parentId
     // @type Array
     valuesWithChildren() {
-      const data = this.sortByOrder(this.valuesWithSelected);
+      const data = this.sortByOrder(this.filterValues);
       const parentCategories = data.filter(item => !item.parentId);
       data.map(item => {
         item.children = data.filter(child => child.parentId === item.facetId);
       });
 
       return parentCategories;
+    },
+    // @vuese
+    // Returns the values without hidden values
+    // @type Array
+    valuesExcludeHidden() {
+      return this.valuesWithSelected.filter(el => !el.hidden);
+    },
+    // @vuese
+    // Returns the values with or without hidden values
+    // @type Array
+    filterValues() {
+      return !this.hideValues
+        ? this.valuesWithSelected
+        : this.valuesExcludeHidden;
     }
   },
   watch: {
