@@ -1,5 +1,5 @@
 <template>
-  <nav class="ca-header-navigation" :class="modifiers">
+  <nav ref="menu" class="ca-header-navigation" :class="modifiers">
     <ul v-if="menu" class="ca-header-navigation__items">
       <li
         v-for="item in menu.menuItems"
@@ -137,7 +137,12 @@ export default {
     }
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    document.body.addEventListener('click', this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.body.removeEventListener('click', this.handleClickOutside);
+  },
   methods: {
     openMenu(id) {
       this.open = id;
@@ -186,6 +191,14 @@ export default {
             'aria-expanded': this.open === item.id
           }
         : this.getAttributes(item);
+    },
+    handleClickOutside(e) {
+      const menuRef = this.$refs.menu;
+      const isMenuClicked = menuRef && menuRef.contains(e.target);
+
+      if (!isMenuClicked) {
+        this.closeMenu();
+      }
     }
   }
 };
