@@ -54,11 +54,12 @@ export default {
       errorPolicy: 'all',
       result(result) {
         const products = result?.data?.products ?? null;
-        this.setupPagination(products?.count);
+        this.productList = products?.products || [];
         this.productsLoaded = true;
+        this.setupPagination(products?.count);
       },
       skip() {
-        return this.isWidgetModeEmpty || process.server;
+        return this.isWidgetModeEmpty;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });

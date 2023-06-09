@@ -117,6 +117,7 @@ export default {
       deep: true,
       result(result) {
         const paginationData = this.formatNostoData(result.data);
+        this.productList = paginationData?.products || [];
 
         this.setupPagination(paginationData?.count);
         this.productsFetched = true;
