@@ -472,13 +472,23 @@ export default {
       }
       return varsObj;
     },
+    // @vuese
+    // Returns the variable object with the query parameters for the product list filters
+    // @type Object
     filtersQueryVars() {
+      const varsObj = {
+        ...this.productsQueryVars,
+        skip: 0,
+        take: 0
+      };
+
       if (!this.urlFilteredList || this.filtersSet) {
-        return this.productsQueryVars;
+        return varsObj;
       }
 
       return {
-        url: this.currentPath
+        ...varsObj,
+        filter: null
       };
     },
     // @vuese
