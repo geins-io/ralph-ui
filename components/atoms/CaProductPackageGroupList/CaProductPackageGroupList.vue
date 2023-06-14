@@ -39,7 +39,8 @@ export default {
     selection: {
       groupId: null,
       optionId: null,
-      skuId: null
+      skuId: null,
+      quantity: null
     }
   }),
   computed: {
@@ -52,8 +53,11 @@ export default {
     selectedOptionId() {
       return this.selectedOption?.optionId;
     },
-    selectedSkuId() {
+    selectedOptionSkuId() {
       return this.selectedOption?.product.skus[0].skuId;
+    },
+    selectedOptionQuantity() {
+      return this.selectedOption?.quantity;
     }
   },
   watch: {
@@ -62,14 +66,15 @@ export default {
         this.setSelectedOption(
           this.group.groupId,
           this.selectedOptionId,
-          this.selectedSkuId
+          this.selectedOptionSkuId,
+          this.selectedOptionQuantity
         );
       },
       immediate: true
     }
   },
   methods: {
-    setSelectedOption(groupId, optionId, skuId) {
+    setSelectedOption(groupId, optionId, skuId, quantity) {
       if (this.selection.skuId === skuId) {
         return;
       }
@@ -77,6 +82,7 @@ export default {
       this.selection.groupId = groupId;
       this.selection.optionId = optionId;
       this.selection.skuId = skuId;
+      this.selection.quantity = quantity;
       this.$emit('add-package-option', this.selection);
     }
   }

@@ -22,6 +22,17 @@ export default {
     // Mutation based on if is a package or not
     mutation() {
       return !this.isPackage ? addToCartMutation : addPackageToCartMutation;
+    },
+    // @vuese
+    // Package selection without quantity for mutation
+    packageSelectionWithoutQuantity() {
+      return this.packageSelection.map(item => {
+        return {
+          groupId: item.groupId,
+          optionId: item.optionId,
+          skuId: item.skuId
+        };
+      });
     }
   },
   methods: {
@@ -60,7 +71,7 @@ export default {
         variablesObj.item = itemToAdd;
       } else {
         variablesObj.packageId = product.productId;
-        variablesObj.selections = this.packageSelection;
+        variablesObj.selections = this.packageSelectionWithoutQuantity;
       }
 
       return variablesObj;
@@ -107,7 +118,10 @@ export default {
             this.gtmAddToCart(selectedSku, itemToAdd);
           } else {
             this.packageSelection.forEach(option => {
-              const optionToAdd = this.productToAdd(option.skuId, 1);
+              const optionToAdd = this.productToAdd(
+                option.skuId,
+                option.quantity
+              );
               const selectedSku = this.getSelectedSku(
                 response.items,
                 option.skuId
