@@ -9,7 +9,13 @@ fragment ListInfo on PageInfoType {
   secondaryDescription
   hideTitle
   hideDescription
+  logo
   meta {
     ...Meta
+  }
+  subCategories {
+    name
+    alias
+    canonicalUrl
   }
 }

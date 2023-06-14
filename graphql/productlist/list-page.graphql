@@ -12,11 +12,6 @@ query listPageInfo(
     languageId: $languageId
     marketId: $marketId
   ) {
-    subCategories {
-      name
-      alias
-      canonicalUrl
-    }
     ...ListInfo
   }
 }
