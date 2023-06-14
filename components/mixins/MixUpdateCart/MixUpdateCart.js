@@ -30,16 +30,10 @@ export default {
   mounted() {},
   methods: {
     // @vuese
-    // Update the cart. Will perform a graphql mutation
-    // @arg sku id (Number), product quantity (Number)
-    updateCart(updateId, productQuantity) {
-      this.$emit('loading', true);
-
-      const productPreUpdate = this.cart?.items?.find(
-        item => item.skuId === updateId
-      );
-      const productQuantityPreUpdate = productPreUpdate?.quantity || 0;
-      const updateItem = !this.isPackage
+    // Get update item
+    // @arg updateId (Number), product quantity (Number)
+    getUpdateItem(updateId, productQuantity) {
+      return !this.isPackage
         ? {
             skuId: updateId,
             quantity: productQuantity
@@ -48,14 +42,33 @@ export default {
             groupKey: updateId,
             quantity: productQuantity
           };
-      const countUpdatedProductQuantity = () => {
-        // remove totally item from cart
-        if (productQuantity === productQuantityPreUpdate) {
-          return productQuantityPreUpdate;
-        }
-        // decrease or increase items in cart
-        return Math.abs(productQuantityPreUpdate - productQuantity);
-      };
+    },
+    // @vuese
+    // Count updated product quantity
+    // @arg productQuantityPreUpdate (Number), product quantity (Number)
+    getUpdatedProductQuantity(productQuantityPreUpdate, productQuantity) {
+      // remove totally item from cart
+      if (productQuantity === productQuantityPreUpdate) {
+        return productQuantityPreUpdate;
+      }
+      // decrease or increase items in cart
+      return Math.abs(productQuantityPreUpdate - productQuantity);
+    },
+    // @vuese
+    // Get product pre update
+    // @arg updateId (Number)
+    getProductPreUpdate(updateId) {
+      return this.cart?.items?.find(item => item.skuId === updateId);
+    },
+    // @vuese
+    // Update the cart. Will perform a graphql mutation
+    // @arg sku id (Number), product quantity (Number)
+    updateCart(updateId, productQuantity) {
+      this.$emit('loading', true);
+
+      const productPreUpdate = this.getProductPreUpdate(updateId);
+      const productQuantityPreUpdate = productPreUpdate?.quantity || 0;
+      const updateItem = this.getUpdateItem(updateId, productQuantity);
 
       const updateMutation = () =>
         this.$apollo
@@ -88,7 +101,10 @@ export default {
                 .filter(item => item.skuId === updateId)
                 .map(item => ({
                   ...item,
-                  quantity: countUpdatedProductQuantity()
+                  quantity: this.getUpdatedProductQuantity(
+                    productQuantityPreUpdate,
+                    productQuantity
+                  )
                 }));
             };
 
