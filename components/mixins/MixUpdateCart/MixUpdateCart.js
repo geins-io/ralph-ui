@@ -15,7 +15,7 @@ export default {
     // @vuese
     // If is a product package
     isPackage() {
-      return this.item?.groupKey && this.item?.groupKey.length;
+      return !!this.item?.product?.productPackage;
     },
     // @vuese
     // Mutation based on if is a package or not
