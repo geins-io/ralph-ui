@@ -9,7 +9,8 @@ export default {
   name: 'MixAddToCart',
   props: {},
   data: () => ({
-    addToCartLoading: false
+    addToCartLoading: false,
+    packageSelection: []
   }),
   computed: {
     // @vuese
@@ -24,6 +25,12 @@ export default {
     }
   },
   methods: {
+    // @vuese
+    // Add package to cart
+    // @arg packageSelection (Array)
+    onAddPackageOption(option) {
+      this.packageSelection = option;
+    },
     // @vuese
     // Get selected sku from items
     // @arg items (Array), skuIdToMatch (Number)
