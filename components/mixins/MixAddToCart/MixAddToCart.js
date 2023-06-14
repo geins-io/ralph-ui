@@ -25,26 +25,48 @@ export default {
   },
   methods: {
     // @vuese
+    // Get selected sku from items
+    // @arg items (Array), skuIdToMatch (Number)
+    getSelectedSku(items, skuIdToMatch) {
+      // Get selected sku in case unit price data
+      // differs between api and store because of discounts
+      return items.find(({ skuId }) => skuId === skuIdToMatch);
+    },
+    // @vuese
+    // Product to add
+    // @arg skuId (Number), quantity (Number)
+    productToAdd(skuId, quantity) {
+      return {
+        skuId,
+        quantity
+      };
+    },
+    // @vuese
+    // Mutation variables
+    // @arg itemToAdd (Object)
+    mutationVariables(itemToAdd, product = null) {
+      const variablesObj = {
+        id: this.$store.getters['cart/id']
+      };
+
+      if (!this.isPackage) {
+        variablesObj.item = itemToAdd;
+      } else {
+        variablesObj.packageId = product.productId;
+        variablesObj.selections = this.packageSelection;
+      }
+
+      return variablesObj;
+    },
+    // @vuese
     // Add a product to the cart on the server. Performs a graphql mutation
     // @arg sku id (Number), product quantity (Number), product (Object)
     addToCart(prodSkuId, prodQuantity, product = null) {
       if (!product) {
         return;
       }
-      const itemToAdd = {
-        skuId: prodSkuId,
-        quantity: prodQuantity
-      };
-      const variables = !this.isPackage
-        ? {
-            id: this.$store.getters['cart/id'],
-            item: itemToAdd
-          }
-        : {
-            id: this.$store.getters['cart/id'],
-            packageId: product.productId,
-            selections: this.packageSelection
-          };
+      const itemToAdd = this.productToAdd(prodSkuId, prodQuantity);
+      const variables = this.mutationVariables(itemToAdd, product);
 
       this.$apollo
         .mutate({
@@ -74,25 +96,16 @@ export default {
 
           // GTM add to cart event
           if (!this.isPackage) {
-            // Get selected sku in case unit price data
-            // differs between api and store because of discounts
-            const selectedSku = response.items.find(
-              ({ skuId }) => skuId === prodSkuId
-            );
-
+            const selectedSku = this.getSelectedSku(response.items, prodSkuId);
             this.gtmAddToCart(selectedSku, itemToAdd);
           } else {
             this.packageSelection.forEach(option => {
-              const optionToAdd = {
-                skuId: option.skuId,
-                quantity: 1
-              };
-
-              // Get selected sku in case unit price data
-              // differs between api and store because of discounts
-              const selectedSku = response.items.find(
-                ({ skuId }) => skuId === option.skuId
+              const optionToAdd = this.productToAdd(option.skuId, 1);
+              const selectedSku = this.getSelectedSku(
+                response.items,
+                option.skuId
               );
+
               this.gtmAddToCart(selectedSku, optionToAdd);
             });
           }
