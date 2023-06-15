@@ -1,5 +1,6 @@
 import addToCartMutation from 'cart/add.graphql';
 import addPackageToCartMutation from 'cart/add-package.graphql';
+import { mapState } from 'vuex';
 import * as GTMEvent from '../../../services/gtm';
 
 // @group Mixins
@@ -33,7 +34,10 @@ export default {
           skuId: item.skuId
         };
       });
-    }
+    },
+    ...mapState({
+      cartmeta: state => state.cartmeta
+    })
   },
   methods: {
     // @vuese
@@ -120,23 +124,16 @@ export default {
           }
 
           // GTM add to cart event
-          if (!this.isPackage) {
-            const selectedSku = this.getSelectedSku(response.items, prodSkuId);
-            this.gtmAddToCart(selectedSku, itemToAdd);
-          } else {
-            this.packageSelection.forEach(option => {
-              const optionToAdd = this.productToAdd(
-                option.skuId,
-                option.quantity
-              );
-              const selectedSku = this.getSelectedSku(
-                response.items,
-                option.skuId
-              );
+          let selectedSku = this.getSelectedSku(response.items, prodSkuId);
 
-              this.gtmAddToCart(selectedSku, optionToAdd);
-            });
+          if (this.isPackage) {
+            selectedSku = this.getSelectedSku(
+              this.cartmeta.productPackages,
+              prodSkuId
+            );
           }
+
+          this.gtmAddToCart(selectedSku, itemToAdd);
 
           // Remove notification after 30 seconds
           setTimeout(() => {

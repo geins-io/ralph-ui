@@ -2,7 +2,7 @@ import updateCartMutation from 'cart/update.graphql';
 import updateCartGroupMutation from 'cart/update-group.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import { mapState } from 'vuex';
-// import * as GTM from '../../../services/gtm';
+import * as GTM from '../../../services/gtm';
 // @group Mixins
 // @vuese
 // Function to update the current cart
@@ -76,6 +76,26 @@ export default {
       return items.find(item => item.skuId === updateId);
     },
     // @vuese
+    // Get selected sku from items
+    // @arg items (Array), skuIdToMatch (Number)
+    getSelectedSku(
+      items,
+      idToMatch,
+      productQuantityPreUpdate,
+      productQuantity
+    ) {
+      // get item from cartmeta and update quantity as difference
+      return items
+        .filter(item => item.skuId === idToMatch)
+        .map(item => ({
+          ...item,
+          quantity: this.getUpdatedProductQuantity(
+            productQuantityPreUpdate,
+            productQuantity
+          )
+        }));
+    },
+    // @vuese
     // Update the cart. Will perform a graphql mutation
     // @arg sku id (Number), product quantity (Number)
     updateCart(updateId, productQuantity) {
@@ -130,37 +150,54 @@ export default {
               );
             }
 
-            // const countCurrentProducts = () => {
-            //   const product = response.items.find(
-            //     item => item.skuId === updateId
-            //   );
+            // GTM
+            const countCurrentProducts = () => {
+              let product = response.items.find(
+                item => item.skuId === updateId
+              );
 
-            //   if (!product) {
-            //     // get item from store (item removed so whole quantity taken)
-            //     return [productPreUpdate];
-            //   }
-            //   // get item from api response and update quantity as difference
-            //   return response.items
-            //     .filter(item => item.skuId === updateId)
-            //     .map(item => ({
-            //       ...item,
-            //       quantity: this.getUpdatedProductQuantity(
-            //         productQuantityPreUpdate,
-            //         productQuantity
-            //       )
-            //     }));
-            // };
+              if (this.isPackage) {
+                product = this.cartmeta.productPackages.find(
+                  item => item.skuId === updateId
+                );
+              }
 
-            // GTM.updateProductQuantityInCart({
-            //   gtmInputs: {
-            //     gtm: this.$gtm,
-            //     currency: this.$store.getters['channel/currentCurrency'],
-            //     key: this.$store.getters.getGtmProductsKey
-            //   },
-            //   previousQuantity: productQuantityPreUpdate,
-            //   currentQuantity: productQuantity,
-            //   products: countCurrentProducts()
-            // });
+              if (!product) {
+                // get item from store (item removed so whole quantity taken)
+                return [productPreUpdate];
+              }
+
+              // get item from api response and update quantity as difference
+              let item = this.getSelectedSku(
+                response.items,
+                updateId,
+                productQuantityPreUpdate,
+                productQuantity
+              );
+
+              if (this.isPackage) {
+                // get item from cartmeta and update quantity as difference
+                item = this.getSelectedSku(
+                  this.cartmeta.productPackages,
+                  updateId,
+                  productQuantityPreUpdate,
+                  productQuantity
+                );
+              }
+
+              return item;
+            };
+
+            GTM.updateProductQuantityInCart({
+              gtmInputs: {
+                gtm: this.$gtm,
+                currency: this.$store.getters['channel/currentCurrency'],
+                key: this.$store.getters.getGtmProductsKey
+              },
+              previousQuantity: productQuantityPreUpdate,
+              currentQuantity: productQuantity,
+              products: countCurrentProducts()
+            });
           })
           .catch(error => {
             console.error('MixUpdateCart: ' + error);
