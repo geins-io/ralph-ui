@@ -12,6 +12,7 @@
         <CaCartProduct
           class="ca-display-cart__product"
           :item="!item.productPackage ? item : item.productPackage"
+          :package-group-key="item.productPackage ? item.groupKey : ''"
         />
       </div>
     </div>
@@ -95,13 +96,14 @@ export default {
           return false;
         }
 
-        // If the pkg doesn't exist, add it
+        // If the package doesn't exist, add it
         const productPackage = this.getProductPackageAsCartItem(
           item?.productPackage?.packageId
         );
 
         items.push({
           packageId: item.productPackage.packageId,
+          groupKey: item.groupKey,
           productPackage
         });
       });
@@ -111,19 +113,6 @@ export default {
     packagesInCart() {
       return this.cartmeta?.productPackages || [];
     }
-  },
-  created() {
-    this.$store.subscribe(mutation => {
-      if (mutation.type === 'cart/setAdded') {
-        const product = mutation?.payload?.product || {};
-
-        if (!product?.productPackage) {
-          return;
-        }
-
-        this.$store.dispatch('cartmeta/addProductPackage', product);
-      }
-    });
   },
   methods: {
     // Find the corresponding package in packagesInCart by matching productId and

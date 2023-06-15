@@ -134,6 +134,11 @@ export default {
       validator(value) {
         return ['default', 'display'].includes(value);
       }
+    },
+    // Group key for product packages
+    packageGroupKey: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -163,17 +168,22 @@ export default {
       return this.skuStock;
     },
     updateId() {
-      return !this.isPackage ? this.item.skuId : this.item.groupKey;
+      return this.item.skuId;
     },
     productPackage() {
-      return this.item.product.productPackage;
+      return this.item.product?.productPackage;
     },
     productPackageGroups() {
-      return this.productPackage.groups;
+      return this.productPackage?.groups;
     },
     // Array of selected options based on the product package groups
     productPackageSelectedOptions() {
       const items = [];
+
+      if (!this.productPackageGroups) {
+        return items;
+      }
+
       this.productPackageGroups.forEach(group => {
         group.options.forEach(option => {
           if (option.isSelected) {

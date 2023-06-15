@@ -112,6 +112,13 @@ export default {
             product
           });
 
+          if (this.isPackage) {
+            this.$store.dispatch('cartmeta/addProductPackage', {
+              product,
+              quantity: prodQuantity
+            });
+          }
+
           // GTM add to cart event
           if (!this.isPackage) {
             const selectedSku = this.getSelectedSku(response.items, prodSkuId);

@@ -2,7 +2,7 @@ import updateCartMutation from 'cart/update.graphql';
 import updateCartGroupMutation from 'cart/update-group.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import { mapState } from 'vuex';
-import * as GTM from '../../../services/gtm';
+// import * as GTM from '../../../services/gtm';
 // @group Mixins
 // @vuese
 // Function to update the current cart
@@ -23,7 +23,8 @@ export default {
       return !this.isPackage ? updateCartMutation : updateCartGroupMutation;
     },
     ...mapState({
-      cart: state => state.cart.data
+      cart: state => state.cart.data,
+      cartmeta: state => state.cartmeta
     })
   },
   watch: {},
@@ -33,15 +34,17 @@ export default {
     // Get update item
     // @arg updateId (Number), product quantity (Number)
     getUpdateItem(updateId, productQuantity) {
-      return !this.isPackage
-        ? {
-            skuId: updateId,
-            quantity: productQuantity
-          }
-        : {
-            groupKey: updateId,
-            quantity: productQuantity
-          };
+      const data = {
+        quantity: productQuantity
+      };
+
+      if (!this.isPackage) {
+        data.skuId = updateId;
+      } else {
+        data.groupKey = this.packageGroupKey;
+      }
+
+      return data;
     },
     // @vuese
     // Count updated product quantity
@@ -58,7 +61,19 @@ export default {
     // Get product pre update
     // @arg updateId (Number)
     getProductPreUpdate(updateId) {
-      return this.cart?.items?.find(item => item.skuId === updateId);
+      let items = this.cart?.items;
+
+      if (this.isPackage) {
+        items = this.cartmeta?.productPackages;
+      }
+
+      console.log(
+        'getProductPreUpdate',
+        this.cartmeta?.productPackages,
+        updateId
+      );
+
+      return items.find(item => item.skuId === updateId);
     },
     // @vuese
     // Update the cart. Will perform a graphql mutation
@@ -83,65 +98,69 @@ export default {
             const response = !this.isPackage
               ? result.data.updateCartItem
               : result.data.updateCartGroup;
+            let updateEvent = 'cart:add';
 
             this.$store.dispatch('cart/update', response);
             this.$emit('loading', false);
 
-            const countCurrentProducts = () => {
-              const product = response.items.find(
-                item => item.skuId === updateId
-              );
-
-              if (!product) {
-                // get item from store (item removed so whole quantity taken)
-                return [productPreUpdate];
-              }
-              // get item from api response and update quantity as difference
-              return response.items
-                .filter(item => item.skuId === updateId)
-                .map(item => ({
-                  ...item,
-                  quantity: this.getUpdatedProductQuantity(
-                    productQuantityPreUpdate,
-                    productQuantity
-                  )
-                }));
-            };
-
-            GTM.updateProductQuantityInCart({
-              gtmInputs: {
-                gtm: this.$gtm,
-                currency: this.$store.getters['channel/currentCurrency'],
-                key: this.$store.getters.getGtmProductsKey
-              },
-              previousQuantity: productQuantityPreUpdate,
-              currentQuantity: productQuantity,
-              products: countCurrentProducts()
-            });
-
-            if (productQuantityPreUpdate > productQuantity) {
-              const quantity = productQuantityPreUpdate - productQuantity;
-              updateItem.quantity = quantity;
-
-              this.$store.dispatch('events/push', {
-                type: 'cart:remove',
-                data: {
-                  item: updateItem,
-                  product: productPreUpdate
-                }
-              });
-            } else if (productQuantity > productQuantityPreUpdate) {
+            if (productQuantity > productQuantityPreUpdate) {
               const quantity = productQuantity - productQuantityPreUpdate;
               updateItem.quantity = quantity;
-
-              this.$store.dispatch('events/push', {
-                type: 'cart:add',
-                data: {
-                  item: updateItem,
-                  product: productPreUpdate
-                }
-              });
+            } else if (productQuantityPreUpdate > productQuantity) {
+              const quantity = productQuantityPreUpdate - productQuantity;
+              updateItem.quantity = quantity;
+              updateEvent = 'cart:remove';
             }
+
+            this.$store.dispatch('events/push', {
+              type: updateEvent,
+              data: {
+                item: updateItem,
+                product: productPreUpdate
+              }
+            });
+
+            if (this.isPackage) {
+              this.$store.commit(
+                'cartmeta/updateExistingProductPackageQuantity',
+                {
+                  skuId: updateId,
+                  quantity: productQuantity
+                }
+              );
+            }
+
+            // const countCurrentProducts = () => {
+            //   const product = response.items.find(
+            //     item => item.skuId === updateId
+            //   );
+
+            //   if (!product) {
+            //     // get item from store (item removed so whole quantity taken)
+            //     return [productPreUpdate];
+            //   }
+            //   // get item from api response and update quantity as difference
+            //   return response.items
+            //     .filter(item => item.skuId === updateId)
+            //     .map(item => ({
+            //       ...item,
+            //       quantity: this.getUpdatedProductQuantity(
+            //         productQuantityPreUpdate,
+            //         productQuantity
+            //       )
+            //     }));
+            // };
+
+            // GTM.updateProductQuantityInCart({
+            //   gtmInputs: {
+            //     gtm: this.$gtm,
+            //     currency: this.$store.getters['channel/currentCurrency'],
+            //     key: this.$store.getters.getGtmProductsKey
+            //   },
+            //   previousQuantity: productQuantityPreUpdate,
+            //   currentQuantity: productQuantity,
+            //   products: countCurrentProducts()
+            // });
           })
           .catch(error => {
             console.error('MixUpdateCart: ' + error);
