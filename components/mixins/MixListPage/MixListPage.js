@@ -12,7 +12,6 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // **Data:**<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
-// listInfo: `null`<br>
 // filters: `{}`<br>
 // userSelection: `null`<br>
 // filterParamQuery: `{}`<br>
@@ -25,30 +24,6 @@ export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement, MixListPagination, MixApolloRefetch],
   apollo: {
-    listPageInfo: {
-      query() {
-        return this.infoQuery;
-      },
-      variables() {
-        return this.infoQueryVars;
-      },
-      result(result) {
-        if (result && result.data) {
-          this.listInfo = result.data.listPageInfo;
-
-          if (
-            !process.server &&
-            !this.isSearch & !this.isAll &&
-            !this.customListInfo
-          ) {
-            this.switchToCanonicalOr404();
-          }
-        }
-      },
-      skip() {
-        return this.isSearch || this.isAll || this.customListInfo;
-      }
-    },
     products: {
       query() {
         return productsQuery;
@@ -145,12 +120,6 @@ export default {
       }
     },
     // @vuese
-    // Graphql for the listPageInfo query
-    infoQuery: {
-      type: Object,
-      required: true
-    },
-    // @vuese
     // Current alias for the page
     currentAlias: {
       type: String,
@@ -160,7 +129,9 @@ export default {
     // Current url path for the page
     currentPath: {
       type: String,
-      default: ''
+      default() {
+        return decodeURI(this.$route.path);
+      }
     },
     // @vuese
     // Base filters for this page
@@ -181,8 +152,8 @@ export default {
       default: () => []
     },
     // @vuese
-    // Use custom list info instead of fetching it from the server (e.g. { name: '', primaryDescription: '', meta: { title: '', description: ''}};)
-    customListInfo: {
+    // The list info object, either static or fetched from the API. Must contain at least name, meta title and meta description like so: `{ name: '', meta: { title: '', description: ''} }`
+    listInfo: {
       type: Object,
       default: null
     }
@@ -219,7 +190,6 @@ export default {
   data: vm => ({
     baseFilters: {},
     userSkip: 0,
-    listInfo: null,
     widgetData: {},
     filters: {},
     userSelection: null,
@@ -614,9 +584,6 @@ export default {
       }
     }
   },
-  created() {
-    this.setListInfo();
-  },
   mounted() {
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
@@ -815,26 +782,6 @@ export default {
         const count = this.skip + this.pageSize;
         this.currentMaxCountSet =
           count >= this.totalCount ? this.totalCount : count;
-      }
-    },
-    // @vuese
-    // Sets the list info for non dynamic pages
-    setListInfo() {
-      if (this.customListInfo) {
-        this.listInfo = this.customListInfo;
-      } else if (this.isSearch || this.isAll) {
-        const title = this.isSearch
-          ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
-              search: this.currentAlias
-            })
-          : this.$t('ALL_PAGE_TITLE');
-        this.listInfo = {
-          name: title,
-          meta: {
-            title,
-            description: title
-          }
-        };
       }
     },
     // @vuese
@@ -1041,25 +988,6 @@ export default {
     getReadableParams(array) {
       const readableParams = array.map(i => i.label + '~' + i.id);
       return readableParams.join();
-    },
-    // @vuese
-    // Switching to canonical url if different from route path
-    switchToCanonicalOr404() {
-      if (this.listInfo) {
-        if (this.listInfo.canonicalUrl !== this.$route.path) {
-          this.$router.replace({
-            path: this.listInfo.canonicalUrl,
-            query: this.$route.query
-          });
-          this.$store.dispatch('loading/end');
-        }
-      } else {
-        this.$nuxt.error({
-          statusCode: 404,
-          message: 'Page not found',
-          url: this.$route.path
-        });
-      }
     },
     // @vuese
     // Controls routing between filtered paths on the same category/brand etc

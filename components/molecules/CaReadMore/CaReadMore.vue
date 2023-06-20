@@ -80,10 +80,10 @@ export default {
     // Set heights
     setHeights() {
       this.$nextTick(() => {
-        this.scrollHeight = this.$refs.text.scrollHeight;
+        this.scrollHeight = this.$refs.text?.scrollHeight || 0;
         this.textHeight = this.toggleActive
           ? this.maxHeight
-          : this.$refs.text.scrollHeight;
+          : this.$refs.text?.scrollHeight || 0;
         this.ready = true;
       });
     },
@@ -94,7 +94,7 @@ export default {
       if (!this.visible && this.toggleActive) {
         this.textHeight = this.maxHeight;
       } else if (this.visible) {
-        this.textHeight = this.$refs.text.scrollHeight;
+        this.textHeight = this.$refs.text?.scrollHeight || 0;
       } else {
         this.textHeight = 0;
       }

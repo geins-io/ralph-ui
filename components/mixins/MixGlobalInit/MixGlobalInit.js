@@ -18,7 +18,7 @@ export default {
         }
       },
       skip() {
-        return this.$store.state.categoryTree.length || !process.client;
+        return this.$store.state.categoryTree.length;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -90,6 +90,10 @@ export default {
       eventbus.$emit('route-change', { to, from });
       if (to.path !== from.path) {
         this.$store.dispatch('loading/start');
+
+        if (!to.name.includes('list') && !to.name.includes('plp')) {
+          this.$store.commit('list/setBackNavigated', false);
+        }
       }
     },
     '$apollo.loading'(val) {
@@ -111,13 +115,10 @@ export default {
     this.$store.commit('setViewportWidth');
     this.$store.dispatch('initResizeListener');
 
-    // Refetch cart on window/tab focus to keep state between windows/tabs
-    window.addEventListener('focus', this.refetchCart);
-
     window.addEventListener('popstate', () => {
-      if (this.$route.name?.includes('plp')) {
+      this.$nextTick(() => {
         this.$store.commit('list/setBackNavigated', true);
-      }
+      });
     });
 
     await this.$store.dispatch('auth/initClient');
