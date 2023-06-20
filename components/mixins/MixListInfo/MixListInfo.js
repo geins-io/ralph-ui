@@ -1,5 +1,4 @@
 import MixMetaReplacement from 'MixMetaReplacement';
-import MixApolloRefetch from 'MixApolloRefetch';
 import listPageInfoQuery from 'productlist/list-page.graphql';
 
 // @group Mixins
@@ -8,9 +7,10 @@ import listPageInfoQuery from 'productlist/list-page.graphql';
 // exampleVariable: `1`<br>
 export default {
   name: 'MixListInfo',
-  mixins: [MixMetaReplacement, MixApolloRefetch],
+  mixins: [MixMetaReplacement],
   async asyncData({ error, store, app, redirect, req }) {
-    const currentPath = req ? decodeURI(req.url) : store.state.currentPath;
+    const currentPath = store.state.currentPath;
+
     let currentAlias = null;
     let aliasName = '';
 
