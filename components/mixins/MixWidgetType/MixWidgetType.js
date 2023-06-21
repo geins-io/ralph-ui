@@ -8,7 +8,10 @@ export default {
   data: () => ({}),
   computed: {
     currentWidget() {
-      if (this.type === 'Image') {
+      // First check if the widget type is defined in the config
+      if(this.$config.widgetRenderTypesComponents && this.$config.widgetRenderTypesComponents[this.type]) {
+        return this.$config.widgetRenderTypesComponents[this.type];
+      } else if (this.type === 'Image') {
         return 'CaWidgetImage';
       } else if (this.type === 'Text') {
         return 'CaWidgetText';
