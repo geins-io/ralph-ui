@@ -25,6 +25,8 @@ export default {
         return 'CaWidgetVideo';
       } else if (this.type === 'HTML') {
         return 'CaWidgetHtml';
+      } else if (this.type === 'JSON') {
+        return 'CaWidgetJson';
       } else if (this.type === 'Rich text') {
         return 'CaWidgetRichText';
       } else if (this.type === 'Flowbox') {
