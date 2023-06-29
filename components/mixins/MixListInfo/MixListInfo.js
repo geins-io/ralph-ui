@@ -9,7 +9,7 @@ export default {
   name: 'MixListInfo',
   mixins: [MixMetaReplacement],
   async asyncData({ error, store, app, redirect, req }) {
-    const currentPath = store.state.currentPath;
+    const currentPath = decodeURI(store.state.currentPath);
 
     let currentAlias = null;
     let aliasName = '';
