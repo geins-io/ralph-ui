@@ -27,7 +27,6 @@ export default {
     widgetArea: {
       query: widgetAreaQuery,
       variables() {
-        con
         return this.widgetAreaVariables;
       },
       errorPolicy: 'all',
