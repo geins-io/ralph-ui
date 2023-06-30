@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.5.2] - 2023-06-09
+
+### Fixed
+
+- Handle outside click for `<CaHeaderNavigation />`
+
 ## [19.5.1] - 2023-05-22
 
 ### Fixed
