@@ -1,27 +1,20 @@
 import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixApolloRefetch from 'MixApolloRefetch';
-import sampleProductsQuery from 'productlist/list-products.graphql';
-import productsQuery from 'productlist/no-filters-products.graphql';
+import filtersQuery from 'productlist/list-filters.graphql';
+import productsQuery from 'productlist/products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
-import filtersQuery from 'productlist/products-filter.graphql';
-import widgetAreaQuery from 'global/widget-area.graphql';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
-import combineQuery from 'graphql-combine-query';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
-// isInitialRequest: `true`<br>
-// initVariables: `{}`<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
-// listInfo: `null`<br>
 // filters: `{}`<br>
 // userSelection: `null`<br>
 // filterParamQuery: `{}`<br>
-// skipProductsQuery: `false`<br>
 // relocateTimeout: `null`<br>
 // URLparamsRead: `false`<br>
 // filtersSet: `false`<br>
@@ -31,76 +24,54 @@ export default {
   name: 'MixListPage',
   mixins: [MixMetaReplacement, MixListPagination, MixApolloRefetch],
   apollo: {
-    listPageInfo: {
-      query() {
-        return this.generateReqValues().document;
-      },
-      variables() {
-        return this.initVariables;
-      },
-      fetchPolicy: 'no-cache',
-      deep: true,
-      errorPolicy: 'all',
-      result(result) {
-        if (result && result.data) {
-          const { listPageInfo, products, ...widgetAreaInfo } = result.data;
-          if (listPageInfo) {
-            this.listInfo = listPageInfo;
-          }
-          if (!process.server && !this.isSearch & !this.isAll) {
-            this.switchToCanonicalOr404();
-          }
-
-          if (this.widgetAreaVars) {
-            this.widgetData = widgetAreaInfo;
-          }
-
-          if (!this.isNostoRequest) {
-            this.setupPagination(products);
-            this.$store.dispatch('loading/end');
-          }
-          this.productsFetched = true;
-          this.isInitialRequest = false;
-        }
-      },
-      update(data) {
-        return data.listPageInfo;
-      },
-      skip() {
-        return !this.isInitialRequest || !this.initVariables || !process.client;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    },
     products: {
       query() {
-        return sampleProductsQuery;
+        return productsQuery;
       },
       variables() {
         return this.productsQueryVars;
       },
       deep: true,
+      errorPolicy: 'all',
       result(result) {
         if (result && result.data) {
-          if (result.data.products?.filters.facets.length > 0) {
-            this.baseFilters = result.data.products.filters;
-          }
-          if (this.filtersSet) {
-            this.updateFilters(result.data.products.filters);
-          }
-          this.setupPagination(result.data.products);
+          const { products } = result.data;
+          this.productList = products?.products || [];
           this.productsFetched = true;
-          this.$store.dispatch('loading/end');
+          if (!this.isNostoRequest) {
+            this.setupPagination(products?.count);
+            this.$store.dispatch('loading/end');
+          }
         }
       },
       skip() {
-        return (
-          this.isInitialRequest ||
-          this.skipProductsQuery ||
-          this.isNostoRequest ||
-          !process.client
-        );
+        return this.isNostoRequest;
+      },
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      }
+    },
+    productFilters: {
+      query() {
+        return filtersQuery;
+      },
+      variables() {
+        return this.filtersQueryVars;
+      },
+      deep: true,
+      result(result) {
+        if (result && result.data) {
+          if (this.filtersSet) {
+            this.updateFilters(result.data.products.filters);
+          } else if (result.data.products?.filters?.facets?.length) {
+            this.baseFilters = result.data.products.filters;
+            this.setupFilters(this.baseFilters);
+          }
+        }
+      },
+      update: data => data.products.filters,
+      skip() {
+        return !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -121,8 +92,9 @@ export default {
       deep: true,
       result(result) {
         const paginationData = this.formatNostoData(result.data);
+        this.productList = paginationData?.products || [];
 
-        this.setupPagination(paginationData);
+        this.setupPagination(paginationData?.count);
         this.productsFetched = true;
         this.$store.dispatch('loading/end');
       },
@@ -148,12 +120,6 @@ export default {
       }
     },
     // @vuese
-    // Graphql for the listPageInfo query
-    infoQuery: {
-      type: Object,
-      required: true
-    },
-    // @vuese
     // Current alias for the page
     currentAlias: {
       type: String,
@@ -163,7 +129,9 @@ export default {
     // Current url path for the page
     currentPath: {
       type: String,
-      default: ''
+      default() {
+        return decodeURI(this.$route.path);
+      }
     },
     // @vuese
     // Base filters for this page
@@ -182,6 +150,12 @@ export default {
     excludeFacets: {
       type: Array,
       default: () => []
+    },
+    // @vuese
+    // The list info object, either static or fetched from the API. Must contain at least name, meta title and meta description like so: `{ name: '', meta: { title: '', description: ''} }`
+    listInfo: {
+      type: Object,
+      default: null
     }
   },
   head() {
@@ -214,31 +188,35 @@ export default {
     };
   },
   data: vm => ({
-    isInitialRequest: true,
-    initVariables: null,
     baseFilters: {},
     userSkip: 0,
-    listInfo: null,
     widgetData: {},
     filters: {},
     userSelection: null,
     filterParamQuery: {},
-    skipProductsQuery: false,
     relocateTimeout: null,
     URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
-    productsFetched: false,
-    interval: null
+    productsFetched: false
   }),
   computed: {
-    // @vuesed
+    // @vuese
+    // Is list filtered by facet in url?
+    // @type Boolean
+    urlFilteredList() {
+      return (
+        Object.keys(this.$route.query).length > 0 &&
+        !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
+      );
+    },
+    // @vuese
     // Determine is CaListTop are visible on page
     // @type Boolean
     hideListInfo() {
       return this.listInfo?.hideDescription && this.listInfo?.hideTitle;
     },
-    // @vuesed
+    // @vuese
     // Status of loading filters state
     // @type Boolean
     filtersLoaded() {
@@ -381,7 +359,6 @@ export default {
         return querySelection;
       }
     },
-
     // @vuese
     // Returns the filter object for the productsQueryVars
     // @type Object
@@ -464,6 +441,41 @@ export default {
         this.$set(varsObj, `${this.type}Alias`, this.currentAlias);
       }
       return varsObj;
+    },
+    // @vuese
+    // Returns the variable object with the query parameters for the product list filters
+    // @type Object
+    filtersQueryVars() {
+      const varsObj = {
+        ...this.productsQueryVars,
+        skip: 0,
+        take: 0
+      };
+
+      if (!this.urlFilteredList || this.filtersSet) {
+        return varsObj;
+      }
+
+      return {
+        ...varsObj,
+        filter: null
+      };
+    },
+    // @vuese
+    // Returns the variable object with the query parameters for the product list information
+    // @type Object
+    infoQueryVars() {
+      if (this.isList) {
+        return {
+          url: this.currentPath
+        };
+      }
+      if (!(this.isSearch || this.isAll)) {
+        return {
+          alias: this.currentAlias
+        };
+      }
+      return {};
     },
     // @vuese
     // Returns the variable object for loading more products
@@ -555,9 +567,15 @@ export default {
     // Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config
     // @type String
     defaultSort() {
+      if (this.customDefaultSort) {
+        return this.customDefaultSort;
+      }
       return this.isSearch ? 'RELEVANCE' : this.$config.productListDefaultSort;
     },
-    ...mapState(['list'])
+    ...mapState(['list']),
+    ...mapGetters({
+      customDefaultSort: 'list/customDefaultSort'
+    })
   },
   watch: {
     userSelection(newVal, oldVal) {
@@ -567,7 +585,6 @@ export default {
     }
   },
   mounted() {
-    this.initProductList();
     eventbus.$on('route-change', routes => {
       this.handleFilteredRoutesRouting(routes);
     });
@@ -577,76 +594,6 @@ export default {
     eventbus.$off('route-change');
   },
   methods: {
-    // @vuese
-    // Load next chunk of products
-    loadMore() {
-      this.userHasPaged = true;
-      const currentProductList = this.productList;
-      this.productList = [...this.productList, ...this.skeletonProductsNext];
-      this.currentPage = this.currentMaxCount / this.pageSize + 1;
-
-      if (this.isNostoRequest) {
-        this.$apollo.queries.nostoProducts.fetchMore({
-          variables: this.loadMoreNostoVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } = this.formatNostoData(
-              fetchMoreResult
-            );
-            this.currentMaxCount += newProducts.length;
-            this.productList = [...currentProductList, ...newProducts];
-            this.pushURLParams();
-          }
-        });
-      } else {
-        this.$apollo.queries.products.fetchMore({
-          variables: this.loadMoreQueryVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newProducts = fetchMoreResult.products.products;
-            this.currentMaxCount += newProducts.length;
-            this.productList = [...currentProductList, ...newProducts];
-            this.pushURLParams();
-          }
-        });
-      }
-    },
-    // @vuese
-    // Load previous chunk of products
-    loadPrev() {
-      this.userHasPaged = true;
-      const currentProductList = this.productList;
-      const scrollHeight = this.getScrollHeight();
-      this.productList = [...this.skeletonProducts, ...this.productList];
-      this.currentPage = (this.currentMinCount - 1) / this.pageSize;
-
-      this.$nextTick(() => {
-        const scrollAmount = this.getScrollHeight() - scrollHeight;
-        window.scrollBy(0, scrollAmount);
-      });
-
-      if (this.isNostoRequest) {
-        this.$apollo.queries.nostoProducts.fetchMore({
-          variables: this.loadPrevNostoVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } = this.formatNostoData(
-              fetchMoreResult
-            );
-            this.currentMinCount -= newProducts.length;
-            this.productList = [...newProducts, ...currentProductList];
-            this.pushURLParams();
-          }
-        });
-      } else {
-        this.$apollo.queries.products.fetchMore({
-          variables: this.loadPrevQueryVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newProducts = fetchMoreResult.products.products;
-            this.currentMinCount -= newProducts.length;
-            this.productList = [...newProducts, ...currentProductList];
-            this.pushURLParams();
-          }
-        });
-      }
-    },
     formatNostoData(data) {
       const {
         totalPrimaryCount: count,
@@ -793,8 +740,8 @@ export default {
     resetCurrentPage() {
       this.currentPage = 1;
       this.userSkip = 0;
-      this.currentMinCount = 1;
-      this.currentMaxCount = this.pageSize;
+      this.currentMinCountSet = 1;
+      this.currentMaxCountSet = this.pageSize;
     },
     // @vuese
     // Set filter selection in URL
@@ -825,93 +772,17 @@ export default {
           : parseInt(this.$route.query.page);
       }
       this.pushURLParams();
-      this.skipProductsQuery = false;
-      this.$store.commit('list/setSkipProductsQuery', false);
       if (this.$store.getters['list/relocateProduct']) {
         this.relocateProduct();
       }
       this.$store.commit('list/setBackNavigated', false);
       this.$store.commit('list/setRelocatePage', 1);
       if (this.currentPage > 1) {
-        this.currentMinCount = this.skip + 1;
+        this.currentMinCountSet = this.skip + 1;
         const count = this.skip + this.pageSize;
-        this.currentMaxCount =
+        this.currentMaxCountSet =
           count >= this.totalCount ? this.totalCount : count;
       }
-    },
-    // @vuese
-    // Run to init the product list
-    initProductList() {
-      this.initVariables = this.generateReqValues().variables;
-
-      if (this.isSearch || this.isAll) {
-        const title = this.isSearch
-          ? this.$t('SEARCH_RESULTS_PAGE_TITLE', {
-              search: this.currentAlias
-            })
-          : this.$t('ALL_PAGE_TITLE');
-        this.listInfo = {
-          name: title,
-          meta: {
-            title,
-            description: title
-          }
-        };
-      }
-
-      this.interval = setInterval(() => {
-        if (this.baseFilters && Object.keys(this.baseFilters).length > 0) {
-          clearInterval(this.interval);
-          if (this.baseFilters.facets.length) {
-            this.setupFilters(this.baseFilters);
-          }
-        }
-      }, 100);
-    },
-    generateReqValues() {
-      const productQuery = !(this.isSearch || this.isAll)
-        ? this.removeQueryVar(productsQuery, [
-            'channelId',
-            'languageId',
-            'marketId'
-          ])
-        : productsQuery;
-
-      let finishQuery = {
-        document: productQuery,
-        variables: this.productsQueryVars
-      };
-      if (this.isList) {
-        finishQuery = combineQuery('withPageInfoCombined')
-          .add(productQuery, this.productsQueryVars)
-          .add(this.infoQuery, {
-            url: this.currentPath
-          });
-      } else if (!(this.isSearch || this.isAll)) {
-        finishQuery = combineQuery('withPageInfoCombined')
-          .add(productQuery, this.productsQueryVars)
-          .add(this.infoQuery, {
-            alias: this.currentAlias
-          });
-      }
-
-      if (this.widgetAreaVars) {
-        finishQuery = combineQuery('withAreaCombined')
-          .add(finishQuery.document, finishQuery.variables)
-          .addN(
-            widgetAreaQuery,
-            this.widgetAreaVars.map(item => ({
-              ...item,
-              filters: this.widgetAreaFilters,
-              channelId: this.$store.state.channel.id,
-              url: this.currentPath,
-              languageId: this.$i18n.localeProperties.iso,
-              marketId: this.$store.state.channel.currentMarket
-            }))
-          );
-      }
-
-      return finishQuery;
     },
     // @vuese
     // Runned to relocate product on page after back navigating
@@ -977,19 +848,8 @@ export default {
     // @vuese
     // Setting up all filters
     // @arg filters (Object)
-    async setupFilters(filters) {
-      let sortedFilters = this.getSortedFilters(filters);
-      if (Object.keys(this.$route.query).length) {
-        try {
-          const result = await this.$apollo.query({
-            query: filtersQuery,
-            variables: this.filtersVars
-          });
-          sortedFilters = this.getSortedFilters(result.data.products.filters);
-        } catch (error) {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        }
-      }
+    setupFilters(filters) {
+      const sortedFilters = this.getSortedFilters(filters);
 
       this.$set(
         this.filters,
@@ -1002,7 +862,6 @@ export default {
       this.$set(this.filters, 'discount', sortedFilters.discount?.values || []);
       this.$set(this.filters, 'parameters', sortedFilters.parameters || []);
       this.filtersSet = true;
-      this.updateFilters(this.baseFilters);
       if (
         Object.keys(this.$route.query).length > 0 &&
         !(Object.keys(this.$route.query).length === 1 && this.$route.query.page)
@@ -1041,47 +900,42 @@ export default {
     updateFilters(filters) {
       const sortedFilters = this.getSortedFilters(filters);
 
-      if (this.list.firstFilterChanged !== 'categories') {
-        this.filters.categories = this.setNewCount(
-          this.filters.categories,
-          sortedFilters.categories
-        );
-      }
-      if (this.list.firstFilterChanged !== 'brands') {
-        this.filters.brands = this.setNewCount(
-          this.filters.brands,
-          sortedFilters.brands
-        );
-      }
-      if (this.list.firstFilterChanged !== 'skus') {
-        this.filters.skus = this.setNewCount(
-          this.filters.skus,
-          sortedFilters.skus
-        );
-      }
-      if (this.list.firstFilterChanged !== 'price') {
-        this.filters.price = this.setNewCount(
-          this.filters.price,
-          sortedFilters.price
-        );
-      }
-      if (this.list.firstFilterChanged !== 'discount') {
-        this.filters.discount = this.setNewCount(
-          this.filters.discount,
-          sortedFilters.discount
-        );
-      }
+      this.filters.categories = this.setNewCount(
+        this.filters.categories,
+        sortedFilters.categories
+      );
+
+      this.filters.brands = this.setNewCount(
+        this.filters.brands,
+        sortedFilters.brands
+      );
+
+      this.filters.skus = this.setNewCount(
+        this.filters.skus,
+        sortedFilters.skus
+      );
+
+      this.filters.price = this.setNewCount(
+        this.filters.price,
+        sortedFilters.price
+      );
+
+      this.filters.discount = this.setNewCount(
+        this.filters.discount,
+        sortedFilters.discount
+      );
+
       this.filters.parameters = this.filters.parameters.map(filter => {
         const newFilter = sortedFilters.parameters.find(
           i => i.filterId === filter.filterId
         );
         let filterClone = JSON.parse(JSON.stringify(filter));
-        if (this.list.firstFilterChanged !== filter.filterId) {
-          filterClone = {
-            ...filterClone,
-            values: this.setNewCount(filter.values, newFilter)
-          };
-        }
+
+        filterClone = {
+          ...filterClone,
+          values: this.setNewCount(filter.values, newFilter)
+        };
+
         return filterClone;
       });
     },
@@ -1136,25 +990,6 @@ export default {
       return readableParams.join();
     },
     // @vuese
-    // Switching to canonical url if different from route path
-    switchToCanonicalOr404() {
-      if (this.listInfo) {
-        if (this.listInfo.canonicalUrl !== this.$route.path) {
-          this.$router.replace({
-            path: this.listInfo.canonicalUrl,
-            query: this.$route.query
-          });
-          this.$store.dispatch('loading/end');
-        }
-      } else {
-        this.$nuxt.error({
-          statusCode: 404,
-          message: 'Page not found',
-          url: this.$route.path
-        });
-      }
-    },
-    // @vuese
     // Controls routing between filtered paths on the same category/brand etc
     handleFilteredRoutesRouting(routes) {
       if (
@@ -1196,13 +1031,7 @@ export default {
             if (!userSelectionExists) {
               this.userSelection = null;
             }
-            if (
-              Object.keys(this.$route.query).length > 0 &&
-              !(
-                Object.keys(this.$route.query).length === 1 &&
-                this.$route.query.page
-              )
-            ) {
+            if (this.urlFilteredList) {
               this.$store.commit('list/resetQuerySelection');
             }
           }

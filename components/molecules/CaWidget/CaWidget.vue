@@ -6,6 +6,7 @@
     :image-sizes="imageSizes"
     :image-ratios="imageRatios"
     :is-first="isFirst"
+    :fetch-products-only-client-side="fetchProductsOnlyClientSide"
   />
 </template>
 <script>
@@ -45,6 +46,11 @@ export default {
     widgetAreaVariables: {
       type: Object,
       required: true
+    },
+    // Fetch products only client side
+    fetchProductsOnlyClientSide: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),

@@ -8,6 +8,7 @@
         :widget-area-variables="widgetAreaVariables"
         :widget-image-sizes="widgetImageSizes"
         :is-first="index === 0"
+        :fetch-products-only-client-side="fetchProductsOnlyClientSide"
         @container-mounted="containersMounted = containersMounted + 1"
       />
     </div>
@@ -93,6 +94,11 @@ export default {
     listPageUrl: {
       type: String,
       default: ''
+    },
+    // Fetch products only client side
+    fetchProductsOnlyClientSide: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

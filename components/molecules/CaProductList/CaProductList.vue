@@ -3,7 +3,7 @@
     <CaProductCard
       v-for="(product, index) in allProducts"
       :key="index"
-      :product="product"
+      :product-data="product"
       :page-number="getPageNumber(index)"
       :product-card-type="productCardType"
     />

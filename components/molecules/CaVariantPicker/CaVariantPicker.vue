@@ -13,6 +13,7 @@
       :variants="variants"
       :variants-data="variantsData"
       :title="title"
+      :product-id="productId"
       :render-mode="panelRenderMode"
       @replaceProduct="$emit('replaceProduct', $event)"
       @changeSku="$emit('changeSku', $event)"
@@ -43,6 +44,11 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    // The product id, must be provided if multiple variants with same value exists, to show correct chosen-state
+    productId: {
+      type: Number,
+      default: 0
     },
     // The type of picker to use. Accepts `color`, `display`, `panel` & `image`
     type: {

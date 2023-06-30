@@ -9,8 +9,7 @@ export const state = () => ({
     price: [],
     discount: [],
     parameters: {}
-  },
-  skipProductsQuery: false
+  }
 });
 
 export const mutations = {
@@ -35,9 +34,6 @@ export const mutations = {
       discount: [],
       parameters: {}
     };
-  },
-  setSkipProductsQuery(state, bool) {
-    state.skipProductsQuery = bool;
   }
 };
 
@@ -46,7 +42,7 @@ export const actions = {
     context.commit('setBackNavigated', false);
     context.commit('setRelocateAlias', '');
   },
-  async saveQuerySelection({ rootState, commit, dispatch }, data) {
+  async saveQuerySelection({ rootState, commit, dispatch, getters }, data) {
     const selection = {};
     if (data.query.categories) {
       const categories = data.query.categories.split(',');
@@ -113,6 +109,10 @@ export const actions = {
       selection.sort = isOnSearchPage
         ? 'RELEVANCE'
         : rootState.config.productListDefaultSort;
+
+      if (getters.customDefaultSort) {
+        selection.sort = getters.customDefaultSort;
+      }
     }
 
     if (data.query.page && data.setPage) {
@@ -135,5 +135,11 @@ export const getters = {
   },
   backNavigated(state) {
     return state.backNavigated;
+  },
+  customDefaultSort(state, getters, rootState) {
+    const customRoute = rootState.config.customSortRoutes?.find(route =>
+      rootState.currentRouteName?.includes(route.name)
+    );
+    return customRoute ? customRoute.sort : null;
   }
 };

@@ -105,10 +105,7 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n, req }) => {
     checkIfLanguageAllowed(currentMarket);
   }
 
-  const protocol = req?.headers['x-forwarded-proto'] || 'http'; // Check if the request went through a proxy/load balancer
-  const host = req?.headers?.host || $config.baseUrl;
-  const fullUrl = req ? `${protocol}://${host}${req.url}` : route.fullPath;
-
+  const fullUrl = $config.baseUrl + route.fullPath;
   if (!isSamePath) {
     // Dispatch page impression event
     const { name, meta, path, hash, query, params, fullPath } = route;

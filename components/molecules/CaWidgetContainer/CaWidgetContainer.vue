@@ -14,6 +14,7 @@
       :image-sizes="imageSizes"
       :is-first="isFirst"
       :widget-area-variables="widgetAreaVariables"
+      :fetch-products-only-client-side="fetchProductsOnlyClientSide"
       @widget-mounted="widgetsMounted = widgetsMounted + 1"
     />
   </CaContainer>
@@ -44,6 +45,11 @@ export default {
     widgetAreaVariables: {
       type: Object,
       required: true
+    },
+    // Fetch products only client side
+    fetchProductsOnlyClientSide: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({ widgetsMounted: 0 }),

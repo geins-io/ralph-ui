@@ -5,6 +5,7 @@ query getCart(
   $channelId: String
   $languageId: String
   $checkoutMarket: String
+  $allowExternalShippingFee: Boolean
 ) {
   getCart(
     id: $id
@@ -12,6 +13,7 @@ query getCart(
     channelId: $channelId
     languageId: $languageId
     marketId: $checkoutMarket
+    allowExternalShippingFee: $allowExternalShippingFee
   ) {
     isCompleted
     ...Cart

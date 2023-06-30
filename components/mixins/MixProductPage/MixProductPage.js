@@ -92,11 +92,19 @@ export default {
             this.relatedProducts = relatedProducts.relatedProducts;
             this.isInitialRequest = false;
           }
+
+          if (this.product?.variantGroup === null) {
+            this.$ralphLog('WARNING:', 'Product has no variantGroup');
+          }
+
+          if (!this.product?.primaryCategory) {
+            this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+          }
         }
         this.$store.dispatch('loading/end');
       },
       skip() {
-        return !this.prodAlias || !this.isInitialRequest || !process.client;
+        return !this.prodAlias || !this.isInitialRequest;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -137,12 +145,12 @@ export default {
       if (this.product) {
         const categoryObj = {};
         categoryObj.key = 'Category';
-        categoryObj.value = this.product.primaryCategory.alias;
+        categoryObj.value = this.product?.primaryCategory?.alias;
         filtersArray.push(categoryObj);
 
         const brandObj = {};
         brandObj.key = 'Brand';
-        brandObj.value = this.product.brand.alias;
+        brandObj.value = this.product?.brand?.alias;
         filtersArray.push(brandObj);
 
         const productObj = {};
@@ -158,10 +166,10 @@ export default {
     // @type Object
     breadcrumbsCurrent() {
       return {
-        name: this.product?.primaryCategory.name,
-        alias: this.product?.primaryCategory.alias,
-        canonical: this.product?.primaryCategory.canonicalUrl,
-        id: this.product?.primaryCategory.categoryId,
+        name: this.product?.primaryCategory?.name,
+        alias: this.product?.primaryCategory?.alias,
+        canonical: this.product?.primaryCategory?.canonicalUrl,
+        id: this.product?.primaryCategory?.categoryId,
         type: 'category'
       };
     },

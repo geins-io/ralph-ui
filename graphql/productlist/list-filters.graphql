@@ -1,4 +1,3 @@
-#import "productlist/product.graphql"
 #import "productlist/filters.graphql"
 
 query products(
@@ -25,9 +24,6 @@ query products(
     languageId: $languageId
     marketId: $marketId
   ) {
-    products {
-      ...ListProduct
-    }
     count
     filters {
       ...ListFilters
