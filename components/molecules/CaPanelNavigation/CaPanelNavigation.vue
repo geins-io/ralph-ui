@@ -17,7 +17,10 @@
             {{ getLabel(item) }}
           </template>
           <ul class="ca-panel-navigation__children">
-            <li class="ca-panel-navigation__child-item">
+            <li
+              v-if="item.canonicalUrl"
+              class="ca-panel-navigation__child-item"
+            >
               <component
                 :is="getBaseElem(item)"
                 v-bind="getAttributes(item)"
@@ -43,7 +46,10 @@
                   {{ getLabel(childItem) }}
                 </template>
                 <ul class="ca-panel-navigation__grand-children">
-                  <li class="ca-panel-navigation__grand-child-item">
+                  <li
+                    v-if="childItem.canonicalUrl"
+                    class="ca-panel-navigation__grand-child-item"
+                  >
                     <component
                       :is="getBaseElem(childItem)"
                       v-bind="getAttributes(childItem)"

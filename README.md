@@ -35,6 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [19.5.3] - 2023-06-30
+
+### Fixed
+
+- Hide show-all link in `<CaPanelNavigation />` if url is empty
+
+## [19.5.2] - 2023-06-09
+
+### Fixed
+
+- Handle outside click for `<CaHeaderNavigation />`
+
 ## [19.5.1] - 2023-05-22
 
 ### Fixed
