@@ -311,7 +311,10 @@
     >
       {{ $t('CHECKOUT_INVOICE_INFORMATION') }}
     </div>
-    <section class="ca-checkout-carismar__section">
+    <section
+      v-if="checkout.consents && checkout.consents.length"
+      class="ca-checkout-carismar__section"
+    >
       <h3 class="ca-checkout-carismar__title">
         {{ $t('CHECKOUT_CONSENTS_TITLE') }}
       </h3>
@@ -446,7 +449,9 @@ export default {
     // Is the order consent checked?
     // @type Boolean
     orderConsentChecked() {
-      return this.checkout.consents?.find(i => i.type === 'order').checked;
+      return this.checkout.consents?.length
+        ? this.checkout.consents?.find(i => i.type === 'order').checked
+        : true;
     },
     isOrganization() {
       return this.$store.state.customerType === 'ORGANIZATION';
