@@ -9,7 +9,7 @@ Multi choice filter<br><br> **SASS-path:** _./styles/components/molecules/ca-fil
 |---|---|---|---|---|
 |values|The selectable values|`Array`|`true`|-|
 |selection|The current selection|`Array`|`true`|-|
-|hideValues|Option to hide values|`Boolean`|`false`|false|
+|hideValues|Option to hide values|`Boolean`|`false`|true|
 
 <!-- @vuese:CaFilterMulti:props:end -->
 

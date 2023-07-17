@@ -10,6 +10,7 @@ Multi choice tree view filter<br><br> **SASS-path:** _./styles/components/molecu
 |values|The selectable values|`Array`|`true`|-|
 |selection|The current selection|`Array`|`true`|-|
 |displayTreeView|Should it load tree view by default?|`Boolean`|`false`|`false`|
+|hideValues|Option to hide values|`Boolean`|`false`|true|
 
 <!-- @vuese:CaFilterMultiTreeView:props:end -->
 
@@ -47,6 +48,8 @@ Multi choice tree view filter<br><br> **SASS-path:** _./styles/components/molecu
 |---|---|---|---|
 |valuesWithSelected|`Array`|Adds selected property to the values returned from the api|No|
 |valuesWithChildren|`Array`|Adds children properties created from child categories with parentId|No|
+|valuesExcludeHidden|`Array`|Returns the values without hidden values|No|
+|filterValues|`Array`|Returns the values with or without hidden values|No|
 
 <!-- @vuese:CaFilterMultiTreeView:computed:end -->
 

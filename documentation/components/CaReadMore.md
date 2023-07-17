@@ -8,6 +8,8 @@ Used to hide part of text and display a "read more"-toggle<br><br> **SASS-path:*
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |maxHeight|Maximum height of text to show before 'read more'-function to kick in|`Number`|`false`|60|
+|iconNameOpen|Icon name for open state|`String`|`false`|chevron-up|
+|iconNameClosed|Icon name for closed state|`String`|`false`|chevron-down|
 
 <!-- @vuese:CaReadMore:props:end -->
 

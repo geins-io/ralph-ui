@@ -1,6 +1,6 @@
 # MixListPage
 
-All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `true`<br> initVariables: `{}`<br> baseFilters: `{}`<br> userSkip: `0`<br> listInfo: `null`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> skipProductsQuery: `false`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
+All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> userSkip: `0`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
@@ -8,12 +8,12 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |type|Type of list page|'list', 'category', 'brand', 'search', 'favorites', 'all'|`false`|-|
-|infoQuery|Graphql for the listPageInfo query|`Object`|`true`|-|
 |currentAlias|Current alias for the page|`String`|`false`|-|
 |currentPath|Current url path for the page|`String`|`false`|-|
 |filtersVars|Base filters for this page|`Object`|`false`|{}|
 |implicitFacets|Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.|`Array`|`false`|[]|
 |excludeFacets|Exclude facets by facet ids|`Array`|`false`|[]|
+|listInfo|The list info object, either static or fetched from the API. Must contain at least name, meta title and meta description like so: `{ name: '', meta: { title: '', description: ''} }`|`Object`|`false`|-|
 
 <!-- @vuese:MixListPage:props:end -->
 
@@ -23,8 +23,6 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 <!-- @vuese:MixListPage:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|loadMore|Load next chunk of products|-|
-|loadPrev|Load previous chunk of products|-|
 |getScrollHeight|Get the current scroll height of the page, used to keep scroll in the right position while loading previous products|-|
 |sortChangeHandler|Update the sort setting|new value (String)|
 |filterChangeHandler|Update the filter selections|new value (Object)|
@@ -32,7 +30,6 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |resetCurrentPage|Reset paging state|-|
 |pushURLParams|Set filter selection in URL|-|
 |setPagingState|Sets current page from URL or saved state|-|
-|initProductList|Run to init the product list|-|
 |relocateProduct|Runned to relocate product on page after back navigating|-|
 |setupUserSelection|Setting up the current user selection from store|-|
 |setupFilters|Setting up all filters|filters (Object)|
@@ -40,7 +37,6 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |setNewCount|Used to set new count of filters|base filters (Array), new filters (Array)|
 |getSortedFilters|Sorting all filters into groups|filters (Object)|
 |getReadableParams|Setting up params for filter in URL|filter selection (Array)|
-|switchToCanonicalOr404|Switching to canonical url if different from route path|-|
 |handleFilteredRoutesRouting|Controls routing between filtered paths on the same category/brand etc|-|
 
 <!-- @vuese:MixListPage:methods:end -->
@@ -51,6 +47,9 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 <!-- @vuese:MixListPage:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|urlFilteredList|`Boolean`|Is list filtered by facet in url?|No|
+|hideListInfo|`Boolean`|Determine is CaListTop are visible on page|No|
+|filtersLoaded|`Boolean`|Status of loading filters state|No|
 |isNostoRequest|`Boolean`|Condition to skip nosto request|No|
 |categoryAlias|`String`|Returns the current category alias|No|
 |skip|`Number`|Current number of products to skip when querying|No|
@@ -68,6 +67,8 @@ All functionality for the list page<br><br> **Data:**<br> isInitialRequest: `tru
 |filterSelectionActive|`Boolean`|Is a filter selection made?|No|
 |nostoQueryVars|`Object`|Returns the variable object with the query parameters for the nosto product list|No|
 |productsQueryVars|`Object`|Returns the variable object with the query parameters for the product list|No|
+|filtersQueryVars|`Object`|Returns the variable object with the query parameters for the product list filters|No|
+|infoQueryVars|`Object`|Returns the variable object with the query parameters for the product list information|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
 |loadPrevQueryVars|`Object`|Returns the variable object for loading previous products|No|
 |skeletonProducts|`Array`|Returns an array of empty objects with same lengt as pageSize|No|

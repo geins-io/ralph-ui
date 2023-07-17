@@ -8,7 +8,7 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |baseTag|Base elemetn tag|`String`|`false`|-|
-|product|Product data|`Object`|`true`|-|
+|productData|Product data|`Object`|`true`|-|
 |pageNumber|Current page number|`Number`|`false`|-|
 
 <!-- @vuese:MixProductCard:props:end -->
@@ -21,10 +21,8 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |---|---|---|
 |productClickHandler|Handling product click|-|
 |addToCartClick|Add to cart if skuId is present, otherwise go to product|-|
-|gtmViewEvent|Pushing GTM Product Impression|-|
-|nostoClickEvent|Pushing GTM Nosto click event|-|
-|gtmClickEvent|Pushing GTM Product Click|-|
-|getGtmProduct|Getting gtm product format|-|
+|nostoClickEvent|Pushing Nosto click event|-|
+|setProduct|Setting product of the product card if other than productData)|-|
 
 <!-- @vuese:MixProductCard:methods:end -->
 
@@ -34,6 +32,7 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 <!-- @vuese:MixProductCard:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|product|`Object`|The product data|No|
 |nostoResultId|`String`|ResultId of nosto product list request|No|
 |productPopulated|`Boolean`|Is the product populated with data|No|
 |skuId|`String`|The current skuId if only one, otherwise empty string|No|
