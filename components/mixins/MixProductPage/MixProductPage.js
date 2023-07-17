@@ -260,37 +260,6 @@ export default {
       return newQuery;
     },
     // @vuese
-    // GTM event emitter
-    emitGTMEvent() {
-      if (this.$gtm && !this.$config.useExternalGtm) {
-        const item = [
-          {
-            id: this.product.productId,
-            name: this.product.name,
-            brand: this.product.brand?.name,
-            category: this.product.primaryCategory?.name,
-            price: this.product.unitPrice?.sellingPriceExVat,
-            tax: this.product.unitPrice.vat,
-            currency: this.$store.getters['channel/currentCurrency'],
-            inStock: Boolean(this.product?.totalStock?.inStock),
-            urgencyLabelDisplayed: false
-          }
-        ];
-        const key = this.$store.getters.getGtmProductsKey;
-        this.$gtm.push({
-          event: 'Product Detail Impression',
-          eventInfo: {},
-          ecommerce: {
-            currencyCode: this.$store.getters['channel/currentCurrency'],
-            detail: {
-              [`${key}`]: item
-            }
-          },
-          'gtm.uniqueEventId': 4
-        });
-      }
-    },
-    // @vuese
     // Handler for changing quantity
     // @arg value (Number)
     onQuantityChange(value) {
@@ -349,7 +318,6 @@ export default {
         if (this.product) {
           clearInterval(this.interval);
           this.appendProductToLatest();
-          this.emitGTMEvent();
 
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);

@@ -234,51 +234,15 @@ export default {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
-    this.emitEvent();
+    this.$store.dispatch('events/push', {
+      type: 'checkout:impression'
+    });
   },
   beforeDestroy() {
     // Reset external shipping fee
     this.$store.commit('checkout/setExternalShippingFee', null);
   },
   methods: {
-    // @vuese
-    // GTM event emitter
-    emitEvent() {
-      this.$store.dispatch('events/push', {
-        type: 'checkout:impression'
-      });
-
-      if (this.$gtm && this.cart?.data?.items && !this.$config.useExternalGtm) {
-        const items = this.cart.data.items.map(item => ({
-          id: item.product.productId,
-          name: item.product.name,
-          brand: item.product.brand?.name,
-          category: item.product.primaryCategory?.name,
-          price: item.unitPrice?.sellingPriceExVat,
-          currency: this.$store.getters['channel/currentCurrency'],
-          tax: item.unitPrice.vat,
-          quantity: item.quantity,
-          variant: item.product.skus.find(i => i.skuId === item.skuId).name,
-          sku: item.skuId
-        }));
-        const key = this.$store.getters.getGtmProductsKey;
-
-        this.$gtm.push({
-          event: 'Checkout Step',
-          eventInfo: {},
-          ecommerce: {
-            currencyCode: this.$store.getters['channel/currentCurrency'],
-            checkout: {
-              actionField: {
-                step: 1
-              }
-            },
-            [`${key}`]: items
-          },
-          'gtm.uniqueEventId': 6
-        });
-      }
-    },
     // @vuese
     // Handling the api call for creating an updating the checkout session
     // @arg reason (String)

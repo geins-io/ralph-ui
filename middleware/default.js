@@ -1,4 +1,4 @@
-export default ({ redirect, route, $gtm, $config, app, store, i18n, req }) => {
+export default ({ redirect, route, $config, app, store, i18n }) => {
   const isSamePath = store.state.currentPath === route.path;
 
   store.commit('setCurrentRouteName', route.name);
@@ -116,22 +116,6 @@ export default ({ redirect, route, $gtm, $config, app, store, i18n, req }) => {
         isSSR: process.server,
         requestUrl: fullUrl
       }
-    });
-  }
-
-  if ($gtm && !$config.useExternalGtm) {
-    $gtm.push({
-      event: 'Page Impression',
-      environmentInfo: {
-        isProduction: process.env.NODE_ENV === 'production'
-      },
-      pageInfo: {
-        pageType: route?.meta[0]?.pageType,
-        url: route.fullPath,
-        httpStatusCode: 200,
-        title: (typeof document !== 'undefined' && document.title) || ''
-      },
-      'gtm.uniqueEventId': 3
     });
   }
 };

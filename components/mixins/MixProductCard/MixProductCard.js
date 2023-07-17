@@ -90,8 +90,6 @@ export default {
       const callback = () => {
         if (this.trackCounter <= 1) {
           if (this.trackCounter === 1) {
-            this.gtmViewEvent();
-
             this.$store.dispatch('events/push', {
               type: 'product:impression',
               data: {
@@ -117,7 +115,6 @@ export default {
     // @vuese
     // Handling product click
     productClickHandler() {
-      this.gtmClickEvent();
       if (this.nostoResultId) {
         this.nostoClickEvent();
       }
@@ -160,27 +157,7 @@ export default {
       }
     },
     // @vuese
-    // Pushing GTM Product Impression
-    gtmViewEvent() {
-      if (this.$gtm && !this.$config.useExternalGtm) {
-        const item = this.getGtmProduct();
-        const key = this.$store.getters.getGtmProductsKey;
-
-        this.$gtm.push({
-          event: 'Product Impression',
-          eventInfo: {},
-          ecommerce: {
-            currencyCode: this.$store.getters['channel/currentCurrency'],
-            detail: {
-              [`${key}`]: item
-            }
-          },
-          'gtm.uniqueEventId': 4
-        });
-      }
-    },
-    // @vuese
-    // Pushing GTM Nosto click event
+    // Pushing Nosto click event
     nostoClickEvent() {
       if (this.$store.getters['nosto/isNostoActive']) {
         this.$apolloProvider.clients.nosto
@@ -196,50 +173,6 @@ export default {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       }
-    },
-    // @vuese
-    // Pushing GTM Product Click
-    gtmClickEvent() {
-      if (this.$gtm && !this.$config.useExternalGtm) {
-        const item = this.getGtmProduct();
-        const key = this.$store.getters.getGtmProductsKey;
-
-        this.$gtm.push({
-          event: 'Product Click',
-          eventInfo: {
-            context: 'Outlet'
-          },
-          ecommerce: {
-            click: {
-              actionField: {
-                list: 'Outlet',
-                action: 'click'
-              },
-              [`${key}`]: item
-            }
-          },
-          'gtm.uniqueEventId': 12
-        });
-      }
-    },
-    // @vuese
-    // Getting gtm product format
-    getGtmProduct() {
-      return this.productPopulated
-        ? [
-            {
-              id: this.product.productId,
-              name: this.product.name,
-              brand: this.product.brand?.name,
-              category: this.product.primaryCategory?.name,
-              price: this.product.unitPrice.sellingPriceExVat,
-              tax: this.product.unitPrice.vat,
-              inStock: Boolean(this.product?.totalStock?.inStock),
-              urgencyLabelDisplayed: false,
-              position: 1
-            }
-          ]
-        : [];
     },
     // @vuese
     // Setting product of the product card if other than productData)
