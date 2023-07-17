@@ -629,7 +629,11 @@ export default {
       const formattedProduct = mappedAttributesProducts.map(product => ({
         ...product,
         nostoResultId: resultId,
-        images: product.images.split(','),
+        productImages: product.images.split(',').map(i => {
+          return {
+            fileName: i
+          };
+        }),
         skus: [
           {
             skuId: product?.primarySku?.id,

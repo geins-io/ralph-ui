@@ -23,7 +23,9 @@ query relatedProducts(
       ...Price
     }
     relation
-    images
+    productImages {
+      fileName
+    }
     skus {
       ...Sku
     }

@@ -125,8 +125,8 @@ export default {
     // Quick ref to product images
     // @type Array
     productImages() {
-      return this.product?.images && this.product.images.length
-        ? this.product.images
+      return this.product?.productImages && this.product.productImages.length
+        ? this.product.productImages
         : [];
     },
     // @vuese
@@ -196,13 +196,13 @@ export default {
     // @type [String, Boolean]
     imgSrc() {
       let imgSrc = false;
-      if (this.product?.images?.length) {
+      if (this.product?.productImages?.length) {
         imgSrc =
           this.$config.imageServer +
           '/product/' +
           this.$config.productSchemaOptions.schemaImageSize +
           '/' +
-          this.product.images[0];
+          this.product.productImages[0].fileName;
       }
       return imgSrc;
     }

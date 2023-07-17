@@ -73,13 +73,13 @@ export default {
     },
     imgSrc() {
       let imgSrc = false;
-      if (this.product.images?.length) {
+      if (this.product.productImages?.length) {
         imgSrc =
           this.$config.imageServer +
           '/product/' +
           this.$config.productSchemaOptions.schemaImageSize +
           '/' +
-          this.product.images[0];
+          this.product.productImages[0].fileName;
       }
       return imgSrc;
     }

@@ -14,7 +14,7 @@
       >
         <template #slides="{ slideMeta }">
           <CaSlide
-            v-for="(image, index) in images"
+            v-for="(image, index) in imagesFilenames"
             :key="index"
             :slide-index="index"
             :slide-meta="slideMeta"
@@ -48,7 +48,7 @@
         <CaImage
           class="ca-product-gallery__image ca-product-gallery__image--main"
           type="product"
-          :filename="images[0]"
+          :filename="imagesFilenames[0]"
           :ratio="$config.productImageRatio"
           :alt="alt"
           :size-array="
@@ -77,7 +77,7 @@
     >
       <template #slides="{ slideMeta }">
         <CaSlide
-          v-for="(image, index) in images"
+          v-for="(image, index) in imagesFilenames"
           :key="index"
           :slide-index="index"
           :slide-meta="slideMeta"
@@ -108,7 +108,7 @@
       class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"
     >
       <CaClickable
-        v-for="(image, index) in images"
+        v-for="(image, index) in imagesFilenames"
         :key="index"
         class="ca-product-gallery__thumbnail-container ca-product-gallery__thumbnail-container--grid"
         @clicked="openModal(index)"
@@ -217,9 +217,12 @@ export default {
     currentSlide: 0
   }),
   computed: {
+    imagesFilenames() {
+      return this.images.map(image => image.fileName);
+    },
     modalProps() {
       return {
-        images: this.images,
+        images: this.imagesFilenames,
         alt: this.alt,
         arrowIconName: this.arrowIconName,
         index: this.modalIndex,
