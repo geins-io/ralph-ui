@@ -3,7 +3,7 @@
   color: $c-text-primary;
   margin: $px8;
   width: auto;
-  
+
   @include bp(laptop) {
     margin: rem-calc(40px);
     width: rem-calc(730px);

@@ -5,7 +5,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    font-size: $px32;
+    font-size: $px24;
     font-weight: $font-weight-bold;
     white-space: nowrap;
 
@@ -16,7 +16,7 @@
     &-counter {
       font-size: $px16;
       margin-left: 0;
-      
+
       @include bp(laptop) {
         margin-left: $px16;
       }
