@@ -143,6 +143,10 @@ export default {
               frame: 'login'
             });
             break;
+          case 'cart':
+            this.$store.dispatch('cart/get', this.$route.hash.replace('#', ''));
+            this.$router.replace(this.$getPath('checkout'));
+            break;
           default:
             return false;
         }
