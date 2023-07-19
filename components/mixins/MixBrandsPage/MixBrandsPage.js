@@ -1,4 +1,4 @@
-import brandsByProductsQuery from 'products/brands-by-products.graphql';
+import brandsByProductsQuery from 'brands/brands-by-products.graphql';
 // @group Mixins
 // @vuese
 // The full functionality for the brands page

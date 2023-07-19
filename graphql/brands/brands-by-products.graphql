@@ -1,0 +1,24 @@
+query products(
+  $filter: FilterInputType = null
+  $take: Int = null
+  $channelId: String
+  $languageId: String
+) {
+  products(
+    channelId: $channelId
+    filter: $filter
+    take: $take
+    languageId: $languageId
+  ) {
+    filters {
+      facets {
+        type
+        values {
+          facetId
+          label
+          url
+        }
+      }
+    }
+  }
+}
