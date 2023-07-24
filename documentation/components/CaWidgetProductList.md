@@ -8,6 +8,7 @@ Widget displaying a product list<br><br> **SASS-path:** _./styles/components/mol
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |configuration|Widget configuration object|`Object`|`true`|-|
+|fetchProductsOnlyClientSide|Fetch products only client side|`Boolean`|`false`|false|
 
 <!-- @vuese:CaWidgetProductList:props:end -->
 

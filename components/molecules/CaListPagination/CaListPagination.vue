@@ -20,13 +20,15 @@
       @click.prevent="$emit('loadmore')"
     >
       {{ $t('LOAD_MORE') }}
-      <CaSpinner
-        class="ca-list-pagination__button-spinner"
-        :loading="loading"
-      />
+      <client-only>
+        <CaSpinner
+          class="ca-list-pagination__button-spinner"
+          :loading="loading"
+        />
+      </client-only>
     </a>
     <a
-      v-else
+      v-else-if="page > 1 && minCount > 1"
       :href="buttonHref"
       class="ca-list-pagination__button ca-list-pagination__button--prev"
       :class="{
@@ -35,11 +37,21 @@
       @click.prevent="$emit('loadprev')"
     >
       {{ $t('LOAD_PREVIOUS') }}
-      <CaSpinner
-        class="ca-list-pagination__button-spinner"
-        :loading="loading"
-      />
+      <client-only>
+        <CaSpinner
+          class="ca-list-pagination__button-spinner"
+          :loading="loading"
+        />
+      </client-only>
     </a>
+    <NuxtLink
+      v-show="page > 1 && minCount > 1 && !hideBackLink"
+      :to="$route.path"
+      class="ca-list-pagination__back-link"
+      @click.native.prevent="$emit('reset')"
+    >
+      {{ $t('PAGINATION_BACK') }}
+    </NuxtLink>
   </div>
 </template>
 <script>
@@ -84,6 +96,11 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+    // Hide the back link, this exists mainly for SEO purposes
+    hideBackLink: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({}),
@@ -122,9 +139,13 @@ export default {
     // The href for the button
     // @type String
     buttonHref() {
-      let page = this.page + 1;
+      let page =
+        Math.round(this.maxCount / this.$config.productListPageSize) + 1;
       if (this.direction === 'prev') {
-        page = this.page - 1;
+        page = Math.round(this.minCount / this.$config.productListPageSize);
+      }
+      if ((this.direction === 'next' && this.allProductsLoaded) || page < 1) {
+        return '';
       }
       return `${this.$route.path}?page=${page}`;
     },

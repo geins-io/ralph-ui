@@ -30,7 +30,9 @@ fragment Cart on CartType {
         name
       }
       name
-      images
+      productImages {
+        fileName
+      }
       alias
       canonicalUrl
       primaryCategory {
@@ -71,14 +73,15 @@ fragment Cart on CartType {
       feeExVatFormatted
       feeIncVatFormatted
       feeIncVat
-      isDefault
       feeExVat
+      isDefault
     }
     total {
       isDiscounted
       sellingPriceIncVatFormatted
       sellingPriceExVatFormatted
       sellingPriceIncVat
+      sellingPriceExVat
       discountIncVatFormatted
       discountExVatFormatted
       discountExVat

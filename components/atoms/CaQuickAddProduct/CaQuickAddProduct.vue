@@ -1,7 +1,7 @@
 <template>
   <div class="ca-quick-add-product">
     <client-only v-if="useProductCard">
-      <CaProductCard :product="product" />
+      <CaProductCard :product-data="product" />
     </client-only>
     <div v-else class="ca-quick-add-product__card">
       <div class="ca-quick-add-product__image-wrap">
@@ -10,7 +10,7 @@
           :to="product.canonicalUrl"
         >
           <CaImage
-            v-if="product.images !== null && product.images.length > 0"
+            v-if="product.productImages && product.productImages.length > 0"
             class="ca-quick-add-product__image"
             type="product"
             :size-array="
@@ -19,7 +19,7 @@
               )
             "
             :alt="product.name"
-            :filename="product.images[0]"
+            :filename="product.productImages[0].fileName"
             :ratio="$config.productImageRatio"
             sizes="(min-width: 768px) 90px, 60px"
           />

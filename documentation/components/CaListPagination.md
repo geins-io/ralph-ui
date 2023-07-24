@@ -13,6 +13,7 @@ Buttons for paginating the product list<br><br> **SASS-path:** _./styles/compone
 |minCount|Current min count|`Number`|`true`|-|
 |maxCount|Current max count|`Number`|`true`|-|
 |text|If you want to override the pagination text, you can do it here|`String`|`false`|-|
+|hideBackLink|Hide the back link, this exists mainly for SEO purposes|`Boolean`|`false`|false|
 
 <!-- @vuese:CaListPagination:props:end -->
 
@@ -23,6 +24,7 @@ Buttons for paginating the product list<br><br> **SASS-path:** _./styles/compone
 |Event Name|Description|Parameters|
 |---|---|---|
 |loadmore|-|-|
+|reset|-|-|
 
 <!-- @vuese:CaListPagination:events:end -->
 

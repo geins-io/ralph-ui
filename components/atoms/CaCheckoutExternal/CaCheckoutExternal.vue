@@ -30,6 +30,8 @@ export default {
       default: false
     },
     // Is this the confirm page?
+    // If set to true this component will fetch the confirm snippet from the api
+    // DEPRECATED: Use confirmSnippet instead
     confirm: {
       type: Boolean,
       default: false
@@ -39,6 +41,13 @@ export default {
       // `KLARNA`, `SVEA`, `WALLEY`, `AVARDA`
       type: String,
       required: true
+    },
+    // The confirm snippet
+    // Available in checkoutConfirmData.htmlSnippet from MixConfirmPage
+    // Set prop confirm to false if you want to use this
+    confirmSnippet: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -77,6 +86,17 @@ export default {
     type(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.initialize(true);
+      }
+    },
+    confirmSnippet(newVal, oldVal) {
+      if (!oldVal && !!newVal) {
+        if (this.frame) {
+          this.frame = null;
+        }
+        this.frame = newVal;
+        this.$nextTick(() => {
+          this.initScript();
+        });
       }
     }
   },

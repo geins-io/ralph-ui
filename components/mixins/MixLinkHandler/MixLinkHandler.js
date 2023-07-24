@@ -9,11 +9,12 @@ export default {
   }),
   computed: {
     processedHref() {
+      const href = decodeURIComponent(this.href);
       if (this.href && this.href.includes(this.$store.state.hostname)) {
-        const url = new URL(encodeURI(this.href));
+        const url = new URL(encodeURI(href));
         return url.pathname;
       } else {
-        return encodeURI(this.href);
+        return encodeURI(href);
       }
     },
     isExternal() {

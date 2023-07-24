@@ -1,0 +1,31 @@
+query checkout(
+  $id: String!
+  $paymentType: PaymentType!
+  $channelId: String
+  $languageId: String
+  $cartId: String
+  $checkoutMarket: String
+) {
+  checkout(
+    id: $id
+    paymentType: $paymentType
+    channelId: $channelId
+    languageId: $languageId
+    cartId: $cartId
+    marketId: $checkoutMarket
+  ) {
+    htmlSnippet
+    completed
+    order {
+      orderId
+      transactionId
+      firstName
+      lastName
+      email
+      currency
+      itemValueExVat
+      itemValueIncVat
+    }
+    nthPurchase
+  }
+}

@@ -8,6 +8,7 @@
 |variants|A list of variants (VariantType from the API)|`Array`|`true`|-|
 |variantsData|Variants picker data. A object consisting of variantDimensions, chosenSku and hasMultipleDimensions passed from MixVariantHandler|`Object`|`true`|-|
 |title|The title for the picker|`String`|`true`|-|
+|productId|The product id, must be provided if multiple variants with same value exists, to show correct chosen-state|`Number`|`false`|-|
 
 <!-- @vuese:MixVariantPicker:props:end -->
 

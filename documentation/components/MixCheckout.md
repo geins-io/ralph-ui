@@ -7,7 +7,6 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 <!-- @vuese:MixCheckout:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|emitEvent|GTM event emitter|-|
 |createOrUpdateCheckout|Handling the api call for creating an updating the checkout session|reason (String)|
 |updateCart|Updating the cart if the cart is different from the existing cart|cart (Object)|
 |updateCheckoutData|Updating the checkout data received from Carismar Checkout|data (Object)|
@@ -35,6 +34,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |selectedPaymentOption|`Object`|The selected payment option|No|
 |paymentType|`String`|The current payment type|No|
 |selectableMarkets|`Array`|All selectable markets|No|
+|externalShippingFeeSet|`Boolean`|Is external shipping fee set?|No|
 
 <!-- @vuese:MixCheckout:computed:end -->
 

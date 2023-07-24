@@ -1,5 +1,3 @@
-import getCheckoutAndOrderQuery from 'checkout/get-checkout-and-order.graphql';
-
 // @group Mixins
 // @vuese
 export default {
@@ -14,7 +12,7 @@ export default {
           item_id: item.product.productId,
           item_name: item.product.name,
           item_brand: item.product.brand.name,
-          item_category: item.product.primaryCategory.name,
+          item_category: item.product.primaryCategory?.name,
           price: item.unitPrice.sellingPriceExVat,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
@@ -74,108 +72,56 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    datalayerConfirm() {
-      this.$apollo
-        .query({
-          query: getCheckoutAndOrderQuery,
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: this.orderId,
-            paymentType: this.type,
-            checkoutMarket: this.$store.state.channel.checkoutMarket
-          }
-        })
-        .then(result => {
-          if (!result.errors) {
-            const {
-              orderId,
-              firstName,
-              lastName,
-              email,
-              currency
-            } = result.data?.getCheckoutAndOrder.order;
+    sendDataLayerEvents(checkoutData) {
+      const {
+        orderId,
+        firstName,
+        lastName,
+        email,
+        currency
+      } = checkoutData?.order;
 
-            this.$store.dispatch('events/push', {
-              type: 'checkout:purchase',
-              data: {
-                order: result.data?.getCheckoutAndOrder.order,
-                orderCart: this.orderCart,
-                orderId: this.orderId
-              }
+      this.$store.dispatch('events/push', {
+        type: 'checkout:purchase',
+        data: {
+          order: checkoutData?.order,
+          orderCart: this.orderCart,
+          orderId: this.orderId,
+          nthPurchase: checkoutData?.nthPurchase
+        }
+      });
+
+      if (this.$store.getters['nosto/isNostoActive'] && process.client) {
+        window.nostojs(api => {
+          api
+            .defaultSession()
+            .addOrder({
+              external_order_ref: this.orderId,
+              info: {
+                order_number: orderId,
+                email,
+                first_name: firstName,
+                last_name: lastName,
+                type: 'order',
+                newsletter: true
+              },
+              items: this.orderCart?.items?.map(item => ({
+                product_id: item.product.productId,
+                sku_id: item.skuId,
+                name: item.product.name,
+                quantity: item.quantity,
+                price_currency_code: currency,
+                unit_price: item.unitPrice.sellingPriceIncVat
+              }))
+            })
+            .setPlacements(['order-related'])
+            .load()
+            .then(data => {
+              // eslint-disable-next-line
+              console.log(data.recommendations);
             });
-
-            if (this.$store.getters['nosto/isNostoActive'] && process.client) {
-              window.nostojs(api => {
-                api
-                  .defaultSession()
-                  .addOrder({
-                    external_order_ref: this.orderId,
-                    info: {
-                      order_number: orderId,
-                      email,
-                      first_name: firstName,
-                      last_name: lastName,
-                      type: 'order',
-                      newsletter: true
-                    },
-                    items: this.orderCart?.items?.map(item => ({
-                      product_id: item.product.productId,
-                      sku_id: item.skuId,
-                      name: item.product.name,
-                      quantity: item.quantity,
-                      price_currency_code: currency,
-                      unit_price: item.unitPrice.sellingPriceIncVat
-                    }))
-                  })
-                  .setPlacements(['order-related'])
-                  .load()
-                  .then(data => {
-                    // eslint-disable-next-line
-                    console.log(data.recommendations);
-                  });
-              });
-            }
-
-            if (this.$gtm && !this.$config.useExternalGtm) {
-              const items = this.productsData;
-              const key = this.$store.getters.getGtmProductsKey;
-
-              this.$gtm.push({
-                event: 'purchase',
-                ecommerce: {
-                  currencyCode: currency,
-                  purchase: {
-                    actionField: {
-                      id: orderId,
-                      revenue: this.orderCart.summary.total.sellingPriceIncVat,
-                      tax: this.orderCart.summary.total.vat,
-                      shipping: this.orderCart.summary.shipping.feeExVat,
-                      shippingTax:
-                        this.orderCart.summary.shipping.feeIncVat -
-                        this.orderCart.summary.shipping.feeExVat,
-                      // sumPayedFromBalance: 'FormatPrice(itemsSummary.Balance)',
-                      discount:
-                        this.orderCart.summary.total.discountExVat +
-                        this.orderCart.summary.fixedAmountDiscountExVat,
-                      discountTax:
-                        this.orderCart.summary.total.discountIncVat +
-                        this.orderCart.summary.fixedAmountDiscountIncVat -
-                        (this.orderCart.summary.total.discountExVat +
-                          this.orderCart.summary.fixedAmountDiscountExVat),
-                      timestamp: Math.floor(Date.now() / 1000),
-                      coupon: this.orderCart.promoCode
-                    },
-                    [`${key}`]: items
-                  }
-                }
-              });
-            }
-          }
-        })
-        .catch(error => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
+      }
     }
   }
 };

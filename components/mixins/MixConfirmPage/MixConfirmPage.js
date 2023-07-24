@@ -1,5 +1,6 @@
 import confirmCartQuery from 'cart/confirm.graphql';
 import completeCartMutation from 'cart/complete.graphql';
+import checkoutConfirmQuery from 'checkout/checkout-confirm.graphql';
 import MixDatalayerConfirm from 'MixDatalayerConfirm';
 // @group Mixins
 // @vuese
@@ -9,9 +10,43 @@ import MixDatalayerConfirm from 'MixDatalayerConfirm';
 export default {
   name: 'MixConfirmPage',
   mixins: [MixDatalayerConfirm],
+  apollo: {
+    checkout: {
+      query: checkoutConfirmQuery,
+      errorPolicy: 'all',
+      fetchPolicy: 'no-cache',
+      variables() {
+        return {
+          id: this.orderId,
+          paymentType: this.type,
+          checkoutMarket: this.$store.state.channel.checkoutMarket,
+          cartId: this.cartId
+        };
+      },
+      result(result) {
+        if (!result.errors && result?.data?.checkout) {
+          const completed = result.data.checkout.completed;
+
+          if (completed !== null && completed === false) {
+            this.$router.push(this.$getPath('checkout'));
+            return;
+          }
+          this.checkoutConfirmData = result.data.checkout;
+        }
+      },
+      skip() {
+        return process.server;
+      },
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      }
+    }
+  },
   props: {},
   data: () => ({
-    orderCart: null
+    orderCart: null,
+    checkoutConfirmData: null,
+    loading: true
   }),
   computed: {
     // @vuese
@@ -27,15 +62,20 @@ export default {
       return this.cartId === '' && this.orderCart === null;
     }
   },
-  watch: {},
-  mounted() {
-    this.confirmCartQuery();
+  watch: {
+    checkoutConfirmData(newVal, oldVal) {
+      if (oldVal === null && newVal !== oldVal) {
+        this.loading = false;
+        this.confirmCartQuery();
+      }
+    }
   },
+  mounted() {},
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
-      this.datalayerConfirm();
+      this.sendDataLayerEvents(this.checkoutConfirmData);
       this.$apollo
         .mutate({
           mutation: completeCartMutation,
@@ -61,7 +101,8 @@ export default {
           query: confirmCartQuery,
           variables: {
             id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket
+            checkoutMarket: this.$store.state.channel.checkoutMarket,
+            allowExternalShippingFee: true
           }
         })
         .then(result => {

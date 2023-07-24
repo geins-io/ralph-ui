@@ -7,7 +7,6 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 <!-- @vuese:MixProductPage.js:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
-|emitGTMEvent|GTM event emitter|-|
 |onQuantityChange|Handler for changing quantity|value (Number)|
 |addToCartClick|Action for clicking the add to cart button|-|
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|

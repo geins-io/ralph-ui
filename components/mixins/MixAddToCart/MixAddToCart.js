@@ -1,5 +1,4 @@
 import addToCartMutation from 'cart/add.graphql';
-import * as GTMEvent from '../../../services/gtm';
 
 // @group Mixins
 // @vuese
@@ -28,7 +27,10 @@ export default {
           mutation: addToCartMutation,
           variables: {
             id: this.$store.getters['cart/id'],
-            item: itemToAdd
+            item: itemToAdd,
+            allowExternalShippingFee: this.$store.state.currentRouteName?.includes(
+              'checkout'
+            )
           }
         })
         .then(result => {
@@ -45,28 +47,6 @@ export default {
               item: itemToAdd,
               product
             });
-            // unit price data differs between api and store because of discounts
-            const unitPriceWithDiscounts = result.data.addToCart.items.find(
-              ({ skuId }) => skuId === prodSkuId
-            );
-            const products = GTMEvent.transformProductForGTM([
-              {
-                ...itemToAdd,
-                ...product,
-                unitPrice: unitPriceWithDiscounts?.unitPrice
-              }
-            ]);
-
-            if (!this.$config.useExternalGtm) {
-              GTMEvent.addToCart({
-                gtmInputs: {
-                  gtm: this.$gtm,
-                  currency: this.$store.getters['channel/currentCurrency'],
-                  key: this.$store.getters.getGtmProductsKey
-                },
-                products
-              });
-            }
           }
           setTimeout(() => {
             this.$store.dispatch('cart/removeAddedNotification');

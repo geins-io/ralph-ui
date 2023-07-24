@@ -55,11 +55,11 @@ export const mutations = {
     state.config.signEndpoint = config.signEndpoint;
     state.config.siteTopThreshold = config.siteTopThreshold;
     state.config.productListDefaultSort = config.productListDefaultSort;
+    state.config.customSortRoutes = config.customSortRoutes;
     state.config.customerTypes = config.customerTypes;
     state.config.nostoAccountId = config.nostoAccountId;
     state.config.isNostoActive = config.isNostoActive;
     state.config.nostoAccountAppsKey = config.nostoAccountAppsKey;
-    state.config.gtmIsProductsKeyItems = config.gtm?.isProductsKeyItems;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -272,8 +272,5 @@ export const getters = {
     return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
-  },
-  getGtmProductsKey: state => {
-    return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
   }
 };

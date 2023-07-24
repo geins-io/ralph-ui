@@ -136,7 +136,8 @@
                   >
                     <CaImage
                       v-if="
-                        product.images !== null && product.images.length > 0
+                        product.productImages &&
+                          product.productImages.length > 0
                       "
                       class="ca-search__item-image"
                       type="product"
@@ -146,7 +147,7 @@
                         )
                       "
                       :alt="product.name"
-                      :filename="product.images[0]"
+                      :filename="product.productImages[0].fileName"
                       :ratio="$config.productImageRatio"
                       sizes="40px"
                     />

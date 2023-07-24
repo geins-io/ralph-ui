@@ -35,6 +35,46 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.0.0] - 2023-07-24
+
+This version has a lot of overall SEO improvements and also introduces full flexibility in creating your own widgets. Make sure to update your storefront according to the update commit in Ralph Storefront.
+
+Note! If you are using GTM and update to this version you will need to implement and start using the `@geins/ralph-module-gtm` module instead, and change your GTM accordingly.
+
+### Added
+
+- Slot in CaFeedback that can be used instead of message
+- Custom defaultSort for a page via `customSortRoutes` in \$config
+- Improved SEO for pagination
+- Gtin13 option in product schema
+- Enabled product change in product card, passing an array insted of one product
+- Prop `fetchProductsOnlyClientSide` for widget areas
+- Overridable widget type
+- JSON widget
+- Mixin for brands page functionality
+- Possibility to link directly to an active cart, like so: `www.example.com?action=cart#{cartId}`
+
+### Fixed
+
+- Bug in pagination
+- Remove non-POJOs warning
+- Bug with variant pickers showing more than 1 active variant when they share title
+- Correct request url in page impression event
+- Do not break checkout if no consents
+
+### Changed
+
+- Splitted listPageInfo into it's own query to allow externally fetched products and filters
+- Product list and product are now fetched server side for SEO reasons
+- Decreased number of api calls to products
+- Separating top widget area from list page query
+
+### Deprecated
+
+- `getCheckout` & `getCheckoutAndOrder` queries, use checkout instead
+- Use of Ralph UI internal GTM - use `@geins/ralph-module-gtm` instead (removing `$config.useExternalGtm` from config)
+- The use of `product.images` on ProductType - use `product.productImages` instead
+
 ## [19.5.3] - 2023-06-30
 
 ### Fixed
@@ -55,7 +95,7 @@ All notable changes will be added to this section
 
 ## [19.5.0] - 2023-05-20
 
-Note! If you want to use the morte SEO-friendly version of the list pagination, you have to remove CaListPagination from your storefront to use the one from Ralph UI instead.
+Note! If you want to use the more SEO-friendly version of the list pagination, you have to remove CaListPagination from your storefront to use the one from Ralph UI instead.
 
 ### Added
 

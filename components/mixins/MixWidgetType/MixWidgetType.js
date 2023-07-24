@@ -8,7 +8,13 @@ export default {
   data: () => ({}),
   computed: {
     currentWidget() {
-      if (this.type === 'Image') {
+      // First check if the widget type is defined in the config
+      if (
+        this.$config.widgetRenderTypesComponents &&
+        this.$config.widgetRenderTypesComponents[this.type]
+      ) {
+        return this.$config.widgetRenderTypesComponents[this.type];
+      } else if (this.type === 'Image') {
         return 'CaWidgetImage';
       } else if (this.type === 'Text') {
         return 'CaWidgetText';
@@ -22,6 +28,8 @@ export default {
         return 'CaWidgetVideo';
       } else if (this.type === 'HTML') {
         return 'CaWidgetHtml';
+      } else if (this.type === 'JSON') {
+        return 'CaWidgetJson';
       } else if (this.type === 'Rich text') {
         return 'CaWidgetRichText';
       } else if (this.type === 'Flowbox') {

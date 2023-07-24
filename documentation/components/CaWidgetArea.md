@@ -17,6 +17,7 @@ The area that contains the widget containers and from which the graphql query fo
 |isParentDataLoaded|Is loadedData loaded|`Boolean`|`false`|false|
 |loadedData|Data of widget that we receive from parent component. Avaible only if isParentLoaded are true|`Object`|`false`|null|
 |listPageUrl|Url for list page if using /l/ routing|`String`|`false`|-|
+|fetchProductsOnlyClientSide|Fetch products only client side|`Boolean`|`false`|false|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 

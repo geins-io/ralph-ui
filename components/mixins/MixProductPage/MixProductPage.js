@@ -92,11 +92,19 @@ export default {
             this.relatedProducts = relatedProducts.relatedProducts;
             this.isInitialRequest = false;
           }
+
+          if (this.product?.variantGroup === null) {
+            this.$ralphLog('WARNING:', 'Product has no variantGroup');
+          }
+
+          if (!this.product?.primaryCategory) {
+            this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+          }
         }
         this.$store.dispatch('loading/end');
       },
       skip() {
-        return !this.prodAlias || !this.isInitialRequest || !process.client;
+        return !this.prodAlias || !this.isInitialRequest;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -117,8 +125,8 @@ export default {
     // Quick ref to product images
     // @type Array
     productImages() {
-      return this.product?.images && this.product.images.length
-        ? this.product.images
+      return this.product?.productImages && this.product.productImages.length
+        ? this.product.productImages
         : [];
     },
     // @vuese
@@ -137,12 +145,12 @@ export default {
       if (this.product) {
         const categoryObj = {};
         categoryObj.key = 'Category';
-        categoryObj.value = this.product.primaryCategory.alias;
+        categoryObj.value = this.product?.primaryCategory?.alias;
         filtersArray.push(categoryObj);
 
         const brandObj = {};
         brandObj.key = 'Brand';
-        brandObj.value = this.product.brand.alias;
+        brandObj.value = this.product?.brand?.alias;
         filtersArray.push(brandObj);
 
         const productObj = {};
@@ -158,10 +166,10 @@ export default {
     // @type Object
     breadcrumbsCurrent() {
       return {
-        name: this.product?.primaryCategory.name,
-        alias: this.product?.primaryCategory.alias,
-        canonical: this.product?.primaryCategory.canonicalUrl,
-        id: this.product?.primaryCategory.categoryId,
+        name: this.product?.primaryCategory?.name,
+        alias: this.product?.primaryCategory?.alias,
+        canonical: this.product?.primaryCategory?.canonicalUrl,
+        id: this.product?.primaryCategory?.categoryId,
         type: 'category'
       };
     },
@@ -188,13 +196,13 @@ export default {
     // @type [String, Boolean]
     imgSrc() {
       let imgSrc = false;
-      if (this.product?.images?.length) {
+      if (this.product?.productImages?.length) {
         imgSrc =
           this.$config.imageServer +
           '/product/' +
           this.$config.productSchemaOptions.schemaImageSize +
           '/' +
-          this.product.images[0];
+          this.product.productImages[0].fileName;
       }
       return imgSrc;
     }
@@ -250,37 +258,6 @@ export default {
       });
 
       return newQuery;
-    },
-    // @vuese
-    // GTM event emitter
-    emitGTMEvent() {
-      if (this.$gtm && !this.$config.useExternalGtm) {
-        const item = [
-          {
-            id: this.product.productId,
-            name: this.product.name,
-            brand: this.product.brand?.name,
-            category: this.product.primaryCategory?.name,
-            price: this.product.unitPrice?.sellingPriceExVat,
-            tax: this.product.unitPrice.vat,
-            currency: this.$store.getters['channel/currentCurrency'],
-            inStock: Boolean(this.product?.totalStock?.inStock),
-            urgencyLabelDisplayed: false
-          }
-        ];
-        const key = this.$store.getters.getGtmProductsKey;
-        this.$gtm.push({
-          event: 'Product Detail Impression',
-          eventInfo: {},
-          ecommerce: {
-            currencyCode: this.$store.getters['channel/currentCurrency'],
-            detail: {
-              [`${key}`]: item
-            }
-          },
-          'gtm.uniqueEventId': 4
-        });
-      }
     },
     // @vuese
     // Handler for changing quantity
@@ -341,7 +318,6 @@ export default {
         if (this.product) {
           clearInterval(this.interval);
           this.appendProductToLatest();
-          this.emitGTMEvent();
 
           if (this.product.canonicalUrl !== this.$route.path) {
             history.replaceState(null, null, this.product.canonicalUrl);

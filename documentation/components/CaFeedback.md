@@ -8,10 +8,20 @@ An inline feedback box<br><br> **SASS-path:** _./styles/components/atoms/ca-feed
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |type|Type of feedback|`info`, `success`, `error`|`false`|info|
-|message|The feedback message to be displayed|`String`|`true`|-|
+|message|The feedback message to be displayed|`String`|`false`|-|
 |constant|Set to true if the feedback message should be visible at all time|`Boolean`|`false`|false|
 
 <!-- @vuese:CaFeedback:props:end -->
+
+
+## Slots
+
+<!-- @vuese:CaFeedback:slots:start -->
+|Name|Description|Default Slot Content|
+|---|---|---|
+|default|-|-|
+
+<!-- @vuese:CaFeedback:slots:end -->
 
 
 ## Methods

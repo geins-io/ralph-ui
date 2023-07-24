@@ -65,7 +65,11 @@ export default {
             product.list_price
           )
         },
-        images: product.images.split(','),
+        productImages: product.images.split(',').map(i => {
+          return {
+            fileName: i
+          };
+        }),
         skus: [
           {
             skuId: Number(product?.primarySku?.id),

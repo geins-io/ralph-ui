@@ -1,3 +1,4 @@
+### DEPRECATED - use checkout-confirm.grpahql instead ###
 query getCheckoutAndOrder(
   $id: String!
   $paymentType: PaymentType!

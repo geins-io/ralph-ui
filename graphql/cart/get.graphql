@@ -5,12 +5,14 @@ query getCart(
   $channelId: String
   $languageId: String
   $cartMarketAlias: String
+  $allowExternalShippingFee: Boolean
 ) {
   getCart(
     id: $id
     channelId: $channelId
     languageId: $languageId
     marketId: $cartMarketAlias
+    allowExternalShippingFee: $allowExternalShippingFee
   ) {
     ...Cart
   }

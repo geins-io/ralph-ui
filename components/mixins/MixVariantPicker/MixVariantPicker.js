@@ -20,6 +20,11 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    // The product id, must be provided if multiple variants with same value exists, to show correct chosen-state
+    productId: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -160,7 +165,12 @@ export default {
         if (variant.value === this.variantsData.chosenSku.value) {
           classArray.push(chosenClass);
         }
-      } else if (variant.value === this.getChosenValue(variant.level)) {
+      } else if (!!this.productId && this.productId === variant.productId) {
+        classArray.push(chosenClass);
+      } else if (
+        variant.value === this.getChosenValue(variant.level) &&
+        !this.productId
+      ) {
         classArray.push(chosenClass);
       }
 

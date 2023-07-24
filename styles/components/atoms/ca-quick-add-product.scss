@@ -1,10 +1,14 @@
 .ca-quick-add-product {
   $block: &;
-  
-  display: flex;
-  align-items: flex-start;
 
-  &__image {
+  display: flex;
+
+  &__card {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__image-wrap {
     width: 60px;
     margin-right: $px12;
 
@@ -12,7 +16,7 @@
       width: 90px;
     }
   }
-  
+
   &__price {
     margin: rem-calc(5px) 0 0;
   }
@@ -22,12 +26,13 @@
     flex: 1;
     padding: 0 $px16 0 0;
   }
-  
+
   &__campaigns {
     margin: $px4 0 0;
   }
-  
+
   &__button.ca-button {
     align-self: center;
+    margin-left: auto;
   }
 }

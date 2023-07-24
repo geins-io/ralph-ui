@@ -3,6 +3,7 @@
 mutation updateCartItem(
   $id: String!
   $item: CartItemInputType!
+  $allowExternalShippingFee: Boolean
   $channelId: String
   $languageId: String
   $marketId: String
@@ -10,6 +11,7 @@ mutation updateCartItem(
   updateCartItem(
     id: $id
     item: $item
+    allowExternalShippingFee: $allowExternalShippingFee
     channelId: $channelId
     languageId: $languageId
     marketId: $marketId

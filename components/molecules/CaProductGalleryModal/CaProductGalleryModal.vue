@@ -12,7 +12,7 @@
     >
       <template #slides="{ slideMeta }">
         <CaSlide
-          v-for="(image, i) in images"
+          v-for="(image, i) in imagesFilenames"
           :key="i"
           :slide-index="i"
           :slide-meta="slideMeta"
@@ -74,7 +74,11 @@ export default {
     }
   },
   data: () => ({}),
-  computed: {},
+  computed: {
+    imagesFilenames() {
+      return this.images.map(image => image.fileName);
+    }
+  },
   watch: {
     index(newVal, oldVal) {
       if (newVal !== oldVal) {

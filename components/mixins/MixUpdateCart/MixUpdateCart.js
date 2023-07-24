@@ -1,7 +1,6 @@
 import updateCartMutation from 'cart/update.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
 import { mapState } from 'vuex';
-import * as GTM from '../../../services/gtm';
 // @group Mixins
 // @vuese
 // Function to update the current cart
@@ -32,57 +31,21 @@ export default {
         skuId: prodSkuId,
         quantity: prodQuantity
       };
-      const countUpdatedProductQuantity = () => {
-        // remove totally item from cart
-        if (prodQuantity === previousProductQuantity) {
-          return previousProductQuantity;
-        }
-        // decrease or increase items in cart
-        return Math.abs(previousProductQuantity - prodQuantity);
-      };
       const updateMutation = () =>
         this.$apollo
           .mutate({
             mutation: updateCartMutation,
             variables: {
               id: this.$store.getters['cart/id'],
-              item: updateItem
+              item: updateItem,
+              allowExternalShippingFee: this.$store.state.currentRouteName?.includes(
+                'checkout'
+              )
             }
           })
           .then(result => {
             this.$store.dispatch('cart/update', result.data.updateCartItem);
             this.$emit('loading', false);
-
-            const countCurrentProducts = () => {
-              const product = result.data.updateCartItem.items.find(
-                item => item.skuId === prodSkuId
-              );
-
-              if (!product) {
-                // get item from store (item removed so whole quantity taken)
-                return [productStateBeforeUpdate];
-              }
-              // get item from api response and update quantity as difference
-              return result.data.updateCartItem.items
-                .filter(item => item.skuId === prodSkuId)
-                .map(item => ({
-                  ...item,
-                  quantity: countUpdatedProductQuantity()
-                }));
-            };
-
-            if (!this.$config.useExternalGtm) {
-              GTM.updateProductQuantityInCart({
-                gtmInputs: {
-                  gtm: this.$gtm,
-                  currency: this.$store.getters['channel/currentCurrency'],
-                  key: this.$store.getters.getGtmProductsKey
-                },
-                previousQuantity: previousProductQuantity,
-                currentQuantity: prodQuantity,
-                products: countCurrentProducts()
-              });
-            }
 
             if (previousProductQuantity > prodQuantity) {
               const quantity = previousProductQuantity - prodQuantity;
