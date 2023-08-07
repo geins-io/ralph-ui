@@ -43,7 +43,7 @@
         v-for="(group, index) in marketsByGroupKey"
         :key="index"
         :markets="group"
-        class="ca-amrket-panel__group"
+        class="ca-market-panel__group"
       />
     </div>
   </LazyCaContentPanel>
