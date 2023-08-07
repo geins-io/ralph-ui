@@ -1,7 +1,3 @@
-$list-column-spacing-desktop: 10;
-$list-row-spacing-desktop: 10;
-$list-column-count-desktop: 5;
-
 .ca-product-list {
   display: grid;
   column-gap: $list-column-spacing;
@@ -12,71 +8,71 @@ $list-column-count-desktop: 5;
     @if $list-column-spacing-tablet != $list-column-spacing {
       column-gap: $list-column-spacing-tablet;
     }
-  
+
     @if $list-row-spacing-tablet != $list-row-spacing {
       row-gap: $list-row-spacing-tablet;
     }
-  
+
     @if $list-column-count-tablet != $list-column-count {
       grid-template-columns: repeat($list-column-count-tablet, 1fr);
     }
   }
-  
+
   @include bp(laptop) {
     @if $list-column-spacing-laptop != $list-column-spacing-tablet {
       column-gap: $list-column-spacing-laptop;
     }
-  
+
     @if $list-row-spacing-laptop != $list-row-spacing-tablet {
       row-gap: $list-row-spacing-laptop;
     }
-  
+
     @if $list-column-count-laptop != $list-column-count-tablet {
       grid-template-columns: repeat($list-column-count-laptop, 1fr);
     }
   }
-  
+
   @include bp(desktop) {
     @if $list-column-spacing-desktop != $list-column-spacing-laptop {
       column-gap: $list-column-spacing-desktop;
     }
-  
+
     @if $list-row-spacing-desktop != $list-row-spacing-laptop {
       row-gap: $list-row-spacing-desktop;
     }
-  
+
     @if $list-column-count-desktop != $list-column-count-laptop {
       grid-template-columns: repeat($list-column-count-desktop, 1fr);
     }
   }
-  
+
   @include bp(desktop-big) {
     @if $list-column-spacing-desktop-big != $list-column-spacing-desktop {
       column-gap: $list-column-spacing-desktop-big;
     }
-  
+
     @if $list-row-spacing-desktop-big != $list-row-spacing-desktop {
       row-gap: $list-row-spacing-desktop-big;
     }
-  
+
     @if $list-column-count-desktop-big != $list-column-count-desktop {
       grid-template-columns: repeat($list-column-count-desktop-big, 1fr);
     }
   }
-  
+
   &__empty {
     width: 100%;
     font-size: $font-size-m;
     text-align: center;
     padding: rem-calc(30px) $px20 rem-calc(50px);
     color: $c-text-secondary;
-  
+
     @include bp(tablet) {
       font-size: $font-size-l;
       padding: rem-calc(60px) $px20 rem-calc(100px);
     }
   }
-  
+
   &--empty {
     display: block;
   }
