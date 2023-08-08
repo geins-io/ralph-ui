@@ -35,6 +35,18 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.1.0] - 2023-08-10
+
+### Fixed
+
+- Typo in CaMarketPanel classname
+- Broken image filenames in `CaProductGalleryModal` (revert to previous code)
+
+### Changed
+
+- `$list-column-spacing` and `$list-row-spacing` has moved to `_spacing.scss` in Ralph.
+- This also applies to `$list-column-count` that can be found in `_layouts.scss`.
+
 ## [20.0.0] - 2023-07-24
 
 This version has a lot of overall SEO improvements and also introduces full flexibility in creating your own widgets. Make sure to update your storefront according to the update commit in Ralph Storefront.
