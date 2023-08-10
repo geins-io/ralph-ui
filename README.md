@@ -41,6 +41,7 @@ All notable changes will be added to this section
 
 - Typo in CaMarketPanel classname
 - Broken image filenames in `CaProductGalleryModal` (revert to previous code)
+- Duplicated first image in `CaProductGallery` when using `thumbnail-mode="grid"`
 
 ### Changed
 

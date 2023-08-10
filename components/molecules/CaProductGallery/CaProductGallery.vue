@@ -77,7 +77,7 @@
     >
       <template #slides="{ slideMeta }">
         <CaSlide
-          v-for="(image, index) in imagesFilenames"
+          v-for="(image, index) in thumbnailImages"
           :key="index"
           :slide-index="index"
           :slide-meta="slideMeta"
@@ -108,10 +108,10 @@
       class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"
     >
       <CaClickable
-        v-for="(image, index) in imagesFilenames"
+        v-for="(image, index) in thumbnailImages"
         :key="index"
         class="ca-product-gallery__thumbnail-container ca-product-gallery__thumbnail-container--grid"
-        @clicked="openModal(index)"
+        @clicked="openModal(index + 1)"
       >
         <CaImage
           class="ca-product-gallery__thumbnail ca-product-gallery__thumbnail--grid"
@@ -272,6 +272,11 @@ export default {
         this.thumbnailMode === 'grid' &&
         this.$store.getters.viewportComputer
       );
+    },
+    thumbnailImages() {
+      return this.isThumbnailModeGrid
+        ? this.imagesFilenames.slice(1)
+        : this.imagesFilenames;
     }
   },
   watch: {},
