@@ -43,11 +43,6 @@ All notable changes will be added to this section
 - Broken image filenames in `CaProductGalleryModal` (revert to previous code)
 - Exclude duplicated first image in `CaProductGallery` when using `thumbnail-mode="grid"`
 
-### Changed
-
-- `$list-column-spacing` and `$list-row-spacing` has moved to `_spacing.scss` in Ralph.
-- This also applies to `$list-column-count` that can be found in `_layouts.scss`.
-
 ## [20.0.0] - 2023-07-24
 
 This version has a lot of overall SEO improvements and also introduces full flexibility in creating your own widgets. Make sure to update your storefront according to the update commit in Ralph Storefront.
