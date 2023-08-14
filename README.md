@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.0.1] - 2023-08-14
+
+### Fixed
+
+- Typo in CaMarketPanel classname
+- Broken image filenames in `CaProductGalleryModal` (revert to previous code)
+- Exclude duplicated first image in `CaProductGallery` when using `thumbnail-mode="grid"`
+
 ## [20.0.0] - 2023-07-24
 
 This version has a lot of overall SEO improvements and also introduces full flexibility in creating your own widgets. Make sure to update your storefront according to the update commit in Ralph Storefront.
