@@ -1,3 +1,7 @@
+$list-column-spacing-desktop: rem-calc(32) !default;
+$list-row-spacing-desktop: rem-calc(32) !default;
+$list-column-count-desktop: 5 !default;
+
 .ca-product-list {
   display: grid;
   column-gap: $list-column-spacing;

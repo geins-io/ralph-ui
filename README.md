@@ -35,13 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [20.1.0] - 2023-08-10
+## [20.0.1] - 2023-08-14
 
 ### Fixed
 
 - Typo in CaMarketPanel classname
 - Broken image filenames in `CaProductGalleryModal` (revert to previous code)
-- Duplicated first image in `CaProductGallery` when using `thumbnail-mode="grid"`
+- Exclude duplicated first image in `CaProductGallery` when using `thumbnail-mode="grid"`
 
 ### Changed
 
