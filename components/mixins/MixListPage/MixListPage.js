@@ -1,4 +1,3 @@
-import MixMetaReplacement from 'MixMetaReplacement';
 import MixListPagination from 'MixListPagination';
 import MixApolloRefetch from 'MixApolloRefetch';
 import filtersQuery from 'productlist/list-filters.graphql';
@@ -22,7 +21,7 @@ import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixMetaReplacement, MixListPagination, MixApolloRefetch],
+  mixins: [MixListPagination, MixApolloRefetch],
   apollo: {
     products: {
       query() {
@@ -157,35 +156,6 @@ export default {
       type: Object,
       default: null
     }
-  },
-  head() {
-    return {
-      title: this.metaReplacement(this.listInfo?.meta?.title),
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.metaReplacement(this.listInfo?.meta?.description)
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.metaReplacement(this.listInfo?.meta?.title)
-        },
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: this.metaReplacement(this.listInfo?.meta?.description)
-        },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content:
-            this.listInfo?.primaryImage ||
-            this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
-    };
   },
   data: vm => ({
     baseFilters: {},
