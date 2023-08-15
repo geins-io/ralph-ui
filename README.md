@@ -35,6 +35,16 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.0.2] - 2023-08-15
+
+### Fixed
+
+- Meta data from API now works again for list pages that doesn't use `MixListPage`, for example list pages from external services (e.g. Voyado Elevate)
+
+### Changed
+
+- `MixMetaReplacement` and `head()` for list pages is moved from `MixListPage` to `MixListInfo`
+
 ## [20.0.1] - 2023-08-14
 
 ### Fixed

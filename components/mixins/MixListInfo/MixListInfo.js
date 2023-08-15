@@ -83,5 +83,34 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
+  head() {
+    return {
+      title: this.metaReplacement(this.listInfo?.meta?.title),
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.metaReplacement(this.listInfo?.meta?.description)
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.metaReplacement(this.listInfo?.meta?.title)
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.metaReplacement(this.listInfo?.meta?.description)
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content:
+            this.listInfo?.primaryImage ||
+            this.$config.baseUrl + '/meta-image-fallback.jpg'
+        }
+      ]
+    };
+  }
 };
