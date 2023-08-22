@@ -34,9 +34,10 @@
     "port": 6001
   },
   "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "@babel/eslint-parser": "^7.22.10",
     "@nuxtjs/eslint-config": "^12.0.0",
     "@vuese/cli": "^2.14.3",
-    "babel-eslint": "^10.1.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-nuxt": "^4.0.0",
@@ -44,8 +45,8 @@
     "file-save": "^0.2.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
-    "sass": "^1.49.9",
     "prettier": "^3.0.2",
+    "sass": "^1.49.9",
     "sass-loader": "^10.2.1",
     "stylelint": "^13.13.1",
     "uppercamelcase": "^3.0.0"

@@ -1,9 +1,10 @@
 .ca-product-gallery {
   $block: &;
   $grid-gap: rem-calc(15);
+  $minus-margin: calc(-1 * #{$default-spacing}/ 2);
   --slider-item-width: 72%;
 
-  margin: 0 -#{$default-spacing/2};
+  margin: 0 $minus-margin;
 
   @include bp(tablet) {
     --slider-item-width: 53%;
@@ -41,7 +42,9 @@
       font-size: 20px;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 200ms ease, font-size 200ms ease;
+      transition:
+        opacity 200ms ease,
+        font-size 200ms ease;
     }
   }
 
@@ -113,7 +116,7 @@
   &__thumbnails {
     margin-top: $grid-gap;
     --slider-item-width: calc(100% / 2);
-    
+
     &--grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
