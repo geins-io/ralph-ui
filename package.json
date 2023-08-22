@@ -1,6 +1,5 @@
 {
   "name": "@ralph/ralph-ui",
-  "module": "./index.js",
   "version": "20.0.2",
   "description": "Component library for Carismar Commerce Storefront ",
   "author": "Carismar Commerce Team",
@@ -19,7 +18,6 @@
     "body-scroll-lock": "^3.1.5",
     "broadcast-channel": "^5.3.0",
     "graphql-combine-query": "^1.2.4",
-    "nuxt-speedkit": "^2.2.3",
     "vue-slide-up-down": "^2.0.1",
     "vue-slider-component": "^3.2.24",
     "vue-vimeo-player": "^0.2.2",
@@ -37,26 +35,21 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^12.0.0",
-    "@vue/test-utils": "^1.3.6",
     "@vuese/cli": "^2.14.3",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.0.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "file-save": "^0.2.0",
     "husky": "^8.0.3",
-    "jest": "^27.0.0",
     "lint-staged": "^14.0.0",
-    "node-sass": "^6.0.0",
+    "sass": "^1.49.9",
     "prettier": "^3.0.2",
     "sass-loader": "^10.2.1",
     "stylelint": "^13.13.1",
-    "uppercamelcase": "^3.0.0",
-    "vue-jest": "^4.0.1"
+    "uppercamelcase": "^3.0.0"
   },
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://carismarsoftware.visualstudio.com/Ralph/_git/Ralph-UI"
