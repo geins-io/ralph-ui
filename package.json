@@ -53,7 +53,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://carismarsoftware.visualstudio.com/Ralph/_git/Ralph-UI"
+    "url": "https://github.com/geins-io/ralph-ui"
   },
-  "license": "UNLICENSED"
+  "license": "BSD-3-Clause"
 }
