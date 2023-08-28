@@ -228,7 +228,7 @@ export const actions = {
       const [stateName, value] = ps.split('=');
 
       if (stateName.includes('/')) {
-        [module, name] = ps.split('/');
+        [module, name] = stateName.split('/');
       } else {
         name = stateName;
       }
