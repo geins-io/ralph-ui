@@ -41,7 +41,7 @@
       border-color: $c-border-light;
       pointer-events: none;
       position: relative;
-      text-shadow: 0px 0px 5px $c-white;
+      text-shadow: 0 0 5px $c-white;
   
       &::before {
         content: '';

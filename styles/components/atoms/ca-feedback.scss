@@ -7,7 +7,7 @@
   background-color: $c-info;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 6%);
   text-align: left;
 
   &::before {
@@ -18,10 +18,7 @@
     width: calc(100% - #{rem-calc(6px)});
     height: 100%;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 6px;
+    inset: 0 0 0 6px;
     z-index: 1;
   }
 

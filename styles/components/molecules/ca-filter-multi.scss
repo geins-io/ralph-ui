@@ -50,8 +50,10 @@
       display: none;
     }
   }
+
   &__check {
     @include valign;
+
     opacity: 0;
     left: 2px;
     transition: opacity 200ms ease;

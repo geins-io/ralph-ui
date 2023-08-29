@@ -9,7 +9,7 @@
     line-height: 20px;
     cursor: pointer;
 
-    &:before {
+    &::before {
       content: '';
       display: block;
       width: 20px;
@@ -26,7 +26,7 @@
     }
 
     &:hover {
-      &:before {
+      &::before {
         box-shadow: 0 0 0 1px $c-medium-gray;
         background-color: $c-medium-gray;
       }
@@ -37,7 +37,7 @@
     display: none;
 
     &:checked + #{$block}__value {
-      &:before {
+      &::before {
         box-shadow: 0 0 0 1px $c-input-radio-checked-bg;
         background-color: $c-input-radio-checked-bg;
       }
@@ -46,6 +46,7 @@
 
   &__wrap {
     padding-left: 30px;
+
     & + & {
       margin: $px10 0 0;
     }

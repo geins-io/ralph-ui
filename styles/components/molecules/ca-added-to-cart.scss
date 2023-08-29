@@ -64,6 +64,7 @@
   &__close {
     @include iconCircle;
     @include valign;
+
     right: rem-calc(12);
   }
   
@@ -74,6 +75,7 @@
   &__product {
     margin: 0 0 rem-calc(16);
   }
+
   &--scrolled {
     #{$block}__container.ca-container {
       @include bp(laptop) {

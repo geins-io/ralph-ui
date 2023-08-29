@@ -1,5 +1,6 @@
 .ca-country-selector-panel {
   z-index: 106;
+
   @include bp(laptop) {
     display: block;
   }

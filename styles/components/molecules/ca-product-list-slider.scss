@@ -1,5 +1,6 @@
 .ca-product-list-slider {
   $block: &;
+
   --slider-item-width: #{calc(100% / $list-column-count)};
 
   margin: 0 -#{calc($list-column-spacing/2)};

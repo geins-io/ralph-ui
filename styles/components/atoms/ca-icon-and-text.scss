@@ -1,5 +1,6 @@
 .ca-icon-and-text {
   $block: &;
+
   --text-and-icon-spacing: #{$text-and-icon-spacing};
 
   display: inline-flex;

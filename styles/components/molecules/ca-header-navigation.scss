@@ -12,6 +12,7 @@
 
   &__items {
     @include flex-calign;
+
     height: $header-navigation-height-computer;
   }
 
@@ -148,8 +149,9 @@
       white-space: nowrap;
       position: relative;
 
-      &:before {
+      &::before {
         @include halign;
+
         content: '';
         width: 0%;
         height: 3px;
@@ -160,14 +162,14 @@
       }
 
       &:hover {
-        &:before {
+        &::before {
           opacity: 1;
           width: 100%;
         }
       }
 
       &.nuxt-link-active {
-        &:before {
+        &::before {
           opacity: 1;
           width: 100%;
         }
@@ -176,6 +178,7 @@
 
     #{$block}__icon {
       @include valign;
+
       right: rem-calc(18);
     }
 

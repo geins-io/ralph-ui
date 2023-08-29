@@ -30,13 +30,11 @@
 
   &__loading {
     @include flex-calign;
+
     background-color: $c-white;
-    bottom: 0;
+    inset: 0;
     height: 100%;
-    left: 0;
     position: absolute;
-    right: 0;
-    top: 0;
     width: 100%;
   }
 
@@ -48,24 +46,22 @@
 
   &__guard {
     background-color: $c-white;
-    bottom: 0;
+    inset: 0;
     height: 100%;
-    left: 0;
     position: absolute;
-    right: 0;
-    top: 0;
     width: 100%;
     z-index: 10;
   }
 
   &__guard-info {
     @include halign;
+
     background-color: $c-white;
     display: flex;
     flex-direction: column;
     align-items: center;
     top: $px56;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 10px rgb(0 0 0 / 5%);
     padding: $px24;
     font-size: $font-size-l;
     text-align: center;

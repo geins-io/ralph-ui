@@ -29,7 +29,7 @@
 
     &:hover {
       &::before {
-        background-color: hexToRgba($c-accent-color, 0.4);
+        background-color: hextorgba($c-accent-color, 0.4);
       }
     }
     

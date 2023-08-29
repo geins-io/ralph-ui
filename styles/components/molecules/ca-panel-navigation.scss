@@ -1,6 +1,6 @@
 .ca-panel-navigation {
   $block: &;
-  
+
   &__link {
     display: block;
     font-size: $font-size-m;
@@ -8,7 +8,7 @@
     padding: $px16;
     border-bottom: $border-light;
   }
-  
+
   &__parent {
     &.ca-accordion-item {
       .ca-accordion-item__toggle {
@@ -25,26 +25,26 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        
+
         .ca-icon {
           font-size: rem-calc(20px);
         }
       }
     }
   }
-  
+
   &__children {
     padding: $px12 0;
     background-color: $c-lightest-gray;
   }
-  
+
   &__child-link {
     display: block;
     font-size: $font-size-s;
     font-weight: $font-weight-normal;
     padding: rem-calc(8px) rem-calc(16px) rem-calc(8px) rem-calc(26px);
   }
-  
+
   &__child-parent {
     &.ca-accordion-item {
       .ca-accordion-item__toggle {
@@ -61,7 +61,7 @@
       }
     }
   }
-  
+
   &__child-item {
     &:last-child {
       .ca-accordion-item__content {
@@ -69,21 +69,21 @@
       }
     }
   }
-  
+
   &__grand-children {
     padding: $px10 0;
     background-color: $c-light-gray;
   }
-  
+
   &__grand-child-link {
     display: block;
     font-size: $font-size-s;
     padding: rem-calc(8px) rem-calc(16px) rem-calc(8px) rem-calc(36px);
   }
 
-  
   &__spinner.ca-spinner {
     @include calign;
+
     border-color: var(--accent-color, $c-accent-color);
     width: 30px;
     height: 30px;

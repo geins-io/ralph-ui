@@ -11,7 +11,7 @@
       display: block;
       height: 50%;
       width: 100%;
-      background-image: linear-gradient(hexToRgba($c-white, 0), $c-white);
+      background-image: linear-gradient(hextorgba($c-white, 0), $c-white);
       position: absolute;
       left: 0;
       right: 0;
