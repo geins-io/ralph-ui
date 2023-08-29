@@ -134,7 +134,7 @@ export default {
   computed: {
     slides() {
       return (
-        this.$slots.slides({
+        this.$scopedSlots?.slides({
           slideMeta: this.slideMeta,
         }) || []
       );
