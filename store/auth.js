@@ -4,7 +4,7 @@ import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 export const state = () => ({
   user: null,
   client: null,
-  tokenTimeout: null
+  tokenTimeout: null,
 });
 
 export const mutations = {
@@ -19,7 +19,7 @@ export const mutations = {
   },
   clearTokenTimeout(state) {
     clearTimeout(state.tokenTimeout);
-  }
+  },
 };
 
 export const actions = {
@@ -27,8 +27,8 @@ export const actions = {
     if (!state.client) {
       dispatch('loading/start', null, { root: true });
       const client = new AuthClient(
-        async id => await client.get(rootState.config.signEndpoint + id),
-        rootState.config.authEndpoint
+        async (id) => await client.get(rootState.config.signEndpoint + id),
+        rootState.config.authEndpoint,
       );
       commit('setClient', client);
       await dispatch('refresh');
@@ -57,9 +57,9 @@ export const actions = {
     dispatch(
       'events/push',
       {
-        type: 'user:logout'
+        type: 'user:logout',
       },
-      { root: true }
+      { root: true },
     );
     dispatch('clearCache');
     dispatch('update');
@@ -75,11 +75,11 @@ export const actions = {
           if (process.client) {
             dispatch('refresh');
           }
-        }, state.client.maxAge * 900)
+        }, state.client.maxAge * 900),
       );
       this.$cookies.set('ralph-auth', state.client.token, {
         path: '/',
-        maxAge: state.client.maxAge
+        maxAge: state.client.maxAge,
       });
       let maxage = 604800;
       if (credentials) {
@@ -90,11 +90,11 @@ export const actions = {
       commit('setUser', username);
       this.$cookies.set('ralph-user', username, {
         path: '/',
-        maxAge: maxage
+        maxAge: maxage,
       });
       this.$cookies.set('ralph-user-maxage', maxage, {
         path: '/',
-        maxAge: maxage
+        maxAge: maxage,
       });
       if (this.getters['nosto/isNostoActive']) {
         this.dispatch('nosto/generateSessionToken', true);
@@ -120,11 +120,11 @@ export const actions = {
     if (this.$config.user.priceLists) {
       dispatch('clearAndRefetchApollo', null, { root: true });
     }
-  }
+  },
 };
 
 export const getters = {
   authenticated(state) {
     return state.user !== null;
-  }
+  },
 };

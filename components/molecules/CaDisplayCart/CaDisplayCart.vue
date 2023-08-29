@@ -15,7 +15,9 @@
         :item="item"
       />
     </div>
-    <div v-else class="ca-display-cart__empty">{{ $t('CART_EMPTY') }}</div>
+    <div v-else class="ca-display-cart__empty">
+      {{ $t('CART_EMPTY') }}
+    </div>
     <template v-if="cart && cart.items && cart.items.length" #footer>
       <div class="ca-display-cart__footer">
         <CaCartSummary
@@ -31,7 +33,9 @@
           >
             {{ $t('CART_TO_CHECKOUT') }}
           </CaIconAndText>
-          <template v-else>{{ $t('CART_TO_CHECKOUT') }}</template>
+          <template v-else>
+            {{ $t('CART_TO_CHECKOUT') }}
+          </template>
         </CaButton>
       </div>
     </template>
@@ -49,18 +53,18 @@ export default {
   props: {
     buttonIcon: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({}),
   computed: {
     ...mapState({
-      cart: state => state.cart.data
-    })
+      cart: (state) => state.cart.data,
+    }),
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

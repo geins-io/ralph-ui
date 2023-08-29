@@ -48,7 +48,7 @@ export default {
     playerHeight: 900,
     playerRatio: 0,
     videoReady: false,
-    playing: false
+    playing: false,
   }),
   computed: {
     videoId() {
@@ -59,7 +59,7 @@ export default {
     },
     videoModifiers() {
       return {
-        'ca-widget-video__video--not-ready': !this.videoReady
+        'ca-widget-video__video--not-ready': !this.videoReady,
       };
     },
     ratioPadding() {
@@ -80,9 +80,9 @@ export default {
         videoProvider: this.videoProvider,
         playerWidth: this.playerWidth,
         playerHeight: this.playerHeight,
-        ratio: this.playerRatio
+        ratio: this.playerRatio,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -95,7 +95,7 @@ export default {
       if (this.playInModal) {
         const modalSettings = {
           component: 'CaVideo',
-          componentProps: this.videoProps
+          componentProps: this.videoProps,
         };
         this.$store.commit('modal/open', modalSettings);
       }
@@ -114,8 +114,8 @@ export default {
         this.playerWidth = width;
         this.playerHeight = height;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

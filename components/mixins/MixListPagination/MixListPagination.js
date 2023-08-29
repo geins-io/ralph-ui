@@ -13,14 +13,14 @@ export default {
   name: 'MixListPagination',
   mixins: [],
   props: {},
-  data: vm => ({
+  data: (vm) => ({
     currentPage: 1,
     currentMinCountSet: 0,
     currentMaxCountSet: 0,
     pageSize: vm.$config.productListPageSize,
     totalCount: 0,
     productList: [],
-    mainProductList: true
+    mainProductList: true,
   }),
   computed: {
     // @vuese
@@ -81,7 +81,7 @@ export default {
       const returnCount =
         maxCount < this.productList.length ? this.productList.length : maxCount;
       return returnCount;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -101,7 +101,7 @@ export default {
         this.$nuxt.error({
           statusCode: 404,
           message: 'Page not found',
-          url: this.$route.fullPath
+          url: this.$route.fullPath,
         });
       }
 
@@ -135,14 +135,13 @@ export default {
         this.$apollo.queries.nostoProducts.fetchMore({
           variables: this.loadMoreNostoVars,
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } = this.formatNostoData(
-              fetchMoreResult
-            );
+            const { products: newProducts } =
+              this.formatNostoData(fetchMoreResult);
             this.currentMaxCountSet += newProducts.length;
 
             this.productList = [...currentProductList, ...newProducts];
             this.pushURLParams();
-          }
+          },
         });
       } else {
         this.$apollo.queries.products.fetchMore({
@@ -154,7 +153,7 @@ export default {
             if (this.mainProductList) {
               this.pushURLParams();
             }
-          }
+          },
         });
       }
     },
@@ -176,13 +175,12 @@ export default {
         this.$apollo.queries.nostoProducts.fetchMore({
           variables: this.loadPrevNostoVars,
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } = this.formatNostoData(
-              fetchMoreResult
-            );
+            const { products: newProducts } =
+              this.formatNostoData(fetchMoreResult);
             this.currentMinCountSet -= newProducts.length;
             this.productList = [...newProducts, ...currentProductList];
             this.pushURLParams();
-          }
+          },
         });
       } else {
         this.$apollo.queries.products.fetchMore({
@@ -192,9 +190,9 @@ export default {
             this.currentMinCountSet -= newProducts.length;
             this.productList = [...newProducts, ...currentProductList];
             this.pushURLParams();
-          }
+          },
         });
       }
-    }
-  }
+    },
+  },
 };

@@ -11,8 +11,8 @@ export default {
   data: () => ({
     chosenSku: {
       id: null,
-      value: ''
-    }
+      value: '',
+    },
   }),
   computed: {
     // @vuese
@@ -107,7 +107,7 @@ export default {
     // @type Object
     chosenSkuVariant() {
       return this.skuIsChosen
-        ? this.skuVariants.filter(i => i.value === this.chosenSku.value)[0]
+        ? this.skuVariants.filter((i) => i.value === this.chosenSku.value)[0]
         : null;
     },
     // @vuese
@@ -152,7 +152,7 @@ export default {
       dataObj.chosenSku = this.chosenSku;
       dataObj.hasMultipleDimensions = this.hasMultipleDimensions;
       return dataObj;
-    }
+    },
   },
   watch: {
     'currentStock.totalStock'(val) {
@@ -165,7 +165,7 @@ export default {
       if (val !== this.chosenSku.id && val !== null) {
         this.setSku(val, this.chosenSku.value);
       }
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -173,7 +173,7 @@ export default {
     // Function to set default sku when no variants exists
     setDefaultSku() {
       const firstAvailable = this.skuVariants.filter(
-        i => i.stock.totalStock > 0
+        (i) => i.stock.totalStock > 0,
       )[0];
       if (firstAvailable) {
         this.setSku(firstAvailable.skuId, firstAvailable.value);
@@ -217,13 +217,13 @@ export default {
     getCurrentVariant(variants) {
       return (
         variants.filter(
-          i =>
+          (i) =>
             i?.value ===
             this.product.variantDimensions.filter(
-              ii => ii?.level === i?.level
-            )[0]?.value
+              (ii) => ii?.level === i?.level,
+            )[0]?.value,
         )[0] || variants[0]
       );
-    }
-  }
+    },
+  },
 };

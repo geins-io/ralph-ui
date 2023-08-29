@@ -32,7 +32,7 @@
           class="ca-widget-banner__video"
           :class="{ 'ca-widget-banner__video--playing': videoLoaded }"
           v-html="videoHtml"
-        ></div>
+        />
       </div>
       <div v-else class="ca-widget-banner__image-wrap">
         <CaImage
@@ -97,10 +97,10 @@ export default {
       responsive: true,
       background: true,
       loop: true,
-      quality: '1080p'
+      quality: '1080p',
     },
     playerOrigin: '*',
-    playerId: ''
+    playerId: '',
   }),
   computed: {
     modifiers() {
@@ -177,7 +177,7 @@ export default {
       return this.$store.getters.viewport === 'phone'
         ? this.configuration.image.filenameForMobileDevice
         : this.configuration.image.filename;
-    }
+    },
   },
   watch: {},
   mounted() {
@@ -189,7 +189,7 @@ export default {
       this.playerId = 'player_' + this._uid;
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.hasVideo) {
       window.removeEventListener('message', this.onMessageReceived);
     }
@@ -241,7 +241,7 @@ export default {
     // @arg action (String), value (String)
     postMessage(action, value) {
       const data = {
-        method: action
+        method: action,
       };
 
       if (value) {
@@ -249,7 +249,7 @@ export default {
       }
       this.$refs.player.firstChild.firstChild.contentWindow.postMessage(
         data,
-        this.playerOrigin
+        this.playerOrigin,
       );
     },
     // @vuese
@@ -258,11 +258,11 @@ export default {
       this.$store.dispatch('events/push', {
         type: 'widget:click',
         data: {
-          href: this.processedHref
-        }
+          href: this.processedHref,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

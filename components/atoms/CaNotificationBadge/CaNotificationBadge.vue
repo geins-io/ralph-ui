@@ -18,18 +18,18 @@ export default {
     // The number to be displayed
     number: {
       type: [Number, String],
-      required: true
+      required: true,
     },
     positioned: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -32,11 +32,11 @@ export default {
     modeClass() {
       return this.snackbar.mode ? 'ca-snackbar--' + this.snackbar.mode : '';
     },
-    ...mapState(['snackbar'])
+    ...mapState(['snackbar']),
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

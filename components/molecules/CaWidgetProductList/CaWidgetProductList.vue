@@ -21,9 +21,9 @@
     <CaListPagination
       v-if="
         configuration.slideshowDisabled &&
-          !configuration.limitNrOfRows &&
-          products &&
-          products.count > take
+        !configuration.limitNrOfRows &&
+        products &&
+        products.count > take
       "
       direction="next"
       :showing="showing"
@@ -66,24 +66,24 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
+      required: true,
     },
     // Fetch products only client side
     fetchProductsOnlyClientSide: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     mainProductList: false,
-    productsLoaded: false
+    productsLoaded: false,
   }),
   computed: {
     isWidgetModeEmpty() {
@@ -104,7 +104,7 @@ export default {
       const varsObj = {
         skip: this.currentMaxCount,
         take: this.take,
-        filter: this.configuration.searchParameters
+        filter: this.configuration.searchParameters,
       };
       return varsObj;
     },
@@ -151,21 +151,21 @@ export default {
 
       if (this.isLatestMode) {
         filter = {
-          facets: this.latestProducts
+          facets: this.latestProducts,
         };
       }
 
       if (this.isFavoriteMode) {
         filter = {
-          facets: this.favoritesProducts
+          facets: this.favoritesProducts,
         };
       }
 
       return {
         filter,
-        take: this.take
+        take: this.take,
       };
-    }
+    },
   },
   watch: {
     isWidgetModeEmpty: {
@@ -175,8 +175,8 @@ export default {
           this.productsLoaded = true;
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {},
   methods: {
@@ -192,8 +192,8 @@ export default {
         return Boolean(this.favoritesProducts.length);
       }
       return additionalCondition;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

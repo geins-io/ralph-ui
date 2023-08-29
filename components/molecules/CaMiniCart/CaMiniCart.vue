@@ -4,7 +4,7 @@
     :aria-label="$t('CART')"
     @clicked="
       $store.commit('contentpanel/open', {
-        name: 'cart'
+        name: 'cart',
       })
     "
   >
@@ -25,7 +25,7 @@
       >
         {{
           $store.getters.getSellingPrice(
-            $store.state.cart.data.summary.subTotal
+            $store.state.cart.data.summary.subTotal,
           )
         }}
       </div>
@@ -42,14 +42,14 @@ export default {
     // Name for the icon to be used. See documentation for [CaIcon](/components/CaIcon) to learn more.
     cartIcon: {
       type: String,
-      default: 'shopping-bag'
-    }
+      default: 'shopping-bag',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

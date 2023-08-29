@@ -15,7 +15,7 @@
       class="ca-list-pagination__button ca-list-pagination__button--next"
       :class="{
         'ca-list-pagination__button--disabled': allProductsLoaded,
-        'ca-list-pagination__button--loading': loading
+        'ca-list-pagination__button--loading': loading,
       }"
       @click.prevent="$emit('loadmore')"
     >
@@ -32,7 +32,7 @@
       :href="buttonHref"
       class="ca-list-pagination__button ca-list-pagination__button--prev"
       :class="{
-        'ca-list-pagination__button--loading': loading
+        'ca-list-pagination__button--loading': loading,
       }"
       @click.prevent="$emit('loadprev')"
     >
@@ -70,38 +70,38 @@ export default {
       default: 'next',
       validator(value) {
         return ['next', 'prev'].includes(value);
-      }
+      },
     },
     // The total number of products
     totalCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // Is the list loading?
     loading: {
       type: Boolean,
-      required: true
+      required: true,
     },
     // Current min count
     minCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // Current max count
     maxCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // If you want to override the pagination text, you can do it here
     text: {
       type: String,
-      default: ''
+      default: '',
     },
     // Hide the back link, this exists mainly for SEO purposes
     hideBackLink: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -127,11 +127,11 @@ export default {
       const text = this.isPartial
         ? this.$t('PAGINATION_SHOWING_PARTIAL', {
             sum: this.showing,
-            total: this.totalCount
+            total: this.totalCount,
           })
         : this.$t('PAGINATION_SHOWING', {
             sum: this.maxCount,
-            total: this.totalCount
+            total: this.totalCount,
           });
       return text + ' ' + this.$tc('PRODUCT_LOWERCASE', this.totalCount);
     },
@@ -160,11 +160,11 @@ export default {
     // @type Boolean
     allProductsLoaded() {
       return this.maxCount >= this.totalCount;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -19,7 +19,7 @@
             icon-position="right"
             base-element="div"
           >
-            <slot name="toggle-text"></slot>
+            <slot name="toggle-text" />
           </CaIconAndText>
         </div>
       </slot>
@@ -30,7 +30,7 @@
       :active="open"
       :duration="200"
     >
-      <slot></slot>
+      <slot />
     </SlideUpDown>
   </component>
 </template>
@@ -49,37 +49,37 @@ export default {
     openOnInit: {
       type: Boolean,
       // `false`
-      default: false
+      default: false,
     },
     // Html tag for wrapper
     baseTag: {
       type: String,
-      default: 'div'
+      default: 'div',
     },
     // Icon name for when accordion is open
     iconOpen: {
       type: String,
-      default: 'minus'
+      default: 'minus',
     },
     // Icon name for when accordion is open
     iconClosed: {
       type: String,
-      default: 'plus'
+      default: 'plus',
     },
     // Should it come with pre-defined style or none
     styled: {
       type: Boolean,
       // `true`
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    open: false
+    open: false,
   }),
   computed: {
     currentIcon() {
       return this.open ? this.iconOpen : this.iconClosed;
-    }
+    },
   },
   watch: {},
   mounted() {
@@ -89,8 +89,8 @@ export default {
     // Click handler for toggle click
     toggleClickHandler() {
       this.open = !this.open;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

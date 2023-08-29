@@ -23,36 +23,36 @@ export default {
     // The title of the filter
     title: {
       type: String,
-      required: true
+      required: true,
     },
     // The current filter selection
     selection: {
       type: Array,
-      required: true
+      required: true,
     },
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
-      default: 'filter'
+      default: 'filter',
     },
     filters: {
       type: Array,
-      default: () => ['1', '2']
-    }
+      default: () => ['1', '2'],
+    },
   },
   data: () => ({
-    currentSelection: []
+    currentSelection: [],
   }),
   computed: {
     modifiers() {
       return {
         'ca-filter-trigger--chosen': this.selectionMade,
-        'ca-filter-trigger--hidden': this.filters?.length <= 1
+        'ca-filter-trigger--hidden': this.filters?.length <= 1,
       };
     },
     selectionMade() {
       return this.currentSelection.length > 0;
-    }
+    },
   },
   watch: {
     selection: {
@@ -61,13 +61,13 @@ export default {
         if (newVal !== oldVal) {
           this.currentSelection = this.selection;
         }
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.currentSelection = this.selection;
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

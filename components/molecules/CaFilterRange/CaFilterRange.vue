@@ -46,7 +46,7 @@ export default {
           Object.prototype.hasOwnProperty.call(value, 'lowest') &&
           Object.prototype.hasOwnProperty.call(value, 'highest')
         );
-      }
+      },
     },
     // The current selection. Object that should hold the keys 'lowest' and 'highest'
     selection: {
@@ -57,22 +57,22 @@ export default {
           Object.prototype.hasOwnProperty.call(value, 'lowest') &&
           Object.prototype.hasOwnProperty.call(value, 'highest')
         );
-      }
-    }
+      },
+    },
   },
   data: () => ({
     currentSelection: [0, 0],
     initValuesSet: false,
     storedValues: {
       lowest: 0,
-      highest: 0
+      highest: 0,
     },
     newValue: {
       lowest: 0,
-      highest: 0
+      highest: 0,
     },
     draggingTimeout: null,
-    sliderKey: 0
+    sliderKey: 0,
   }),
   computed: {},
   watch: {
@@ -80,7 +80,7 @@ export default {
       deep: true,
       handler(val) {
         this.setCurrentSelection();
-      }
+      },
     },
     values: {
       deep: true,
@@ -92,8 +92,8 @@ export default {
           this.currentSelection[1] = val.highest;
         }
         this.setValues(val);
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.setCurrentSelection();
@@ -121,8 +121,8 @@ export default {
     setValues(values) {
       this.storedValues = values;
       this.initValuesSet = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

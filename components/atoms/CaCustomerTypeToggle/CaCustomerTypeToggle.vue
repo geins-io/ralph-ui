@@ -3,7 +3,7 @@
     <div
       v-if="
         !$store.getters['auth/authenticated'] ||
-          $store.state.auth.user === 'preview-user@carismar.com'
+        $store.state.auth.user === 'preview-user@carismar.com'
       "
       class="ca-customer-type-toggle__toggles"
     >
@@ -37,9 +37,9 @@ export default {
   computed: {
     currentType() {
       return this.$config.customerTypes.find(
-        i => i.type === this.$store.state.customerType
+        (i) => i.type === this.$store.state.customerType,
       );
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -70,8 +70,8 @@ export default {
     // @arg Boolean
     getVatDisplay(vat) {
       return vat ? this.$t('INC_VAT') : this.$t('EX_VAT');
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

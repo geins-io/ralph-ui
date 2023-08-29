@@ -21,22 +21,22 @@ export default {
     // Data for select options
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     // Is the Country selector used in checkout?
     inCheckout: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    selection: ''
+    selection: '',
   }),
   computed: {
     ...mapState({
-      currentMarket: state => state.channel.currentMarket,
-      checkoutMarket: state => state.channel.checkoutMarket
-    })
+      currentMarket: (state) => state.channel.currentMarket,
+      checkoutMarket: (state) => state.channel.checkoutMarket,
+    }),
   },
   watch: {
     currentMarket() {
@@ -50,7 +50,7 @@ export default {
         return;
       }
       this.selection = this.checkoutMarket;
-    }
+    },
   },
   mounted() {
     this.selection = this.inCheckout ? this.checkoutMarket : this.currentMarket;
@@ -59,8 +59,8 @@ export default {
     getSelected(value) {
       this.selection = value;
       this.$emit('input', value);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

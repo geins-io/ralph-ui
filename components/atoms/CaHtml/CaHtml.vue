@@ -20,25 +20,25 @@ export default {
     // HTML content to parse
     content: {
       type: String,
-      required: true
+      required: true,
     },
     // Give the HTML a basic style
     styled: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    id: 0
+    id: 0,
   }),
   watch: {
-    content: 'contentUpdated'
+    content: 'contentUpdated',
   },
   mounted() {
     this.id = Math.random();
     this.$nextTick(this.init);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.removeListeners();
   },
   methods: {
@@ -109,8 +109,8 @@ export default {
         }
         this._links = [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -37,25 +37,25 @@ export default {
     // List of appliedCampigns from the API
     campaigns: {
       type: Array,
-      required: true
+      required: true,
     },
     // Display as list or in a box
     display: {
       // `list`, `box`
       type: String,
       // `list`
-      default: 'list'
-    }
+      default: 'list',
+    },
   },
   data: () => ({}),
   computed: {
     visibleCampaigns() {
-      return this.campaigns.filter(i => !i.hideTitle);
-    }
+      return this.campaigns.filter((i) => !i.hideTitle);
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

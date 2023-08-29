@@ -1,6 +1,6 @@
 export const state = () => ({
   current: '',
-  frame: ''
+  frame: '',
 });
 
 export const mutations = {
@@ -17,7 +17,7 @@ export const mutations = {
   },
   setFrame(state, frame) {
     state.frame = frame;
-  }
+  },
 };
 
 export const actions = {};
@@ -25,5 +25,5 @@ export const actions = {};
 export const getters = {
   isOpen(state) {
     return state.current !== '';
-  }
+  },
 };

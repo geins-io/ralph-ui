@@ -48,27 +48,27 @@ export default {
         .query({
           query: listPageInfoQuery,
           variables,
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
-        .then(result => {
+        .then((result) => {
           listPageInfo = result?.data?.listPageInfo;
           if (!listPageInfo || listPageInfo.id === 0) {
             error({
               statusCode: 404,
               message: 'Page not found',
-              url: currentPath
+              url: currentPath,
             });
             return;
           }
           if (req && listPageInfo.canonicalUrl !== currentPath) {
             redirect({
               path: listPageInfo.canonicalUrl,
-              query: req.query
+              query: req.query,
             });
           }
           store.dispatch('loading/end');
         })
-        .catch(err => {
+        .catch((err) => {
           error({ statusCode: err.statusCode, message: err });
         });
 
@@ -91,26 +91,26 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.metaReplacement(this.listInfo?.meta?.description)
+          content: this.metaReplacement(this.listInfo?.meta?.description),
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.metaReplacement(this.listInfo?.meta?.title)
+          content: this.metaReplacement(this.listInfo?.meta?.title),
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.metaReplacement(this.listInfo?.meta?.description)
+          content: this.metaReplacement(this.listInfo?.meta?.description),
         },
         {
           hid: 'og:image',
           property: 'og:image',
           content:
             this.listInfo?.primaryImage ||
-            this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
+            this.$config.baseUrl + '/meta-image-fallback.jpg',
+        },
+      ],
     };
-  }
+  },
 };

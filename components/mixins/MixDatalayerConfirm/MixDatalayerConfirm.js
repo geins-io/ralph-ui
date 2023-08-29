@@ -7,7 +7,7 @@ export default {
   data: () => ({}),
   computed: {
     productsData() {
-      return this.orderCart?.items.map(item => {
+      return this.orderCart?.items.map((item) => {
         return {
           item_id: item.product.productId,
           item_name: item.product.name,
@@ -16,21 +16,21 @@ export default {
           price: item.unitPrice.sellingPriceExVat,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
-          item_variant: item.product.skus.find(i => i.skuId === item.skuId)
+          item_variant: item.product.skus.find((i) => i.skuId === item.skuId)
             .name,
-          sku: item.skuId
+          sku: item.skuId,
           // velocity: "EncryptMargin(item.UnitPriceExVat, item.PurchasePrice).ToString('0.0000', CultureInfo.InvariantCulture)" //Backendmagi
         };
       });
     },
     nostoProducts() {
-      return this.orderCart?.items?.map(item => ({
+      return this.orderCart?.items?.map((item) => ({
         product_id: item.product.productId,
         name: item.product.name,
         unit_price: item.unitPrice.sellingPriceExVat,
         quantity: item.quantity,
         sku_id: item.skuId,
-        price_currency_code: this.$store.getters['channel/currentCurrency']
+        price_currency_code: this.$store.getters['channel/currentCurrency'],
       }));
     },
     // @vuese
@@ -67,19 +67,14 @@ export default {
         return 'AVARDA';
       }
       return 'KLARNA';
-    }
+    },
   },
   watch: {},
   mounted() {},
   methods: {
     sendDataLayerEvents(checkoutData) {
-      const {
-        orderId,
-        firstName,
-        lastName,
-        email,
-        currency
-      } = checkoutData?.order;
+      const { orderId, firstName, lastName, email, currency } =
+        checkoutData?.order;
 
       this.$store.dispatch('events/push', {
         type: 'checkout:purchase',
@@ -87,12 +82,12 @@ export default {
           order: checkoutData?.order,
           orderCart: this.orderCart,
           orderId: this.orderId,
-          nthPurchase: checkoutData?.nthPurchase
-        }
+          nthPurchase: checkoutData?.nthPurchase,
+        },
       });
 
       if (this.$store.getters['nosto/isNostoActive'] && process.client) {
-        window.nostojs(api => {
+        window.nostojs((api) => {
           api
             .defaultSession()
             .addOrder({
@@ -103,25 +98,25 @@ export default {
                 first_name: firstName,
                 last_name: lastName,
                 type: 'order',
-                newsletter: true
+                newsletter: true,
               },
-              items: this.orderCart?.items?.map(item => ({
+              items: this.orderCart?.items?.map((item) => ({
                 product_id: item.product.productId,
                 sku_id: item.skuId,
                 name: item.product.name,
                 quantity: item.quantity,
                 price_currency_code: currency,
-                unit_price: item.unitPrice.sellingPriceIncVat
-              }))
+                unit_price: item.unitPrice.sellingPriceIncVat,
+              })),
             })
             .setPlacements(['order-related'])
             .load()
-            .then(data => {
+            .then((data) => {
               // eslint-disable-next-line
               console.log(data.recommendations);
             });
         });
       }
-    }
-  }
+    },
+  },
 };

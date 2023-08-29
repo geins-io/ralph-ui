@@ -20,9 +20,9 @@ export default {
       inStock: 0,
       oversellable: 0,
       static: 0,
-      incoming: null
+      incoming: null,
     },
-    quantity: 1
+    quantity: 1,
   }),
   computed: {
     // @vuese
@@ -52,7 +52,7 @@ export default {
     chosenSkuCartQuantity() {
       if (this.chosenSku?.id && this.$store.state.cart?.data?.items) {
         const inCart = this.$store.state.cart.data.items.find(
-          i => i.skuId === this.chosenSku.id
+          (i) => i.skuId === this.chosenSku.id,
         );
         return inCart ? inCart.quantity : 0;
       } else {
@@ -72,7 +72,7 @@ export default {
     // @type Boolean
     outOfStock() {
       return this.stockStatus === 'OUT_OF_STOCK';
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -105,7 +105,7 @@ export default {
     // @arg stock (Object)
     getStockStatusText(stock = this.currentStock) {
       return this.$t('STOCK_STATUS_' + this.getStockStatus(stock), {
-        quantity: stock.inStock
+        quantity: stock.inStock,
       });
     },
     // @vuese
@@ -113,7 +113,7 @@ export default {
     // @arg stock (Object)
     getStockStatusDeliveryTime(stock = this.currentStock) {
       return this.$t(
-        'STOCK_STATUS_DELIVERY_TIME_' + this.getStockStatus(stock)
+        'STOCK_STATUS_DELIVERY_TIME_' + this.getStockStatus(stock),
       );
     },
     // @vuese
@@ -121,12 +121,7 @@ export default {
     // @arg stock (Object)
     getStockStatusClass(stock = this.currentStock) {
       const status = this.getStockStatus(stock);
-      return status
-        ? status
-            .toLowerCase()
-            .split('_')
-            .join('-')
-        : '';
-    }
-  }
+      return status ? status.toLowerCase().split('_').join('-') : '';
+    },
+  },
 };

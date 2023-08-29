@@ -1,6 +1,6 @@
 export const state = () => ({
   sessionToken: null,
-  pageWidgetsData: []
+  pageWidgetsData: [],
 });
 
 export const mutations = {
@@ -9,7 +9,7 @@ export const mutations = {
   },
   setPageWidgetsData(state, data) {
     state.pageWidgetsData = data;
-  }
+  },
 };
 
 export const actions = {

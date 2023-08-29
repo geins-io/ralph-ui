@@ -13,23 +13,23 @@ export default {
     // Base elemetn tag
     baseTag: {
       type: String,
-      default: 'li'
+      default: 'li',
     },
     // Product data
     productData: {
       type: Object,
-      required: true
+      required: true,
     },
     // Current page number
     pageNumber: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => ({
     observer: null,
     trackCounter: 0,
-    currentProduct: {}
+    currentProduct: {},
   }),
   computed: {
     // @vuese
@@ -67,7 +67,7 @@ export default {
     chosenSkuCartQuantity() {
       if (this.skuId && this.$store.state.cart?.data?.items) {
         const inCart = this.$store.state.cart.data.items.find(
-          i => i.skuId === this.skuId
+          (i) => i.skuId === this.skuId,
         );
         return inCart ? inCart.quantity : 0;
       } else {
@@ -79,13 +79,13 @@ export default {
     // @type Number
     listIndex() {
       return Number(this.$vnode.key + 1);
-    }
+    },
   },
   created() {
     if (process.client) {
       const options = {
         rootMargin: '0px',
-        threshold: 1.0
+        threshold: 1.0,
       };
       const callback = () => {
         if (this.trackCounter <= 1) {
@@ -96,8 +96,8 @@ export default {
                 product: this.product,
                 page: this.pageNumber,
                 index: this.listIndex,
-                pageSize: this.$config.productListPageSize
-              }
+                pageSize: this.$config.productListPageSize,
+              },
             });
           }
           this.trackCounter = this.trackCounter + 1;
@@ -125,8 +125,8 @@ export default {
           product: this.product,
           page: this.pageNumber,
           index: this.listIndex,
-          pageSize: this.$config.productListPageSize
-        }
+          pageSize: this.$config.productListPageSize,
+        },
       });
 
       if (this.pageNumber > 0) {
@@ -144,9 +144,9 @@ export default {
         ) {
           this.$store.dispatch('snackbar/trigger', {
             message: this.$t('CART_ADD_TOO_MANY', {
-              stock: this.product.totalStock.totalStock
+              stock: this.product.totalStock.totalStock,
             }),
-            placement: 'bottom-center'
+            placement: 'bottom-center',
           });
         } else {
           this.addToCartLoading = true;
@@ -166,10 +166,10 @@ export default {
             variables: {
               sessionId: this.$store.getters['nosto/getSessionToken'],
               productId: this.product.productId,
-              resultId: this.nostoResultId
-            }
+              resultId: this.nostoResultId,
+            },
           })
-          .catch(error => {
+          .catch((error) => {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       }
@@ -178,6 +178,6 @@ export default {
     // Setting product of the product card if other than productData)
     setProduct(product) {
       this.currentProduct = product;
-    }
-  }
+    },
+  },
 };

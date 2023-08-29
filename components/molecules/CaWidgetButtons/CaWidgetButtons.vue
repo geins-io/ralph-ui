@@ -23,8 +23,8 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
@@ -37,11 +37,11 @@ export default {
       this.$store.dispatch('events/push', {
         type: 'widget:click',
         data: {
-          href: this.button.url
-        }
+          href: this.button.url,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

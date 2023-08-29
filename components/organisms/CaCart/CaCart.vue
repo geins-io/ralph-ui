@@ -51,7 +51,7 @@ export default {
     // Cart data object
     cart: {
       type: Object,
-      required: true
+      required: true,
     },
     // Set to display mode to show a non interactable cart
     mode: {
@@ -60,12 +60,12 @@ export default {
       default: 'default',
       validator(value) {
         return ['default', 'display'].includes(value);
-      }
-    }
+      },
+    },
   },
   data: () => ({
     loading: false,
-    stockStatuses: []
+    stockStatuses: [],
   }),
   computed: {
     cartItems() {
@@ -73,16 +73,16 @@ export default {
     },
     showCampaigns() {
       const campaigns = this.cart.appliedCampaigns
-        ? this.cart.appliedCampaigns.filter(i => !i.hideTitle)
+        ? this.cart.appliedCampaigns.filter((i) => !i.hideTitle)
         : [];
       return campaigns.length > 0;
     },
     hasOversellable() {
       const oversellable = this.stockStatuses.filter(
-        i => i.stockStatus === 'OVERSELLABLE'
+        (i) => i.stockStatus === 'OVERSELLABLE',
       );
       return oversellable.length > 0;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -93,9 +93,9 @@ export default {
       this.$emit('loading', loading);
     },
     handleStockStatus(data) {
-      const prod = this.stockStatuses.find(i => i.skuId === data.skuId);
+      const prod = this.stockStatuses.find((i) => i.skuId === data.skuId);
       if (prod) {
-        this.stockStatuses.map(i => {
+        this.stockStatuses.map((i) => {
           if (i.skuId === data.skuId) {
             i.stockStatus = data.stockStatus;
           }
@@ -106,9 +106,9 @@ export default {
       }
     },
     removeHandler(skuId) {
-      this.stockStatuses = this.stockStatuses.filter(i => i.skuId !== skuId);
-    }
-  }
+      this.stockStatuses = this.stockStatuses.filter((i) => i.skuId !== skuId);
+    },
+  },
 };
 </script>
 <style lang="scss">

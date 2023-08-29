@@ -10,7 +10,9 @@
     <NuxtLink :to="$getPath('index')">
       <CaLogo class="ca-checkout-header__logo" alt="Logo" />
     </NuxtLink>
-    <h1 class="ca-checkout-header__title">{{ title }}</h1>
+    <h1 class="ca-checkout-header__title">
+      {{ title }}
+    </h1>
     <CaButton
       v-if="$store.getters.viewportComputer"
       class="ca-checkout-header__button"
@@ -33,19 +35,19 @@ export default {
     // Title of the page
     title: {
       type: String,
-      required: true
+      required: true,
     },
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
-      default: 'chevron-left'
-    }
+      default: 'chevron-left',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

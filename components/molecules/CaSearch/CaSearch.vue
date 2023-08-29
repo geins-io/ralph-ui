@@ -78,14 +78,14 @@
       <section
         v-if="
           loading ||
-            (noResults && searchIsVisible) ||
-            (searchResultsExist && searchIsVisible)
+          (noResults && searchIsVisible) ||
+          (searchResultsExist && searchIsVisible)
         "
         class="ca-search__results"
         :class="{
           'ca-search__results--loading': loading,
           'ca-search__results--loading-empty': loading && !searchResultsExist,
-          'ca-search__results--no-results': noResults
+          'ca-search__results--no-results': noResults,
         }"
       >
         <div class="ca-search__results-box">
@@ -108,7 +108,7 @@
             <CaSpinner
               class="ca-search__spinner"
               :class="{
-                empty: !searchResultsExist
+                empty: !searchResultsExist,
               }"
               :loading="loading"
             />
@@ -119,7 +119,9 @@
               v-if="products.length"
               class="ca-search__result ca-search__result--products"
             >
-              <h3 class="ca-search__list-title">{{ $tc('PRODUCT', 2) }}</h3>
+              <h3 class="ca-search__list-title">
+                {{ $tc('PRODUCT', 2) }}
+              </h3>
               <ul class="ca-search__list ca-search__list--products">
                 <li
                   v-for="product in productsVisible"
@@ -137,13 +139,13 @@
                     <CaImage
                       v-if="
                         product.productImages &&
-                          product.productImages.length > 0
+                        product.productImages.length > 0
                       "
                       class="ca-search__item-image"
                       type="product"
                       :size-array="
                         $config.imageSizes.product.filter(
-                          item => parseInt(item.descriptor) < 100
+                          (item) => parseInt(item.descriptor) < 100,
                         )
                       "
                       :alt="product.name"
@@ -161,7 +163,9 @@
                       alt="placeholder"
                     />
                     <div class="ca-search__item-info">
-                      <div class="ca-search__item-name">{{ product.name }}</div>
+                      <div class="ca-search__item-name">
+                        {{ product.name }}
+                      </div>
                       <CaPrice
                         class="ca-search__item-price"
                         :price="product.unitPrice"
@@ -175,7 +179,9 @@
               v-if="categoriesVisible.length"
               class="ca-search__result ca-search__result--categories"
             >
-              <h3 class="ca-search__list-title">{{ $t('CATEGORIES') }}</h3>
+              <h3 class="ca-search__list-title">
+                {{ $t('CATEGORIES') }}
+              </h3>
               <ul class="ca-search__list">
                 <li
                   v-for="(category, index) in categoriesVisible"
@@ -199,7 +205,9 @@
               v-if="brandsVisible.length"
               class="ca-search__result ca-search__result--brands"
             >
-              <h3 class="ca-search__list-title">{{ $t('BRANDS') }}</h3>
+              <h3 class="ca-search__list-title">
+                {{ $t('BRANDS') }}
+              </h3>
               <ul class="ca-search__list">
                 <li
                   v-for="(brand, index) in brandsVisible"
@@ -224,7 +232,9 @@
           class="ca-search__close-button only-mobile"
           @click="close"
         >
-          <CaIconAndText icon-name="x">{{ $t('CLOSE') }}</CaIconAndText>
+          <CaIconAndText icon-name="x">
+            {{ $t('CLOSE') }}
+          </CaIconAndText>
         </button>
       </section>
     </div>
@@ -244,7 +254,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

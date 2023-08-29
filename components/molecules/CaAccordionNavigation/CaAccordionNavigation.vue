@@ -67,13 +67,13 @@ export default {
     // Icon name for when accordion is open
     iconOpen: {
       type: String,
-      default: 'chevron-up'
+      default: 'chevron-up',
     },
     // Icon name for when accordion is open
     iconClosed: {
       type: String,
-      default: 'chevron-down'
-    }
+      default: 'chevron-down',
+    },
   },
   data: () => ({}),
   computed: {},
@@ -88,11 +88,11 @@ export default {
       return (
         encodeURI(item.canonicalUrl) === currentPage ||
         item.children.some(
-          child => encodeURI(child.canonicalUrl) === currentPage
+          (child) => encodeURI(child.canonicalUrl) === currentPage,
         )
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

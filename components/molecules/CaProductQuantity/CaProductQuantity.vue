@@ -45,39 +45,39 @@ export default {
     // The quantity to be modified
     quantity: {
       type: Number,
-      required: true
+      required: true,
     },
     // Used to disable user input in the input field
     inputDisabled: {
       type: Boolean,
       // `false`
-      default: false
+      default: false,
     },
     // What is the maximum quantity? Stock status
     maxQuantity: {
       type: Number,
-      required: true
+      required: true,
     },
     // What is the minimum quantity? Default 1
     minQuantity: {
       type: Number,
-      default: 1
+      default: 1,
     },
     // Threshold to stop at and emit event. Used for cart vs product page stock handling
     threshold: {
       type: Number,
-      default: -1
+      default: -1,
     },
     // Different style types for the counter
     type: {
       // `default`, `round`, `stacked`
       type: String,
-      default: 'default'
-    }
+      default: 'default',
+    },
   },
   data: () => ({
     count: 0,
-    updateTimeout: null
+    updateTimeout: null,
   }),
   computed: {
     maxReached() {
@@ -94,7 +94,7 @@ export default {
     },
     typeModifier() {
       return 'ca-product-quantity--' + this.type;
-    }
+    },
   },
   watch: {
     quantity(val) {
@@ -107,7 +107,7 @@ export default {
         this.count = this.threshold > 0 ? this.threshold : this.minQuantity;
         this.update();
       }
-    }
+    },
   },
   created() {
     this.count = this.quantity;
@@ -177,8 +177,8 @@ export default {
       }
 
       this.update();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

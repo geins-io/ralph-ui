@@ -5,7 +5,7 @@
       :aria-label="$t('PRICE_HISTORY_SHOW')"
       @clicked="
         $store.commit('contentpanel/open', {
-          name: 'product-price-history'
+          name: 'product-price-history',
         })
       "
     >
@@ -36,7 +36,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

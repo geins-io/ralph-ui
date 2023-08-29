@@ -9,7 +9,7 @@ export default {
   computed: {
     nostoData() {
       return this.$store.state.nosto.pageWidgetsData?.[this.nostoId];
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -40,7 +40,7 @@ export default {
         createObjectNode(indexKey + 1, keys, acc[keys[indexKey]], value);
       };
 
-      const mappedAttributesProducts = products.map(product => ({
+      const mappedAttributesProducts = products.map((product) => ({
         ...product,
         ...Object.entries(product.custom_fields).reduce((acc, [key, value]) => {
           const keys = key.split('_');
@@ -49,51 +49,51 @@ export default {
             return acc;
           }
           return { ...acc, [keys[0]]: value };
-        }, {})
+        }, {}),
       }));
 
       const countPercentageDiscount = (partialValue, totalValue) =>
         // ~~ shorthand for Math.round
         100 - ~~((partialValue / totalValue) * 100);
 
-      const formattedProduct = mappedAttributesProducts.map(product => ({
+      const formattedProduct = mappedAttributesProducts.map((product) => ({
         ...product,
         unitPrice: {
           ...product.unitPrice,
           discountPercentage: countPercentageDiscount(
             product.price,
-            product.list_price
-          )
+            product.list_price,
+          ),
         },
-        productImages: product.images.split(',').map(i => {
+        productImages: product.images.split(',').map((i) => {
           return {
-            fileName: i
+            fileName: i,
           };
         }),
         skus: [
           {
             skuId: Number(product?.primarySku?.id),
-            productId: product.product_id
-          }
+            productId: product.product_id,
+          },
         ],
         totalStock: {
           ...product.totalStock,
-          totalStock: product.totalStock.sellable
+          totalStock: product.totalStock.sellable,
         },
         canonicalUrl: this.getCanonicalUrl(
           product.canonicalUrl || product.url,
-          product.product_id
+          product.product_id,
         ),
         alias: this.getAliasUrl(
           product.canonicalUrl || product.url,
-          product.product_id
+          product.product_id,
         ),
         discountCampaigns: product.discountCampaigns
           ? [product.discountCampaigns.split(',')]
-          : []
+          : [],
       }));
 
       return formattedProduct;
-    }
-  }
+    },
+  },
 };

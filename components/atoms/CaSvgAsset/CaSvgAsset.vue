@@ -21,32 +21,32 @@ export default {
     // The name of the file (without '.svg')
     filename: {
       type: String,
-      required: true
+      required: true,
     },
     // The name of the assets folder
     folder: {
       type: String,
-      required: true
+      required: true,
     },
     // Human friendly describtion of the image
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     loading: {
       type: String,
-      default: 'lazy'
-    }
+      default: 'lazy',
+    },
   },
   data: () => ({}),
   computed: {
     src() {
       return require('~/assets/' + this.folder + '/' + this.filename + '.svg');
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

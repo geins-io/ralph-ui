@@ -31,26 +31,26 @@ export default {
     // The container data object
     container: {
       type: Object,
-      required: true
+      required: true,
     },
     // Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set
     widgetImageSizes: {
       type: Object,
-      default: null
+      default: null,
     },
     isFirst: {
       type: Boolean,
-      default: false
+      default: false,
     },
     widgetAreaVariables: {
       type: Object,
-      required: true
+      required: true,
     },
     // Fetch products only client side
     fetchProductsOnlyClientSide: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({ widgetsMounted: 0 }),
   computed: {
@@ -86,7 +86,7 @@ export default {
     },
     contained() {
       return this.container.design.includes('contained');
-    }
+    },
   },
   watch: {
     widgetsMounted: {
@@ -95,11 +95,11 @@ export default {
           this.$emit('container-mounted', this.container.widgets);
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

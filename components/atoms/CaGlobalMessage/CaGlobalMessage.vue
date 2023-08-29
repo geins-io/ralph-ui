@@ -1,6 +1,6 @@
 <template>
   <div class="ca-global-message">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

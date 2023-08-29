@@ -9,8 +9,8 @@ export default {
   props: {
     render: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   render(h, context) {
     const { children, props } = context;
@@ -19,7 +19,7 @@ export default {
       return children;
     } else {
       return children
-        .map(child => {
+        .map((child) => {
           if (child.children) {
             return child.children;
           }
@@ -27,8 +27,8 @@ export default {
             ? child.componentOptions.children
             : null;
         })
-        .filter(list => list);
+        .filter((list) => list);
     }
-  }
+  },
 };
 </script>

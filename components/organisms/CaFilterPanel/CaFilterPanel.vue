@@ -9,9 +9,9 @@
     <LazyCaAccordionItem
       v-if="
         filters.categories &&
-          filters.categories.length &&
-          $config.showCategoryFilter &&
-          $config.showCategoryTreeViewFilter
+        filters.categories.length &&
+        $config.showCategoryFilter &&
+        $config.showCategoryTreeViewFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'categories'"
@@ -36,9 +36,9 @@
     <LazyCaAccordionItem
       v-if="
         filters.categories &&
-          filters.categories.length &&
-          $config.showCategoryFilter &&
-          !$config.showCategoryTreeViewFilter
+        filters.categories.length &&
+        $config.showCategoryFilter &&
+        !$config.showCategoryTreeViewFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'categories'"
@@ -154,8 +154,8 @@
     <LazyCaAccordionItem
       v-if="
         filters.discount &&
-          filters.discount.length &&
-          $config.showDiscountFilter
+        filters.discount.length &&
+        $config.showDiscountFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'discount'"
@@ -223,38 +223,38 @@ export default {
   props: {
     filters: {
       type: Object,
-      required: true
+      required: true,
     },
     selection: {
       type: Object,
-      required: true
+      required: true,
     },
     selectionActive: {
       type: Boolean,
-      required: true
+      required: true,
     },
     totalProducts: {
       type: Number,
-      required: true
+      required: true,
     },
     totalFiltersActive: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    currentSelection: {}
+    currentSelection: {},
   }),
   computed: {
     buttonSize() {
       return this.$store.getters.viewport === 'phone' ? 's' : 'm';
     },
-    ...mapState(['contentpanel'])
+    ...mapState(['contentpanel']),
   },
   watch: {
     selection(newVal) {
       this.currentSelection = newVal;
-    }
+    },
   },
   mounted() {
     this.currentSelection = this.selection;
@@ -283,8 +283,8 @@ export default {
     getParameterSelection(group) {
       const selection = this.selection.parameters[group];
       return selection || [];
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

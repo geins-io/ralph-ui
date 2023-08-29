@@ -29,7 +29,7 @@
               :alt="alt"
               :size-array="
                 $config.imageSizes.product.filter(
-                  item => parseInt(item.descriptor) < 1700
+                  (item) => parseInt(item.descriptor) < 1700,
                 )
               "
               :sizes="mainImageSizes"
@@ -53,7 +53,7 @@
           :alt="alt"
           :size-array="
             $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) < 1700
+              (item) => parseInt(item.descriptor) < 1700,
             )
           "
           :sizes="mainImageSizes"
@@ -83,7 +83,7 @@
           :slide-meta="slideMeta"
           class="ca-product-gallery__nav-slide"
           :class="{
-            'ca-product-gallery__nav-slide--current': index === currentSlide
+            'ca-product-gallery__nav-slide--current': index === currentSlide,
           }"
           @clicked="slideToIndex(index, 'slider')"
         >
@@ -95,7 +95,7 @@
             :alt="alt"
             :size-array="
               $config.imageSizes.product.filter(
-                item => parseInt(item.descriptor) <= 200
+                (item) => parseInt(item.descriptor) <= 200,
               )
             "
             sizes="85px"
@@ -121,7 +121,7 @@
           :alt="alt"
           :size-array="
             $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) <= 500
+              (item) => parseInt(item.descriptor) <= 500,
             )
           "
           :sizes="thumbnailSizes"
@@ -142,14 +142,14 @@ export default {
   name: 'CaProductGallery',
   components: {
     CaSlide,
-    CaImage
+    CaImage,
   },
   mixins: [],
   props: {
     // Array of the products image filenames
     images: {
       type: Array,
-      required: true
+      required: true,
     },
     // Gallery mode
     galleryMode: {
@@ -158,27 +158,27 @@ export default {
       default: 'slider',
       validator(value) {
         return ['slider', 'plain'].includes(value);
-      }
+      },
     },
     // Use overlay
     hasOverlay: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // The alt text for the product images
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     arrowIconName: {
       type: String,
-      default: 'chevron'
+      default: 'chevron',
     },
     // Display the gallery thumbnails or not
     showGalleryThumbnails: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Thumbnail mode
     thumbnailMode: {
@@ -187,38 +187,38 @@ export default {
       default: 'slider',
       validator(value) {
         return ['slider', 'grid'].includes(value);
-      }
+      },
     },
     // Display dots or not
     showDots: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // To show campaign badge on image
     campaigns: {
       type: [Array, Boolean],
-      default: false
+      default: false,
     },
     // Sizes attribute for main image
     mainImageSizes: {
       type: String,
       default:
-        '(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw'
+        '(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw',
     },
     // Sizes attribute for thumbnail image
     thumbnailSizes: {
       type: String,
       default:
-        '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw'
-    }
+        '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw',
+    },
   },
   data: () => ({
     modalIndex: 1,
-    currentSlide: 0
+    currentSlide: 0,
   }),
   computed: {
     imagesFilenames() {
-      return this.images.map(image => image.fileName);
+      return this.images.map((image) => image.fileName);
     },
     modalProps() {
       return {
@@ -226,7 +226,7 @@ export default {
         alt: this.alt,
         arrowIconName: this.arrowIconName,
         index: this.modalIndex,
-        ratio: this.$config.productImageRatio
+        ratio: this.$config.productImageRatio,
       };
     },
     hasImages() {
@@ -277,11 +277,11 @@ export default {
       return this.isThumbnailModeGrid
         ? this.imagesFilenames.slice(1)
         : this.imagesFilenames;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  beforeDestroy() {
+  beforeUnmount() {
     eventbus.$emit('close-modal');
   },
   methods: {
@@ -295,14 +295,14 @@ export default {
       this.modalIndex = index;
       const modalSettings = {
         component: 'CaProductGalleryModal',
-        componentProps: this.modalProps
+        componentProps: this.modalProps,
       };
       this.$store.commit('modal/open', modalSettings);
     },
     slideChangeHandler(index) {
       this.currentSlide = index;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

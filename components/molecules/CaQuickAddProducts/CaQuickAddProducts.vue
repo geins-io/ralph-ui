@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="nostoId" :id="nostoId" class="nosto_element"></div>
+    <div v-if="nostoId" :id="nostoId" class="nosto_element" />
     <ul class="ca-quick-add-products">
       <li
         v-for="(product, index) in productsData"
@@ -29,17 +29,17 @@ export default {
     // A list of products
     products: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     nostoId: {
       type: [String, null],
-      default: null
+      default: null,
     },
     // Product card design option
     useProductCard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -52,11 +52,11 @@ export default {
         return this.formatNostoData(nostoProducts);
       }
       return [];
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

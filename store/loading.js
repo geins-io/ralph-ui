@@ -1,7 +1,7 @@
 export const state = () => ({
   loading: false,
   timeout: null,
-  delay: 0
+  delay: 0,
 });
 
 export const mutations = {
@@ -19,7 +19,7 @@ export const mutations = {
   },
   end(state) {
     state.loading = false;
-  }
+  },
 };
 
 export const actions = {
@@ -32,7 +32,7 @@ export const actions = {
   end(context) {
     context.commit('clearTimeout');
     context.commit('end');
-  }
+  },
 };
 
 export const getters = {};

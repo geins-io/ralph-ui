@@ -43,9 +43,9 @@ export default {
       } else {
         return '';
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };

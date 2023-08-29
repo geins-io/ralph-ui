@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="ca-spinner"></div>
+  <div v-if="loading" class="ca-spinner" />
 </template>
 <script>
 // @group Atoms
@@ -13,14 +13,14 @@ export default {
     // Set true to show spinner
     loading: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

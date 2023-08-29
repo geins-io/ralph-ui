@@ -59,8 +59,8 @@ export default {
       default: 'default',
       validator(value) {
         return ['default', 'accordion'].includes(value);
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   computed: {
@@ -69,11 +69,11 @@ export default {
     // @type String
     isAccordion() {
       return this.phoneMode === 'accordion';
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

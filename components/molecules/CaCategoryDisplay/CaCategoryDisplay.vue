@@ -28,19 +28,19 @@ export default {
     // List of categories to display. Must include name and alias
     categories: {
       type: Array,
-      required: true
+      required: true,
     },
     // The color of the button. See documentation for [CaButton](/components/CaButton) to learn more.
     buttonColor: {
       type: String,
-      default: 'primary'
-    }
+      default: 'primary',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -3,7 +3,7 @@
     <CaIcon class="ca-icon-and-text__icon" :name="iconName" />
     <component :is="baseElement" class="ca-icon-and-text__text">
       <!-- Text content -->
-      <slot></slot>
+      <slot />
     </component>
   </component>
 </template>
@@ -19,7 +19,7 @@ export default {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
-      required: true
+      required: true,
     },
     // The position of the icon
     iconPosition: {
@@ -28,23 +28,23 @@ export default {
       default: 'left',
       validator(value) {
         return ['left', 'right', 'top'].includes(value);
-      }
+      },
     },
     // The element it should be rendered as
     baseElement: {
       type: String,
-      default: 'span'
-    }
+      default: 'span',
+    },
   },
   data: () => ({}),
   computed: {
     positionClass() {
       return 'ca-icon-and-text--' + this.iconPosition;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

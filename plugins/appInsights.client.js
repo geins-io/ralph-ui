@@ -1,6 +1,6 @@
-export default function({ app }) {
+export default function ({ app }) {
   // Adds ApiKey to all logged items
-  const apiKeyTelemetryInitializer = envelope => {
+  const apiKeyTelemetryInitializer = (envelope) => {
     const data = envelope.baseData;
     data.properties = data.properties || {};
     data.properties.apiKey = app.$config.apiKey;
@@ -9,12 +9,12 @@ export default function({ app }) {
   const telemetryInitializers = [apiKeyTelemetryInitializer];
 
   if (
-    !app.$appInsights?.appInsights._telemetryInitializers.some(_t =>
-      telemetryInitializers.some(t => t.name === _t.name)
+    !app.$appInsights?.appInsights._telemetryInitializers.some((_t) =>
+      telemetryInitializers.some((t) => t.name === _t.name),
     )
   ) {
-    telemetryInitializers.forEach(t =>
-      app.$appInsights?.addTelemetryInitializer(t)
+    telemetryInitializers.forEach((t) =>
+      app.$appInsights?.addTelemetryInitializer(t),
     );
   }
 }

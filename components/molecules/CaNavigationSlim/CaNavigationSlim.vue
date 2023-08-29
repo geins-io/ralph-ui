@@ -24,7 +24,7 @@
             </li>
             <li
               v-for="(subcategory, subindex) in getSubLevelCategories(
-                category.categoryId
+                category.categoryId,
               )"
               :key="subindex"
               class="ca-navigation-slim__sub-item"
@@ -61,20 +61,20 @@ export default {
     // Provide an Array of categories
     categories: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     topLevelCategories() {
       return this.categories
         ? this.categories
-            .filter(i => i.parentCategoryId === 0)
+            .filter((i) => i.parentCategoryId === 0)
             .sort((a, b) => {
               return a.order - b.order;
             })
         : [];
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -83,12 +83,12 @@ export default {
     // @arg Category id (Number)
     getSubLevelCategories(id) {
       return this.categories
-        .filter(i => i.parentCategoryId === id)
+        .filter((i) => i.parentCategoryId === id)
         .sort((a, b) => {
           return a.order - b.order;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

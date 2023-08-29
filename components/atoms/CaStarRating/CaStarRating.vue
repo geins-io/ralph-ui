@@ -54,27 +54,27 @@ export default {
     // default rate - stars will be displayed based on this value on read only mode
     defaultRate: {
       type: Number,
-      default: null
+      default: null,
     },
     // @vuese
     // @type Boolean
     // indicator for read only mode - disable/enable preview mode for stars on hover and submitting a rate
     readOnly: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // @vuese
     // @type Boolean
     // indicator to show/hide numerical rate representation
     showCounter: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
     hoverPreviewStars: null,
     STARS_CONST: 5,
-    rate: null
+    rate: null,
   }),
   computed: {
     // @vuese
@@ -85,7 +85,7 @@ export default {
         return this.defaultRate === null ? 0 : this.defaultRate;
       }
       return this.rate ? this.rate : this.hoverPreviewStars;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -114,8 +114,8 @@ export default {
       this.rate = rate;
       this.hoverPreviewStars = null;
       this.$emit('getProductStarRate', rate);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

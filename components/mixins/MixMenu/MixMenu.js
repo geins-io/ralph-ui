@@ -13,7 +13,7 @@ export default {
       query: menuQuery,
       variables() {
         return {
-          menuLocationId: this.menuLocationId
+          menuLocationId: this.menuLocationId,
         };
       },
       errorPolicy: 'all',
@@ -26,24 +26,24 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {
     // The location id for the menu
     menuLocationId: {
       type: [String, null],
-      default: null
+      default: null,
     },
     // If true, the menu will be fetched only on client side
     onlyClientSide: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     menu: null,
-    defaultElementTag: 'span'
+    defaultElementTag: 'span',
   }),
   computed: {},
   watch: {},
@@ -59,7 +59,7 @@ export default {
         return {
           href: path,
           rel: 'noopener',
-          ...(item.targetBlank ? { target: '_blank' } : {})
+          ...(item.targetBlank ? { target: '_blank' } : {}),
         };
       }
       const href = path.startsWith('/') ? path : this.$getPath(path);
@@ -113,9 +113,9 @@ export default {
       this.$store.dispatch('events/push', {
         type: 'menu:click',
         data: {
-          item
-        }
+          item,
+        },
       });
-    }
-  }
+    },
+  },
 };

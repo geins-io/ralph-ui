@@ -5,7 +5,7 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    noLinkElement: 'div'
+    noLinkElement: 'div',
   }),
   computed: {
     processedHref() {
@@ -37,7 +37,7 @@ export default {
 
       if (this.processedHref.includes(':')) {
         return {
-          href: this.processedHref
+          href: this.processedHref,
         };
       }
 
@@ -45,16 +45,16 @@ export default {
         return {
           href: this.processedHref,
           target: '_blank',
-          rel: 'noopener'
+          rel: 'noopener',
         };
       }
       const href = this.processedHref.startsWith('/')
         ? this.processedHref
         : this.$getPath(this.processedHref);
       return { to: href };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };

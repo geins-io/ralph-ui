@@ -9,13 +9,13 @@ export default {
     // Used to toogle search in mobile, set to true when user opens it
     opened: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Should search be visible when site is at top?
     visibleWhenSiteIsAtTop: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
     searchString: '',
@@ -27,7 +27,7 @@ export default {
     searchStorage: null,
     recentSearches: [],
     topSearches: ['godis', 'askar', 'lakrits', 'choklad', 'present'],
-    noResults: false
+    noResults: false,
   }),
   computed: {
     searchUrl() {
@@ -61,7 +61,7 @@ export default {
     modifiers() {
       return {
         'ca-search--visible': this.searchIsVisible,
-        'ca-search--active': this.active
+        'ca-search--active': this.active,
       };
     },
     showRecentSearches() {
@@ -71,20 +71,20 @@ export default {
       return this.products.slice(0, this.searchResultsVisible);
     },
     categoriesVisible() {
-      let arr = [];
-      this.products.forEach(item => {
-        item.categories.forEach(cat => {
+      const arr = [];
+      this.products.forEach((item) => {
+        item.categories.forEach((cat) => {
           arr.push(cat);
         });
       });
       const collectedArr = [];
-      arr = arr.map(item => {
-        const index = collectedArr.findIndex(i => i.name === item.name);
+      arr.forEach((item) => {
+        const index = collectedArr.findIndex((i) => i.name === item.name);
         if (index === -1) {
           const obj = {
             name: item.name,
             canonicalUrl: item.canonicalUrl,
-            count: 1
+            count: 1,
           };
           collectedArr.push(obj);
         } else {
@@ -96,18 +96,18 @@ export default {
         .slice(0, this.searchResultsVisible);
     },
     brandsVisible() {
-      let arr = [];
-      this.products.forEach(item => {
+      const arr = [];
+      this.products.forEach((item) => {
         arr.push(item.brand);
       });
       const collectedArr = [];
-      arr = arr.map(item => {
-        const index = collectedArr.findIndex(i => i.name === item.name);
+      arr.forEach((item) => {
+        const index = collectedArr.findIndex((i) => i.name === item.name);
         if (index === -1) {
           const obj = {
             name: item.name,
             canonicalUrl: item.canonicalUrl,
-            count: 1
+            count: 1,
           };
           collectedArr.push(obj);
         } else {
@@ -117,14 +117,14 @@ export default {
       return collectedArr
         .sort((a, b) => b.count - a.count)
         .slice(0, this.searchResultsVisible);
-    }
+    },
   },
   watch: {
     $route(to, from) {
       if (to.path !== from.path) {
         this.close();
       }
-    }
+    },
   },
   mounted() {
     this.searchStorage = window.localStorage;
@@ -150,11 +150,11 @@ export default {
             variables: {
               filter: {
                 searchText: this.searchString,
-                sort: 'RELEVANCE'
-              }
-            }
+                sort: 'RELEVANCE',
+              },
+            },
           })
-          .then(result => {
+          .then((result) => {
             this.products = result?.data?.products?.products || [];
             this.loading = false;
             if (this.searchResultsExist) {
@@ -163,7 +163,7 @@ export default {
               this.noResults = true;
             }
           })
-          .catch(error => {
+          .catch((error) => {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       } else {
@@ -178,7 +178,7 @@ export default {
       if (this.recentSearches.includes(this.searchString)) {
         this.recentSearches.splice(
           this.recentSearches.indexOf(this.searchString),
-          1
+          1,
         );
         this.recentSearches.unshift(this.searchString);
       } else {
@@ -189,7 +189,7 @@ export default {
       }
       this.searchStorage.setItem(
         'recentSearches',
-        JSON.stringify(this.recentSearches)
+        JSON.stringify(this.recentSearches),
       );
     },
     blurHandler(event) {
@@ -233,8 +233,8 @@ export default {
     clickHandler(item) {
       this.$store.dispatch('events/push', {
         type: 'search:click',
-        data: item
+        data: item,
       });
-    }
-  }
+    },
+  },
 };

@@ -5,7 +5,7 @@
       class="ca-overlay"
       :class="modifiers"
       @click="$emit('clicked')"
-    ></div>
+    />
   </transition>
 </template>
 <script>
@@ -21,20 +21,20 @@ export default {
     visible: {
       type: Boolean,
       // `false`
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'ca-overlay--visible': this.visible
+        'ca-overlay--visible': this.visible,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

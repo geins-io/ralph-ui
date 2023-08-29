@@ -40,7 +40,7 @@
         <span class="ca-reviews-list__reviews-info-date">
           {{
             new Date(review.reviewDate).toLocaleDateString('en-GB', {
-              dateStyle: 'medium'
+              dateStyle: 'medium',
             })
           }}
         </span>
@@ -53,7 +53,7 @@
         :key="page"
         :class="[
           'ca-reviews-list__pagination-item',
-          { 'ca-reviews-list__pagination-item--active': page === currentPage }
+          { 'ca-reviews-list__pagination-item--active': page === currentPage },
         ]"
       >
         <a
@@ -85,14 +85,14 @@ export default {
         return {
           take: REVIEWS_PER_PAGE,
           skip: this.skipElements,
-          alias: this.productAlias
+          alias: this.productAlias,
         };
       },
       result(result) {
         const {
           reviews = [],
           count = 0,
-          averageRating = 0
+          averageRating = 0,
         } = result?.data?.reviews;
         this.reviews = reviews;
         this.totalReviewsCount = count;
@@ -100,22 +100,22 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   mixins: [],
   props: {
     // the review is assigned based on the product alias
     productAlias: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     reviews: [],
     totalReviewsCount: 0,
     currentPage: 1,
-    averageRating: 0
+    averageRating: 0,
   }),
   computed: {
     // @vuese
@@ -138,7 +138,7 @@ export default {
     // @type Boolean
     canShowMainStarRate() {
       return !!this.averageRating && this.$config.showStarsInProductReviewForm;
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -147,8 +147,8 @@ export default {
     // @arg page (Number)
     goToReviewsPage(page) {
       this.currentPage = page;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

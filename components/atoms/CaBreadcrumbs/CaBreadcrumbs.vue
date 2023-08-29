@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="ca-breadcrumbs" :class="modifiers">
-    <script type="application/ld+json" v-html="breadcrumbSchema"></script>
+    <script type="application/ld+json" v-html="breadcrumbSchema" />
     <ol class="ca-breadcrumbs__list">
       <li
         v-for="(elem, index) in breadcrumbSchema.itemListElement"
@@ -34,21 +34,21 @@ export default {
     // Current category or brand
     current: {
       type: Object,
-      required: true
+      required: true,
     },
     // Name of product, if on product page
     productName: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({
-    parents: []
+    parents: [],
   }),
   computed: {
     modifiers() {
       return {
-        'ca-breadcrumbs--product': this.productName
+        'ca-breadcrumbs--product': this.productName,
       };
     },
     // Creates the schema for the breadcrumbs
@@ -64,9 +64,9 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.$t('BREADCRUMBS_HOME'),
-            item: this.$getPath('index')
-          }
-        ]
+            item: this.$getPath('index'),
+          },
+        ],
       };
 
       if (this.parents.length && this.categoryTree.length) {
@@ -77,7 +77,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.parents[i].name,
-            item: this.$config.baseUrl + this.parents[i].canonicalUrl
+            item: this.$config.baseUrl + this.parents[i].canonicalUrl,
           });
         }
       }
@@ -87,7 +87,7 @@ export default {
       const current = {
         '@type': 'ListItem',
         position,
-        name: this.current.name
+        name: this.current.name,
       };
       if (this.productName) {
         current.item = this.$config.baseUrl + this.current.canonical;
@@ -100,19 +100,19 @@ export default {
         jsonld.itemListElement.push({
           '@type': 'ListItem',
           position,
-          name: this.productName
+          name: this.productName,
         });
       }
       return jsonld;
     },
-    ...mapState(['categoryTree'])
+    ...mapState(['categoryTree']),
   },
   watch: {
     categoryTree(currentValue) {
       if (currentValue?.length) {
         this.setParent(this.current.alias);
       }
-    }
+    },
   },
   created() {
     this.setParent(this.current.alias);
@@ -127,17 +127,17 @@ export default {
     // Sets all parents for current category, if category
     // @arg alias (String)
     setParent(alias) {
-      const current = this.categoryTree.find(i => i.alias === alias);
+      const current = this.categoryTree.find((i) => i.alias === alias);
 
       if (current?.parentCategoryId > 0) {
         const parent = this.categoryTree.find(
-          i => i.categoryId === current.parentCategoryId
+          (i) => i.categoryId === current.parentCategoryId,
         );
         this.parents.push(parent);
         this.setParent(parent.alias);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

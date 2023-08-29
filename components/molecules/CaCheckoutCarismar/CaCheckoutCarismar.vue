@@ -305,7 +305,7 @@
     <div
       v-if="
         $t('CHECKOUT_INVOICE_INFORMATION') !== '' ||
-          $t('CHECKOUT_INVOICE_INFORMATION') !== 'CHECKOUT_INVOICE_INFORMATION'
+        $t('CHECKOUT_INVOICE_INFORMATION') !== 'CHECKOUT_INVOICE_INFORMATION'
       "
       class="ca-checkout-carismar__invoice-information"
     >
@@ -407,10 +407,10 @@ export default {
     // The checkout data from the endpoint
     checkout: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     showSummary: false,
     loading: false,
     changeTimeout: null,
@@ -425,7 +425,7 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        company: ''
+        company: '',
       },
       billingAddress: {
         firstName: '',
@@ -436,13 +436,13 @@ export default {
         city: '',
         entryCode: '',
         mobile: '',
-        company: ''
+        company: '',
       },
       email: '',
       identityNumber: '',
       message: '',
-      addShippingAddress: false
-    }
+      addShippingAddress: false,
+    },
   }),
   computed: {
     // @vuese
@@ -450,7 +450,7 @@ export default {
     // @type Boolean
     orderConsentChecked() {
       return this.checkout.consents?.length
-        ? this.checkout.consents?.find(i => i.type === 'order').checked
+        ? this.checkout.consents?.find((i) => i.type === 'order').checked
         : true;
     },
     isOrganization() {
@@ -458,14 +458,14 @@ export default {
     },
     currentCountry() {
       return this.$store.getters['channel/checkoutMarketObj'].country;
-    }
+    },
   },
   watch: {
     checkout: {
       deep: true,
       handler(val) {
         this.updateCheckoutData(val);
-      }
+      },
     },
     checkoutData: {
       deep: true,
@@ -476,13 +476,13 @@ export default {
           // @arg The checkout data (Object)
           this.$emit('update', val);
         }, 1000);
-      }
+      },
     },
     orderConsentChecked(val) {
       if (val) {
         this.$refs.feedback.hide();
       }
-    }
+    },
   },
   created() {},
   mounted() {
@@ -567,8 +567,8 @@ export default {
       this.loading = false;
       this.feedbackMessage = this.$t('FEEDBACK_ERROR');
       this.$refs.feedback.show();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

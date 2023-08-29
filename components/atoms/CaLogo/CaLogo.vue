@@ -23,18 +23,18 @@ export default {
       default: 'svg',
       validator(value) {
         return ['svg', 'png'].includes(value);
-      }
+      },
     },
     // The alt-text for the logo
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     // Header theme
     theme: {
       type: String,
-      default: 'light'
-    }
+      default: 'light',
+    },
   },
   data: () => ({}),
   computed: {
@@ -44,11 +44,11 @@ export default {
         logoName = 'logo-theme-dark';
       }
       return require('~/assets/' + logoName + '.' + this.filetype);
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

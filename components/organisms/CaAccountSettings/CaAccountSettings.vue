@@ -7,7 +7,7 @@
       :loading="loading"
       @save="saveUser($refs.settingsAccount)"
     >
-      <template #content="{editMode}">
+      <template #content="{ editMode }">
         <div
           v-if="editMode"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
@@ -47,7 +47,7 @@
       :loading="loading"
       @save="saveUser($refs.settingsUser)"
     >
-      <template #content="{editMode}">
+      <template #content="{ editMode }">
         <CaInputText
           v-if="editMode"
           id="email"
@@ -93,7 +93,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.personalId
+              'ca-account-settings__setting-value--not-specified':
+                !user.personalId,
             }"
           >
             {{ user.personalId || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -118,8 +119,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .company
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.company,
             }"
           >
             {{ user.address.company || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -141,8 +142,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .firstName
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.firstName,
             }"
           >
             {{ user.address.firstName || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -164,8 +165,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .lastName
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.lastName,
             }"
           >
             {{ user.address.lastName || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -189,8 +190,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .mobile
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.mobile,
             }"
           >
             {{ user.address.mobile || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -209,7 +210,7 @@
           <CaInputRadio
             v-for="(gender, index) in genders"
             :key="index"
-            v-model="user.gender"
+            v-model="userData.gender"
             :label="gender.label"
             :value="gender.value"
           />
@@ -222,7 +223,7 @@
             {{ $t('LABEL_GENDER') }}
           </h3>
           <p class="ca-account-settings__setting-value">
-            {{ genders.find(i => i.value === user.gender).label }}
+            {{ genders.find((i) => i.value === user.gender).label }}
           </p>
         </div>
       </template>
@@ -233,7 +234,7 @@
       :loading="loading"
       @save="saveUser($refs.settingsAddress)"
     >
-      <template #content="{editMode}">
+      <template #content="{ editMode }">
         <CaInputText
           v-if="editMode"
           id="careOf"
@@ -309,8 +310,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .zip
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.zip,
             }"
           >
             {{ user.address.zip || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -332,8 +333,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .city
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.city,
             }"
           >
             {{ user.address.city || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -358,8 +359,8 @@
           <p
             class="ca-account-settings__setting-value"
             :class="{
-              'ca-account-settings__setting-value--not-specified': !user.address
-                .country
+              'ca-account-settings__setting-value--not-specified':
+                !user.address.country,
             }"
           >
             {{ user.address.country || $t('ACCOUNT_SETTING_NOT_SPECIFIED') }}
@@ -380,7 +381,7 @@
               @click="
                 $store.commit('contentpanel/open', {
                   name: 'account',
-                  frame: 'change'
+                  frame: 'change',
                 })
               "
             >
@@ -420,17 +421,17 @@ export default {
     // The user object received from the API
     user: {
       type: Object,
-      required: true
+      required: true,
     },
     // What genders is available
     genders: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     userData: {},
-    loading: false
+    loading: false,
   }),
   computed: {
     addressInput() {
@@ -445,16 +446,16 @@ export default {
     },
     currentUserType() {
       const type = this.$store.state.customerType;
-      return this.customerTypes.find(i => i.type === type);
+      return this.customerTypes.find((i) => i.type === type);
     },
     userIsOrganization() {
       return this.currentUserType.type === 'ORGANIZATION';
-    }
+    },
   },
   watch: {
     user() {
       this.userData = this.user;
-    }
+    },
   },
   mounted() {
     this.userData = this.user;
@@ -470,38 +471,38 @@ export default {
               address: this.addressInput,
               gender: this.userData.gender,
               personalId: this.userData.personalId,
-              customerType: this.userData.customerType
-            }
+              customerType: this.userData.customerType,
+            },
           },
           errorPolicy: 'all',
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
-        .then(result => {
+        .then((result) => {
           this.loading = false;
           if (!result.errors) {
             this.userData = result.data.updateUser;
             this.$store.dispatch(
               'changeCustomerType',
-              this.userData.customerType
+              this.userData.customerType,
             );
             this.$cookies.remove('ralph-user-type', { path: '/' });
             this.$store.dispatch(
               'setCustomerTypeCookie',
-              this.userData.customerType
+              this.userData.customerType,
             );
 
             this.$emit('save', this.userData);
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
               placement: 'bottom-center',
-              mode: 'success'
+              mode: 'success',
             });
             this.$nextTick(() => {
               sectionRef.toggleEditMode();
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
@@ -514,9 +515,9 @@ export default {
           button: {
             text: this.$t('ACCOUNT_DELETE_PROMPT_BUTTON'),
             color: 'primary',
-            clickHandler: this.deleteAccount
-          }
-        }
+            clickHandler: this.deleteAccount,
+          },
+        },
       };
       this.$store.commit('modal/open', modalSettings);
     },
@@ -527,9 +528,9 @@ export default {
         .mutate({
           mutation: deleteUserMutation,
           errorPolicy: 'all',
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
-        .then(async result => {
+        .then(async (result) => {
           this.$store.dispatch('loading/end');
           if (!result.errors && result.data.deleteUser) {
             await this.$store.dispatch('auth/logout');
@@ -537,20 +538,20 @@ export default {
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
               placement: 'bottom-center',
-              mode: 'success'
+              mode: 'success',
             });
             this.$store.dispatch('events/push', {
-              type: 'user:delete'
+              type: 'user:delete',
             });
           } else {
             this.$store.dispatch('snackbar/trigger', {
               message: this.$t('FEEDBACK_ERROR'),
               placement: 'bottom-center',
-              mode: 'error'
+              mode: 'error',
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
@@ -559,8 +560,8 @@ export default {
     // @arg Boolean
     getVatDisplay(vat) {
       return vat ? this.$t('INC_VAT') : this.$t('EX_VAT');
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

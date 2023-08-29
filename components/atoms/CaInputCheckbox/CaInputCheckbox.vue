@@ -34,41 +34,41 @@ export default {
   mixins: [],
   model: {
     prop: 'checked',
-    event: 'change'
+    event: 'change',
   },
   props: {
     // The checkbox label
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     // Is checkbox checked? Use v-model to bind
     checked: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // A description of the checkbox
     description: {
       type: String,
-      default: ''
+      default: '',
     },
     // The id for the checkbox
     id: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'ca-input-checkbox--checked': this.checked
+        'ca-input-checkbox--checked': this.checked,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

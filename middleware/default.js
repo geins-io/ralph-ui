@@ -11,22 +11,22 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     const startPageName = 'start';
 
     // Function to check if language is allowed for a market and redirect otherwise
-    const checkIfLanguageAllowed = market => {
+    const checkIfLanguageAllowed = (market) => {
       const marketObj = store.state.channel.markets.find(
-        m => m.alias === market
+        (m) => m.alias === market,
       );
 
       if (!marketObj) {
         // eslint-disable-next-line no-console
         console.error(
-          'Market with alias "' + market + '" not available in markets array'
+          'Market with alias "' + market + '" not available in markets array',
         );
         return;
       }
 
       const defaultLanguage = marketObj.defaultLanguageId.split('-')[0];
       const allowedLanguages = marketObj.allowedLanguages.map(
-        ({ code }) => code
+        ({ code }) => code,
       );
 
       // If specific allowed languages exists for this market and if the current language is not on the list, change to default language
@@ -36,7 +36,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       ) {
         const fallbackPath = route.path.replace(
           currentLanguage,
-          defaultLanguage
+          defaultLanguage,
         );
         return redirect(fallbackPath);
       }
@@ -46,7 +46,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     // If market in path is not in markets, redirect to fallback market
     if (marketInPath && marketInPath !== currentMarket) {
       const marketAliases = store.state.channel.markets.map(
-        ({ alias }) => alias
+        ({ alias }) => alias,
       );
 
       // If market exists
@@ -64,7 +64,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       // Change to fallback market if market in path doesn't exist
       const fallbackPath = route.path.replace(
         marketInPath,
-        $config.fallbackMarketAlias
+        $config.fallbackMarketAlias,
       );
       store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
 
@@ -87,7 +87,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
         .replace('/' + currentMarket, '')
         .replace('/' + currentLanguage, '');
       return redirect(
-        '/' + currentMarket + app.localePath('index') + strippedPath
+        '/' + currentMarket + app.localePath('index') + strippedPath,
       );
     }
 
@@ -114,8 +114,8 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       data: {
         route: { name, meta, path, hash, query, params, fullPath },
         isSSR: process.server,
-        requestUrl: fullUrl
-      }
+        requestUrl: fullUrl,
+      },
     });
   }
 };

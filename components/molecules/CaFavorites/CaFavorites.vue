@@ -32,24 +32,24 @@ export default {
     // Show 'my favorites' text next to heart
     showText: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'only-mobile': this.showText
+        'only-mobile': this.showText,
       };
     },
     favoritesQty() {
       return this.favorites.length || 0;
     },
-    ...mapState(['favorites'])
+    ...mapState(['favorites']),
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

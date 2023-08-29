@@ -1,5 +1,5 @@
 <template>
-  <div class="ca-skeleton" :class="modifiers" :style="styles"></div>
+  <div class="ca-skeleton" :class="modifiers" :style="styles" />
 </template>
 <script>
 // @group Atoms
@@ -13,28 +13,28 @@ export default {
     // Height / Width
     ratio: {
       type: Number,
-      default: null
+      default: null,
     },
     // Should corners be rounded?
     radius: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Width of skeleton
     width: {
       type: String,
-      default: '100%'
+      default: '100%',
     },
     // Height of skeleton
     height: {
       type: String,
-      default: '1.4em'
+      default: '1.4em',
     },
     // Be transparent
     transparent: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -44,7 +44,7 @@ export default {
     modifiers() {
       return {
         'ca-skeleton--radius': this.radius,
-        'ca-skeleton--transparent': this.transparent
+        'ca-skeleton--transparent': this.transparent,
       };
     },
     styles() {
@@ -55,11 +55,11 @@ export default {
         stylesObj.padding = '0 0 ' + this.ratioPadding;
       }
       return stylesObj;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

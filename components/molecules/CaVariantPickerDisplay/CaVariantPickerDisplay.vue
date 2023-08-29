@@ -35,12 +35,12 @@ export default {
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({
-    baseClass: 'ca-variant-picker-display'
+    baseClass: 'ca-variant-picker-display',
   }),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

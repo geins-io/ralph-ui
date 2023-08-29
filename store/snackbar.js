@@ -2,7 +2,7 @@ export const state = () => ({
   message: '',
   timeout: null,
   placement: 'top-right',
-  mode: ''
+  mode: '',
 });
 
 export const mutations = {
@@ -25,7 +25,7 @@ export const mutations = {
   },
   clearTimeout(state) {
     clearTimeout(state.timeout);
-  }
+  },
 };
 
 export const actions = {
@@ -42,7 +42,7 @@ export const actions = {
     context.commit('setTimeout', () => {
       context.commit('hide');
     });
-  }
+  },
 };
 
 export const getters = {};

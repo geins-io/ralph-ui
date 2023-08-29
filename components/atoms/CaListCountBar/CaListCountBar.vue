@@ -1,6 +1,6 @@
 <template>
   <div class="ca-list-count-bar__wrapper" :style="cssVariables">
-    <div class="ca-list-count-bar"></div>
+    <div class="ca-list-count-bar" />
   </div>
 </template>
 <script>
@@ -15,18 +15,18 @@ export default {
     // The lowest product number shown
     minCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // The highest product number shown
     maxCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // The total amount of products in list
     totalCount: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
@@ -34,13 +34,13 @@ export default {
       return {
         '--min-count': this.minCount - 1,
         '--product-count': this.maxCount - (this.minCount - 1),
-        '--total-count': this.totalCount
+        '--total-count': this.totalCount,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -7,7 +7,7 @@ export default {
   props: {},
   data: () => ({
     workingOnPromise: false,
-    promiseQueue: []
+    promiseQueue: [],
   }),
   computed: {},
   watch: {},
@@ -21,7 +21,7 @@ export default {
         this.promiseQueue.push({
           promise,
           resolve,
-          reject
+          reject,
         });
         this.dequeue();
       });
@@ -40,12 +40,12 @@ export default {
         this.workingOnPromise = true;
         item
           .promise()
-          .then(value => {
+          .then((value) => {
             this.workingOnPromise = false;
             item.resolve(value);
             this.dequeue();
           })
-          .catch(err => {
+          .catch((err) => {
             this.workingOnPromise = false;
             item.reject(err);
             this.dequeue();
@@ -56,6 +56,6 @@ export default {
         this.dequeue();
       }
       return true;
-    }
-  }
+    },
+  },
 };

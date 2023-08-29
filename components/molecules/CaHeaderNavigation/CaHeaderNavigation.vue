@@ -7,7 +7,7 @@
         class="ca-header-navigation__item"
         :class="{
           'ca-header-navigation__item--open':
-            open === item.id && item.children.length
+            open === item.id && item.children.length,
         }"
         @mouseover="handleMouseOver(item.id)"
         @mouseleave="handleMouseLeave"
@@ -52,7 +52,7 @@
                 class="ca-header-navigation__child-item"
                 :class="{
                   'ca-header-navigation__child-item--parent':
-                    childItem.children.length > 0
+                    childItem.children.length > 0,
                 }"
               >
                 <component
@@ -109,7 +109,7 @@ export default {
     type: {
       // `full-width` / `boxed`
       type: String,
-      default: 'full-width'
+      default: 'full-width',
     },
     // Choose between hover or click to open menu
     menuState: {
@@ -117,16 +117,16 @@ export default {
       default: 'hover',
       validator(value) {
         return ['click', 'hover'].includes(value);
-      }
+      },
     },
     // Show the "show all" link in the menu
     showAllLink: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    open: 0
+    open: 0,
   }),
   computed: {
     modifiers() {
@@ -134,13 +134,13 @@ export default {
     },
     containerElem() {
       return this.type === 'full-width' ? 'CaContainer' : 'div';
-    }
+    },
   },
   watch: {},
   mounted() {
     document.body.addEventListener('click', this.handleClickOutside);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.body.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
@@ -188,7 +188,7 @@ export default {
       return item.children.length
         ? {
             type: 'button',
-            'aria-expanded': this.open === item.id
+            'aria-expanded': this.open === item.id,
           }
         : this.getAttributes(item);
     },
@@ -199,8 +199,8 @@ export default {
       if (!isMenuClicked) {
         this.closeMenu();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

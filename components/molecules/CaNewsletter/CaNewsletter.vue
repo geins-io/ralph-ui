@@ -42,30 +42,30 @@ export default {
     // Color prop for the button
     buttonColor: {
       type: String,
-      default: 'primary'
-    }
+      default: 'primary',
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     email: '',
     loading: false,
     feedback: {
       type: 'info',
-      message: ''
+      message: '',
     },
     feedbacks: {
       success: {
         type: 'success',
-        message: vm.$t('NEWSLETTER_FEEDBACK_SUCCESS')
+        message: vm.$t('NEWSLETTER_FEEDBACK_SUCCESS'),
       },
       fail: {
         type: 'error',
-        message: vm.$t('FEEDBACK_ERROR')
+        message: vm.$t('FEEDBACK_ERROR'),
       },
       notValid: {
         type: 'error',
-        message: vm.$t('EMAIL_ERROR_NOT_VALID')
-      }
-    }
+        message: vm.$t('EMAIL_ERROR_NOT_VALID'),
+      },
+    },
   }),
   computed: {},
   watch: {},
@@ -87,25 +87,25 @@ export default {
           .mutate({
             mutation: newsletterMutation,
             variables: {
-              email: this.email
-            }
+              email: this.email,
+            },
           })
-          .then(result => {
+          .then((result) => {
             this.loading = false;
             if (result?.data?.subscribeToNewsletter) {
               this.showFeedback(this.feedbacks.success);
               this.$store.dispatch('events/push', {
                 type: 'newsletter:subscribe',
                 data: {
-                  email: this.email
-                }
+                  email: this.email,
+                },
               });
               this.email = '';
             } else {
               this.showFeedback(this.feedbacks.fail);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             this.loading = false;
             this.showFeedback(this.feedbacks.fail);
             // eslint-disable-next-line no-console
@@ -120,8 +120,8 @@ export default {
       if (valid) {
         this.$refs.feedback.hide();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

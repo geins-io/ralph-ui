@@ -1,6 +1,6 @@
 <template>
   <div class="ca-container" :class="designClass">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -13,18 +13,18 @@ export default {
   props: {
     design: {
       type: String,
-      default: 'default'
-    }
+      default: 'default',
+    },
   },
   data: () => ({}),
   computed: {
     designClass() {
       return 'ca-container--' + this.design;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

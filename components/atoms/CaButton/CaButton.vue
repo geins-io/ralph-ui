@@ -8,7 +8,7 @@
     @click="$emit('clicked')"
   >
     <!-- Button text / content -->
-    <slot></slot>
+    <slot />
     <CaSpinner class="ca-button__spinner" :loading="loading" />
   </component>
 </template>
@@ -26,13 +26,13 @@ export default {
     href: {
       type: String,
       // ''
-      default: ''
+      default: '',
     },
     // Use to disable button
     disabled: {
       type: Boolean,
       // `false`
-      default: false
+      default: false,
     },
     // The size of the button
     size: {
@@ -41,33 +41,33 @@ export default {
       default: 'm',
       validator(value) {
         return ['s', 'm', 'l'].includes(value);
-      }
+      },
     },
     // Type of button
     type: {
       // 'default', 'full-width'
       type: String,
-      default: 'default'
+      default: 'default',
     },
     // Color of button
     color: {
       // 'primary', 'secondary'
       type: String,
-      default: 'primary'
+      default: 'primary',
     },
     // Set button in loading state
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Set to true to use button style without it being an actual button
     noFunction: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    noLinkElement: 'button'
+    noLinkElement: 'button',
   }),
   computed: {
     modifiers() {
@@ -89,11 +89,11 @@ export default {
     },
     baseElem() {
       return this.noFunction ? 'div' : this.linkBaseElem;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

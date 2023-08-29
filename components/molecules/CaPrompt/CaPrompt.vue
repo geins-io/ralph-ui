@@ -1,7 +1,9 @@
 <template>
   <div class="ca-prompt">
     <div class="ca-prompt__header">
-      <div class="ca-prompt__title">{{ title }}</div>
+      <div class="ca-prompt__title">
+        {{ title }}
+      </div>
       <CaIconButton
         icon-name="x"
         class="ca-prompt__close"
@@ -44,18 +46,18 @@ export default {
     // Prompt title
     title: {
       type: String,
-      required: true
+      required: true,
     },
     // Prompt text
     text: {
       type: String,
-      required: true
+      required: true,
     },
     // Prompt confirm button. Object need to include color, text and clickHandler
     button: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
@@ -63,7 +65,7 @@ export default {
   mounted() {
     this.$emit('ready');
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

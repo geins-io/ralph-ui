@@ -20,7 +20,7 @@ export default {
           id: this.orderId,
           paymentType: this.type,
           checkoutMarket: this.$store.state.channel.checkoutMarket,
-          cartId: this.cartId
+          cartId: this.cartId,
         };
       },
       result(result) {
@@ -39,14 +39,14 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {},
   data: () => ({
     orderCart: null,
     checkoutConfirmData: null,
-    loading: true
+    loading: true,
   }),
   computed: {
     // @vuese
@@ -60,7 +60,7 @@ export default {
     // @type Booleen
     noCart() {
       return this.cartId === '' && this.orderCart === null;
-    }
+    },
   },
   watch: {
     checkoutConfirmData(newVal, oldVal) {
@@ -68,7 +68,7 @@ export default {
         this.loading = false;
         this.confirmCartQuery();
       }
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -81,15 +81,15 @@ export default {
           mutation: completeCartMutation,
           variables: {
             id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket
+            checkoutMarket: this.$store.state.channel.checkoutMarket,
           },
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
         .then(() => {
           this.$store.dispatch('cart/reset');
           this.cartCompleted = true;
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
@@ -102,10 +102,10 @@ export default {
           variables: {
             id: this.cartId,
             checkoutMarket: this.$store.state.channel.checkoutMarket,
-            allowExternalShippingFee: true
-          }
+            allowExternalShippingFee: true,
+          },
         })
-        .then(result => {
+        .then((result) => {
           if (result.data && result.data.getCart) {
             this.orderCart = result.data.getCart;
             if (!this.orderCart.isCompleted && !process.server) {
@@ -119,9 +119,9 @@ export default {
             }
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
-    }
-  }
+    },
+  },
 };

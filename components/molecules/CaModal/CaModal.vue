@@ -48,7 +48,7 @@ export default {
   data: () => ({
     contentLoaded: false,
     opened: false,
-    width: null
+    width: null,
   }),
   computed: {
     componentProps() {
@@ -67,7 +67,7 @@ export default {
       }
       return obj;
     },
-    ...mapState(['modal', 'viewportWidth'])
+    ...mapState(['modal', 'viewportWidth']),
   },
   watch: {
     'modal.component'(newVal, oldVal) {
@@ -79,14 +79,14 @@ export default {
       if (newVal !== oldVal) {
         this.setSize();
       }
-    }
+    },
   },
   mounted() {
     eventbus.$on('close-modal', () => {
       this.closeModal();
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     eventbus.$off('close-modal');
   },
   methods: {
@@ -127,8 +127,8 @@ export default {
         }
         this.width = Math.round(width) + 'px';
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

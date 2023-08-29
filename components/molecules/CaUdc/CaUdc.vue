@@ -1,7 +1,9 @@
 <template>
   <div class="ca-udc">
     <div class="ca-udc__form">
-      <p class="ca-udc__text">{{ $t('CHECKOUT_ENTER_ZIP') }}</p>
+      <p class="ca-udc__text">
+        {{ $t('CHECKOUT_ENTER_ZIP') }}
+      </p>
       <CaInputText
         id="ca-udc-zip"
         v-model="currentZip"
@@ -30,12 +32,12 @@
     </div>
 
     <client-only>
-      <div v-show="optionsAvailable" ref="widget" class="ca-udc__widget"></div>
+      <div v-show="optionsAvailable" ref="widget" class="ca-udc__widget" />
       <script
         type="text/javascript"
         src="/vendors/unifaun-checkout-all.min.js"
         async
-      ></script>
+      />
     </client-only>
   </div>
 </template>
@@ -51,26 +53,26 @@ export default {
     // JSON string from the API
     shippingData: {
       type: [String, null],
-      default: null
+      default: null,
     },
     // The current zip code / postal code
     zip: {
       type: String,
-      required: true
+      required: true,
     },
     // If parent step is loading
     parentLoading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Pass true if UDC data has been set in the checkout
     dataIsSet: {
       type: Boolean,
       required: true,
-      default: false
-    }
+      default: false,
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     data: '',
     currentZip: '',
     loading: false,
@@ -81,13 +83,13 @@ export default {
       useIcons: true,
       iconsBaseUrl:
         'https://api.unifaun.com/rs-extapi/v1/delivery-checkouts-widget/logos',
-      resultCallback: vm.changed
+      resultCallback: vm.changed,
     },
     widgetLoadedInterval: null,
     udcValid: false,
     optionsAvailable: false,
     resetData: false,
-    searchWasPerformed: false
+    searchWasPerformed: false,
   }),
   computed: {
     // @vuese
@@ -95,7 +97,7 @@ export default {
     // @type Boolean
     valid() {
       return this.currentZip !== '' && this.optionsAvailable;
-    }
+    },
   },
   watch: {
     zip(val) {
@@ -108,7 +110,7 @@ export default {
         // @arg valid (Boolean)
         this.$emit('validation', newVal);
       }
-    }
+    },
   },
   mounted() {
     this.currentZip = this.$store.state.checkout.currentZip
@@ -121,7 +123,7 @@ export default {
         clearInterval(this.widgetLoadedInterval);
         this.widget = window.UnifaunCheckout.createAt(
           this.$refs.widget,
-          this.config
+          this.config,
         );
         if (this.shippingData) {
           this.update();
@@ -131,7 +133,7 @@ export default {
       }
     }, 500);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.widgetLoadedInterval);
   },
   methods: {
@@ -189,10 +191,10 @@ export default {
         return false;
       }
       const selected = document.getElementsByClassName(
-        'unifaun-checkout-selected0'
+        'unifaun-checkout-selected0',
       )[0];
       const hasTextInput = !!selected.querySelector(
-        '.unifaun-checkout-text-input-input'
+        '.unifaun-checkout-text-input-input',
       );
       const debounce = hasTextInput ? 2000 : 150;
       clearTimeout(this.changeTimeout);
@@ -201,15 +203,15 @@ export default {
         const udcData = {
           selectedOptionId: data.selectedOptionId,
           pickupPoint: data.agent,
-          deliveryData: data.fields.length ? JSON.stringify(data.fields) : ''
+          deliveryData: data.fields.length ? JSON.stringify(data.fields) : '',
         };
         this.$store.commit('checkout/setUDCdata', JSON.stringify(data));
         // A change has been made
         // @arg Selected option ID, pickup point, delivery data (Object)
         this.$emit('changed', udcData);
       }, debounce);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -3,7 +3,7 @@ import getCartQuery from 'cart/get.graphql';
 
 export const state = () => ({
   data: null,
-  added: null
+  added: null,
 });
 
 export const mutations = {
@@ -12,7 +12,7 @@ export const mutations = {
   },
   setAdded(state, added) {
     state.added = added;
-  }
+  },
 };
 
 export const actions = {
@@ -27,35 +27,34 @@ export const actions = {
         variables: {
           id: id ?? getters.id,
           cartMarketAlias: rootGetters['channel/cartMarketAlias'],
-          allowExternalShippingFee: rootState.currentRouteName?.includes(
-            'checkout'
-          )
+          allowExternalShippingFee:
+            rootState.currentRouteName?.includes('checkout'),
         },
-        fetchPolicy: 'no-cache'
+        fetchPolicy: 'no-cache',
       })
-      .then(result => {
+      .then((result) => {
         if (result?.data?.getCart) {
           dispatch('update', result.data.getCart);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
   sendNostoEvent({ rootGetters }, cart) {
     if (window.nostojs && cart) {
-      window.nostojs(api => {
+      window.nostojs((api) => {
         api
           .defaultSession()
           .setCart({
-            items: cart.items.map(item => ({
+            items: cart.items.map((item) => ({
               name: item.product.name,
               price_currency_code: rootGetters['channel/currentCurrency'],
               product_id: item.product.productId,
               quantity: item.quantity,
               sku_id: item.skuId,
-              unit_price: item.unitPrice.sellingPriceIncVat
-            }))
+              unit_price: item.unitPrice.sellingPriceIncVat,
+            })),
           })
           .viewCart()
           .update();
@@ -78,7 +77,7 @@ export const actions = {
     if (cart.id) {
       this.$cookies.set('ralph-cart', cart.id, {
         path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
+        expires: new Date(new Date().getTime() + 31536000000),
       });
     }
   },
@@ -111,13 +110,13 @@ export const actions = {
       unitPrice: added.product.unitPrice,
       product: added.product,
       quantity: added.item.quantity,
-      skuId: added.item.skuId
+      skuId: added.item.skuId,
     };
     commit('setAdded', item);
   },
   removeAddedNotification({ commit }) {
     commit('setAdded', null);
-  }
+  },
 };
 
 export const getters = {
@@ -134,5 +133,5 @@ export const getters = {
   },
   id(state) {
     return state.data?.id ? state.data.id : '';
-  }
+  },
 };

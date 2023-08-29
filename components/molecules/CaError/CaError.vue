@@ -24,8 +24,8 @@ export default {
     error: {
       type: Object,
       required: true,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   mounted() {
     this.logError();

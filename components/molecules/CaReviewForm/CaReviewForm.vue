@@ -1,6 +1,8 @@
 <template>
   <section class="ca-review-form">
-    <h3 class="ca-review-form__header">{{ $t('REVIEW_WRITE') }}</h3>
+    <h3 class="ca-review-form__header">
+      {{ $t('REVIEW_WRITE') }}
+    </h3>
 
     <div v-if="!showForm && !isAuthenticated" class="ca-review-form__login">
       <p class="ca-review-form__login-message">
@@ -97,12 +99,12 @@ export default {
   props: {
     productAlias: {
       type: String,
-      default: ''
+      default: '',
     },
     productStarRating: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data: () => ({
     loading: false,
@@ -110,21 +112,21 @@ export default {
     success: false,
     reviewForm: {
       author: '',
-      comment: ''
+      comment: '',
     },
     feedbackMessage: '',
     isButtonDisabled: false,
-    rate: 0
+    rate: 0,
   }),
   computed: {
     ...mapGetters({
-      isAuthenticated: 'auth/authenticated'
+      isAuthenticated: 'auth/authenticated',
     }),
     // @vuese
     // indicate if stars should be validated depending on config value
     shouldValidateCommentInput() {
       return !this.$config.showStarsInProductReviewForm;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -134,7 +136,7 @@ export default {
     openLoginPanel() {
       this.$store.commit('contentpanel/open', {
         name: 'account',
-        frame: 'login'
+        frame: 'login',
       });
     },
     // @vuese
@@ -169,12 +171,12 @@ export default {
             alias: this.productAlias,
             author: this.reviewForm.author,
             comment: this.reviewForm.comment,
-            rating: this.rate
+            rating: this.rate,
           },
           errorPolicy: 'all',
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
-        .then(status => {
+        .then((status) => {
           if (!status?.errors) {
             this.success = true;
             return;
@@ -182,7 +184,7 @@ export default {
           this.showErrorFeedback();
           this.showForm = true;
         })
-        .catch(e => {
+        .catch((e) => {
           this.showErrorFeedback();
         })
         .finally(() => {
@@ -210,8 +212,8 @@ export default {
     // @arg rate (Number)
     setRate(rate) {
       this.rate = rate;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

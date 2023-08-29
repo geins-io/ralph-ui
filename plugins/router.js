@@ -11,14 +11,14 @@ export function createRouter(
   ssrContext,
   createDefaultRouter,
   routerOptions,
-  config
+  config,
 ) {
   const defaultOptions =
     routerOptions || createDefaultRouter(ssrContext, config).options;
 
   const newRouterOptions = {
     ...defaultOptions,
-    routes: fixRoutes(defaultOptions.routes, config)
+    routes: fixRoutes(defaultOptions.routes, config),
   };
 
   return new Router(newRouterOptions);
@@ -27,13 +27,13 @@ export function createRouter(
 // Modify routes
 function fixRoutes(defaultRoutes, config) {
   // Remove start page from routes, since we only want ot use modifed start page
-  const newRoutes = defaultRoutes.filter(route => {
+  const newRoutes = defaultRoutes.filter((route) => {
     return !route.name.includes('start');
   });
 
-  newRoutes.map(route => {
+  newRoutes.map((route) => {
     if (route.path.includes('/:market?')) {
-      return;
+      return false;
     }
     // Change start page conmponent to front page
     if (route.name.includes('index')) {
@@ -56,7 +56,7 @@ function fixRoutes(defaultRoutes, config) {
     newRoutes.push({
       path: '/',
       component: StartPage,
-      name: 'start'
+      name: 'start',
     });
   }
 

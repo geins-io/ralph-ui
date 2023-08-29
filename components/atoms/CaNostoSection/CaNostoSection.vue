@@ -23,9 +23,9 @@
       <CaListPagination
         v-if="
           configuration.slideshowDisabled &&
-            !configuration.limitNrOfRows &&
-            products &&
-            products.count > take
+          !configuration.limitNrOfRows &&
+          products &&
+          products.count > take
         "
         direction="next"
         :showing="showing"
@@ -52,13 +52,13 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     productsLoaded: false,
     loading: true,
-    loaded: false
+    loaded: false,
   }),
   computed: {
     isTitleVisible() {
@@ -84,23 +84,23 @@ export default {
     },
     isProductsEmpty() {
       return !this.loading && this.products.length === 0;
-    }
+    },
   },
   watch: {
     products: {
       handler(val) {
         this.loading = false;
         this.productsLoaded = true;
-      }
+      },
     },
     nostoData(newVal) {
       if (newVal) {
         this.loaded = newVal.products.length;
       }
-    }
+    },
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

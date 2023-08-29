@@ -14,7 +14,7 @@ const DATA_KEYS = [
   'scopesSlots',
   'slot',
   'ref',
-  'key'
+  'key',
 ];
 
 const mutateKey = (key, prefix = 'cloned', postfix = '') => {
@@ -37,7 +37,7 @@ const extractData = (vnode, isComp, position) => {
     const cOpts = vnode.componentOptions;
     Object.assign(data, {
       props: cOpts.propsData,
-      on: cOpts.listeners
+      on: cOpts.listeners,
     });
   }
 
@@ -63,7 +63,7 @@ const cloneVNode = (vnode, position, newData = {}) => {
 
   const tag = isComp ? vnode.componentOptions.Ctor : vnode.tag;
 
-  const childNodes = children ? children.map(c => cloneVNode(c)) : undefined;
+  const childNodes = children ? children.map((c) => cloneVNode(c)) : undefined;
   return h(tag, data, childNodes);
 };
 // @group Molecules
@@ -74,45 +74,45 @@ export default {
   name: 'CaSlider',
   components: {
     CaSliderArrows,
-    CaSliderDots
+    CaSliderDots,
   },
   mixins: [],
   props: {
     // Should the slider be centered?
     centered: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Should the slider have infinite sliding?
     infinite: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Number of slides
     nrOfSlides: {
       type: Number,
-      required: true
+      required: true,
     },
     // Should dots be displayed
     dots: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Should arrows be displayed
     arrows: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     arrowIconName: {
       type: String,
-      default: 'chevron'
+      default: 'chevron',
     },
     // Number of slides to scroll
     slidesToScroll: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   data: () => ({
     slidingTransition: false,
@@ -120,36 +120,36 @@ export default {
     numberOfCopies: 0,
     start: {
       x: 0,
-      t: 0
+      t: 0,
     },
     end: {
-      x: 0
+      x: 0,
     },
     targetWidth: 0,
     flickThresholdTime: 300,
     flickThresholdDistance: 10,
     tracking: false,
-    resetting: false
+    resetting: false,
   }),
   computed: {
     slides() {
       return (
-        this.$scopedSlots.slides({
-          slideMeta: this.slideMeta
+        this.$slots.slides({
+          slideMeta: this.slideMeta,
         }) || []
       );
     },
     copiesBefore() {
       let copiesBefore = [];
       if (this.infinite) {
-        copiesBefore = this.slides.map(obj => cloneVNode(obj, 'before'));
+        copiesBefore = this.slides.map((obj) => cloneVNode(obj, 'before'));
       }
       return copiesBefore;
     },
     copiesAfter() {
       let copiesAfter = [];
       if (this.infinite) {
-        copiesAfter = this.slides.map(obj => cloneVNode(obj, 'after'));
+        copiesAfter = this.slides.map((obj) => cloneVNode(obj, 'after'));
       }
       return copiesAfter;
     },
@@ -160,7 +160,7 @@ export default {
               obj.componentOptions.propsData.slideIndex =
                 index - this.numberOfCopiesBefore;
               return obj;
-            }
+            },
           )
         : this.slides;
     },
@@ -171,20 +171,20 @@ export default {
       return {
         currentSlide: this.infinite
           ? this.currentSlide - this.numberOfCopiesBefore
-          : this.currentSlide
+          : this.currentSlide,
       };
     },
     modifiers() {
       return {
         'ca-slider__lane--sliding': this.slidingTransition,
         'ca-slider__lane--centered': this.centered,
-        'ca-slider__lane--resetting': this.resetting
+        'ca-slider__lane--resetting': this.resetting,
       };
     },
     cssVariables() {
       return {
         '--current-slide': this.currentSlide,
-        '--slider-offset': this.sliderOffset
+        '--slider-offset': this.sliderOffset,
       };
     },
     sliderOffset() {
@@ -201,7 +201,7 @@ export default {
     },
     minReached() {
       return !this.infinite && this.currentSlide === 0;
-    }
+    },
   },
   watch: {
     nrOfSlides(newVal, oldVal) {
@@ -214,7 +214,7 @@ export default {
       if (newVal !== oldVal) {
         this.$emit('slideChange', newVal);
       }
-    }
+    },
   },
   mounted() {
     if (this.slidingActive && this.infinite) {
@@ -330,7 +330,7 @@ export default {
         }
         this.tracking = false;
       }
-    }
+    },
   },
   render(h) {
     return h(
@@ -341,14 +341,14 @@ export default {
           '&pointerdown': this.gestureStart,
           '&pointermove': this.gestureMove,
           '&pointerup': this.gestureEnd,
-          '&pointercancel': this.gestureEnd
-        }
+          '&pointercancel': this.gestureEnd,
+        },
       },
       [
         h(
           'div',
           {
-            class: 'ca-slider__lane-wrap'
+            class: 'ca-slider__lane-wrap',
           },
           [
             h(
@@ -357,12 +357,12 @@ export default {
                 class: ['ca-slider__lane', this.modifiers],
                 style: this.cssVariables,
                 on: {
-                  transitionend: this.resetIndex
-                }
+                  transitionend: this.resetIndex,
+                },
               },
-              [this.allSlides]
-            )
-          ]
+              [this.allSlides],
+            ),
+          ],
         ),
         h('CaSliderDots', {
           class: 'ca-slider__dots',
@@ -371,13 +371,13 @@ export default {
             dots: this.nrOfSlides,
             visible: this.dots,
             currentSlide: this.currentSlide,
-            slidesToScroll: this.slidesToScroll
+            slidesToScroll: this.slidesToScroll,
           },
           on: {
-            navigation: index => {
+            navigation: (index) => {
               this.goToSlide(index, true);
-            }
-          }
+            },
+          },
         }),
         h('CaSliderArrows', {
           class: 'ca-slider__arrows',
@@ -385,16 +385,16 @@ export default {
             iconName: this.arrowIconName,
             visible: this.arrows,
             minReached: this.minReached,
-            maxReached: this.maxReached
+            maxReached: this.maxReached,
           },
           on: {
             prevSlide: this.prevSlide,
-            nextSlide: this.nextSlide
-          }
-        })
-      ]
+            nextSlide: this.nextSlide,
+          },
+        }),
+      ],
     );
-  }
+  },
 };
 </script>
 <style lang="scss">

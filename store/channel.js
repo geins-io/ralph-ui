@@ -7,7 +7,7 @@ export const state = () => ({
   markets: [],
   checkoutMarket: '',
   currentLocale: '',
-  currentCurrency: ''
+  currentCurrency: '',
 });
 
 export const mutations = {
@@ -28,7 +28,7 @@ export const mutations = {
   },
   setCurrentCurrency(state, currency) {
     state.currentCurrency = currency;
-  }
+  },
 };
 
 export const actions = {
@@ -36,14 +36,14 @@ export const actions = {
     const client = this.app.apolloProvider.defaultClient;
     client
       .query({
-        query: getMarketsQuery
+        query: getMarketsQuery,
       })
-      .then(result => {
+      .then((result) => {
         if (result?.data?.channel?.markets) {
           commit('setMarkets', result?.data?.channel?.markets);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
@@ -54,7 +54,7 @@ export const actions = {
 
     this.$cookies.set('ralph-selected-market', alias, {
       path: '/',
-      expires: new Date(new Date().getTime() + 31536000000)
+      expires: new Date(new Date().getTime() + 31536000000),
     });
 
     if (process.browser) {
@@ -70,32 +70,34 @@ export const actions = {
 
     this.$cookies.set('ralph-checkout-market', alias, {
       path: '/',
-      expires: new Date(new Date().getTime() + 31536000000)
+      expires: new Date(new Date().getTime() + 31536000000),
     });
 
     if (process.browser) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'checkout-market', data: alias });
     }
-  }
+  },
 };
 
 export const getters = {
-  currentCurrency: state => {
+  currentCurrency: (state) => {
     const currency = state.markets.find(
-      market => market.alias === state.currentMarket
+      (market) => market.alias === state.currentMarket,
     )?.currency.code;
     return currency || 'Currency not found for this market';
   },
-  currentMarketObj: state => {
-    return state.markets.find(market => market.alias === state.currentMarket);
+  currentMarketObj: (state) => {
+    return state.markets.find((market) => market.alias === state.currentMarket);
   },
-  checkoutMarketObj: state => {
-    return state.markets.find(market => market.alias === state.checkoutMarket);
+  checkoutMarketObj: (state) => {
+    return state.markets.find(
+      (market) => market.alias === state.checkoutMarket,
+    );
   },
   cartMarketAlias: (state, getters, rootState) => {
     return rootState.currentRouteName?.includes('checkout')
       ? state.checkoutMarket
       : state.currentMarket;
-  }
+  },
 };

@@ -14,7 +14,7 @@ class NostoClient {
       return;
     }
 
-    this.nostoService(api => api.defaultSession.setCustomer({}));
+    this.nostoService((api) => api.defaultSession.setCustomer({}));
   }
 
   login(userInfo) {
@@ -22,7 +22,7 @@ class NostoClient {
       return;
     }
 
-    this.nostoService(api => {
+    this.nostoService((api) => {
       api.defaultSession().setCustomer(userInfo);
     });
   }
@@ -66,15 +66,15 @@ export default class AuthClient {
       cache: 'no-cache',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
     if (getSign) {
       fetchOptions.body = JSON.stringify(auth);
     }
 
     // Function that adds signature, password and other options to auth request body
-    const addCredentials = async sign => {
+    const addCredentials = async (sign) => {
       auth.signature = await this.signAccount(sign);
       auth.password = await this.digest(credentials.password);
       if (action === 'password') {
@@ -88,13 +88,13 @@ export default class AuthClient {
 
     if (signState || credentials) {
       let data = await fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then((response) => response.json())
         .catch(() => {});
       if (data?.sign) {
         await addCredentials(data.sign);
         data = await fetch(url, fetchOptions)
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data?.token) {
               this.setTokenData(data);
             }
@@ -118,7 +118,7 @@ export default class AuthClient {
       'Dd1dfLonNy6Am2fXQl2AcoI+IbhLhXvaibnDNn8uEa6vbJ05eyJajSuGFm9uQSmD';
     const buffer = await crypto.subtle.digest(
       'SHA-384',
-      new TextEncoder('utf-8').encode(password + salt)
+      new TextEncoder('utf-8').encode(password + salt),
     );
     return btoa(String.fromCharCode(...new Uint8Array(buffer)));
   }
@@ -154,7 +154,7 @@ export default class AuthClient {
     try {
       const response = await fetch(endpoint, {
         method,
-        cache: 'no-cache'
+        cache: 'no-cache',
       });
       const data = await response.json();
       return data;

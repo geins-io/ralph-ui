@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <span class="ca-icon" v-html="svgFile"></span>
+  <span class="ca-icon" v-html="svgFile" />
 </template>
 <script>
 // @group Atoms
@@ -13,18 +13,18 @@ export default {
     // If you are using default setup, any name from [Feather icons](https://feathericons.com/) works. Otherwise use name of svg-file (without '.svg') in assets/icons library
     name: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     svgFile() {
       return require('!svg-inline-loader!~/assets/icons/' + this.name + '.svg');
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

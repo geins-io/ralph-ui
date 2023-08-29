@@ -20,25 +20,25 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.metaReplacement(this.product?.meta.description)
+          content: this.metaReplacement(this.product?.meta.description),
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.metaReplacement(this.product?.meta.title)
+          content: this.metaReplacement(this.product?.meta.title),
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.metaReplacement(this.product?.meta.description)
+          content: this.metaReplacement(this.product?.meta.description),
         },
         {
           hid: 'og:image',
           property: 'og:image',
           content:
-            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
+            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg',
+        },
+      ],
     };
   },
   apollo: {
@@ -48,22 +48,22 @@ export default {
           ? this.removeQueryVar(productQuery, [
               'channelId',
               'languageId',
-              'marketId'
+              'marketId',
             ])
           : productQuery;
         let finishQuery = {
           document: productQueryModified,
           variables: {
-            alias: this.prodAlias
-          }
+            alias: this.prodAlias,
+          },
         };
         if (this.$config.productShowRelated) {
           finishQuery = combineQuery('withRelatedCombined')
             .add(productQueryModified, {
-              alias: this.prodAlias
+              alias: this.prodAlias,
             })
             .add(relatedProductsQuery, {
-              prodAlias: this.prodAlias
+              prodAlias: this.prodAlias,
             });
         }
 
@@ -108,8 +108,8 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   data: () => ({
     quantity: 1,
@@ -118,7 +118,7 @@ export default {
     initVariables: {},
     isInitialRequest: true,
     relatedProducts: [],
-    interval: null
+    interval: null,
   }),
   computed: {
     // @vuese
@@ -170,26 +170,26 @@ export default {
         alias: this.product?.primaryCategory?.alias,
         canonical: this.product?.primaryCategory?.canonicalUrl,
         id: this.product?.primaryCategory?.categoryId,
-        type: 'category'
+        type: 'category',
       };
     },
     // @vuese
     // Related product with relation RELATED
     // @type Array
     relatedProductsRelated() {
-      return this.relatedProducts.filter(i => i.relation === 'RELATED');
+      return this.relatedProducts.filter((i) => i.relation === 'RELATED');
     },
     // @vuese
     // Related product with relation ACCESSORIES
     // @type Array
     relatedProductsAccessories() {
-      return this.relatedProducts.filter(i => i.relation === 'ACCESSORIES');
+      return this.relatedProducts.filter((i) => i.relation === 'ACCESSORIES');
     },
     // @vuese
     // Related product with relation SIMILAR
     // @type Array
     relatedProductsSimilar() {
-      return this.relatedProducts.filter(i => i.relation === 'SIMILAR');
+      return this.relatedProducts.filter((i) => i.relation === 'SIMILAR');
     },
     // @vuese
     // Image src used for meta image
@@ -205,7 +205,7 @@ export default {
           this.product.productImages[0].fileName;
       }
       return imgSrc;
-    }
+    },
   },
   watch: {
     // @vuese
@@ -229,7 +229,7 @@ export default {
       if (oldVal && newVal !== oldVal) {
         this.sendImpressionEvent();
       }
-    }
+    },
   },
   mounted() {
     this.switchToCanonical();
@@ -241,18 +241,20 @@ export default {
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
 
-      fields.forEach(field => {
-        const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
-          item => item.variable.name.value === field
-        );
-        const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-          item => item.value.name.value === field
-        );
+      fields.forEach((field) => {
+        const indexQueryVariable =
+          newQuery.definitions[0].variableDefinitions.findIndex(
+            (item) => item.variable.name.value === field,
+          );
+        const indexQueryField =
+          newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+            (item) => item.value.name.value === field,
+          );
 
         if (![indexQueryVariable, indexQueryField].includes(-1)) {
           newQuery.definitions[0].variableDefinitions.splice(
             indexQueryVariable,
-            1
+            1,
           );
         }
       });
@@ -271,7 +273,7 @@ export default {
       if (!this.chosenSku.id) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('MUST_CHOOSE_SKU'),
-          placement: 'bottom-center'
+          placement: 'bottom-center',
         });
       } else if (
         this.quantity + this.chosenSkuCartQuantity >
@@ -279,9 +281,9 @@ export default {
       ) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('CART_ADD_TOO_MANY', {
-            stock: this.currentStock.totalStock
+            stock: this.currentStock.totalStock,
           }),
-          placement: 'bottom-center'
+          placement: 'bottom-center',
         });
       } else {
         this.addToCartLoading = true;
@@ -306,9 +308,9 @@ export default {
     quantityThresholdHandler() {
       this.$store.dispatch('snackbar/trigger', {
         message: this.$t('QUANTITY_THRESHOLD_REACHED', {
-          quantity: this.chosenSkuCartQuantity
+          quantity: this.chosenSkuCartQuantity,
         }),
-        placement: 'bottom-center'
+        placement: 'bottom-center',
       });
     },
     // @vuese
@@ -341,15 +343,15 @@ export default {
 
       if (!latestProducts.includes(this.prodAlias)) {
         this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/'
+          path: '/',
         });
       } else {
         const existingAliasIndex = latestProducts.findIndex(
-          alias => alias === this.prodAlias
+          (alias) => alias === this.prodAlias,
         );
         latestProducts.splice(existingAliasIndex, 1);
         this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/'
+          path: '/',
         });
       }
     },
@@ -360,7 +362,7 @@ export default {
       this.currentNotifyVariant = variant;
       this.$nextTick(() => {
         this.$store.commit('contentpanel/open', {
-          name: 'notify'
+          name: 'notify',
         });
       });
     },
@@ -369,8 +371,8 @@ export default {
     sendImpressionEvent() {
       this.$store.dispatch('events/push', {
         type: 'product-detail:impression',
-        data: { product: this.product }
+        data: { product: this.product },
       });
-    }
-  }
+    },
+  },
 };

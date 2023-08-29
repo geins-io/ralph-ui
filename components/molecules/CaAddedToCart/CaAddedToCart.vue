@@ -42,7 +42,9 @@
               >
                 {{ $t('CART_TO_CHECKOUT') }}
               </CaIconAndText>
-              <template v-else>{{ $t('CART_TO_CHECKOUT') }}</template>
+              <template v-else>
+                {{ $t('CART_TO_CHECKOUT') }}
+              </template>
             </CaButton>
           </div>
         </div>
@@ -62,8 +64,8 @@ export default {
   props: {
     buttonIcon: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({}),
   computed: {
@@ -79,7 +81,7 @@ export default {
     quantity() {
       return this.visible ? this.cart.added.quantity : 1;
     },
-    ...mapState(['cart'])
+    ...mapState(['cart']),
   },
   watch: {},
   mounted() {},
@@ -88,8 +90,8 @@ export default {
     // Close the notification
     close() {
       this.$store.dispatch('cart/removeAddedNotification');
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

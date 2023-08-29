@@ -22,21 +22,21 @@ export default {
     // Stock object
     stock: {
       type: Object,
-      required: true
+      required: true,
     },
     // Product quantity
     productQuantity: {
       type: Number,
-      default: 1
+      default: 1,
     },
     // Show delivery time or not
     showDeliveryTime: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    quantity: 1
+    quantity: 1,
   }),
   computed: {
     currentStock() {
@@ -45,15 +45,15 @@ export default {
     stockClass() {
       const stockClass = this.getStockStatusClass();
       return stockClass ? 'ca-stock-display--' + stockClass : '';
-    }
+    },
   },
   watch: {
     productQuantity(val) {
       this.quantity = val;
-    }
+    },
   },
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

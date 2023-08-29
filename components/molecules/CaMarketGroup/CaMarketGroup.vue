@@ -1,6 +1,8 @@
 <template>
   <div class="ca-market-group">
-    <h2 class="ca-market-group__title">{{ $t('MARKET_GROUP_' + groupKey) }}</h2>
+    <h2 class="ca-market-group__title">
+      {{ $t('MARKET_GROUP_' + groupKey) }}
+    </h2>
     <ul class="ca-market-group__list">
       <li
         v-for="market in markets"
@@ -24,20 +26,20 @@ export default {
     // List of markets
     markets: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     groupKey() {
-      const groups = this.markets.map(market => market.groupKey);
+      const groups = this.markets.map((market) => market.groupKey);
       const uniqueGroups = [...new Set(groups)];
       return uniqueGroups[0].toUpperCase();
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

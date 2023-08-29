@@ -37,7 +37,7 @@
             <td
               class="ca-product-price-history__text"
               :class="{
-                'ca-product-price-history__text--lowest': item.isLowest
+                'ca-product-price-history__text--lowest': item.isLowest,
               }"
             >
               {{ item.sellingPriceIncVatFormatted }}
@@ -63,7 +63,7 @@ export default {
       query: productPriceHistoryQuery,
       variables() {
         return {
-          alias: this.$route.params.alias
+          alias: this.$route.params.alias,
         };
       },
       errorPolicy: 'all',
@@ -74,30 +74,30 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {
     // locale used for date, like so: 'sv' or 'sv-SE'. Defaults to $i18n.defaultLocale if not set
     locale: {
       type: String,
-      default: ''
+      default: '',
     },
     // Set to true to display full month like so: 'december'. Defaults to short like so: 'dec'
     showFullMonth: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Set to true to display only one line with lowest price.
     simple: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     priceLog: [],
     unitPrice: {},
-    latestPrice: null
+    latestPrice: null,
   }),
   computed: {
     dateLocale() {
@@ -107,21 +107,21 @@ export default {
       return this.showFullMonth ? 'long' : 'short';
     },
     lowestPrice() {
-      return this.priceLog.find(price => price.isLowest)
+      return this.priceLog.find((price) => price.isLowest)
         .sellingPriceIncVatFormatted;
     },
     pricesToRender() {
       const reversedPriceLog = [...this.priceLog].reverse();
       let latestPrice = null;
       const pricesToRender = [];
-      reversedPriceLog.forEach(price => {
+      reversedPriceLog.forEach((price) => {
         if (price.sellingPriceIncVat !== latestPrice) {
           pricesToRender.unshift(price);
         }
         latestPrice = price.sellingPriceIncVat;
       });
       return pricesToRender;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -137,10 +137,10 @@ export default {
       return {
         date: `${day} ${month}`,
         isThisYear: year === new Date().getFullYear(),
-        year
+        year,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

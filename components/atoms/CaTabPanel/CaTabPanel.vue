@@ -9,7 +9,7 @@
     :aria-labelledby="panelId"
     :hidden="!isSelected"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -24,18 +24,18 @@ export default {
     // Index of panel
     index: {
       type: Number,
-      required: true
+      required: true,
     },
     // Total amount of panels
     panelCount: {
       type: Number,
-      required: true
+      required: true,
     },
     // Selected panel by index
     selectedTab: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => ({}),
   computed: {
@@ -63,11 +63,11 @@ export default {
     // @type String
     setAriaSelected() {
       return this.isSelected ? 'true' : 'false';
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

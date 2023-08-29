@@ -63,62 +63,62 @@ export default {
     // The label of the field, showed as "placeholder" when field empty or not in focus
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     // The field placeholder, can be used if not using label
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     // The value of the field, use v-model to bind data
     value: {
       type: [String, Number],
-      required: true
+      required: true,
     },
     // A description text for the field
     description: {
       type: String,
-      default: ''
+      default: '',
     },
     // Is the field requierd?
     required: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Is the field disabled?
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // The autocomplete attribute
     autocomplete: {
       type: String,
-      default: 'null'
+      default: 'null',
     },
     // Show a loading spinner in the field
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Type of field
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
     },
     // Id of field, also used as name
     id: {
       type: String,
-      default: ''
+      default: '',
     },
     // Used to handle validation outside input scope
     valid: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // What error text should be displayed if field not vaild
     errorMessage: {
       type: String,
-      default: null
+      default: null,
     },
     // Set to use built in validation
     validate: {
@@ -132,25 +132,25 @@ export default {
           'passwordStrength',
           'passwordMatch',
           'personalId',
-          'empty'
+          'empty',
         ].includes(value);
-      }
+      },
     },
     // The password to match if using the `passwordMatch` validation
     passwordToMatch: {
       type: String,
-      default: ''
+      default: '',
     },
     maxlength: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data: () => ({
     fieldValid: true,
     focused: false,
     passwordType: '',
-    passwordScore: 0
+    passwordScore: 0,
   }),
   computed: {
     // @vuese
@@ -161,7 +161,7 @@ export default {
         'ca-input-text--error': !this.allValid,
         'ca-input-text--focused': this.focused,
         'ca-input-text--empty': !this.value,
-        'ca-input-text--disabled': this.disabled
+        'ca-input-text--disabled': this.disabled,
       };
     },
     // @vuese
@@ -183,12 +183,12 @@ export default {
         // behavior of some listeners.
         {
           // This ensures that the component works with v-model
-          input: event => {
+          input: (event) => {
             // Input has been made
             // @arg Field value (String/Number)
             this.$emit('input', event.target.value);
-          }
-        }
+          },
+        },
       );
     },
     // @vuese
@@ -202,14 +202,14 @@ export default {
     // @type String
     passwordToggleText() {
       return this.inputType === 'password' ? this.$t('SHOW') : this.$t('HIDE');
-    }
+    },
   },
   watch: {
     passwordToMatch() {
       if (this.value) {
         this.validateInput();
       }
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -236,7 +236,8 @@ export default {
     // Used by `validateInput` to validate email address
     // @arg email (String)
     validateEmail(email) {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (this.required || (!this.required && email !== '')) {
         return re.test(String(email).toLowerCase());
       } else {
@@ -248,7 +249,8 @@ export default {
     // @arg identityNumber (String)
     validatePersonalId(identityNumber) {
       let id = identityNumber;
-      const regEx = /^(\d{2})(\d{2})(\d{2})-(\d{4})|(\d{4})(\d{2})(\d{2})-(\d{4})$/;
+      const regEx =
+        /^(\d{2})(\d{2})(\d{2})-(\d{4})|(\d{4})(\d{2})(\d{2})-(\d{4})$/;
       // Check valid length & form
       if (!id) {
         return false;
@@ -275,7 +277,7 @@ export default {
       const d = new Date(
         match[1] ? match[1] : match[5],
         (match[2] ? match[2] : match[6]) - 1,
-        match[3] ? match[3] : match[7]
+        match[3] ? match[3] : match[7],
       );
 
       // Check valid date
@@ -319,8 +321,8 @@ export default {
     // Toggle field type for password
     togglePasswordVisible() {
       this.passwordType = this.passwordType ? '' : 'text';
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

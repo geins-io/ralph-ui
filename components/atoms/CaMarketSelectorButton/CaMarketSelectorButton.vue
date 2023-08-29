@@ -4,7 +4,7 @@
     type="button"
     @click="
       $store.commit('contentpanel/open', {
-        name: 'market-selector'
+        name: 'market-selector',
       })
     "
   >
@@ -34,13 +34,15 @@ export default {
     // Setting to show or hide the flag
     showFlag: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {
     selectedMarket() {
-      return this.markets?.find(market => market.alias === this.currentMarket);
+      return this.markets?.find(
+        (market) => market.alias === this.currentMarket,
+      );
     },
     selectedCountryCode() {
       return this.selectedMarket?.country?.code || '';
@@ -52,13 +54,13 @@ export default {
       return this.selectedMarket?.currency?.code || '';
     },
     ...mapState({
-      markets: state => state.channel.markets,
-      currentMarket: state => state.channel.currentMarket
-    })
+      markets: (state) => state.channel.markets,
+      currentMarket: (state) => state.channel.currentMarket,
+    }),
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

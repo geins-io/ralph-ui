@@ -2,7 +2,7 @@
   <ul v-show="currentlyVisible" class="ca-slider-dots">
     <li
       v-for="(slide, index) in slides.filter(
-        (item, arrayIndex) => arrayIndex % slidesToScroll === 0
+        (item, arrayIndex) => arrayIndex % slidesToScroll === 0,
       )"
       :key="index"
       class="ca-slider-dots__dot"
@@ -30,29 +30,29 @@ export default {
     // Array of the corresponding slides
     slides: {
       type: Array,
-      required: true
+      required: true,
     },
     // Should dots be visible?
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Current slide index
     currentSlide: {
       type: Number,
-      required: true
+      required: true,
     },
     // Number of slides per dot
     slidesToScroll: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     currentlyVisible() {
       return this.visible && this.slides.length > this.slidesToScroll;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -66,8 +66,8 @@ export default {
         Math.ceil(index / this.slidesToScroll)
         ? 'ca-slider-dots__trigger--current'
         : '';
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

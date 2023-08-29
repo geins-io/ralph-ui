@@ -6,7 +6,7 @@
       :content="configuration.html"
       :styled="false"
     />
-    <style v-if="configuration.css" v-html="configuration.css"></style>
+    <style v-if="configuration.css" v-html="configuration.css" />
   </div>
 </template>
 <script>
@@ -21,14 +21,14 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

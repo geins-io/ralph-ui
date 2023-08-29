@@ -100,7 +100,9 @@
           tag="div"
           class="ca-account-panel__disclaimer"
         >
-          <NuxtLink to="/kopvillkor">{{ $t('TERMS_AND_CONDITIONS') }}</NuxtLink>
+          <NuxtLink to="/kopvillkor">
+            {{ $t('TERMS_AND_CONDITIONS') }}
+          </NuxtLink>
           <NuxtLink to="/integritetspolicy">
             {{ $t('PRIVACY_POLICY') }}
           </NuxtLink>
@@ -168,7 +170,7 @@ export default {
   name: 'CaAccountPanel',
   mixins: [],
   props: {},
-  data: vm => ({
+  data: (vm) => ({
     email: '',
     currentPassword: '',
     password: '',
@@ -178,47 +180,47 @@ export default {
     loading: false,
     currentFeedback: {
       type: 'info',
-      message: ''
+      message: '',
     },
     feedback: {
       accountCreated: {
         type: 'success',
-        message: vm.$t('ACCOUNT_FEEDBACK_CREATED')
+        message: vm.$t('ACCOUNT_FEEDBACK_CREATED'),
       },
       wrongCredentials: {
         type: 'error',
-        message: vm.$t('ACCOUNT_FEEDBACK_CREDENTIALS')
+        message: vm.$t('ACCOUNT_FEEDBACK_CREDENTIALS'),
       },
       loggedIn: {
         type: 'success',
-        message: vm.$t('ACCOUNT_FEEDBACK_LOGGED_IN')
+        message: vm.$t('ACCOUNT_FEEDBACK_LOGGED_IN'),
       },
       passwordResetted: {
         type: 'success',
-        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_RESET')
+        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_RESET'),
       },
       passwordChanged: {
         type: 'success',
-        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_CHANGED')
+        message: vm.$t('ACCOUNT_FEEDBACK_PASSWORD_CHANGED'),
       },
       notValid: {
         type: 'error',
-        message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID')
+        message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID'),
       },
       alreadyExists: {
         type: 'error',
-        message: vm.$t('ACCOUNT_FEEDBACK_ALREADY_EXISTS')
+        message: vm.$t('ACCOUNT_FEEDBACK_ALREADY_EXISTS'),
       },
       error: {
         type: 'error',
-        message: vm.$t('FEEDBACK_ERROR')
+        message: vm.$t('FEEDBACK_ERROR'),
       },
       passwordNotChanged: {
         message: vm.$t('ACCOUNT_CHANGE_PASSWORD_ERROR'),
         placement: 'bottom-center',
-        mode: 'error'
-      }
-    }
+        mode: 'error',
+      },
+    },
   }),
   computed: {
     loginMode() {
@@ -252,7 +254,7 @@ export default {
       const credentials = {
         username: this.email,
         password: this.password,
-        rememberUser: this.rememberUser
+        rememberUser: this.rememberUser,
       };
       if (this.changeMode) {
         credentials.username = this.$store.state.auth.user;
@@ -261,7 +263,7 @@ export default {
       }
       return credentials;
     },
-    ...mapState(['contentpanel'])
+    ...mapState(['contentpanel']),
   },
   watch: {},
   mounted() {},
@@ -297,7 +299,7 @@ export default {
         this.$refs.contentpanel.close();
         if (!this.$route?.name?.includes('checkout') && redirectPath !== null) {
           this.$router.push({
-            path: this.$getPath(redirectPath)
+            path: this.$getPath(redirectPath),
           });
         }
       }, 1000);
@@ -313,16 +315,16 @@ export default {
         await this.$store.dispatch('auth/login', this.credentials);
         if (this.$store.getters['auth/authenticated']) {
           this.$store.dispatch('events/push', {
-            type: 'user:login'
+            type: 'user:login',
           });
           if (this.$config.customerTypesToggle) {
             this.$apollo
               .query({
                 query: getUserQuery,
                 errorPolicy: 'all',
-                fetchPolicy: 'no-cache'
+                fetchPolicy: 'no-cache',
               })
-              .then(result => {
+              .then((result) => {
                 if (!result.errors) {
                   const type = result.data?.getUser?.customerType;
                   this.$store.dispatch('changeCustomerType', type);
@@ -335,10 +337,10 @@ export default {
                   this.showFeedback(this.feedback.error);
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 this.$nuxt.error({
                   statusCode: error.statusCode,
-                  message: error
+                  message: error,
                 });
               });
           } else {
@@ -372,34 +374,34 @@ export default {
               variables: {
                 user: {
                   newsletter: this.newsletterSubscribe,
-                  customerType: this.$store.state.customerType
-                }
+                  customerType: this.$store.state.customerType,
+                },
               },
               errorPolicy: 'all',
-              fetchPolicy: 'no-cache'
+              fetchPolicy: 'no-cache',
             })
-            .then(result => {
+            .then((result) => {
               this.loading = false;
               if (!result.errors) {
                 this.$store.dispatch('events/push', {
-                  type: 'user:register'
+                  type: 'user:register',
                 });
                 this.closePanelAfterDelay('account-settings');
                 this.showFeedback(this.feedback.accountCreated);
                 if (this.$config.customerTypesToggle) {
                   this.$store.dispatch(
                     'setCustomerTypeCookie',
-                    this.$store.state.customerType
+                    this.$store.state.customerType,
                   );
                 }
               } else {
                 this.showFeedback(this.feedback.error);
               }
             })
-            .catch(error => {
+            .catch((error) => {
               this.$nuxt.error({
                 statusCode: error.statusCode,
-                message: error
+                message: error,
               });
             });
         } else {
@@ -420,12 +422,12 @@ export default {
           .mutate({
             mutation: requestPasswordResetMutation,
             variables: {
-              email: this.email
+              email: this.email,
             },
             errorPolicy: 'all',
-            fetchPolicy: 'no-cache'
+            fetchPolicy: 'no-cache',
           })
-          .then(result => {
+          .then((result) => {
             this.loading = false;
             if (result?.data?.requestPasswordReset && !result.errors) {
               this.resetFields();
@@ -434,14 +436,14 @@ export default {
                 type: 'user:password-reset',
                 data: {
                   email: this.email,
-                  resetKey: result.data.requestPasswordReset
-                }
+                  resetKey: result.data.requestPasswordReset,
+                },
               });
             } else {
               this.showFeedback(this.feedback.error);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       } else {
@@ -468,7 +470,7 @@ export default {
           this.$router.push({ path: this.$getPath('index') });
           this.$store.dispatch(
             'snackbar/trigger',
-            this.feedback.passwordNotChanged
+            this.feedback.passwordNotChanged,
           );
         }
       } else {
@@ -503,8 +505,8 @@ export default {
       this.currentPassword = '';
       this.password = '';
       this.passwordConfirm = '';
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

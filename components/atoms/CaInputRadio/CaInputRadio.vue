@@ -26,35 +26,35 @@ export default {
   mixins: [],
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'change',
   },
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     value: {
       type: [String, Number, Boolean],
-      default: ''
+      default: '',
     },
     modelValue: {
       type: [String, Number, Boolean],
-      default: ''
+      default: '',
     },
     description: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

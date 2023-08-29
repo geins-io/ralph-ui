@@ -1,4 +1,4 @@
-export default function({ app }) {
+export default function ({ app }) {
   // Filters out requests against certain file endings
   const requestFilterTelemetryProcessor = (envelope, context) => {
     const excludeFileEndings =
@@ -8,7 +8,7 @@ export default function({ app }) {
       envelope.data.baseType === 'RequestData' &&
       envelope.data.baseData.success === true &&
       envelope.data.baseData.url != null &&
-      excludeFileEndings.some(s => envelope.data.baseData.url.endsWith(s))
+      excludeFileEndings.some((s) => envelope.data.baseData.url.endsWith(s))
     ) {
       return false;
     }
@@ -27,16 +27,16 @@ export default function({ app }) {
 
   const telemetryProcessors = [
     requestFilterTelemetryProcessor,
-    apiKeyTelemetryProcessor
+    apiKeyTelemetryProcessor,
   ];
 
   if (
-    !app.$appInsights?._telemetryProcessors.some(_t =>
-      telemetryProcessors.some(t => t.name === _t.name)
+    !app.$appInsights?._telemetryProcessors.some((_t) =>
+      telemetryProcessors.some((t) => t.name === _t.name),
     )
   ) {
-    telemetryProcessors.forEach(t =>
-      app.$appInsights?.addTelemetryProcessor(t)
+    telemetryProcessors.forEach((t) =>
+      app.$appInsights?.addTelemetryProcessor(t),
     );
   }
 }

@@ -8,7 +8,7 @@
         'ca-filter-multi-tree-view__value--selected': value.selected,
         'ca-filter-multi-tree-view__value--disabled': value.count === 0,
         'ca-filter-multi-tree-view__value--hidden': value.label === '-',
-        'ca-filter-multi-tree-view__value--open': isOpen
+        'ca-filter-multi-tree-view__value--open': isOpen,
       }"
       @click.stop="
         propagateData(
@@ -16,7 +16,7 @@
           value.facetId,
           value.label,
           value.selected,
-          value.parentId && value.parentId ? value.parentId : false
+          value.parentId && value.parentId ? value.parentId : false,
         ),
           toggle
       "
@@ -68,16 +68,16 @@ export default {
     // Gets the updated selectable values with children
     value: {
       default: () => {},
-      type: Object
+      type: Object,
     },
     // Propagates the data to the parent
     propagateData: {
       type: Function,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data: () => ({
-    isOpen: false
+    isOpen: false,
   }),
   watch: {
     value: {
@@ -86,8 +86,8 @@ export default {
         if (newVal !== oldVal) {
           this.selectChildren(this.value, true);
         }
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -97,7 +97,7 @@ export default {
       this.close();
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     eventbus.$off('close-content-panel');
   },
   methods: {
@@ -122,7 +122,7 @@ export default {
     // Close the accordion
     close() {
       this.isOpen = false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -11,8 +11,8 @@ export default {
   data: () => ({}),
   computed: {
     ...mapState({
-      cart: state => state.cart.data
-    })
+      cart: (state) => state.cart.data,
+    }),
   },
   watch: {},
   mounted() {},
@@ -22,14 +22,14 @@ export default {
     // @arg sku id (Number), product quantity (Number)
     updateCart(prodSkuId, prodQuantity) {
       const productStateBeforeUpdate = this.cart?.items?.find(
-        item => item.skuId === prodSkuId
+        (item) => item.skuId === prodSkuId,
       );
       const previousProductQuantity = productStateBeforeUpdate?.quantity || 0;
 
       this.$emit('loading', true);
       const updateItem = {
         skuId: prodSkuId,
-        quantity: prodQuantity
+        quantity: prodQuantity,
       };
       const updateMutation = () =>
         this.$apollo
@@ -38,12 +38,11 @@ export default {
             variables: {
               id: this.$store.getters['cart/id'],
               item: updateItem,
-              allowExternalShippingFee: this.$store.state.currentRouteName?.includes(
-                'checkout'
-              )
-            }
+              allowExternalShippingFee:
+                this.$store.state.currentRouteName?.includes('checkout'),
+            },
           })
-          .then(result => {
+          .then((result) => {
             this.$store.dispatch('cart/update', result.data.updateCartItem);
             this.$emit('loading', false);
 
@@ -57,9 +56,9 @@ export default {
                   item: updateItem,
                   product: {
                     campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product
-                  }
-                }
+                    ...productStateBeforeUpdate.product,
+                  },
+                },
               });
             } else if (prodQuantity > previousProductQuantity) {
               const quantity = prodQuantity - previousProductQuantity;
@@ -71,17 +70,17 @@ export default {
                   item: updateItem,
                   product: {
                     campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product
-                  }
-                }
+                    ...productStateBeforeUpdate.product,
+                  },
+                },
               });
             }
           })
-          .catch(error => {
+          .catch((error) => {
             // eslint-disable-next-line no-console
             console.error('MixUpdateCart: ' + error);
           });
       this.enqueue(updateMutation);
-    }
-  }
+    },
+  },
 };

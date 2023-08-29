@@ -2,7 +2,7 @@ export const state = () => ({
   udcData: null,
   currentZip: '',
   externalShippingFee: null,
-  merchantData: ''
+  merchantData: '',
 });
 
 export const mutations = {
@@ -17,7 +17,7 @@ export const mutations = {
   },
   setMerchantData(state, data) {
     state.merchantData = data;
-  }
+  },
 };
 
 export const actions = {};

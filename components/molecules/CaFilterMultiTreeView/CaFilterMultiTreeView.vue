@@ -24,27 +24,27 @@ export default {
     // The selectable values
     values: {
       type: Array,
-      required: true
+      required: true,
     },
     // The current selection
     selection: {
       type: Array,
-      required: true
+      required: true,
     },
     // Should it load tree view by default?
     displayTreeView: {
       type: Boolean,
       // `false`
-      default: false
+      default: false,
     },
     // Option to hide values
     hideValues: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    currentSelection: []
+    currentSelection: [],
   }),
   computed: {
     // @vuese
@@ -52,9 +52,9 @@ export default {
     // @type Array
     valuesWithSelected() {
       if (this.values && this.values.length && this.selection) {
-        return this.values.map(item => {
+        return this.values.map((item) => {
           let isSelected = this.currentSelection.some(
-            el => el.id === item.facetId
+            (el) => el.id === item.facetId,
           );
           if (item.count === 0) {
             isSelected = false;
@@ -71,10 +71,11 @@ export default {
     // @type Array
     valuesWithChildren() {
       const data = this.sortByOrder(this.filterValues);
-      const parentCategories = data.filter(item => !item.parentId);
-      data.map(item => {
-        item.children = data.filter(child => child.parentId === item.facetId);
+      data.map((item) => {
+        item.children = data.filter((child) => child.parentId === item.facetId);
+        return item;
       });
+      const parentCategories = data.filter((item) => !item.parentId);
 
       return parentCategories;
     },
@@ -82,7 +83,7 @@ export default {
     // Returns the values without hidden values
     // @type Array
     valuesExcludeHidden() {
-      return this.valuesWithSelected.filter(el => !el.hidden);
+      return this.valuesWithSelected.filter((el) => !el.hidden);
     },
     // @vuese
     // Returns the values with or without hidden values
@@ -91,7 +92,7 @@ export default {
       return !this.hideValues
         ? this.valuesWithSelected
         : this.valuesExcludeHidden;
-    }
+    },
   },
   watch: {
     selection: {
@@ -100,8 +101,8 @@ export default {
         if (newVal !== oldVal) {
           this.currentSelection = this.selection;
         }
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.currentSelection = this.selection;
@@ -144,12 +145,12 @@ export default {
     // @arg facetId (String), itemLabel (string)
     pushSelection(facetId, itemLabel) {
       const index = this.currentSelection.findIndex(
-        item => item.id === facetId
+        (item) => item.id === facetId,
       );
       if (index === -1) {
         this.currentSelection.push({
           id: facetId,
-          label: itemLabel
+          label: itemLabel,
         });
       }
     },
@@ -157,7 +158,7 @@ export default {
     // Select the children when a parent is selected
     // @arg array (Array)
     selectChildrenCategories(array) {
-      array.forEach(item => {
+      array.forEach((item) => {
         this.pushSelection(item.facetId, item.label);
         if (item.children && item.children.length) {
           this.selectChildrenCategories(item.children);
@@ -168,7 +169,7 @@ export default {
     // Remove the children when a parent is deselected
     // @arg array (Array)
     removeChildrenCategories(array) {
-      array.forEach(item => {
+      array.forEach((item) => {
         this.removeSelection(item.facetId);
         if (item.children && item.children.length) {
           this.removeChildrenCategories(item.children);
@@ -180,7 +181,7 @@ export default {
     // @arg facetId (String)
     removeSelection(facetId) {
       this.currentSelection = this.currentSelection.filter(
-        item => item.id !== facetId
+        (item) => item.id !== facetId,
       );
     },
     // @vuese
@@ -188,15 +189,15 @@ export default {
     // @arg facetId (String), parentId (string)
     removeParentCategories(facetId, parentId) {
       const parent = this.valuesWithSelected.find(
-        item => item.facetId === parentId
+        (item) => item.facetId === parentId,
       );
       if (parent) {
         this.removeSelection(parent.facetId);
         this.removeParentCategories(parent.parentId);
       }
       this.removeSelection(facetId);
-    }
-  }
+    },
+  },
 };
 </script>
 
