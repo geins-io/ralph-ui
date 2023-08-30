@@ -8,7 +8,7 @@
     padding: $px16;
     border-bottom: $border-light;
   }
-
+  /* stylelint-disable selector-class-pattern */
   &__parent {
     &.ca-accordion-item {
       .ca-accordion-item__toggle {
@@ -69,7 +69,7 @@
       }
     }
   }
-
+  /* stylelint-enable selector-class-pattern */
   &__grand-children {
     padding: $px10 0;
     background-color: $c-light-gray;

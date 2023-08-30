@@ -3,10 +3,10 @@
 
   --slider-item-width: #{calc(100% / $list-column-count)};
 
-  margin: 0 -#{calc($list-column-spacing/2)};
+  margin: 0 -#{calc($list-column-spacing / 2)};
 
   &__slide {
-    padding: 0 #{calc($list-column-spacing/2)};
+    padding: 0 #{calc($list-column-spacing / 2)};
   }
 
   @include bp(tablet) {
@@ -15,10 +15,10 @@
     }
 
     @if $list-column-spacing-tablet != $list-column-spacing {
-      margin: 0 -#{calc($list-column-spacing-tablet/2)};
+      margin: 0 -#{calc($list-column-spacing-tablet / 2)};
 
       &__slide {
-        padding: 0 #{calc($list-column-spacing-tablet/2)};
+        padding: 0 #{calc($list-column-spacing-tablet / 2)};
       }
     }
   }
@@ -29,10 +29,10 @@
     }
 
     @if $list-column-spacing-laptop != $list-column-spacing-tablet {
-      margin: 0 -#{calc($list-column-spacing-laptop/2)};
+      margin: 0 -#{calc($list-column-spacing-laptop / 2)};
 
       &__slide {
-        padding: 0 #{calc($list-column-spacing-laptop/2)};
+        padding: 0 #{calc($list-column-spacing-laptop / 2)};
       }
     }
   }

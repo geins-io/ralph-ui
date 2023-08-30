@@ -237,9 +237,11 @@
     }
 
     &--loading:not(&--loading-empty) {
-      .ca-search__top,
-      .ca-search__result {
-        opacity: 0.5;
+      .ca-search {
+        &__top,
+        &__result {
+          opacity: 0.5;
+        }
       }
     }
   }
@@ -308,9 +310,11 @@
       height: rem-calc(40px);
       flex-grow: 1;
 
-      .ca-image__img {
-        width: auto;
-        height: 100%;
+      .ca-image {
+        &__img {
+          width: auto;
+          height: 100%;
+        }
       }
     }
   }

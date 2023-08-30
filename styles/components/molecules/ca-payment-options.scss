@@ -2,7 +2,7 @@
   display: grid;
   grid-auto-rows: repeat(3, 1fr);
   row-gap: rem-calc(16);
-  
+
   &__option {
     border: 2px solid $c-border-light;
     position: relative;
@@ -29,26 +29,26 @@
 
     &:hover {
       &::before {
-        background-color: hextorgba($c-accent-color, 0.4);
+        background-color: hex-to-rgba($c-accent-color, 0.4);
       }
     }
-    
+
     &--selected {
       border-color: $c-success;
       cursor: initial;
-    
+
       &::before {
         background-color: var(--accent-color, $c-accent-color) !important;
       }
     }
   }
-  
+
   &__logo {
     width: rem-calc(50);
     height: auto;
     margin: 0 rem-calc(20) 0 0;
   }
-  
+
   &__name {
     padding: $px4 0;
   }

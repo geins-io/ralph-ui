@@ -1,6 +1,6 @@
 .ca-image {
   $block: &;
-  
+
   position: relative;
 
   &__img {
@@ -41,7 +41,7 @@
   }
 
   &--product {
-    @include productImageOverlay;
+    @include product-image-overlay;
 
     #{$block}__img {
       padding: 6%;

@@ -1,6 +1,6 @@
 .ca-input-select {
   $block: &;
-  
+
   position: relative;
   width: 165px;
 
@@ -39,14 +39,14 @@
     width: 100%;
     height: 100%;
   }
-  
+
   &__arrow {
     @include valign;
 
     right: 14px;
     font-size: 16px;
   }
-  
+
   &__options {
     border: $border-light;
     position: absolute;
@@ -58,7 +58,7 @@
     white-space: nowrap;
     max-height: rem-calc(320);
 
-    @include scrollbarStyle($c-dark-gray, $c-darkest-gray);
+    @include scrollbar-style($c-dark-gray, $c-darkest-gray);
   }
 
   &__option {

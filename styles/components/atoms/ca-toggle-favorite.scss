@@ -1,7 +1,7 @@
 .ca-toggle-favorite {
   $block: &;
 
-  @include iconCircle;
+  @include icon-circle;
 
   width: rem-calc(40px);
   height: rem-calc(40px);

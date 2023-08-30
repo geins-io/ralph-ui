@@ -60,7 +60,7 @@
 
   &:hover {
     &::before {
-      background-color: hextorgba($c-accent-color, 0.4);
+      background-color: hex-to-rgba($c-accent-color, 0.4);
     }
   }
 

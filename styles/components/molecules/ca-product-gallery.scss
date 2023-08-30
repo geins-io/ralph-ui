@@ -62,12 +62,18 @@
       opacity: 1;
     }
 
-    &.ca-slide--current {
-      opacity: 1;
+    &.ca-slide {
+      &--current {
+        opacity: 1;
+      }
     }
 
-    .ca-slider__lane--resetting & {
-      transition: none;
+    .ca-slider {
+      &__lane {
+        &--resetting & {
+          transition: none;
+        }
+      }
     }
 
     &:hover {

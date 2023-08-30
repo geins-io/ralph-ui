@@ -29,14 +29,14 @@
 
     &:hover {
       &::before {
-        background-color: hextorgba($c-accent-color, 0.4);
+        background-color: hex-to-rgba($c-accent-color, 0.4);
       }
     }
-    
+
     &--selected {
       border-color: $c-success;
       cursor: initial;
-    
+
       &::before {
         background-color: var(--accent-color, $c-accent-color) !important;
       }
@@ -48,11 +48,11 @@
     height: auto;
     margin: 0 rem-calc(20) 0 0;
   }
-  
+
   &__name {
     padding: $px4 0;
   }
-  
+
   &__price {
     margin-left: auto;
     font-weight: $font-weight-bold;

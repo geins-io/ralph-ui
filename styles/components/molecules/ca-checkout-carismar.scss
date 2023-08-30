@@ -1,12 +1,12 @@
 .ca-checkout-carismar {
   $block: &;
-  
+
   padding: 0 0 $px48;
 
   &__section {
     & + & {
       margin: $px32 0 0;
-  
+
       &--shipping {
         margin: $px20 0 0;
       }
@@ -18,23 +18,23 @@
       align-items: center;
     }
   }
-  
+
   &__title {
     font-weight: $font-weight-bold;
     font-size: $font-size-xl;
   }
-  
+
   &__subtitle {
     font-size: $font-size-m;
     color: $c-text-secondary;
     margin: 0 0 $px8;
   }
-  
+
   &__row {
     &:not(:last-child) {
       margin: 0 0 $px16;
     }
-  
+
     &--splitted {
       @include bp(tablet) {
         display: grid;
@@ -43,7 +43,8 @@
       }
     }
   }
-  
+
+  /* stylelint-disable */
   &__input.ca-input-text__wrap {
     @include bp(tablet) {
       & + & {
@@ -51,27 +52,28 @@
       }
     }
   }
-  
+  /* stylelint-enable */
+
   &__invoice-information {
     color: $c-text-secondary;
     text-align: center;
     margin: rem-calc(28px) 0 $px20;
   }
-  
+
   &__consent {
     margin: $px16 0 0;
   }
-  
+
   &__consent-link {
     text-decoration: underline;
   }
-  
+
   &__total {
     font-size: $font-size-xl;
     padding: $px20 0 0;
     text-align: center;
   }
-  
+
   &__total-sum {
     font-weight: $font-weight-bold;
 
@@ -80,16 +82,16 @@
       margin: 0 0 $px4;
     }
   }
-  
+
   &__show-summary {
     text-decoration: underline;
     margin: 0 0 $px12;
   }
-  
+
   &__summary-wrap {
     width: 100%;
   }
-  
+
   &__summary {
     background-color: $c-lightest-gray;
     border-bottom: 20px solid $c-white;

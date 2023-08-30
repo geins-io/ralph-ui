@@ -17,8 +17,10 @@
   }
 
   &__item {
-    .ca-icon-and-text__icon {
-      transition: transform 150ms;
+    .ca-icon-and-text {
+      &__icon {
+        transition: transform 150ms;
+      }
     }
 
     &--open {
@@ -31,14 +33,14 @@
       > #{$block}__link {
         .ca-icon-and-text {
           column-gap: rem-calc(6);
-        }
 
-        .ca-icon-and-text__text {
-          margin-right: 0;
-        }
+          &__text {
+            margin-right: 0;
+          }
 
-        .ca-icon-and-text__icon {
-          transform: rotate(-180deg);
+          &__icon {
+            transform: rotate(-180deg);
+          }
         }
       }
     }

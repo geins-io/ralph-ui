@@ -1,9 +1,10 @@
 {
   "extends": "stylelint-config-standard-scss",
   "rules": {
-    "at-rule-no-unknown": null,
-    "function-no-unknown": null,
-    "selector-class-pattern": null,
-    "scss/operator-no-unspaced": null
+    "scss/operator-no-newline-after": null,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      { "ignore": ["after-comment", "first-nested"] }
+    ]
   }
 }

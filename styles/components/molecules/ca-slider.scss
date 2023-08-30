@@ -8,14 +8,12 @@
 
   &__lane {
     display: flex;
-    /* stylelint-disable */
     transform: translateX(
       calc(
         var(--current-slide) * (var(--slider-item-width, 100%) * (-1)) +
           (var(--slider-offset, 0) * 1px)
       )
     );
-    /* stylelint-enable */
     position: relative;
     width: 100%;
 

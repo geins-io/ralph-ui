@@ -84,7 +84,7 @@
     display: inline-flex;
 
     #{$block}__button {
-      @include iconCircle;
+      @include icon-circle;
     }
 
     #{$block}__input {

@@ -12,9 +12,9 @@
   max-width: 95vw;
   max-height: calc(var(--vh, 1vh) * 95);
   z-index: $z-index-modal;
-  
+
   &__close {
-    @include iconCircle;
+    @include icon-circle;
 
     position: absolute;
     top: 0;
@@ -22,7 +22,7 @@
     transform: translate(40%, -40%);
     z-index: 1;
   }
-  
+
   &__content {
     overflow: hidden;
     border-radius: rem-calc(4px);

@@ -9,7 +9,6 @@
   bottom: 0;
   z-index: $z-index-panel;
 
-  
   &__header {
     height: $content-panel-header-height;
     border-bottom: $border-light;
@@ -20,13 +19,13 @@
     background-color: $c-content-panel-header-bg;
     color: $c-content-panel-header-txt;
     padding: 0 $px10;
-    
+
     @include bp(laptop) {
       height: $content-panel-header-height-computer;
       padding: 0 $px16;
     }
   }
-  
+
   &__title {
     font-weight: $font-weight-bold;
     font-size: $font-size-l;
@@ -35,18 +34,18 @@
       font-size: $font-size-xl;
     }
   }
-  
+
   &__close-icon {
-    @include iconCircle;
+    @include icon-circle;
   }
-  
+
   &__body {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
   }
-  
+
   &__close-button {
     height: 50px;
     background-color: $c-white;
@@ -86,7 +85,7 @@
     #{$block}__header {
       justify-content: center;
     }
-    
+
     #{$block}__close-icon {
       display: none;
     }
