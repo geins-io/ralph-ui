@@ -95,10 +95,11 @@
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);
       }
-
+      /* stylelint-disable */
       @media screen and (min-width: $site-width) {
         grid-template-columns: repeat(6, 1fr);
       }
+      /* stylelint-enable */
     }
 
     #{$block}__child-link {

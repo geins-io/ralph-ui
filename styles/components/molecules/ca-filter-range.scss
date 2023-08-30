@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $theme-color: $c-darkest-gray;
 $bg-color: color.adjust($c-darkest-gray, $lightness: 43%);
 

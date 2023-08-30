@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "npm run lint:js && npm run lint:scss",
     "lint:js": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "lint:scss": "npx stylelint \"**/*.scss\" --fix",
+    "lint:scss": "npx stylelint \"**/*.{css,scss,vue}\" --fix",
     "ralph-create": "node ./scripts/ralph-create.cjs",
     "documentation": "vuese gen",
     "documentation-serve": "vuese gen && vuese serve --open",
@@ -52,7 +52,9 @@
     "sass": "^1.49.9",
     "sass-loader": "^10.2.1",
     "stylelint": "^15.10.0",
+    "stylelint-config-standard": "^34.0.0",
     "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-config-standard-vue": "^1.0.0",
     "uppercamelcase": "^3.0.0"
   },
   "repository": {
