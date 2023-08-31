@@ -1,6 +1,6 @@
 # @ralph/ralph-ui
 
-> Component library for Carismar
+> Core functionality and component library for Geins PWA storefront
 
 ## Build Setup
 
@@ -34,6 +34,17 @@ Sections to use
 -->
 
 All notable changes will be added to this section
+
+## [21.0.0-beta.0] - 2023-08-31
+
+### Added
+
+- Support for Node 16
+
+### Changed
+
+- Updated/Added/Removed dependencies
+- Updated js and scss linting
 
 ## [20.0.2] - 2023-08-15
 
