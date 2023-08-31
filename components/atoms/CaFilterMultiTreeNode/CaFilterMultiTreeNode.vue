@@ -55,7 +55,7 @@
 
 <script>
 import SlideUpDown from 'vue-slide-up-down';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 
 // @group Atoms
 // @vuese

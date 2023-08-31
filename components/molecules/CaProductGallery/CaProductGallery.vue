@@ -131,7 +131,7 @@
   </div>
 </template>
 <script>
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
 import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 

@@ -4,7 +4,7 @@ import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import { mapState, mapGetters } from 'vuex';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>

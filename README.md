@@ -1,4 +1,4 @@
-# @ralph/ralph-ui
+# @geins/ralph-ui
 
 > Core functionality and component library for Geins PWA storefront
 
@@ -35,7 +35,7 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [21.0.0-beta.0] - 2023-08-31
+## [21.0.0-beta.x] - 2023-08-31
 
 ### Added
 
@@ -43,6 +43,7 @@ All notable changes will be added to this section
 
 ### Changed
 
+- Name of package changed from @ralph/ralph-ui to @geins/ralph-ui
 - No support for Node 14
 - Updated/Added/Removed dependencies
 - Updated js and scss linting

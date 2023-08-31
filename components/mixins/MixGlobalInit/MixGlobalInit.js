@@ -1,5 +1,5 @@
 import categoriesQuery from 'global/categories.graphql';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 import listPageInfo from 'global/list-page-info.graphql';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins

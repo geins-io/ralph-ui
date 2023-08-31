@@ -1,5 +1,5 @@
 import MixStockHandler from 'MixStockHandler';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 export default {

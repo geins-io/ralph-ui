@@ -23,7 +23,7 @@
   </CaSlider>
 </template>
 <script>
-import CaSlide from '@ralph/ralph-ui/components/atoms/CaSlide/CaSlide.vue';
+import CaSlide from '@geins/ralph-ui/components/atoms/CaSlide/CaSlide.vue';
 import CaProductCard from '@/components/organisms/CaProductCard/CaProductCard.vue';
 
 // @group Molecules

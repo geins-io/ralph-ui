@@ -409,7 +409,7 @@
 <script>
 import updateUserMutation from 'user/update.graphql';
 import deleteUserMutation from 'user/delete.graphql';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Organisms
 // @vuese
 // The settings for a users account<br><br>

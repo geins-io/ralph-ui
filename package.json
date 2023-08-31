@@ -1,6 +1,6 @@
 {
-  "name": "@ralph/ralph-ui",
-  "version": "21.0.0-beta.0",
+  "name": "@geins/ralph-ui",
+  "version": "21.0.0-beta.1",
   "description": "Core functionality and component library for Geins PWA storefront",
   "author": "Geins Commerce Team",
   "private": false,
