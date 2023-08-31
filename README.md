@@ -39,10 +39,11 @@ All notable changes will be added to this section
 
 ### Added
 
-- Support for Node 16
+- Support for Node 16 ✨
 
 ### Changed
 
+- No support for Node 14
 - Updated/Added/Removed dependencies
 - Updated js and scss linting
 
