@@ -35,7 +35,7 @@ export default {
         }
       },
       skip() {
-        return process.server;
+        return process.server || this.isDefault;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -60,6 +60,50 @@ export default {
     // @type Booleen
     noCart() {
       return this.cartId === '' && this.orderCart === null;
+    },
+    // @vuese
+    // Is the checkout of type 'DEFAULT'
+    // @type Booleen
+    isDefault() {
+      return this.type === 'DEFAULT';
+    },
+    // @vuese
+    // The external order id
+    // @type String
+    orderId() {
+      switch (this.type) {
+        case 'KLARNA':
+          return this.$route.query.kid;
+        case 'SVEA':
+          return this.$route.query.sid;
+        case 'WALLEY':
+          return this.$route.query.wid;
+        case 'AVARDA':
+          return this.$route.query.aid;
+        default:
+          return this.$route.query.oid || null;
+      }
+    },
+    // @vuese
+    // The type of checkout
+    // @type String
+    type() {
+      if (this.$route.query.sid) {
+        return 'SVEA';
+      }
+
+      if (this.$route.query.kid) {
+        return 'KLARNA';
+      }
+
+      if (this.$route.query.wid) {
+        return 'WALLEY';
+      }
+
+      if (this.$route.query.aid) {
+        return 'AVARDA';
+      }
+      return 'DEFAULT';
     }
   },
   watch: {
@@ -70,12 +114,16 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.isDefault) {
+      this.confirmCartQuery();
+    }
+  },
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
-      this.sendDataLayerEvents(this.checkoutConfirmData);
+      this.sendDataLayerEvents(this.checkoutConfirmData, this.isDefault);
       this.$apollo
         .mutate({
           mutation: completeCartMutation,

@@ -32,66 +32,42 @@ export default {
         sku_id: item.skuId,
         price_currency_code: this.$store.getters['channel/currentCurrency']
       }));
-    },
-    // @vuese
-    // The external order id
-    // @type String
-    orderId() {
-      switch (this.type) {
-        case 'KLARNA':
-          return this.$route.query.kid;
-        case 'SVEA':
-          return this.$route.query.sid;
-        case 'WALLEY':
-          return this.$route.query.wid;
-        case 'AVARDA':
-          return this.$route.query.aid;
-        default:
-          return null;
-      }
-    },
-    type() {
-      if (this.$route.query.sid) {
-        return 'SVEA';
-      }
-
-      if (this.$route.query.kid) {
-        return 'KLARNA';
-      }
-
-      if (this.$route.query.wid) {
-        return 'WALLEY';
-      }
-
-      if (this.$route.query.aid) {
-        return 'AVARDA';
-      }
-      return 'KLARNA';
     }
   },
   watch: {},
   mounted() {},
   methods: {
-    sendDataLayerEvents(checkoutData) {
-      const {
-        orderId,
-        firstName,
-        lastName,
-        email,
-        currency
-      } = checkoutData?.order;
-
+    sendDataLayerEvents(checkoutData, isDefault) {
+      let data = checkoutData;
+      if (isDefault) {
+        data = {
+          order: {
+            orderId: this.orderId,
+            currency: this.$store.getters['channel/currentCurrency'],
+            itemValueIncVat: this.orderCart.summary.subTotal.sellingPriceIncVat,
+            itemValueExVat: this.orderCart.summary.subTotal.sellingPriceExVat,
+            email: this.$route.query.email
+          },
+          nthPurchase: 1
+        };
+      }
       this.$store.dispatch('events/push', {
         type: 'checkout:purchase',
         data: {
-          order: checkoutData?.order,
+          order: data?.order,
           orderCart: this.orderCart,
           orderId: this.orderId,
-          nthPurchase: checkoutData?.nthPurchase
+          nthPurchase: data?.nthPurchase
         }
       });
 
-      if (this.$store.getters['nosto/isNostoActive'] && process.client) {
+      if (
+        this.$store.getters['nosto/isNostoActive'] &&
+        process.client &&
+        data?.order
+      ) {
+        const { orderId, firstName, lastName, email, currency } = data?.order;
+
         window.nostojs(api => {
           api
             .defaultSession()
