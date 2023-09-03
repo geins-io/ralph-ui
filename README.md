@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.0.3] - 2023-09-04
+
+### Added
+
+- `regularPriceIncVat` in price qraphql fragment
+
 ## [20.0.2] - 2023-08-15
 
 ### Fixed
