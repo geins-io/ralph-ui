@@ -1,5 +1,6 @@
 fragment Price on PriceType {
   isDiscounted
+  regularPriceIncVat
   regularPriceIncVatFormatted
   sellingPriceIncVatFormatted
   regularPriceExVatFormatted
