@@ -37,6 +37,7 @@ export const actions = {
   },
   async refresh({ state, dispatch }) {
     await state.client?.connect();
+    dispatch('clearCache');
     dispatch('update');
   },
   async login({ state, dispatch }, credentials) {
