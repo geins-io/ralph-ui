@@ -37,36 +37,36 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    sendDataLayerEvents(checkoutData, isDefault) {
-      let data = checkoutData;
-      if (isDefault) {
-        data = {
-          order: {
-            orderId: this.orderId,
-            currency: this.$store.getters['channel/currentCurrency'],
-            itemValueIncVat: this.orderCart.summary.subTotal.sellingPriceIncVat,
-            itemValueExVat: this.orderCart.summary.subTotal.sellingPriceExVat,
-            email: this.$route.query.email
-          },
-          nthPurchase: 1
-        };
-      }
+    sendDataLayerEvents(checkoutData) {
+      const order = checkoutData?.order || {
+        orderId: this.orderId,
+        currency: this.$store.getters['channel/currentCurrency'],
+        itemValueIncVat: this.orderCart.summary.subTotal.sellingPriceIncVat,
+        itemValueExVat: this.orderCart.summary.subTotal.sellingPriceExVat,
+        email: this.$route.query.email
+      };
       this.$store.dispatch('events/push', {
         type: 'checkout:purchase',
         data: {
-          order: data?.order,
+          order,
           orderCart: this.orderCart,
           orderId: this.orderId,
-          nthPurchase: data?.nthPurchase
+          nthPurchase: checkoutData?.nthPurchase || 1
         }
       });
 
       if (
         this.$store.getters['nosto/isNostoActive'] &&
         process.client &&
-        data?.order
+        checkoutData?.order
       ) {
-        const { orderId, firstName, lastName, email, currency } = data?.order;
+        const {
+          orderId,
+          firstName,
+          lastName,
+          email,
+          currency
+        } = checkoutData?.order;
 
         window.nostojs(api => {
           api

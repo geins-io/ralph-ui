@@ -35,7 +35,7 @@ export default {
         }
       },
       skip() {
-        return process.server || this.isDefault;
+        return process.server;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -62,12 +62,6 @@ export default {
       return this.cartId === '' && this.orderCart === null;
     },
     // @vuese
-    // Is the checkout of type 'DEFAULT'
-    // @type Booleen
-    isDefault() {
-      return this.type === 'DEFAULT';
-    },
-    // @vuese
     // The external order id
     // @type String
     orderId() {
@@ -81,7 +75,7 @@ export default {
         case 'AVARDA':
           return this.$route.query.aid;
         default:
-          return this.$route.query.oid || null;
+          return this.$route.query.oid || '';
       }
     },
     // @vuese
@@ -91,19 +85,16 @@ export default {
       if (this.$route.query.sid) {
         return 'SVEA';
       }
-
       if (this.$route.query.kid) {
         return 'KLARNA';
       }
-
       if (this.$route.query.wid) {
         return 'WALLEY';
       }
-
       if (this.$route.query.aid) {
         return 'AVARDA';
       }
-      return 'DEFAULT';
+      return 'STANDARD';
     }
   },
   watch: {
@@ -114,16 +105,11 @@ export default {
       }
     }
   },
-  mounted() {
-    if (this.isDefault) {
-      this.confirmCartQuery();
-    }
-  },
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
-      this.sendDataLayerEvents(this.checkoutConfirmData, this.isDefault);
+      this.sendDataLayerEvents(this.checkoutConfirmData);
       this.$apollo
         .mutate({
           mutation: completeCartMutation,
