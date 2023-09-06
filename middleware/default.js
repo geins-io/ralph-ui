@@ -9,6 +9,15 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     const marketInPath = route.params.market;
     const currentLanguage = i18n.localeProperties.code;
     const startPageName = 'start';
+    const query = Object.keys(route.query).length
+      ? '?' + route.fullPath.split('?')[1]
+      : '';
+    const hash = route.hash ? '#' + route.hash : '';
+
+    const redirectToPath = path => {
+      const redirectPath = path + query.replace(hash, '') + hash;
+      return redirect(redirectPath);
+    };
 
     // Function to check if language is allowed for a market and redirect otherwise
     const checkIfLanguageAllowed = market => {
@@ -38,7 +47,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
           currentLanguage,
           defaultLanguage
         );
-        return redirect(fallbackPath);
+        return redirectToPath(fallbackPath);
       }
     };
 
@@ -68,12 +77,12 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       );
       store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
 
-      return redirect(fallbackPath);
+      return redirectToPath(fallbackPath);
     }
 
     // If i18n redirects wrong, redirect to correct path
     if (route.path === '/' + currentLanguage + '/' + currentMarket) {
-      return redirect('/' + currentMarket + '/' + currentLanguage);
+      return redirectToPath('/' + currentMarket + '/' + currentLanguage);
     }
 
     // If no route matching, strip path from market, rebuild it and redirect
@@ -83,22 +92,22 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
         return;
       }
 
-      const strippedPath = route.fullPath
+      const strippedPath = route.path
         .replace('/' + currentMarket, '')
         .replace('/' + currentLanguage, '');
-      return redirect(
+      return redirectToPath(
         '/' + currentMarket + app.localePath('index') + strippedPath
       );
     }
 
     // If not using start page, redirect to front page
     if (route.name === startPageName && !$config.useStartPage) {
-      return redirect(app.$getPath('index'));
+      return redirectToPath(app.$getPath('index'));
     }
 
     // If other page than start and market is not in path, redirect to url with market in path
     if (route.name !== startPageName && !marketInPath) {
-      return redirect('/' + currentMarket + route.fullPath);
+      return redirectToPath('/' + currentMarket + route.path);
     }
 
     // Check if current language is allowed on this market and redirect otherwise

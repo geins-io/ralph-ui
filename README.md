@@ -35,6 +35,24 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.1.0] - 2023-09-06
+
+### Added
+
+- Limit of tries to relocate product in list pages to protect against infinite loops in erreoneous listings
+- Option to scroll to top in `resetCurrentPage` function
+- `regularPriceIncVat` and `regularPriceExVat` to price fragment
+- Correct route handling for checkout confirm if using manual invoice
+- Correct data for the `checkout:purchase` event when using manual invoice
+
+### Fixed
+
+- Bug that breaks the confirm page when using manual invoice
+- Bug that in some cases showed the second page twice in list pagination
+- Bug that didn't relocate product properly when backing from PDP to list page
+- Retaining query and hash in multi lang / multi market pages when adding lang and market to url when it's missing
+- Clear cache on auth refresh to ensure correct prices for customers with price lists
+
 ## [20.0.2] - 2023-08-15
 
 ### Fixed

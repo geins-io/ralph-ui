@@ -30,6 +30,8 @@
       :total-count="products.count"
       :all-products-loaded="allProductsLoaded"
       :loading="$apollo.queries.products.loading"
+      :min-count="currentMinCount"
+      :max-count="currentMaxCount"
       @loadmore="loadMore"
     />
   </div>

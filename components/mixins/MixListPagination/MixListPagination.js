@@ -105,15 +105,12 @@ export default {
         });
       }
 
-      if (!this.currentMaxCountSet) {
-        return;
-      }
+      if (this.pagingPage > 1) {
+        this.currentMinCountSet = this.skip + 1;
+        const count = this.skip + this.pageSize;
 
-      if (this.currentMaxCountSet > this.totalCount) {
-        this.currentMaxCountSet = this.totalCount;
-      }
-      if (this.currentMaxCountSet < this.productList.length) {
-        this.currentMaxCountSet = this.productList.length;
+        this.currentMaxCountSet =
+          count >= this.totalCount ? this.totalCount : count;
       }
     },
     // @vuese
