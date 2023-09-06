@@ -60,6 +60,41 @@ export default {
     // @type Booleen
     noCart() {
       return this.cartId === '' && this.orderCart === null;
+    },
+    // @vuese
+    // The external order id
+    // @type String
+    orderId() {
+      switch (this.type) {
+        case 'KLARNA':
+          return this.$route.query.kid;
+        case 'SVEA':
+          return this.$route.query.sid;
+        case 'WALLEY':
+          return this.$route.query.wid;
+        case 'AVARDA':
+          return this.$route.query.aid;
+        default:
+          return this.$route.query.oid || '';
+      }
+    },
+    // @vuese
+    // The type of checkout
+    // @type String
+    type() {
+      if (this.$route.query.sid) {
+        return 'SVEA';
+      }
+      if (this.$route.query.kid) {
+        return 'KLARNA';
+      }
+      if (this.$route.query.wid) {
+        return 'WALLEY';
+      }
+      if (this.$route.query.aid) {
+        return 'AVARDA';
+      }
+      return 'STANDARD';
     }
   },
   watch: {
@@ -70,7 +105,6 @@ export default {
       }
     }
   },
-  mounted() {},
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
