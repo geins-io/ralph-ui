@@ -165,6 +165,7 @@ export default {
     userSelection: null,
     filterParamQuery: {},
     relocateTimeout: null,
+    relocateTries: 10,
     URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
@@ -678,7 +679,7 @@ export default {
         !this.$store.getters['list/relocateProduct'] &&
         !this.$store.getters['list/backNavigated']
       ) {
-        this.resetCurrentPage();
+        this.resetCurrentPage(false);
       }
       this.pushURLParams();
     },
@@ -690,7 +691,7 @@ export default {
         !this.$store.getters['list/backNavigated'] &&
         !this.$store.getters['list/relocateProduct']
       ) {
-        this.resetCurrentPage();
+        this.resetCurrentPage(false);
       }
       const selection = selectionData;
       this.$set(selection, 'sort', this.selection.sort);
@@ -706,16 +707,19 @@ export default {
       this.userSelection.price = [];
       this.userSelection.discount = [];
       this.userSelection.parameters = {};
-      this.resetCurrentPage();
+      this.resetCurrentPage(false);
       this.pushURLParams();
     },
     // @vuese
     // Reset paging state
-    resetCurrentPage() {
+    resetCurrentPage(scrollToTop = true) {
       this.currentPage = 1;
       this.userSkip = 0;
       this.currentMinCountSet = 1;
       this.currentMaxCountSet = this.pageSize;
+      if (scrollToTop) {
+        window.scroll(0, 0);
+      }
     },
     // @vuese
     // Set filter selection in URL
@@ -751,12 +755,6 @@ export default {
       }
       this.$store.commit('list/setBackNavigated', false);
       this.$store.commit('list/setRelocatePage', 1);
-      if (this.currentPage > 1) {
-        this.currentMinCountSet = this.skip + 1;
-        const count = this.skip + this.pageSize;
-        this.currentMaxCountSet =
-          count >= this.totalCount ? this.totalCount : count;
-      }
     },
     // @vuese
     // Runned to relocate product on page after back navigating
@@ -767,14 +765,14 @@ export default {
       );
       if (product !== null) {
         this.$nextTick(() => {
-          window.scroll(0, product.offsetTop);
           product.focus();
           this.$store.dispatch('list/resetTriggerRelocate');
         });
-      } else {
+      } else if (this.relocateTries > 0) {
         this.relocateTimeout = setTimeout(() => {
           this.relocateProduct();
         }, 500);
+        this.relocateTries--;
       }
     },
     // @vuese
