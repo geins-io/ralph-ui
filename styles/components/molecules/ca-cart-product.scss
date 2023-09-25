@@ -5,41 +5,41 @@
   &__image {
     width: 60px;
     margin-right: $px12;
-   
+
     @include bp(tablet) {
       width: 90px;
     }
   }
-  
+
   &__price-group {
     margin: rem-calc(5px) 0 0;
   }
-  
+
   &__price-group-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
   }
-  
+
   &__price-group-quantity {
     white-space: nowrap;
     flex-shrink: 0;
     font-weight: $font-weight-bold;
   }
-  
+
   &__price-group-spacer {
     height: 1px;
     width: 100%;
     background-color: $c-border-light;
     margin: 0 $px16;
   }
-  
+
   &__price-group-price {
     flex-shrink: 0;
     font-size: $font-size-xs;
   }
-  
+
   &__price {
     margin: rem-calc(5px) 0 0;
   }
@@ -49,7 +49,7 @@
     font-size: $font-size-xs;
     margin: $px4 0 0;
   }
-  
+
   &__info {
     position: relative;
     flex: 1;
@@ -65,7 +65,7 @@
   &__campaigns {
     margin: $px4 0 0;
   }
-  
+
   &__stock-display {
     font-size: $font-size-xs;
     margin: $px4 0 0;
@@ -77,15 +77,35 @@
     align-items: center;
     margin-top: $px12;
   }
-  
+
   &__static-quantity {
     font-size: $font-size-s;
     color: $c-text-secondary;
   }
-  
+
   &__total {
     font-size: $font-size-m;
     font-weight: $font-weight-bold;
+  }
+
+  &__refunded {
+    position: absolute;
+    @include flex-calign;
+    font-size: rem-calc(32);
+    color: $c-text-secondary;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: rgba($c-black, 0.05);
+  }
+
+  &--refunded {
+    position: relative;
+    padding: $px8;
   }
 
   &--display {

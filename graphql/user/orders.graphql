@@ -26,5 +26,13 @@ query getOrders($channelId: String, $languageId: String, $marketId: String) {
     paymentDetails {
       displayName
     }
+    refunds {
+      id
+      itemId
+      createdAt
+      reason
+      total
+      vat
+    }
   }
 }

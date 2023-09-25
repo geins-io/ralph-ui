@@ -3,7 +3,7 @@
     border: $border-light;
     background-color: $c-white;
   }
-  
+
   &__header {
     padding: $px12 $px10;
     background-color: $c-white;
@@ -15,7 +15,7 @@
       padding: $px16 $px20;
     }
   }
-  
+
   &__info {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -31,11 +31,11 @@
       row-gap: rem-calc(5px);
     }
   }
-  
+
   &__status {
     font-size: $font-size-s;
   }
-  
+
   &__id,
   &__total {
     font-size: $font-size-m;
@@ -56,7 +56,7 @@
   &__toggle.ca-button {
     line-height: 1;
   }
-  
+
   &__toggle-icon {
     font-size: 20px;
   }
@@ -69,7 +69,7 @@
   @include bp(tablet) {
     padding: $px16 0 0;
   }
-  
+
   &__methods {
     display: flex;
     margin: 0 0 $px10;
@@ -80,7 +80,7 @@
       margin: 0 0 $px16;
     }
   }
-  
+
   &__method {
     &:first-child {
       margin: 0 rem-calc(30px) 0 0;
@@ -90,22 +90,22 @@
       }
     }
   }
-  
+
   &__subtitle {
     font-weight: $font-weight-bold;
     margin: 0 0 rem-calc(2px);
   }
-  
+
   &__track {
     margin: 0 0 $px16;
   }
-  
+
   &__cart {
     border-top: $border-light;
     margin: $px16 0 0;
     padding: $px16 0 0;
   }
-  
+
   &__addresses {
     border-top: $border-light;
     margin: $px16 0 0;
@@ -118,14 +118,29 @@
       font-size: $font-size-m;
     }
   }
-  
+
   &__address {
     &:last-child {
       margin: $px10 0 0;
-      
+
       @include bp(tablet) {
         margin: 0 0 0 rem-calc(50px);
       }
     }
+  }
+
+  &__refunds {
+    background-color: $c-lightest-gray;
+    padding: $px10 $px10 0;
+    margin: $px16 0 0;
+  }
+
+  &__refund-title {
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $px8;
+    padding: 0 0 $px4;
+    text-align: center;
+    border-bottom: $border-light;
   }
 }
