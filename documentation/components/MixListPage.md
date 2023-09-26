@@ -85,7 +85,6 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 <!-- @vuese:MixListPage:mixIns:start -->
 |MixIn|
 |---|
-|MixMetaReplacement|
 |MixListPagination|
 |MixApolloRefetch|
 

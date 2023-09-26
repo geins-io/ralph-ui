@@ -35,6 +35,14 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.2.0] - 2023-09-26
+
+### Added
+
+- Support in cart to show refunded items
+- Showing refunds on order detail page under "My account"
+- Generated documentation files
+
 ## [20.1.0] - 2023-09-06
 
 ### Added
