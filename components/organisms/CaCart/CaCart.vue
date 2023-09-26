@@ -12,6 +12,7 @@
       class="ca-cart__product"
       :item="item"
       :mode="mode"
+      :refunded="isRefunded(item.skuId)"
       @loading="toggleLoading"
       @stock-status-change="handleStockStatus"
       @remove="removeHandler"
@@ -61,6 +62,11 @@ export default {
       validator(value) {
         return ['default', 'display'].includes(value);
       }
+    },
+    // Refunded item id's, for displaying refunded cart items
+    refundedItems: {
+      type: Array,
+      default: null
     }
   },
   data: () => ({
@@ -107,6 +113,11 @@ export default {
     },
     removeHandler(skuId) {
       this.stockStatuses = this.stockStatuses.filter(i => i.skuId !== skuId);
+    },
+    isRefunded(id) {
+      return this.refundedItems?.length
+        ? this.refundedItems.includes(id)
+        : false;
     }
   }
 };

@@ -100,6 +100,12 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="mode === 'display' && refunded"
+      class="ca-cart-product__refunded"
+    >
+      {{ $t('REFUNDED') }}
+    </div>
   </div>
 </template>
 <script>
@@ -126,6 +132,11 @@ export default {
       validator(value) {
         return ['default', 'display'].includes(value);
       }
+    },
+    // Set to true if the product is refunded
+    refunded: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -137,7 +148,8 @@ export default {
     },
     modifiers() {
       return {
-        'ca-cart-product--display': this.mode === 'display'
+        'ca-cart-product--display': this.mode === 'display',
+        'ca-cart-product--refunded': this.refunded
       };
     },
     skuValue() {

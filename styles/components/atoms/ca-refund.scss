@@ -1,0 +1,11 @@
+.ca-refund {
+  $block: &;
+
+  padding: $px8 0;
+  display: flex;
+  justify-content: space-between;
+
+  &__value {
+    font-weight: $font-weight-bold;
+  }
+}
