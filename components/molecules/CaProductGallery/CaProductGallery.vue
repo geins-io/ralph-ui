@@ -119,11 +119,7 @@
           :filename="image"
           :ratio="$config.productImageRatio"
           :alt="alt"
-          :size-array="
-            $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) <= thumbnailImageResolution
-            )
-          "
+          :size-array="$config.imageSizes.product"
           :sizes="thumbnailSizes"
         />
       </CaClickable>
@@ -210,10 +206,6 @@ export default {
       type: String,
       default:
         '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw'
-    },
-    thumbnailImageResolution: {
-      type: Number,
-      default: 500
     }
   },
   data: () => ({
