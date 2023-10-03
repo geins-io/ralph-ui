@@ -39,7 +39,7 @@ All notable changes will be added to this section
 
 ### Changed
 
-- Display all image sizes for `isThumbnailModeGrid` in `CaProductGallery`.
+- Supply all image sizes for `isThumbnailModeGrid` in `CaProductGallery`.
 
 ## [20.2.0] - 2023-09-26
 
