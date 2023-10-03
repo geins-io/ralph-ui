@@ -119,11 +119,7 @@
           :filename="image"
           :ratio="$config.productImageRatio"
           :alt="alt"
-          :size-array="
-            $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) <= 500
-            )
-          "
+          :size-array="$config.imageSizes.product"
           :sizes="thumbnailSizes"
         />
       </CaClickable>

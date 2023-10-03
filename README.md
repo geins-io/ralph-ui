@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.2.1] - 2023-10-03
+
+### Changed
+
+- Supply all image sizes for `isThumbnailModeGrid` in `CaProductGallery`.
+
 ## [20.2.0] - 2023-09-26
 
 ### Added
