@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.2.2] - 2023-10-05
+
+### Fixed
+
+- Bug that in some cases generates SSR errors because of conditional rendering
+- Not showing title if `CaWidgetProductList` has no products
+
 ## [20.2.1] - 2023-10-03
 
 ### Changed
