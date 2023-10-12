@@ -73,7 +73,9 @@ export default {
     // @type Number
     currentMaxCount() {
       if (this.currentMaxCountSet) {
-        return this.currentMaxCountSet;
+        return this.totalCount < this.currentMaxCountSet
+          ? this.totalCount
+          : this.currentMaxCountSet;
       }
       const count =
         this.pagingPage > 1 ? this.skip + this.pageSize : this.pageSize;
