@@ -58,6 +58,13 @@ fragment Cart on CartType {
   summary {
     fixedAmountDiscountIncVat
     fixedAmountDiscountExVat
+    balance {
+      pending
+      pendingFormatted
+      totalSellingPriceExBalanceExVat
+      totalSellingPriceExBalanceIncVat
+      totalSellingPriceExBalanceIncVatFormatted
+    }
     subTotal {
       regularPriceIncVatFormatted
       regularPriceExVatFormatted

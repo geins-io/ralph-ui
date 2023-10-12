@@ -118,9 +118,7 @@ export const actions = {
     }
   },
   clearCache({ dispatch }) {
-    if (this.$config.user.priceLists) {
-      dispatch('clearAndRefetchApollo', null, { root: true });
-    }
+    dispatch('clearAndRefetchApollo', null, { root: true });
   }
 };
 
