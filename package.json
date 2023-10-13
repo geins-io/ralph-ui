@@ -1,7 +1,7 @@
 {
   "name": "@ralph/ralph-ui",
   "module": "./index.js",
-  "version": "20.2.2",
+  "version": "20.3.0",
   "description": "Component library for Geins Storefront ",
   "author": "Geins Team",
   "private": false,

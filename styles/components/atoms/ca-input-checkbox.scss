@@ -4,9 +4,9 @@
   $c-input-checkbox-bg: $c-white !default;
   $input-checkbox-border: $border-dark !default;
   $c-input-checkbox-text: $c-text-secondary !default;
-  $c-input-checkbox-checked-border: $c-input-checkbox-checked-bg !default;
+  $c-input-checkbox-checked-bg: $c-darkest-gray !default;
+  $c-input-checkbox-checked-border: $c-darkest-gray !default;
   $c-input-checkbox-check: $c-white !default;
-
 
   display: flex;
   cursor: pointer;

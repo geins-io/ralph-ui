@@ -35,6 +35,21 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.0] - 2023-10-12
+
+### Added
+
+- Rows that shows if balance is being used to pay the order in cart summary
+
+### Changed
+
+- Apollo cache is now always cleared on log in and log out, not only when using price lists
+
+### Fixed
+
+- Bug that displayed current max count higher than total count in pagination
+- Correct default values for checkbox bg color and border color
+
 ## [20.2.2] - 2023-10-05
 
 ### Fixed
