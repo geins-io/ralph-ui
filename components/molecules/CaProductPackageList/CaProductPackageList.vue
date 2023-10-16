@@ -8,7 +8,10 @@
       :key="index"
       class="ca-product-package-list__list"
     >
-      <li v-if="group.options.length" class="ca-product-package-list__item">
+      <li
+        v-if="group.options.length && group.name !== ':dold:'"
+        class="ca-product-package-list__item"
+      >
         <h3 class="ca-product-package-list__item-label">
           {{ group.name }}
         </h3>
