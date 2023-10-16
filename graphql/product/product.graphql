@@ -4,6 +4,7 @@
 #import "product/variant.graphql"
 #import "global/meta.graphql"
 #import "global/campaign.graphql"
+#import "productlist/product.graphql"
 
 query product(
   $alias: String!
