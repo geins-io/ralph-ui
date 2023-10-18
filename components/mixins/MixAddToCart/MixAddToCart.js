@@ -36,7 +36,7 @@ export default {
       });
     },
     ...mapState({
-      cartmeta: state => state.cartmeta
+      cart: state => state.cart
     })
   },
   methods: {
@@ -117,7 +117,7 @@ export default {
           });
 
           if (this.isPackage) {
-            this.$store.dispatch('cartmeta/addProductPackage', {
+            this.$store.dispatch('cart/addProductPackage', {
               product,
               quantity: prodQuantity
             });
@@ -128,7 +128,7 @@ export default {
 
           if (this.isPackage) {
             selectedSku = this.getSelectedSku(
-              this.cartmeta.productPackages,
+              this.cart.productPackages,
               prodSkuId
             );
           }

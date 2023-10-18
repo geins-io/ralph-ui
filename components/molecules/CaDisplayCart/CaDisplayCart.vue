@@ -19,11 +19,11 @@
     <div v-else class="ca-display-cart__empty">
       {{ $t('CART_EMPTY') }}
     </div>
-    <template v-if="cart && cart.items && cart.items.length" #footer>
+    <template v-if="cart && cart.data.items && cart.data.items.length" #footer>
       <div class="ca-display-cart__footer">
         <CaCartSummary
           class="ca-display-cart__summary"
-          :summary="cart.summary"
+          :summary="cart.data.summary"
           :simple="true"
         />
         <CaButton type="full-width" size="l" href="checkout">
@@ -58,14 +58,13 @@ export default {
   },
   computed: {
     ...mapState({
-      cart: state => state.cart.data,
-      cartmeta: state => state.cartmeta
+      cart: state => state.cart
     }),
     hasItems() {
-      return this.cart && this.cart.items && this.cart.items.length;
+      return this.cart && this.cart.data.items && this.cart.data.items.length;
     },
     hasAnyProductPackage() {
-      return this.cartmeta?.productPackages?.length;
+      return this.cart?.productPackages?.length;
     },
     // Returns an array of items to display in the cart
     // Group items with the same packageId into one item
@@ -77,10 +76,10 @@ export default {
       }
 
       if (!this.hasAnyProductPackage) {
-        return this.cart.items;
+        return this.cart.data.items;
       }
 
-      this.cart.items.forEach(item => {
+      this.cart.data.items.forEach(item => {
         if (!item?.productPackage) {
           items.push(item);
           return false;
@@ -111,7 +110,7 @@ export default {
       return items;
     },
     packagesInCart() {
-      return this.cartmeta?.productPackages || [];
+      return this.cart?.productPackages || [];
     }
   },
   methods: {

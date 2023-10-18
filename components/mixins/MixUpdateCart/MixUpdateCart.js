@@ -23,8 +23,7 @@ export default {
       return !this.isPackage ? updateCartMutation : updateCartGroupMutation;
     },
     ...mapState({
-      cart: state => state.cart.data,
-      cartmeta: state => state.cartmeta
+      cart: state => state.cart
     })
   },
   watch: {},
@@ -64,14 +63,8 @@ export default {
       let items = this.cart?.items;
 
       if (this.isPackage) {
-        items = this.cartmeta?.productPackages;
+        items = this.cart?.productPackages;
       }
-
-      console.log(
-        'getProductPreUpdate',
-        this.cartmeta?.productPackages,
-        updateId
-      );
 
       return items.find(item => item.skuId === updateId);
     },
@@ -84,7 +77,7 @@ export default {
       productQuantityPreUpdate,
       productQuantity
     ) {
-      // get item from cartmeta and update quantity as difference
+      // get item from cart and update quantity as difference
       return items
         .filter(item => item.skuId === idToMatch)
         .map(item => ({
@@ -141,13 +134,10 @@ export default {
             });
 
             if (this.isPackage) {
-              this.$store.commit(
-                'cartmeta/updateExistingProductPackageQuantity',
-                {
-                  skuId: updateId,
-                  quantity: productQuantity
-                }
-              );
+              this.$store.commit('cart/updateExistingProductPackageQuantity', {
+                skuId: updateId,
+                quantity: productQuantity
+              });
             }
 
             // GTM
@@ -157,7 +147,7 @@ export default {
               );
 
               if (this.isPackage) {
-                product = this.cartmeta.productPackages.find(
+                product = this.cart.productPackages.find(
                   item => item.skuId === updateId
                 );
               }
@@ -176,9 +166,9 @@ export default {
               );
 
               if (this.isPackage) {
-                // get item from cartmeta and update quantity as difference
+                // get item from cart and update quantity as difference
                 item = this.getSelectedSku(
-                  this.cartmeta.productPackages,
+                  this.cart.productPackages,
                   updateId,
                   productQuantityPreUpdate,
                   productQuantity
