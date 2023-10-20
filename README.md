@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.1] - 2023-10-20
+
+### Fixed
+
+- Remove imports and registration of components using absolute paths, blocking global components, and thus preventing the override of components.
+- Prevent default on 'dragstart' event causing bug in `CaSlide` when using firefox.
+
 ## [20.3.0] - 2023-10-12
 
 ### Added
