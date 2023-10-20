@@ -128,18 +128,12 @@
 </template>
 <script>
 import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
-import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
-import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 
 // @group Molecules
 // The product page gallery<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-product-gallery.scss_
 export default {
   name: 'CaProductGallery',
-  components: {
-    CaSlide,
-    CaImage
-  },
   mixins: [],
   props: {
     // Array of the products image filenames
@@ -288,6 +282,7 @@ export default {
       this.$refs[slider].goToSlide(index);
     },
     openModal(index) {
+      console.log('log-- open modal');
       this.modalIndex = index;
       const modalSettings = {
         component: 'CaProductGalleryModal',
