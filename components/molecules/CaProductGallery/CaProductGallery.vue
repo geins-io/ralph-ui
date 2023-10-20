@@ -282,7 +282,6 @@ export default {
       this.$refs[slider].goToSlide(index);
     },
     openModal(index) {
-      console.log('log-- open modal');
       this.modalIndex = index;
       const modalSettings = {
         component: 'CaProductGalleryModal',
