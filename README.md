@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.1] - 2023-11-06
+
+### Fixed
+
+- Made sure that no setInterval could keep running forever in case of error
+- Prevent default on 'dragstart' event causing bug in `CaSlide` when using Firefox
+
 ## [20.3.0] - 2023-10-12
 
 ### Added

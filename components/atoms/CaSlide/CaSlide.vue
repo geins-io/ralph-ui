@@ -6,6 +6,7 @@
     @pointermove="gestureMove"
     @pointerup="gestureEnd"
     @pointercancel="gestureCancel"
+    @dragstart.prevent
   >
     <slot></slot>
   </div>

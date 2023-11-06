@@ -84,6 +84,7 @@ export default {
       resultCallback: vm.changed
     },
     widgetLoadedInterval: null,
+    widgetLoadedIntervalCount: 0,
     udcValid: false,
     optionsAvailable: false,
     resetData: false,
@@ -128,6 +129,11 @@ export default {
         } else if (this.currentZip) {
           this.init();
         }
+      }
+      this.widgetLoadedIntervalCount++;
+      if (this.widgetLoadedIntervalCount > 40) {
+        clearInterval(this.widgetLoadedInterval);
+        console.error('nShift checkout widget script could not be loaded');
       }
     }, 500);
   },
