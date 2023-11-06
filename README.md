@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.2] - 2023-11-06
+
+### Fixed
+
+- Added missed return
+
 ## [20.3.1] - 2023-11-06
 
 ### Fixed

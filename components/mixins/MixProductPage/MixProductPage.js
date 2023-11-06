@@ -78,6 +78,7 @@ export default {
         if (result && result.data) {
           if (!this.product && !process.server) {
             this.$store.dispatch('redirect404');
+            return;
           }
 
           if (!this.hasSkuVariants) {
