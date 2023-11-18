@@ -11,7 +11,7 @@
         }"
         @mouseover="handleMouseOver(item.id)"
         @mouseleave="handleMouseLeave"
-        @click="handleClick(item.id)"
+        @click="handleClick(item.id, $event)"
       >
         <component
           :is="getElem(item)"
@@ -158,7 +158,13 @@ export default {
         this.closeMenu();
       }
     },
-    handleClick(id) {
+    handleClick(id, event) {
+      const itemTarget = event.target.closest('a, button');
+
+      if (!itemTarget) {
+        return;
+      }
+
       if (this.menuState === 'click') {
         this.toggleMenu(id);
       } else {
