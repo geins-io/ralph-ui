@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.3] - 2023-11-22
+
+### Fixed
+
+- Prevent closing `CaHeaderNavigation` when clicking between links
+
 ## [20.3.2] - 2023-11-06
 
 ### Fixed
