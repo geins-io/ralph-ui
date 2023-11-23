@@ -20,6 +20,8 @@ All functionality for the confirm page<br><br> **Data:**<br> orderCart: `null`<b
 |---|---|---|---|
 |cartId|`String`|The cart id from the url parameter 'cartid'|No|
 |noCart|`Booleen`|No cart id and no order cart|No|
+|orderId|`String`|The external order id|No|
+|type|`String`|The type of checkout|No|
 
 <!-- @vuese:MixConfirmPage:computed:end -->
 

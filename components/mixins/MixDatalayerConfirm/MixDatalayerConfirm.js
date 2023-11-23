@@ -33,60 +33,36 @@ export default {
         price_currency_code: this.$store.getters['channel/currentCurrency'],
       }));
     },
-    // @vuese
-    // The external order id
-    // @type String
-    orderId() {
-      switch (this.type) {
-        case 'KLARNA':
-          return this.$route.query.kid;
-        case 'SVEA':
-          return this.$route.query.sid;
-        case 'WALLEY':
-          return this.$route.query.wid;
-        case 'AVARDA':
-          return this.$route.query.aid;
-        default:
-          return null;
-      }
-    },
-    type() {
-      if (this.$route.query.sid) {
-        return 'SVEA';
-      }
-
-      if (this.$route.query.kid) {
-        return 'KLARNA';
-      }
-
-      if (this.$route.query.wid) {
-        return 'WALLEY';
-      }
-
-      if (this.$route.query.aid) {
-        return 'AVARDA';
-      }
-      return 'KLARNA';
-    },
   },
   watch: {},
   mounted() {},
   methods: {
     sendDataLayerEvents(checkoutData) {
-      const { orderId, firstName, lastName, email, currency } =
-        checkoutData?.order;
-
+      const order = checkoutData?.order || {
+        orderId: this.orderId,
+        currency: this.$store.getters['channel/currentCurrency'],
+        itemValueIncVat: this.orderCart.summary.subTotal.sellingPriceIncVat,
+        itemValueExVat: this.orderCart.summary.subTotal.sellingPriceExVat,
+        email: this.$route.query.email,
+      };
       this.$store.dispatch('events/push', {
         type: 'checkout:purchase',
         data: {
-          order: checkoutData?.order,
+          order,
           orderCart: this.orderCart,
           orderId: this.orderId,
-          nthPurchase: checkoutData?.nthPurchase,
+          nthPurchase: checkoutData?.nthPurchase || 1,
         },
       });
 
-      if (this.$store.getters['nosto/isNostoActive'] && process.client) {
+      if (
+        this.$store.getters['nosto/isNostoActive'] &&
+        process.client &&
+        checkoutData?.order
+      ) {
+        const { orderId, firstName, lastName, email, currency } =
+          checkoutData?.order;
+
         window.nostojs((api) => {
           api
             .defaultSession()

@@ -85,8 +85,7 @@
       padding: $px32 0;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      column-gap: rem-calc(40px);
-      row-gap: rem-calc(40px);
+      gap: rem-calc(40px);
 
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);

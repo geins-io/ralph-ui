@@ -9,6 +9,7 @@ Displaying the products in the cart, discount code field and cart summary<br><br
 |---|---|---|---|---|
 |cart|Cart data object|`Object`|`true`|-|
 |mode|Set to display mode to show a non interactable cart|'default', 'display'|`false`|default|
+|refundedItems|Refunded item id's, for displaying refunded cart items|`Array`|`false`|null|
 
 <!-- @vuese:CaCart:props:end -->
 

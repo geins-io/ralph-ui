@@ -3,9 +3,9 @@
     <template #toggle-content="{ open }">
       <div class="ca-order-summary__header">
         <div class="ca-order-summary__info">
-          <span class="ca-order-summary__date">{{
-            $d(new Date(order.createdAt))
-          }}</span>
+          <span class="ca-order-summary__date">
+            {{ $d(new Date(order.createdAt)) }}
+          </span>
           <span class="ca-order-summary__count">
             {{ itemsCount }}
             {{ $tc('PRODUCT_LOWERCASE', itemsCount) }}
@@ -70,7 +70,17 @@
           class="ca-order-detail__cart"
           mode="display"
           :cart="order.cart"
+          :refunded-items="refundedItems"
         />
+        <div v-if="order.refunds" class="ca-order-detail__refunds">
+          <h3 class="ca-order-detail__refund-title">{{ $t('REFUNDS') }}</h3>
+          <CaRefund
+            v-for="refund in order.refunds"
+            :key="refund.id"
+            :refund="refund"
+            :cart-items="order.cart.items"
+          />
+        </div>
         <div class="ca-order-detail__addresses">
           <div class="ca-order-detail__address">
             <h3 class="ca-order-detail__subtitle">
@@ -110,6 +120,11 @@ export default {
       let count = 0;
       this.order.cart.items.forEach((i) => (count += i.quantity));
       return count;
+    },
+    refundedItems() {
+      return this.order.refunds?.length
+        ? this.order.refunds.map((i) => i.itemId)
+        : [];
     },
   },
   watch: {},

@@ -62,8 +62,8 @@
           freeShipping
             ? $t('FREE_SHIPPING')
             : vatIncluded
-            ? summary.shipping.feeIncVatFormatted
-            : summary.shipping.feeExVatFormatted
+              ? summary.shipping.feeIncVatFormatted
+              : summary.shipping.feeExVatFormatted
         }}
       </span>
       <div
@@ -78,6 +78,24 @@
           {{ summary.shipping.amountLeftToFreeShippingFormatted }}
         </span>
         {{ $t('CART_SUMMARY_LEFT_TO_FREE_SHIPPING') }}
+      </div>
+    </div>
+    <div v-if="summary.balance.pending > 0" class="ca-cart-summary__balance">
+      <div class="ca-cart-summary__row ca-cart-summary__row--balance-total">
+        <span class="ca-cart-summary__label">
+          {{ $t('CART_SUMMARY_TOTAL_EX_BALANCE') }}
+        </span>
+        <span class="ca-cart-summary__value">
+          {{ summary.balance.totalSellingPriceExBalanceIncVatFormatted }}
+        </span>
+      </div>
+      <div class="ca-cart-summary__row">
+        <span class="ca-cart-summary__label">
+          {{ $t('CART_SUMMARY_BALANCE') }}
+        </span>
+        <span class="ca-cart-summary__value">
+          - {{ summary.balance.pendingFormatted }}
+        </span>
       </div>
     </div>
     <div class="ca-cart-summary__row ca-cart-summary__row--total">

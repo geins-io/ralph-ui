@@ -78,6 +78,7 @@ export default {
         if (result && result.data) {
           if (!this.product && !process.server) {
             this.$store.dispatch('redirect404');
+            return;
           }
 
           if (!this.hasSkuVariants) {
@@ -100,6 +101,15 @@ export default {
           if (!this.product?.primaryCategory) {
             this.$ralphLog('WARNING:', 'Product has no primaryCategory');
           }
+
+          this.appendProductToLatest();
+
+          if (process.client) {
+            this.switchToCanonical();
+            if (!this.impressionEventSent) {
+              this.sendImpressionEvent();
+            }
+          }
         }
         this.$store.dispatch('loading/end');
       },
@@ -118,7 +128,7 @@ export default {
     initVariables: {},
     isInitialRequest: true,
     relatedProducts: [],
-    interval: null,
+    impressionEventSent: false,
   }),
   computed: {
     // @vuese
@@ -231,9 +241,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.switchToCanonical();
-  },
+  mounted() {},
   beforeDestroy() {
     clearInterval(this.interval);
   },
@@ -316,18 +324,9 @@ export default {
     // @vuese
     // Switching to canonical url if different from route path
     switchToCanonical() {
-      this.interval = setInterval(() => {
-        if (this.product) {
-          clearInterval(this.interval);
-          this.appendProductToLatest();
-
-          if (this.product.canonicalUrl !== this.$route.path) {
-            history.replaceState(null, null, this.product.canonicalUrl);
-          }
-
-          this.sendImpressionEvent();
-        }
-      }, 500);
+      if (this.product.canonicalUrl !== this.$route.path) {
+        history.replaceState(null, null, this.product.canonicalUrl);
+      }
     },
     appendProductToLatest() {
       const COOKIE_NAME = 'ralph-latest-products';
@@ -373,6 +372,7 @@ export default {
         type: 'product-detail:impression',
         data: { product: this.product },
       });
+      this.impressionEventSent = true;
     },
   },
 };

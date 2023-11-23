@@ -48,6 +48,79 @@ All notable changes will be added to this section
 - Updated/Added/Removed dependencies
 - Updated js and scss linting
 
+## [20.3.3] - 2023-11-22
+
+### Fixed
+
+- Prevent closing `CaHeaderNavigation` when clicking between links
+
+## [20.3.2] - 2023-11-06
+
+### Fixed
+
+- Added missed return
+
+## [20.3.1] - 2023-11-06
+
+### Fixed
+
+- Made sure that no setInterval could keep running forever in case of error
+- Prevent default on 'dragstart' event causing bug in `CaSlide` when using Firefox
+
+## [20.3.0] - 2023-10-12
+
+### Added
+
+- Rows that shows if balance is being used to pay the order in cart summary
+
+### Changed
+
+- Apollo cache is now always cleared on log in and log out, not only when using price lists
+
+### Fixed
+
+- Bug that displayed current max count higher than total count in pagination
+- Correct default values for checkbox bg color and border color
+
+## [20.2.2] - 2023-10-05
+
+### Fixed
+
+- Bug that in some cases generates SSR errors because of conditional rendering
+- Not showing title if `CaWidgetProductList` has no products
+
+## [20.2.1] - 2023-10-03
+
+### Changed
+
+- Supply all image sizes for `isThumbnailModeGrid` in `CaProductGallery`.
+
+## [20.2.0] - 2023-09-26
+
+### Added
+
+- Support in cart to show refunded items
+- Showing refunds on order detail page under "My account"
+- Generated documentation files
+
+## [20.1.0] - 2023-09-06
+
+### Added
+
+- Limit of tries to relocate product in list pages to protect against infinite loops in erreoneous listings
+- Option to scroll to top in `resetCurrentPage` function
+- `regularPriceIncVat` and `regularPriceExVat` to price fragment
+- Correct route handling for checkout confirm if using manual invoice
+- Correct data for the `checkout:purchase` event when using manual invoice
+
+### Fixed
+
+- Bug that breaks the confirm page when using manual invoice
+- Bug that in some cases showed the second page twice in list pagination
+- Bug that didn't relocate product properly when backing from PDP to list page
+- Retaining query and hash in multi lang / multi market pages when adding lang and market to url when it's missing
+- Clear cache on auth refresh to ensure correct prices for customers with price lists
+
 ## [20.0.2] - 2023-08-15
 
 ### Fixed

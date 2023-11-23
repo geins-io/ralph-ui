@@ -124,8 +124,7 @@
 
   &__results-box {
     padding: $px16 $px20 rem-calc(66px);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     -webkit-overflow-scrolling: touch;
     height: 100%;
 
@@ -145,8 +144,7 @@
 
   &__results-wrap {
     display: flex;
-    justify-content: space-between;
-    align-content: flex-start;
+    place-content: flex-start space-between;
     flex-wrap: wrap;
 
     @include bp(laptop) {

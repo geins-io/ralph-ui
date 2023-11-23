@@ -366,7 +366,8 @@ export default {
             result.data.placeOrder.status === 'completed'
           ) {
             const confirmUrl =
-              '/checkout/confirm?cartid=' +
+              this.$getPath('checkout-confirm') +
+              '?cartid=' +
               this.$store.getters['cart/id'] +
               '&oid=' +
               result.data.placeOrder.orderId +

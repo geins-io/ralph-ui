@@ -9,6 +9,7 @@ A product displayed in the cart<br><br> **SASS-path:** _./styles/components/mole
 |---|---|---|---|---|
 |item|The cart product item|`Object`|`true`|-|
 |mode|Set to display mode to show a non interactable cart|'default', 'display'|`false`|default|
+|refunded|Set to true if the product is refunded|`Boolean`|`false`|false|
 
 <!-- @vuese:CaCartProduct:props:end -->
 

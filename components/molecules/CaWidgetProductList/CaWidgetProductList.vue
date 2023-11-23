@@ -1,6 +1,6 @@
 <template>
-  <div class="ca-widget-product-list">
-    <h2 v-if="isTitleVisible" class="ca-widget-product-list__title">
+  <div v-show="!noProducts" class="ca-widget-product-list">
+    <h2 v-show="isTitleVisible" class="ca-widget-product-list__title">
       {{ configuration.title }}
     </h2>
     <CaProductList
@@ -10,7 +10,7 @@
       :page-size="take"
     />
     <CaProductListSlider
-      v-else-if="!(productsLoaded && productList.length === 0)"
+      v-else
       class="ca-widget-product-list__list"
       :products="productList"
       :page-size="take"
@@ -23,20 +23,22 @@
         configuration.slideshowDisabled &&
         !configuration.limitNrOfRows &&
         products &&
-        products.count > take
+        totalCount > take
       "
       direction="next"
       :showing="showing"
-      :total-count="products.count"
+      :total-count="totalCount"
       :all-products-loaded="allProductsLoaded"
       :loading="$apollo.queries.products.loading"
+      :min-count="currentMinCount"
+      :max-count="currentMaxCount"
       @loadmore="loadMore"
     />
   </div>
 </template>
 <script>
-import MixListPagination from 'MixListPagination';
 import productsQuery from 'productlist/products.graphql';
+import MixListPagination from 'MixListPagination';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Molecules
 // @vuese
@@ -60,7 +62,7 @@ export default {
       },
       skip() {
         return (
-          this.isWidgetModeEmpty ||
+          this.isWidgetModeStatic ||
           (this.fetchProductsOnlyClientSide && process.server)
         );
       },
@@ -86,7 +88,16 @@ export default {
     productsLoaded: false,
   }),
   computed: {
-    isWidgetModeEmpty() {
+    // @vuese
+    // Products loaded but no result
+    // @type Boolean
+    noProducts() {
+      return this.productsLoaded && this.productList.length === 0;
+    },
+    // @vuese
+    // Is the widget in favorite or latest mode
+    // @type Boolean
+    isWidgetModeStatic() {
       return this.checkModeConditions(null) === false;
     },
     // @vuese
@@ -124,6 +135,9 @@ export default {
     // Is title visible
     // @type Object
     isTitleVisible() {
+      if (this.noProducts) {
+        return false;
+      }
       return this.checkModeConditions(this.configuration.title);
     },
     // @vuese
@@ -168,9 +182,9 @@ export default {
     },
   },
   watch: {
-    isWidgetModeEmpty: {
-      handler() {
-        if (this.isWidgetModeEmpty) {
+    isWidgetModeStatic: {
+      handler(val) {
+        if (val) {
           this.setupPagination(0);
           this.productsLoaded = true;
         }

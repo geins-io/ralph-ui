@@ -21,8 +21,7 @@
     margin: $px4 0 0;
     display: flex;
     flex-wrap: wrap;
-    column-gap: $px8;
-    row-gap: $px4;
+    gap: $px4 $px8;
   }
   
   &__language {

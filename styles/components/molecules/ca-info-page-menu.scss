@@ -32,8 +32,7 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      column-gap: $px20;
-      row-gap: $px20;
+      gap: $px20 $px20;
       background-color: $c-lightest-gray;
       padding: $px16;
     }
