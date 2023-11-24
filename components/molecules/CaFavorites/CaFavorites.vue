@@ -9,13 +9,11 @@
     <span v-if="showText" class="ca-favorites__text only-computer">
       {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})
     </span>
-    <client-only>
-      <CaNotificationBadge
-        class="ca-favorites__qty"
-        :class="{ 'only-mobile': showText }"
-        :number="favoritesQty"
-      />
-    </client-only>
+    <CaNotificationBadge
+      class="ca-favorites__qty"
+      :class="{ 'only-mobile': showText }"
+      :number="favoritesQty"
+    />
   </NuxtLink>
 </template>
 <script>

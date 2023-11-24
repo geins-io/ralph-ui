@@ -4,11 +4,13 @@
       <h3 class="ca-reviews-list__header-text">
         {{ $t('PRODUCT_REVIEWS') }} ({{ totalReviewsCount }})
       </h3>
-      <CaStarRating
-        v-if="canShowMainStarRate"
-        class="ca-reviews-list__header-counter"
-        :default-rate="averageRating"
-      />
+      <client-only>
+        <CaStarRating
+          v-if="canShowMainStarRate"
+          class="ca-reviews-list__header-counter"
+          :default-rate="averageRating"
+        />
+      </client-only>
     </div>
 
     <p v-if="!reviews.length" class="ca-reviews-list__empty">
