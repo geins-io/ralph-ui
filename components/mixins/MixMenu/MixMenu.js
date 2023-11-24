@@ -19,7 +19,6 @@ export default {
       errorPolicy: 'all',
       result(result) {
         this.menu = result?.data?.getMenuAtLocation || [];
-        this.$store.dispatch('cart/get');
       },
       skip() {
         return !this.menuLocationId || (!process.client && this.onlyClientSide);

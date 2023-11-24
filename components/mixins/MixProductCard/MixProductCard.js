@@ -133,6 +133,8 @@ export default {
         this.$store.commit('list/setRelocatePage', this.pageNumber);
         this.$store.commit('list/setRelocateAlias', this.product.alias);
       }
+
+      this.$router.push(this.product.canonicalUrl);
     },
     // @vuese
     // Add to cart if skuId is present, otherwise go to product
