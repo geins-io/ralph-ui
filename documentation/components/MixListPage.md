@@ -50,7 +50,6 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 |urlFilteredList|`Boolean`|Is list filtered by facet in url?|No|
 |hideListInfo|`Boolean`|Determine is CaListTop are visible on page|No|
 |filtersLoaded|`Boolean`|Status of loading filters state|No|
-|isNostoRequest|`Boolean`|Condition to skip nosto request|No|
 |categoryAlias|`String`|Returns the current category alias|No|
 |skip|`Number`|Current number of products to skip when querying|No|
 |filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
@@ -65,7 +64,6 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 |productsQueryFilter|`Object`|Returns the filter object for the productsQueryVars|No|
 |totalFiltersActive|`Number`|Number of total filters active|No|
 |filterSelectionActive|`Boolean`|Is a filter selection made?|No|
-|nostoQueryVars|`Object`|Returns the variable object with the query parameters for the nosto product list|No|
 |productsQueryVars|`Object`|Returns the variable object with the query parameters for the product list|No|
 |filtersQueryVars|`Object`|Returns the variable object with the query parameters for the product list filters|No|
 |infoQueryVars|`Object`|Returns the variable object with the query parameters for the product list information|No|

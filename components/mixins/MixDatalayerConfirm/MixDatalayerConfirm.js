@@ -23,16 +23,6 @@ export default {
         };
       });
     },
-    nostoProducts() {
-      return this.orderCart?.items?.map((item) => ({
-        product_id: item.product.productId,
-        name: item.product.name,
-        unit_price: item.unitPrice.sellingPriceExVat,
-        quantity: item.quantity,
-        sku_id: item.skuId,
-        price_currency_code: this.$store.getters['channel/currentCurrency'],
-      }));
-    },
   },
   watch: {},
   mounted() {},
@@ -54,45 +44,6 @@ export default {
           nthPurchase: checkoutData?.nthPurchase || 1,
         },
       });
-
-      if (
-        this.$store.getters['nosto/isNostoActive'] &&
-        process.client &&
-        checkoutData?.order
-      ) {
-        const { orderId, firstName, lastName, email, currency } =
-          checkoutData?.order;
-
-        window.nostojs((api) => {
-          api
-            .defaultSession()
-            .addOrder({
-              external_order_ref: this.orderId,
-              info: {
-                order_number: orderId,
-                email,
-                first_name: firstName,
-                last_name: lastName,
-                type: 'order',
-                newsletter: true,
-              },
-              items: this.orderCart?.items?.map((item) => ({
-                product_id: item.product.productId,
-                sku_id: item.skuId,
-                name: item.product.name,
-                quantity: item.quantity,
-                price_currency_code: currency,
-                unit_price: item.unitPrice.sellingPriceIncVat,
-              })),
-            })
-            .setPlacements(['order-related'])
-            .load()
-            .then((data) => {
-              // eslint-disable-next-line
-              console.log(data.recommendations);
-            });
-        });
-      }
     },
   },
 };

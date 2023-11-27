@@ -28,16 +28,6 @@ A slider used for product sliding or image gallery<br><br> **SASS-path:** _./sty
 <!-- @vuese:CaSlider:events:end -->
 
 
-## Slots
-
-<!-- @vuese:CaSlider:slots:start -->
-|Name|Description|Default Slot Content|
-|---|---|---|
-|slides|-|-|
-
-<!-- @vuese:CaSlider:slots:end -->
-
-
 ## Methods
 
 <!-- @vuese:CaSlider:methods:start -->

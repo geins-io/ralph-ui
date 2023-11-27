@@ -41,26 +41,6 @@ export const actions = {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
-  sendNostoEvent({ rootGetters }, cart) {
-    if (window.nostojs && cart) {
-      window.nostojs((api) => {
-        api
-          .defaultSession()
-          .setCart({
-            items: cart.items.map((item) => ({
-              name: item.product.name,
-              price_currency_code: rootGetters['channel/currentCurrency'],
-              product_id: item.product.productId,
-              quantity: item.quantity,
-              sku_id: item.skuId,
-              unit_price: item.unitPrice.sellingPriceIncVat,
-            })),
-          })
-          .viewCart()
-          .update();
-      });
-    }
-  },
   update({ commit, dispatch }, cart) {
     commit('setCart', cart);
 
@@ -68,9 +48,6 @@ export const actions = {
       return;
     }
 
-    if (this.getters['nosto/isNostoActive']) {
-      dispatch('sendNostoEvent', cart);
-    }
     const bc = new BroadcastService('ralph_channel');
     bc.postMessage({ type: 'cart', data: cart });
 

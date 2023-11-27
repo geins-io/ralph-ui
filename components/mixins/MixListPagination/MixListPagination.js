@@ -130,31 +130,17 @@ export default {
 
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
 
-      if (this.isNostoRequest) {
-        this.$apollo.queries.nostoProducts.fetchMore({
-          variables: this.loadMoreNostoVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } =
-              this.formatNostoData(fetchMoreResult);
-            this.currentMaxCountSet += newProducts.length;
-
-            this.productList = [...currentProductList, ...newProducts];
+      this.$apollo.queries.products.fetchMore({
+        variables: this.loadMoreQueryVars,
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newProducts = fetchMoreResult.products.products;
+          this.currentMaxCountSet += newProducts.length;
+          this.productList = [...currentProductList, ...newProducts];
+          if (this.mainProductList) {
             this.pushURLParams();
-          },
-        });
-      } else {
-        this.$apollo.queries.products.fetchMore({
-          variables: this.loadMoreQueryVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newProducts = fetchMoreResult.products.products;
-            this.currentMaxCountSet += newProducts.length;
-            this.productList = [...currentProductList, ...newProducts];
-            if (this.mainProductList) {
-              this.pushURLParams();
-            }
-          },
-        });
-      }
+          }
+        },
+      });
     },
     // @vuese
     // Load previous chunk of products
@@ -170,28 +156,15 @@ export default {
         window.scrollBy(0, scrollAmount);
       });
 
-      if (this.isNostoRequest) {
-        this.$apollo.queries.nostoProducts.fetchMore({
-          variables: this.loadPrevNostoVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const { products: newProducts } =
-              this.formatNostoData(fetchMoreResult);
-            this.currentMinCountSet -= newProducts.length;
-            this.productList = [...newProducts, ...currentProductList];
-            this.pushURLParams();
-          },
-        });
-      } else {
-        this.$apollo.queries.products.fetchMore({
-          variables: this.loadPrevQueryVars,
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newProducts = fetchMoreResult.products.products;
-            this.currentMinCountSet -= newProducts.length;
-            this.productList = [...newProducts, ...currentProductList];
-            this.pushURLParams();
-          },
-        });
-      }
+      this.$apollo.queries.products.fetchMore({
+        variables: this.loadPrevQueryVars,
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newProducts = fetchMoreResult.products.products;
+          this.currentMinCountSet -= newProducts.length;
+          this.productList = [...newProducts, ...currentProductList];
+          this.pushURLParams();
+        },
+      });
     },
   },
 };

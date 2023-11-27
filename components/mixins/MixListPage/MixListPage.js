@@ -2,7 +2,6 @@ import MixListPagination from 'MixListPagination';
 import MixApolloRefetch from 'MixApolloRefetch';
 import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
-import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import { mapState, mapGetters } from 'vuex';
 import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
@@ -37,14 +36,7 @@ export default {
           const { products } = result.data;
           this.productList = products?.products || [];
           this.productsFetched = true;
-          if (!this.isNostoRequest) {
-            this.setupPagination(products?.count);
-            this.$store.dispatch('loading/end');
-          }
         }
-      },
-      skip() {
-        return this.isNostoRequest;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -75,29 +67,6 @@ export default {
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       },
-    },
-    nostoProducts: {
-      client: 'nosto',
-      query() {
-        return nostoRecommendationsQuery;
-      },
-      variables() {
-        return this.nostoQueryVars;
-      },
-      fetchPolicy: 'no-cache',
-      skip() {
-        return !this.isNostoRequest || !process.client;
-      },
-      deep: true,
-      result(result) {
-        const paginationData = this.formatNostoData(result.data);
-        this.productList = paginationData?.products || [];
-
-        this.setupPagination(paginationData?.count);
-        this.productsFetched = true;
-        this.$store.dispatch('loading/end');
-      },
-      update: (data) => data.session?.recos?.category?.primary,
     },
   },
   props: {
@@ -192,17 +161,6 @@ export default {
     // @type Boolean
     filtersLoaded() {
       return Object.keys(this.baseFilters).length > 0;
-    },
-    // @vuese
-    // Condition to skip nosto request
-    // @type Boolean
-    isNostoRequest() {
-      return (
-        process.client &&
-        this.selection.sort === 'BEST_MATCH' &&
-        this.$store.getters['nosto/isNostoActive'] &&
-        this.$config.nostoAccountAppsKey
-      );
     },
     // @vuese
     // Returns the current category alias
@@ -385,18 +343,6 @@ export default {
       return this.totalFiltersActive > 0;
     },
     // @vuese
-    // Returns the variable object with the query parameters for the nosto product list
-    // @type Object
-    nostoQueryVars() {
-      return this.generateNostoVars(this.skip / this.pageSize);
-    },
-    loadMoreNostoVars() {
-      return this.generateNostoVars(this.currentPage - 1);
-    },
-    loadPrevNostoVars() {
-      return this.generateNostoVars(this.currentPage - 2);
-    },
-    // @vuese
     // Returns the variable object with the query parameters for the product list
     // @type Object
     productsQueryVars() {
@@ -565,86 +511,6 @@ export default {
     eventbus.$off('route-change');
   },
   methods: {
-    formatNostoData(data) {
-      const {
-        totalPrimaryCount: count,
-        primary: products,
-        resultId,
-      } = data?.session?.recos?.category;
-
-      const createObjectNode = (indexKey, keys, acc, value) => {
-        acc[keys[indexKey]] = acc[keys[indexKey]]
-          ? { ...acc[keys[indexKey]] }
-          : {};
-
-        if (indexKey === keys.length - 1) {
-          acc[keys[indexKey]] = value;
-          return;
-        }
-
-        createObjectNode(indexKey + 1, keys, acc[keys[indexKey]], value);
-      };
-
-      const mappedAttributesProducts = products.map((product) => ({
-        ...product,
-        ...product.attributes.reduce((acc, { key, value }) => {
-          const keys = key.split('_');
-          if (keys.length > 1) {
-            createObjectNode(0, keys, acc, value);
-            return acc;
-          }
-          return { ...acc, [keys[0]]: value };
-        }, {}),
-      }));
-
-      const formattedProduct = mappedAttributesProducts.map((product) => ({
-        ...product,
-        nostoResultId: resultId,
-        productImages: product.images.split(',').map((i) => {
-          return {
-            fileName: i,
-          };
-        }),
-        skus: [
-          {
-            skuId: product?.primarySku?.id,
-            productId: product.productId,
-          },
-        ],
-        totalStock: {
-          ...product.totalStock,
-          totalStock: product.totalStock.sellable,
-        },
-        canonicalUrl: `/${product.canonicalUrl.split('/').slice(3).join('/')}`,
-        alias: product.canonicalUrl.split('/').slice(-1).join(''),
-        discountCampaigns: product.discountCampaigns
-          ? [product.discountCampaigns.split(',')]
-          : [],
-      }));
-
-      return { count, products: formattedProduct };
-    },
-    generateNostoVars(skipPages) {
-      return {
-        ...this.filtersVars,
-        filters: {
-          customFields: [
-            { attribute: 'Facets', values: this.productsQueryFilter.facets },
-          ],
-        },
-        excludeFilters: {
-          availability: 'InStock',
-        },
-        customerId:
-          this.$store.getters['nosto/getSessionToken'] ||
-          this.$cookies.get('2c.cId'),
-        by: 'BY_CID',
-        preview: false,
-        category: this.categoryAlias,
-        limit: this.pageSize,
-        skipPages,
-      };
-    },
     // @vuese
     // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products
     getScrollHeight() {

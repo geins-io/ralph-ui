@@ -18,6 +18,8 @@ Widget displaying a product list<br><br> **SASS-path:** _./styles/components/mol
 <!-- @vuese:CaWidgetProductList:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|noProducts|`Boolean`|Products loaded but no result|No|
+|isWidgetModeStatic|`Boolean`|Is the widget in favorite or latest mode|No|
 |take|`Number`|How many products to take|No|
 |loadMoreQueryVars|`Object`|Returns the variable object for loading more products|No|
 |isLatestMode|`Object`|Is widget on latest products mode|No|
