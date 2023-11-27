@@ -35,6 +35,13 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.4] - 2023-11-27
+
+### Fixed
+
+- `CaFilterMultiTreeView`: unselect children when parent is unselected
+- `CaImage`: invalid property value (CSS)
+
 ## [20.3.3] - 2023-11-22
 
 ### Fixed
