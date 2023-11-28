@@ -2,7 +2,7 @@
   <nav class="ca-panel-navigation">
     <ul v-if="menu" class="ca-panel-navigation__items">
       <li
-        v-for="item in menu.menuItems"
+        v-for="item in getItemsWithLabel(menu.menuItems)"
         :key="item.id"
         class="ca-panel-navigation__item"
       >
@@ -31,7 +31,7 @@
               </component>
             </li>
             <li
-              v-for="childItem in item.children"
+              v-for="childItem in getItemsWithLabel(item.children)"
               :key="childItem.id"
               class="ca-panel-navigation__child-item"
             >
@@ -60,7 +60,9 @@
                     </component>
                   </li>
                   <li
-                    v-for="grandChildItem in childItem.children"
+                    v-for="grandChildItem in getItemsWithLabel(
+                      childItem.children
+                    )"
                     :key="grandChildItem.id"
                     class="ca-panel-navigation__grand-child-item"
                   >
