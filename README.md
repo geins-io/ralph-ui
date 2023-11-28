@@ -35,6 +35,12 @@ Sections to use
 
 All notable changes will be added to this section
 
+## [20.3.5] - 2023-11-28
+
+### Fixed
+
+- The navigation menus to only display items with labels and eliminating empty items
+
 ## [20.3.4] - 2023-11-27
 
 ### Fixed
