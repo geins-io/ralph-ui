@@ -308,7 +308,7 @@ export default {
     // @vuese
     // Handler for changing the sku
     // @arg data (Object)
-    sizeChangeHandler(data) {
+    skuChangeHandler(data) {
       this.setSku(data.id, data.value);
     },
     // @vuese
