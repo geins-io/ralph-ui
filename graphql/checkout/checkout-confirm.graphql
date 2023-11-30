@@ -1,3 +1,5 @@
+#import "cart/content.graphql"
+
 query checkout(
   $id: String!
   $paymentType: PaymentType!
@@ -27,5 +29,9 @@ query checkout(
       itemValueIncVat
     }
     nthPurchase
+    cart {
+      isCompleted
+      ...Cart
+    }
   }
 }
