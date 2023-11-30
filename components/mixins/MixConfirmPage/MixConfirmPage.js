@@ -1,4 +1,3 @@
-import confirmCartQuery from 'cart/confirm.graphql';
 import completeCartMutation from 'cart/complete.graphql';
 import checkoutConfirmQuery from 'checkout/checkout-confirm.graphql';
 import MixDatalayerConfirm from 'MixDatalayerConfirm';
@@ -6,7 +5,8 @@ import MixDatalayerConfirm from 'MixDatalayerConfirm';
 // @vuese
 // All functionality for the confirm page<br><br>
 // **Data:**<br>
-// orderCart: `null`<br>
+// checkoutConfirmData: `null`<br>
+// loading: `true`<br>
 export default {
   name: 'MixConfirmPage',
   mixins: [MixDatalayerConfirm],
@@ -31,6 +31,7 @@ export default {
             this.$router.push(this.$getPath('checkout'));
             return;
           }
+
           this.checkoutConfirmData = result.data.checkout;
         }
       },
@@ -44,7 +45,6 @@ export default {
   },
   props: {},
   data: () => ({
-    orderCart: null,
     checkoutConfirmData: null,
     loading: true,
   }),
@@ -96,12 +96,27 @@ export default {
       }
       return 'STANDARD';
     },
+    // @vuese
+    // The cart stored with the order
+    // @type Object
+    orderCart() {
+      return this.checkoutConfirmData?.cart;
+    },
+    // @vuese
+    // Returns true if the cart should be resetted
+    // @type Boolean
+    cartShouldReset() {
+      return (
+        this.cartId === this.$cookies.get('ralph-cart') ||
+        !this.$cookies.get('ralph-cart')
+      );
+    },
   },
   watch: {
     checkoutConfirmData(newVal, oldVal) {
       if (oldVal === null && newVal !== oldVal) {
         this.loading = false;
-        this.confirmCartQuery();
+        this.processCartCompletion();
       }
     },
   },
@@ -128,34 +143,13 @@ export default {
         });
     },
     // @vuese
-    // Calls the summary once the component is mounted
-    confirmCartQuery() {
-      this.$apollo
-        .query({
-          query: confirmCartQuery,
-          variables: {
-            id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket,
-            allowExternalShippingFee: true,
-          },
-        })
-        .then((result) => {
-          if (result.data && result.data.getCart) {
-            this.orderCart = result.data.getCart;
-            if (!this.orderCart.isCompleted && !process.server) {
-              this.completeCart();
-            } else if (
-              this.orderCart.isCompleted &&
-              (this.cartId === this.$cookies.get('ralph-cart') ||
-                !this.$cookies.get('ralph-cart'))
-            ) {
-              this.$store.dispatch('cart/reset');
-            }
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+    // Checks if the cart is completed and if not, calls the complete cart method
+    processCartCompletion() {
+      if (!this.orderCart.isCompleted && !process.server) {
+        this.completeCart();
+      } else if (this.orderCart.isCompleted && this.cartShouldReset) {
+        this.$store.dispatch('cart/reset');
+      }
     },
   },
 };
