@@ -35,7 +35,7 @@ Sections to use
 
 All notable changes will be added to this section
 
-## [20.3.5] - 2023-11-28
+## [20.3.5] - 2023-12-04
 
 ### Fixed
 
