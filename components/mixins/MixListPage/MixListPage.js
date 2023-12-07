@@ -36,6 +36,8 @@ export default {
           const { products } = result.data;
           this.productList = products?.products || [];
           this.productsFetched = true;
+          this.setupPagination(products?.count);
+          this.$store.dispatch('loading/end');
         }
       },
       error(error) {

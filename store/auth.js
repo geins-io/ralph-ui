@@ -1,4 +1,4 @@
-import AuthClient from '@geins/ralph-ui/plugins/authClient.js';
+import AuthClient from '@geins/ralph-ui/plugins/auth-client.js';
 import { BroadcastChannel as BroadcastService } from 'broadcast-channel';
 
 export const state = () => ({
