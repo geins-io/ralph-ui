@@ -35,7 +35,7 @@
       <div v-show="optionsAvailable" ref="widget" class="ca-udc__widget" />
       <script
         type="text/javascript"
-        src="/vendors/unifaun-checkout-all.min.js"
+        src="https://api.unifaun.com/rs-extapi/v1/delivery-checkouts-widget/unifaun-checkout-all.min.js"
         async
       />
     </client-only>

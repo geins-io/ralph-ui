@@ -273,7 +273,7 @@ export const actions = {
     const checkoutMarket = parsed['ralph-checkout-market'] ?? currentMarket;
 
     // Set fallback markets for first routing (before API call is done)
-    commit('channel/setMarkets', this.$config.markets);
+    commit('channel/setMarkets', this.$config.fallbackMarkets);
     // Get markets from API
     dispatch('channel/getMarkets');
     // Set current market
