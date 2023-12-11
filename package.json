@@ -27,14 +27,18 @@
     "vue-youtube": "^1.4.0"
   },
   "vuese": {
+    "genType": "docute",
     "outDir": "documentation",
+    "markdownDir": "components",
+    "title": "Documentation for Ralph UI components",
+    "keepFolderStructure": true,
     "include": [
       "**/*.vue",
       "components/mixins/**/*.js"
     ],
     "exclude": "scripts/component-template/component.vue",
-    "host": "127.0.0.1",
-    "port": 6001
+    "host": "localhost",
+    "port": 3010
   },
   "devDependencies": {
     "@babel/core": "^7.22.10",
