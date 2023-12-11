@@ -1,4 +1,9 @@
+import Vue from 'vue';
+
 export default ({ $config, store, app, i18n }, inject) => {
+  const ralphBus = new Vue();
+  inject('ralphBus', ralphBus);
+
   const getPath = (
     path,
     market = store.state.channel.currentMarket,

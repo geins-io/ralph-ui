@@ -1,4 +1,3 @@
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -190,7 +189,7 @@ export const actions = {
   },
   clearAndRefetchApollo({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
-    eventbus.$emit('refetch-apollo-queries');
+    this.app.$ralphBus.$emit('refetch-apollo-queries');
     dispatch('cart/get');
   },
   persistStates({ state }, statesToPersist) {

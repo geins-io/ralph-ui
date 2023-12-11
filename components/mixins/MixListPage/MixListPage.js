@@ -3,7 +3,6 @@ import MixApolloRefetch from 'MixApolloRefetch';
 import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
 import { mapState, mapGetters } from 'vuex';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
@@ -497,21 +496,16 @@ export default {
     }),
   },
   watch: {
+    $route(to, from) {
+      this.handleFilteredRoutesRouting({ to, from });
+    },
     userSelection(newVal, oldVal) {
       if (newVal && oldVal === null) {
         this.$store.commit('list/resetQuerySelection');
       }
     },
   },
-  mounted() {
-    eventbus.$on('route-change', (routes) => {
-      this.handleFilteredRoutesRouting(routes);
-    });
-  },
-  beforeDestroy() {
-    clearInterval(this.interval);
-    eventbus.$off('route-change');
-  },
+  mounted() {},
   methods: {
     // @vuese
     // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products

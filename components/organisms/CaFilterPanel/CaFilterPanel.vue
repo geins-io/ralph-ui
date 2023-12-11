@@ -211,7 +211,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 
 // @group Organisms
 // @vuese
@@ -264,7 +263,7 @@ export default {
       this.$emit('reset');
     },
     closeContentPanel() {
-      eventbus.$emit('close-content-panel');
+      this.$ralphBus.$emit('close-content-panel');
     },
     updateSelection(selection, type, group = null) {
       if (group) {

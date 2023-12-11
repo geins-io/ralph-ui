@@ -50,7 +50,6 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 
 // @group Molecules
 // @vuese
@@ -148,18 +147,14 @@ export default {
       }
     },
     activateEventbusListeners() {
-      eventbus.$on('close-content-panel', () => {
+      this.$ralphBus.$on('close-content-panel', () => {
         this.close();
       });
-      eventbus.$on('route-change', (route) => {
-        if (route.to.path !== route.from.path) {
-          this.close();
-        }
-      });
+      this.$ralphBus.$on('route-change', this.close);
     },
     deactivateEventbusListeners() {
-      eventbus.$off('route-change');
-      eventbus.$off('close-content-panel');
+      this.$ralphBus.$off('route-change');
+      this.$ralphBus.$off('close-content-panel');
     },
   },
 };

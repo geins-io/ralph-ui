@@ -55,7 +55,6 @@
 
 <script>
 import SlideUpDown from 'vue-slide-up-down';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 
 // @group Atoms
 // @vuese
@@ -93,12 +92,12 @@ export default {
     this.$nextTick(() => {
       this.selectChildren(this.value, false);
     });
-    eventbus.$on('close-content-panel', () => {
+    this.$ralphBus.$on('close-content-panel', () => {
       this.close();
     });
   },
   beforeUnmount() {
-    eventbus.$off('close-content-panel');
+    this.$ralphBus.$off('close-content-panel');
   },
   methods: {
     // @vuese

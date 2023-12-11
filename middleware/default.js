@@ -126,5 +126,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
         requestUrl: fullUrl,
       },
     });
+
+    app.$ralphBus.$emit('route-change');
   }
 };

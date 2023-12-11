@@ -1,5 +1,4 @@
 import categoriesQuery from 'global/categories.graphql';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 import listPageInfo from 'global/list-page-info.graphql';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
@@ -87,7 +86,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      eventbus.$emit('route-change', { to, from });
       if (to.path !== from.path) {
         this.$store.dispatch('loading/start');
 

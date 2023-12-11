@@ -84,7 +84,9 @@ export default {
     ...mapState(['cart']),
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    this.$ralphBus.$on('route-change', this.close);
+  },
   methods: {
     // @vuese
     // Close the notification

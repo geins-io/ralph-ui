@@ -127,7 +127,6 @@
   </div>
 </template>
 <script>
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 import CaSlide from '../../../components/atoms/CaSlide/CaSlide.vue';
 import CaImage from '../../../components/atoms/CaImage/CaImage.vue';
 
@@ -278,7 +277,7 @@ export default {
   watch: {},
   mounted() {},
   beforeUnmount() {
-    eventbus.$emit('close-modal');
+    this.$ralphBus.$emit('close-modal');
   },
   methods: {
     // @vuese

@@ -1,5 +1,4 @@
 import MixStockHandler from 'MixStockHandler';
-import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 export default {
@@ -122,7 +121,7 @@ export default {
     // Choose variant. Emits relpaceProduct for non sku variants and changeSku for sku variants
     // @arg variant (Object)
     chooseVariant(variant) {
-      eventbus.$emit('close-content-panel');
+      this.$ralphBus.$emit('close-content-panel');
       if (variant.level === 0) {
         // @vuese
         // Sku variant is changed
