@@ -1,0 +1,42 @@
+.ca-account-page {
+  $block: &;
+
+  &__body {
+    @include bp(laptop) {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 $px40;
+  }
+
+  &__title {
+    font-size: $font-size-xxl;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $px40;
+  }
+
+  &__spinner.ca-spinner {
+    width: 60px;
+    height: 60px;
+    border-color: $c-accent-color;
+  }
+
+  &__content {
+    width: 100%;
+    background-color: $c-lightest-gray;
+    padding: $px16 $px12;
+
+    @include bp(laptop) {
+      border: $border-light;
+      padding: $px20 $px40;
+      min-height: rem-calc(180px);
+    }
+  }
+}

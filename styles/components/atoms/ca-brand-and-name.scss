@@ -1,0 +1,9 @@
+.ca-brand-and-name {
+  $block: &;
+
+  &__brand {
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    margin-bottom: $px4;
+  }
+}

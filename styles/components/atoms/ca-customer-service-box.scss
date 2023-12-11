@@ -1,0 +1,33 @@
+.ca-customer-service-box {
+  $block: &;
+
+  max-width: rem-calc(300px);
+  width: 100%;
+  border: $border-light;
+  background-color: $c-lightest-gray;
+  padding: $px16;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: $px20 auto 0;
+
+  @include bp(laptop) {
+    margin: 0 0 0 $px32;
+  }
+
+  &__title {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-l;
+  }
+
+  &__text {
+    margin: $px10 0 $px4;
+  }
+
+  &__contact {
+    margin: $px8 0 0;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-m;
+  }
+}

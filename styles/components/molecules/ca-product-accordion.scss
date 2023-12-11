@@ -1,0 +1,32 @@
+.ca-product-accordion {
+  $block: &;
+
+  border-top: $border-light;
+
+  @include bp(laptop) {
+    border-left: $border-light;
+    border-right: $border-light;
+
+    .ca-accordion-item {
+      &__toggle {
+        font-size: $font-size-l;
+      }
+    }
+  }
+
+  @include bp(tablet-down) {
+    .ca-accordion-item {
+      &__toggle {
+        padding: 1rem calc(#{$default-spacing} / 2);
+      }
+    }
+  }
+
+  &__item-content {
+    padding: calc(#{$default-spacing} / 2);
+
+    @include bp(laptop) {
+      padding: $px16;
+    }
+  }
+}

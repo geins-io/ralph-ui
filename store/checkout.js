@@ -1,13 +1,13 @@
 export const state = () => ({
-  udcData: null,
+  nshiftData: null,
   currentZip: '',
   externalShippingFee: null,
   merchantData: '',
 });
 
 export const mutations = {
-  setUDCdata(state, data) {
-    state.udcData = data;
+  setNshiftData(state, data) {
+    state.nshiftData = data;
   },
   setCurrentZip(state, zip) {
     state.currentZip = zip;

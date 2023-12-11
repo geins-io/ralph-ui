@@ -35,9 +35,10 @@ export default {
       type: String,
       default: 'filter',
     },
+    // The filters array
     filters: {
       type: Array,
-      default: () => ['1', '2'],
+      default: () => [],
     },
   },
   data: () => ({
@@ -47,7 +48,6 @@ export default {
     modifiers() {
       return {
         'ca-filter-trigger--chosen': this.selectionMade,
-        'ca-filter-trigger--hidden': this.filters?.length <= 1,
       };
     },
     selectionMade() {

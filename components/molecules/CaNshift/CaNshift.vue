@@ -1,20 +1,20 @@
 <template>
-  <div class="ca-udc">
-    <div class="ca-udc__form">
-      <p class="ca-udc__text">
+  <div class="ca-nshift">
+    <div class="ca-nshift__form">
+      <p class="ca-nshift__text">
         {{ $t('CHECKOUT_ENTER_ZIP') }}
       </p>
       <CaInputText
-        id="ca-udc-zip"
+        id="ca-nshift-zip"
         v-model="currentZip"
-        class="ca-udc__input"
+        class="ca-nshift__input"
         :label="$t('CHECKOUT_ZIP_PLACEHOLDER')"
         :required="true"
         autocomplete="postal-code"
         @keyup.enter="init"
       />
       <CaButton
-        class="ca-udc__button"
+        class="ca-nshift__button"
         type="full-width"
         size="l"
         :loading="loading"
@@ -25,14 +25,14 @@
       <LazyCaFeedback
         v-show="!parentLoading"
         ref="feedback"
-        class="ca-udc__feedback"
+        class="ca-nshift__feedback"
         type="error"
         :message="$t('CHECKOUT_NO_SHIPPING_OPTIONS')"
       />
     </div>
 
     <client-only>
-      <div v-show="optionsAvailable" ref="widget" class="ca-udc__widget" />
+      <div v-show="optionsAvailable" ref="widget" class="ca-nshift__widget" />
       <script
         type="text/javascript"
         src="https://api.unifaun.com/rs-extapi/v1/delivery-checkouts-widget/unifaun-checkout-all.min.js"
@@ -45,9 +45,9 @@
 // @group Molecules
 // @vuese
 // The Unifaun Delivery Checkout widget<br><br>
-// **SASS-path:** _./styles/components/molecules/ca-udc.scss_
+// **SASS-path:** _./styles/components/molecules/ca-nshift.scss_
 export default {
-  name: 'CaUdc',
+  name: 'CaNshift',
   mixins: [],
   props: {
     // JSON string from the API
@@ -65,7 +65,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    // Pass true if UDC data has been set in the checkout
+    // Pass true if Nshift data has been set in the checkout
     dataIsSet: {
       type: Boolean,
       required: true,
@@ -87,7 +87,7 @@ export default {
     },
     widgetLoadedInterval: null,
     widgetLoadedIntervalCount: 0,
-    udcValid: false,
+    nshiftValid: false,
     optionsAvailable: false,
     resetData: false,
     searchWasPerformed: false,
@@ -118,7 +118,7 @@ export default {
       ? this.$store.state.checkout.currentZip
       : this.zip;
     this.data = this.shippingData;
-    this.resetData = !!this.$store.state.checkout.udcData;
+    this.resetData = !!this.$store.state.checkout.nshiftData;
     this.widgetLoadedInterval = setInterval(() => {
       if (window.UnifaunCheckout) {
         clearInterval(this.widgetLoadedInterval);
@@ -158,7 +158,9 @@ export default {
       this.data = this.shippingData;
       this.widget.updateList(JSON.parse(this.data));
       if (this.resetData) {
-        this.widget.setResult(JSON.parse(this.$store.state.checkout.udcData));
+        this.widget.setResult(
+          JSON.parse(this.$store.state.checkout.nshiftData),
+        );
         this.resetData = false;
       }
     },
@@ -191,7 +193,7 @@ export default {
     changed(data) {
       if (
         this.dataIsSet &&
-        (JSON.stringify(data) === this.$store.state.checkout.udcData ||
+        (JSON.stringify(data) === this.$store.state.checkout.nshiftData ||
           !data.valid)
       ) {
         return false;
@@ -205,21 +207,21 @@ export default {
       const debounce = hasTextInput ? 2000 : 150;
       clearTimeout(this.changeTimeout);
       this.changeTimeout = setTimeout(() => {
-        this.udcValid = data.valid;
-        const udcData = {
+        this.nshiftValid = data.valid;
+        const nshiftData = {
           selectedOptionId: data.selectedOptionId,
           pickupPoint: data.agent,
           deliveryData: data.fields.length ? JSON.stringify(data.fields) : '',
         };
-        this.$store.commit('checkout/setUDCdata', JSON.stringify(data));
+        this.$store.commit('checkout/setNshiftData', JSON.stringify(data));
         // A change has been made
         // @arg Selected option ID, pickup point, delivery data (Object)
-        this.$emit('changed', udcData);
+        this.$emit('changed', nshiftData);
       }, debounce);
     },
   },
 };
 </script>
 <style lang="scss">
-@import 'molecules/ca-udc';
+@import 'molecules/ca-nshift';
 </style>

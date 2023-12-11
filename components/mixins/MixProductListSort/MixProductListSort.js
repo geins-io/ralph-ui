@@ -13,6 +13,11 @@ export default {
       type: String,
       required: true,
     },
+    // Custom default sort options can be provided in the format `['SORT_OPTION', 'SORT_OPTION']`
+    customDefaultSortOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     defaultSortOptions: [
@@ -56,6 +61,9 @@ export default {
   },
   mounted() {
     this.sort = this.currentSort;
+    if (this.customDefaultSortOptions.length > 0) {
+      this.defaultSortOptions = this.customDefaultSortOptions;
+    }
   },
   methods: {},
 };

@@ -16,8 +16,8 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // message: `''`
 // pickupPoint: `''`,
 // externalShippingId: `''`,
-// udcValid: `false`
-// udcDataSet: `false`
+// nshiftValid: `false`
+// nshiftDataSet: `false`
 // paymentId: `vm.$config.defaultPaymentId`
 // updateDelay: 150`
 // updateTimeout: `null`
@@ -38,8 +38,8 @@ export default {
     message: '',
     pickupPoint: '',
     externalShippingId: '',
-    udcValid: false,
-    udcDataSet: false,
+    nshiftValid: false,
+    nshiftDataSet: false,
     paymentId: vm.$config.checkout.defaultPaymentId,
     shippingId: vm.$config.checkout.defaultShippingId,
     updateDelay: 150,
@@ -261,8 +261,8 @@ export default {
         }
         this.updateDelay = 150;
         this.checkoutLoading = true;
-        if (this.$refs.udc) {
-          this.$refs.udc.disable();
+        if (this.$refs.nshift) {
+          this.$refs.nshift.disable();
         }
         if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
           this.$refs.externalcheckout.suspend();
@@ -293,8 +293,8 @@ export default {
                 data: { checkout: this.checkout },
               });
               this.$nextTick(() => {
-                if (this.$refs.udc && this.$refs.udc.widget) {
-                  this.$refs.udc.enable();
+                if (this.$refs.nshift && this.$refs.nshift.widget) {
+                  this.$refs.nshift.enable();
                 }
                 if (this.$refs.externalcheckout) {
                   if (
@@ -383,9 +383,9 @@ export default {
         });
     },
     // @vuese
-    // Initialize UDC
+    // Initialize Nshift
     // @arg zip (String)
-    initUDC(zip) {
+    initNshift(zip) {
       this.shippingLoading = true;
       if (this.checkout.billingAddress) {
         this.checkout.billingAddress.zip = zip;
@@ -402,18 +402,18 @@ export default {
           company: '',
         };
       }
-      this.createOrUpdateCheckout('init UDC');
+      this.createOrUpdateCheckout('init nShift');
     },
     // @vuese
-    // UDC callback handler
+    // Nshift callback handler
     // @arg data (Object)
-    setUDCdata(data) {
+    setNshiftData(data) {
       this.message = data.deliveryData;
       this.pickupPoint = data.pickupPoint;
       this.externalShippingId = data.selectedOptionId;
       this.cartLoading = true;
-      this.udcDataSet = true;
-      this.createOrUpdateCheckout('set UDC data');
+      this.nshiftDataSet = true;
+      this.createOrUpdateCheckout('set nShift data');
     },
     // @vuese
     // Handling the payment selection
