@@ -72,7 +72,12 @@ export default {
     type: {
       // `default`, `round`, `stacked`
       type: String,
-      default: 'default',
+      default() {
+        return this.$config?.cart?.quantityChangerType || 'default';
+      },
+      validate(value) {
+        return ['default', 'round', 'stacked'].includes(value);
+      },
     },
   },
   data: () => ({

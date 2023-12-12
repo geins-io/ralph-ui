@@ -89,7 +89,6 @@
           v-if="mode === 'default'"
           :quantity="item.quantity"
           :max-quantity="skuStock.totalStock"
-          :type="$config.cart.quantityChangerType"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
