@@ -1,8 +1,8 @@
 .ca-filter-trigger {
   $block: &;
-  
+
   position: relative;
-  
+
   &__title {
     padding: 0 43px 0 15px;
     line-height: 38px;
@@ -14,12 +14,16 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    @include ellipsis;
+
+    max-width: 100%;
   }
-  
+
   &__amount {
     margin: 0 0 0 rem-calc(6px);
   }
-  
+
   &__arrow {
     @include valign;
 
