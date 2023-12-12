@@ -5,7 +5,7 @@
     </h2>
     <ul v-if="menu" class="ca-footer-navigation__list">
       <li
-        v-for="item in menu.menuItems"
+        v-for="item in getItemsWithLabel(menu.menuItems)"
         :key="item.id"
         class="ca-footer-navigation__item"
       >

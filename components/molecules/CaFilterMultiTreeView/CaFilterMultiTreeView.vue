@@ -12,7 +12,6 @@
     />
   </ul>
 </template>
-
 <script>
 // @group Molecules
 // @vuese
@@ -56,10 +55,13 @@ export default {
           let isSelected = this.currentSelection.some(
             (el) => el.id === item.facetId,
           );
+
           if (item.count === 0) {
             isSelected = false;
           }
+
           this.$set(item, 'selected', isSelected);
+
           return item;
         });
       } else {
@@ -71,10 +73,6 @@ export default {
     // @type Array
     valuesWithChildren() {
       const data = this.sortByOrder(this.filterValues);
-      data.map((item) => {
-        item.children = data.filter((child) => child.parentId === item.facetId);
-        return item;
-      });
       const parentCategories = data.filter((item) => !item.parentId);
 
       return parentCategories;
@@ -128,10 +126,12 @@ export default {
         if (children && children.length) {
           this.selectChildrenCategories(children, facetId, label, selected);
         }
-      } else if (parentId) {
-        this.removeParentCategories(facetId, parentId);
       } else {
         this.removeSelection(facetId);
+
+        if (parentId) {
+          this.removeParentCategories(facetId, parentId);
+        }
 
         if (children && children.length) {
           this.removeChildrenCategories(children, facetId, label, selected);
@@ -200,7 +200,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss">
 @import 'molecules/ca-filter-multi-tree-view';
 </style>

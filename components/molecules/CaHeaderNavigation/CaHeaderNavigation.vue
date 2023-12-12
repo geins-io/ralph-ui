@@ -2,7 +2,7 @@
   <nav ref="menu" class="ca-header-navigation" :class="modifiers">
     <ul v-if="menu" class="ca-header-navigation__items">
       <li
-        v-for="item in menu.menuItems"
+        v-for="item in getItemsWithLabel(menu.menuItems)"
         :key="item.id"
         class="ca-header-navigation__item"
         :class="{
@@ -47,7 +47,7 @@
             </component>
             <ul class="ca-header-navigation__children-list">
               <li
-                v-for="childItem in item.children"
+                v-for="childItem in getItemsWithLabel(item.children)"
                 :key="childItem.id"
                 class="ca-header-navigation__child-item"
                 :class="{
@@ -73,7 +73,9 @@
                   class="ca-header-navigation__grand-children"
                 >
                   <li
-                    v-for="grandChildItem in childItem.children"
+                    v-for="grandChildItem in getItemsWithLabel(
+                      childItem.children,
+                    )"
                     :key="grandChildItem.id"
                     class="ca-header-navigation__grand-child-item"
                   >

@@ -91,6 +91,12 @@ export default {
       return item.label || item.title;
     },
     // @vuese
+    // Get items that have a label
+    // @arg items (Array)
+    getItemsWithLabel(items) {
+      return items.filter((x) => this.getLabel(x));
+    },
+    // @vuese
     // Get parent label for link
     // @arg item (Object)
     getParentLinkLabel(item) {
