@@ -1,8 +1,8 @@
 {
   "name": "@geins/ralph-ui",
-  "version": "21.0.0-beta.1",
-  "description": "Core functionality and component library for Geins PWA storefront",
-  "author": "Geins Commerce Team",
+  "version": "21.0.0",
+  "description": "Core functionality and component library for Ralph Storefront - a PWA Launchpad for Geins Commerce",
+  "author": "Geins Commerce",
   "private": false,
   "scripts": {
     "lint": "npm run lint:js && npm run lint:scss",
