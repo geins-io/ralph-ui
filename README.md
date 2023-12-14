@@ -7,11 +7,11 @@
 
 # Ralph UI
 
-Component and core functionality library for Ralph Storefront by Geins. This package is consumed by Ralph Storefront and it's components will get automatically imported into the Ralph Storefront.
+Component and core functionality library for [Ralph Storefront](https://github.com/geins-io/ralph-storefront) by [Geins](https://www.geins.io). This package is consumed by Ralph Storefront and it's components will get automatically imported into the application.
 
 ## Pre-requisites
 
-- Ralph Storefront >= 2.0.0
+- [Ralph Storefront](https://github.com/geins-io/ralph-storefront) >= 2.0.0
 - [Node.js](https://nodejs.org/en/) 16.x.x
 
 ## Installation
