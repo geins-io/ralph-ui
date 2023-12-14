@@ -1,6 +1,6 @@
 <template>
   <CaAccordionItem class="ca-order-summary">
-    <template #toggle-content="{open}">
+    <template #toggle-content="{ open }">
       <div class="ca-order-summary__header">
         <div class="ca-order-summary__info">
           <span class="ca-order-summary__date">
@@ -111,26 +111,26 @@ export default {
     // The order object obtained from the api
     order: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     itemsCount() {
       let count = 0;
-      this.order.cart.items.forEach(i => (count += i.quantity));
+      this.order.cart.items.forEach((i) => (count += i.quantity));
       return count;
     },
     refundedItems() {
       return this.order.refunds?.length
-        ? this.order.refunds.map(i => i.itemId)
+        ? this.order.refunds.map((i) => i.itemId)
         : [];
-    }
+    },
   },
   watch: {},
   mounted() {},
   created() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

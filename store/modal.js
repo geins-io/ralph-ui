@@ -1,6 +1,6 @@
 export const state = () => ({
   component: '',
-  componentProps: {}
+  componentProps: {},
 });
 
 export const mutations = {
@@ -11,7 +11,7 @@ export const mutations = {
   close(state) {
     state.component = '';
     state.componentProps = {};
-  }
+  },
 };
 
 export const actions = {};

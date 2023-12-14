@@ -3,13 +3,13 @@ import fetch from 'cross-fetch';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, concat } from 'apollo-link';
 
-export default ctx => {
+export default (ctx) => {
   const httpLink = new HttpLink({
     uri: ctx.$config.apiEndpoint,
     headers: {
-      'X-ApiKey': ctx.$config.apiKey
+      'X-ApiKey': ctx.$config.apiKey,
     },
-    fetch
+    fetch,
   });
 
   const authMiddleware = new ApolloLink((operation, forward) => {
@@ -18,8 +18,8 @@ export default ctx => {
         return {
           headers: {
             ...headers,
-            Authorization: `Bearer ${ctx.$cookies.get('ralph-auth')}`
-          }
+            Authorization: `Bearer ${ctx.$cookies.get('ralph-auth')}`,
+          },
         };
       });
     }
@@ -27,19 +27,19 @@ export default ctx => {
     if (ctx.store.state.channel.id) {
       operation.variables = {
         ...operation.variables,
-        channelId: ctx.store.state.channel.id
+        channelId: ctx.store.state.channel.id,
       };
     }
     if (ctx.store.state.channel.currentMarket) {
       operation.variables = {
         ...operation.variables,
-        marketId: ctx.store.state.channel.currentMarket
+        marketId: ctx.store.state.channel.currentMarket,
       };
     }
     if (ctx.i18n.localeProperties.iso) {
       operation.variables = {
         ...operation.variables,
-        languageId: ctx.i18n.localeProperties.iso
+        languageId: ctx.i18n.localeProperties.iso,
       };
     }
 
@@ -51,6 +51,6 @@ export default ctx => {
   return {
     link: concat(authMiddleware, httpLink),
     cache,
-    defaultHttpLink: false
+    defaultHttpLink: false,
   };
 };

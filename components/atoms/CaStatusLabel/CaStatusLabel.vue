@@ -15,23 +15,23 @@ export default {
     // The status
     type: {
       type: String,
-      default: 'inactive'
+      default: 'inactive',
     },
     // The status display text
     text: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
     typeClass() {
       return 'ca-status-label--' + this.type;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -7,8 +7,7 @@ $widget-row-spacing-laptop-full-width: 0 !default;
 .ca-widget-container {
   display: grid;
   grid-template-columns: 1fr;
-  column-gap: $widget-column-spacing;
-  row-gap: $widget-row-spacing;
+  gap: $widget-row-spacing $widget-column-spacing;
 
   &--outer {
     &:not(:first-child) {
@@ -68,13 +67,11 @@ $widget-row-spacing-laptop-full-width: 0 !default;
     row-gap: $widget-row-spacing-full-width;
 
     @include bp(tablet) {
-      column-gap: $widget-column-spacing-tablet-full-width;
-      row-gap: $widget-row-spacing-tablet-full-width;
+      gap: $widget-row-spacing-tablet-full-width $widget-column-spacing-tablet-full-width;
     }
   
     @include bp(laptop) {
-      column-gap: $widget-column-spacing-laptop-full-width;
-      row-gap: $widget-row-spacing-laptop-full-width;
+      gap: $widget-row-spacing-laptop-full-width $widget-column-spacing-laptop-full-width;
     }
   }
 }

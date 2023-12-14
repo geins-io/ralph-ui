@@ -18,6 +18,7 @@
       padding: 0;
     }
   }
+
   &--loaded {
     #{$block}__skeleton {
       position: absolute;
@@ -40,7 +41,7 @@
   }
 
   &--product {
-    @include productImageOverlay;
+    @include product-image-overlay;
 
     #{$block}__img {
       padding: 6%;

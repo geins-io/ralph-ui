@@ -22,49 +22,49 @@ export default {
     // Configuration JSON object
     configuration: {
       type: String,
-      required: true
+      required: true,
     },
     // Type of widget
     type: {
       // 'Image', 'Text', 'Product list'
       type: String,
-      required: true
+      required: true,
     },
     // Sizes attribute for the widget image
     imageSizes: {
       type: String,
-      required: true
+      required: true,
     },
     imageRatios: {
       type: Array,
-      required: true
+      required: true,
     },
     isFirst: {
       type: Boolean,
-      default: false
+      default: false,
     },
     widgetAreaVariables: {
       type: Object,
-      required: true
+      required: true,
     },
     // Fetch products only client side
     fetchProductsOnlyClientSide: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
     confObj() {
       const config = JSON.parse(this.configuration);
       return Object.assign(config, this.widgetAreaVariables);
-    }
+    },
   },
   watch: {},
   mounted() {
     this.$emit('widget-mounted');
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

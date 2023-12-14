@@ -33,22 +33,22 @@ export default {
     // A list of variants (VariantType from the API)
     variants: {
       type: Array,
-      required: true
+      required: true,
     },
     // Variants picker data. A object consisting of variantDimensions, chosenSku and hasMultipleDimensions passed from MixVariantHandler
     variantsData: {
       type: Object,
-      required: true
+      required: true,
     },
     // The title for the picker
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     // The product id, must be provided if multiple variants with same value exists, to show correct chosen-state
     productId: {
       type: Number,
-      default: 0
+      default: 0,
     },
     // The type of picker to use. Accepts `color`, `display`, `panel` & `image`
     type: {
@@ -58,7 +58,7 @@ export default {
       default: 'panel',
       validator(value) {
         return ['color', 'display', 'panel', 'image'].includes(value);
-      }
+      },
     },
     // Use if using type panel and the panel needs to be separated from button in layout)
     panelRenderMode: {
@@ -67,8 +67,8 @@ export default {
       default: 'both',
       validator(value) {
         return ['both', 'only-panel', 'only-button'].includes(value);
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   computed: {
@@ -83,11 +83,11 @@ export default {
         default:
           return 'CaVariantPickerPanel';
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

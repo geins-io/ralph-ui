@@ -17,7 +17,7 @@
         {{ tab.label }}
       </button>
     </nav>
-    <slot name="panels"></slot>
+    <slot name="panels" />
   </div>
 </template>
 <script>
@@ -32,13 +32,13 @@ export default {
     // Labels to build tabs
     tabs: {
       type: Array,
-      required: true
+      required: true,
     },
     // Selected tab by index
     selectedTab: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data: () => ({}),
   computed: {
@@ -47,7 +47,7 @@ export default {
     // @type Number
     selected() {
       return this.selectedTab <= this.tabs.length - 1 ? this.selectedTab : 0;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -89,8 +89,8 @@ export default {
     // @type String
     setAriaSelected(index) {
       return this.isSelected(index) ? 'true' : 'false';
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

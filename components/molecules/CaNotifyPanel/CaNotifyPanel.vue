@@ -59,36 +59,36 @@ export default {
     // The current product
     product: {
       type: Object,
-      required: true
+      required: true,
     },
     // The chosen sku variant to monitor
     variant: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     email: '',
     emailValid: false,
     loading: false,
     currentFeedback: {
       type: 'info',
-      message: ''
+      message: '',
     },
     feedback: {
       success: {
         type: 'success',
-        message: vm.$t('NOTIFY_PANEL_SUCCESS')
+        message: vm.$t('NOTIFY_PANEL_SUCCESS'),
       },
       notValid: {
         type: 'error',
-        message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID')
+        message: vm.$t('ACCOUNT_FEEDBACK_FIELDS_NOT_VALID'),
       },
       error: {
         type: 'error',
-        message: vm.$t('FEEDBACK_ERROR')
-      }
-    }
+        message: vm.$t('FEEDBACK_ERROR'),
+      },
+    },
   }),
   computed: {},
   watch: {},
@@ -104,12 +104,12 @@ export default {
             mutation: monitorAvailabilityMutation,
             variables: {
               email: this.email,
-              skuId: this.variant.skuId
+              skuId: this.variant.skuId,
             },
             errorPolicy: 'all',
-            fetchPolicy: 'no-cache'
+            fetchPolicy: 'no-cache',
           })
-          .then(result => {
+          .then((result) => {
             this.loading = false;
             if (result.data.monitorProductAvailability) {
               this.showFeedback(this.feedback.success);
@@ -117,7 +117,7 @@ export default {
               this.showFeedback(this.feedback.error);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             this.$nuxt.error({ statusCode: error.statusCode, message: error });
           });
       } else {
@@ -139,8 +139,8 @@ export default {
         this.$refs.feedback.hide();
       }
       this.emailValid = valid;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -58,6 +58,7 @@ $textarea-border-radius: $input-border-radius !default;
 
   &__error-icon {
     @include valign;
+
     right: $px16;
     color: $c-error;
   }
@@ -87,6 +88,7 @@ $textarea-border-radius: $input-border-radius !default;
       font-weight: $font-weight-bold;
     }
   }
+
   &--error {
     border-color: $c-error;
   

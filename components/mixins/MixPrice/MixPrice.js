@@ -14,29 +14,29 @@ export default {
           Object.prototype.hasOwnProperty.call(value, 'isDiscounted') &&
           Object.prototype.hasOwnProperty.call(
             value,
-            'sellingPriceIncVatFormatted'
+            'sellingPriceIncVatFormatted',
           ) &&
           Object.prototype.hasOwnProperty.call(
             value,
-            'sellingPriceExVatFormatted'
+            'sellingPriceExVatFormatted',
           ) &&
           Object.prototype.hasOwnProperty.call(
             value,
-            'regularPriceIncVatFormatted'
+            'regularPriceIncVatFormatted',
           ) &&
           Object.prototype.hasOwnProperty.call(
             value,
-            'regularPriceExVatFormatted'
+            'regularPriceExVatFormatted',
           )
         );
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'ca-price--sale': this.covertToBoolean(this.price.isDiscounted)
+        'ca-price--sale': this.covertToBoolean(this.price.isDiscounted),
       };
     },
     sellingPrice() {
@@ -47,7 +47,7 @@ export default {
     },
     vatIncluded() {
       return this.$store.state.vatIncluded;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -58,6 +58,6 @@ export default {
       } else {
         return value;
       }
-    }
-  }
+    },
+  },
 };

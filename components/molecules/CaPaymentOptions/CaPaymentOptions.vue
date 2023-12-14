@@ -8,7 +8,7 @@
       <button
         class="ca-payment-options__option"
         :class="{
-          'ca-payment-options__option--selected': option.id === selectedId
+          'ca-payment-options__option--selected': option.id === selectedId,
         }"
         type="button"
         @click="selectOption(option.id)"
@@ -39,24 +39,24 @@ export default {
     // List of options
     options: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    selectedId: null
+    selectedId: null,
   }),
   computed: {
     selectedOption() {
-      return this.options.find(i => i.isSelected);
-    }
+      return this.options.find((i) => i.isSelected);
+    },
   },
   watch: {
     options: {
       deep: true,
       handler() {
         this.setSelected();
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.setSelected();
@@ -68,8 +68,8 @@ export default {
     selectOption(id) {
       this.setSelected(id);
       this.$emit('selection', id);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

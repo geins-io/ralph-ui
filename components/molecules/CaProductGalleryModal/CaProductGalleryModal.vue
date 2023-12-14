@@ -27,7 +27,7 @@
             :alt="alt"
             :size-array="
               $config.imageSizes.product.filter(
-                item => parseInt(item.descriptor) > 500
+                (item) => parseInt(item.descriptor) > 500,
               )
             "
             sizes="(min-width: 2000px) 2000px, 95vw"
@@ -48,30 +48,30 @@ export default {
   name: 'CaProductGalleryModal',
   components: {
     CaSlide,
-    CaImage
+    CaImage,
   },
   mixins: [],
   props: {
     // Array of the products image filenames
     images: {
       type: Array,
-      required: true
+      required: true,
     },
     // The alt text for the product images
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     arrowIconName: {
       type: String,
-      default: 'chevron'
+      default: 'chevron',
     },
     // Index of curretn slide
     index: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
@@ -80,13 +80,13 @@ export default {
       if (newVal !== oldVal) {
         this.$refs.slider.goToSlide(newVal);
       }
-    }
+    },
   },
   mounted() {
     this.$refs.slider.goToSlide(this.index);
     this.$emit('ready');
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

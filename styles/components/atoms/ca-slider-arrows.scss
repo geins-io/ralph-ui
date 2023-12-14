@@ -1,17 +1,18 @@
 .ca-slider-arrows {
   @include calign;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   pointer-events: none;
   max-width: calc(100vw - var(--scrollbar-width, 17px));
- 
+
   &__arrow {
-    @include iconCircle;
+    @include icon-circle;
+
     pointer-events: auto;
-  
+
     &--disabled {
       opacity: 0.2;
       pointer-events: none;

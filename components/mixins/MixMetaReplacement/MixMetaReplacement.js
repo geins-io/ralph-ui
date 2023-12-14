@@ -56,8 +56,8 @@ export default {
         'boy',
         'unisex',
         'woman',
-        'man'
-      ]
+        'man',
+      ],
     };
   },
   computed: {
@@ -65,14 +65,14 @@ export default {
       const route = this.$route.path;
       const array = route.split('/');
       return array;
-    }
+    },
   },
   methods: {
     // @vuese
     // Check if string is included in array of genedrs
     // @arg string (String)
     checkForGender(string) {
-      if (this.genders.some(element => element === string)) {
+      if (this.genders.includes(string)) {
         // Danish
         if (string === 'mand' || string === 'mand-1') {
           return 'For mænd og drenge';
@@ -146,7 +146,7 @@ export default {
     metaReplacement(string) {
       const replacements = /\[.*?\]/gi;
       if (string) {
-        const replacedString = string.replace(replacements, match => {
+        const replacedString = string.replace(replacements, (match) => {
           switch (match) {
             case '[count]':
               match = this.totalCount || '';
@@ -222,6 +222,6 @@ export default {
         });
         return replacedString;
       }
-    }
-  }
+    },
+  },
 };

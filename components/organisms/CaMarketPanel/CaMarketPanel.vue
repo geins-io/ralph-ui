@@ -17,13 +17,13 @@
             $getPath(
               'index',
               market.alias,
-              getCodeFromId(market.defaultLanguageId)
+              getCodeFromId(market.defaultLanguageId),
             )
           "
           class="ca-market-panel__choice"
           :class="{
             'ca-market-panel__choice--disabled':
-              market.alias === $store.state.channel.currentMarket
+              market.alias === $store.state.channel.currentMarket,
           }"
         >
           <CaFlag
@@ -63,8 +63,8 @@ export default {
       // `simple` or `advanced`
       type: String,
       default: 'simple',
-      validator: value => ['simple', 'advanced'].includes(value)
-    }
+      validator: (value) => ['simple', 'advanced'].includes(value),
+    },
   },
   data: () => ({}),
   computed: {
@@ -72,7 +72,7 @@ export default {
     // List of selectable markets
     // @type {Array}
     selectableMarkets() {
-      return this.markets.filter(market => !market.onlyDisplayInCheckout);
+      return this.markets.filter((market) => !market.onlyDisplayInCheckout);
     },
     // @vuese
     // Markets grouped by groupKey
@@ -88,9 +88,9 @@ export default {
       }, {});
     },
     ...mapState({
-      markets: state => state.channel.markets,
-      currentMarket: state => state.channel.currentMarket
-    })
+      markets: (state) => state.channel.markets,
+      currentMarket: (state) => state.channel.currentMarket,
+    }),
   },
   watch: {},
   mounted() {},
@@ -102,8 +102,8 @@ export default {
       const result = id.split('-');
       const [code] = result;
       return code;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

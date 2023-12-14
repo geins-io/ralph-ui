@@ -4,21 +4,21 @@
   &__container.ca-container {
     z-index: $z-index-added-to-cart;
     position: fixed;
-    
+
     @include bp(tablet-down) {
       width: 100%;
       height: 100%;
       inset: 0;
       pointer-events: none;
     }
-    
+
     @include bp(laptop) {
       left: 50%;
       transform: translateX(-50%);
       top: $header-bar-height-computer + $top-bar-height-computer;
     }
   }
-  
+
   &__box {
     position: absolute;
     opacity: 0;
@@ -31,28 +31,28 @@
       opacity: 1;
       pointer-events: initial;
     }
-    
+
     @include bp(tablet-down) {
       @include halign;
 
       bottom: rem-calc(-40);
       width: calc(100% - 20px);
-      
+
       &--visible {
         bottom: rem-calc(10);
       }
     }
-    
+
     @include bp(laptop) {
       top: rem-calc(-50);
       right: 0;
-      
+
       &--visible {
         top: 0;
       }
     }
   }
-  
+
   &__header {
     padding: rem-calc(15px) $px12;
     position: relative;
@@ -60,20 +60,22 @@
     font-size: $font-size-m;
     font-weight: $font-weight-bold;
   }
-  
+
   &__close {
-    @include iconCircle;
+    @include icon-circle;
     @include valign;
+
     right: rem-calc(12);
   }
-  
+
   &__body {
     padding: $px12;
   }
-  
+
   &__product {
     margin: 0 0 rem-calc(16);
   }
+
   &--scrolled {
     #{$block}__container.ca-container {
       @include bp(laptop) {

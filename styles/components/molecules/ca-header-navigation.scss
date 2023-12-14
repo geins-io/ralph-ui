@@ -12,12 +12,15 @@
 
   &__items {
     @include flex-calign;
+
     height: $header-navigation-height-computer;
   }
 
   &__item {
-    .ca-icon-and-text__icon {
-      transition: transform 150ms;
+    .ca-icon-and-text {
+      &__icon {
+        transition: transform 150ms;
+      }
     }
 
     &--open {
@@ -30,14 +33,14 @@
       > #{$block}__link {
         .ca-icon-and-text {
           column-gap: rem-calc(6);
-        }
 
-        .ca-icon-and-text__text {
-          margin-right: 0;
-        }
+          &__text {
+            margin-right: 0;
+          }
 
-        .ca-icon-and-text__icon {
-          transform: rotate(-180deg);
+          &__icon {
+            transform: rotate(-180deg);
+          }
         }
       }
     }
@@ -82,8 +85,7 @@
       padding: $px32 0;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      column-gap: rem-calc(40px);
-      row-gap: rem-calc(40px);
+      gap: rem-calc(40px);
 
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);
@@ -92,10 +94,11 @@
       @include bp(desktop) {
         grid-template-columns: repeat(5, 1fr);
       }
-
+      /* stylelint-disable */
       @media screen and (min-width: $site-width) {
         grid-template-columns: repeat(6, 1fr);
       }
+      /* stylelint-enable */
     }
 
     #{$block}__child-link {
@@ -148,8 +151,9 @@
       white-space: nowrap;
       position: relative;
 
-      &:before {
+      &::before {
         @include halign;
+
         content: '';
         width: 0%;
         height: 3px;
@@ -160,14 +164,14 @@
       }
 
       &:hover {
-        &:before {
+        &::before {
           opacity: 1;
           width: 100%;
         }
       }
 
       &.nuxt-link-active {
-        &:before {
+        &::before {
           opacity: 1;
           width: 100%;
         }
@@ -176,6 +180,7 @@
 
     #{$block}__icon {
       @include valign;
+
       right: rem-calc(18);
     }
 

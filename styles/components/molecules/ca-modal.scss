@@ -6,22 +6,23 @@
   top: 50%;
   left: 50%;
   border-radius: rem-calc(4px);
-  box-shadow: 0 0 15px -6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 15px -6px rgb(0 0 0 / 6%);
   transform: translate(-50%, -50%) scale(1);
   width: auto;
   max-width: 95vw;
   max-height: calc(var(--vh, 1vh) * 95);
   z-index: $z-index-modal;
-  
+
   &__close {
-    @include iconCircle;
+    @include icon-circle;
+
     position: absolute;
     top: 0;
     right: 0;
     transform: translate(40%, -40%);
     z-index: 1;
   }
-  
+
   &__content {
     overflow: hidden;
     border-radius: rem-calc(4px);

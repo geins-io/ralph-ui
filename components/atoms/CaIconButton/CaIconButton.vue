@@ -21,24 +21,24 @@ export default {
     // The icon name. See documentation for [CaIcon](/components/CaIcon) to learn more.
     iconName: {
       type: String,
-      required: true
+      required: true,
     },
     // Required to add aria label for the button since it has no text content
     ariaLabel: {
       type: String,
-      required: true
+      required: true,
     },
     // Used to disable button
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Set this to link button somewhere
     href: {
       type: String,
       // ''
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({}),
   computed: {
@@ -60,11 +60,11 @@ export default {
       } else {
         return { type: 'button' };
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

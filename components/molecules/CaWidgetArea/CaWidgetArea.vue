@@ -41,70 +41,70 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {
     // The widget area family
     family: {
       type: String,
-      default: ''
+      default: '',
     },
     // The widget area name
     areaName: {
       type: String,
-      default: ''
+      default: '',
     },
     // The widget area alias, if content page
     alias: {
       type: String,
-      default: ''
+      default: '',
     },
     // Sizes attribute for widget images. Set with widget size as key like so: `{full: '(min-width:1360px) 1320px, 96vw'}` etc. Defaults to $config.widgetImageSizes if not set
     widgetImageSizes: {
       type: Object,
-      default: null
+      default: null,
     },
     // Filters for the area
     filters: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // Whether preview-mode should be toggle on
     preview: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // if true - component loads info on its own
     isParentLoaded: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Is loadedData loaded
     isParentDataLoaded: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Data of widget that we receive from parent component. Avaible only if isParentLoaded are true
     loadedData: {
       type: Object,
-      default: null
+      default: null,
     },
     // Url for list page if using /l/ routing
     listPageUrl: {
       type: String,
-      default: ''
+      default: '',
     },
     // Fetch products only client side
     fetchProductsOnlyClientSide: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     containersMounted: 0,
     dataFetched: false,
-    isComponentMount: false
+    isComponentMount: false,
   }),
   computed: {
     displaySetting() {
@@ -119,7 +119,7 @@ export default {
         filters: this.filters,
         preview: this.preview,
         customerType: this.$store.state.customerType,
-        url: this.listPageUrl
+        url: this.listPageUrl,
       };
     },
     containers() {
@@ -130,7 +130,7 @@ export default {
       return this.widgetArea?.containers?.length
         ? this.widgetArea.containers
         : [];
-    }
+    },
   },
   watch: {
     widgetAreaVariables: {
@@ -139,14 +139,14 @@ export default {
         if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
           this.$emit('variables-change');
         }
-      }
+      },
     },
     containersMounted: {
       handler() {
         this.checkMounted();
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {},
   methods: {
@@ -159,8 +159,8 @@ export default {
         this.isComponentMount = true;
         this.$emit('widget-area-mounted');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

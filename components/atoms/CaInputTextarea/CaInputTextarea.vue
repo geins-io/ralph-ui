@@ -20,7 +20,7 @@
         @keyup="validateIfError"
         @blur="blurHandler"
         @focus="focused = true"
-      ></textarea>
+      />
       <CaIcon
         v-if="!allValid"
         class="ca-input-textarea__error-icon"
@@ -50,56 +50,56 @@ export default {
     // The label of the field, showed as "placeholder" when field empty or not in focus
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     // The field placeholder, can be used if not using label
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     // The value of the field, use v-model to bind data
     value: {
       type: [String, Number],
-      required: true
+      required: true,
     },
     // A description text for the field
     description: {
       type: String,
-      default: ''
+      default: '',
     },
     // Is the field requierd?
     required: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Is the field disabled?
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Id of field, also used as name
     id: {
       type: String,
-      default: ''
+      default: '',
     },
     // Used to handle validation outside input scope
     valid: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // What error text should be displayed if field not vaild
     errorMessage: {
       type: String,
-      default: null
+      default: null,
     },
     maxlength: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
   data: () => ({
     fieldValid: true,
-    focused: false
+    focused: false,
   }),
   computed: {
     // @vuese
@@ -109,7 +109,7 @@ export default {
       return {
         'ca-input-textarea--error': !this.allValid,
         'ca-input-textarea--focused': this.focused,
-        'ca-input-textarea--empty': !this.value
+        'ca-input-textarea--empty': !this.value,
       };
     },
     // @vuese
@@ -131,14 +131,14 @@ export default {
         // behavior of some listeners.
         {
           // This ensures that the component works with v-model
-          input: event => {
+          input: (event) => {
             // Input has been made
             // @arg Field value (String/Number)
             this.$emit('input', event.target.value);
-          }
-        }
+          },
+        },
       );
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -166,8 +166,8 @@ export default {
     blurHandler() {
       this.focused = false;
       this.validateInput();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

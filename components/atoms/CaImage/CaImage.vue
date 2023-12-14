@@ -6,9 +6,9 @@
         :style="{
           'background-image': `url(${imgSrcHighQuality})`,
           'padding-bottom': `${100 * ratio}%`,
-          'background-size': 'cover'
+          'background-size': 'cover',
         }"
-      ></div>
+      />
     </div>
     <div v-else>
       <CaSkeleton
@@ -56,67 +56,67 @@ export default {
     // The Array of Objects with image sizes for the image. E.g [{folder: '100x100', descriptor: '100w'}}
     sizeArray: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // The sizes string
     sizes: {
       type: String,
-      default: ''
+      default: '',
     },
     // The filename part of the image path
     filename: {
       type: String,
-      default: ''
+      default: '',
     },
     // Type of image, also name of the folder in the image path
     type: {
       type: String,
-      default: ''
+      default: '',
     },
     // A human friendly description of the image, for screen readers and SEO
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     // The ratio of the image, height / width
     ratio: {
       type: Number,
-      required: true
+      required: true,
     },
     // Force the image to keep supplied ratio
     forceRatio: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Direct link to image if not from image service
     src: {
       type: String,
-      default: ''
+      default: '',
     },
     // Value for the loading attribute
     loading: {
       type: String,
-      default: 'lazy'
+      default: 'lazy',
     },
     // Image will displayd in background
     bannerImage: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Set srcet for image
     srcset: {
       type: String,
-      default: ''
+      default: '',
     },
     // used as reference for image map areas
     usemap: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      loaded: false
+      loaded: false,
     };
   },
   computed: {
@@ -163,7 +163,7 @@ export default {
       const array = this.sizeArray?.length
         ? this.sizeArray
         : this.$config.imageSizes[this.type];
-      const srcset = array.map(item => {
+      const srcset = array.map((item) => {
         const src =
           this.$config.imageServer +
           '/' +
@@ -188,9 +188,9 @@ export default {
       return {
         'ca-image--loaded': this.loaded && !this.forceRatio,
         'ca-image--force-ratio': this.forceRatio,
-        'ca-image--product': this.type === 'product'
+        'ca-image--product': this.type === 'product',
       };
-    }
+    },
   },
   watch: {},
   mounted() {
@@ -216,8 +216,8 @@ export default {
         '/' +
         this.encodedFilename
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

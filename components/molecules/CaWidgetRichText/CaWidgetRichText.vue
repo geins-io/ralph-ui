@@ -19,14 +19,14 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

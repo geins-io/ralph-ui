@@ -1,70 +1,69 @@
 {
-  "name": "@ralph/ralph-ui",
-  "module": "./index.js",
-  "version": "20.3.5",
-  "description": "Component library for Geins Storefront ",
-  "author": "Geins Team",
+  "name": "@geins/ralph-ui",
+  "version": "21.0.0",
+  "description": "Core functionality and component library for Ralph Storefront - a PWA Launchpad for Geins Commerce",
+  "author": "Geins Commerce",
   "private": false,
   "scripts": {
-    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "npm run lint:js && npm run lint:scss",
+    "lint:js": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint:scss": "npx stylelint \"**/*.{css,scss,vue}\" --fix",
     "ralph-create": "node ./scripts/ralph-create.cjs",
     "documentation": "vuese gen",
-    "documentation-serve": "vuese gen && vuese serve --open"
+    "documentation-serve": "vuese gen && vuese serve --open",
+    "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,vue}": "npm run lint",
-    "*.{css,vue}": "stylelint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "*.{js,vue}": "npm run lint:js",
+    "*.{scss}": "npm run lint:scss"
   },
   "dependencies": {
     "body-scroll-lock": "^3.1.5",
-    "broadcast-channel": "^4.10.0",
-    "graphql-combine-query": "^1.2.3",
-    "nuxt-speedkit": "^2.0.8",
+    "broadcast-channel": "^5.3.0",
     "vue-slide-up-down": "^2.0.1",
-    "vue-slider-component": "^3.2.14",
+    "vue-slider-component": "^3.2.24",
     "vue-vimeo-player": "^0.2.2",
     "vue-youtube": "^1.4.0"
   },
   "vuese": {
+    "genType": "docute",
     "outDir": "documentation",
+    "markdownDir": "components",
+    "title": "Documentation for Ralph UI components",
+    "keepFolderStructure": true,
     "include": [
       "**/*.vue",
       "components/mixins/**/*.js"
     ],
     "exclude": "scripts/component-template/component.vue",
-    "host": "127.0.0.1",
-    "port": 6001
+    "host": "localhost",
+    "port": 3010
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^4.0.0",
-    "@vue/test-utils": "^1.2.2",
+    "@babel/core": "^7.22.10",
+    "@babel/eslint-parser": "^7.22.10",
+    "@nuxtjs/eslint-config": "^10.0.0",
     "@vuese/cli": "^2.14.3",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.6.3",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-nuxt": "^1.0.0",
-    "eslint-plugin-prettier": "^3.4.1",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "file-save": "^0.2.0",
-    "husky": "^4.3.8",
-    "jest": "^26.6.3",
-    "lint-staged": "^10.5.4",
-    "node-sass": "^5.0.0",
-    "prettier": "^1.19.1",
-    "sass-loader": "^10.2.0",
-    "stylelint": "^13.13.1",
-    "uppercamelcase": "^3.0.0",
-    "vue-jest": "^4.0.1"
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.0",
+    "prettier": "^3.0.2",
+    "prompts": "^2.4.2",
+    "sass": "^1.49.9",
+    "sass-loader": "^10.2.1",
+    "stylelint": "^15.10.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-config-standard-vue": "^1.0.0",
+    "uppercamelcase": "^3.0.0"
   },
-  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://carismarsoftware.visualstudio.com/Ralph/_git/Ralph-UI"
+    "url": "https://github.com/geins-io/ralph-ui"
   },
-  "license": "UNLICENSED"
+  "license": "BSD-3-Clause"
 }

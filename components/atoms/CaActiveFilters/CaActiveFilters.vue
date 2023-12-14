@@ -75,29 +75,31 @@ export default {
   props: {
     selection: {
       type: Object,
-      required: true
+      required: true,
     },
     selectionActive: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    currentSelection: {}
+    currentSelection: {},
   }),
   computed: {
     selectedParameters() {
       const selected = [];
       for (const group in this.currentSelection.parameters) {
-        this.currentSelection.parameters[group].forEach(i => selected.push(i));
+        this.currentSelection.parameters[group].forEach((i) =>
+          selected.push(i),
+        );
       }
       return selected;
-    }
+    },
   },
   watch: {
     selection(newVal) {
       this.currentSelection = newVal;
-    }
+    },
   },
   mounted() {
     this.currentSelection = this.selection;
@@ -110,7 +112,7 @@ export default {
       if (type === 'parameters') {
         for (const group in this.currentSelection[type]) {
           const index = this.currentSelection[type][group].findIndex(
-            i => i.id === id
+            (i) => i.id === id,
           );
           if (index > -1) {
             this.currentSelection[type][group].splice(index, 1);
@@ -118,14 +120,14 @@ export default {
           }
         }
       } else {
-        const index = this.currentSelection[type].findIndex(i => i.id === id);
+        const index = this.currentSelection[type].findIndex((i) => i.id === id);
         if (index > -1) {
           this.currentSelection[type].splice(index, 1);
           this.$emit('selectionchange', this.currentSelection);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -20,32 +20,32 @@ export default {
     // The refund object
     refund: {
       type: Object,
-      required: true
+      required: true,
     },
     // The cart items
     cartItems: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data: () => ({}),
   computed: {
     cartItem() {
-      return this.cartItems.find(i => i.skuId === this.refund.itemId);
+      return this.cartItems.find((i) => i.skuId === this.refund.itemId);
     },
     cartItemName() {
       return this.cartItem ? this.cartItem.product.name : '';
     },
     skuValue() {
       return (
-        this.cartItem?.product.skus.find(i => i.skuId === this.refund.itemId)
+        this.cartItem?.product.skus.find((i) => i.skuId === this.refund.itemId)
           .name || ''
       );
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

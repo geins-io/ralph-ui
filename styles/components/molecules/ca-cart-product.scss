@@ -1,5 +1,6 @@
 .ca-cart-product {
   $block: &;
+
   display: flex;
 
   &__image {
@@ -90,15 +91,14 @@
 
   &__refunded {
     position: absolute;
+
     @include flex-calign;
+
     font-size: rem-calc(32);
     color: $c-text-secondary;
     font-weight: $font-weight-bold;
     text-transform: uppercase;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     z-index: 100;
     background-color: rgba($c-black, 0.05);
   }

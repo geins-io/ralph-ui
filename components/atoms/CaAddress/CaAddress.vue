@@ -3,7 +3,9 @@
     <p class="ca-address__row">
       {{ address.firstName }} {{ address.lastName }}
     </p>
-    <p class="ca-address__row">{{ address.addressLine1 }}</p>
+    <p class="ca-address__row">
+      {{ address.addressLine1 }}
+    </p>
     <p v-if="address.addressLine2" class="ca-address__row">
       {{ address.addressLine2 }}
     </p>
@@ -11,7 +13,9 @@
       {{ address.addressLine3 }}
     </p>
     <p class="ca-address__row">{{ address.zip }} {{ address.city }}</p>
-    <p class="ca-address__row">{{ address.country }}</p>
+    <p class="ca-address__row">
+      {{ address.country }}
+    </p>
   </div>
 </template>
 <script>
@@ -26,14 +30,14 @@ export default {
     // Address object obtained from the api
     address: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

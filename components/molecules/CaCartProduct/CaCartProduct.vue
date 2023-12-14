@@ -8,7 +8,7 @@
           type="product"
           :size-array="
             $config.imageSizes.product.filter(
-              item => parseInt(item.descriptor) <= 180
+              (item) => parseInt(item.descriptor) <= 180,
             )
           "
           :alt="product.name"
@@ -42,8 +42,8 @@
         <ul
           v-if="
             item.campaign &&
-              item.campaign.prices &&
-              item.campaign.prices.length > 1
+            item.campaign.prices &&
+            item.campaign.prices.length > 1
           "
           class="ca-cart-product__price-group"
         >
@@ -70,8 +70,8 @@
         <CaCampaigns
           v-if="
             item.campaign &&
-              item.campaign.appliedCampaigns &&
-              item.campaign.appliedCampaigns.length
+            item.campaign.appliedCampaigns &&
+            item.campaign.appliedCampaigns.length
           "
           class="ca-cart-product__campaigns"
           :campaigns="item.campaign.appliedCampaigns"
@@ -89,7 +89,6 @@
           v-if="mode === 'default'"
           :quantity="item.quantity"
           :max-quantity="skuStock.totalStock"
-          :type="$config.cart.quantityChangerType"
           @changed="onQuantityChange"
         />
         <div v-else class="ca-cart-product__static-quantity">
@@ -122,7 +121,7 @@ export default {
     // The cart product item
     item: {
       type: Object,
-      required: true
+      required: true,
     },
     // Set to display mode to show a non interactable cart
     mode: {
@@ -131,16 +130,16 @@ export default {
       default: 'default',
       validator(value) {
         return ['default', 'display'].includes(value);
-      }
+      },
     },
     // Set to true if the product is refunded
     refunded: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    quantity: 1
+    quantity: 1,
   }),
   computed: {
     product() {
@@ -149,30 +148,31 @@ export default {
     modifiers() {
       return {
         'ca-cart-product--display': this.mode === 'display',
-        'ca-cart-product--refunded': this.refunded
+        'ca-cart-product--refunded': this.refunded,
       };
     },
     skuValue() {
       return (
-        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].name || ''
+        this.product.skus.filter((i) => i.skuId === this.item.skuId)[0].name ||
+        ''
       );
     },
     skuStock() {
       return (
-        this.product.skus.filter(i => i.skuId === this.item.skuId)[0].stock ||
+        this.product.skus.filter((i) => i.skuId === this.item.skuId)[0].stock ||
         this.defaultStock
       );
     },
     currentStock() {
       return this.skuStock;
-    }
+    },
   },
   watch: {
     stockStatus(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.emitStockStatus();
       }
-    }
+    },
   },
   mounted() {
     this.quantity = this.item.quantity;
@@ -191,7 +191,7 @@ export default {
     emitStockStatus() {
       this.$emit('stock-status-change', {
         skuId: this.item.skuId,
-        stockStatus: this.stockStatus
+        stockStatus: this.stockStatus,
       });
     },
     // @vuese
@@ -199,8 +199,8 @@ export default {
     removeItem() {
       this.$emit('remove', this.item.skuId);
       this.updateCart(this.item.skuId, 0);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

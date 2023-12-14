@@ -28,33 +28,33 @@ export default {
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     iconName: {
       type: String,
-      required: true
+      required: true,
     },
     // If minumum index of the slider is reached
     minReached: {
       type: Boolean,
-      required: true
+      required: true,
     },
     // If maximum index of the slider is reached
     maxReached: {
       type: Boolean,
-      required: true
+      required: true,
     },
     // Show arrows?
     visible: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
     currentlyVisible() {
       return this.visible && !(this.minReached && this.maxReached);
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

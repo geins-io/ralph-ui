@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="ca-product-meta">
-    <script type="application/ld+json" v-html="productSchema"></script>
+    <script type="application/ld+json" v-html="productSchema" />
   </div>
 </template>
 <script>
@@ -15,8 +15,8 @@ export default {
     // Product object
     product: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
@@ -42,7 +42,7 @@ export default {
             description: this.product.texts[options.productDescriptionField],
             brand: {
               '@type': 'Brand',
-              name: this.product.brand.name
+              name: this.product.brand.name,
             },
             offers: {
               '@type': 'Offer',
@@ -51,13 +51,13 @@ export default {
               price: this.product.unitPrice.sellingPriceIncVat,
               availability: this.getStockStatus(
                 this.product.skus[i].stock.inStock,
-                this.product.skus[i].stock.totalStock
+                this.product.skus[i].stock.totalStock,
               ),
-              ...options.extraOfferProperties
-            }
+              ...options.extraOfferProperties,
+            },
           };
           color = this.product.variantDimensions.filter(
-            d => d.dimension === 'Color'
+            (d) => d.dimension === 'Color',
           );
           productSchema.color = color[0]?.label;
           if (options.productSkuLabelIsSize) {
@@ -82,7 +82,7 @@ export default {
           this.product.productImages[0].fileName;
       }
       return imgSrc;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -95,7 +95,7 @@ export default {
       } else {
         return 'InStock';
       }
-    }
-  }
+    },
+  },
 };
 </script>

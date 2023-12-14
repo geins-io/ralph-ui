@@ -61,7 +61,7 @@
                   </li>
                   <li
                     v-for="grandChildItem in getItemsWithLabel(
-                      childItem.children
+                      childItem.children,
                     )"
                     :key="grandChildItem.id"
                     class="ca-panel-navigation__grand-child-item"
@@ -117,7 +117,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

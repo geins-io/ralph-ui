@@ -11,8 +11,13 @@ export default {
     // The current sort of the product list
     currentSort: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    // Custom default sort options can be provided in the format `['SORT_OPTION', 'SORT_OPTION']`
+    customDefaultSortOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     defaultSortOptions: [
@@ -20,9 +25,9 @@ export default {
       'LATEST',
       'MOST_SOLD',
       'PRICE',
-      'PRICE_DESC'
+      'PRICE_DESC',
     ],
-    sort: null
+    sort: null,
   }),
   computed: {
     // @vuese
@@ -30,19 +35,19 @@ export default {
     // @type Array
     sortOptions() {
       return this.defaultSortOptions
-        .filter(option => {
+        .filter((option) => {
           if (!this.$route.name.includes('search') && option === 'RELEVANCE') {
             return false;
           }
           return true;
         })
-        .map(option => {
+        .map((option) => {
           return {
             label: this.$t(`SORT_LABEL_${option}`),
-            value: option
+            value: option,
           };
         });
-    }
+    },
   },
   watch: {
     sort(newVal, oldVal) {
@@ -52,10 +57,13 @@ export default {
     },
     currentSort() {
       this.sort = this.currentSort;
-    }
+    },
   },
   mounted() {
     this.sort = this.currentSort;
+    if (this.customDefaultSortOptions.length > 0) {
+      this.defaultSortOptions = this.customDefaultSortOptions;
+    }
   },
-  methods: {}
+  methods: {},
 };

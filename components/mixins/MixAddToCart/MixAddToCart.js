@@ -8,7 +8,7 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    addToCartLoading: false
+    addToCartLoading: false,
   }),
   computed: {},
   watch: {},
@@ -20,7 +20,7 @@ export default {
     addToCart(prodSkuId, prodQuantity, product = null) {
       const itemToAdd = {
         skuId: prodSkuId,
-        quantity: prodQuantity
+        quantity: prodQuantity,
       };
       this.$apollo
         .mutate({
@@ -28,33 +28,32 @@ export default {
           variables: {
             id: this.$store.getters['cart/id'],
             item: itemToAdd,
-            allowExternalShippingFee: this.$store.state.currentRouteName?.includes(
-              'checkout'
-            )
-          }
+            allowExternalShippingFee:
+              this.$store.state.currentRouteName?.includes('checkout'),
+          },
         })
-        .then(result => {
+        .then((result) => {
           this.$store.dispatch('cart/update', result.data.addToCart);
           this.addToCartLoading = false;
 
           this.$store.dispatch('events/push', {
             type: 'cart:add',
-            data: { item: itemToAdd, product }
+            data: { item: itemToAdd, product },
           });
 
           if (product) {
             this.$store.dispatch('cart/triggerAddedNotification', {
               item: itemToAdd,
-              product
+              product,
             });
           }
           setTimeout(() => {
             this.$store.dispatch('cart/removeAddedNotification');
           }, 30000);
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
-    }
-  }
+    },
+  },
 };

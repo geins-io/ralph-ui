@@ -5,6 +5,7 @@ fragment User on UserType {
   personalId
   customerType
   balanceFormatted
+  gender
   address {
     ...Address
   }

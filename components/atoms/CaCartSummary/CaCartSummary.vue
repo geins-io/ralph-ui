@@ -55,22 +55,22 @@
       <span
         class="ca-cart-summary__value"
         :class="{
-          'ca-cart-summary__value--free-shipping': freeShipping
+          'ca-cart-summary__value--free-shipping': freeShipping,
         }"
       >
         {{
           freeShipping
             ? $t('FREE_SHIPPING')
             : vatIncluded
-            ? summary.shipping.feeIncVatFormatted
-            : summary.shipping.feeExVatFormatted
+              ? summary.shipping.feeIncVatFormatted
+              : summary.shipping.feeExVatFormatted
         }}
       </span>
       <div
         v-if="
           !freeShipping &&
-            !display &&
-            summary.shipping.amountLeftToFreeShipping !== -1
+          !display &&
+          summary.shipping.amountLeftToFreeShipping !== -1
         "
         class="ca-cart-summary__amount-left"
       >
@@ -118,18 +118,18 @@ export default {
     // Cart summary data from the api
     summary: {
       type: Object,
-      required: true
+      required: true,
     },
     // A simpler version of the summary, only showing shipping and total
     simple: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Is this in a cart with display mode?
     display: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -138,11 +138,11 @@ export default {
     },
     vatIncluded() {
       return this.$store.state.vatIncluded;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

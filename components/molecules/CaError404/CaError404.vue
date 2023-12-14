@@ -23,8 +23,8 @@ export default {
     error: {
       type: Object,
       required: true,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   mounted() {
     this.logError();
@@ -37,12 +37,12 @@ export default {
           name: '404 error',
           pageType: 'errorPage',
           properties: {
-            responseCode: 404
-          }
+            responseCode: 404,
+          },
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

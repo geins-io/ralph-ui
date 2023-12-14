@@ -19,16 +19,14 @@
   &__info {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 2%;
-    row-gap: rem-calc(3px);
+    gap: rem-calc(3px) 2%;
     width: 90%;
     font-size: $font-size-s;
 
     @include bp(tablet) {
       width: 60%;
       font-size: $font-size-m;
-      column-gap: rem-calc(40px);
-      row-gap: rem-calc(5px);
+      gap: rem-calc(5px) rem-calc(40px);
     }
   }
 
@@ -45,6 +43,7 @@
       font-size: $font-size-l;
     }
   }
+
   &__details {
     padding: 0 $px10 $px10;
 

@@ -1,6 +1,6 @@
 .ca-input-select {
   $block: &;
-  
+
   position: relative;
   width: 165px;
 
@@ -19,7 +19,7 @@
 
   &__selected,
   &__select-wrap {
-    padding: 0px 43px 0px 15px;
+    padding: 0 43px 0 15px;
     line-height: 38px;
     height: 40px;
     border: $border-light;
@@ -35,17 +35,18 @@
   }
 
   &__select {
-    padding: 0px 43px 0px 15px;
+    padding: 0 43px 0 15px;
     width: 100%;
     height: 100%;
   }
-  
+
   &__arrow {
     @include valign;
+
     right: 14px;
     font-size: 16px;
   }
-  
+
   &__options {
     border: $border-light;
     position: absolute;
@@ -56,12 +57,13 @@
     overflow: auto;
     white-space: nowrap;
     max-height: rem-calc(320);
-    @include scrollbarStyle($c-dark-gray, $c-darkest-gray);
+
+    @include scrollbar-style($c-dark-gray, $c-darkest-gray);
   }
 
   &__option {
     line-height: 40px;
-    padding: 0px 15px;
+    padding: 0 15px;
     cursor: pointer;
     background-color: $c-lightest-gray;
     transition: all 200ms ease;
@@ -74,7 +76,7 @@
   &__description {
     font-size: $font-size-xs;
     color: $c-text-secondary;
-    margin: 5px 0px 0px 15px;
+    margin: 5px 0 0 15px;
   }
 
   &__optional {

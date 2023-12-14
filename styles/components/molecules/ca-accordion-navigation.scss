@@ -1,10 +1,11 @@
 .ca-accordion-navigation {
   $block: &;
+
   --icon-size: 1em;
   --accordion-nav-border: 1px solid #e6e5e5;
 
   border-top: var(--accordion-nav-border);
-  
+
   &__inner {
     border-bottom: var(--accordion-nav-border);
   }
@@ -30,7 +31,7 @@
 
   &__submenu-link {
     padding: rem-calc(15) 0 rem-calc(15) rem-calc(24);
-    
+
     @include bp(tablet) {
       padding: rem-calc(7) 0 rem-calc(7) rem-calc(28);
     }
@@ -41,22 +42,27 @@
     flex-shrink: 0;
   }
 
-  .ca-accordion-item__toggle-wrap {
-    display: block;
+  .ca-accordion-item {
+    $elem: &;
+
+    &__toggle-wrap {
+      display: block;
+    }
+
+    &--styled {
+      border: 0;
+      #{$elem}__toggle {
+        font-size: rem-calc(14);
+        font-weight: normal;
+        padding: 0;
+      }
+    }
   }
 
-  .ca-icon-and-text__text {
-    width: 100%;
-    margin-right: auto;
-  }
-
-  .ca-accordion-item--styled {
-    border: 0;
-  }
-
-  .ca-accordion-item--styled .ca-accordion-item__toggle {
-    font-size: rem-calc(14);
-    font-weight: normal;
-    padding: 0;
+  .ca-icon-and-text {
+    &__text {
+      width: 100%;
+      margin-right: auto;
+    }
   }
 }

@@ -9,7 +9,7 @@ class RalphEvent {
     return {
       data: this.data,
       timestamp: this.timestamp,
-      type: this.type
+      type: this.type,
     };
   }
 
@@ -19,13 +19,13 @@ class RalphEvent {
 }
 
 export const state = () => ({
-  events: []
+  events: [],
 });
 
 export const mutations = {
   push(state, event) {
     state.events.push(event);
-  }
+  },
 };
 
 export const actions = {
@@ -42,7 +42,7 @@ export const actions = {
 
     // Log event to console
     this.app.$ralphLog(logEvent.type, logEvent);
-  }
+  },
 };
 
 export const getters = {};

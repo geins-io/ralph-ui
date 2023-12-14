@@ -31,21 +31,21 @@ export default {
       default: 'info',
       validator(value) {
         return ['info', 'success', 'error'].includes(value);
-      }
+      },
     },
     // The feedback message to be displayed
     message: {
       type: String,
-      default: ''
+      default: '',
     },
     // Set to true if the feedback message should be visible at all time
     constant: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    visible: false
+    visible: false,
   }),
   computed: {
     // @vuese
@@ -66,7 +66,7 @@ export default {
     // @type String
     typeClass() {
       return 'ca-feedback--' + this.type;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -81,8 +81,8 @@ export default {
     // Hide the feedback
     hide() {
       this.visible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

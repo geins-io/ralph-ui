@@ -5,7 +5,7 @@
     :no-function="true"
     :style="customStyles"
   >
-    <slot></slot>
+    <slot />
   </CaButton>
 </template>
 <script>
@@ -19,22 +19,22 @@ export default {
   props: {
     textColor: {
       type: Number,
-      default: 0
+      default: 0,
     },
     belowImage: {
       type: Boolean,
-      default: false
+      default: false,
     },
     customStyles: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

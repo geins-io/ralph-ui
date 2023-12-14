@@ -1,0 +1,24 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "overrides": [
+    {
+      "files": ["*.scss", "**/*.scss"],
+      "extends": ["stylelint-config-standard-scss"]
+    },
+    {
+      "files": ["*.vue", "**/*.vue"],
+      "extends": [
+        "stylelint-config-standard-scss",
+        "stylelint-config-standard-vue/scss"
+      ]
+    }
+  ],
+  "rules": {
+    "scss/operator-no-newline-after": null,
+    "no-empty-source": null,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      { "ignore": ["after-comment", "first-nested"] }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
   <CaIconButton
     class="ca-toggle-favorite"
     :class="{
-      'ca-toggle-favorite--active': isFavorite
+      'ca-toggle-favorite--active': isFavorite,
     }"
     :aria-label="ariaLabel"
     :icon-name="iconName"
@@ -21,23 +21,23 @@ export default {
     // The product alias
     prodAlias: {
       type: String,
-      required: true
+      required: true,
     },
     // The product id
     prodId: {
       type: Number,
-      required: true
+      required: true,
     },
     // The icon name
     iconName: {
       type: String,
-      default: 'heart'
+      default: 'heart',
     },
     // The product object, if added here it will get sent to the datalayer
     product: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data: () => ({}),
   computed: {
@@ -57,7 +57,7 @@ export default {
       return this.isFavorite
         ? this.$t('REMOVE_FAVORITE')
         : this.$t('ADD_FAVORITE');
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -70,10 +70,10 @@ export default {
       const favorite = isAliases ? this.prodAlias : this.prodId;
       this.$store.dispatch('toggleFavorite', {
         productId: favorite,
-        product: this.product
+        product: this.product,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

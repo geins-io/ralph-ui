@@ -2,7 +2,6 @@ import MixMetaReplacement from 'MixMetaReplacement';
 import MixApolloRefetch from 'MixApolloRefetch';
 import productQuery from 'product/product.graphql';
 import relatedProductsQuery from 'product/related-products.graphql';
-import combineQuery from 'graphql-combine-query';
 // @group Mixins
 // @vuese
 // All functionality for the product page<br><br>
@@ -12,6 +11,53 @@ import combineQuery from 'graphql-combine-query';
 export default {
   name: 'MixProductPage',
   mixins: [MixMetaReplacement, MixApolloRefetch],
+  async asyncData({ error, store, app, redirect, req, params }) {
+    const currentPath = decodeURI(store.state.currentPath);
+    const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
+
+    const variables = {
+      alias: prodAlias,
+    };
+
+    try {
+      const client = app.apolloProvider.defaultClient;
+      let product = null;
+
+      await client
+        .query({
+          query: productQuery,
+          variables,
+          fetchPolicy: 'no-cache',
+        })
+        .then((result) => {
+          product = result?.data?.product;
+          if (!product) {
+            error({
+              statusCode: 404,
+              message: 'Page not found',
+              url: currentPath,
+            });
+            return;
+          }
+          if (req && product.canonicalUrl !== currentPath) {
+            redirect({
+              path: product.canonicalUrl,
+              query: req.query,
+            });
+          }
+        })
+        .catch((err) => {
+          error({
+            statusCode: err.statusCode,
+            message: err.message,
+          });
+        });
+
+      return { product };
+    } catch (err) {
+      error(err);
+    }
+  },
   props: {},
   head() {
     return {
@@ -20,115 +66,73 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.metaReplacement(this.product?.meta.description)
+          content: this.metaReplacement(this.product?.meta.description),
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.metaReplacement(this.product?.meta.title)
+          content: this.metaReplacement(this.product?.meta.title),
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.metaReplacement(this.product?.meta.description)
+          content: this.metaReplacement(this.product?.meta.description),
         },
         {
           hid: 'og:image',
           property: 'og:image',
           content:
-            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
+            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg',
+        },
+      ],
     };
   },
   apollo: {
     product: {
-      query() {
-        const productQueryModified = this.$config.productShowRelated
-          ? this.removeQueryVar(productQuery, [
-              'channelId',
-              'languageId',
-              'marketId'
-            ])
-          : productQuery;
-        let finishQuery = {
-          document: productQueryModified,
-          variables: {
-            alias: this.prodAlias
-          }
-        };
-        if (this.$config.productShowRelated) {
-          finishQuery = combineQuery('withRelatedCombined')
-            .add(productQueryModified, {
-              alias: this.prodAlias
-            })
-            .add(relatedProductsQuery, {
-              prodAlias: this.prodAlias
-            });
-        }
-
-        this.initVariables = finishQuery.variables;
-        return finishQuery.document;
-      },
+      query: productQuery,
       variables() {
-        return this.initVariables;
+        return {
+          alias: this.prodAlias,
+        };
       },
       errorPolicy: 'all',
-      result(result) {
-        if (result && result.data) {
-          if (!this.product && !process.server) {
-            this.$store.dispatch('redirect404');
-            return;
-          }
-
-          if (!this.hasSkuVariants) {
-            this.setDefaultSku();
-          } else if (this.skuIsChosen && !this.chosenSkuVariant) {
-            this.resetSku();
-          }
-
-          const { product, ...relatedProducts } = result.data;
-
-          if (this.$config.productShowRelated) {
-            this.relatedProducts = relatedProducts.relatedProducts;
-            this.isInitialRequest = false;
-          }
-
-          if (this.product?.variantGroup === null) {
-            this.$ralphLog('WARNING:', 'Product has no variantGroup');
-          }
-
-          if (!this.product?.primaryCategory) {
-            this.$ralphLog('WARNING:', 'Product has no primaryCategory');
-          }
-
-          this.appendProductToLatest();
-
-          if (process.client) {
-            this.switchToCanonical();
-            if (!this.impressionEventSent) {
-              this.sendImpressionEvent();
-            }
-          }
-        }
-        this.$store.dispatch('loading/end');
+      result() {
+        this.initProduct();
       },
       skip() {
-        return !this.prodAlias || !this.isInitialRequest;
+        return process.server || !this.prodAliasHasChanged;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
+    relatedProducts: {
+      query: relatedProductsQuery,
+      variables() {
+        return {
+          alias: this.prodAlias,
+        };
+      },
+      errorPolicy: 'all',
+      result(result) {
+        this.relatedProducts = result?.data?.relatedProducts;
+      },
+      skip() {
+        return !this.$config.productShowRelated;
+      },
+      error(error) {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      },
+    },
   },
   data: () => ({
     quantity: 1,
     replaceAlias: null,
     currentNotifyVariant: {},
     initVariables: {},
-    isInitialRequest: true,
     relatedProducts: [],
-    impressionEventSent: false
+    impressionEventSent: false,
+    prodAliasHasChanged: false,
   }),
   computed: {
     // @vuese
@@ -180,26 +184,26 @@ export default {
         alias: this.product?.primaryCategory?.alias,
         canonical: this.product?.primaryCategory?.canonicalUrl,
         id: this.product?.primaryCategory?.categoryId,
-        type: 'category'
+        type: 'category',
       };
     },
     // @vuese
     // Related product with relation RELATED
     // @type Array
     relatedProductsRelated() {
-      return this.relatedProducts.filter(i => i.relation === 'RELATED');
+      return this.relatedProducts.filter((i) => i.relation === 'RELATED');
     },
     // @vuese
     // Related product with relation ACCESSORIES
     // @type Array
     relatedProductsAccessories() {
-      return this.relatedProducts.filter(i => i.relation === 'ACCESSORIES');
+      return this.relatedProducts.filter((i) => i.relation === 'ACCESSORIES');
     },
     // @vuese
     // Related product with relation SIMILAR
     // @type Array
     relatedProductsSimilar() {
-      return this.relatedProducts.filter(i => i.relation === 'SIMILAR');
+      return this.relatedProducts.filter((i) => i.relation === 'SIMILAR');
     },
     // @vuese
     // Image src used for meta image
@@ -215,7 +219,7 @@ export default {
           this.product.productImages[0].fileName;
       }
       return imgSrc;
-    }
+    },
   },
   watch: {
     // @vuese
@@ -231,7 +235,7 @@ export default {
     // @vuese
     // Watching prodAlias to fetch request when alias state change
     prodAlias() {
-      this.isInitialRequest = true;
+      this.prodAliasHasChanged = true;
     },
     // @vuese
     // Watching productId to send impression event when changing variant
@@ -239,28 +243,29 @@ export default {
       if (oldVal && newVal !== oldVal) {
         this.sendImpressionEvent();
       }
-    }
+    },
   },
-  mounted() {},
-  beforeDestroy() {
-    clearInterval(this.interval);
+  mounted() {
+    this.initProduct();
   },
   methods: {
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
 
-      fields.forEach(field => {
-        const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
-          item => item.variable.name.value === field
-        );
-        const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-          item => item.value.name.value === field
-        );
+      fields.forEach((field) => {
+        const indexQueryVariable =
+          newQuery.definitions[0].variableDefinitions.findIndex(
+            (item) => item.variable.name.value === field,
+          );
+        const indexQueryField =
+          newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+            (item) => item.value.name.value === field,
+          );
 
         if (![indexQueryVariable, indexQueryField].includes(-1)) {
           newQuery.definitions[0].variableDefinitions.splice(
             indexQueryVariable,
-            1
+            1,
           );
         }
       });
@@ -279,7 +284,7 @@ export default {
       if (!this.chosenSku.id) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('MUST_CHOOSE_SKU'),
-          placement: 'bottom-center'
+          placement: 'bottom-center',
         });
       } else if (
         this.quantity + this.chosenSkuCartQuantity >
@@ -287,9 +292,9 @@ export default {
       ) {
         this.$store.dispatch('snackbar/trigger', {
           message: this.$t('CART_ADD_TOO_MANY', {
-            stock: this.currentStock.totalStock
+            stock: this.currentStock.totalStock,
           }),
-          placement: 'bottom-center'
+          placement: 'bottom-center',
         });
       } else {
         this.addToCartLoading = true;
@@ -306,7 +311,7 @@ export default {
     // @vuese
     // Handler for changing the sku
     // @arg data (Object)
-    sizeChangeHandler(data) {
+    skuChangeHandler(data) {
       this.setSku(data.id, data.value);
     },
     // @vuese
@@ -314,9 +319,9 @@ export default {
     quantityThresholdHandler() {
       this.$store.dispatch('snackbar/trigger', {
         message: this.$t('QUANTITY_THRESHOLD_REACHED', {
-          quantity: this.chosenSkuCartQuantity
+          quantity: this.chosenSkuCartQuantity,
         }),
-        placement: 'bottom-center'
+        placement: 'bottom-center',
       });
     },
     // @vuese
@@ -340,15 +345,15 @@ export default {
 
       if (!latestProducts.includes(this.prodAlias)) {
         this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/'
+          path: '/',
         });
       } else {
         const existingAliasIndex = latestProducts.findIndex(
-          alias => alias === this.prodAlias
+          (alias) => alias === this.prodAlias,
         );
         latestProducts.splice(existingAliasIndex, 1);
         this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/'
+          path: '/',
         });
       }
     },
@@ -359,7 +364,7 @@ export default {
       this.currentNotifyVariant = variant;
       this.$nextTick(() => {
         this.$store.commit('contentpanel/open', {
-          name: 'notify'
+          name: 'notify',
         });
       });
     },
@@ -368,9 +373,33 @@ export default {
     sendImpressionEvent() {
       this.$store.dispatch('events/push', {
         type: 'product-detail:impression',
-        data: { product: this.product }
+        data: { product: this.product },
       });
       this.impressionEventSent = true;
-    }
-  }
+    },
+    // @vuese
+    // Initiate product
+    initProduct() {
+      if (!this.hasSkuVariants) {
+        this.setDefaultSku();
+      } else if (this.skuIsChosen && !this.chosenSkuVariant) {
+        this.resetSku();
+      }
+      if (this.product?.variantGroup === null) {
+        this.$ralphLog('WARNING:', 'Product has no variantGroup');
+      }
+
+      if (!this.product?.primaryCategory) {
+        this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+      }
+
+      this.appendProductToLatest();
+
+      if (!this.impressionEventSent) {
+        this.sendImpressionEvent();
+      }
+
+      this.$store.dispatch('loading/end');
+    },
+  },
 };

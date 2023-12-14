@@ -24,28 +24,28 @@ export default {
     // Array of products
     products: {
       type: Array,
-      required: true
+      required: true,
     },
     // Current page size
     pageSize: {
       type: Number,
-      required: true
+      required: true,
     },
     // Current skip
     skip: {
       type: Number,
-      default: 0
+      default: 0,
     },
     // Type of product card, to be able to display slightly different product cards in different product lists
     productCardType: {
       type: String,
-      default: 'default'
+      default: 'default',
     },
     // Are the products fetched yet?
     productsFetched: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -66,7 +66,7 @@ export default {
     },
     isSearch() {
       return this.$route?.name?.includes('search');
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -77,8 +77,8 @@ export default {
     getPageNumber(index) {
       index++;
       return Math.ceil((index + this.skip) / this.pageSize);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

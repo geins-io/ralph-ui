@@ -1,6 +1,9 @@
-$themeColor: $c-darkest-gray;
-$bgColor: lighten($c-darkest-gray, 43%);
-@import '~vue-slider-component/lib/theme/material.scss';
+@use 'sass:color';
+
+$theme-color: $c-darkest-gray;
+$bg-color: color.adjust($c-darkest-gray, $lightness: 43%);
+
+@import '~vue-slider-component/lib/theme/material';
 
 .ca-filter-range {
   background-color: $c-lightest-gray;

@@ -15,7 +15,7 @@ export default {
       variables() {
         return {
           filter: this.filter,
-          take: this.favorites.length
+          take: this.favorites.length,
         };
       },
       errorPolicy: 'all',
@@ -27,12 +27,12 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: 500, message: error });
-      }
-    }
+      },
+    },
   },
   props: {},
   data: () => ({
-    allProducts: []
+    allProducts: [],
   }),
   computed: {
     // @vuese
@@ -46,7 +46,7 @@ export default {
     // @type Object
     filter() {
       if (this.isAliases) {
-        const facets = this.favorites.map(i => {
+        const facets = this.favorites.map((i) => {
           return 'a_' + i;
         });
         const sort = 'FACET_ORDER';
@@ -55,7 +55,7 @@ export default {
       }
       return { productIds: this.favorites };
     },
-    ...mapState(['favorites'])
+    ...mapState(['favorites']),
   },
   watch: {},
   mounted() {},
@@ -66,20 +66,20 @@ export default {
     processProducts(products) {
       if (products.length !== this.favorites.length) {
         if (!this.isAliases) {
-          const productIds = products.map(product => {
+          const productIds = products.map((product) => {
             return product.productId;
           });
-          this.favorites.forEach(favorite => {
+          this.favorites.forEach((favorite) => {
             if (!productIds.includes(favorite)) {
               this.$store.dispatch('toggleFavorite', favorite);
             }
           });
         } else {
-          const productAliases = products.map(product => {
+          const productAliases = products.map((product) => {
             return product.alias;
           });
 
-          this.favorites.forEach(favorite => {
+          this.favorites.forEach((favorite) => {
             if (!productAliases.includes(favorite)) {
               this.$store.dispatch('toggleFavorite', favorite);
             }
@@ -95,6 +95,6 @@ export default {
         });
       }
       this.allProducts = products;
-    }
-  }
+    },
+  },
 };

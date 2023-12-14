@@ -35,7 +35,7 @@ export default {
   components: {
     LazyYoutube: () => import('vue-youtube').then(({ Youtube }) => Youtube),
     LazyVimeo: () =>
-      import('vue-vimeo-player').then(({ vueVimeoPlayer }) => vueVimeoPlayer)
+      import('vue-vimeo-player').then(({ vueVimeoPlayer }) => vueVimeoPlayer),
   },
   mixins: [],
   props: {
@@ -46,32 +46,32 @@ export default {
       required: true,
       validator(value) {
         return ['youtube', 'vimeo'].includes(value);
-      }
+      },
     },
     // The Youtube or Vimeo id
     videoId: {
       type: String,
-      required: true
+      required: true,
     },
     // Width of player
     playerWidth: {
       type: Number,
-      default: 1600
+      default: 1600,
     },
     // Height of player
     playerHeight: {
       type: Number,
-      default: 900
-    }
+      default: 900,
+    },
   },
   data: () => ({
     youtubeOptions: {
       rel: 0,
-      modestbranding: 1
+      modestbranding: 1,
     },
     vimeoOptions: {
-      responsive: true
-    }
+      responsive: true,
+    },
   }),
   computed: {
     isYoutube() {
@@ -79,7 +79,7 @@ export default {
     },
     isVimeo() {
       return this.videoProvider === 'vimeo';
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -96,8 +96,8 @@ export default {
       if (this.isVimeo) {
         this.$refs.vimeo.play();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

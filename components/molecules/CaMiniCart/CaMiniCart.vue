@@ -4,32 +4,27 @@
     :aria-label="$t('CART')"
     @clicked="
       $store.commit('contentpanel/open', {
-        name: 'cart'
+        name: 'cart',
       })
     "
   >
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
-      <client-only>
-        <CaNotificationBadge
-          v-if="$store.getters['cart/totalQuantity'] > 0"
-          class="ca-mini-cart__qty"
-          :number="$store.getters['cart/totalQuantity']"
-        />
-      </client-only>
-    </div>
-    <client-only>
-      <div
+
+      <CaNotificationBadge
         v-if="$store.getters['cart/totalQuantity'] > 0"
-        class="ca-mini-cart__value only-computer"
-      >
-        {{
-          $store.getters.getSellingPrice(
-            $store.state.cart.data.summary.subTotal
-          )
-        }}
-      </div>
-    </client-only>
+        class="ca-mini-cart__qty"
+        :number="$store.getters['cart/totalQuantity']"
+      />
+    </div>
+    <div
+      v-if="$store.getters['cart/totalQuantity'] > 0"
+      class="ca-mini-cart__value only-computer"
+    >
+      {{
+        $store.getters.getSellingPrice($store.state.cart.data.summary.subTotal)
+      }}
+    </div>
   </CaClickable>
 </template>
 <script>
@@ -42,14 +37,14 @@ export default {
     // Name for the icon to be used. See documentation for [CaIcon](/components/CaIcon) to learn more.
     cartIcon: {
       type: String,
-      default: 'shopping-bag'
-    }
+      default: 'shopping-bag',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

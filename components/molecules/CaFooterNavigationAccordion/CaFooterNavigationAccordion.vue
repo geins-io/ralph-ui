@@ -41,19 +41,19 @@ export default {
     // Icon name for when accordion is open
     iconOpen: {
       type: String,
-      default: 'chevron-up'
+      default: 'chevron-up',
     },
     // Icon name for when accordion is open
     iconClosed: {
       type: String,
-      default: 'chevron-down'
-    }
+      default: 'chevron-down',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

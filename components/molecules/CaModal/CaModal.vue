@@ -36,7 +36,6 @@
 <script>
 import { mapState } from 'vuex';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 // @group Molecules
 // @vuese
 // A modal that can display a component inside it. Is triggered like so: `this.$store.commit('modal/open', modalSettings)`. modalSettings should be an object including component (String) and componentProps (Object). The component must emit event ready when content is loaded.<br><br>(Aria label & description)[https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/dialog_role] is based on element with ids "ca-modal__title" & "ca-modal__description". Make sure to specify these in loaded component
@@ -48,7 +47,7 @@ export default {
   data: () => ({
     contentLoaded: false,
     opened: false,
-    width: null
+    width: null,
   }),
   computed: {
     componentProps() {
@@ -67,7 +66,7 @@ export default {
       }
       return obj;
     },
-    ...mapState(['modal', 'viewportWidth'])
+    ...mapState(['modal', 'viewportWidth']),
   },
   watch: {
     'modal.component'(newVal, oldVal) {
@@ -79,15 +78,15 @@ export default {
       if (newVal !== oldVal) {
         this.setSize();
       }
-    }
+    },
   },
   mounted() {
-    eventbus.$on('close-modal', () => {
+    this.$ralphBus.$on('close-modal', () => {
       this.closeModal();
     });
   },
-  beforeDestroy() {
-    eventbus.$off('close-modal');
+  beforeUnmount() {
+    this.$ralphBus.$off('close-modal');
   },
   methods: {
     onReady() {
@@ -127,8 +126,8 @@ export default {
         }
         this.width = Math.round(width) + 'px';
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

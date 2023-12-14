@@ -1,7 +1,7 @@
 <template>
   <li class="ca-secondary-nav-item">
     <!-- Add link here -->
-    <slot></slot>
+    <slot />
   </li>
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -6,7 +6,7 @@
     class="ca-checkout-external"
     :class="modifiers"
     v-html="frame"
-  ></div>
+  />
   <CaSpinner v-else class="ca-checkout-external__loading" />
 </template>
 <script>
@@ -22,37 +22,37 @@ export default {
     // The external checkout snippet received from the api
     data: {
       type: String,
-      default: null
+      default: null,
     },
     // Is it a new checkout session?
     newCheckoutSession: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Is this the confirm page?
     // If set to true this component will fetch the confirm snippet from the api
     // DEPRECATED: Use confirmSnippet instead
     confirm: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // What type of payment?
     type: {
       // `KLARNA`, `SVEA`, `WALLEY`, `AVARDA`
       type: String,
-      required: true
+      required: true,
     },
     // The confirm snippet
     // Available in checkoutConfirmData.htmlSnippet from MixConfirmPage
     // Set prop confirm to false if you want to use this
     confirmSnippet: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data: () => ({
     frame: null,
-    suspended: false
+    suspended: false,
   }),
   computed: {
     // @vuese
@@ -78,9 +78,9 @@ export default {
     modifiers() {
       return {
         'ca-checkout-external--suspended':
-          this.suspended && this.type === 'AVARDA'
+          this.suspended && this.type === 'AVARDA',
       };
-    }
+    },
   },
   watch: {
     type(newVal, oldVal) {
@@ -98,7 +98,7 @@ export default {
           this.initScript();
         });
       }
-    }
+    },
   },
   mounted() {
     if (!this.confirm) {
@@ -150,7 +150,7 @@ export default {
         switch (this.type) {
           case 'KLARNA':
             if (window._klarnaCheckout) {
-              window._klarnaCheckout(function(api) {
+              window._klarnaCheckout(function (api) {
                 api.suspend();
               });
             }
@@ -165,9 +165,6 @@ export default {
               window.collector.checkout.api.suspend();
             }
             return;
-          case 'AVARDA':
-            if (window.avardaCheckout) {
-            }
         }
         this.suspended = true;
       }
@@ -179,7 +176,7 @@ export default {
         switch (this.type) {
           case 'KLARNA':
             if (window._klarnaCheckout) {
-              window._klarnaCheckout(function(api) {
+              window._klarnaCheckout(function (api) {
                 api.resume();
               });
             } else {
@@ -217,10 +214,10 @@ export default {
           query: getCheckoutQuery,
           variables: {
             id: this.orderId,
-            paymentType: this.type
-          }
+            paymentType: this.type,
+          },
         })
-        .then(result => {
+        .then((result) => {
           if (this.frame) {
             this.frame = null;
           }
@@ -229,11 +226,11 @@ export default {
             this.initScript();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

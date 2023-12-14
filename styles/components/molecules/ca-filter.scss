@@ -1,0 +1,40 @@
+.ca-filter {
+  $block: &;
+
+  position: relative;
+
+  &__title {
+    padding: 0 43px 0 15px;
+    line-height: 38px;
+    height: 40px;
+    border: $border-light;
+    background-color: $c-lightest-gray;
+    transition: border-color 200ms ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  &__arrow {
+    @include valign;
+
+    right: 14px;
+    font-size: 16px;
+  }
+
+  &__values {
+    border: $border-light;
+    position: absolute;
+    margin-top: 2px;
+    z-index: 15;
+    background-color: $c-lightest-gray;
+    overflow: hidden;
+    width: 100%;
+    padding: $px12;
+  }
+
+  &--chosen & {
+    &__title {
+      font-weight: $font-weight-bold;
+    }
+  }
+}

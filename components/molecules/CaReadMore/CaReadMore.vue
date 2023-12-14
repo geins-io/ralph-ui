@@ -6,7 +6,7 @@
       :style="{ height: textHeightComputed + 'px' }"
     >
       <!-- Text content -->
-      <slot></slot>
+      <slot />
     </div>
     <button
       v-if="toggleActive"
@@ -32,30 +32,30 @@ export default {
     // Maximum height of text to show before 'read more'-function to kick in
     maxHeight: {
       type: Number,
-      default: 60
+      default: 60,
     },
     // Icon name for open state
     iconNameOpen: {
       type: String,
-      default: 'chevron-up'
+      default: 'chevron-up',
     },
     // Icon name for closed state
     iconNameClosed: {
       type: String,
-      default: 'chevron-down'
-    }
+      default: 'chevron-down',
+    },
   },
   data: () => ({
     visible: false,
     ready: false,
     textHeight: 0,
-    scrollHeight: 0
+    scrollHeight: 0,
   }),
   computed: {
     modifiers() {
       return {
         'ca-read-more--visible': this.visible || !this.toggleActive,
-        'ca-read-more--ready': this.ready
+        'ca-read-more--ready': this.ready,
       };
     },
     toggleButtonText() {
@@ -69,7 +69,7 @@ export default {
     },
     textHeightComputed() {
       return !this.textHeight ? this.maxHeight : this.textHeight;
-    }
+    },
   },
   watch: {},
   mounted() {
@@ -98,8 +98,8 @@ export default {
       } else {
         this.textHeight = 0;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

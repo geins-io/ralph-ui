@@ -8,12 +8,12 @@
         :class="{
           'ca-filter-multi__value--selected': value.selected,
           'ca-filter-multi__value--disabled': value.count === 0,
-          'ca-filter-multi__value--hidden': value.label === '-'
+          'ca-filter-multi__value--hidden': value.label === '-',
         }"
         @click="
           toggleFilterValue(
             { id: value.facetId, label: value.label },
-            !value.selected
+            !value.selected,
           )
         "
       >
@@ -36,28 +36,28 @@ export default {
     // The selectable values
     values: {
       type: Array,
-      required: true
+      required: true,
     },
     // The current selection
     selection: {
       type: Array,
-      required: true
+      required: true,
     },
     // Option to hide values
     hideValues: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    currentSelection: []
+    currentSelection: [],
   }),
   computed: {
     valuesWithSelected() {
       if (this.values && this.values.length && this.selection) {
-        return this.values.map(item => {
+        return this.values.map((item) => {
           let isSelected = this.currentSelection.some(
-            el => el.id === item.facetId
+            (el) => el.id === item.facetId,
           );
           if (item.count === 0) {
             isSelected = false;
@@ -70,13 +70,13 @@ export default {
       }
     },
     valuesExcludeHidden() {
-      return this.valuesWithSelected.filter(el => !el.hidden);
+      return this.valuesWithSelected.filter((el) => !el.hidden);
     },
     filterValues() {
       return !this.hideValues
         ? this.valuesWithSelected
         : this.valuesExcludeHidden;
-    }
+    },
   },
   watch: {
     selection: {
@@ -85,8 +85,8 @@ export default {
         if (newVal !== oldVal) {
           this.currentSelection = this.selection;
         }
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.currentSelection = this.selection;
@@ -109,14 +109,16 @@ export default {
       if (selected) {
         this.currentSelection.push(filter);
       } else {
-        const index = this.currentSelection.findIndex(i => i.id === filter.id);
+        const index = this.currentSelection.findIndex(
+          (i) => i.id === filter.id,
+        );
         this.currentSelection.splice(index, 1);
       }
       // The selection has changed
       // @arg Updated selection (Array)
       this.$emit('selectionchange', this.currentSelection);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

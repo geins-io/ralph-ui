@@ -7,7 +7,7 @@ export default {
   data: () => ({}),
   computed: {
     productsData() {
-      return this.orderCart?.items.map(item => {
+      return this.orderCart?.items.map((item) => {
         return {
           item_id: item.product.productId,
           item_name: item.product.name,
@@ -16,23 +16,13 @@ export default {
           price: item.unitPrice.sellingPriceExVat,
           tax: item.unitPrice.vat,
           quantity: item.quantity,
-          item_variant: item.product.skus.find(i => i.skuId === item.skuId)
+          item_variant: item.product.skus.find((i) => i.skuId === item.skuId)
             .name,
-          sku: item.skuId
+          sku: item.skuId,
           // velocity: "EncryptMargin(item.UnitPriceExVat, item.PurchasePrice).ToString('0.0000', CultureInfo.InvariantCulture)" //Backendmagi
         };
       });
     },
-    nostoProducts() {
-      return this.orderCart?.items?.map(item => ({
-        product_id: item.product.productId,
-        name: item.product.name,
-        unit_price: item.unitPrice.sellingPriceExVat,
-        quantity: item.quantity,
-        sku_id: item.skuId,
-        price_currency_code: this.$store.getters['channel/currentCurrency']
-      }));
-    }
   },
   watch: {},
   mounted() {},
@@ -43,7 +33,7 @@ export default {
         currency: this.$store.getters['channel/currentCurrency'],
         itemValueIncVat: this.orderCart.summary.subTotal.sellingPriceIncVat,
         itemValueExVat: this.orderCart.summary.subTotal.sellingPriceExVat,
-        email: this.$route.query.email
+        email: this.$route.query.email,
       };
       this.$store.dispatch('events/push', {
         type: 'checkout:purchase',
@@ -51,53 +41,9 @@ export default {
           order,
           orderCart: this.orderCart,
           orderId: this.orderId,
-          nthPurchase: checkoutData?.nthPurchase || 1
-        }
+          nthPurchase: checkoutData?.nthPurchase || 1,
+        },
       });
-
-      if (
-        this.$store.getters['nosto/isNostoActive'] &&
-        process.client &&
-        checkoutData?.order
-      ) {
-        const {
-          orderId,
-          firstName,
-          lastName,
-          email,
-          currency
-        } = checkoutData?.order;
-
-        window.nostojs(api => {
-          api
-            .defaultSession()
-            .addOrder({
-              external_order_ref: this.orderId,
-              info: {
-                order_number: orderId,
-                email,
-                first_name: firstName,
-                last_name: lastName,
-                type: 'order',
-                newsletter: true
-              },
-              items: this.orderCart?.items?.map(item => ({
-                product_id: item.product.productId,
-                sku_id: item.skuId,
-                name: item.product.name,
-                quantity: item.quantity,
-                price_currency_code: currency,
-                unit_price: item.unitPrice.sellingPriceIncVat
-              }))
-            })
-            .setPlacements(['order-related'])
-            .load()
-            .then(data => {
-              // eslint-disable-next-line
-              console.log(data.recommendations);
-            });
-        });
-      }
-    }
-  }
+    },
+  },
 };

@@ -1,32 +1,35 @@
 .ca-newsletter {
   overflow: hidden;
   border-radius: $default-radius;
-  
+
   &__feedback {
     max-width: rem-calc(410px);
     margin: 0 auto $px16;
   }
-  
+
   &__form {
     display: flex;
     position: relative;
     margin: 0 auto;
     max-width: rem-calc(410px);
   }
-  
+
   &__input {
     width: 100%;
     border-radius: 0;
   }
-  
+
   &__button.ca-button {
     @include bp(phone-only) {
       padding: 0.65em 1em;
     }
   }
-  
-  .ca-input-text,
-  .ca-input-text__input {
+
+  .ca-input-text {
     border-radius: $default-radius 0 0 $default-radius;
+
+    &__input {
+      border-radius: $default-radius 0 0 $default-radius;
+    }
   }
 }

@@ -18,7 +18,7 @@ export default {
       result(result) {
         if (result.data && result.data.products.filters) {
           const facets = result.data.products.filters.facets;
-          const brandFacets = facets.find(facet => facet.type === 'Brand');
+          const brandFacets = facets.find((facet) => facet.type === 'Brand');
 
           this.updateBrandsFromFacets(brandFacets);
           if (!this.brandsTree.length) {
@@ -31,8 +31,8 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: 500, message: error });
-      }
-    }
+      },
+    },
   },
   props: {},
   data: () => ({
@@ -40,7 +40,7 @@ export default {
     isLoading: true,
     brandsTree: [],
     isGroupFilter: false,
-    activeGroupFilter: ''
+    activeGroupFilter: '',
   }),
   computed: {
     // @vuese
@@ -82,8 +82,8 @@ export default {
     getAllInitialCharacters() {
       const brands = [...this.getOneBrandPerCharacter];
 
-      return brands.map(item => item.alias.substring(0, 1));
-    }
+      return brands.map((item) => item.alias.substring(0, 1));
+    },
   },
   watch: {},
   mounted() {},
@@ -93,11 +93,11 @@ export default {
     // @arg facets (Object)
     updateBrandsFromFacets(facets) {
       if (facets && facets.values.length) {
-        this.brands = [...facets.values].map(item => {
+        this.brands = [...facets.values].map((item) => {
           return {
             alias: item.label.toUpperCase(),
             name: item.label,
-            canonicalUrl: item.url
+            canonicalUrl: item.url,
           };
         });
       }
@@ -108,17 +108,19 @@ export default {
     getAllBrandsByInitial(character) {
       const getBrands = [...this.sortedBrands];
 
-      return getBrands.filter(item => item.alias.substring(0, 1) === character);
+      return getBrands.filter(
+        (item) => item.alias.substring(0, 1) === character,
+      );
     },
     // @vuese
     // Creates the brands tree
     createBrandsTree() {
       const initialCharacters = this.getAllInitialCharacters;
 
-      initialCharacters.forEach(character => {
+      initialCharacters.forEach((character) => {
         this.brandsTree.push({
           group: character,
-          brands: this.getAllBrandsByInitial(character)
+          brands: this.getAllBrandsByInitial(character),
         });
       });
     },
@@ -135,6 +137,6 @@ export default {
       }
 
       this.activeGroupFilter = group;
-    }
-  }
+    },
+  },
 };

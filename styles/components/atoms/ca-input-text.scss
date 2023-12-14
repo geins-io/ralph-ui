@@ -59,12 +59,14 @@
 
   &__spinner {
     @include valign;
+
     right: $px16;
     background-color: $c-input-background;
   }
 
   &__toggle-password {
     @include valign;
+
     right: $px16;
     padding: $px4 $px10;
     background-color: $c-medium-gray;
@@ -74,6 +76,7 @@
 
   &__error-icon {
     @include valign;
+
     right: $px16;
     color: $c-error;
   }

@@ -2,11 +2,11 @@
   <div class="ca-checkout-section" :class="modifiers">
     <h2 v-if="$slots.title" class="ca-checkout-section__title">
       <!-- The checkout sections title -->
-      <slot name="title"></slot>
+      <slot name="title" />
     </h2>
     <div class="ca-checkout-section__content">
       <!-- Content of the section -->
-      <slot></slot>
+      <slot />
       <transition name="fade">
         <div v-if="loading" class="ca-checkout-section__loading">
           <CaSpinner class="ca-checkout-section__spinner" :loading="true" />
@@ -18,7 +18,7 @@
             <CaIcon class="ca-checkout-section__guard-icon" name="info" />
             <div class="ca-checkout-section__guard-text">
               <!-- The checkout sections guard text, shown when blocked -->
-              <slot name="guard"></slot>
+              <slot name="guard" />
             </div>
           </div>
         </div>
@@ -38,31 +38,31 @@ export default {
     // Shows an arrow at the bottom of the box
     bottomArrow: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Is the section loading?
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Block this section
     blocked: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
         'ca-checkout-section--arrow': this.bottomArrow,
-        'ca-checkout-section--loading': this.loading
+        'ca-checkout-section--loading': this.loading,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

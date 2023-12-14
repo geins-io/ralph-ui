@@ -1,5 +1,10 @@
 <template>
-  <a class="ca-clickable" role="button" tabindex="0" @click="$emit('clicked')">
+  <a
+    class="ca-clickable"
+    role="button"
+    v-bind="$attrs"
+    @click.prevent="$emit('clicked')"
+  >
     <slot />
   </a>
 </template>
@@ -16,7 +21,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

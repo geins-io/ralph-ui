@@ -21,7 +21,6 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |---|---|---|
 |productClickHandler|Handling product click|-|
 |addToCartClick|Add to cart if skuId is present, otherwise go to product|-|
-|nostoClickEvent|Pushing Nosto click event|-|
 |setProduct|Setting product of the product card if other than productData)|-|
 
 <!-- @vuese:MixProductCard:methods:end -->
@@ -33,7 +32,6 @@ All functionality for the product card<br><br> **Data:**<br> observer: `null`<br
 |Computed|Type|Description|From Store|
 |---|---|---|---|
 |product|`Object`|The product data|No|
-|nostoResultId|`String`|ResultId of nosto product list request|No|
 |productPopulated|`Boolean`|Is the product populated with data|No|
 |skuId|`String`|The current skuId if only one, otherwise empty string|No|
 |chosenSkuCartQuantity|`Number`|Returns the number of items with same skuId as the chosen one that you have in cart|No|

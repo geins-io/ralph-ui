@@ -1,7 +1,7 @@
 <template>
   <div class="ca-widget-flowbox__container">
     <client-only>
-      <div :id="widgetSectionId" class="ca-widget-flowbox__widget"></div>
+      <div :id="widgetSectionId" class="ca-widget-flowbox__widget" />
     </client-only>
   </div>
 </template>
@@ -20,23 +20,47 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     isFlowboxScriptLoaded: false,
     isFlowboxActive: false,
     // ID to distinguish flowbox sections
     // TODO: replace pseudo-id
-    widgetSectionId: ''
+    widgetSectionId: '',
   }),
+  head() {
+    return {
+      script: [
+        {
+          // unique id for script
+          hid: 'flowbox-js-embed',
+          src: 'https://connect.getflowbox.com/flowbox.js',
+          defer: true,
+          async: true,
+          // Changed after script load
+          callback: () => {
+            if (!window?.flowbox) {
+              const f = function () {
+                f.q.push(arguments);
+              };
+              f.q = [];
+              window.flowbox = f;
+            }
+            this.isFlowboxScriptLoaded = true;
+          },
+        },
+      ],
+    };
+  },
   computed: {},
   watch: {
     isFlowboxScriptLoaded(newVal) {
       if (newVal) {
         this.initFlowbox();
       }
-    }
+    },
   },
   created() {
     this.widgetSectionId = this.generatePseudoId();
@@ -55,13 +79,13 @@ export default {
           dynamicProductFlow,
           dynamicTagFlow,
           tags,
-          tagOperator: tagsOperator
+          tagOperator: tagsOperator,
         } = this.configuration;
         this.isFlowboxActive = active;
 
         if (!flowkey) {
           console.error(
-            'Missing Flowbox key - please check MC if it is filled'
+            'Missing Flowbox key - please check MC if it is filled',
           );
           return;
         }
@@ -80,7 +104,7 @@ export default {
             container: `#${this.widgetSectionId}`,
             key: flowkey,
             productId: this.product.productId,
-            locale
+            locale,
           });
         } else if (dynamicTagFlow) {
           // Init for dynamic tag flow
@@ -89,14 +113,14 @@ export default {
             key: flowkey,
             tags,
             tagsOperator,
-            locale
+            locale,
           });
         } else {
           window?.flowbox('init', {
             // Init for default flow
             container: `#${this.widgetSectionId}`,
             key: flowkey,
-            locale
+            locale,
           });
         }
       } catch (error) {
@@ -110,32 +134,8 @@ export default {
         'flowbox-widget-' +
         (Math.random().toString(36) + Date.now().toString(36)).substring(2, 20)
       );
-    }
+    },
   },
-  head() {
-    return {
-      script: [
-        {
-          // unique id for script
-          hid: 'flowbox-js-embed',
-          src: 'https://connect.getflowbox.com/flowbox.js',
-          defer: true,
-          async: true,
-          // Changed after script load
-          callback: () => {
-            if (!window?.flowbox) {
-              const f = function() {
-                f.q.push(arguments);
-              };
-              f.q = [];
-              window.flowbox = f;
-            }
-            this.isFlowboxScriptLoaded = true;
-          }
-        }
-      ]
-    };
-  }
 };
 </script>
 <style lang="scss">

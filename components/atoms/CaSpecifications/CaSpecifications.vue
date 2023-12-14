@@ -33,24 +33,24 @@ export default {
     // Array of parameter groups
     specificationGroups: {
       type: Array,
-      required: true
+      required: true,
     },
     // Tag name for group name
     groupNameTagName: {
       type: String,
-      default: 'h3'
-    }
+      default: 'h3',
+    },
   },
   data: () => ({}),
   computed: {
     // @vuese
     // The specification groups but with empty groups removed
     groups() {
-      return this.specificationGroups.filter(group => {
+      return this.specificationGroups.filter((group) => {
         const parameters = this.getGroupedParameters(group.parameters);
         return parameters.length > 0;
       });
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -60,20 +60,20 @@ export default {
     // @arg parameters (Array)
     getGroupedParameters(parameters) {
       const labels = [
-        ...new Set(parameters.filter(i => i.show).map(i => i.name))
+        ...new Set(parameters.filter((i) => i.show).map((i) => i.name)),
       ];
-      return labels.map(i => {
+      return labels.map((i) => {
         const value = parameters
-          .filter(ii => ii.name === i)
-          .map(ii => ii.value)
+          .filter((ii) => ii.name === i)
+          .map((ii) => ii.value)
           .join(', ');
         return {
           name: i,
-          value
+          value,
         };
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

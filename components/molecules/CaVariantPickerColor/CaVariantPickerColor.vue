@@ -29,7 +29,7 @@ export default {
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({
-    baseClass: 'ca-variant-picker-color'
+    baseClass: 'ca-variant-picker-color',
   }),
   computed: {},
   watch: {},
@@ -39,8 +39,8 @@ export default {
       return variant.attributes !== null && variant.attributes[0].value
         ? variant.attributes[0].value
         : 'FFF';
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

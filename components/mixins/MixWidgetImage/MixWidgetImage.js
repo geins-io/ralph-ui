@@ -10,18 +10,18 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
+      required: true,
     },
     // Sizes attribute for widget image
     imageSizes: {
       type: String,
-      required: true
+      required: true,
     },
     // Image ratios
     imageRatios: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
@@ -65,7 +65,7 @@ export default {
     // The current largest size for the image, object containing height and width
     // @type Object
     currentSize() {
-      return this.imageRatios.find(item => item.fileName === this.filename)
+      return this.imageRatios.find((item) => item.fileName === this.filename)
         ?.largestSize;
     },
     // @vuese
@@ -81,9 +81,9 @@ export default {
     // @type Boolean
     fullWidth() {
       return this.configuration.classNames === 'full';
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };

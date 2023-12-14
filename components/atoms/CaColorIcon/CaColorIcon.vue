@@ -3,7 +3,7 @@
     class="ca-color-icon"
     :class="modifiers"
     :style="'background-color:#' + hexColor"
-  ></span>
+  />
 </template>
 <script>
 // @group Atoms
@@ -17,7 +17,7 @@ export default {
     // Hex color to be displayed
     hexColor: {
       type: String,
-      required: true
+      required: true,
     },
     // Size of circle
     size: {
@@ -25,20 +25,20 @@ export default {
       default: 'small',
       validator(value) {
         return ['small', 'big'].includes(value);
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'ca-color-icon--big': this.size === 'big'
+        'ca-color-icon--big': this.size === 'big',
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

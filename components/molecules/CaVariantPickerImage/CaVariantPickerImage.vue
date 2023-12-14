@@ -16,7 +16,7 @@
         type="product"
         :size-array="
           $config.imageSizes.product.filter(
-            item => parseInt(item.descriptor) <= 180
+            (item) => parseInt(item.descriptor) <= 180,
           )
         "
         :alt="variant.alias"
@@ -38,12 +38,12 @@ export default {
   mixins: [MixVariantPicker],
   props: {},
   data: () => ({
-    baseClass: 'ca-variant-picker-image'
+    baseClass: 'ca-variant-picker-image',
   }),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

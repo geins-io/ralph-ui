@@ -9,13 +9,11 @@
     <span v-if="showText" class="ca-favorites__text only-computer">
       {{ $t('FAVORITES_LABEL') }} ({{ favoritesQty }})
     </span>
-    <client-only>
-      <CaNotificationBadge
-        class="ca-favorites__qty"
-        :class="{ 'only-mobile': showText }"
-        :number="favoritesQty"
-      />
-    </client-only>
+    <CaNotificationBadge
+      class="ca-favorites__qty"
+      :class="{ 'only-mobile': showText }"
+      :number="favoritesQty"
+    />
   </NuxtLink>
 </template>
 <script>
@@ -32,24 +30,24 @@ export default {
     // Show 'my favorites' text next to heart
     showText: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {
     modifiers() {
       return {
-        'only-mobile': this.showText
+        'only-mobile': this.showText,
       };
     },
     favoritesQty() {
       return this.favorites.length || 0;
     },
-    ...mapState(['favorites'])
+    ...mapState(['favorites']),
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

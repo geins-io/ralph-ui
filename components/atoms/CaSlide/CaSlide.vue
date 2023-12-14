@@ -8,7 +8,7 @@
     @pointercancel="gestureCancel"
     @dragstart.prevent
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -23,25 +23,25 @@ export default {
     // Order index of the slide
     slideIndex: {
       type: Number,
-      required: true
+      required: true,
     },
     // SlideMeta sent from Slider component containeng currentSlide index
     slideMeta: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     tracking: false,
     start: {
       x: 0,
-      t: 0
+      t: 0,
     },
     end: {
-      x: 0
+      x: 0,
     },
     flickThresholdDistance: 10,
-    flickThresholdTime: 300
+    flickThresholdTime: 300,
   }),
   computed: {
     isCurrentSlide() {
@@ -51,9 +51,9 @@ export default {
     },
     modifiers() {
       return {
-        'ca-slide--current': this.isCurrentSlide
+        'ca-slide--current': this.isCurrentSlide,
       };
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -85,8 +85,8 @@ export default {
     },
     gestureCancel() {
       this.tracking = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

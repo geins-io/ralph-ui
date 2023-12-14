@@ -29,8 +29,8 @@ export default {
   props: {
     isFirst: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -40,11 +40,11 @@ export default {
       } else {
         return 'lazy';
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

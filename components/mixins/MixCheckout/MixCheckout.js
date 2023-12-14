@@ -16,8 +16,8 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // message: `''`
 // pickupPoint: `''`,
 // externalShippingId: `''`,
-// udcValid: `false`
-// udcDataSet: `false`
+// nshiftValid: `false`
+// nshiftDataSet: `false`
 // paymentId: `vm.$config.defaultPaymentId`
 // updateDelay: 150`
 // updateTimeout: `null`
@@ -28,7 +28,7 @@ export default {
   name: 'MixCheckout',
   mixins: [MixPromiseQueue, MixApolloRefetch],
   props: {},
-  data: vm => ({
+  data: (vm) => ({
     debug: false,
     cartLoading: true,
     checkoutLoading: false,
@@ -38,22 +38,24 @@ export default {
     message: '',
     pickupPoint: '',
     externalShippingId: '',
-    udcValid: false,
-    udcDataSet: false,
+    nshiftValid: false,
+    nshiftDataSet: false,
     paymentId: vm.$config.checkout.defaultPaymentId,
     shippingId: vm.$config.checkout.defaultShippingId,
     updateDelay: 150,
     updateTimeout: null,
     activeElement: null,
     frameLoading: false,
-    forceExternalCheckoutReset: false
+    forceExternalCheckoutReset: false,
   }),
   computed: {
     // @vuese
     // A list of accepted consents
     // @type Array
     acceptedConsents() {
-      return this.checkout.consents?.filter(i => i.checked).map(i => i.type);
+      return this.checkout.consents
+        ?.filter((i) => i.checked)
+        .map((i) => i.type);
     },
     // @vuese
     // The checkout input object prepared for the API
@@ -134,7 +136,7 @@ export default {
     // The selected payment option
     // @type Object
     selectedPaymentOption() {
-      return this.checkout?.paymentOptions?.find(i => i.isSelected);
+      return this.checkout?.paymentOptions?.find((i) => i.isSelected);
     },
     // @vuese
     // The current payment type
@@ -147,11 +149,11 @@ export default {
     // @type Array
     selectableMarkets() {
       return this.markets
-        .filter(market => !market.virtual)
-        .map(market => {
+        .filter((market) => !market.virtual)
+        .map((market) => {
           return {
             label: market.country.name,
-            value: market.alias
+            value: market.alias,
           };
         });
     },
@@ -162,17 +164,17 @@ export default {
       return this.externalShippingFee !== null && this.externalShippingFee >= 0;
     },
     ...mapState({
-      markets: state => state.channel.markets,
-      currentMarket: state => state.channel.currentMarket,
-      checkoutMarket: state => state.channel.checkoutMarket,
-      customerType: state => state.customerType,
-      cart: state => state.cart,
-      externalShippingFee: state => state.checkout.externalShippingFee,
-      merchantData: state => state.checkout.merchantData
+      markets: (state) => state.channel.markets,
+      currentMarket: (state) => state.channel.currentMarket,
+      checkoutMarket: (state) => state.channel.checkoutMarket,
+      customerType: (state) => state.customerType,
+      cart: (state) => state.cart,
+      externalShippingFee: (state) => state.checkout.externalShippingFee,
+      merchantData: (state) => state.checkout.merchantData,
     }),
     ...mapGetters({
-      checkoutMarketObj: 'channel/checkoutMarketObj'
-    })
+      checkoutMarketObj: 'channel/checkoutMarketObj',
+    }),
   },
   watch: {
     async 'cart.data'(newVal, oldVal) {
@@ -181,7 +183,7 @@ export default {
         oldVal &&
         (await this.$store.dispatch('cart/itemsChanged', {
           new: newVal,
-          old: oldVal
+          old: oldVal,
         }))
       ) {
         this.shippingLoading = true;
@@ -191,7 +193,7 @@ export default {
     'checkout.paymentOptions'(newVal) {
       if (newVal && newVal.length) {
         let availableOptionSelected = false;
-        newVal.forEach(i => {
+        newVal.forEach((i) => {
           if (i.id === this.paymentId) {
             availableOptionSelected = true;
           }
@@ -222,20 +224,20 @@ export default {
         if (newVal?.currency?.code === oldVal?.currency?.code) {
           this.createOrUpdateCheckout('market changed');
         }
-      }
+      },
     },
     externalShippingFee(newVal, oldVal) {
       if (newVal !== oldVal && this.externalShippingFeeSet) {
         this.setCartShippingFee(newVal);
       }
-    }
+    },
   },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
     }
     this.$store.dispatch('events/push', {
-      type: 'checkout:impression'
+      type: 'checkout:impression',
     });
   },
   beforeDestroy() {
@@ -259,15 +261,15 @@ export default {
         }
         this.updateDelay = 150;
         this.checkoutLoading = true;
-        if (this.$refs.udc) {
-          this.$refs.udc.disable();
+        if (this.$refs.nshift) {
+          this.$refs.nshift.disable();
         }
         if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
           this.$refs.externalcheckout.suspend();
         }
         const vars = {
           cartId: this.$store.getters['cart/id'],
-          checkoutMarketId: this.checkoutMarket
+          checkoutMarketId: this.checkoutMarket,
         };
         if (Object.keys(this.checkoutInput).length) {
           vars.checkout = this.checkoutInput;
@@ -277,9 +279,9 @@ export default {
             .mutate({
               mutation: createOrUpdateCheckoutMutation,
               variables: vars,
-              fetchPolicy: 'no-cache'
+              fetchPolicy: 'no-cache',
             })
-            .then(result => {
+            .then((result) => {
               this.checkout = result.data.createOrUpdateCheckout;
               this.updateCart(this.checkout.cart);
               this.checkoutLoading = false;
@@ -288,11 +290,11 @@ export default {
               this.frameLoading = false;
               this.$store.dispatch('events/push', {
                 type: 'checkout:update',
-                data: { checkout: this.checkout }
+                data: { checkout: this.checkout },
               });
               this.$nextTick(() => {
-                if (this.$refs.udc && this.$refs.udc.widget) {
-                  this.$refs.udc.enable();
+                if (this.$refs.nshift && this.$refs.nshift.widget) {
+                  this.$refs.nshift.enable();
                 }
                 if (this.$refs.externalcheckout) {
                   if (
@@ -307,10 +309,10 @@ export default {
                 }
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.$nuxt.error({
                 statusCode: error.statusCode,
-                message: error
+                message: error,
               });
             });
 
@@ -324,7 +326,7 @@ export default {
       if (
         await this.$store.dispatch('cart/changed', {
           new: cart,
-          old: this.cart.data
+          old: this.cart.data,
         })
       ) {
         this.$store.dispatch('cart/update', cart);
@@ -355,10 +357,10 @@ export default {
           variables: {
             cartId: this.$store.getters['cart/id'],
             checkoutMarketId: this.checkoutMarket,
-            checkout: this.checkoutInput
-          }
+            checkout: this.checkoutInput,
+          },
         })
-        .then(result => {
+        .then((result) => {
           if (
             result?.data?.placeOrder &&
             result.data.placeOrder.status === 'completed'
@@ -376,14 +378,14 @@ export default {
             this.$refs.checkoutCarismar.showErrorFeedback();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
     // @vuese
-    // Initialize UDC
+    // Initialize Nshift
     // @arg zip (String)
-    initUDC(zip) {
+    initNshift(zip) {
       this.shippingLoading = true;
       if (this.checkout.billingAddress) {
         this.checkout.billingAddress.zip = zip;
@@ -397,21 +399,21 @@ export default {
           city: '',
           entryCode: '',
           mobile: '',
-          company: ''
+          company: '',
         };
       }
-      this.createOrUpdateCheckout('init UDC');
+      this.createOrUpdateCheckout('init nShift');
     },
     // @vuese
-    // UDC callback handler
+    // Nshift callback handler
     // @arg data (Object)
-    setUDCdata(data) {
+    setNshiftData(data) {
       this.message = data.deliveryData;
       this.pickupPoint = data.pickupPoint;
       this.externalShippingId = data.selectedOptionId;
       this.cartLoading = true;
-      this.udcDataSet = true;
-      this.createOrUpdateCheckout('set UDC data');
+      this.nshiftDataSet = true;
+      this.createOrUpdateCheckout('set nShift data');
     },
     // @vuese
     // Handling the payment selection
@@ -443,27 +445,27 @@ export default {
       const vars = {
         cartId: this.$store.getters['cart/id'],
         checkoutMarketId: this.checkoutMarket,
-        shippingFee: fee
+        shippingFee: fee,
       };
 
       this.$apollo
         .mutate({
           mutation: setCartShippingFeeMutation,
           variables: vars,
-          fetchPolicy: 'no-cache'
+          fetchPolicy: 'no-cache',
         })
-        .then(result => {
+        .then((result) => {
           if (result?.data?.setCartShippingFee?.cart) {
             this.updateCart(result.data.setCartShippingFee.cart);
             this.cartLoading = false;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({
             statusCode: error.statusCode,
-            message: error
+            message: error,
           });
         });
-    }
-  }
+    },
+  },
 };

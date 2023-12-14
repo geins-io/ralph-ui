@@ -1,5 +1,5 @@
 <template>
-  <div class="ComponentNameKebabCase"></div>
+  <div class="ComponentNameKebabCase" />
 </template>
 <script>
 // @group ComponentTypeCamelCase
@@ -14,7 +14,7 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

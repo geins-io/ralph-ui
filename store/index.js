@@ -1,4 +1,3 @@
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -13,7 +12,7 @@ export const state = () => ({
   categoryTree: [],
   headerHidden: false,
   currentRouteName: '',
-  currentPath: ''
+  currentPath: '',
 });
 
 export const mutations = {
@@ -30,6 +29,9 @@ export const mutations = {
   },
   removeFavorite(state, productId) {
     state.favorites.splice(state.favorites.indexOf(productId), 1);
+  },
+  setFavorites(state, favorites) {
+    state.favorites = favorites;
   },
   setCustomerType(state, type) {
     state.customerType = type;
@@ -57,9 +59,6 @@ export const mutations = {
     state.config.productListDefaultSort = config.productListDefaultSort;
     state.config.customSortRoutes = config.customSortRoutes;
     state.config.customerTypes = config.customerTypes;
-    state.config.nostoAccountId = config.nostoAccountId;
-    state.config.isNostoActive = config.isNostoActive;
-    state.config.nostoAccountAppsKey = config.nostoAccountAppsKey;
   },
   setAncientBrowser(state, browser) {
     state.ancientBrowser = browser === 'Internet Explorer';
@@ -72,7 +71,7 @@ export const mutations = {
   },
   setCurrentPath(state, path) {
     state.currentPath = path;
-  }
+  },
 };
 
 export const actions = {
@@ -85,13 +84,13 @@ export const actions = {
       commit('removeFavorite', productId);
       dispatch('events/push', {
         type: 'favorite:remove',
-        data: { productId, product }
+        data: { productId, product },
       });
     } else if (productId) {
       commit('addFavorite', productId);
       dispatch('events/push', {
         type: 'favorite:add',
-        data: { productId, product }
+        data: { productId, product },
       });
     }
   },
@@ -105,7 +104,7 @@ export const actions = {
           window.cancelAnimationFrame(timeout);
         }
         // Setup the new requestAnimationFrame()
-        timeout = window.requestAnimationFrame(function() {
+        timeout = window.requestAnimationFrame(function () {
           // Set scroll top
           const startScrollTop = context.state.scrollTop;
           context.commit('setScrollTop');
@@ -118,10 +117,10 @@ export const actions = {
 
             const stopScrollTop = context.state.scrollTop;
             const mainLayout = document.querySelector(
-              '.ca-layout-default__main'
+              '.ca-layout-default__main',
             );
             const mainLayoutOffset = parseInt(
-              getComputedStyle(mainLayout).paddingTop
+              getComputedStyle(mainLayout).paddingTop,
             );
             const isHeaderHidden =
               startScrollTop > mainLayoutOffset &&
@@ -130,7 +129,7 @@ export const actions = {
           }
         });
       },
-      { passive: true }
+      { passive: true },
     );
   },
   initResizeListener(context) {
@@ -143,12 +142,12 @@ export const actions = {
           window.cancelAnimationFrame(timeout);
         }
         // Setup the new requestAnimationFrame()
-        timeout = window.requestAnimationFrame(function() {
+        timeout = window.requestAnimationFrame(function () {
           // Run resize functions
           context.commit('setViewportWidth');
         });
       },
-      { passive: true }
+      { passive: true },
     );
   },
   // Set scrollbar width, used to keep gap when disabeling body scroll
@@ -157,7 +156,7 @@ export const actions = {
       window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.style.setProperty(
       '--scrollbar-width',
-      scrollbarWidth + 'px'
+      scrollbarWidth + 'px',
     );
   },
   // Set viewport height, used to know the actual viewpoer height on mobile
@@ -172,30 +171,79 @@ export const actions = {
   changeCustomerType({ state, commit, dispatch }, type) {
     const currentType = type ?? 'PERSON';
     const typeObj = state.config.customerTypes.find(
-      i => i.type === currentType
+      (i) => i.type === currentType,
     );
     commit('setCustomerType', typeObj.type);
     commit('setVatIncluded', typeObj.vat);
     dispatch('events/push', {
-      type: 'customer-type:change'
+      type: 'customer-type:change',
     });
   },
   setCustomerTypeCookie({ state }, customerType) {
     if (customerType) {
       this.$cookies.set('ralph-user-type', customerType, {
         path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
+        expires: new Date(new Date().getTime() + 31536000000),
       });
     }
   },
   clearAndRefetchApollo({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
-    eventbus.$emit('refetch-apollo-queries');
+    this.app.$ralphBus.$emit('refetch-apollo-queries');
     dispatch('cart/get');
+  },
+  persistStates({ state }, statesToPersist) {
+    let persistString = '';
+
+    statesToPersist?.forEach((stateToPersist) => {
+      const valueToPersist = stateToPersist.includes('/')
+        ? state[stateToPersist.split('/')[0]][stateToPersist.split('/')[1]]
+        : state[stateToPersist];
+
+      persistString +=
+        stateToPersist + '=' + JSON.stringify(valueToPersist) + ';';
+    });
+
+    if (persistString === '') {
+      return;
+    }
+    this.$cookies.set('ralph-persisted-states', persistString, {
+      path: '/',
+      expires: new Date(new Date().getTime() + 31536000000),
+    });
+  },
+  resetPersistedStates({ commit }, persistedStates) {
+    if (!persistedStates) {
+      return;
+    }
+    const states = persistedStates.split(';');
+
+    states.forEach((ps) => {
+      let name = '';
+      let module = '';
+      const [stateName, value] = ps.split('=');
+
+      if (stateName.includes('/')) {
+        [module, name] = stateName.split('/');
+      } else {
+        name = stateName;
+      }
+      if (!name) {
+        return;
+      }
+      const mutation = 'set' + name.charAt(0).toUpperCase() + name.slice(1);
+
+      const val = JSON.parse(value);
+      if (module) {
+        commit(`${module}/${mutation}`, val);
+      } else {
+        commit(mutation, val);
+      }
+    });
   },
   nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
     this.$appInsights?.trackTrace({
-      message: 'nuxtServerInit'
+      message: 'nuxtServerInit',
     });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
@@ -203,7 +251,7 @@ export const actions = {
 
     dispatch('list/saveQuerySelection', {
       query: route.query,
-      setPage: true
+      setPage: true,
     });
 
     if (this.$ua.deviceType() === 'pc') {
@@ -213,13 +261,18 @@ export const actions = {
 
     const parsed = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
 
+    // Reset persisted states
+    const persistedStates = parsed['ralph-persisted-states'] || '';
+
+    dispatch('resetPersistedStates', persistedStates);
+
     // Set current market from cookie if exists, otherwise fallback market
     const currentMarket =
       parsed['ralph-selected-market'] ?? this.$config.fallbackMarketAlias;
     const checkoutMarket = parsed['ralph-checkout-market'] ?? currentMarket;
 
     // Set fallback markets for first routing (before API call is done)
-    commit('channel/setMarkets', this.$config.markets);
+    commit('channel/setMarkets', this.$config.fallbackMarkets);
     // Get markets from API
     dispatch('channel/getMarkets');
     // Set current market
@@ -237,17 +290,17 @@ export const actions = {
     // Set cart id from cookie and get cart
     const cartId = parsed['ralph-cart'] || '';
     dispatch('cart/get', cartId);
-  }
+  },
 };
 
 export const getters = {
-  siteIsAtTop: state => {
+  siteIsAtTop: (state) => {
     return state.scrollTop <= state.config.siteTopThreshold;
   },
-  viewportComputer: state => {
+  viewportComputer: (state) => {
     return state.viewportWidth >= state.config.breakpoints.laptop;
   },
-  viewport: state => {
+  viewport: (state) => {
     if (state.viewportWidth < state.config.breakpoints.tablet) {
       return 'phone';
     } else if (state.viewportWidth < state.config.breakpoints.laptop) {
@@ -260,17 +313,17 @@ export const getters = {
       return 'desktopBig';
     }
   },
-  isFavorite: state => prodAlias => {
+  isFavorite: (state) => (prodAlias) => {
     return state.favorites.includes(prodAlias);
   },
-  getSellingPrice: state => price => {
+  getSellingPrice: (state) => (price) => {
     return state.vatIncluded
       ? price.sellingPriceIncVatFormatted
       : price.sellingPriceExVatFormatted;
   },
-  getRegularPrice: state => price => {
+  getRegularPrice: (state) => (price) => {
     return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
-  }
+  },
 };

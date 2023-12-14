@@ -1,0 +1,78 @@
+.ca-list-settings {
+  $block: &;
+  $minus-margin: calc(-1 * #{$default-spacing}/ 2);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 $minus-margin $default-spacing;
+  margin-top: $px20;
+
+  @include bp(laptop) {
+    margin: 0 0 $default-spacing;
+  }
+
+  &__filter-toggle {
+    width: 50%;
+    height: 46px;
+    border: $border-light;
+    background-color: $c-lightest-gray;
+    padding: 0 $px16;
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon-text {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  &__filter-button-wrap {
+    display: flex;
+  }
+
+  &__active-filters {
+    margin: 0 0 0 rem-calc(6px);
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+    margin-right: $px16;
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    @include bp(laptop) {
+      order: 2;
+      width: auto;
+    }
+  }
+
+  &__sort-select.ca-input-select {
+    width: 100%;
+
+    .ca-input-select {
+      &__select-wrap {
+        height: 46px;
+      }
+    }
+
+    @include bp(laptop) {
+      width: 165px;
+    }
+  }
+
+  &__active-products {
+    margin-left: calc(#{$default-spacing}/ 2);
+    margin-top: $px12;
+
+    @include bp(laptop) {
+      order: 1;
+    }
+  }
+}

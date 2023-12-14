@@ -3,7 +3,7 @@
     class="ca-flag"
     :class="modifiers"
     :style="'background-image:url(' + flagImage + ');'"
-  ></span>
+  />
 </template>
 <script>
 // @group Atoms
@@ -16,7 +16,7 @@ export default {
     // The [ISO 3166-1-alpha-2 code](https://www.iso.org/obp/ui/#search/code/) for the country
     country: {
       type: String,
-      required: true
+      required: true,
     },
     // Set the flags shape
     shape: {
@@ -26,8 +26,8 @@ export default {
       default: 'default',
       validator(value) {
         return ['default', 'square', 'circle'].includes(value);
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   computed: {
@@ -37,18 +37,18 @@ export default {
     modifiers() {
       return {
         'ca-flag--square': this.squared,
-        'ca-flag--circle': this.shape === 'circle'
+        'ca-flag--circle': this.shape === 'circle',
       };
     },
     flagImage() {
       const sizeFolder = this.squared ? '1x1' : '4x3';
       const fileName = this.country.toLowerCase() + '.svg';
       return '/flags/' + sizeFolder + '/' + fileName;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

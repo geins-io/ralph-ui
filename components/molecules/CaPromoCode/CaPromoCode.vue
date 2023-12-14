@@ -58,32 +58,32 @@ export default {
     // The active promo code, if any
     activePromoCode: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     code: '',
     loading: false,
     codeValid: true,
     errorMessage: '',
     currentFeedback: {
       type: 'info',
-      message: ''
+      message: '',
     },
     feedback: {
       codeActivated: {
         type: 'success',
-        message: vm.$t('PROMO_CODE_ACTIVATED')
+        message: vm.$t('PROMO_CODE_ACTIVATED'),
       },
       requirementsNotMet: {
         type: 'error',
-        message: vm.$t('PROMO_CODE_ERROR_REQUIREMENTS')
+        message: vm.$t('PROMO_CODE_ERROR_REQUIREMENTS'),
       },
       invalid: {
         type: 'error',
-        message: vm.$t('PROMO_CODE_ERROR_INVALID')
-      }
-    }
+        message: vm.$t('PROMO_CODE_ERROR_INVALID'),
+      },
+    },
   }),
   computed: {},
   watch: {
@@ -91,7 +91,7 @@ export default {
       if (newVal !== oldVal && !this.codeValid) {
         this.codeValid = true;
       }
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -104,11 +104,11 @@ export default {
           mutation: promoCodeMutation,
           variables: {
             id: this.$store.getters['cart/id'],
-            promoCode: this.code
+            promoCode: this.code,
           },
-          errorPolicy: 'all'
+          errorPolicy: 'all',
         })
-        .then(result => {
+        .then((result) => {
           this.loading = false;
           if (!result.errors) {
             this.$store.dispatch('cart/update', result.data.setCartPromoCode);
@@ -125,7 +125,7 @@ export default {
             this.$refs.feedback.show();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
@@ -135,8 +135,8 @@ export default {
       this.$refs.feedback.hide();
       this.code = '';
       this.setPromoCode(null, true);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

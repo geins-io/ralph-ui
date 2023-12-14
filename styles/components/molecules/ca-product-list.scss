@@ -4,8 +4,7 @@ $list-column-count-desktop: 5 !default;
 
 .ca-product-list {
   display: grid;
-  column-gap: $list-column-spacing;
-  row-gap: $list-row-spacing;
+  gap: $list-row-spacing $list-column-spacing;
   grid-template-columns: repeat($list-column-count, 1fr);
 
   @include bp(tablet) {

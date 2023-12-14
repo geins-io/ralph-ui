@@ -34,18 +34,12 @@ export default {
         return 'CaWidgetRichText';
       } else if (this.type === 'Flowbox') {
         return 'CaWidgetFlowbox';
-      } else if (
-        this.type === 'Nosto feed' &&
-        this.$store.getters['nosto/isNostoActive'] &&
-        this.$config.nostoAccountId
-      ) {
-        return 'CaNostoSection';
       } else {
         return '';
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };

@@ -21,14 +21,14 @@ export default {
     // Menu location id
     menuLocationId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data: () => ({}),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

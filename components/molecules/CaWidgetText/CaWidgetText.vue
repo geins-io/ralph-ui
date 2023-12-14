@@ -33,8 +33,8 @@ export default {
     // Widget configuration object
     configuration: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({}),
   computed: {
@@ -52,7 +52,7 @@ export default {
         default:
           return '';
       }
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -70,8 +70,8 @@ export default {
       if (id === 3) {
         return 'div';
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

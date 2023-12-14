@@ -15,7 +15,7 @@
             type="product"
             :size-array="
               $config.imageSizes.product.filter(
-                item => parseInt(item.descriptor) <= 180
+                (item) => parseInt(item.descriptor) <= 180,
               )
             "
             :alt="product.name"
@@ -68,13 +68,13 @@ export default {
     // The product data
     product: {
       type: Object,
-      required: true
+      required: true,
     },
     // Product card design option
     useProductCard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({}),
   computed: {
@@ -83,7 +83,7 @@ export default {
     // @type String
     skuId() {
       return this.product.skus.length > 1 ? '' : this.product.skus[0].skuId;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -97,8 +97,8 @@ export default {
       } else {
         this.$router.push(this.product.canonicalUrl);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

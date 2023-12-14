@@ -8,8 +8,8 @@ export const state = () => ({
     skus: [],
     price: [],
     discount: [],
-    parameters: {}
-  }
+    parameters: {},
+  },
 });
 
 export const mutations = {
@@ -32,9 +32,9 @@ export const mutations = {
       skus: [],
       price: [],
       discount: [],
-      parameters: {}
+      parameters: {},
     };
-  }
+  },
 };
 
 export const actions = {
@@ -96,7 +96,7 @@ export const actions = {
         const groupName = group.substring(2);
         selection.parameters[groupName] = await dispatch(
           'processUrlParams',
-          data.query[group].split(',')
+          data.query[group].split(','),
         );
       }
     }
@@ -121,12 +121,12 @@ export const actions = {
     commit('setQuerySelection', selection);
   },
   processUrlParams({ context }, array) {
-    return array.map(i => {
+    return array.map((i) => {
       const label = i.split('~')[0];
       const id = i.split('~')[1];
       return { id, label };
     });
-  }
+  },
 };
 
 export const getters = {
@@ -137,9 +137,9 @@ export const getters = {
     return state.backNavigated;
   },
   customDefaultSort(state, getters, rootState) {
-    const customRoute = rootState.config.customSortRoutes?.find(route =>
-      rootState.currentRouteName?.includes(route.name)
+    const customRoute = rootState.config.customSortRoutes?.find((route) =>
+      rootState.currentRouteName?.includes(route.name),
     );
     return customRoute ? customRoute.sort : null;
-  }
+  },
 };

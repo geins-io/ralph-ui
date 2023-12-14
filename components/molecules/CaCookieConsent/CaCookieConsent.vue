@@ -37,12 +37,12 @@ export default {
   mixins: [],
   props: {},
   data: () => ({
-    hidden: true
+    hidden: true,
   }),
   computed: {
     buttonType() {
       return this.$store.getters.viewport === 'phone' ? 'full-width' : '';
-    }
+    },
   },
   watch: {},
   mounted() {
@@ -60,11 +60,11 @@ export default {
     setCookie(consent) {
       this.$cookies.set('ralph-cookie-consent', consent, {
         path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
+        expires: new Date(new Date().getTime() + 31536000000),
       });
       this.hide();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

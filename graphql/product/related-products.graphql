@@ -2,13 +2,13 @@
 #import "product/price.graphql"
 
 query relatedProducts(
-  $prodAlias: String!
+  $alias: String!
   $channelId: String
   $languageId: String
   $marketId: String
 ) {
   relatedProducts(
-    alias: $prodAlias
+    alias: $alias
     channelId: $channelId
     languageId: $languageId
     marketId: $marketId

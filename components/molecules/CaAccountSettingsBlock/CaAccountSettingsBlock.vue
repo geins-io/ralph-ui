@@ -1,7 +1,9 @@
 <template>
   <div class="ca-account-settings-block">
     <div class="ca-account-settings-block__header">
-      <h2 class="ca-account-settings-block__title">{{ title }}</h2>
+      <h2 class="ca-account-settings-block__title">
+        {{ title }}
+      </h2>
       <button
         v-if="editable"
         type="button"
@@ -12,7 +14,7 @@
       </button>
     </div>
     <div class="ca-account-settings-block__content">
-      <slot name="content" :edit-mode="editMode"></slot>
+      <slot name="content" :edit-mode="editMode" />
       <CaButton
         v-if="editMode"
         class="ca-account-settings-block__save"
@@ -37,36 +39,36 @@ export default {
     // Block title
     title: {
       type: String,
-      required: true
+      required: true,
     },
     // Is hte blocks content editable?
     editable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Shows a loading indicator on the save-button if true
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    editMode: false
+    editMode: false,
   }),
   computed: {
     toggleText() {
       return this.editMode
         ? this.$t('ACCOUNT_SETTINGS_CANCEL')
         : this.$t('ACCOUNT_SETTINGS_EDIT');
-    }
+    },
   },
   watch: {},
   mounted() {},
   methods: {
     toggleEditMode() {
       this.editMode = !this.editMode;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

@@ -12,7 +12,7 @@ export default {
   data: () => ({
     currencyDisplay: 'symbol',
     minDecimals: 0,
-    maxDecimals: 0
+    maxDecimals: 0,
   }),
   computed: {
     // @vuese
@@ -26,7 +26,7 @@ export default {
     // @type String
     currency() {
       return this.$store.getters['channel/currentCurrency'];
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -40,7 +40,7 @@ export default {
         currency: this.currency,
         currencyDisplay: this.currencyDisplay,
         minimumFractionDigits: this.minDecimals,
-        maximumFractionDigits: this.maxDecimals
+        maximumFractionDigits: this.maxDecimals,
       }).format(sum);
     },
     // @vuese
@@ -48,6 +48,6 @@ export default {
     // @arg Number
     formatNumber(num) {
       return new Intl.NumberFormat(this.langCode).format(num);
-    }
-  }
+    },
+  },
 };

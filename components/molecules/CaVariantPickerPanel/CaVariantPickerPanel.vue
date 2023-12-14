@@ -6,7 +6,7 @@
       class="ca-variant-picker-panel__trigger"
       @click="
         $store.commit('contentpanel/open', {
-          name: 'variant-picker-' + variantsLevel
+          name: 'variant-picker-' + variantsLevel,
         })
       "
     >
@@ -77,16 +77,17 @@ export default {
     renderMode: {
       type: String,
       default: 'both',
-      validator: value => ['both', 'only-panel', 'only-button'].includes(value)
-    }
+      validator: (value) =>
+        ['both', 'only-panel', 'only-button'].includes(value),
+    },
   },
   data: () => ({
-    baseClass: 'ca-variant-picker-panel'
+    baseClass: 'ca-variant-picker-panel',
   }),
   computed: {},
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">

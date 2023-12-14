@@ -4,7 +4,7 @@
       class="ca-country-selector-panel"
       @click="
         $store.commit('contentpanel/open', {
-          name: 'country-selector'
+          name: 'country-selector',
         })
       "
     >
@@ -30,7 +30,7 @@
           class="ca-country-selector-panel__choice"
           :class="{
             'ca-country-selector-panel__choice--disabled':
-              market.alias === $store.state.marketId
+              market.alias === $store.state.marketId,
           }"
           @click="setMarket(market.alias)"
         >
@@ -54,7 +54,7 @@ export default {
   computed: {
     selectedMarket() {
       const selectedMarket = this.markets?.find(
-        market => market.alias === this.currentMarket
+        (market) => market.alias === this.currentMarket,
       );
       if (selectedMarket) {
         return selectedMarket;
@@ -65,12 +65,12 @@ export default {
       return this.selectedMarket?.country?.name;
     },
     selectableMarkets() {
-      return this.markets.filter(market => !market.onlyDisplayInCheckout);
+      return this.markets.filter((market) => !market.onlyDisplayInCheckout);
     },
     ...mapState({
-      markets: state => state.channel.markets,
-      currentMarket: state => state.channel.currentMarket
-    })
+      markets: (state) => state.channel.markets,
+      currentMarket: (state) => state.channel.currentMarket,
+    }),
   },
   watch: {},
   mounted() {},
@@ -88,8 +88,8 @@ export default {
     setMarket(alias) {
       this.$store.dispatch('channel/setCurrentMarket', alias);
       this.$store.commit('contentpanel/close');
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

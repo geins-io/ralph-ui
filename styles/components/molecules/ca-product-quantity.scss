@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .ca-product-quantity {
   $block: &;
 
@@ -6,33 +8,33 @@
       pointer-events: none;
     }
   }
-  
+
   &__input {
     &:focus-visible {
       box-shadow: none;
     }
   }
-  
+
   &--default {
     display: inline-flex;
     border: $border-dark;
     border-radius: $default-radius;
     overflow: hidden;
-  
+
     #{$block}__button {
       @include flex-calign;
-  
+
       background-color: $c-light-gray;
       width: 30px;
       height: 30px;
       text-align: center;
       font-size: 0.9em;
-  
+
       @include bp(laptop) {
         transition: background-color 150ms ease;
-  
+
         &:hover {
-          background-color: lighten($c-light-gray, 1%);
+          background-color: color.adjust($c-light-gray, $lightness: 1%);
         }
       }
     }
@@ -44,14 +46,13 @@
       border-right: $border-dark;
     }
   }
-  
+
   &--stacked {
     height: rem-calc(50);
     width: rem-calc(100);
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  
+    flex-flow: column wrap;
+
     #{$block}__input {
       height: 100%;
       width: 67%;
@@ -62,18 +63,19 @@
       border-top-left-radius: $default-radius;
       border-bottom-left-radius: $default-radius;
     }
-  
+
     #{$block}__button {
       @include flex-calign;
+
       height: 50%;
       width: 33%;
       background-color: $c-light-gray;
       font-size: $font-size-xl;
-  
+
       &--increase {
         border-top-right-radius: $default-radius;
       }
-  
+
       &--decrease {
         border-bottom-right-radius: $default-radius;
       }
@@ -82,11 +84,11 @@
 
   &--rounded {
     display: inline-flex;
-  
+
     #{$block}__button {
-      @include iconCircle;
+      @include icon-circle;
     }
-  
+
     #{$block}__input {
       width: rem-calc(30);
       margin: 0 rem-calc(5);

@@ -1,9 +1,11 @@
 .ca-product-gallery {
   $block: &;
   $grid-gap: rem-calc(15);
+  $minus-margin: calc(-1 * #{$default-spacing}/ 2);
+
   --slider-item-width: 72%;
 
-  margin: 0 -#{$default-spacing/2};
+  margin: 0 $minus-margin;
 
   @include bp(tablet) {
     --slider-item-width: 53%;
@@ -11,6 +13,7 @@
 
   @include bp(laptop) {
     --slider-item-width: 100%;
+
     margin: 0;
   }
 
@@ -36,12 +39,14 @@
 
       position: absolute;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgb(0 0 0 / 10%);
       color: $c-text-inverse;
       font-size: 20px;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 200ms ease, font-size 200ms ease;
+      transition:
+        opacity 200ms ease,
+        font-size 200ms ease;
     }
   }
 
@@ -57,12 +62,18 @@
       opacity: 1;
     }
 
-    &.ca-slide--current {
-      opacity: 1;
+    &.ca-slide {
+      &--current {
+        opacity: 1;
+      }
     }
 
-    .ca-slider__lane--resetting & {
-      transition: none;
+    .ca-slider {
+      &__lane {
+        &--resetting & {
+          transition: none;
+        }
+      }
     }
 
     &:hover {
@@ -88,6 +99,7 @@
 
   &__nav {
     --slider-item-width: calc(100% / 6);
+
     margin: 0 rem-calc(-10);
   }
 
@@ -112,8 +124,9 @@
 
   &__thumbnails {
     margin-top: $grid-gap;
+
     --slider-item-width: calc(100% / 2);
-    
+
     &--grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
