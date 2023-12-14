@@ -16,16 +16,35 @@ Sections to use
 
 ## [21.0.0] - 2023-12-14
 
+This major update will require you to update your storefront to Ralph Storefront v2.0.0.
+
 ### Added
 
 - Support for Node 16 ✨
+- Internal function to persist Vuex state
 
 ### Changed
 
-- Name of package changed from @ralph/ralph-ui to @geins/ralph-ui
+- Changed name of package changed from `@ralph/ralph-ui` to `@geins/ralph-ui`
 - No support for Node 14
 - Updated/Added/Removed dependencies
 - Updated js and scss linting
+- Routing to products is now done programatically instead of using `<NuxtLink>`
+- Function `sizeChangeHandler` in `MixProductPage` is now called `skuChangeHandler`
+- Changed name of `CaUdc` component to `CaNshift`
+- Getting cart on confirm page from `checkout` query instead of `getCart` query
+- Moved changelog to `CHANGELOG.md`
+- Using `asyncData` instead of nuxt apollo module for fetching data on product page
+- Renaming of plugins to kebab-case
+
+### Removed
+
+- Nosto integration
+- Graphql combined query on product page
+
+### Fixed
+
+- Correct 404 handling on product page
 
 ## [20.3.5] - 2023-12-04
 
