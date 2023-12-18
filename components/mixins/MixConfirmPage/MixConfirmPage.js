@@ -102,15 +102,6 @@ export default {
     orderCart() {
       return this.checkoutConfirmData?.cart;
     },
-    // @vuese
-    // Returns true if the cart should be resetted
-    // @type Boolean
-    cartShouldReset() {
-      return (
-        this.cartId === this.$cookies.get('ralph-cart') ||
-        !this.$cookies.get('ralph-cart')
-      );
-    },
   },
   watch: {
     checkoutConfirmData(newVal, oldVal) {
@@ -145,10 +136,10 @@ export default {
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method
     processCartCompletion() {
-      if (!this.orderCart.isCompleted && !process.server) {
-        this.completeCart();
-      } else if (this.orderCart.isCompleted && this.cartShouldReset) {
+      if (this.orderCart.isCompleted) {
         this.$store.dispatch('cart/reset');
+      } else if (!this.orderCart.isCompleted && !process.server) {
+        this.completeCart();
       }
     },
   },
