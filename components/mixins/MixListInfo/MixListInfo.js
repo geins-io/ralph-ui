@@ -11,38 +11,10 @@ export default {
   async asyncData({ error, store, app, redirect, req }) {
     const currentPath = decodeURI(store.state.currentPath);
 
-    let currentAlias = null;
-    let aliasName = '';
-
-    // Support for old /c/ , /b/ and /dc/ routing
-    if (
-      req?.params?.category ||
-      req?.params?.brand ||
-      req?.params?.discountCampaign
-    ) {
-      currentAlias =
-        req.params.category || req.params.brand || req.params.discountCampaign;
-      let type = '';
-      switch (req.params) {
-        case req.params.category:
-          type = 'category';
-          break;
-        case req.params.brand:
-          type = 'brand';
-          break;
-        case req.params.discountCampaign:
-          type = 'discountCampaign';
-          break;
-      }
-      aliasName = type + 'Alias';
-    }
-
     try {
       const client = app.apolloProvider.defaultClient;
       let listPageInfo = null;
-      const variables = currentAlias
-        ? { [aliasName]: currentAlias }
-        : { url: currentPath };
+      const variables = { url: currentPath };
 
       await client
         .query({
