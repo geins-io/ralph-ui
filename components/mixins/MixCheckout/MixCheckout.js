@@ -378,7 +378,7 @@ export default {
               this.checkout.email;
             this.$router.push(confirmUrl);
           } else {
-            this.$refs.checkoutCarismar.showErrorFeedback();
+            this.$refs.checkoutInvoice.showErrorFeedback();
           }
         })
         .catch((error) => {

@@ -1,30 +1,28 @@
 <template>
   <div
-    class="ca-checkout-carismar"
-    :class="{ 'ca-checkout-carismar--loading': loading }"
+    class="ca-checkout-invoice"
+    :class="{ 'ca-checkout-invoice--loading': loading }"
   >
-    <section class="ca-checkout-carismar__section">
-      <h3 class="ca-checkout-carismar__title">
+    <section class="ca-checkout-invoice__section">
+      <h3 class="ca-checkout-invoice__title">
         {{
           checkoutData.addShippingAddress
             ? $t('BILLING_ADDRESS')
             : $t('CHECKOUT_YOUR_INFORMATION')
         }}
       </h3>
-      <p class="ca-checkout-carismar__subtitle">
+      <p class="ca-checkout-invoice__subtitle">
         {{ $t('CHECKOUT_SUBTITLE_COUNTRY_INFO') }}
         <CaFlag :country="currentCountry.code" shape="circle" />
         {{ currentCountry.name }}
       </p>
-      <div
-        class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
-      >
+      <div class="ca-checkout-invoice__row ca-checkout-invoice__row--splitted">
         <CaInputText
           id="email"
           ref="email"
           v-model="checkoutData.email"
           type="email"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="email"
           autocomplete="email"
           :error-message="$t('EMAIL_ERROR_NOT_VALID')"
@@ -36,7 +34,7 @@
           ref="phone"
           v-model="checkoutData.billingAddress.mobile"
           type="tel"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="tel"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -46,13 +44,13 @@
       </div>
       <div
         v-if="!isOrganization && $config.checkout.identityNumber"
-        class="ca-checkout-carismar__row"
+        class="ca-checkout-invoice__row"
       >
         <CaInputText
           id="identityNumber"
           ref="identityNumber"
           v-model="checkoutData.identityNumber"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="personalId"
           :description="$t('CHECKOUT_PERSONAL_ID_DESCRIPTION')"
           :error-message="$t('FEEDBACK_PERSONAL_ID_NOT_VALID')"
@@ -62,13 +60,13 @@
       </div>
       <div
         v-else-if="$config.checkout.identityNumber"
-        class="ca-checkout-carismar__row"
+        class="ca-checkout-invoice__row"
       >
         <CaInputText
           id="identityNumber"
           ref="identityNumber"
           v-model="checkoutData.identityNumber"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           :description="$t('CHECKOUT_ORGANIZATION_ID_DESCRIPTION')"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -76,26 +74,24 @@
           @validation="checkValid"
         />
       </div>
-      <div v-if="isOrganization" class="ca-checkout-carismar__row">
+      <div v-if="isOrganization" class="ca-checkout-invoice__row">
         <CaInputText
           id="companyBilling"
           ref="companyBilling"
           v-model="checkoutData.billingAddress.company"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_COMPANY')"
           @validation="checkValid"
         />
       </div>
-      <div
-        class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
-      >
+      <div class="ca-checkout-invoice__row ca-checkout-invoice__row--splitted">
         <CaInputText
           id="firstNameBilling"
           ref="firstNameBilling"
           v-model="checkoutData.billingAddress.firstName"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="given-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -106,7 +102,7 @@
           id="lastNameBilling"
           ref="lastNameBilling"
           v-model="checkoutData.billingAddress.lastName"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="family-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -114,21 +110,21 @@
           @validation="checkValid"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div class="ca-checkout-invoice__row">
         <CaInputText
           id="careOfBilling"
           v-model="checkoutData.billingAddress.careOf"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :required="false"
           :label="$t('LABEL_CARE_OF')"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div class="ca-checkout-invoice__row">
         <CaInputText
           id="addressBilling"
           ref="addressBilling"
           v-model="checkoutData.billingAddress.addressLine1"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="street-address"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -136,9 +132,7 @@
           @validation="checkValid"
         />
       </div>
-      <div
-        class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
-      >
+      <div class="ca-checkout-invoice__row ca-checkout-invoice__row--splitted">
         <CaInputText
           id="zipBilling"
           ref="zipBilling"
@@ -146,7 +140,7 @@
           validate="empty"
           autocomplete="postal-code"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_ZIP')"
           @validation="checkValid"
         />
@@ -157,25 +151,25 @@
           validate="empty"
           autocomplete="address-level2"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_CITY')"
           @validation="checkValid"
         />
       </div>
-      <div v-if="$config.checkout.entryCode" class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.entryCode" class="ca-checkout-invoice__row">
         <CaInputText
           id="entryCodeBilling"
           v-model="checkoutData.billingAddress.entryCode"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_ENTRY_CODE')"
           :required="false"
         />
       </div>
-      <div v-if="$config.checkout.message" class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.message" class="ca-checkout-invoice__row">
         <CaInputTextarea
           id="message"
           v-model="checkoutData.message"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :description="$t('CHECKOUT_MESSAGE_FIELD_DESCRIPTION')"
           :label="$t('LABEL_ORDER_MESSAGE')"
           :required="false"
@@ -183,7 +177,7 @@
       </div>
       <div
         v-if="$config.checkout.shippingAddress"
-        class="ca-checkout-carismar__row"
+        class="ca-checkout-invoice__row"
       >
         <CaInputCheckbox
           id="addShipping"
@@ -195,37 +189,35 @@
     <SlideUpDown
       :active="checkoutData.addShippingAddress"
       :duration="200"
-      class="ca-checkout-carismar__section ca-checkout-carismar__section--shipping"
+      class="ca-checkout-invoice__section ca-checkout-invoice__section--shipping"
       tag="section"
     >
-      <h3 class="ca-checkout-carismar__title">
+      <h3 class="ca-checkout-invoice__title">
         {{ $t('SHIPPING_ADDRESS') }}
       </h3>
-      <p class="ca-checkout-carismar__subtitle">
+      <p class="ca-checkout-invoice__subtitle">
         {{ $t('CHECKOUT_SUBTITLE_COUNTRY_INFO') }}
         <CaFlag :country="currentCountry.code" shape="circle" />
         {{ currentCountry.name }}
       </p>
-      <div v-if="isOrganization" class="ca-checkout-carismar__row">
+      <div v-if="isOrganization" class="ca-checkout-invoice__row">
         <CaInputText
           id="companyShipping"
           ref="companyShipping"
           v-model="checkoutData.shippingAddress.company"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
           :label="$t('LABEL_COMPANY')"
           @validation="checkValid"
         />
       </div>
-      <div
-        class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
-      >
+      <div class="ca-checkout-invoice__row ca-checkout-invoice__row--splitted">
         <CaInputText
           id="firstNameShipping"
           ref="firstNameShipping"
           v-model="checkoutData.shippingAddress.firstName"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="given-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -236,7 +228,7 @@
           id="lastNameShipping"
           ref="lastNameShipping"
           v-model="checkoutData.shippingAddress.lastName"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="family-name"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -244,21 +236,21 @@
           @validation="checkValid"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div class="ca-checkout-invoice__row">
         <CaInputText
           id="careOfShipping"
           v-model="checkoutData.shippingAddress.careOf"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :required="false"
           :label="$t('LABEL_CARE_OF')"
         />
       </div>
-      <div class="ca-checkout-carismar__row">
+      <div class="ca-checkout-invoice__row">
         <CaInputText
           id="addressShipping"
           ref="addressShipping"
           v-model="checkoutData.shippingAddress.addressLine1"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           validate="empty"
           autocomplete="street-address"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
@@ -266,9 +258,7 @@
           @validation="checkValid"
         />
       </div>
-      <div
-        class="ca-checkout-carismar__row ca-checkout-carismar__row--splitted"
-      >
+      <div class="ca-checkout-invoice__row ca-checkout-invoice__row--splitted">
         <CaInputText
           id="zipShipping"
           ref="zipShipping"
@@ -276,7 +266,7 @@
           validate="empty"
           autocomplete="postal-code"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_ZIP')"
           @validation="checkValid"
         />
@@ -287,16 +277,16 @@
           validate="empty"
           autocomplete="address-level2"
           :error-message="$t('FEEDBACK_REQUIRED_FIELD')"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_CITY')"
           @validation="checkValid"
         />
       </div>
-      <div v-if="$config.checkout.entryCode" class="ca-checkout-carismar__row">
+      <div v-if="$config.checkout.entryCode" class="ca-checkout-invoice__row">
         <CaInputText
           id="entryCodeShipping"
           v-model="checkoutData.shippingAddress.entryCode"
-          class="ca-checkout-carismar__input"
+          class="ca-checkout-invoice__input"
           :label="$t('LABEL_ENTRY_CODE')"
           :required="false"
         />
@@ -307,18 +297,18 @@
         $t('CHECKOUT_INVOICE_INFORMATION') !== '' ||
         $t('CHECKOUT_INVOICE_INFORMATION') !== 'CHECKOUT_INVOICE_INFORMATION'
       "
-      class="ca-checkout-carismar__invoice-information"
+      class="ca-checkout-invoice__invoice-information"
     >
       {{ $t('CHECKOUT_INVOICE_INFORMATION') }}
     </div>
     <section
       v-if="checkout.consents && checkout.consents.length"
-      class="ca-checkout-carismar__section"
+      class="ca-checkout-invoice__section"
     >
-      <h3 class="ca-checkout-carismar__title">
+      <h3 class="ca-checkout-invoice__title">
         {{ $t('CHECKOUT_CONSENTS_TITLE') }}
       </h3>
-      <p class="ca-checkout-carismar__subtitle">
+      <p class="ca-checkout-invoice__subtitle">
         {{ $t('CHECKOUT_CONSENTS_TEXT') }}
       </p>
       <CaInputCheckbox
@@ -326,7 +316,7 @@
         :id="consent.type"
         :key="index"
         v-model="consent.checked"
-        class="ca-checkout-carismar__consent"
+        class="ca-checkout-invoice__consent"
       >
         <i18n
           v-if="consent.type === 'order'"
@@ -335,7 +325,7 @@
           class="ca-input-checkbox__label"
         >
           <a
-            class="ca-checkout-carismar__consent-link"
+            class="ca-checkout-invoice__consent-link"
             href="/kopvillkor"
             target="_blank"
           >
@@ -348,23 +338,23 @@
       </CaInputCheckbox>
     </section>
     <section
-      class="ca-checkout-carismar__section ca-checkout-carismar__section--confirm"
+      class="ca-checkout-invoice__section ca-checkout-invoice__section--confirm"
     >
       <LazyCaFeedback
         ref="feedback"
-        class="ca-checkout-carismar__feedback"
+        class="ca-checkout-invoice__feedback"
         type="error"
         :message="feedbackMessage"
       />
-      <div class="ca-checkout-carismar__total">
+      <div class="ca-checkout-invoice__total">
         {{ $t('CHECKOUT_TOTAL') }}:
-        <span class="ca-checkout-carismar__total-sum">
+        <span class="ca-checkout-invoice__total-sum">
           {{ $store.state.cart.data.summary.total.sellingPriceIncVatFormatted }}
         </span>
       </div>
       <button
         type="button"
-        class="ca-checkout-carismar__show-summary"
+        class="ca-checkout-invoice__show-summary"
         @click="showSummary = !showSummary"
       >
         {{
@@ -376,14 +366,14 @@
       <SlideUpDown
         :active="showSummary"
         :duration="200"
-        class="ca-checkout-carismar__summary-wrap"
+        class="ca-checkout-invoice__summary-wrap"
       >
-        <div class="ca-checkout-carismar__summary">
+        <div class="ca-checkout-invoice__summary">
           <CaCartSummary :summary="$store.state.cart.data.summary" />
         </div>
       </SlideUpDown>
       <CaButton
-        class="ca-checkout-carismar__place-order"
+        class="ca-checkout-invoice__place-order"
         size="l"
         :loading="loading"
         @clicked="placeOrder"
@@ -397,10 +387,10 @@
 import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
-// The Carismar Checkout frame. Used for paying with manual invoice or external payment options<br><br>
-// **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
+// The invoice checkout frame. Used for paying with manual invoice<br><br>
+// **SASS-path:** _./styles/components/molecules/ca-checkout-invoice.scss_
 export default {
-  name: 'CaCheckoutCarismar',
+  name: 'CaCheckoutInvoice',
   components: { SlideUpDown },
   mixins: [],
   props: {
@@ -572,5 +562,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import 'molecules/ca-checkout-carismar';
+@import 'molecules/ca-checkout-invoice';
 </style>
