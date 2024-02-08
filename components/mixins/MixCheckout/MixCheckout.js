@@ -232,6 +232,9 @@ export default {
       }
     },
   },
+  created() {
+    this.$store.dispatch('loading/end');
+  },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');

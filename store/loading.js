@@ -1,18 +1,11 @@
 export const state = () => ({
   loading: false,
-  timeout: null,
   delay: 0,
 });
 
 export const mutations = {
   setDelay(state, delay) {
     state.delay = delay;
-  },
-  setTimeout(state, callback) {
-    state.timeout = setTimeout(callback, state.delay);
-  },
-  clearTimeout(state) {
-    clearTimeout(state.timeout);
   },
   start(state) {
     state.loading = true;
@@ -23,14 +16,21 @@ export const mutations = {
 };
 
 export const actions = {
-  start(context, delay = 1000) {
-    context.commit('setDelay', delay);
-    context.commit('setTimeout', () => {
-      context.commit('start');
-    });
+  start({ state, commit }, delay = 1000) {
+    commit('setDelay', delay);
+    const interval = setInterval(() => {
+      if (state.delay === -1) {
+        clearInterval(interval);
+        commit('setDelay', 0);
+      } else if (state.delay === 0) {
+        clearInterval(interval);
+        commit('start');
+      }
+      commit('setDelay', state.delay - 100);
+    }, 100);
   },
   end(context) {
-    context.commit('clearTimeout');
+    context.commit('setDelay', -1);
     context.commit('end');
   },
 };
