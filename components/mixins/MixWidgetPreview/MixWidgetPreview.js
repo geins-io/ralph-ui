@@ -6,7 +6,7 @@ import { mapState } from 'vuex';
 // isAuthenticated: `false`
 export default {
   name: 'MixWidgetPreview',
-  middleware: 'authenticated',
+  middleware: 'ralph-authenticated',
   data: () => ({
     isAuthenticated: false,
   }),

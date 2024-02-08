@@ -7,7 +7,7 @@ import getUserQuery from 'user/get.graphql';
 // loading: `false`
 export default {
   name: 'MixAccountBalance',
-  middleware: 'authenticated',
+  middleware: 'ralph-authenticated',
   transition: 'no-transition',
   apollo: {
     getUser: {
