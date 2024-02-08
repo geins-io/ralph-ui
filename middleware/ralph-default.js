@@ -127,6 +127,10 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       },
     });
 
+    // Start global loading state
+    store.dispatch('loading/start');
+
+    // Emit route change event on $ralphBus
     app.$ralphBus.$emit('route-change');
   }
 };
