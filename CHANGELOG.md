@@ -18,7 +18,23 @@ Sections to use
 
 ### Added
 
+- `CaCheckoutInvoice` - component for manual invoice checkout
 - Zip code data to order object for checkout confirm data
+
+### Changed
+
+- Changed trigger for global loading state
+- Replaced Timeout in Vuex to remove POJO warning
+- Using `checkoutMarket` instead of global market when adding promo code to cart
+
+### Deprecated
+
+- `CaCheckoutCarismar` - use `CaCheckoutInvoice` instead
+
+### Fixed
+
+- Correct name for authenticated middleware fixing "my account" issues
+- Stop loading if current variant is picked
 
 ## [21.0.0] - 2023-12-14
 
