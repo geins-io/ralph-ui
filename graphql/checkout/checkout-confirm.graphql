@@ -24,6 +24,7 @@ query checkout(
       firstName
       lastName
       email
+      zip
       currency
       itemValueExVat
       itemValueIncVat

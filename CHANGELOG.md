@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [21.1.0] - 2024-01-10
+
+### Added
+
+- Zip code data to order object for checkout confirm data
+
 ## [21.0.0] - 2023-12-14
 
 This major update will require you to update your storefront to Ralph Storefront v2.0.0.
