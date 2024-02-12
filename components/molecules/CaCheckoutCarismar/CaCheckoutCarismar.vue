@@ -397,6 +397,7 @@
 import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
+// **DEPRECATED** - use CaCheckoutInvoice instead
 // The invoice checkout frame. Used for paying with manual invoice<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-checkout-carismar.scss_
 export default {
