@@ -232,6 +232,9 @@ export default {
       }
     },
   },
+  created() {
+    this.$store.dispatch('loading/end');
+  },
   mounted() {
     if (!this.$store.state.checkout.currentZip) {
       this.createOrUpdateCheckout('mounted');
@@ -375,7 +378,7 @@ export default {
               this.checkout.email;
             this.$router.push(confirmUrl);
           } else {
-            this.$refs.checkoutCarismar.showErrorFeedback();
+            this.$refs.checkoutInvoice.showErrorFeedback();
           }
         })
         .catch((error) => {

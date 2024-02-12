@@ -5,7 +5,7 @@ import getUserQuery from 'user/get.graphql';
 // The functionality of the account index page<br><br>
 export default {
   name: 'MixAccountIndex',
-  middleware: 'authenticated',
+  middleware: 'ralph-authenticated',
   data: () => ({}),
   computed: {
     title() {

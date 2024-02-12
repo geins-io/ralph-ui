@@ -87,6 +87,9 @@ export default {
   mounted() {
     this.$ralphBus.$on('route-change', this.close);
   },
+  beforeDestroy() {
+    this.$ralphBus.$off('route-change');
+  },
   methods: {
     // @vuese
     // Close the notification

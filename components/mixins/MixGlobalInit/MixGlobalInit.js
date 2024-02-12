@@ -87,8 +87,6 @@ export default {
   watch: {
     $route(to, from) {
       if (to.path !== from.path) {
-        this.$store.dispatch('loading/start');
-
         if (!to.name.includes('list') && !to.name.includes('plp')) {
           this.$store.commit('list/setBackNavigated', false);
         }

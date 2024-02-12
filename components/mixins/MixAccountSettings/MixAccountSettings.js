@@ -8,7 +8,7 @@ import getUserQuery from 'user/get.graphql';
 // genders: `[...]`
 export default {
   name: 'MixAccountSettings',
-  middleware: 'authenticated',
+  middleware: 'ralph-authenticated',
   transition: 'no-transition',
   apollo: {
     getUser: {

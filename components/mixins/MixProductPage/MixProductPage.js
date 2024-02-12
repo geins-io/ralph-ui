@@ -305,8 +305,12 @@ export default {
     // Replace product data without reloading the page. Used for changing between product variants
     // @arg alias (String)
     replaceProduct(alias) {
-      this.replaceAlias = alias;
-      history.replaceState(null, null, alias);
+      if (alias !== this.prodAlias) {
+        this.replaceAlias = alias;
+        history.replaceState(null, null, alias);
+      } else {
+        this.$store.dispatch('loading/end');
+      }
     },
     // @vuese
     // Handler for changing the sku

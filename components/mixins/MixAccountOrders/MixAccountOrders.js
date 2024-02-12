@@ -8,7 +8,7 @@ import getOrdersQuery from 'user/orders.graphql';
 // historyStatuses: `['cancelled', 'completed']`
 export default {
   name: 'MixAccountOrders',
-  middleware: 'authenticated',
+  middleware: 'ralph-authenticated',
   transition: 'no-transition',
   apollo: {
     getOrders: {

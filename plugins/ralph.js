@@ -1,7 +1,7 @@
 import Vue from 'vue';
+const ralphBus = new Vue();
 
 export default ({ $config, store, app, i18n }, inject) => {
-  const ralphBus = new Vue();
   inject('ralphBus', ralphBus);
 
   const getPath = (

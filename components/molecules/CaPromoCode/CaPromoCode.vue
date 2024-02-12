@@ -47,6 +47,7 @@
 </template>
 <script>
 import promoCodeMutation from 'cart/promo-code.graphql';
+import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
 // Promo code block used mainly in checkout<br><br>
@@ -85,7 +86,11 @@ export default {
       },
     },
   }),
-  computed: {},
+  computed: {
+    ...mapState({
+      checkoutMarket: (state) => state.channel.checkoutMarket,
+    }),
+  },
   watch: {
     code(newVal, oldVal) {
       if (newVal !== oldVal && !this.codeValid) {
@@ -105,6 +110,7 @@ export default {
           variables: {
             id: this.$store.getters['cart/id'],
             promoCode: this.code,
+            checkoutMarketId: this.checkoutMarket,
           },
           errorPolicy: 'all',
         })

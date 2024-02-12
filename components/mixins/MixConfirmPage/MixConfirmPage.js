@@ -10,39 +10,6 @@ import MixDatalayerConfirm from 'MixDatalayerConfirm';
 export default {
   name: 'MixConfirmPage',
   mixins: [MixDatalayerConfirm],
-  apollo: {
-    checkout: {
-      query: checkoutConfirmQuery,
-      errorPolicy: 'all',
-      fetchPolicy: 'no-cache',
-      variables() {
-        return {
-          id: this.orderId,
-          paymentType: this.type,
-          checkoutMarket: this.$store.state.channel.checkoutMarket,
-          cartId: this.cartId,
-        };
-      },
-      result(result) {
-        if (!result.errors && result?.data?.checkout) {
-          const completed = result.data.checkout.completed;
-
-          if (completed !== null && completed === false) {
-            this.$router.push(this.$getPath('checkout'));
-            return;
-          }
-
-          this.checkoutConfirmData = result.data.checkout;
-        }
-      },
-      skip() {
-        return process.server;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
   props: {},
   data: () => ({
     checkoutConfirmData: null,
@@ -59,7 +26,7 @@ export default {
     // No cart id and no order cart
     // @type Booleen
     noCart() {
-      return this.cartId === '' && this.orderCart === null;
+      return this.cartId === '' && !this.orderCart;
     },
     // @vuese
     // The external order id
@@ -112,15 +79,42 @@ export default {
       );
     },
   },
-  watch: {
-    checkoutConfirmData(newVal, oldVal) {
-      if (oldVal === null && newVal !== oldVal) {
-        this.loading = false;
-        this.processCartCompletion();
-      }
-    },
+  watch: {},
+  mounted() {
+    this.getCheckoutData();
   },
   methods: {
+    getCheckoutData() {
+      this.$apollo
+        .query({
+          query: checkoutConfirmQuery,
+          variables: {
+            id: this.orderId,
+            paymentType: this.type,
+            checkoutMarket: this.$store.state.channel.checkoutMarket,
+            cartId: this.cartId,
+          },
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all',
+        })
+        .then((result) => {
+          if (!result.errors && result?.data?.checkout) {
+            const completed = result.data.checkout.completed;
+
+            if (completed !== null && completed === false) {
+              this.$router.push(this.$getPath('checkout'));
+              return;
+            }
+
+            this.checkoutConfirmData = result.data.checkout;
+            this.loading = false;
+            this.processCartCompletion();
+          }
+        })
+        .catch((error) => {
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+        });
+    },
     // @vuese
     // Performs the complete cart mutation and resets the cart
     completeCart() {
@@ -136,7 +130,6 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('cart/reset');
-          this.cartCompleted = true;
         })
         .catch((error) => {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
@@ -145,9 +138,9 @@ export default {
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method
     processCartCompletion() {
-      if (!this.orderCart.isCompleted && !process.server) {
+      if (!!this.orderCart && !this.orderCart.isCompleted) {
         this.completeCart();
-      } else if (this.orderCart.isCompleted && this.cartShouldReset) {
+      } else if (this.orderCart?.isCompleted && this.cartShouldReset) {
         this.$store.dispatch('cart/reset');
       }
     },
