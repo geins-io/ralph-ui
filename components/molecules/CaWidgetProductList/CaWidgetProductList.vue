@@ -47,46 +47,40 @@ import MixApolloRefetch from 'MixApolloRefetch';
 export default {
   name: 'CaWidgetProductList',
   mixins: [MixApolloRefetch, MixListPagination],
-  apollo: {
-    products: {
-      query: productsQuery,
-      variables() {
-        return this.productVars;
-      },
-      errorPolicy: 'all',
-      result(result) {
-        const products = result?.data?.products ?? null;
-        this.productList = products?.products || [];
-        this.productsLoaded = true;
-        this.setupPagination(products?.count);
-      },
-      skip() {
-        return (
-          this.isWidgetModeStatic ||
-          (this.fetchProductsOnlyClientSide && process.server)
-        );
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
   props: {
     // Widget configuration object
     configuration: {
       type: Object,
       required: true,
     },
-    // Fetch products only client side
-    fetchProductsOnlyClientSide: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
     mainProductList: false,
     productsLoaded: false,
   }),
+  async fetch() {
+    if (this.isWidgetModeStatic) {
+      this.setupPagination(0);
+      this.productsLoaded = true;
+      return;
+    }
+
+    this.productList = await this.$apollo
+      .query({
+        query: productsQuery,
+        variables: this.productVars,
+      })
+      .then((result) => {
+        const products = result?.data?.products ?? null;
+        this.productsLoaded = true;
+        this.setupPagination(products?.count);
+        return products?.products || [];
+      })
+
+      .catch((error) => {
+        this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      });
+  },
   computed: {
     // @vuese
     // Products loaded but no result
@@ -98,7 +92,7 @@ export default {
     // Is the widget in favorite or latest mode
     // @type Boolean
     isWidgetModeStatic() {
-      return this.checkModeConditions(null) === false;
+      return this.isLatestMode || this.isFavoriteMode;
     },
     // @vuese
     // How many products to take
@@ -138,7 +132,7 @@ export default {
       if (this.noProducts) {
         return false;
       }
-      return this.checkModeConditions(this.configuration.title);
+      return !!this.configuration?.title;
     },
     // @vuese
     // Latest visible products (need only in latest mode)
@@ -182,30 +176,22 @@ export default {
     },
   },
   watch: {
-    isWidgetModeStatic: {
-      handler(val) {
-        if (val) {
-          this.setupPagination(0);
-          this.productsLoaded = true;
+    productVars: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          this.$fetch();
         }
       },
-      immediate: true,
     },
   },
   mounted() {},
   methods: {
+    // @vuese
+    // Format alias to facet
+    // @arg alias
     formatToFacet(alias) {
       return `a_${alias}`;
-    },
-    checkModeConditions(additionalCondition) {
-      if (this.isLatestMode) {
-        return Boolean(this.latestProducts.length);
-      }
-
-      if (this.isFavoriteMode) {
-        return Boolean(this.favoritesProducts.length);
-      }
-      return additionalCondition;
     },
   },
 };
