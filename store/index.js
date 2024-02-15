@@ -189,7 +189,7 @@ export const actions = {
   },
   clearAndRefetchApollo({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
-    this.app.$ralphBus.$emit('refetch-apollo-queries');
+    this.app.$ralphBus.$emit('refetch-queries');
     dispatch('cart/get');
   },
   persistStates({ state }, statesToPersist) {

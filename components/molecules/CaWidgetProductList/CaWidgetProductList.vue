@@ -39,14 +39,14 @@
 <script>
 import productsQuery from 'productlist/products.graphql';
 import MixListPagination from 'MixListPagination';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 // @group Molecules
 // @vuese
 // Widget displaying a product list<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-product-list.scss_
 export default {
   name: 'CaWidgetProductList',
-  mixins: [MixApolloRefetch, MixListPagination],
+  mixins: [MixFetch, MixListPagination],
   props: {
     // Widget configuration object
     configuration: {
@@ -59,29 +59,42 @@ export default {
     productsLoaded: false,
   }),
   async fetch() {
-    if (this.isWidgetModeStatic) {
-      this.setupPagination(0);
-      this.productsLoaded = true;
+    if (this.noData) {
       return;
     }
-
-    this.productList = await this.$apollo
-      .query({
-        query: productsQuery,
-        variables: this.productVars,
-      })
-      .then((result) => {
+    this.productList = await this.fetchData(
+      productsQuery,
+      this.variables,
+      (result) => {
         const products = result?.data?.products ?? null;
         this.productsLoaded = true;
         this.setupPagination(products?.count);
         return products?.products || [];
-      })
-
-      .catch((error) => {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      });
+      },
+    );
   },
   computed: {
+    // @vuese
+    // Variables in product request
+    // @type Object
+    variables() {
+      const filter = this.configuration.searchParameters;
+
+      if (this.isLatestMode) {
+        filter.productIds = this.latestProducts;
+        filter.sort = 'FACET_ORDER';
+      }
+
+      if (this.isFavoriteMode) {
+        filter.productIds = this.$store.state.favorites;
+        filter.sort = 'FACET_ORDER';
+      }
+
+      return {
+        filter,
+        take: this.take,
+      };
+    },
     // @vuese
     // Products loaded but no result
     // @type Boolean
@@ -89,10 +102,16 @@ export default {
       return this.productsLoaded && this.productList.length === 0;
     },
     // @vuese
-    // Is the widget in favorite or latest mode
+    // No data to show
     // @type Boolean
-    isWidgetModeStatic() {
-      return this.isLatestMode || this.isFavoriteMode;
+    noData() {
+      if (this.isFavoriteMode && this.favoriteProducts.length === 0) {
+        return true;
+      }
+      if (this.isLatestMode && this.latestProducts.length === 0) {
+        return true;
+      }
+      return false;
     },
     // @vuese
     // How many products to take
@@ -115,19 +134,19 @@ export default {
     },
     // @vuese
     // Is widget on latest products mode
-    // @type Object
+    // @type Boolean
     isLatestMode() {
       return this.configuration?.mode === 'LATEST_VIEWED';
     },
     // @vuese
     // Is widget on favorite products mode
-    // @type Object
+    // @type Boolean
     isFavoriteMode() {
       return this.configuration?.mode === 'FAVORITES';
     },
     // @vuese
     // Is title visible
-    // @type Object
+    // @type Boolean
     isTitleVisible() {
       if (this.noProducts) {
         return false;
@@ -135,65 +154,24 @@ export default {
       return !!this.configuration?.title;
     },
     // @vuese
-    // Latest visible products (need only in latest mode)
-    // @type Object
+    // Latest visible products
+    // @type Array
     latestProducts() {
-      const savedProductsAliases = this.$cookies.get('ralph-latest-products');
-      return savedProductsAliases
-        ? savedProductsAliases.map(this.formatToFacet)
+      const latestProducts = this.$cookies.get('ralph-latest-products');
+      return latestProducts?.length && typeof latestProducts[0] !== 'string'
+        ? latestProducts
         : [];
     },
     // @vuese
-    // Latest visible products (need only in favorite mode)
-    // @type Object
-    favoritesProducts() {
-      return this.$store.state.favorites.length
-        ? this.$store.state.favorites.map(this.formatToFacet)
-        : [];
-    },
-    // @vuese
-    // Variables in product request
-    // @type Object
-    productVars() {
-      let filter = this.configuration.searchParameters;
-
-      if (this.isLatestMode) {
-        filter = {
-          facets: this.latestProducts,
-        };
-      }
-
-      if (this.isFavoriteMode) {
-        filter = {
-          facets: this.favoritesProducts,
-        };
-      }
-
-      return {
-        filter,
-        take: this.take,
-      };
+    // Favorite products
+    // @type Array
+    favoriteProducts() {
+      return this.$store.state.favorites;
     },
   },
-  watch: {
-    productVars: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-          this.$fetch();
-        }
-      },
-    },
-  },
+  watch: {},
   mounted() {},
-  methods: {
-    // @vuese
-    // Format alias to facet
-    // @arg alias
-    formatToFacet(alias) {
-      return `a_${alias}`;
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss">

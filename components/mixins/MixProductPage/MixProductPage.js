@@ -335,11 +335,20 @@ export default {
         history.replaceState(null, null, this.product.canonicalUrl);
       }
     },
+    // @vuese
+    // Append product id to latest products cookie
     appendProductToLatest() {
       const COOKIE_NAME = 'ralph-latest-products';
-      const latestProducts = this.$cookies.get(COOKIE_NAME);
+      let latestProducts = this.$cookies.get(COOKIE_NAME);
+
+      // Now going from aliases to productId's, remove all old cookies to not cause trouble
+      if (latestProducts && typeof latestProducts[0] === 'string') {
+        this.$cookies.remove(COOKIE_NAME);
+        latestProducts = null;
+      }
+
       if (!latestProducts) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias], { path: '/' });
+        this.$cookies.set(COOKIE_NAME, [this.product.productId], { path: '/' });
         return;
       }
 
@@ -347,18 +356,26 @@ export default {
         latestProducts.pop();
       }
 
-      if (!latestProducts.includes(this.prodAlias)) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/',
-        });
-      } else {
-        const existingAliasIndex = latestProducts.findIndex(
-          (alias) => alias === this.prodAlias,
+      if (!latestProducts.includes(this.product.productId)) {
+        this.$cookies.set(
+          COOKIE_NAME,
+          [this.product.productId, ...latestProducts],
+          {
+            path: '/',
+          },
         );
-        latestProducts.splice(existingAliasIndex, 1);
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/',
-        });
+      } else {
+        const existingIdIndex = latestProducts.findIndex(
+          (id) => id === this.product.productId,
+        );
+        latestProducts.splice(existingIdIndex, 1);
+        this.$cookies.set(
+          COOKIE_NAME,
+          [this.product.productId, ...latestProducts],
+          {
+            path: '/',
+          },
+        );
       }
     },
     // @vuese

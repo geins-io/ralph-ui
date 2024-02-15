@@ -5,7 +5,7 @@
         v-for="(container, index) in containers"
         :key="index"
         :container="container"
-        :widget-area-variables="widgetAreaVariables"
+        :widget-area-variables="variables"
         :widget-image-sizes="widgetImageSizes"
         :is-first="index === 0"
       />
@@ -14,7 +14,7 @@
 </template>
 <script>
 import widgetAreaQuery from 'global/widget-area.graphql';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 
 // @group Molecules
 // @vuese
@@ -22,7 +22,7 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // **SASS-path:** _./styles/components/molecules/ca-widget-area.scss_
 export default {
   name: 'CaWidgetArea',
-  mixins: [MixApolloRefetch],
+  mixins: [MixFetch],
   props: {
     // The widget area family
     family: {
@@ -64,24 +64,17 @@ export default {
     widgetArea: null,
   }),
   async fetch() {
-    this.widgetArea = await this.$apollo
-      .query({
-        query: widgetAreaQuery,
-        variables: this.widgetAreaVariables,
-      })
-      .then((result) => {
+    this.widgetArea = await this.fetchData(
+      widgetAreaQuery,
+      this.variables,
+      (result) => {
         this.$emit('dataFetched', result.data);
         return result?.data?.widgetArea;
-      })
-      .catch((error) => {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      });
+      },
+    );
   },
   computed: {
-    displaySetting() {
-      return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
-    },
-    widgetAreaVariables() {
+    variables() {
       return {
         family: this.family,
         areaName: this.areaName,
@@ -93,21 +86,13 @@ export default {
         url: this.listPageUrl,
       };
     },
+    displaySetting() {
+      return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
+    },
     containers() {
       return this.widgetArea?.containers?.length
         ? this.widgetArea.containers
         : [];
-    },
-  },
-  watch: {
-    widgetAreaVariables: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-          this.$emit('variables-change');
-          this.$fetch();
-        }
-      },
     },
   },
   mounted() {},

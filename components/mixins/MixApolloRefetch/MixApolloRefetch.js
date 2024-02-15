@@ -6,13 +6,12 @@ export default {
   computed: {},
   watch: {},
   mounted() {
-    this.$ralphBus.$on('refetch-apollo-queries', () => {
-      this.isInitialRequest = true;
+    this.$ralphBus.$on('refetch-queries', () => {
       Object.values(this.$apollo.queries).forEach((query) => query.refetch());
     });
   },
   beforeDestroy() {
-    this.$ralphBus.$off('refetch-apollo-queries');
+    this.$ralphBus.$off('refetch-queries');
   },
   methods: {},
 };
