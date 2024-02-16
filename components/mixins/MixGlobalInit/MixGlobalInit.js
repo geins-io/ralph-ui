@@ -1,36 +1,12 @@
 import categoriesQuery from 'global/categories.graphql';
-import listPageInfo from 'global/list-page-info.graphql';
-import MixApolloRefetch from 'MixApolloRefetch';
+import listPageInfoQuery from 'global/list-page-info.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // Global initiation for the site, used in layout files. Gets the cart from the server and sets the cart cookie and state. Also initiates scroll and resize listeners
 export default {
   name: 'MixGlobalInit',
-  mixins: [MixApolloRefetch],
-  apollo: {
-    categories: {
-      query: categoriesQuery,
-      errorPolicy: 'all',
-      result(result) {
-        if (result.data && result.data.categories) {
-          this.$store.commit('setCategoryTree', result.data.categories);
-        }
-      },
-      skip() {
-        return this.$store.state.categoryTree.length;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-    listPageInfo: {
-      query: listPageInfo,
-      errorPolicy: 'all',
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch],
   props: {},
   head() {
     // TODO: Implement working multilang function for alternate links and canonical
@@ -74,10 +50,30 @@ export default {
     };
     return head;
   },
+  async fetch() {
+    if (!this.$store.state.categoryTree?.length) {
+      const categories = await this.fetchData(
+        categoriesQuery,
+        this.variables,
+        (result) => {
+          return result?.data?.categories || [];
+        },
+      );
+      this.$store.commit('setCategoryTree', categories);
+    }
+
+    this.listPageInfo = await this.fetchData(
+      listPageInfoQuery,
+      this.variables,
+      (result) => {
+        return result?.data?.listPageInfo || null;
+      },
+    );
+  },
   data: () => ({
-    error: false,
     apolloLoading: false,
     loadingTimeout: undefined,
+    listPageInfo: null,
   }),
   computed: {
     globalLoading() {
