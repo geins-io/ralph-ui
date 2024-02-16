@@ -35,7 +35,9 @@ export default {
           variables,
         })
         .then((result) => {
-          this.$ralphLog('api fetch', result?.data);
+          if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
+            this.$ralphLog('api', result?.data);
+          }
           return callback(result);
         })
         .catch((error) => {

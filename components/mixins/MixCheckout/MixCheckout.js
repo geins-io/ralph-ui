@@ -29,7 +29,6 @@ export default {
   mixins: [MixPromiseQueue, MixApolloRefetch],
   props: {},
   data: (vm) => ({
-    debug: false,
     cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,
@@ -258,9 +257,8 @@ export default {
           this.cartLoading = false;
           return;
         }
-        if (this.debug) {
-          // eslint-disable-next-line no-console
-          console.log('createOrUpdateCheckout: ', reason.toUpperCase());
+        if (this.$config.ralphLog.all || this.$config.ralphLog.checkout) {
+          this.$ralphLog('checkout:', reason.toUpperCase());
         }
         this.updateDelay = 150;
         this.checkoutLoading = true;
