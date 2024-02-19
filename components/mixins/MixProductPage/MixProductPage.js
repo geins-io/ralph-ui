@@ -1,16 +1,19 @@
 import MixMetaReplacement from 'MixMetaReplacement';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 import productQuery from 'product/product.graphql';
 import relatedProductsQuery from 'product/related-products.graphql';
 // @group Mixins
 // @vuese
 // All functionality for the product page<br><br>
 // **Data:**<br>
+// product: `null`<br>
 // quantity: `1`<br>
 // replaceAlias: `null`<br>
+// currentNotifyVariant: `{}`<br>
+// relatedProducts: `[]`<br>
 export default {
   name: 'MixProductPage',
-  mixins: [MixMetaReplacement, MixApolloRefetch],
+  mixins: [MixMetaReplacement, MixFetch],
   async asyncData({ error, store, app, redirect, req, params }) {
     const currentPath = decodeURI(store.state.currentPath);
     const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
@@ -21,17 +24,16 @@ export default {
 
     try {
       const client = app.apolloProvider.defaultClient;
-      let product = null;
+      let asyncProduct = null;
 
       await client
         .query({
           query: productQuery,
           variables,
-          fetchPolicy: 'no-cache',
         })
         .then((result) => {
-          product = result?.data?.product;
-          if (!product) {
+          asyncProduct = result?.data?.product;
+          if (!asyncProduct) {
             error({
               statusCode: 404,
               message: 'Page not found',
@@ -39,10 +41,10 @@ export default {
             });
             return;
           }
-          if (req && product.canonicalUrl !== currentPath) {
+          if (asyncProduct.canonicalUrl !== currentPath) {
             redirect({
-              path: product.canonicalUrl,
-              query: req.query,
+              path: asyncProduct.canonicalUrl,
+              query: req?.query,
             });
           }
         })
@@ -53,7 +55,7 @@ export default {
           });
         });
 
-      return { product };
+      return { asyncProduct };
     } catch (err) {
       error(err);
     }
@@ -87,52 +89,52 @@ export default {
       ],
     };
   },
-  apollo: {
-    product: {
-      query: productQuery,
-      variables() {
-        return {
-          alias: this.prodAlias,
-        };
-      },
-      errorPolicy: 'all',
-      result() {
-        this.initProduct();
-      },
-      skip() {
-        return process.server || !this.prodAliasHasChanged;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-    relatedProducts: {
-      query: relatedProductsQuery,
-      variables() {
-        return {
-          alias: this.prodAlias,
-        };
-      },
-      errorPolicy: 'all',
-      result(result) {
-        this.relatedProducts = result?.data?.relatedProducts;
-      },
-      skip() {
-        return !this.$config.productShowRelated;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
+  async fetch() {
+    const variables = {
+      alias: this.prodAlias,
+    };
+
+    if (this.asyncProduct && !this.replaceAlias) {
+      this.product = this.asyncProduct;
+    } else {
+      this.product = await this.fetchData(productQuery, variables, (result) => {
+        const product = result?.data?.product;
+        const currentPath = this.$route.path;
+        if (!product) {
+          this.$nuxt.context.error({
+            statusCode: 404,
+            message: 'Page not found',
+            url: currentPath,
+          });
+          return;
+        }
+        if (currentPath !== product.canonicalUrl) {
+          history.replaceState(null, null, product.canonicalUrl);
+        }
+        return product;
+      });
+    }
+
+    if (this.product && !process.server) {
+      this.initProduct();
+    }
+
+    if (this.product && this.$config.productShowRelated) {
+      this.relatedProducts = await this.fetchData(
+        relatedProductsQuery,
+        variables,
+        (result) => {
+          return result?.data?.relatedProducts || [];
+        },
+      );
+    }
   },
   data: () => ({
+    product: null,
     quantity: 1,
     replaceAlias: null,
     currentNotifyVariant: {},
-    initVariables: {},
     relatedProducts: [],
-    impressionEventSent: false,
-    prodAliasHasChanged: false,
   }),
   computed: {
     // @vuese
@@ -232,22 +234,8 @@ export default {
         this.quantity = val;
       }
     },
-    // @vuese
-    // Watching prodAlias to fetch request when alias state change
-    prodAlias() {
-      this.prodAliasHasChanged = true;
-    },
-    // @vuese
-    // Watching productId to send impression event when changing variant
-    'product.productId'(newVal, oldVal) {
-      if (oldVal && newVal !== oldVal) {
-        this.sendImpressionEvent();
-      }
-    },
   },
-  mounted() {
-    this.initProduct();
-  },
+  mounted() {},
   methods: {
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
@@ -307,7 +295,7 @@ export default {
     replaceProduct(alias) {
       if (alias !== this.prodAlias) {
         this.replaceAlias = alias;
-        history.replaceState(null, null, alias);
+        this.$fetch();
       } else {
         this.$store.dispatch('loading/end');
       }
@@ -390,15 +378,6 @@ export default {
       });
     },
     // @vuese
-    // Sending the product detail impression event
-    sendImpressionEvent() {
-      this.$store.dispatch('events/push', {
-        type: 'product-detail:impression',
-        data: { product: this.product },
-      });
-      this.impressionEventSent = true;
-    },
-    // @vuese
     // Initiate product
     initProduct() {
       if (!this.hasSkuVariants) {
@@ -406,19 +385,22 @@ export default {
       } else if (this.skuIsChosen && !this.chosenSkuVariant) {
         this.resetSku();
       }
-      if (this.product?.variantGroup === null) {
-        this.$ralphLog('WARNING:', 'Product has no variantGroup');
-      }
+      if (this.$config.ralphLog.all || this.$config.ralphLog.warnings) {
+        if (this.product?.variantGroup === null) {
+          this.$ralphLog('WARNING:', 'Product has no variantGroup');
+        }
 
-      if (!this.product?.primaryCategory) {
-        this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+        if (!this.product?.primaryCategory) {
+          this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+        }
       }
 
       this.appendProductToLatest();
 
-      if (!this.impressionEventSent) {
-        this.sendImpressionEvent();
-      }
+      this.$store.dispatch('events/push', {
+        type: 'product-detail:impression',
+        data: { product: this.product },
+      });
 
       this.$store.dispatch('loading/end');
     },
