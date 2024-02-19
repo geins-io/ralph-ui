@@ -1,40 +1,38 @@
 import { mapState } from 'vuex';
 import productsQuery from 'productlist/products.graphql';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // All functionality for the favorites page<br><br>
 // **Data:**<br>
+// products: `null`<br>
 // allProducts: `[]`<br>
 export default {
   name: 'MixFavoritesPage',
-  mixins: [MixApolloRefetch],
-  apollo: {
-    products: {
-      query: productsQuery,
-      variables() {
-        return {
-          filter: this.filter,
-          take: this.favorites.length,
-        };
-      },
-      errorPolicy: 'all',
-      result(result) {
-        this.$store.dispatch('loading/end');
-        if (result.data.products) {
-          this.processProducts(result.data.products.products);
-        }
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: 500, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch],
   props: {},
+  async fetch() {
+    this.products = await this.fetchData(
+      productsQuery,
+      this.variables,
+      (result) => {
+        return result?.data?.products?.products || [];
+      },
+    );
+    this.processProducts(this.products);
+    this.$store.dispatch('loading/end');
+  },
   data: () => ({
+    products: null,
     allProducts: [],
   }),
   computed: {
+    variables() {
+      return {
+        filter: this.filter,
+        take: this.favorites.length,
+      };
+    },
     // @vuese
     // Are favorites saved as aliases?
     // @type Boolean
