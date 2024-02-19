@@ -1,5 +1,5 @@
 import MixListPagination from 'MixListPagination';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
 import { mapState, mapGetters } from 'vuex';
@@ -7,69 +7,20 @@ import { mapState, mapGetters } from 'vuex';
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
+// products: `null`<br>
+// productFilters: `null`<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
 // filters: `{}`<br>
 // userSelection: `null`<br>
-// filterParamQuery: `{}`<br>
 // relocateTimeout: `null`<br>
-// URLparamsRead: `false`<br>
+// relocateTries: `10`<br>
 // filtersSet: `false`<br>
 // userHasPaged: `false`<br>
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixListPagination, MixApolloRefetch],
-  apollo: {
-    products: {
-      query() {
-        return productsQuery;
-      },
-      variables() {
-        return this.productsQueryVars;
-      },
-      deep: true,
-      errorPolicy: 'all',
-      result(result) {
-        if (result && result.data) {
-          const { products } = result.data;
-          this.productList = products?.products || [];
-          this.productsFetched = true;
-          this.setupPagination(products?.count);
-          this.$store.dispatch('loading/end');
-        }
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-    productFilters: {
-      query() {
-        return filtersQuery;
-      },
-      variables() {
-        return this.filtersQueryVars;
-      },
-      deep: true,
-      result(result) {
-        if (result && result.data) {
-          if (this.filtersSet) {
-            this.updateFilters(result.data.products.filters);
-          } else if (result.data.products?.filters?.facets?.length) {
-            this.baseFilters = result.data.products.filters;
-            this.setupFilters(this.baseFilters);
-          }
-        }
-      },
-      update: (data) => data.products.filters,
-      skip() {
-        return !process.client;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixListPagination, MixFetch],
   props: {
     // @vuese
     // Type of list page
@@ -127,21 +78,58 @@ export default {
       default: null,
     },
   },
-  data: (vm) => ({
+  async fetch() {
+    this.products = await this.fetchData(
+      productsQuery,
+      this.variables.products,
+      (result) => {
+        const { products } = result.data;
+        this.productList = products?.products || [];
+        this.productsFetched = true;
+        this.setupPagination(products?.count);
+        this.$store.dispatch('loading/end');
+        return products;
+      },
+    );
+    if (process.client) {
+      this.productFilters = await this.fetchData(
+        filtersQuery,
+        this.variables.filters,
+        (result) => {
+          if (this.filtersSet) {
+            this.updateFilters(result.data.products.filters);
+          } else if (result.data.products?.filters?.facets?.length) {
+            this.baseFilters = result.data.products.filters;
+            this.setupFilters(this.baseFilters);
+          }
+          return result.data.products.filters;
+        },
+      );
+    }
+  },
+  data: () => ({
+    products: null,
+    productFilters: null,
     baseFilters: {},
     userSkip: 0,
-    widgetData: {},
     filters: {},
     userSelection: null,
-    filterParamQuery: {},
     relocateTimeout: null,
     relocateTries: 10,
-    URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
     productsFetched: false,
   }),
   computed: {
+    // @vuese
+    // All variables used for fetching data, watched for changes through MixFetch
+    // @type Object
+    variables() {
+      return {
+        products: this.productsQueryVars,
+        filters: this.filtersQueryVars,
+      };
+    },
     // @vuese
     // Is list filtered by facet in url?
     // @type Boolean
@@ -288,6 +276,12 @@ export default {
         }
         return querySelection;
       }
+    },
+    // @vuese
+    // The query for fetching products, to be used by other mixins
+    // @type Object
+    productsQuery() {
+      return productsQuery;
     },
     // @vuese
     // Returns the filter object for the productsQueryVars

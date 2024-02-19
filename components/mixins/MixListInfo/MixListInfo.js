@@ -20,7 +20,6 @@ export default {
         .query({
           query: listPageInfoQuery,
           variables,
-          fetchPolicy: 'no-cache',
         })
         .then((result) => {
           listPageInfo = result?.data?.listPageInfo;
@@ -32,10 +31,10 @@ export default {
             });
             return;
           }
-          if (req && listPageInfo.canonicalUrl !== currentPath) {
+          if (listPageInfo.canonicalUrl !== currentPath) {
             redirect({
               path: listPageInfo.canonicalUrl,
-              query: req.query,
+              query: req?.query,
             });
           }
           store.dispatch('loading/end');
