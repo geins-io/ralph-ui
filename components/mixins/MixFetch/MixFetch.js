@@ -6,7 +6,9 @@ export default {
   name: 'MixFetch',
   mixins: [],
   props: {},
-  data: () => ({}),
+  data: () => ({
+    fetchPolicy: 'cache-first',
+  }),
   computed: {
     variables() {
       return {};
@@ -33,6 +35,8 @@ export default {
         .query({
           query,
           variables,
+          errorPolicy: 'all',
+          fetchPolicy: this.fetchPolicy,
         })
         .then((result) => {
           if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
