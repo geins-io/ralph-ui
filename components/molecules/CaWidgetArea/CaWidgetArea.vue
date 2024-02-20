@@ -24,6 +24,11 @@ export default {
   name: 'CaWidgetArea',
   mixins: [MixFetch],
   props: {
+    // The widget area data if loaded from parent on server
+    widgetData: {
+      type: Object,
+      default: null,
+    },
     // The widget area family
     family: {
       type: String,
@@ -62,8 +67,16 @@ export default {
   },
   data: () => ({
     widgetArea: null,
+    firstLoad: true,
   }),
   async fetch() {
+    if (this.widgetData && this.firstLoad) {
+      this.widgetArea = this.widgetData;
+      if (process.client) {
+        this.firstLoad = false;
+      }
+      return;
+    }
     this.widgetArea = await this.fetchData(
       widgetAreaQuery,
       this.variables,

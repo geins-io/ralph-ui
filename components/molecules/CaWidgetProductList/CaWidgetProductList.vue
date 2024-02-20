@@ -60,13 +60,14 @@ export default {
   }),
   async fetch() {
     if (this.noData) {
+      this.productsLoaded = true;
       return;
     }
     this.productList = await this.fetchData(
       productsQuery,
       this.variables,
       (result) => {
-        const products = result?.data?.products ?? null;
+        const products = result?.data?.products || null;
         this.productsLoaded = true;
         this.setupPagination(products?.count);
         return products?.products || [];
