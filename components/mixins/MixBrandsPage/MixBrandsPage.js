@@ -14,7 +14,7 @@ export default {
   mixins: [MixFetch],
   props: {},
   async fetch() {
-    await this.fetchData(brandsByProductsQuery, this.variables, (result) => {
+    await this.fetchData(brandsByProductsQuery, (result) => {
       if (result.data && result.data.products.filters) {
         const facets = result.data.products.filters.facets;
         const brandFacets = facets.find((facet) => facet.type === 'Brand');

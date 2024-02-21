@@ -95,7 +95,7 @@ export default {
     averageRating: 0,
   }),
   async fetch() {
-    this.reviews = await this.fetchData(reviews, this.variables, (result) => {
+    this.reviews = await this.fetchData(reviews, (result) => {
       const {
         reviews = [],
         count = 0,

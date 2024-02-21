@@ -12,13 +12,9 @@ export default {
   mixins: [MixFetch],
   props: {},
   async fetch() {
-    this.products = await this.fetchData(
-      productsQuery,
-      this.variables,
-      (result) => {
-        return result?.data?.products?.products || [];
-      },
-    );
+    this.products = await this.fetchData(productsQuery, (result) => {
+      return result?.data?.products?.products || [];
+    });
     this.processProducts(this.products);
     this.$store.dispatch('loading/end');
   },

@@ -137,7 +137,6 @@ export default {
 
       this.products = await this.fetchData(
         this.productsQuery,
-        this.loadMoreQueryVars,
         (result) => {
           const { products } = result.data;
           this.currentMaxCountSet += products.products.length;
@@ -148,6 +147,7 @@ export default {
           this.nextPageLoading = false;
           return products;
         },
+        this.loadMoreQueryVars,
       );
     },
     // @vuese
@@ -167,7 +167,6 @@ export default {
 
       this.products = await this.fetchData(
         this.productsQuery,
-        this.loadPrevQueryVars,
         (result) => {
           const { products } = result.data;
           this.currentMinCountSet -= products.products.length;
@@ -176,6 +175,7 @@ export default {
           this.prevPageLoading = false;
           return products;
         },
+        this.loadPrevQueryVars,
       );
     },
   },

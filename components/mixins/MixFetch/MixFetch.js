@@ -8,6 +8,7 @@ export default {
   props: {},
   data: () => ({
     fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
   }),
   computed: {
     variables() {
@@ -22,7 +23,6 @@ export default {
   },
   mounted() {
     this.$ralphBus.$on('refetch-queries', () => {
-      Object.values(this.$apollo.queries).forEach((query) => query.refetch());
       this.refetch();
     });
   },
@@ -30,13 +30,19 @@ export default {
     this.$ralphBus.$off('refetch-queries');
   },
   methods: {
-    async fetchData(query, variables, callback) {
+    async fetchData(
+      query,
+      callback,
+      variables = this.variables,
+      fetchPolicy = this.fetchPolicy,
+      errorPolicy = this.errorPolicy,
+    ) {
       return await this.$apollo
         .query({
           query,
           variables,
-          errorPolicy: 'all',
-          fetchPolicy: this.fetchPolicy,
+          fetchPolicy,
+          errorPolicy,
         })
         .then((result) => {
           if (this.$config.ralphLog.all || this.$config.ralphLog.api) {

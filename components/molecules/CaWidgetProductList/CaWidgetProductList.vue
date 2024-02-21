@@ -29,7 +29,7 @@
       :showing="showing"
       :total-count="totalCount"
       :all-products-loaded="allProductsLoaded"
-      :loading="$apollo.queries.products.loading"
+      :loading="nextPageLoading"
       :min-count="currentMinCount"
       :max-count="currentMaxCount"
       @loadmore="loadMore"
@@ -63,16 +63,12 @@ export default {
       this.productsLoaded = true;
       return;
     }
-    this.productList = await this.fetchData(
-      productsQuery,
-      this.variables,
-      (result) => {
-        const products = result?.data?.products || null;
-        this.productsLoaded = true;
-        this.setupPagination(products?.count);
-        return products?.products || [];
-      },
-    );
+    this.productList = await this.fetchData(productsQuery, (result) => {
+      const products = result?.data?.products || null;
+      this.productsLoaded = true;
+      this.setupPagination(products?.count);
+      return products?.products || [];
+    });
   },
   computed: {
     // @vuese

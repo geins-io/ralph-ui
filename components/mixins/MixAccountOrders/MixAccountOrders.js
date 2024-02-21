@@ -14,13 +14,9 @@ export default {
   mixins: [MixFetch],
   transition: 'no-transition',
   async fetch() {
-    this.orders = await this.fetchData(
-      getOrdersQuery,
-      this.variables,
-      (result) => {
-        return result?.data?.getOrders || null;
-      },
-    );
+    this.orders = await this.fetchData(getOrdersQuery, (result) => {
+      return result?.data?.getOrders || null;
+    });
   },
   data: () => ({
     fetchPolicy: 'no-cache',

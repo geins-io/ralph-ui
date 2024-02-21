@@ -85,14 +85,10 @@ export default {
     product: null,
   }),
   async fetch() {
-    this.product = await this.fetchData(
-      productPriceHistoryQuery,
-      this.variables,
-      (result) => {
-        const { product } = result.data;
-        return product;
-      },
-    );
+    this.product = await this.fetchData(productPriceHistoryQuery, (result) => {
+      const { product } = result.data;
+      return product;
+    });
   },
   computed: {
     variables() {

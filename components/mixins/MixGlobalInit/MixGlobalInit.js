@@ -52,23 +52,15 @@ export default {
   },
   async fetch() {
     if (!this.$store.state.categoryTree?.length) {
-      const categories = await this.fetchData(
-        categoriesQuery,
-        this.variables,
-        (result) => {
-          return result?.data?.categories || [];
-        },
-      );
+      const categories = await this.fetchData(categoriesQuery, (result) => {
+        return result?.data?.categories || [];
+      });
       this.$store.commit('setCategoryTree', categories);
     }
 
-    this.listPageInfo = await this.fetchData(
-      listPageInfoQuery,
-      this.variables,
-      (result) => {
-        return result?.data?.listPageInfo || null;
-      },
-    );
+    this.listPageInfo = await this.fetchData(listPageInfoQuery, (result) => {
+      return result?.data?.listPageInfo || null;
+    });
   },
   data: () => ({
     apolloLoading: false,

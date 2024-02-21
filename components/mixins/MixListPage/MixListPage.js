@@ -81,7 +81,6 @@ export default {
   async fetch() {
     this.products = await this.fetchData(
       productsQuery,
-      this.variables.products,
       (result) => {
         const { products } = result.data;
         this.productList = products?.products || [];
@@ -90,11 +89,11 @@ export default {
         this.$store.dispatch('loading/end');
         return products;
       },
+      this.variables.products,
     );
     if (process.client) {
       this.productFilters = await this.fetchData(
         filtersQuery,
-        this.variables.filters,
         (result) => {
           if (this.filtersSet) {
             this.updateFilters(result.data.products.filters);
@@ -104,6 +103,7 @@ export default {
           }
           return result.data.products.filters;
         },
+        this.variables.filters,
       );
     }
   },

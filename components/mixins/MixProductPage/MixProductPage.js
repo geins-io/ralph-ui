@@ -90,14 +90,10 @@ export default {
     };
   },
   async fetch() {
-    const variables = {
-      alias: this.prodAlias,
-    };
-
     if (this.asyncProduct && !this.replaceAlias) {
       this.product = this.asyncProduct;
     } else {
-      this.product = await this.fetchData(productQuery, variables, (result) => {
+      this.product = await this.fetchData(productQuery, (result) => {
         const product = result?.data?.product;
         const currentPath = this.$route.path;
         if (!product) {
@@ -122,7 +118,6 @@ export default {
     if (this.product && this.$config.productShowRelated) {
       this.relatedProducts = await this.fetchData(
         relatedProductsQuery,
-        variables,
         (result) => {
           return result?.data?.relatedProducts || [];
         },
@@ -137,6 +132,14 @@ export default {
     relatedProducts: [],
   }),
   computed: {
+    // @vuese
+    // Variables to be watched by MixFetch
+    // @type Object
+    variables() {
+      return {
+        alias: this.prodAlias,
+      };
+    },
     // @vuese
     // Quick ref to product images
     // @type Array

@@ -13,7 +13,7 @@ export default {
   middleware: 'ralph-authenticated',
   transition: 'no-transition',
   async fetch() {
-    this.user = await this.fetchData(getUserQuery, this.variables, (result) => {
+    this.user = await this.fetchData(getUserQuery, (result) => {
       return result?.data?.getUser || null;
     });
   },

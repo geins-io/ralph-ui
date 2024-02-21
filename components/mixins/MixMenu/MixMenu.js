@@ -21,7 +21,7 @@ export default {
     },
   },
   async fetch() {
-    this.menu = await this.fetchData(menuQuery, this.variables, (result) => {
+    this.menu = await this.fetchData(menuQuery, (result) => {
       return result?.data?.getMenuAtLocation || [];
     });
   },

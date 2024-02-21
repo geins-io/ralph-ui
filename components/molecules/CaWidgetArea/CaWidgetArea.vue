@@ -77,14 +77,10 @@ export default {
       }
       return;
     }
-    this.widgetArea = await this.fetchData(
-      widgetAreaQuery,
-      this.variables,
-      (result) => {
-        this.$emit('dataFetched', result.data);
-        return result?.data?.widgetArea;
-      },
-    );
+    this.widgetArea = await this.fetchData(widgetAreaQuery, (result) => {
+      this.$emit('dataFetched', result.data);
+      return result?.data?.widgetArea;
+    });
   },
   computed: {
     variables() {
