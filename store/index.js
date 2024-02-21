@@ -187,7 +187,7 @@ export const actions = {
       });
     }
   },
-  clearAndRefetchApollo({ dispatch }) {
+  refetchQueries({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
     this.app.$ralphBus.$emit('refetch-queries');
     dispatch('cart/get');

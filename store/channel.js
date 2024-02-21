@@ -47,7 +47,11 @@ export const actions = {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
       });
   },
-  setCurrentMarket({ commit, dispatch, getters }, alias) {
+  setCurrentMarket({ state, commit, dispatch, getters }, alias) {
+    if (alias === state.currentMarket) {
+      return;
+    }
+
     commit('setCurrentMarket', alias);
     commit('setCheckoutMarket', alias);
     commit('setCurrentCurrency', getters.currentCurrency);
@@ -57,12 +61,11 @@ export const actions = {
       expires: new Date(new Date().getTime() + 31536000000),
     });
 
-    if (process.browser) {
+    if (process.client) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'market', data: alias });
+      dispatch('refetchQueries', null, { root: true });
     }
-
-    dispatch('clearAndRefetchApollo', null, { root: true });
   },
   setCheckoutMarket({ commit, dispatch }, alias) {
     commit('setCheckoutMarket', alias);

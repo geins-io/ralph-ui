@@ -37,12 +37,10 @@ export const actions = {
   },
   async refresh({ state, dispatch }) {
     await state.client?.connect();
-    dispatch('clearCache');
     dispatch('update');
   },
   async login({ state, dispatch }, credentials) {
     await state.client?.connect(credentials);
-    dispatch('clearCache');
     dispatch('update', credentials);
   },
   async register({ state, dispatch }, credentials) {
@@ -62,7 +60,6 @@ export const actions = {
       },
       { root: true },
     );
-    dispatch('clearCache');
     dispatch('update');
   },
   update({ state, commit, dispatch }, credentials) {
@@ -106,13 +103,11 @@ export const actions = {
       this.$cookies.remove('ralph-user-maxage', { path: '/' });
       this.$cookies.remove('ralph-user-type', { path: '/' });
     }
-    if (process.browser) {
+    if (process.client) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'auth', data: username });
+      dispatch('refetchQueries', null, { root: true });
     }
-  },
-  clearCache({ dispatch }) {
-    dispatch('clearAndRefetchApollo', null, { root: true });
   },
 };
 

@@ -3,7 +3,6 @@ import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 import setCartShippingFeeMutation from 'checkout/set-cart-shipping-fee.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
-import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -26,7 +25,7 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // forceExternalCheckoutReset: `false`
 export default {
   name: 'MixCheckout',
-  mixins: [MixPromiseQueue, MixApolloRefetch],
+  mixins: [MixPromiseQueue],
   props: {},
   data: (vm) => ({
     cartLoading: true,
@@ -170,6 +169,7 @@ export default {
       cart: (state) => state.cart,
       externalShippingFee: (state) => state.checkout.externalShippingFee,
       merchantData: (state) => state.checkout.merchantData,
+      user: (state) => state.auth.user,
     }),
     ...mapGetters({
       checkoutMarketObj: 'channel/checkoutMarketObj',
@@ -228,6 +228,11 @@ export default {
     externalShippingFee(newVal, oldVal) {
       if (newVal !== oldVal && this.externalShippingFeeSet) {
         this.setCartShippingFee(newVal);
+      }
+    },
+    user(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.createOrUpdateCheckout('user changed');
       }
     },
   },
