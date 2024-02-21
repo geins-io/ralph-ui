@@ -1,10 +1,11 @@
 import searchQuery from 'global/search.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // Main search functionality
 export default {
   name: 'MixSearch',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // Used to toogle search in mobile, set to true when user opens it
     opened: {
@@ -28,6 +29,7 @@ export default {
     recentSearches: [],
     topSearches: ['godis', 'askar', 'lakrits', 'choklad', 'present'],
     noResults: false,
+    fetchPolicy: 'no-cache',
   }),
   computed: {
     searchUrl() {
@@ -141,35 +143,35 @@ export default {
       clearTimeout(this.typingTimeout);
       this.typingTimeout = setTimeout(this.fetchSearchResult, 500);
     },
-    fetchSearchResult() {
+    async fetchSearchResult() {
       this.loading = true;
       if (this.searchString !== '') {
-        this.$apollo
-          .query({
-            query: searchQuery,
-            variables: {
-              filter: {
-                searchText: this.searchString,
-                sort: 'RELEVANCE',
-              },
-            },
-          })
-          .then((result) => {
-            this.products = result?.data?.products?.products || [];
-            this.loading = false;
-            if (this.searchResultsExist) {
-              this.totalResults = result.data.products.count;
-            } else {
-              this.noResults = true;
-            }
-          })
-          .catch((error) => {
-            this.$nuxt.error({ statusCode: error.statusCode, message: error });
-          });
+        const variables = {
+          filter: {
+            searchText: this.searchString,
+            sort: 'RELEVANCE',
+          },
+        };
+
+        const result = await this.fetchData(
+          searchQuery,
+          (result) => {
+            return result?.data?.products || null;
+          },
+          variables,
+        );
+
+        this.products = result?.products || [];
+
+        if (this.searchResultsExist) {
+          this.totalResults = result?.count;
+        } else {
+          this.noResults = true;
+        }
       } else {
         this.products = [];
-        this.loading = false;
       }
+      this.loading = false;
     },
     setRecentSearch() {
       if (this.searchString === '') {

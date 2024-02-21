@@ -161,6 +161,7 @@ import { mapState } from 'vuex';
 import registerMutation from 'user/register.graphql';
 import getUserQuery from 'user/get.graphql';
 import requestPasswordResetMutation from 'user/pw-reset-request.graphql';
+import MixFetch from 'MixFetch';
 
 // @group Molecules
 // @vuese
@@ -168,7 +169,7 @@ import requestPasswordResetMutation from 'user/pw-reset-request.graphql';
 // **SASS-path:** _./styles/components/molecules/ca-account-panel.scss_
 export default {
   name: 'CaAccountPanel',
-  mixins: [],
+  mixins: [MixFetch],
   props: {},
   data: (vm) => ({
     email: '',
@@ -178,6 +179,7 @@ export default {
     rememberUser: true,
     newsletterSubscribe: true,
     loading: false,
+    fetchPolicy: 'no-cache',
     currentFeedback: {
       type: 'info',
       message: '',
@@ -318,36 +320,15 @@ export default {
             type: 'user:login',
           });
           if (this.$config.customerTypesToggle) {
-            this.$apollo
-              .query({
-                query: getUserQuery,
-                errorPolicy: 'all',
-                fetchPolicy: 'no-cache',
-              })
-              .then((result) => {
-                if (!result.errors) {
-                  const type = result.data?.getUser?.customerType;
-                  this.$store.dispatch('changeCustomerType', type);
-                  this.$store.dispatch('setCustomerTypeCookie', type);
-
-                  this.loading = false;
-                  this.closePanelAfterDelay();
-                  this.showFeedback(this.feedback.loggedIn);
-                } else {
-                  this.showFeedback(this.feedback.error);
-                }
-              })
-              .catch((error) => {
-                this.$nuxt.error({
-                  statusCode: error.statusCode,
-                  message: error,
-                });
-              });
-          } else {
-            this.loading = false;
-            this.closePanelAfterDelay();
-            this.showFeedback(this.feedback.loggedIn);
+            const type = await this.fetchData(getUserQuery, (result) => {
+              return result?.data?.getUser?.customerType;
+            });
+            this.$store.dispatch('changeCustomerType', type);
+            this.$store.dispatch('setCustomerTypeCookie', type);
           }
+          this.loading = false;
+          this.closePanelAfterDelay();
+          this.showFeedback(this.feedback.loggedIn);
         } else {
           this.loading = false;
           this.showFeedback(this.feedback.wrongCredentials);
