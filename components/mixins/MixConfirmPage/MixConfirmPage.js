@@ -78,6 +78,12 @@ export default {
         !this.$cookies.get('ralph-cart')
       );
     },
+    // @vuese
+    // The html snippet from the external payment provider
+    // @type String
+    confirmSnippet() {
+      return this.checkoutConfirmData?.htmlSnippet || '';
+    },
   },
   watch: {},
   mounted() {

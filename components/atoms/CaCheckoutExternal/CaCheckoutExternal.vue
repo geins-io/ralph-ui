@@ -10,7 +10,6 @@
   <CaSpinner v-else class="ca-checkout-external__loading" />
 </template>
 <script>
-import getCheckoutQuery from 'checkout/get-checkout.graphql';
 // @group Atoms
 // @vuese
 // Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna, SVEA and Walley Checkout<br><br>
@@ -29,22 +28,16 @@ export default {
       type: Boolean,
       default: false,
     },
-    // Is this the confirm page?
-    // If set to true this component will fetch the confirm snippet from the api
-    // DEPRECATED: Use confirmSnippet instead
-    confirm: {
-      type: Boolean,
-      default: false,
-    },
     // What type of payment?
     type: {
       // `KLARNA`, `SVEA`, `WALLEY`, `AVARDA`
       type: String,
       required: true,
+      validator: (value) =>
+        ['KLARNA', 'SVEA', 'WALLEY', 'AVARDA'].includes(value),
     },
     // The confirm snippet
-    // Available in checkoutConfirmData.htmlSnippet from MixConfirmPage
-    // Set prop confirm to false if you want to use this
+    // Available in confirmSnippet from MixConfirmPage
     confirmSnippet: {
       type: String,
       default: null,
@@ -101,10 +94,8 @@ export default {
     },
   },
   mounted() {
-    if (!this.confirm) {
+    if (this.confirmSnippet === null) {
       this.initialize();
-    } else {
-      this.fetchConfirm();
     }
   },
   methods: {
@@ -202,33 +193,6 @@ export default {
       } else {
         this.initialize(true);
       }
-    },
-    // @vuese
-    // Fetch the confirm frame
-    fetchConfirm() {
-      if (!this.orderId) {
-        return;
-      }
-      this.$apollo
-        .query({
-          query: getCheckoutQuery,
-          variables: {
-            id: this.orderId,
-            paymentType: this.type,
-          },
-        })
-        .then((result) => {
-          if (this.frame) {
-            this.frame = null;
-          }
-          this.frame = result.data.getCheckout;
-          this.$nextTick(() => {
-            this.initScript();
-          });
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
     },
   },
 };
