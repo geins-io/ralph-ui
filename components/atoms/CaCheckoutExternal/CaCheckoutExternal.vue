@@ -36,12 +36,6 @@ export default {
       validator: (value) =>
         ['KLARNA', 'SVEA', 'WALLEY', 'AVARDA'].includes(value),
     },
-    // The confirm snippet
-    // Available in confirmSnippet from MixConfirmPage
-    confirmSnippet: {
-      type: String,
-      default: null,
-    },
   },
   data: () => ({
     frame: null,
@@ -81,22 +75,9 @@ export default {
         this.initialize(true);
       }
     },
-    confirmSnippet(newVal, oldVal) {
-      if (!oldVal && !!newVal) {
-        if (this.frame) {
-          this.frame = null;
-        }
-        this.frame = newVal;
-        this.$nextTick(() => {
-          this.initScript();
-        });
-      }
-    },
   },
   mounted() {
-    if (this.confirmSnippet === null) {
-      this.initialize();
-    }
+    this.initialize();
   },
   methods: {
     // @vuese

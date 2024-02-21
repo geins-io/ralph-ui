@@ -1,12 +1,16 @@
 import { mapState } from 'vuex';
 import getUserQuery from 'user/get.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // The functionality of the account index page<br><br>
 export default {
   name: 'MixAccountIndex',
   middleware: 'ralph-authenticated',
-  data: () => ({}),
+  mixins: [MixFetch],
+  data: () => ({
+    fetchPolicy: 'no-cache',
+  }),
   computed: {
     title() {
       return this.$route.query.loginToken
@@ -32,27 +36,13 @@ export default {
           rememberUser: false,
         });
         if (this.$config.customerTypesToggle) {
-          this.$apollo
-            .query({
-              query: getUserQuery,
-              errorPolicy: 'all',
-              fetchPolicy: 'no-cache',
-            })
-            .then((result) => {
-              if (!result.errors) {
-                const type = result.data?.getUser?.customerType;
-                this.$store.dispatch('changeCustomerType', type);
-                this.$store.dispatch('setCustomerTypeCookie', type);
-                this.routeToAccount();
-              }
-            })
-            .catch((error) => {
-              // pass the error response to the error component
-              this.$nuxt.error({ statusCode: 500, message: error });
-            });
-        } else {
-          this.routeToAccount();
+          const type = await this.fetchData(getUserQuery, (result) => {
+            return result?.data?.getUser?.customerType || null;
+          });
+          this.$store.dispatch('changeCustomerType', type);
+          this.$store.dispatch('setCustomerTypeCookie', type);
         }
+        this.routeToAccount();
       }
     },
   },
