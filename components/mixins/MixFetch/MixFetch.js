@@ -46,7 +46,7 @@ export default {
         })
         .then((result) => {
           if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
-            this.$ralphLog('api', result?.data);
+            this.$ralphLog('api query', result?.data);
           }
           return callback(result);
         })

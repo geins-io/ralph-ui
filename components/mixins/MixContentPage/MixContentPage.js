@@ -6,7 +6,8 @@ import widgetAreaQuery from 'global/widget-area.graphql';
 export default {
   name: 'MixContentPage',
   mixins: [MixMetaReplacement],
-  async asyncData({ error, store, app, redirect, req, params }) {
+  async asyncData(ctx) {
+    const { app, store, params, error } = ctx;
     const currentPath = decodeURI(store.state.currentPath);
     const alias = decodeURI(params.alias?.split('/').pop()) || '';
     const displaySetting =
@@ -19,33 +20,20 @@ export default {
     };
 
     try {
-      const client = app.apolloProvider.defaultClient;
       let widgetData = null;
       let hasMenu = false;
       let meta = null;
 
-      await client
-        .query({
-          query: widgetAreaQuery,
-          variables,
-        })
-        .then((result) => {
-          widgetData = result?.data?.widgetArea;
-          if (!widgetData) {
-            error({
-              statusCode: 404,
-              message: 'Page not found',
-              url: currentPath,
-            });
-            return;
-          }
-          hasMenu = widgetData.tags.includes('menu');
-          meta = widgetData.meta;
-          store.dispatch('loading/end');
-        })
-        .catch((err) => {
-          error({ statusCode: err.statusCode, message: err });
-        });
+      await app.$fetchData(ctx, widgetAreaQuery, variables, (result) => {
+        widgetData = result?.data?.widgetArea;
+        if (!widgetData) {
+          app.$error404(ctx, currentPath);
+          return;
+        }
+        hasMenu = widgetData.tags.includes('menu');
+        meta = widgetData.meta;
+        store.dispatch('loading/end');
+      });
 
       return { widgetData, hasMenu, meta };
     } catch (err) {

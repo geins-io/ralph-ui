@@ -14,49 +14,29 @@ import relatedProductsQuery from 'product/related-products.graphql';
 export default {
   name: 'MixProductPage',
   mixins: [MixMetaReplacement, MixFetch],
-  async asyncData({ error, store, app, redirect, req, params }) {
+  async asyncData(ctx) {
+    const { app, store, error, params } = ctx;
     const currentPath = decodeURI(store.state.currentPath);
     const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
 
-    const variables = {
-      alias: prodAlias,
-    };
-
     try {
-      const client = app.apolloProvider.defaultClient;
       let asyncProduct = null;
+      const variables = { alias: prodAlias };
 
-      await client
-        .query({
-          query: productQuery,
-          variables,
-        })
-        .then((result) => {
-          asyncProduct = result?.data?.product;
-          if (!asyncProduct) {
-            error({
-              statusCode: 404,
-              message: 'Page not found',
-              url: currentPath,
-            });
-            return;
-          }
-          if (asyncProduct.canonicalUrl !== currentPath) {
-            redirect({
-              path: asyncProduct.canonicalUrl,
-              query: req?.query,
-            });
-          }
-        })
-        .catch((err) => {
-          error({
-            statusCode: err.statusCode,
-            message: err.message,
-          });
-        });
+      await app.$fetchData(ctx, productQuery, variables, (result) => {
+        asyncProduct = result?.data?.product;
+        if (!asyncProduct) {
+          app.$error404(ctx, currentPath);
+          return;
+        }
+        if (asyncProduct.canonicalUrl !== currentPath) {
+          app.$redirectToCanonical(ctx, asyncProduct.canonicalUrl);
+        }
+      });
 
       return { asyncProduct };
     } catch (err) {
+      // Handle any errors, such as network issues or API failures
       error(err);
     }
   },

@@ -16,32 +16,33 @@ export const mutations = {
 };
 
 export const actions = {
-  get({ dispatch, getters, rootState, rootGetters }, id = null) {
+  async get({ dispatch, getters, rootState, rootGetters }, id = null) {
     if (id) {
       dispatch('update', { id });
     }
-    const client = this.app.apolloProvider.defaultClient;
-    client
-      .query({
-        query: getCartQuery,
-        variables: {
-          id: id ?? getters.id,
-          cartMarketAlias: rootGetters['channel/cartMarketAlias'],
-          allowExternalShippingFee:
-            rootState.currentRouteName?.includes('checkout'),
-        },
-        fetchPolicy: 'no-cache',
-      })
-      .then((result) => {
-        if (result?.data?.getCart) {
-          dispatch('update', result.data.getCart);
-        }
-      })
-      .catch((error) => {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      });
+
+    const variables = {
+      id: id ?? getters.id,
+      cartMarketAlias: rootGetters['channel/cartMarketAlias'],
+      allowExternalShippingFee:
+        rootState.currentRouteName?.includes('checkout'),
+    };
+
+    const cart = await this.app.$fetchData(
+      this,
+      getCartQuery,
+      variables,
+      (result) => {
+        return result?.data?.getCart;
+      },
+      'no-cache',
+    );
+
+    if (cart) {
+      dispatch('update', cart);
+    }
   },
-  update({ commit, dispatch }, cart) {
+  update({ commit }, cart) {
     commit('setCart', cart);
 
     if (process.server) {

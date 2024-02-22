@@ -8,40 +8,25 @@ import listPageInfoQuery from 'productlist/list-page.graphql';
 export default {
   name: 'MixListInfo',
   mixins: [MixMetaReplacement],
-  async asyncData({ error, store, app, redirect, req }) {
+  async asyncData(ctx) {
+    const { app, store, error } = ctx;
     const currentPath = decodeURI(store.state.currentPath);
 
     try {
-      const client = app.apolloProvider.defaultClient;
       let listPageInfo = null;
       const variables = { url: currentPath };
 
-      await client
-        .query({
-          query: listPageInfoQuery,
-          variables,
-        })
-        .then((result) => {
-          listPageInfo = result?.data?.listPageInfo;
-          if (!listPageInfo || listPageInfo.id === 0) {
-            error({
-              statusCode: 404,
-              message: 'Page not found',
-              url: currentPath,
-            });
-            return;
-          }
-          if (listPageInfo.canonicalUrl !== currentPath) {
-            redirect({
-              path: listPageInfo.canonicalUrl,
-              query: req?.query,
-            });
-          }
-          store.dispatch('loading/end');
-        })
-        .catch((err) => {
-          error({ statusCode: err.statusCode, message: err });
-        });
+      await app.$fetchData(ctx, listPageInfoQuery, variables, (result) => {
+        listPageInfo = result?.data?.listPageInfo;
+        if (!listPageInfo || listPageInfo.id === 0) {
+          app.$error404(ctx, currentPath);
+          return;
+        }
+        if (listPageInfo.canonicalUrl !== currentPath) {
+          app.$redirectToCanonical(ctx, listPageInfo.canonicalUrl);
+        }
+        store.dispatch('loading/end');
+      });
 
       return { listInfo: listPageInfo };
     } catch (err) {
@@ -50,11 +35,6 @@ export default {
     }
   },
   props: {},
-  data: () => ({}),
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {},
   head() {
     return {
       title: this.metaReplacement(this.listInfo?.meta?.title),
@@ -84,4 +64,9 @@ export default {
       ],
     };
   },
+  data: () => ({}),
+  computed: {},
+  watch: {},
+  mounted() {},
+  methods: {},
 };

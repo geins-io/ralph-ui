@@ -32,20 +32,18 @@ export const mutations = {
 };
 
 export const actions = {
-  getMarkets({ commit }) {
-    const client = this.app.apolloProvider.defaultClient;
-    client
-      .query({
-        query: getMarketsQuery,
-      })
-      .then((result) => {
-        if (result?.data?.channel?.markets) {
-          commit('setMarkets', result?.data?.channel?.markets);
-        }
-      })
-      .catch((error) => {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      });
+  async getMarkets({ commit }) {
+    const markets = await this.app.$fetchData(
+      this,
+      getMarketsQuery,
+      {},
+      (result) => {
+        return result?.data?.channel?.markets || [];
+      },
+    );
+    if (markets) {
+      commit('setMarkets', markets);
+    }
   },
   setCurrentMarket({ state, commit, dispatch, getters }, alias) {
     if (alias === state.currentMarket) {
