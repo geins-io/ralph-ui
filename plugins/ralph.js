@@ -21,7 +21,7 @@ export default ({ $config, store, app, i18n }, inject) => {
   inject('getPath', getPath);
 
   const ralphLog = (message, ...args) => {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' && process.client) {
       const logTag = '%cRALPH';
       const logStyle =
         'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
