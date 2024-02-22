@@ -72,7 +72,7 @@ export default {
   async fetch() {
     if (this.widgetData && this.firstLoad) {
       this.widgetArea = this.widgetData;
-      if (process.client) {
+      if (this.firstLoad) {
         this.firstLoad = false;
       }
       return;

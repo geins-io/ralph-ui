@@ -91,21 +91,8 @@ export default {
       },
       this.variables.products,
     );
-    if (process.client) {
-      this.productFilters = await this.fetchData(
-        filtersQuery,
-        (result) => {
-          if (this.filtersSet) {
-            this.updateFilters(result.data.products.filters);
-          } else if (result.data.products?.filters?.facets?.length) {
-            this.baseFilters = result.data.products.filters;
-            this.setupFilters(this.baseFilters);
-          }
-          return result.data.products.filters;
-        },
-        this.variables.filters,
-      );
-    }
+
+    this.getFilters();
   },
   data: () => ({
     products: null,
@@ -499,8 +486,30 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.getFilters();
+  },
   methods: {
+    // @vuese
+    // Fetches the filters for the list page
+    async getFilters() {
+      if (process.server) {
+        return;
+      }
+      this.productFilters = await this.fetchData(
+        filtersQuery,
+        (result) => {
+          if (this.filtersSet) {
+            this.updateFilters(result.data.products.filters);
+          } else if (result.data.products?.filters?.facets?.length) {
+            this.baseFilters = result.data.products.filters;
+            this.setupFilters(this.baseFilters);
+          }
+          return result.data.products.filters;
+        },
+        this.variables.filters,
+      );
+    },
     // @vuese
     // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products
     getScrollHeight() {

@@ -111,7 +111,7 @@ export default {
       });
     }
 
-    if (this.product && !process.server) {
+    if (this.replaceAlias) {
       this.initProduct();
     }
 
@@ -238,7 +238,9 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.initProduct();
+  },
   methods: {
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
@@ -320,13 +322,6 @@ export default {
       });
     },
     // @vuese
-    // Switching to canonical url if different from route path
-    switchToCanonical() {
-      if (this.product.canonicalUrl !== this.$route.path) {
-        history.replaceState(null, null, this.product.canonicalUrl);
-      }
-    },
-    // @vuese
     // Append product id to latest products cookie
     appendProductToLatest() {
       const COOKIE_NAME = 'ralph-latest-products';
@@ -383,6 +378,9 @@ export default {
     // @vuese
     // Initiate product
     initProduct() {
+      if (!this.product) {
+        return;
+      }
       if (!this.hasSkuVariants) {
         this.setDefaultSku();
       } else if (this.skuIsChosen && !this.chosenSkuVariant) {
