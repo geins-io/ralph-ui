@@ -11,9 +11,6 @@ export default class AuthClient {
   setTokenData(data) {
     this.token = data.token;
     this.maxAge = data.maxAge;
-    if (data.token) {
-      localStorage.setItem('isSign', true);
-    }
   }
 
   // Connects to auth endpoint with selected action. If no credentials or action is passed, a token refresh is made
@@ -23,7 +20,6 @@ export default class AuthClient {
     const url = this.authEndpoint + action;
     const getSign = !!credentials;
     const auth = { username: credentials?.username };
-    const signState = localStorage.getItem('isSign');
 
     const fetchOptions = {
       method: getSign ? 'POST' : 'GET',
@@ -50,27 +46,21 @@ export default class AuthClient {
       fetchOptions.body = JSON.stringify(auth);
     };
 
-    if (signState || credentials) {
-      let data = await fetch(url, fetchOptions)
+    let data = await fetch(url, fetchOptions)
+      .then((response) => response.json())
+      .catch(() => {});
+    if (data?.sign) {
+      await addCredentials(data.sign);
+      data = await fetch(url, fetchOptions)
         .then((response) => response.json())
+        .then((data) => {
+          if (data?.token) {
+            this.setTokenData(data);
+          }
+        })
         .catch(() => {});
-      if (data?.sign) {
-        await addCredentials(data.sign);
-        data = await fetch(url, fetchOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data?.token) {
-              this.setTokenData(data);
-            }
-          })
-          .catch(() => {});
-      } else if (data?.token) {
-        this.setTokenData(data);
-      }
-    }
-
-    if (action === 'logout') {
-      localStorage.removeItem('isSign');
+    } else if (data?.token) {
+      this.setTokenData(data);
     }
   }
 
