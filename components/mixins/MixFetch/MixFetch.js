@@ -56,11 +56,13 @@ export default {
     },
     refetchOnChange(newVal, oldVal) {
       if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-        this.$fetch();
+        this.refetch();
       }
     },
     refetch() {
-      this.$fetch();
+      if (this.$fetch) {
+        this.$fetch();
+      }
     },
   },
 };
