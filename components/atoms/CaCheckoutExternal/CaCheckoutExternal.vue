@@ -126,19 +126,20 @@ export default {
                 api.suspend();
               });
             }
+            this.suspended = true;
             return;
           case 'SVEA':
             if (window.scoApi) {
               window.scoApi.setCheckoutEnabled(false);
             }
+            this.suspended = true;
             return;
           case 'WALLEY':
             if (window.collector) {
               window.collector.checkout.api.suspend();
             }
-            return;
+            this.suspended = true;
         }
-        this.suspended = true;
       }
     },
     // @vuese
