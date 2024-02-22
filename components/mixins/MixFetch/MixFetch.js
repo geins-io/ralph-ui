@@ -54,6 +54,22 @@ export default {
           this.$nuxt.error({ statusCode: error.statusCode, message: error });
         });
     },
+    async mutateData(mutation, variables, callback) {
+      return await this.$apollo
+        .mutate({
+          mutation,
+          variables,
+        })
+        .then((result) => {
+          if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
+            this.$ralphLog('api mutation', result?.data);
+          }
+          return callback(result);
+        })
+        .catch((error) => {
+          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+        });
+    },
     refetchOnChange(newVal, oldVal) {
       if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
         this.refetch();

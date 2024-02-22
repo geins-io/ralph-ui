@@ -349,42 +349,30 @@ export default {
       ) {
         await this.$store.dispatch('auth/register', this.credentials);
         if (this.$store.getters['auth/authenticated']) {
-          this.$apollo
-            .mutate({
-              mutation: registerMutation,
-              variables: {
-                user: {
-                  newsletter: this.newsletterSubscribe,
-                  customerType: this.$store.state.customerType,
-                },
-              },
-              errorPolicy: 'all',
-              fetchPolicy: 'no-cache',
-            })
-            .then((result) => {
-              this.loading = false;
-              if (!result.errors) {
-                this.$store.dispatch('events/push', {
-                  type: 'user:register',
-                });
-                this.closePanelAfterDelay('account-settings');
-                this.showFeedback(this.feedback.accountCreated);
-                if (this.$config.customerTypesToggle) {
-                  this.$store.dispatch(
-                    'setCustomerTypeCookie',
-                    this.$store.state.customerType,
-                  );
-                }
-              } else {
-                this.showFeedback(this.feedback.error);
-              }
-            })
-            .catch((error) => {
-              this.$nuxt.error({
-                statusCode: error.statusCode,
-                message: error,
+          const variables = {
+            user: {
+              newsletter: this.newsletterSubscribe,
+              customerType: this.$store.state.customerType,
+            },
+          };
+          await this.mutateData(registerMutation, variables, (result) => {
+            this.loading = false;
+            if (!result.errors) {
+              this.$store.dispatch('events/push', {
+                type: 'user:register',
               });
-            });
+              this.closePanelAfterDelay('account-settings');
+              this.showFeedback(this.feedback.accountCreated);
+              if (this.$config.customerTypesToggle) {
+                this.$store.dispatch(
+                  'setCustomerTypeCookie',
+                  this.$store.state.customerType,
+                );
+              }
+            } else {
+              this.showFeedback(this.feedback.error);
+            }
+          });
         } else {
           this.loading = false;
           this.showFeedback(this.feedback.alreadyExists);
@@ -396,21 +384,18 @@ export default {
     },
     // @vuese
     // Reset password action
-    resetPassword() {
+    async resetPassword() {
       this.loading = true;
       if (this.$refs.inputEmail.validateInput()) {
-        this.$apollo
-          .mutate({
-            mutation: requestPasswordResetMutation,
-            variables: {
-              email: this.email,
-            },
-            errorPolicy: 'all',
-            fetchPolicy: 'no-cache',
-          })
-          .then((result) => {
+        const variables = {
+          email: this.email,
+        };
+        await this.mutateData(
+          requestPasswordResetMutation,
+          variables,
+          (result) => {
             this.loading = false;
-            if (result?.data?.requestPasswordReset && !result.errors) {
+            if (!result.errors) {
               this.resetFields();
               this.showFeedback(this.feedback.passwordResetted);
               this.$store.dispatch('events/push', {
@@ -423,10 +408,8 @@ export default {
             } else {
               this.showFeedback(this.feedback.error);
             }
-          })
-          .catch((error) => {
-            this.$nuxt.error({ statusCode: error.statusCode, message: error });
-          });
+          },
+        );
       } else {
         this.showFeedback(this.feedback.notValid);
         this.loading = false;

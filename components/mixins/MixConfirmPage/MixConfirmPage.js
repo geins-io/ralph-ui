@@ -120,23 +120,15 @@ export default {
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
-    completeCart() {
+    async completeCart() {
       this.sendDataLayerEvents(this.checkoutConfirmData);
-      this.$apollo
-        .mutate({
-          mutation: completeCartMutation,
-          variables: {
-            id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket,
-          },
-          fetchPolicy: 'no-cache',
-        })
-        .then(() => {
-          this.$store.dispatch('cart/reset');
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+      const variables = {
+        id: this.cartId,
+        checkoutMarket: this.$store.state.channel.checkoutMarket,
+      };
+      await this.mutateData(completeCartMutation, variables, () => {
+        this.$store.dispatch('cart/reset');
+      });
     },
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method

@@ -1,12 +1,13 @@
 import updateCartMutation from 'cart/update.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
+import MixFetch from 'MixFetch';
 import { mapState } from 'vuex';
 // @group Mixins
 // @vuese
 // Function to update the current cart
 export default {
   name: 'MixUpdateCart',
-  mixins: [MixPromiseQueue],
+  mixins: [MixPromiseQueue, MixFetch],
   props: {},
   data: () => ({}),
   computed: {
@@ -31,55 +32,49 @@ export default {
         skuId: prodSkuId,
         quantity: prodQuantity,
       };
+      const variables = {
+        id: this.$store.getters['cart/id'],
+        item: updateItem,
+        allowExternalShippingFee:
+          this.$store.state.currentRouteName?.includes('checkout'),
+      };
+
       const updateMutation = () =>
-        this.$apollo
-          .mutate({
-            mutation: updateCartMutation,
-            variables: {
-              id: this.$store.getters['cart/id'],
-              item: updateItem,
-              allowExternalShippingFee:
-                this.$store.state.currentRouteName?.includes('checkout'),
-            },
-          })
-          .then((result) => {
-            this.$store.dispatch('cart/update', result.data.updateCartItem);
-            this.$emit('loading', false);
+        this.mutateData(updateCartMutation, variables, (result) => {
+          this.$store.dispatch('cart/update', result.data.updateCartItem);
+          this.$emit('loading', false);
 
-            if (previousProductQuantity > prodQuantity) {
-              const quantity = previousProductQuantity - prodQuantity;
-              updateItem.quantity = quantity;
+          if (previousProductQuantity > prodQuantity) {
+            const quantity = previousProductQuantity - prodQuantity;
+            updateItem.quantity = quantity;
 
-              this.$store.dispatch('events/push', {
-                type: 'cart:remove',
-                data: {
-                  item: updateItem,
-                  product: {
-                    campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product,
-                  },
+            this.$store.dispatch('events/push', {
+              type: 'cart:remove',
+              data: {
+                item: updateItem,
+                product: {
+                  campaign: productStateBeforeUpdate.campaign,
+                  ...productStateBeforeUpdate.product,
                 },
-              });
-            } else if (prodQuantity > previousProductQuantity) {
-              const quantity = prodQuantity - previousProductQuantity;
-              updateItem.quantity = quantity;
+              },
+            });
+          } else if (prodQuantity > previousProductQuantity) {
+            const quantity = prodQuantity - previousProductQuantity;
+            updateItem.quantity = quantity;
 
-              this.$store.dispatch('events/push', {
-                type: 'cart:add',
-                data: {
-                  item: updateItem,
-                  product: {
-                    campaign: productStateBeforeUpdate.campaign,
-                    ...productStateBeforeUpdate.product,
-                  },
+            this.$store.dispatch('events/push', {
+              type: 'cart:add',
+              data: {
+                item: updateItem,
+                product: {
+                  campaign: productStateBeforeUpdate.campaign,
+                  ...productStateBeforeUpdate.product,
                 },
-              });
-            }
-          })
-          .catch((error) => {
-            // eslint-disable-next-line no-console
-            console.error('MixUpdateCart: ' + error);
-          });
+              },
+            });
+          }
+        });
+
       this.enqueue(updateMutation);
     },
   },

@@ -31,13 +31,14 @@
 </template>
 <script>
 import newsletterMutation from 'global/newsletter.graphql';
+import MixFetch from 'MixFetch';
 // @group Molecules
 // @vuese
 // The sign up for newsletter form<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-newsletter.scss_
 export default {
   name: 'CaNewsletter',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // Color prop for the button
     buttonColor: {

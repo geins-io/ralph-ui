@@ -3,6 +3,7 @@ import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 import setCartShippingFeeMutation from 'checkout/set-cart-shipping-fee.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -25,7 +26,7 @@ import MixPromiseQueue from 'MixPromiseQueue';
 // forceExternalCheckoutReset: `false`
 export default {
   name: 'MixCheckout',
-  mixins: [MixPromiseQueue],
+  mixins: [MixPromiseQueue, MixFetch],
   props: {},
   data: (vm) => ({
     cartLoading: true,
@@ -273,22 +274,19 @@ export default {
         if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
           this.$refs.externalcheckout.suspend();
         }
-        const vars = {
+        const variables = {
           cartId: this.$store.getters['cart/id'],
           checkoutMarketId: this.checkoutMarket,
         };
         if (Object.keys(this.checkoutInput).length) {
-          vars.checkout = this.checkoutInput;
+          variables.checkout = this.checkoutInput;
         }
         const updateMutation = () =>
-          this.$apollo
-            .mutate({
-              mutation: createOrUpdateCheckoutMutation,
-              variables: vars,
-              fetchPolicy: 'no-cache',
-            })
-            .then((result) => {
-              this.checkout = result.data.createOrUpdateCheckout;
+          this.mutateData(
+            createOrUpdateCheckoutMutation,
+            variables,
+            (result) => {
+              this.checkout = result?.data?.createOrUpdateCheckout;
               this.updateCart(this.checkout.cart);
               this.checkoutLoading = false;
               this.shippingLoading = false;
@@ -314,13 +312,8 @@ export default {
                   }
                 }
               });
-            })
-            .catch((error) => {
-              this.$nuxt.error({
-                statusCode: error.statusCode,
-                message: error,
-              });
-            });
+            },
+          );
 
         this.enqueue(updateMutation);
       }, this.updateDelay);
@@ -356,37 +349,27 @@ export default {
     },
     // @vuese
     // Placing the order and redirecting to confirm page if completed
-    placeOrder() {
-      this.$apollo
-        .mutate({
-          mutation: placeOrderMutation,
-          variables: {
-            cartId: this.$store.getters['cart/id'],
-            checkoutMarketId: this.checkoutMarket,
-            checkout: this.checkoutInput,
-          },
-        })
-        .then((result) => {
-          if (
-            result?.data?.placeOrder &&
-            result.data.placeOrder.status === 'completed'
-          ) {
-            const confirmUrl =
-              this.$getPath('checkout-confirm') +
-              '?cartid=' +
-              this.$store.getters['cart/id'] +
-              '&oid=' +
-              result.data.placeOrder.orderId +
-              '&email=' +
-              this.checkout.email;
-            this.$router.push(confirmUrl);
-          } else {
-            this.$refs.checkoutInvoice.showErrorFeedback();
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+    async placeOrder() {
+      const variables = {
+        cartId: this.$store.getters['cart/id'],
+        checkoutMarketId: this.checkoutMarket,
+        checkout: this.checkoutInput,
+      };
+      await this.mutateData(placeOrderMutation, variables, (result) => {
+        if (result?.data?.placeOrder?.status === 'completed') {
+          const confirmUrl =
+            this.$getPath('checkout-confirm') +
+            '?cartid=' +
+            this.$store.getters['cart/id'] +
+            '&oid=' +
+            result.data.placeOrder.orderId +
+            '&email=' +
+            this.checkout.email;
+          this.$router.push(confirmUrl);
+        } else {
+          this.$refs.checkoutInvoice.showErrorFeedback();
+        }
+      });
     },
     // @vuese
     // Initialize Nshift
@@ -446,32 +429,21 @@ export default {
     // @vuese
     // Handling setting of the external shipping fee
     // @arg fee (Number)
-    setCartShippingFee(fee) {
+    async setCartShippingFee(fee) {
       this.cartLoading = true;
-      const vars = {
+
+      const variables = {
         cartId: this.$store.getters['cart/id'],
         checkoutMarketId: this.checkoutMarket,
         shippingFee: fee,
       };
 
-      this.$apollo
-        .mutate({
-          mutation: setCartShippingFeeMutation,
-          variables: vars,
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          if (result?.data?.setCartShippingFee?.cart) {
-            this.updateCart(result.data.setCartShippingFee.cart);
-            this.cartLoading = false;
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({
-            statusCode: error.statusCode,
-            message: error,
-          });
-        });
+      await this.mutateData(setCartShippingFeeMutation, variables, (result) => {
+        if (result?.data?.setCartShippingFee?.cart) {
+          this.updateCart(result.data.setCartShippingFee.cart);
+          this.cartLoading = false;
+        }
+      });
     },
   },
 };
