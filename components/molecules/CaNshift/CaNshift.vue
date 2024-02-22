@@ -139,7 +139,7 @@ export default {
       }
     }, 500);
   },
-  beforeUnmount() {
+  beforeDestroy() {
     clearInterval(this.widgetLoadedInterval);
   },
   methods: {

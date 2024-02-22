@@ -142,7 +142,7 @@ export default {
   mounted() {
     document.body.addEventListener('click', this.handleClickOutside);
   },
-  beforeUnmount() {
+  beforeDestroy() {
     document.body.removeEventListener('click', this.handleClickOutside);
   },
   methods: {

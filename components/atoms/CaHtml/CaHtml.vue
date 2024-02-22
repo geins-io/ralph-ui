@@ -38,7 +38,7 @@ export default {
     this.id = Math.random();
     this.$nextTick(this.init);
   },
-  beforeUnmount() {
+  beforeDestroy() {
     this.removeListeners();
   },
   methods: {

@@ -189,7 +189,7 @@ export default {
       this.playerId = 'player_' + this._uid;
     }
   },
-  beforeUnmount() {
+  beforeDestroy() {
     if (this.hasVideo) {
       window.removeEventListener('message', this.onMessageReceived);
     }

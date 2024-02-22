@@ -123,7 +123,7 @@ export default {
       this.open();
     }
   },
-  beforeUnmount() {
+  beforeDestroy() {
     this.close();
   },
   methods: {
