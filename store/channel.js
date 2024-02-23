@@ -37,7 +37,7 @@ export const actions = {
       return result?.data?.channel?.markets || [];
     };
 
-    const markets = await this.app.$fetchData(this, getMarketsQuery, callback);
+    const markets = await this.app.$fetchData(getMarketsQuery, callback);
 
     if (markets) {
       commit('setMarkets', markets);

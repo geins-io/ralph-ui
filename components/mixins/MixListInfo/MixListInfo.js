@@ -8,8 +8,7 @@ import listPageInfoQuery from 'productlist/list-page.graphql';
 export default {
   name: 'MixListInfo',
   mixins: [MixMetaReplacement],
-  async asyncData(ctx) {
-    const { app, store, error } = ctx;
+  async asyncData({ app, store, error, req }) {
     try {
       const currentPath = decodeURI(store.state.currentPath);
       let listPageInfo = null;
@@ -18,16 +17,16 @@ export default {
       const callback = (result) => {
         listPageInfo = result?.data?.listPageInfo;
         if (!listPageInfo || listPageInfo.id === 0) {
-          app.$error404(ctx, currentPath);
+          app.$error404(currentPath);
           return;
         }
         if (listPageInfo.canonicalUrl !== currentPath) {
-          app.$redirectToCanonical(ctx, listPageInfo.canonicalUrl);
+          app.$redirectToCanonical(listPageInfo.canonicalUrl, req?.query);
         }
         store.dispatch('loading/end');
       };
 
-      await app.$fetchData(ctx, listPageInfoQuery, callback, variables);
+      await app.$fetchData(listPageInfoQuery, callback, variables);
 
       return { listInfo: listPageInfo };
     } catch (err) {

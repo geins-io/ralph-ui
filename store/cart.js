@@ -32,7 +32,6 @@ export const actions = {
     };
 
     const cart = await this.app.$fetchData(
-      this,
       getCartQuery,
       callback,
       variables,

@@ -6,8 +6,7 @@ import widgetAreaQuery from 'global/widget-area.graphql';
 export default {
   name: 'MixContentPage',
   mixins: [MixMetaReplacement],
-  async asyncData(ctx) {
-    const { app, store, params, error } = ctx;
+  async asyncData({ app, store, params, error }) {
     try {
       const currentPath = decodeURI(store.state.currentPath);
       const alias = decodeURI(params.alias?.split('/').pop()) || '';
@@ -25,7 +24,7 @@ export default {
       const callback = (result) => {
         widgetData = result?.data?.widgetArea;
         if (!widgetData) {
-          app.$error404(ctx, currentPath);
+          app.$error404(currentPath);
           return;
         }
         hasMenu = widgetData.tags.includes('menu');
@@ -33,7 +32,7 @@ export default {
         store.dispatch('loading/end');
       };
 
-      await app.$fetchData(ctx, widgetAreaQuery, callback, variables);
+      await app.$fetchData(widgetAreaQuery, callback, variables);
 
       return { widgetData, hasMenu, meta };
     } catch (err) {

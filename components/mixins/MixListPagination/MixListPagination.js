@@ -105,6 +105,7 @@ export default {
           Math.ceil(this.totalCount / this.pageSize)
       ) {
         this.$error404(this.$route.fullPath);
+        return;
       }
 
       if (this.pagingPage > 1) {
