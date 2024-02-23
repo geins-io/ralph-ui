@@ -33,14 +33,12 @@ export const mutations = {
 
 export const actions = {
   async getMarkets({ commit }) {
-    const markets = await this.app.$fetchData(
-      this,
-      getMarketsQuery,
-      {},
-      (result) => {
-        return result?.data?.channel?.markets || [];
-      },
-    );
+    const callback = (result) => {
+      return result?.data?.channel?.markets || [];
+    };
+
+    const markets = await this.app.$fetchData(this, getMarketsQuery, callback);
+
     if (markets) {
       commit('setMarkets', markets);
     }

@@ -27,14 +27,15 @@ export const actions = {
       allowExternalShippingFee:
         rootState.currentRouteName?.includes('checkout'),
     };
+    const callback = (result) => {
+      return result?.data?.getCart || null;
+    };
 
     const cart = await this.app.$fetchData(
       this,
       getCartQuery,
+      callback,
       variables,
-      (result) => {
-        return result?.data?.getCart;
-      },
       'no-cache',
     );
 

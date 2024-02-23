@@ -122,13 +122,15 @@ export default {
     // Performs the complete cart mutation and resets the cart
     async completeCart() {
       this.sendDataLayerEvents(this.checkoutConfirmData);
+
       const variables = {
         id: this.cartId,
         checkoutMarket: this.$store.state.channel.checkoutMarket,
       };
-      await this.mutateData(completeCartMutation, variables, () => {
+      const callback = () => {
         this.$store.dispatch('cart/reset');
-      });
+      };
+      await this.mutateData(completeCartMutation, callback, variables);
     },
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method

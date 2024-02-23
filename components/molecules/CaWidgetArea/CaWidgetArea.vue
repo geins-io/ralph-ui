@@ -77,10 +77,13 @@ export default {
       }
       return;
     }
-    this.widgetArea = await this.fetchData(widgetAreaQuery, (result) => {
+
+    const callback = (result) => {
       this.$emit('dataFetched', result.data);
       return result?.data?.widgetArea;
-    });
+    };
+
+    this.widgetArea = await this.fetchData(widgetAreaQuery, callback);
   },
   computed: {
     variables() {

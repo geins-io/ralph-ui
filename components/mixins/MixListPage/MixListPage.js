@@ -79,16 +79,18 @@ export default {
     },
   },
   async fetch() {
+    const callback = (result) => {
+      const { products } = result.data;
+      this.productList = products?.products || [];
+      this.productsFetched = true;
+      this.setupPagination(products?.count);
+      this.$store.dispatch('loading/end');
+      return products;
+    };
+
     this.products = await this.fetchData(
       productsQuery,
-      (result) => {
-        const { products } = result.data;
-        this.productList = products?.products || [];
-        this.productsFetched = true;
-        this.setupPagination(products?.count);
-        this.$store.dispatch('loading/end');
-        return products;
-      },
+      callback,
       this.variables.products,
     );
 
@@ -496,17 +498,20 @@ export default {
       if (process.server) {
         return;
       }
+
+      const callback = (result) => {
+        if (this.filtersSet) {
+          this.updateFilters(result.data.products.filters);
+        } else if (result.data.products?.filters?.facets?.length) {
+          this.baseFilters = result.data.products.filters;
+          this.setupFilters(this.baseFilters);
+        }
+        return result.data.products.filters;
+      };
+
       this.productFilters = await this.fetchData(
         filtersQuery,
-        (result) => {
-          if (this.filtersSet) {
-            this.updateFilters(result.data.products.filters);
-          } else if (result.data.products?.filters?.facets?.length) {
-            this.baseFilters = result.data.products.filters;
-            this.setupFilters(this.baseFilters);
-          }
-          return result.data.products.filters;
-        },
+        callback,
         this.variables.filters,
       );
     },

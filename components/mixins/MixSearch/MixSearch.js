@@ -152,14 +152,11 @@ export default {
             sort: 'RELEVANCE',
           },
         };
+        const callback = (result) => {
+          return result?.data?.products || null;
+        };
 
-        const result = await this.fetchData(
-          searchQuery,
-          (result) => {
-            return result?.data?.products || null;
-          },
-          variables,
-        );
+        const result = await this.fetchData(searchQuery, callback, variables);
 
         this.products = result?.products || [];
 

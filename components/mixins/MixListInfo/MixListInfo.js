@@ -10,13 +10,12 @@ export default {
   mixins: [MixMetaReplacement],
   async asyncData(ctx) {
     const { app, store, error } = ctx;
-    const currentPath = decodeURI(store.state.currentPath);
-
     try {
+      const currentPath = decodeURI(store.state.currentPath);
       let listPageInfo = null;
-      const variables = { url: currentPath };
 
-      await app.$fetchData(ctx, listPageInfoQuery, variables, (result) => {
+      const variables = { url: currentPath };
+      const callback = (result) => {
         listPageInfo = result?.data?.listPageInfo;
         if (!listPageInfo || listPageInfo.id === 0) {
           app.$error404(ctx, currentPath);
@@ -26,12 +25,13 @@ export default {
           app.$redirectToCanonical(ctx, listPageInfo.canonicalUrl);
         }
         store.dispatch('loading/end');
-      });
+      };
+
+      await app.$fetchData(ctx, listPageInfoQuery, callback, variables);
 
       return { listInfo: listPageInfo };
     } catch (err) {
-      // Handle any errors, such as network issues or API failures
-      error(err);
+      error({ statusCode: err.statusCode, message: err });
     }
   },
   props: {},

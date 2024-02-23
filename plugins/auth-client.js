@@ -111,7 +111,7 @@ export default class AuthClient {
       return data;
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error(err);
+      console.error('geins auth client error', err);
     }
   }
 }

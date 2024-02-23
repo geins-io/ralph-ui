@@ -460,50 +460,38 @@ export default {
     this.userData = this.user;
   },
   methods: {
-    saveUser(sectionRef) {
+    async saveUser(sectionRef) {
       this.loading = true;
-      this.$apollo
-        .mutate({
-          mutation: updateUserMutation,
-          variables: {
-            user: {
-              address: this.addressInput,
-              gender: this.userData.gender,
-              personalId: this.userData.personalId,
-              customerType: this.userData.customerType,
-            },
-          },
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          this.loading = false;
-          if (!result.errors) {
-            this.userData = result.data.updateUser;
-            this.$store.dispatch(
-              'changeCustomerType',
-              this.userData.customerType,
-            );
-            this.$cookies.remove('ralph-user-type', { path: '/' });
-            this.$store.dispatch(
-              'setCustomerTypeCookie',
-              this.userData.customerType,
-            );
+      const variables = {
+        user: {
+          address: this.addressInput,
+          gender: this.userData.gender,
+          personalId: this.userData.personalId,
+          customerType: this.userData.customerType,
+        },
+      };
+      const callback = (result) => {
+        this.loading = false;
+        this.userData = result.data.updateUser;
+        this.$store.dispatch('changeCustomerType', this.userData.customerType);
+        this.$cookies.remove('ralph-user-type', { path: '/' });
+        this.$store.dispatch(
+          'setCustomerTypeCookie',
+          this.userData.customerType,
+        );
 
-            this.$emit('save', this.userData);
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
-              placement: 'bottom-center',
-              mode: 'success',
-            });
-            this.$nextTick(() => {
-              sectionRef.toggleEditMode();
-            });
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+        this.$emit('save', this.userData);
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
+          placement: 'bottom-center',
+          mode: 'success',
         });
+        this.$nextTick(() => {
+          sectionRef.toggleEditMode();
+        });
+      };
+
+      await this.mutateData(updateUserMutation, callback, variables);
     },
     triggerDeletePrompt() {
       const modalSettings = {
@@ -520,39 +508,24 @@ export default {
       };
       this.$store.commit('modal/open', modalSettings);
     },
-    deleteAccount() {
+    async deleteAccount() {
       this.$ralphBus.$emit('close-modal');
       this.$store.dispatch('loading/start');
-      this.$apollo
-        .mutate({
-          mutation: deleteUserMutation,
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-        })
-        .then(async (result) => {
-          this.$store.dispatch('loading/end');
-          if (!result.errors && result.data.deleteUser) {
-            await this.$store.dispatch('auth/logout');
-            this.$router.push({ path: this.$getPath('index') });
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
-              placement: 'bottom-center',
-              mode: 'success',
-            });
-            this.$store.dispatch('events/push', {
-              type: 'user:delete',
-            });
-          } else {
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('FEEDBACK_ERROR'),
-              placement: 'bottom-center',
-              mode: 'error',
-            });
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+
+      const callback = async () => {
+        await this.$store.dispatch('auth/logout');
+        this.$router.push({ path: this.$getPath('index') });
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
+          placement: 'bottom-center',
+          mode: 'success',
         });
+        this.$store.dispatch('events/push', {
+          type: 'user:delete',
+        });
+      };
+
+      await this.mutateData(deleteUserMutation, callback);
     },
     // @vuese
     // Get label for toggle

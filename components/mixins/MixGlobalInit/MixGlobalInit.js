@@ -55,6 +55,7 @@ export default {
       const categories = await this.fetchData(categoriesQuery, (result) => {
         return result?.data?.categories || [];
       });
+
       this.$store.commit('setCategoryTree', categories);
     }
 

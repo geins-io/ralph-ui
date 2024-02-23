@@ -104,11 +104,7 @@ export default {
         Number(this.$route.query?.page) >
           Math.ceil(this.totalCount / this.pageSize)
       ) {
-        this.$nuxt.error({
-          statusCode: 404,
-          message: 'Page not found',
-          url: this.$route.fullPath,
-        });
+        this.$error404(this.$route.fullPath);
       }
 
       if (this.pagingPage > 1) {
@@ -135,18 +131,20 @@ export default {
 
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
 
+      const callback = (result) => {
+        const { products } = result.data;
+        this.currentMaxCountSet += products.products.length;
+        this.productList = [...currentProductList, ...products.products];
+        if (this.mainProductList) {
+          this.pushURLParams();
+        }
+        this.nextPageLoading = false;
+        return products;
+      };
+
       this.products = await this.fetchData(
         this.productsQuery,
-        (result) => {
-          const { products } = result.data;
-          this.currentMaxCountSet += products.products.length;
-          this.productList = [...currentProductList, ...products.products];
-          if (this.mainProductList) {
-            this.pushURLParams();
-          }
-          this.nextPageLoading = false;
-          return products;
-        },
+        callback,
         this.loadMoreQueryVars,
       );
     },
@@ -165,16 +163,18 @@ export default {
         window.scrollBy(0, scrollAmount);
       });
 
+      const callback = (result) => {
+        const { products } = result.data;
+        this.currentMinCountSet -= products.products.length;
+        this.productList = [...products.products, ...currentProductList];
+        this.pushURLParams();
+        this.prevPageLoading = false;
+        return products;
+      };
+
       this.products = await this.fetchData(
         this.productsQuery,
-        (result) => {
-          const { products } = result.data;
-          this.currentMinCountSet -= products.products.length;
-          this.productList = [...products.products, ...currentProductList];
-          this.pushURLParams();
-          this.prevPageLoading = false;
-          return products;
-        },
+        callback,
         this.loadPrevQueryVars,
       );
     },

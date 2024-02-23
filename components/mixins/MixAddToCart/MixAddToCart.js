@@ -29,14 +29,15 @@ export default {
         allowExternalShippingFee:
           this.$store.state.currentRouteName?.includes('checkout'),
       };
+      const callback = (result) => {
+        this.addToCartLoading = false;
+        return result?.data?.addToCart || null;
+      };
 
       const cart = await this.mutateData(
         addToCartMutation,
+        callback,
         variables,
-        (result) => {
-          this.addToCartLoading = false;
-          return result?.data?.addToCart || null;
-        },
       );
 
       if (cart) {

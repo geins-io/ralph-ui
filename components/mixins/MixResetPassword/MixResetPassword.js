@@ -63,13 +63,8 @@ export default {
           resetKey: this.resetKey,
           password,
         };
-
-        await this.mutateData(commitResetMutation, variables, (result) => {
+        const callback = (result) => {
           this.loading = false;
-          if (result.errors) {
-            this.showFeedback(this.feedback.error);
-            return;
-          }
           if (result.data.commitReset) {
             this.resetFields();
             this.showFeedback(this.feedback.passwordChanged);
@@ -79,7 +74,18 @@ export default {
             return;
           }
           this.showFeedback(this.feedback.resetKeyNotValid);
-        });
+        };
+        const callbackError = () => {
+          this.loading = false;
+          this.showFeedback(this.feedback.error);
+        };
+
+        await this.mutateData(
+          commitResetMutation,
+          callback,
+          variables,
+          callbackError,
+        );
       } else {
         this.showFeedback(this.feedback.notValid);
       }

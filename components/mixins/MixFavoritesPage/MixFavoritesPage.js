@@ -15,6 +15,7 @@ export default {
     this.products = await this.fetchData(productsQuery, (result) => {
       return result?.data?.products?.products || [];
     });
+
     this.processProducts(this.products);
     this.$store.dispatch('loading/end');
   },

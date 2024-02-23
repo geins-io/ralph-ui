@@ -48,13 +48,14 @@
 </template>
 <script>
 import monitorAvailabilityMutation from 'product/monitor-availability.graphql';
+import MixFetch from 'MixFetch';
 // @group Molecules
 // @vuese
 // A panel where you can submit your email to get a back in stock alert for the product.<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-notify-panel.scss_
 export default {
   name: 'CaNotifyPanel',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // The current product
     product: {
@@ -96,30 +97,32 @@ export default {
   methods: {
     // @vuese
     // Triggers mutation in API to sign up for back in stock alerts
-    subscribe() {
+    async subscribe() {
       if (this.$refs.inputEmail.validateInput()) {
         this.loading = true;
-        this.$apollo
-          .mutate({
-            mutation: monitorAvailabilityMutation,
-            variables: {
-              email: this.email,
-              skuId: this.variant.skuId,
-            },
-            errorPolicy: 'all',
-            fetchPolicy: 'no-cache',
-          })
-          .then((result) => {
-            this.loading = false;
-            if (result.data.monitorProductAvailability) {
-              this.showFeedback(this.feedback.success);
-            } else {
-              this.showFeedback(this.feedback.error);
-            }
-          })
-          .catch((error) => {
-            this.$nuxt.error({ statusCode: error.statusCode, message: error });
-          });
+        const variables = {
+          email: this.email,
+          skuId: this.variant.skuId,
+        };
+        const callback = (result) => {
+          this.loading = false;
+          if (result?.data?.monitorProductAvailability) {
+            this.showFeedback(this.feedback.success);
+          } else {
+            this.showFeedback(this.feedback.error);
+          }
+        };
+        const callbackError = () => {
+          this.loading = false;
+          this.showFeedback(this.feedback.error);
+        };
+
+        await this.mutateData(
+          monitorAvailabilityMutation,
+          callback,
+          variables,
+          callbackError,
+        );
       } else {
         this.showFeedback(this.feedback.notValid);
       }

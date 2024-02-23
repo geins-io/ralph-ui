@@ -28,19 +28,16 @@ export default {
   },
   mounted() {
     this.logError();
+    this.$store.dispatch('loading/end');
   },
   methods: {
     // send the errors to the required service
     logError() {
-      if (this.$appInsights) {
-        this.$appInsights?.trackPageView({
-          name: '404 error',
-          pageType: 'errorPage',
-          properties: {
-            responseCode: 404,
-          },
-        });
-      }
+      this.$store.dispatch('events/push', {
+        type: 'error:404',
+        data: this.error,
+      });
+      this.$ralphLogError('ERROR:', this.error.message);
     },
   },
 };

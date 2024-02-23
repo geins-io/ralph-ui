@@ -1,5 +1,8 @@
 import Vue from 'vue';
 const ralphBus = new Vue();
+const logTag = '%cRALPH';
+const logStyle =
+  'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
 
 export default ({ $config, store, app, i18n }, inject) => {
   inject('ralphBus', ralphBus);
@@ -22,10 +25,6 @@ export default ({ $config, store, app, i18n }, inject) => {
 
   const ralphLog = (message, ...args) => {
     if (process.env.NODE_ENV === 'development' && process.client) {
-      const logTag = '%cRALPH';
-      const logStyle =
-        'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
-
       if (args) {
         // eslint-disable-next-line no-console
         console.log(logTag, logStyle, message, ...args);
@@ -38,11 +37,23 @@ export default ({ $config, store, app, i18n }, inject) => {
 
   inject('ralphLog', ralphLog);
 
+  const ralphLogError = (message, ...args) => {
+    if (args) {
+      // eslint-disable-next-line no-console
+      console.error(logTag, logStyle, message, ...args);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(logTag, logStyle, message);
+    }
+  };
+
+  inject('ralphLogError', ralphLogError);
+
   const fetchData = async (
     ctx,
     query,
-    variables,
     callback,
+    variables = {},
     fetchPolicy = 'cache-first',
   ) => {
     const client = ctx.app.apolloProvider.defaultClient;
@@ -65,11 +76,11 @@ export default ({ $config, store, app, i18n }, inject) => {
 
   inject('fetchData', fetchData);
 
-  const error404 = (ctx, currentPath) => {
+  const error404 = (ctx, path) => {
     ctx.error({
       statusCode: 404,
       message: 'Page not found',
-      url: currentPath,
+      url: path,
     });
   };
 

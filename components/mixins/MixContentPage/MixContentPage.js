@@ -8,23 +8,21 @@ export default {
   mixins: [MixMetaReplacement],
   async asyncData(ctx) {
     const { app, store, params, error } = ctx;
-    const currentPath = decodeURI(store.state.currentPath);
-    const alias = decodeURI(params.alias?.split('/').pop()) || '';
-    const displaySetting =
-      store.getters.viewport === 'phone' ? 'mobile' : 'desktop';
-
-    const variables = {
-      widgetAlias: alias,
-      displaySetting,
-      customerType: store.state.customerType,
-    };
-
     try {
+      const currentPath = decodeURI(store.state.currentPath);
+      const alias = decodeURI(params.alias?.split('/').pop()) || '';
+      const displaySetting =
+        store.getters.viewport === 'phone' ? 'mobile' : 'desktop';
       let widgetData = null;
       let hasMenu = false;
       let meta = null;
 
-      await app.$fetchData(ctx, widgetAreaQuery, variables, (result) => {
+      const variables = {
+        widgetAlias: alias,
+        displaySetting,
+        customerType: store.state.customerType,
+      };
+      const callback = (result) => {
         widgetData = result?.data?.widgetArea;
         if (!widgetData) {
           app.$error404(ctx, currentPath);
@@ -33,12 +31,13 @@ export default {
         hasMenu = widgetData.tags.includes('menu');
         meta = widgetData.meta;
         store.dispatch('loading/end');
-      });
+      };
+
+      await app.$fetchData(ctx, widgetAreaQuery, callback, variables);
 
       return { widgetData, hasMenu, meta };
     } catch (err) {
-      // Handle any errors, such as network issues or API failures
-      error(err);
+      error({ statusCode: err.statusCode, message: err });
     }
   },
   props: {},

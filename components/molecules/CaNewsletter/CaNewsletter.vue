@@ -81,37 +81,37 @@ export default {
     },
     // @vuese
     // Register for newsletter, performs apollo mutation
-    register() {
+    async register() {
       if (this.$refs.inputEmail.validateInput()) {
         this.loading = true;
-        this.$apollo
-          .mutate({
-            mutation: newsletterMutation,
-            variables: {
-              email: this.email,
-            },
-          })
-          .then((result) => {
-            this.loading = false;
-            if (result?.data?.subscribeToNewsletter) {
-              this.showFeedback(this.feedbacks.success);
-              this.$store.dispatch('events/push', {
-                type: 'newsletter:subscribe',
-                data: {
-                  email: this.email,
-                },
-              });
-              this.email = '';
-            } else {
-              this.showFeedback(this.feedbacks.fail);
-            }
-          })
-          .catch((error) => {
-            this.loading = false;
+        const variables = {
+          email: this.email,
+        };
+        const callback = (result) => {
+          this.loading = false;
+          if (result?.data?.subscribeToNewsletter) {
+            this.showFeedback(this.feedbacks.success);
+            this.$store.dispatch('events/push', {
+              type: 'newsletter:subscribe',
+              data: {
+                email: this.email,
+              },
+            });
+            this.email = '';
+          } else {
             this.showFeedback(this.feedbacks.fail);
-            // eslint-disable-next-line no-console
-            console.log(error);
-          });
+          }
+        };
+        const callbackError = () => {
+          this.loading = false;
+          this.showFeedback(this.feedbacks.fail);
+        };
+        await this.mutateData(
+          newsletterMutation,
+          callback,
+          variables,
+          callbackError,
+        );
       } else {
         this.showFeedback(this.feedbacks.notValid);
       }

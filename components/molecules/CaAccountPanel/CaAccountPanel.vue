@@ -323,6 +323,7 @@ export default {
             const type = await this.fetchData(getUserQuery, (result) => {
               return result?.data?.getUser?.customerType;
             });
+
             this.$store.dispatch('changeCustomerType', type);
             this.$store.dispatch('setCustomerTypeCookie', type);
           }
@@ -355,24 +356,30 @@ export default {
               customerType: this.$store.state.customerType,
             },
           };
-          await this.mutateData(registerMutation, variables, (result) => {
+          const callback = (result) => {
             this.loading = false;
-            if (!result.errors) {
-              this.$store.dispatch('events/push', {
-                type: 'user:register',
-              });
-              this.closePanelAfterDelay('account-settings');
-              this.showFeedback(this.feedback.accountCreated);
-              if (this.$config.customerTypesToggle) {
-                this.$store.dispatch(
-                  'setCustomerTypeCookie',
-                  this.$store.state.customerType,
-                );
-              }
-            } else {
-              this.showFeedback(this.feedback.error);
+            this.$store.dispatch('events/push', {
+              type: 'user:register',
+            });
+            this.closePanelAfterDelay('account-settings');
+            this.showFeedback(this.feedback.accountCreated);
+            if (this.$config.customerTypesToggle) {
+              this.$store.dispatch(
+                'setCustomerTypeCookie',
+                this.$store.state.customerType,
+              );
             }
-          });
+          };
+          const callbackError = () => {
+            this.loading = false;
+            this.showFeedback(this.feedback.error);
+          };
+          await this.mutateData(
+            registerMutation,
+            callback,
+            variables,
+            callbackError,
+          );
         } else {
           this.loading = false;
           this.showFeedback(this.feedback.alreadyExists);
@@ -390,25 +397,27 @@ export default {
         const variables = {
           email: this.email,
         };
+        const callback = (result) => {
+          this.loading = false;
+          this.resetFields();
+          this.showFeedback(this.feedback.passwordResetted);
+          this.$store.dispatch('events/push', {
+            type: 'user:password-reset',
+            data: {
+              email: this.email,
+              resetKey: result.data.requestPasswordReset,
+            },
+          });
+        };
+        const callbackError = () => {
+          this.loading = false;
+          this.showFeedback(this.feedback.error);
+        };
         await this.mutateData(
           requestPasswordResetMutation,
+          callback,
           variables,
-          (result) => {
-            this.loading = false;
-            if (!result.errors) {
-              this.resetFields();
-              this.showFeedback(this.feedback.passwordResetted);
-              this.$store.dispatch('events/push', {
-                type: 'user:password-reset',
-                data: {
-                  email: this.email,
-                  resetKey: result.data.requestPasswordReset,
-                },
-              });
-            } else {
-              this.showFeedback(this.feedback.error);
-            }
-          },
+          callbackError,
         );
       } else {
         this.showFeedback(this.feedback.notValid);

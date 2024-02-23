@@ -274,6 +274,7 @@ export default {
         if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
           this.$refs.externalcheckout.suspend();
         }
+
         const variables = {
           cartId: this.$store.getters['cart/id'],
           checkoutMarketId: this.checkoutMarket,
@@ -281,39 +282,38 @@ export default {
         if (Object.keys(this.checkoutInput).length) {
           variables.checkout = this.checkoutInput;
         }
+
+        const callback = (result) => {
+          this.checkout = result?.data?.createOrUpdateCheckout;
+          this.updateCart(this.checkout.cart);
+          this.checkoutLoading = false;
+          this.shippingLoading = false;
+          this.cartLoading = false;
+          this.frameLoading = false;
+          this.$store.dispatch('events/push', {
+            type: 'checkout:update',
+            data: { checkout: this.checkout },
+          });
+          this.$nextTick(() => {
+            if (this.$refs.nshift && this.$refs.nshift.widget) {
+              this.$refs.nshift.enable();
+            }
+            if (this.$refs.externalcheckout) {
+              if (
+                this.selectedPaymentOption.newCheckoutSession ||
+                this.forceExternalCheckoutReset
+              ) {
+                this.$refs.externalcheckout.initialize();
+                this.forceExternalCheckoutReset = false;
+              } else {
+                this.$refs.externalcheckout.resume();
+              }
+            }
+          });
+        };
+
         const updateMutation = () =>
-          this.mutateData(
-            createOrUpdateCheckoutMutation,
-            variables,
-            (result) => {
-              this.checkout = result?.data?.createOrUpdateCheckout;
-              this.updateCart(this.checkout.cart);
-              this.checkoutLoading = false;
-              this.shippingLoading = false;
-              this.cartLoading = false;
-              this.frameLoading = false;
-              this.$store.dispatch('events/push', {
-                type: 'checkout:update',
-                data: { checkout: this.checkout },
-              });
-              this.$nextTick(() => {
-                if (this.$refs.nshift && this.$refs.nshift.widget) {
-                  this.$refs.nshift.enable();
-                }
-                if (this.$refs.externalcheckout) {
-                  if (
-                    this.selectedPaymentOption.newCheckoutSession ||
-                    this.forceExternalCheckoutReset
-                  ) {
-                    this.$refs.externalcheckout.initialize();
-                    this.forceExternalCheckoutReset = false;
-                  } else {
-                    this.$refs.externalcheckout.resume();
-                  }
-                }
-              });
-            },
-          );
+          this.mutateData(createOrUpdateCheckoutMutation, callback, variables);
 
         this.enqueue(updateMutation);
       }, this.updateDelay);
@@ -355,7 +355,7 @@ export default {
         checkoutMarketId: this.checkoutMarket,
         checkout: this.checkoutInput,
       };
-      await this.mutateData(placeOrderMutation, variables, (result) => {
+      const callback = (result) => {
         if (result?.data?.placeOrder?.status === 'completed') {
           const confirmUrl =
             this.$getPath('checkout-confirm') +
@@ -369,7 +369,17 @@ export default {
         } else {
           this.$refs.checkoutInvoice.showErrorFeedback();
         }
-      });
+      };
+      const callbackError = () => {
+        this.$refs.checkoutInvoice.showErrorFeedback();
+      };
+
+      await this.mutateData(
+        placeOrderMutation,
+        callback,
+        variables,
+        callbackError,
+      );
     },
     // @vuese
     // Initialize Nshift
@@ -437,13 +447,14 @@ export default {
         checkoutMarketId: this.checkoutMarket,
         shippingFee: fee,
       };
-
-      await this.mutateData(setCartShippingFeeMutation, variables, (result) => {
+      const callback = (result) => {
         if (result?.data?.setCartShippingFee?.cart) {
           this.updateCart(result.data.setCartShippingFee.cart);
           this.cartLoading = false;
         }
-      });
+      };
+
+      await this.mutateData(setCartShippingFeeMutation, callback, variables);
     },
   },
 };

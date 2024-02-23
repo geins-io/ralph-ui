@@ -95,7 +95,7 @@ export default {
     averageRating: 0,
   }),
   async fetch() {
-    this.reviews = await this.fetchData(reviews, (result) => {
+    const callback = (result) => {
       const {
         reviews = [],
         count = 0,
@@ -104,7 +104,9 @@ export default {
       this.totalReviewsCount = count;
       this.averageRating = averageRating;
       return reviews;
-    });
+    };
+
+    this.reviews = await this.fetchData(reviews, callback);
   },
   computed: {
     // @vuese

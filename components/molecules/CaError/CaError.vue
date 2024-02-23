@@ -20,7 +20,7 @@
 export default {
   name: 'CaError',
   props: {
-    // the error message object from the response
+    // The error message object from the response
     error: {
       type: Object,
       required: true,
@@ -29,17 +29,18 @@ export default {
   },
   mounted() {
     this.logError();
+    this.$store.dispatch('loading/end');
   },
   methods: {
-    // send the errors to the required service
+    // Send the errors to the required service
     logError() {
-      /* eslint-disable */
-      console.error({
-        errorMessage: this.error,
-        url: this.$route.fullPath
+      this.$store.dispatch('events/push', {
+        type: 'error:500',
+        data: this.error,
       });
-    }
-  }
+      this.$ralphLogError('ERROR:', this.error.message);
+    },
+  },
 };
 </script>
 <style lang="scss">

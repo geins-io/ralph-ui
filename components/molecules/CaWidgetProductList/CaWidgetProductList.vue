@@ -63,12 +63,14 @@ export default {
       this.productsLoaded = true;
       return;
     }
-    this.productList = await this.fetchData(productsQuery, (result) => {
+    const callback = (result) => {
       const products = result?.data?.products || null;
       this.productsLoaded = true;
       this.setupPagination(products?.count);
       return products?.products || [];
-    });
+    };
+
+    this.productList = await this.fetchData(productsQuery, callback);
   },
   computed: {
     // @vuese

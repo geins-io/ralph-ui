@@ -16,14 +16,13 @@ export default {
   mixins: [MixMetaReplacement, MixFetch],
   async asyncData(ctx) {
     const { app, store, error, params } = ctx;
-    const currentPath = decodeURI(store.state.currentPath);
-    const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
-
     try {
+      const currentPath = decodeURI(store.state.currentPath);
+      const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
       let asyncProduct = null;
-      const variables = { alias: prodAlias };
 
-      await app.$fetchData(ctx, productQuery, variables, (result) => {
+      const variables = { alias: prodAlias };
+      const callback = (result) => {
         asyncProduct = result?.data?.product;
         if (!asyncProduct) {
           app.$error404(ctx, currentPath);
@@ -32,12 +31,13 @@ export default {
         if (asyncProduct.canonicalUrl !== currentPath) {
           app.$redirectToCanonical(ctx, asyncProduct.canonicalUrl);
         }
-      });
+      };
+
+      await app.$fetchData(ctx, productQuery, callback, variables);
 
       return { asyncProduct };
     } catch (err) {
-      // Handle any errors, such as network issues or API failures
-      error(err);
+      error({ statusCode: err.statusCode, message: err });
     }
   },
   props: {},
@@ -73,22 +73,20 @@ export default {
     if (this.asyncProduct && !this.replaceAlias) {
       this.product = this.asyncProduct;
     } else {
-      this.product = await this.fetchData(productQuery, (result) => {
+      const callback = (result) => {
         const product = result?.data?.product;
         const currentPath = this.$route.path;
         if (!product) {
-          this.$nuxt.context.error({
-            statusCode: 404,
-            message: 'Page not found',
-            url: currentPath,
-          });
+          this.$error404(currentPath);
           return;
         }
         if (currentPath !== product.canonicalUrl) {
           history.replaceState(null, null, product.canonicalUrl);
         }
         return product;
-      });
+      };
+
+      this.product = await this.fetchData(productQuery, callback);
     }
 
     if (this.replaceAlias) {
