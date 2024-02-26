@@ -164,10 +164,7 @@ export const actions = {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', vh + 'px');
   },
-  redirect404() {
-    const url = window.location.origin + '/404';
-    window.location.replace(url);
-  },
+  // Set customer type and vat included
   changeCustomerType({ state, commit, dispatch }, type) {
     const currentType = type ?? 'PERSON';
     const typeObj = state.config.customerTypes.find(
