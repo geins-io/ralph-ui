@@ -409,13 +409,14 @@
 <script>
 import updateUserMutation from 'user/update.graphql';
 import deleteUserMutation from 'user/delete.graphql';
+import MixFetch from 'MixFetch';
 // @group Organisms
 // @vuese
 // The settings for a users account<br><br>
 // **SASS-path:** _./styles/components/organisms/ca-account-settings.scss_
 export default {
   name: 'CaAccountSettings',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // The user object received from the API
     user: {
@@ -460,8 +461,12 @@ export default {
     this.userData = this.user;
   },
   methods: {
+    // @vuese
+    // Save the user data
+    // @arg section (String)
     async saveUser(sectionRef) {
       this.loading = true;
+
       const variables = {
         user: {
           address: this.addressInput,
@@ -470,6 +475,7 @@ export default {
           customerType: this.userData.customerType,
         },
       };
+
       const callback = (result) => {
         this.loading = false;
         this.userData = result.data.updateUser;
@@ -491,8 +497,20 @@ export default {
         });
       };
 
-      await this.mutateData(updateUserMutation, callback, variables);
+      const callbackError = () => {
+        this.loading = false;
+        this.callbackError();
+      };
+
+      await this.mutateData(
+        updateUserMutation,
+        callback,
+        variables,
+        callbackError,
+      );
     },
+    // @vuese
+    // Trigger delete account prompt
     triggerDeletePrompt() {
       const modalSettings = {
         component: 'CaPrompt',
@@ -508,6 +526,8 @@ export default {
       };
       this.$store.commit('modal/open', modalSettings);
     },
+    // @vuese
+    // Delete the account
     async deleteAccount() {
       this.$ralphBus.$emit('close-modal');
       this.$store.dispatch('loading/start');
