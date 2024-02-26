@@ -1,6 +1,6 @@
 # MixProductPage.js
 
-All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> replaceAlias: `null`<br>
+All functionality for the product page<br><br> **Data:**<br> product: `null`<br> quantity: `1`<br> replaceAlias: `null`<br> currentNotifyVariant: `{}`<br> relatedProducts: `[]`<br>
 
 ## Methods
 
@@ -10,11 +10,11 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |onQuantityChange|Handler for changing quantity|value (Number)|
 |addToCartClick|Action for clicking the add to cart button|-|
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|
-|sizeChangeHandler|Handler for changing the sku|data (Object)|
+|skuChangeHandler|Handler for changing the sku|data (Object)|
 |quantityThresholdHandler|Handler for reaching quantity threshold|-|
-|switchToCanonical|Switching to canonical url if different from route path|-|
+|appendProductToLatest|Append product id to latest products cookie|-|
 |notifyHandler|Handler for clicking the notify button|variant (Object)|
-|sendImpressionEvent|Sending the product detail impression event|-|
+|initProduct|Initiate product|-|
 
 <!-- @vuese:MixProductPage.js:methods:end -->
 
@@ -24,6 +24,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 <!-- @vuese:MixProductPage.js:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|variables|`Object`|Variables to be watched by MixFetch|No|
 |productImages|`Array`|Quick ref to product images|No|
 |prodAlias|`String`|Alias used to fetch product data, using replaceAlias if it has a value|No|
 |widgetAreaFilters|`Array`|Returns array of widget filters|No|
@@ -42,7 +43,7 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |MixIn|
 |---|
 |MixMetaReplacement|
-|MixApolloRefetch|
+|MixFetch|
 
 <!-- @vuese:MixProductPage.js:mixIns:end -->
 
@@ -53,8 +54,6 @@ All functionality for the product page<br><br> **Data:**<br> quantity: `1`<br> r
 |Name|Description|Parameters|
 |---|---|---|
 |undefined|Watching currentStock.totalStock to change quantity if set higher than totalStock|-|
-|prodAlias|Watching prodAlias to fetch request when alias state change|-|
-|undefined|Watching productId to send impression event when changing variant|-|
 
 <!-- @vuese:MixProductPage.js:watch:end -->
 

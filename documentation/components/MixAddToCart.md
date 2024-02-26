@@ -12,3 +12,13 @@ A mixin for the add to cart function
 <!-- @vuese:MixAddToCart:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixAddToCart:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:MixAddToCart:mixIns:end -->
+
+

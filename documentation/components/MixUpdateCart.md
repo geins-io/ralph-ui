@@ -28,6 +28,7 @@ Function to update the current cart
 |MixIn|
 |---|
 |MixPromiseQueue|
+|MixFetch|
 
 <!-- @vuese:MixUpdateCart:mixIns:end -->
 

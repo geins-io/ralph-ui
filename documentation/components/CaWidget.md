@@ -13,19 +13,8 @@ Shell for displaying widget component based on type<br><br> **SASS-path:** _./st
 |imageRatios|-|`Array`|`true`|-|
 |isFirst|-|`Boolean`|`false`|false|
 |widgetAreaVariables|-|`Object`|`true`|-|
-|fetchProductsOnlyClientSide|Fetch products only client side|`Boolean`|`false`|false|
 
 <!-- @vuese:CaWidget:props:end -->
-
-
-## Events
-
-<!-- @vuese:CaWidget:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|widget-mounted|-|-|
-
-<!-- @vuese:CaWidget:events:end -->
 
 
 ## MixIns

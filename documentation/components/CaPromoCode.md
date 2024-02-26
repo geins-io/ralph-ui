@@ -23,3 +23,13 @@ Promo code block used mainly in checkout<br><br> **SASS-path:** _./styles/compon
 <!-- @vuese:CaPromoCode:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:CaPromoCode:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:CaPromoCode:mixIns:end -->
+
+

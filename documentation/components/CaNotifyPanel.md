@@ -25,3 +25,13 @@ A panel where you can submit your email to get a back in stock alert for the pro
 <!-- @vuese:CaNotifyPanel:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:CaNotifyPanel:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:CaNotifyPanel:mixIns:end -->
+
+

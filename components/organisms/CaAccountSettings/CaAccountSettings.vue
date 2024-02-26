@@ -434,6 +434,9 @@ export default {
     loading: false,
   }),
   computed: {
+    // @vuese
+    // The full adress input object
+    // @type Object
     addressInput() {
       const address = this.userData?.address;
       if (address) {
@@ -441,13 +444,22 @@ export default {
       }
       return address;
     },
+    // @vuese
+    // The customer types available
+    // @type Array
     customerTypes() {
       return this.$config.customerTypes;
     },
+    // @vuese
+    // The current user type
+    // @type Object
     currentUserType() {
       const type = this.$store.state.customerType;
       return this.customerTypes.find((i) => i.type === type);
     },
+    // @vuese
+    // If the user is an organization
+    // @type Boolean
     userIsOrganization() {
       return this.currentUserType.type === 'ORGANIZATION';
     },

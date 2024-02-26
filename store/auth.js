@@ -98,7 +98,7 @@ export const actions = {
         path: '/',
         maxAge: maxage,
       });
-    } else if (state.user) {
+    } else if (state.user !== null) {
       username = null;
       commit('clearTokenTimeout');
       commit('setUser', username);

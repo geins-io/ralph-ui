@@ -23,3 +23,13 @@ The sign up for newsletter form<br><br> **SASS-path:** _./styles/components/mole
 <!-- @vuese:CaNewsletter:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:CaNewsletter:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:CaNewsletter:mixIns:end -->
+
+

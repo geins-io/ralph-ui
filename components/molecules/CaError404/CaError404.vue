@@ -31,7 +31,8 @@ export default {
     this.$store.dispatch('loading/end');
   },
   methods: {
-    // send the errors to the required service
+    // @vuese
+    // Log error to events and console
     logError() {
       this.$store.dispatch('events/push', {
         type: 'error:404',

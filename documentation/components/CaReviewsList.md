@@ -7,7 +7,7 @@ Component to display paginated reviews (comments) for specific product<br><br> *
 <!-- @vuese:CaReviewsList:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|productAlias|the review is assigned based on the product alias|`String`|`true`|-|
+|productAlias|The product alias to fetch reviews for|`String`|`true`|-|
 
 <!-- @vuese:CaReviewsList:props:end -->
 
@@ -27,10 +27,21 @@ Component to display paginated reviews (comments) for specific product<br><br> *
 <!-- @vuese:CaReviewsList:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|variables|`Object`|variables to fetch reviews|No|
 |pages|`Number`|total amount of available pages of products (page size indicated by var 'REVIEWS_PER_PAGE')|No|
 |skipElements|`Number`|number of elements to skip (number of elements to cut from total list to display elements for current page)|No|
 |canShowMainStarRate|`Boolean`|indicates if total product review count should be displayed|No|
 
 <!-- @vuese:CaReviewsList:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:CaReviewsList:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:CaReviewsList:mixIns:end -->
 
 

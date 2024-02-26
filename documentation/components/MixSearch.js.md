@@ -34,3 +34,13 @@ Main search functionality
 <!-- @vuese:MixSearch.js:methods:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixSearch.js:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:MixSearch.js:mixIns:end -->
+
+

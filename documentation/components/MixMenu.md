@@ -1,6 +1,6 @@
 # MixMenu
 
-Functionality and endpoint call for menus **Data:**<br> menu: `null`<br>
+Functionality and endpoint call for menus<br><br> **Data:**<br> menu: `null`<br> defaultElementTag: `'span'`<br>
 
 ## Props
 
@@ -22,6 +22,7 @@ Functionality and endpoint call for menus **Data:**<br> menu: `null`<br>
 |getBaseElem|Get base element for link|item (Object)|
 |processedUrl|Convert to valid url - encodeURI|item String|
 |getLabel|Get label for for link|item (Object)|
+|getItemsWithLabel|Get items that have a label|items (Array)|
 |getParentLinkLabel|Get parent label for link|item (Object)|
 |isExternal|Check if provided path is external (url) or internal|path String|
 |clickHandler|Pushing the menu:click event|-|
@@ -29,12 +30,22 @@ Functionality and endpoint call for menus **Data:**<br> menu: `null`<br>
 <!-- @vuese:MixMenu:methods:end -->
 
 
+## Computed
+
+<!-- @vuese:MixMenu:computed:start -->
+|Computed|Type|Description|From Store|
+|---|---|---|---|
+|variables|`Object`|Variables for the menu query|No|
+
+<!-- @vuese:MixMenu:computed:end -->
+
+
 ## MixIns
 
 <!-- @vuese:MixMenu:mixIns:start -->
 |MixIn|
 |---|
-|MixApolloRefetch|
+|MixFetch|
 
 <!-- @vuese:MixMenu:mixIns:end -->
 

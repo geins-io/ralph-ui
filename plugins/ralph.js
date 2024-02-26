@@ -49,6 +49,7 @@ export default ({ $config, store, app, i18n, error, redirect }, inject) => {
 
   inject('ralphLogError', ralphLogError);
 
+  // Global function to fetch data from the API. Made to be used from asyncData or in the store. For use in components, use the MixFetch mixin
   const fetchData = async (
     query,
     callback,

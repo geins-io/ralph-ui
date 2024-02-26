@@ -1,7 +1,9 @@
 // @group Mixins
 // @vuese
+// The mixin to use for all fetch and mutate operations towards the api. To watch your variables and refetch on change, create a computed property called `variables` with all your variables for the query<br><br>
 // **Data:**<br>
-// exampleVariable: `1`<br>
+// fetchPolicy: `'cache-first'`<br>
+// errorPolicy: `'all'`<br>
 export default {
   name: 'MixFetch',
   mixins: [],
@@ -11,6 +13,9 @@ export default {
     errorPolicy: 'all',
   }),
   computed: {
+    // @vuese
+    // The variables to watch and refetch on change. By default it's an empty object, this is just a placeholder. Create your own computed property with your variables to override this
+    // @type Object
     variables() {
       return {};
     },
@@ -30,6 +35,9 @@ export default {
     this.$ralphBus.$off('refetch-queries');
   },
   methods: {
+    // @vuese
+    // Fetches data from the api and returns the result to the callback function
+    // @arg (query, callback, variables = `this.variables`, callbackError = `this.callbackError`)
     async fetchData(
       query,
       callback,
@@ -59,6 +67,9 @@ export default {
         return this.callbackError();
       }
     },
+    // @vuese
+    // Mutates data in the api and returns the result to the callback function
+    // @arg (mutation, callback, variables = `{}`, callbackError = `this.callbackError`)
     async mutateData(
       mutation,
       callback,
@@ -88,16 +99,24 @@ export default {
         return this.callbackError();
       }
     },
+    // @vuese
+    // Refetches the data from the api if the variables have changed. Used to watch `this.variables`
+    // @arg (newVal, oldVal) Object, Object
     refetchOnChange(newVal, oldVal) {
       if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
         this.refetch();
       }
     },
+    // @vuese
+    // Refetches the data from the api
     refetch() {
       if (this.$fetch) {
         this.$fetch();
       }
     },
+    // @vuese
+    // Logs the errors to the console and to events
+    // @arg (errors) Array
     logErrors(errors) {
       errors.forEach((error) => {
         this.$store.dispatch('events/push', {
@@ -107,6 +126,8 @@ export default {
         this.$ralphLogError('ERROR:', error.message);
       });
     },
+    // @vuese
+    // Default callback function for when an error occurs, shows the error snackbar
     callbackError() {
       if (process.client) {
         this.$store.dispatch('snackbar/trigger', {

@@ -225,18 +225,33 @@ export default {
     },
   }),
   computed: {
+    // @vuese
+    // Decides if the panel is in login mode
+    // @type Boolean
     loginMode() {
       return this.currentFrame === 'login';
     },
+    // @vuese
+    // Decides if the panel is in create mode
+    // @type Boolean
     createMode() {
       return this.currentFrame === 'create';
     },
+    // @vuese
+    // Decides if the panel is in reset mode
+    // @type Boolean
     resetMode() {
       return this.currentFrame === 'reset';
     },
+    // @vuese
+    // Decides if the panel is in change mode
+    // @type Boolean
     changeMode() {
       return this.currentFrame === 'change';
     },
+    // @vuese
+    // Decides the title of the panel
+    // @type String
     title() {
       switch (this.currentFrame) {
         case 'create':
@@ -249,9 +264,15 @@ export default {
           return this.$t('LOG_IN');
       }
     },
+    // @vuese
+    // Decides the current frame of the content panel
+    // @type String
     currentFrame() {
       return this.contentpanel.frame;
     },
+    // @vuese
+    // Decides the credentials to be used for login, create account and change password
+    // @type Object
     credentials() {
       const credentials = {
         username: this.email,

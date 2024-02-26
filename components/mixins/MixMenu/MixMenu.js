@@ -2,9 +2,10 @@ import menuQuery from 'global/menu.graphql';
 import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
-// Functionality and endpoint call for menus
+// Functionality and endpoint call for menus<br><br>
 // **Data:**<br>
 // menu: `null`<br>
+// defaultElementTag: `'span'`<br>
 export default {
   name: 'MixMenu',
   mixins: [MixFetch],

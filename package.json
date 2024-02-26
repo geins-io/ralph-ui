@@ -1,6 +1,6 @@
 {
   "name": "@geins/ralph-ui",
-  "version": "22.0.0-beta.4",
+  "version": "22.0.0-beta.6",
   "description": "Core functionality and component library for Ralph Storefront - a PWA Launchpad for Geins Commerce",
   "author": "Geins Commerce",
   "private": false,
@@ -26,11 +26,7 @@
     "vue-youtube": "^1.4.0"
   },
   "vuese": {
-    "genType": "docute",
     "outDir": "documentation",
-    "markdownDir": "components",
-    "title": "Documentation for Ralph UI components",
-    "keepFolderStructure": true,
     "include": [
       "**/*.vue",
       "components/mixins/**/*.js"

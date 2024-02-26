@@ -1,6 +1,6 @@
 # MixListPagination
 
-Shared pagination functions for product list<br><br> **Data:**<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> pageSize: `vm.$config.productListPageSize`<br> totalCount: `0`<br> productList: `[]`<br> mainProductList: `true`<br>
+Shared pagination functions for product list<br><br> **Data:**<br> currentPage: `1`<br> currentMinCount: `1`,<br> currentMaxCount: `vm.$config.productListPageSize`<br> pageSize: `vm.$config.productListPageSize`<br> totalCount: `0`<br> productList: `[]`<br> mainProductList: `true`<br> nextPageLoading: `false`<br> prevPageLoading: `false`<br>
 
 ## Methods
 
