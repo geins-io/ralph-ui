@@ -12,6 +12,9 @@ export default {
     fetchPolicy: 'no-cache',
   }),
   computed: {
+    // @vuese
+    // The title of the account page
+    // @type String
     title() {
       return this.$route.query.loginToken
         ? this.$t('ACCOUNT_LOGGING_IN_AS_USER')
@@ -25,15 +28,18 @@ export default {
         if (this.$store.getters['auth/authenticated']) {
           await this.$store.dispatch('auth/logout');
         }
-        // remove cart for new spoofed user
+        // Remove cart for new spoofed user
         this.$store.dispatch('cart/reset');
         this.auth.client.setTokenData({
           token: this.$route.query.loginToken,
           maxAge: 3600,
         });
         this.$store.dispatch('auth/update', {
-          username: 'spoofed-user@geins.io',
-          rememberUser: false,
+          credentials: {
+            username: 'spoofed-user@geins.io',
+            rememberUser: false,
+          },
+          refetchQueries: true,
         });
         if (this.$config.customerTypesToggle) {
           const type = await this.fetchData(getUserQuery, (result) => {
@@ -53,6 +59,8 @@ export default {
     }
   },
   methods: {
+    // @vuese
+    // Routes to the account page
     routeToAccount() {
       this.$router.replace(this.$getPath('account-orders'));
     },
