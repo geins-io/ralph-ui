@@ -588,14 +588,14 @@ export default {
     // @vuese
     // Set filter selection in URL
     pushURLParams() {
-      if (
-        this.filterURLparams &&
-        JSON.stringify(this.$route.query) !==
-          JSON.stringify(this.filterURLparams)
-      ) {
+      const query = {
+        ...this.$route.query,
+        ...this.filterURLparams,
+      };
+      if (JSON.stringify(this.$route.query) !== JSON.stringify(query)) {
         this.$router
           .replace({
-            query: this.filterURLparams,
+            query,
           })
           .catch(() => {});
       }
@@ -709,6 +709,9 @@ export default {
         });
       }
     },
+    // @vuese
+    // Remove query variables from query
+    // @arg query (Object), fields (Array)
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
 
@@ -829,6 +832,7 @@ export default {
     },
     // @vuese
     // Controls routing between filtered paths on the same category/brand etc
+    // @arg routes (Object)
     handleFilteredRoutesRouting(routes) {
       if (
         routes.to.path === routes.from.path &&
