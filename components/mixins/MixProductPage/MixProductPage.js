@@ -14,7 +14,7 @@ import relatedProductsQuery from 'product/related-products.graphql';
 export default {
   name: 'MixProductPage',
   mixins: [MixMetaReplacement, MixFetch],
-  async asyncData({ app, store, error, params, req }) {
+  async asyncData({ app, store, error, params, route }) {
     try {
       const currentPath = decodeURI(store.state.currentPath);
       const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
@@ -28,7 +28,7 @@ export default {
           return;
         }
         if (asyncProduct.canonicalUrl !== currentPath) {
-          app.$redirectToCanonical(asyncProduct.canonicalUrl, req?.query);
+          app.$redirectToCanonical(asyncProduct.canonicalUrl, route?.query);
         }
       };
 

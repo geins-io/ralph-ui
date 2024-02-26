@@ -86,7 +86,7 @@ export default ({ $config, store, app, i18n, error, redirect }, inject) => {
 
   inject('error404', error404);
 
-  const redirectToCanonical = (canonicalUrl, query = null) => {
+  const redirectToCanonical = (canonicalUrl, query) => {
     redirect({
       path: canonicalUrl,
       query,
