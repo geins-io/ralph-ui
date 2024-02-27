@@ -207,6 +207,21 @@ export default {
       return queryObj;
     },
     // @vuese
+    // Returns the filter object keys that can be used to set URL params
+    // @type Array
+    filterParamsKeys() {
+      return [
+        'categories',
+        'brands',
+        'skus',
+        'price',
+        'discount',
+        'p-',
+        'sort',
+        'page',
+      ];
+    },
+    // @vuese
     // The modifer class for the list page
     // @type String
     modifier() {
@@ -588,10 +603,25 @@ export default {
     // @vuese
     // Set filter selection in URL
     pushURLParams() {
+      // Find external query keys
+      const externalQueryKeys = Object.keys(this.$route.query).filter((key) => {
+        return !this.filterParamsKeys.some((paramKey) =>
+          key.startsWith(paramKey),
+        );
+      });
+
+      // Get external query
+      const externalQuery = externalQueryKeys.reduce((acc, key) => {
+        acc[key] = this.$route.query[key];
+        return acc;
+      }, {});
+
+      // Merge external query with filter query to not lose external query params
       const query = {
-        ...this.$route.query,
+        ...externalQuery,
         ...this.filterURLparams,
       };
+
       if (JSON.stringify(this.$route.query) !== JSON.stringify(query)) {
         this.$router
           .replace({
