@@ -370,8 +370,16 @@ export default {
           this.$refs.checkoutInvoice.showErrorFeedback();
         }
       };
-      const callbackError = () => {
-        this.$refs.checkoutInvoice.showErrorFeedback();
+      const callbackError = (errors) => {
+        if (errors[0].extensions?.code === 'INVALID_IDENTITY_NUMBER') {
+          const message = this.$store.state.vatIncluded
+            ? 'PERSONAL_ID_NOT_VALID'
+            : 'ORGANIZATION_ID_NOT_VALID';
+
+          this.$refs.checkoutInvoice.showErrorFeedback(message);
+        } else {
+          this.$refs.checkoutInvoice.showErrorFeedback();
+        }
       };
 
       await this.mutateData(

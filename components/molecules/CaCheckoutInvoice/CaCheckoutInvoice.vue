@@ -553,9 +553,9 @@ export default {
     },
     // @vuese
     // Show generic error
-    showErrorFeedback() {
+    showErrorFeedback(message = 'ERROR') {
       this.loading = false;
-      this.feedbackMessage = this.$t('FEEDBACK_ERROR');
+      this.feedbackMessage = this.$t(`FEEDBACK_${message}`);
       this.$refs.feedback.show();
     },
   },
