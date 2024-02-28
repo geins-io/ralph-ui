@@ -1,5 +1,6 @@
 import MixMetaReplacement from 'MixMetaReplacement';
-import MixFetch from 'MixFetch';
+import MixAddToCart from 'MixAddToCart';
+import MixVariantHandler from 'MixVariantHandler';
 import productQuery from 'product/product.graphql';
 import relatedProductsQuery from 'product/related-products.graphql';
 // @group Mixins
@@ -13,7 +14,7 @@ import relatedProductsQuery from 'product/related-products.graphql';
 // relatedProducts: `[]`<br>
 export default {
   name: 'MixProductPage',
-  mixins: [MixMetaReplacement, MixFetch],
+  mixins: [MixMetaReplacement, MixAddToCart, MixVariantHandler],
   async asyncData({ app, store, error, params, route }) {
     try {
       const currentPath = decodeURI(store.state.currentPath);
