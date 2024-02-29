@@ -11,7 +11,7 @@ Component and core functionality library for [Ralph Storefront](https://github.c
 
 ## Pre-requisites
 
-- [Ralph Storefront](https://github.com/geins-io/ralph-storefront) >= 2.0.0
+- [Ralph Storefront](https://github.com/geins-io/ralph-storefront) >= 2.2.0
 - [Node.js](https://nodejs.org/en/) 16.x.x
 
 ## Installation
