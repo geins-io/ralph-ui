@@ -5,46 +5,30 @@
         v-for="(container, index) in containers"
         :key="index"
         :container="container"
-        :widget-area-variables="widgetAreaVariables"
+        :widget-area-variables="variables"
         :widget-image-sizes="widgetImageSizes"
         :is-first="index === 0"
-        :fetch-products-only-client-side="fetchProductsOnlyClientSide"
-        @container-mounted="containersMounted = containersMounted + 1"
       />
     </div>
   </div>
 </template>
 <script>
 import widgetAreaQuery from 'global/widget-area.graphql';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
+
 // @group Molecules
 // @vuese
 // The area that contains the widget containers and from which the graphql query for widgets is made.<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-area.scss_
 export default {
   name: 'CaWidgetArea',
-  mixins: [MixApolloRefetch],
-  apollo: {
-    widgetArea: {
-      query: widgetAreaQuery,
-      variables() {
-        return this.widgetAreaVariables;
-      },
-      errorPolicy: 'all',
-      result(result) {
-        this.dataFetched = true;
-        this.checkMounted();
-        this.$emit('dataFetched', result.data);
-      },
-      skip() {
-        return this.isParentLoaded;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch],
   props: {
+    // The widget area data if loaded from parent on server
+    widgetData: {
+      type: Object,
+      default: null,
+    },
     // The widget area family
     family: {
       type: String,
@@ -70,47 +54,39 @@ export default {
       type: Array,
       default: () => [],
     },
-    // Whether preview-mode should be toggle on
+    // Set to true for preview mode
     preview: {
       type: Boolean,
       default: false,
     },
-    // if true - component loads info on its own
-    isParentLoaded: {
-      type: Boolean,
-      default: false,
-    },
-    // Is loadedData loaded
-    isParentDataLoaded: {
-      type: Boolean,
-      default: false,
-    },
-    // Data of widget that we receive from parent component. Avaible only if isParentLoaded are true
-    loadedData: {
-      type: Object,
-      default: null,
-    },
-    // Url for list page if using /l/ routing
+    // Url for list page if using /l/ routing and widget area is on list page
     listPageUrl: {
       type: String,
       default: '',
     },
-    // Fetch products only client side
-    fetchProductsOnlyClientSide: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
-    containersMounted: 0,
-    dataFetched: false,
-    isComponentMount: false,
+    widgetArea: null,
+    firstLoad: true,
   }),
+  async fetch() {
+    if (this.widgetData && this.firstLoad) {
+      this.widgetArea = this.widgetData;
+      if (this.firstLoad) {
+        this.firstLoad = false;
+      }
+      return;
+    }
+
+    const callback = (result) => {
+      this.$emit('dataFetched', result.data);
+      return result?.data?.widgetArea;
+    };
+
+    this.widgetArea = await this.fetchData(widgetAreaQuery, callback);
+  },
   computed: {
-    displaySetting() {
-      return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
-    },
-    widgetAreaVariables() {
+    variables() {
       return {
         family: this.family,
         areaName: this.areaName,
@@ -122,45 +98,17 @@ export default {
         url: this.listPageUrl,
       };
     },
+    displaySetting() {
+      return this.$store.getters.viewport === 'phone' ? 'mobile' : 'desktop'; // Not consistent with rest of viewport usage, but would require API changes
+    },
     containers() {
-      if (this.isParentLoaded) {
-        return this.loadedData?.containers ? this.loadedData.containers : [];
-      }
-
       return this.widgetArea?.containers?.length
         ? this.widgetArea.containers
         : [];
     },
   },
-  watch: {
-    widgetAreaVariables: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-          this.$emit('variables-change');
-        }
-      },
-    },
-    containersMounted: {
-      handler() {
-        this.checkMounted();
-      },
-      immediate: true,
-    },
-  },
   mounted() {},
-  methods: {
-    checkMounted() {
-      if (
-        !this.isComponentMount &&
-        this.containersMounted === this.containers?.length &&
-        (this.dataFetched || (this.isParentLoaded && this.isParentDataLoaded))
-      ) {
-        this.isComponentMount = true;
-        this.$emit('widget-area-mounted');
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss">

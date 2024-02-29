@@ -3,7 +3,7 @@ import createOrUpdateCheckoutMutation from 'checkout/create-or-update.graphql';
 import placeOrderMutation from 'checkout/place-order.graphql';
 import setCartShippingFeeMutation from 'checkout/set-cart-shipping-fee.graphql';
 import MixPromiseQueue from 'MixPromiseQueue';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // All functionality for the checkout
@@ -26,10 +26,9 @@ import MixApolloRefetch from 'MixApolloRefetch';
 // forceExternalCheckoutReset: `false`
 export default {
   name: 'MixCheckout',
-  mixins: [MixPromiseQueue, MixApolloRefetch],
+  mixins: [MixPromiseQueue, MixFetch],
   props: {},
   data: (vm) => ({
-    debug: false,
     cartLoading: true,
     checkoutLoading: false,
     shippingLoading: false,
@@ -171,6 +170,7 @@ export default {
       cart: (state) => state.cart,
       externalShippingFee: (state) => state.checkout.externalShippingFee,
       merchantData: (state) => state.checkout.merchantData,
+      user: (state) => state.auth.user,
     }),
     ...mapGetters({
       checkoutMarketObj: 'channel/checkoutMarketObj',
@@ -231,6 +231,11 @@ export default {
         this.setCartShippingFee(newVal);
       }
     },
+    user(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.createOrUpdateCheckout('user changed');
+      }
+    },
   },
   created() {
     this.$store.dispatch('loading/end');
@@ -258,9 +263,8 @@ export default {
           this.cartLoading = false;
           return;
         }
-        if (this.debug) {
-          // eslint-disable-next-line no-console
-          console.log('createOrUpdateCheckout: ', reason.toUpperCase());
+        if (this.$config.ralphLog.all || this.$config.ralphLog.checkout) {
+          this.$ralphLog('checkout:', reason.toUpperCase());
         }
         this.updateDelay = 150;
         this.checkoutLoading = true;
@@ -270,54 +274,46 @@ export default {
         if (this.$refs.externalcheckout && this.$refs.externalcheckout.frame) {
           this.$refs.externalcheckout.suspend();
         }
-        const vars = {
+
+        const variables = {
           cartId: this.$store.getters['cart/id'],
           checkoutMarketId: this.checkoutMarket,
         };
         if (Object.keys(this.checkoutInput).length) {
-          vars.checkout = this.checkoutInput;
+          variables.checkout = this.checkoutInput;
         }
+
+        const callback = (result) => {
+          this.checkout = result?.data?.createOrUpdateCheckout;
+          this.updateCart(this.checkout.cart);
+          this.checkoutLoading = false;
+          this.shippingLoading = false;
+          this.cartLoading = false;
+          this.frameLoading = false;
+          this.$store.dispatch('events/push', {
+            type: 'checkout:update',
+            data: { checkout: this.checkout },
+          });
+          this.$nextTick(() => {
+            if (this.$refs.nshift && this.$refs.nshift.widget) {
+              this.$refs.nshift.enable();
+            }
+            if (this.$refs.externalcheckout) {
+              if (
+                this.selectedPaymentOption.newCheckoutSession ||
+                this.forceExternalCheckoutReset
+              ) {
+                this.$refs.externalcheckout.initialize();
+                this.forceExternalCheckoutReset = false;
+              } else {
+                this.$refs.externalcheckout.resume();
+              }
+            }
+          });
+        };
+
         const updateMutation = () =>
-          this.$apollo
-            .mutate({
-              mutation: createOrUpdateCheckoutMutation,
-              variables: vars,
-              fetchPolicy: 'no-cache',
-            })
-            .then((result) => {
-              this.checkout = result.data.createOrUpdateCheckout;
-              this.updateCart(this.checkout.cart);
-              this.checkoutLoading = false;
-              this.shippingLoading = false;
-              this.cartLoading = false;
-              this.frameLoading = false;
-              this.$store.dispatch('events/push', {
-                type: 'checkout:update',
-                data: { checkout: this.checkout },
-              });
-              this.$nextTick(() => {
-                if (this.$refs.nshift && this.$refs.nshift.widget) {
-                  this.$refs.nshift.enable();
-                }
-                if (this.$refs.externalcheckout) {
-                  if (
-                    this.selectedPaymentOption.newCheckoutSession ||
-                    this.forceExternalCheckoutReset
-                  ) {
-                    this.$refs.externalcheckout.initialize();
-                    this.forceExternalCheckoutReset = false;
-                  } else {
-                    this.$refs.externalcheckout.resume();
-                  }
-                }
-              });
-            })
-            .catch((error) => {
-              this.$nuxt.error({
-                statusCode: error.statusCode,
-                message: error,
-              });
-            });
+          this.mutateData(createOrUpdateCheckoutMutation, callback, variables);
 
         this.enqueue(updateMutation);
       }, this.updateDelay);
@@ -353,37 +349,45 @@ export default {
     },
     // @vuese
     // Placing the order and redirecting to confirm page if completed
-    placeOrder() {
-      this.$apollo
-        .mutate({
-          mutation: placeOrderMutation,
-          variables: {
-            cartId: this.$store.getters['cart/id'],
-            checkoutMarketId: this.checkoutMarket,
-            checkout: this.checkoutInput,
-          },
-        })
-        .then((result) => {
-          if (
-            result?.data?.placeOrder &&
-            result.data.placeOrder.status === 'completed'
-          ) {
-            const confirmUrl =
-              this.$getPath('checkout-confirm') +
-              '?cartid=' +
-              this.$store.getters['cart/id'] +
-              '&oid=' +
-              result.data.placeOrder.orderId +
-              '&email=' +
-              this.checkout.email;
-            this.$router.push(confirmUrl);
-          } else {
-            this.$refs.checkoutInvoice.showErrorFeedback();
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+    async placeOrder() {
+      const variables = {
+        cartId: this.$store.getters['cart/id'],
+        checkoutMarketId: this.checkoutMarket,
+        checkout: this.checkoutInput,
+      };
+      const callback = (result) => {
+        if (result?.data?.placeOrder?.status === 'completed') {
+          const confirmUrl =
+            this.$getPath('checkout-confirm') +
+            '?cartid=' +
+            this.$store.getters['cart/id'] +
+            '&oid=' +
+            result.data.placeOrder.orderId +
+            '&email=' +
+            this.checkout.email;
+          this.$router.push(confirmUrl);
+        } else {
+          this.$refs.checkoutInvoice.showErrorFeedback();
+        }
+      };
+      const callbackError = (errors) => {
+        if (errors[0].extensions?.code === 'INVALID_IDENTITY_NUMBER') {
+          const message = this.$store.state.vatIncluded
+            ? 'PERSONAL_ID_NOT_VALID'
+            : 'ORGANIZATION_ID_NOT_VALID';
+
+          this.$refs.checkoutInvoice.showErrorFeedback(message);
+        } else {
+          this.$refs.checkoutInvoice.showErrorFeedback();
+        }
+      };
+
+      await this.mutateData(
+        placeOrderMutation,
+        callback,
+        variables,
+        callbackError,
+      );
     },
     // @vuese
     // Initialize Nshift
@@ -443,32 +447,22 @@ export default {
     // @vuese
     // Handling setting of the external shipping fee
     // @arg fee (Number)
-    setCartShippingFee(fee) {
+    async setCartShippingFee(fee) {
       this.cartLoading = true;
-      const vars = {
+
+      const variables = {
         cartId: this.$store.getters['cart/id'],
         checkoutMarketId: this.checkoutMarket,
         shippingFee: fee,
       };
+      const callback = (result) => {
+        if (result?.data?.setCartShippingFee?.cart) {
+          this.updateCart(result.data.setCartShippingFee.cart);
+          this.cartLoading = false;
+        }
+      };
 
-      this.$apollo
-        .mutate({
-          mutation: setCartShippingFeeMutation,
-          variables: vars,
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          if (result?.data?.setCartShippingFee?.cart) {
-            this.updateCart(result.data.setCartShippingFee.cart);
-            this.cartLoading = false;
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({
-            statusCode: error.statusCode,
-            message: error,
-          });
-        });
+      await this.mutateData(setCartShippingFeeMutation, callback, variables);
     },
   },
 };

@@ -1,30 +1,24 @@
 import getUserQuery from 'user/get.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // The functionality of the account balance page<br><br>
 // **Data:**<br>
+// fetchPolicy: `'no-cache'`<br>
 // user: `null`<br>
 // loading: `false`
 export default {
   name: 'MixAccountBalance',
+  mixins: [MixFetch],
   middleware: 'ralph-authenticated',
   transition: 'no-transition',
-  apollo: {
-    getUser: {
-      query: getUserQuery,
-      errorPolicy: 'all',
-      fetchPolicy: 'no-cache',
-      result(result) {
-        if (result.data) {
-          this.user = result.data.getUser;
-        }
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: 500, message: error });
-      },
-    },
+  async fetch() {
+    this.user = await this.fetchData(getUserQuery, (result) => {
+      return result?.data?.getUser || null;
+    });
   },
   data: () => ({
+    fetchPolicy: 'no-cache',
     user: null,
     loading: false,
   }),

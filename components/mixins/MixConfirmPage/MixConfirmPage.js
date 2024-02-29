@@ -1,6 +1,7 @@
 import completeCartMutation from 'cart/complete.graphql';
 import checkoutConfirmQuery from 'checkout/checkout-confirm.graphql';
 import MixDatalayerConfirm from 'MixDatalayerConfirm';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // All functionality for the confirm page<br><br>
@@ -9,13 +10,42 @@ import MixDatalayerConfirm from 'MixDatalayerConfirm';
 // loading: `true`<br>
 export default {
   name: 'MixConfirmPage',
-  mixins: [MixDatalayerConfirm],
+  mixins: [MixDatalayerConfirm, MixFetch],
   props: {},
+  async fetch() {
+    this.checkoutConfirmData = await this.fetchData(
+      checkoutConfirmQuery,
+      (result) => {
+        return result?.data?.checkout || null;
+      },
+    );
+    const completed = this.checkoutConfirmData?.completed;
+
+    if (completed !== null && completed === false) {
+      this.$router.push(this.$getPath('checkout'));
+      return;
+    }
+
+    this.loading = false;
+    this.processCartCompletion();
+  },
   data: () => ({
     checkoutConfirmData: null,
     loading: true,
+    fetchPolicy: 'no-cache',
   }),
   computed: {
+    // @vuese
+    // The variables for the checkout confirm query
+    // @type Object
+    variables() {
+      return {
+        id: this.orderId,
+        paymentType: this.type,
+        checkoutMarket: this.$store.state.channel.checkoutMarket,
+        cartId: this.cartId,
+      };
+    },
     // @vuese
     // The cart id from the url parameter 'cartid'
     // @type String
@@ -78,62 +108,29 @@ export default {
         !this.$cookies.get('ralph-cart')
       );
     },
+    // @vuese
+    // The html snippet from the external payment provider
+    // @type String
+    confirmSnippet() {
+      return this.checkoutConfirmData?.htmlSnippet || '';
+    },
   },
   watch: {},
-  mounted() {
-    this.getCheckoutData();
-  },
+  mounted() {},
   methods: {
-    getCheckoutData() {
-      this.$apollo
-        .query({
-          query: checkoutConfirmQuery,
-          variables: {
-            id: this.orderId,
-            paymentType: this.type,
-            checkoutMarket: this.$store.state.channel.checkoutMarket,
-            cartId: this.cartId,
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        })
-        .then((result) => {
-          if (!result.errors && result?.data?.checkout) {
-            const completed = result.data.checkout.completed;
-
-            if (completed !== null && completed === false) {
-              this.$router.push(this.$getPath('checkout'));
-              return;
-            }
-
-            this.checkoutConfirmData = result.data.checkout;
-            this.loading = false;
-            this.processCartCompletion();
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
-    },
     // @vuese
     // Performs the complete cart mutation and resets the cart
-    completeCart() {
+    async completeCart() {
       this.sendDataLayerEvents(this.checkoutConfirmData);
-      this.$apollo
-        .mutate({
-          mutation: completeCartMutation,
-          variables: {
-            id: this.cartId,
-            checkoutMarket: this.$store.state.channel.checkoutMarket,
-          },
-          fetchPolicy: 'no-cache',
-        })
-        .then(() => {
-          this.$store.dispatch('cart/reset');
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+
+      const variables = {
+        id: this.cartId,
+        checkoutMarket: this.$store.state.channel.checkoutMarket,
+      };
+      const callback = () => {
+        this.$store.dispatch('cart/reset');
+      };
+      await this.mutateData(completeCartMutation, callback, variables);
     },
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method

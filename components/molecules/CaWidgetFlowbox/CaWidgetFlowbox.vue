@@ -26,8 +26,6 @@ export default {
   data: () => ({
     isFlowboxScriptLoaded: false,
     isFlowboxActive: false,
-    // ID to distinguish flowbox sections
-    // TODO: replace pseudo-id
     widgetSectionId: '',
   }),
   head() {
@@ -84,7 +82,7 @@ export default {
         this.isFlowboxActive = active;
 
         if (!flowkey) {
-          console.error(
+          this.$ralphLogError(
             'Missing Flowbox key - please check MC if it is filled',
           );
           return;
@@ -95,7 +93,7 @@ export default {
         }
         // there is no productID which disables option to display dynamic flow
         if (dynamicProductFlow && !this.product?.productId) {
-          console.error('Missing product id for dynamic product flow');
+          this.$ralphLogError('Missing product id for dynamic product flow');
         }
 
         if (dynamicProductFlow && this.product?.productId) {
@@ -124,7 +122,7 @@ export default {
           });
         }
       } catch (error) {
-        console.error('Something went wrong with flowbox initialization');
+        this.$ralphLogError('Something went wrong with flowbox initialization');
       }
     },
     // @vuese

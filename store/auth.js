@@ -35,19 +35,17 @@ export const actions = {
       dispatch('loading/end', null, { root: true });
     }
   },
-  async refresh({ state, dispatch }) {
+  async refresh({ state, dispatch }, refetchQueries = false) {
     await state.client?.connect();
-    dispatch('clearCache');
-    dispatch('update');
+    dispatch('update', { refetchQueries });
   },
   async login({ state, dispatch }, credentials) {
     await state.client?.connect(credentials);
-    dispatch('clearCache');
-    dispatch('update', credentials);
+    dispatch('update', { credentials, refetchQueries: true });
   },
   async register({ state, dispatch }, credentials) {
     await state.client?.connect(credentials, 'register');
-    dispatch('update', credentials);
+    dispatch('update', { credentials, refetchQueries: true });
   },
   async changePassword({ state, dispatch }, credentials) {
     await state.client?.connect(credentials, 'password');
@@ -62,19 +60,22 @@ export const actions = {
       },
       { root: true },
     );
-    dispatch('clearCache');
-    dispatch('update');
+    dispatch('update', { refetchQueries: true });
   },
-  update({ state, commit, dispatch }, credentials) {
+  update({ state, commit, dispatch }, payload) {
+    const credentials = payload?.credentials;
+    let refetchQueries = payload?.refetchQueries;
+    let broadcast = process.client;
     let username = credentials
       ? credentials.username
       : this.$cookies.get('ralph-user');
+
     if (state.client.authorized) {
       commit(
         'setTokenTimeout',
         setTimeout(() => {
           if (process.client) {
-            dispatch('refresh');
+            dispatch('refresh', true);
           }
         }, state.client.maxAge * 900),
       );
@@ -97,7 +98,7 @@ export const actions = {
         path: '/',
         maxAge: maxage,
       });
-    } else {
+    } else if (state.user !== null) {
       username = null;
       commit('clearTokenTimeout');
       commit('setUser', username);
@@ -105,14 +106,18 @@ export const actions = {
       this.$cookies.remove('ralph-user', { path: '/' });
       this.$cookies.remove('ralph-user-maxage', { path: '/' });
       this.$cookies.remove('ralph-user-type', { path: '/' });
+    } else {
+      // No login, no logout, no need to refetch queries or broadcast
+      refetchQueries = false;
+      broadcast = false;
     }
-    if (process.browser) {
+    if (broadcast) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'auth', data: username });
     }
-  },
-  clearCache({ dispatch }) {
-    dispatch('clearAndRefetchApollo', null, { root: true });
+    if (refetchQueries) {
+      dispatch('refetchQueries', null, { root: true });
+    }
   },
 };
 

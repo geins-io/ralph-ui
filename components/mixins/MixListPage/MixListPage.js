@@ -1,5 +1,5 @@
 import MixListPagination from 'MixListPagination';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
 import { mapState, mapGetters } from 'vuex';
@@ -7,69 +7,20 @@ import { mapState, mapGetters } from 'vuex';
 // @vuese
 // All functionality for the list page<br><br>
 // **Data:**<br>
+// products: `null`<br>
+// productFilters: `null`<br>
 // baseFilters: `{}`<br>
 // userSkip: `0`<br>
 // filters: `{}`<br>
 // userSelection: `null`<br>
-// filterParamQuery: `{}`<br>
 // relocateTimeout: `null`<br>
-// URLparamsRead: `false`<br>
+// relocateTries: `10`<br>
 // filtersSet: `false`<br>
 // userHasPaged: `false`<br>
 // productsFetched: `false`<br>
 export default {
   name: 'MixListPage',
-  mixins: [MixListPagination, MixApolloRefetch],
-  apollo: {
-    products: {
-      query() {
-        return productsQuery;
-      },
-      variables() {
-        return this.productsQueryVars;
-      },
-      deep: true,
-      errorPolicy: 'all',
-      result(result) {
-        if (result && result.data) {
-          const { products } = result.data;
-          this.productList = products?.products || [];
-          this.productsFetched = true;
-          this.setupPagination(products?.count);
-          this.$store.dispatch('loading/end');
-        }
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-    productFilters: {
-      query() {
-        return filtersQuery;
-      },
-      variables() {
-        return this.filtersQueryVars;
-      },
-      deep: true,
-      result(result) {
-        if (result && result.data) {
-          if (this.filtersSet) {
-            this.updateFilters(result.data.products.filters);
-          } else if (result.data.products?.filters?.facets?.length) {
-            this.baseFilters = result.data.products.filters;
-            this.setupFilters(this.baseFilters);
-          }
-        }
-      },
-      update: (data) => data.products.filters,
-      skip() {
-        return !process.client;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixListPagination, MixFetch],
   props: {
     // @vuese
     // Type of list page
@@ -127,21 +78,47 @@ export default {
       default: null,
     },
   },
-  data: (vm) => ({
+  async fetch() {
+    const callback = (result) => {
+      const { products } = result.data;
+      this.productList = products?.products || [];
+      this.productsFetched = true;
+      this.setupPagination(products?.count);
+      this.$store.dispatch('loading/end');
+      return products;
+    };
+
+    this.products = await this.fetchData(
+      productsQuery,
+      callback,
+      this.variables.products,
+    );
+
+    this.getFilters();
+  },
+  data: () => ({
+    products: null,
+    productFilters: null,
     baseFilters: {},
     userSkip: 0,
-    widgetData: {},
     filters: {},
     userSelection: null,
-    filterParamQuery: {},
     relocateTimeout: null,
     relocateTries: 10,
-    URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
     productsFetched: false,
   }),
   computed: {
+    // @vuese
+    // All variables used for fetching data, watched for changes through MixFetch
+    // @type Object
+    variables() {
+      return {
+        products: this.productsQueryVars,
+        filters: this.filtersQueryVars,
+      };
+    },
     // @vuese
     // Is list filtered by facet in url?
     // @type Boolean
@@ -230,6 +207,21 @@ export default {
       return queryObj;
     },
     // @vuese
+    // Returns the filter object keys that can be used to set URL params
+    // @type Array
+    filterParamsKeys() {
+      return [
+        'categories',
+        'brands',
+        'skus',
+        'price',
+        'discount',
+        'p-',
+        'sort',
+        'page',
+      ];
+    },
+    // @vuese
     // The modifer class for the list page
     // @type String
     modifier() {
@@ -288,6 +280,12 @@ export default {
         }
         return querySelection;
       }
+    },
+    // @vuese
+    // The query for fetching products, to be used by other mixins
+    // @type Object
+    productsQuery() {
+      return productsQuery;
     },
     // @vuese
     // Returns the filter object for the productsQueryVars
@@ -505,8 +503,33 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.getFilters();
+  },
   methods: {
+    // @vuese
+    // Fetches the filters for the list page
+    async getFilters() {
+      if (process.server) {
+        return;
+      }
+
+      const callback = (result) => {
+        if (this.filtersSet) {
+          this.updateFilters(result.data.products.filters);
+        } else if (result.data.products?.filters?.facets?.length) {
+          this.baseFilters = result.data.products.filters;
+          this.setupFilters(this.baseFilters);
+        }
+        return result.data.products.filters;
+      };
+
+      this.productFilters = await this.fetchData(
+        filtersQuery,
+        callback,
+        this.variables.filters,
+      );
+    },
     // @vuese
     // Get the current scroll height of the page, used to keep scroll in the right position while loading previous products
     getScrollHeight() {
@@ -580,14 +603,29 @@ export default {
     // @vuese
     // Set filter selection in URL
     pushURLParams() {
-      if (
-        this.filterURLparams &&
-        JSON.stringify(this.$route.query) !==
-          JSON.stringify(this.filterURLparams)
-      ) {
+      // Find external query keys
+      const externalQueryKeys = Object.keys(this.$route.query).filter((key) => {
+        return !this.filterParamsKeys.some((paramKey) =>
+          key.startsWith(paramKey),
+        );
+      });
+
+      // Get external query
+      const externalQuery = externalQueryKeys.reduce((acc, key) => {
+        acc[key] = this.$route.query[key];
+        return acc;
+      }, {});
+
+      // Merge external query with filter query to not lose external query params
+      const query = {
+        ...externalQuery,
+        ...this.filterURLparams,
+      };
+
+      if (JSON.stringify(this.$route.query) !== JSON.stringify(query)) {
         this.$router
           .replace({
-            query: this.filterURLparams,
+            query,
           })
           .catch(() => {});
       }
@@ -701,6 +739,9 @@ export default {
         });
       }
     },
+    // @vuese
+    // Remove query variables from query
+    // @arg query (Object), fields (Array)
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
 
@@ -821,6 +862,7 @@ export default {
     },
     // @vuese
     // Controls routing between filtered paths on the same category/brand etc
+    // @arg routes (Object)
     handleFilteredRoutesRouting(routes) {
       if (
         routes.to.path === routes.from.path &&

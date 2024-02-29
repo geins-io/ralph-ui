@@ -47,6 +47,7 @@
 </template>
 <script>
 import promoCodeMutation from 'cart/promo-code.graphql';
+import MixFetch from 'MixFetch';
 import { mapState } from 'vuex';
 // @group Molecules
 // @vuese
@@ -54,7 +55,7 @@ import { mapState } from 'vuex';
 // **SASS-path:** _./styles/components/molecules/ca-promo-code.scss_
 export default {
   name: 'CaPromoCode',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // The active promo code, if any
     activePromoCode: {
@@ -102,38 +103,37 @@ export default {
   methods: {
     // @vuese
     // Set a promo code for the cart. Performs a graphql mutation
-    setPromoCode(e, remove = false) {
+    async setPromoCode(e, remove = false) {
       this.loading = true;
-      this.$apollo
-        .mutate({
-          mutation: promoCodeMutation,
-          variables: {
-            id: this.$store.getters['cart/id'],
-            promoCode: this.code,
-            checkoutMarketId: this.checkoutMarket,
-          },
-          errorPolicy: 'all',
-        })
-        .then((result) => {
-          this.loading = false;
-          if (!result.errors) {
-            this.$store.dispatch('cart/update', result.data.setCartPromoCode);
-            if (!remove) {
-              this.currentFeedback = this.feedback.codeActivated;
-              this.$refs.feedback.show();
-            }
-          } else {
-            this.codeValid = false;
-            this.currentFeedback =
-              result.errors[0].extensions?.code === 'RequirementsNotMet'
-                ? this.feedback.requirementsNotMet
-                : this.feedback.invalid;
-            this.$refs.feedback.show();
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
+      const variables = {
+        id: this.$store.getters['cart/id'],
+        promoCode: this.code,
+        checkoutMarketId: this.checkoutMarket,
+      };
+      const callback = (result) => {
+        this.loading = false;
+        this.$store.dispatch('cart/update', result.data.setCartPromoCode);
+        if (!remove) {
+          this.currentFeedback = this.feedback.codeActivated;
+          this.$refs.feedback.show();
+        }
+      };
+      const callbackError = (errors) => {
+        this.loading = false;
+        this.codeValid = false;
+        this.currentFeedback =
+          errors[0].extensions?.code === 'RequirementsNotMet'
+            ? this.feedback.requirementsNotMet
+            : this.feedback.invalid;
+        this.$refs.feedback.show();
+      };
+
+      await this.mutateData(
+        promoCodeMutation,
+        callback,
+        variables,
+        callbackError,
+      );
     },
     // @vuese
     // Remove the set promo code

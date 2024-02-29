@@ -8,6 +8,7 @@ A mixin with the default sort functions for a product list **Data:**<br> default
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |currentSort|The current sort of the product list|`String`|`true`|-|
+|customDefaultSortOptions|Custom default sort options can be provided in the format `['SORT_OPTION', 'SORT_OPTION']`|`Array`|`false`|[]|
 
 <!-- @vuese:MixProductListSort:props:end -->
 

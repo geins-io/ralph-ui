@@ -96,7 +96,7 @@ export default {
       this.close();
     });
   },
-  beforeUnmount() {
+  beforeDestroy() {
     this.$ralphBus.$off('close-content-panel');
   },
   methods: {

@@ -6,7 +6,6 @@
     :image-sizes="imageSizes"
     :image-ratios="imageRatios"
     :is-first="isFirst"
-    :fetch-products-only-client-side="fetchProductsOnlyClientSide"
   />
 </template>
 <script>
@@ -47,11 +46,6 @@ export default {
       type: Object,
       required: true,
     },
-    // Fetch products only client side
-    fetchProductsOnlyClientSide: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({}),
   computed: {
@@ -61,9 +55,7 @@ export default {
     },
   },
   watch: {},
-  mounted() {
-    this.$emit('widget-mounted');
-  },
+  mounted() {},
   methods: {},
 };
 </script>

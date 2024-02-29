@@ -69,6 +69,8 @@
 </template>
 <script>
 import reviews from 'product/reviews.graphql';
+import MixFetch from 'MixFetch';
+
 // indicates how many reviews should be displayed on 1 page in pagination
 const REVIEWS_PER_PAGE = 5;
 
@@ -78,36 +80,9 @@ const REVIEWS_PER_PAGE = 5;
 // **SASS-path:** _./styles/components/molecules/ca-reviews-list.scss_
 export default {
   name: 'CaReviewsList',
-  apollo: {
-    reviews: {
-      query: reviews,
-      errorPolicy: 'all',
-      fetchPolicy: 'no-cache',
-      variables() {
-        return {
-          take: REVIEWS_PER_PAGE,
-          skip: this.skipElements,
-          alias: this.productAlias,
-        };
-      },
-      result(result) {
-        const {
-          reviews = [],
-          count = 0,
-          averageRating = 0,
-        } = result?.data?.reviews;
-        this.reviews = reviews;
-        this.totalReviewsCount = count;
-        this.averageRating = averageRating;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
-  mixins: [],
+  mixins: [MixFetch],
   props: {
-    // the review is assigned based on the product alias
+    // The product alias to fetch reviews for
     productAlias: {
       type: String,
       required: true,
@@ -119,7 +94,31 @@ export default {
     currentPage: 1,
     averageRating: 0,
   }),
+  async fetch() {
+    const callback = (result) => {
+      const {
+        reviews = [],
+        count = 0,
+        averageRating = 0,
+      } = result?.data?.reviews;
+      this.totalReviewsCount = count;
+      this.averageRating = averageRating;
+      return reviews;
+    };
+
+    this.reviews = await this.fetchData(reviews, callback);
+  },
   computed: {
+    // @vuese
+    // variables to fetch reviews
+    // @type Object
+    variables() {
+      return {
+        take: REVIEWS_PER_PAGE,
+        skip: this.skipElements,
+        alias: this.productAlias,
+      };
+    },
     // @vuese
     // total amount of available pages of products (page size indicated by var 'REVIEWS_PER_PAGE')
     // @type Number

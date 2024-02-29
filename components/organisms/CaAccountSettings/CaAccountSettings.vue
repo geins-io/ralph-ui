@@ -409,13 +409,14 @@
 <script>
 import updateUserMutation from 'user/update.graphql';
 import deleteUserMutation from 'user/delete.graphql';
+import MixFetch from 'MixFetch';
 // @group Organisms
 // @vuese
 // The settings for a users account<br><br>
 // **SASS-path:** _./styles/components/organisms/ca-account-settings.scss_
 export default {
   name: 'CaAccountSettings',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     // The user object received from the API
     user: {
@@ -433,6 +434,9 @@ export default {
     loading: false,
   }),
   computed: {
+    // @vuese
+    // The full adress input object
+    // @type Object
     addressInput() {
       const address = this.userData?.address;
       if (address) {
@@ -440,13 +444,22 @@ export default {
       }
       return address;
     },
+    // @vuese
+    // The customer types available
+    // @type Array
     customerTypes() {
       return this.$config.customerTypes;
     },
+    // @vuese
+    // The current user type
+    // @type Object
     currentUserType() {
       const type = this.$store.state.customerType;
       return this.customerTypes.find((i) => i.type === type);
     },
+    // @vuese
+    // If the user is an organization
+    // @type Boolean
     userIsOrganization() {
       return this.currentUserType.type === 'ORGANIZATION';
     },
@@ -460,51 +473,56 @@ export default {
     this.userData = this.user;
   },
   methods: {
-    saveUser(sectionRef) {
+    // @vuese
+    // Save the user data
+    // @arg section (String)
+    async saveUser(sectionRef) {
       this.loading = true;
-      this.$apollo
-        .mutate({
-          mutation: updateUserMutation,
-          variables: {
-            user: {
-              address: this.addressInput,
-              gender: this.userData.gender,
-              personalId: this.userData.personalId,
-              customerType: this.userData.customerType,
-            },
-          },
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          this.loading = false;
-          if (!result.errors) {
-            this.userData = result.data.updateUser;
-            this.$store.dispatch(
-              'changeCustomerType',
-              this.userData.customerType,
-            );
-            this.$cookies.remove('ralph-user-type', { path: '/' });
-            this.$store.dispatch(
-              'setCustomerTypeCookie',
-              this.userData.customerType,
-            );
 
-            this.$emit('save', this.userData);
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
-              placement: 'bottom-center',
-              mode: 'success',
-            });
-            this.$nextTick(() => {
-              sectionRef.toggleEditMode();
-            });
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+      const variables = {
+        user: {
+          address: this.addressInput,
+          gender: this.userData.gender,
+          personalId: this.userData.personalId,
+          customerType: this.userData.customerType,
+        },
+      };
+
+      const callback = (result) => {
+        this.loading = false;
+        this.userData = result.data.updateUser;
+        this.$store.dispatch('changeCustomerType', this.userData.customerType);
+        this.$cookies.remove('ralph-user-type', { path: '/' });
+        this.$store.dispatch(
+          'setCustomerTypeCookie',
+          this.userData.customerType,
+        );
+
+        this.$emit('save', this.userData);
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('ACCOUNT_SAVE_FEEDBACK'),
+          placement: 'bottom-center',
+          mode: 'success',
         });
+        this.$nextTick(() => {
+          sectionRef.toggleEditMode();
+        });
+      };
+
+      const callbackError = () => {
+        this.loading = false;
+        this.callbackError();
+      };
+
+      await this.mutateData(
+        updateUserMutation,
+        callback,
+        variables,
+        callbackError,
+      );
     },
+    // @vuese
+    // Trigger delete account prompt
     triggerDeletePrompt() {
       const modalSettings = {
         component: 'CaPrompt',
@@ -520,39 +538,26 @@ export default {
       };
       this.$store.commit('modal/open', modalSettings);
     },
-    deleteAccount() {
+    // @vuese
+    // Delete the account
+    async deleteAccount() {
       this.$ralphBus.$emit('close-modal');
       this.$store.dispatch('loading/start');
-      this.$apollo
-        .mutate({
-          mutation: deleteUserMutation,
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-        })
-        .then(async (result) => {
-          this.$store.dispatch('loading/end');
-          if (!result.errors && result.data.deleteUser) {
-            await this.$store.dispatch('auth/logout');
-            this.$router.push({ path: this.$getPath('index') });
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
-              placement: 'bottom-center',
-              mode: 'success',
-            });
-            this.$store.dispatch('events/push', {
-              type: 'user:delete',
-            });
-          } else {
-            this.$store.dispatch('snackbar/trigger', {
-              message: this.$t('FEEDBACK_ERROR'),
-              placement: 'bottom-center',
-              mode: 'error',
-            });
-          }
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
+
+      const callback = async () => {
+        await this.$store.dispatch('auth/logout');
+        this.$router.push({ path: this.$getPath('index') });
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('ACCOUNT_DELETE_FEEDBACK'),
+          placement: 'bottom-center',
+          mode: 'success',
         });
+        this.$store.dispatch('events/push', {
+          type: 'user:delete',
+        });
+      };
+
+      await this.mutateData(deleteUserMutation, callback);
     },
     // @vuese
     // Get label for toggle

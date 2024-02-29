@@ -26,8 +26,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       );
 
       if (!marketObj) {
-        // eslint-disable-next-line no-console
-        console.error(
+        this.$ralphLogError(
           'Market with alias "' + market + '" not available in markets array',
         );
         return;

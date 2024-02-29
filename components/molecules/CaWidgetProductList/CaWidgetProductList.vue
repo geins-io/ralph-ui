@@ -29,7 +29,7 @@
       :showing="showing"
       :total-count="totalCount"
       :all-products-loaded="allProductsLoaded"
-      :loading="$apollo.queries.products.loading"
+      :loading="nextPageLoading"
       :min-count="currentMinCount"
       :max-count="currentMaxCount"
       @loadmore="loadMore"
@@ -39,55 +39,61 @@
 <script>
 import productsQuery from 'productlist/products.graphql';
 import MixListPagination from 'MixListPagination';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 // @group Molecules
 // @vuese
 // Widget displaying a product list<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-widget-product-list.scss_
 export default {
   name: 'CaWidgetProductList',
-  mixins: [MixApolloRefetch, MixListPagination],
-  apollo: {
-    products: {
-      query: productsQuery,
-      variables() {
-        return this.productVars;
-      },
-      errorPolicy: 'all',
-      result(result) {
-        const products = result?.data?.products ?? null;
-        this.productList = products?.products || [];
-        this.productsLoaded = true;
-        this.setupPagination(products?.count);
-      },
-      skip() {
-        return (
-          this.isWidgetModeStatic ||
-          (this.fetchProductsOnlyClientSide && process.server)
-        );
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch, MixListPagination],
   props: {
     // Widget configuration object
     configuration: {
       type: Object,
       required: true,
     },
-    // Fetch products only client side
-    fetchProductsOnlyClientSide: {
-      type: Boolean,
-      default: false,
-    },
   },
   data: () => ({
     mainProductList: false,
     productsLoaded: false,
   }),
+  async fetch() {
+    if (this.noData) {
+      this.productsLoaded = true;
+      return;
+    }
+    const callback = (result) => {
+      const products = result?.data?.products || null;
+      this.productsLoaded = true;
+      this.setupPagination(products?.count);
+      return products?.products || [];
+    };
+
+    this.productList = await this.fetchData(productsQuery, callback);
+  },
   computed: {
+    // @vuese
+    // Variables in product request
+    // @type Object
+    variables() {
+      const filter = this.configuration.searchParameters;
+
+      if (this.isLatestMode) {
+        filter.productIds = this.latestProducts;
+        filter.sort = 'FACET_ORDER';
+      }
+
+      if (this.isFavoriteMode) {
+        filter.productIds = this.$store.state.favorites;
+        filter.sort = 'FACET_ORDER';
+      }
+
+      return {
+        filter,
+        take: this.take,
+      };
+    },
     // @vuese
     // Products loaded but no result
     // @type Boolean
@@ -95,10 +101,16 @@ export default {
       return this.productsLoaded && this.productList.length === 0;
     },
     // @vuese
-    // Is the widget in favorite or latest mode
+    // No data to show
     // @type Boolean
-    isWidgetModeStatic() {
-      return this.checkModeConditions(null) === false;
+    noData() {
+      if (this.isFavoriteMode && this.favoriteProducts.length === 0) {
+        return true;
+      }
+      if (this.isLatestMode && this.latestProducts.length === 0) {
+        return true;
+      }
+      return false;
     },
     // @vuese
     // How many products to take
@@ -121,93 +133,44 @@ export default {
     },
     // @vuese
     // Is widget on latest products mode
-    // @type Object
+    // @type Boolean
     isLatestMode() {
       return this.configuration?.mode === 'LATEST_VIEWED';
     },
     // @vuese
     // Is widget on favorite products mode
-    // @type Object
+    // @type Boolean
     isFavoriteMode() {
       return this.configuration?.mode === 'FAVORITES';
     },
     // @vuese
     // Is title visible
-    // @type Object
+    // @type Boolean
     isTitleVisible() {
       if (this.noProducts) {
         return false;
       }
-      return this.checkModeConditions(this.configuration.title);
+      return !!this.configuration?.title;
     },
     // @vuese
-    // Latest visible products (need only in latest mode)
-    // @type Object
+    // Latest visible products
+    // @type Array
     latestProducts() {
-      const savedProductsAliases = this.$cookies.get('ralph-latest-products');
-      return savedProductsAliases
-        ? savedProductsAliases.map(this.formatToFacet)
+      const latestProducts = this.$cookies.get('ralph-latest-products');
+      return latestProducts?.length && typeof latestProducts[0] !== 'string'
+        ? latestProducts
         : [];
     },
     // @vuese
-    // Latest visible products (need only in favorite mode)
-    // @type Object
-    favoritesProducts() {
-      return this.$store.state.favorites.length
-        ? this.$store.state.favorites.map(this.formatToFacet)
-        : [];
-    },
-    // @vuese
-    // Variables in product request
-    // @type Object
-    productVars() {
-      let filter = this.configuration.searchParameters;
-
-      if (this.isLatestMode) {
-        filter = {
-          facets: this.latestProducts,
-        };
-      }
-
-      if (this.isFavoriteMode) {
-        filter = {
-          facets: this.favoritesProducts,
-        };
-      }
-
-      return {
-        filter,
-        take: this.take,
-      };
+    // Favorite products
+    // @type Array
+    favoriteProducts() {
+      return this.$store.state.favorites;
     },
   },
-  watch: {
-    isWidgetModeStatic: {
-      handler(val) {
-        if (val) {
-          this.setupPagination(0);
-          this.productsLoaded = true;
-        }
-      },
-      immediate: true,
-    },
-  },
+  watch: {},
   mounted() {},
-  methods: {
-    formatToFacet(alias) {
-      return `a_${alias}`;
-    },
-    checkModeConditions(additionalCondition) {
-      if (this.isLatestMode) {
-        return Boolean(this.latestProducts.length);
-      }
-
-      if (this.isFavoriteMode) {
-        return Boolean(this.favoritesProducts.length);
-      }
-      return additionalCondition;
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss">

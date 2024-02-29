@@ -1,13 +1,20 @@
 import { mapState } from 'vuex';
 import getUserQuery from 'user/get.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // The functionality of the account index page<br><br>
 export default {
   name: 'MixAccountIndex',
   middleware: 'ralph-authenticated',
-  data: () => ({}),
+  mixins: [MixFetch],
+  data: () => ({
+    fetchPolicy: 'no-cache',
+  }),
   computed: {
+    // @vuese
+    // The title of the account page
+    // @type String
     title() {
       return this.$route.query.loginToken
         ? this.$t('ACCOUNT_LOGGING_IN_AS_USER')
@@ -21,38 +28,27 @@ export default {
         if (this.$store.getters['auth/authenticated']) {
           await this.$store.dispatch('auth/logout');
         }
-        // remove cart for new spoofed user
+        // Remove cart for new spoofed user
         this.$store.dispatch('cart/reset');
         this.auth.client.setTokenData({
           token: this.$route.query.loginToken,
           maxAge: 3600,
         });
         this.$store.dispatch('auth/update', {
-          username: 'spoofed-user@geins.io',
-          rememberUser: false,
+          credentials: {
+            username: 'spoofed-user@geins.io',
+            rememberUser: false,
+          },
+          refetchQueries: true,
         });
         if (this.$config.customerTypesToggle) {
-          this.$apollo
-            .query({
-              query: getUserQuery,
-              errorPolicy: 'all',
-              fetchPolicy: 'no-cache',
-            })
-            .then((result) => {
-              if (!result.errors) {
-                const type = result.data?.getUser?.customerType;
-                this.$store.dispatch('changeCustomerType', type);
-                this.$store.dispatch('setCustomerTypeCookie', type);
-                this.routeToAccount();
-              }
-            })
-            .catch((error) => {
-              // pass the error response to the error component
-              this.$nuxt.error({ statusCode: 500, message: error });
-            });
-        } else {
-          this.routeToAccount();
+          const type = await this.fetchData(getUserQuery, (result) => {
+            return result?.data?.getUser?.customerType || null;
+          });
+          this.$store.dispatch('changeCustomerType', type);
+          this.$store.dispatch('setCustomerTypeCookie', type);
         }
+        this.routeToAccount();
       }
     },
   },
@@ -63,6 +59,8 @@ export default {
     }
   },
   methods: {
+    // @vuese
+    // Routes to the account page
     routeToAccount() {
       this.$router.replace(this.$getPath('account-orders'));
     },

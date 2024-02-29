@@ -1,6 +1,6 @@
 # MixFavoritesPage
 
-All functionality for the favorites page<br><br> **Data:**<br> allProducts: `[]`<br>
+All functionality for the favorites page<br><br> **Data:**<br> products: `null`<br> allProducts: `[]`<br>
 
 ## Methods
 
@@ -28,7 +28,7 @@ All functionality for the favorites page<br><br> **Data:**<br> allProducts: `[]`
 <!-- @vuese:MixFavoritesPage:mixIns:start -->
 |MixIn|
 |---|
-|MixApolloRefetch|
+|MixFetch|
 
 <!-- @vuese:MixFavoritesPage:mixIns:end -->
 

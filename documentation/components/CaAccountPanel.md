@@ -22,3 +22,29 @@ The account panel. Includes content panel frames 'login', 'create', 'reset' and 
 <!-- @vuese:CaAccountPanel:methods:end -->
 
 
+## Computed
+
+<!-- @vuese:CaAccountPanel:computed:start -->
+|Computed|Type|Description|From Store|
+|---|---|---|---|
+|loginMode|`Boolean`|Decides if the panel is in login mode|No|
+|createMode|`Boolean`|Decides if the panel is in create mode|No|
+|resetMode|`Boolean`|Decides if the panel is in reset mode|No|
+|changeMode|`Boolean`|Decides if the panel is in change mode|No|
+|title|`String`|Decides the title of the panel|No|
+|currentFrame|`String`|Decides the current frame of the content panel|No|
+|credentials|`Object`|Decides the credentials to be used for login, create account and change password|No|
+
+<!-- @vuese:CaAccountPanel:computed:end -->
+
+
+## MixIns
+
+<!-- @vuese:CaAccountPanel:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:CaAccountPanel:mixIns:end -->
+
+

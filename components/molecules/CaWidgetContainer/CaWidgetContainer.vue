@@ -14,8 +14,6 @@
       :image-sizes="imageSizes"
       :is-first="isFirst"
       :widget-area-variables="widgetAreaVariables"
-      :fetch-products-only-client-side="fetchProductsOnlyClientSide"
-      @widget-mounted="widgetsMounted = widgetsMounted + 1"
     />
   </CaContainer>
 </template>
@@ -46,13 +44,8 @@ export default {
       type: Object,
       required: true,
     },
-    // Fetch products only client side
-    fetchProductsOnlyClientSide: {
-      type: Boolean,
-      default: false,
-    },
   },
-  data: () => ({ widgetsMounted: 0 }),
+  data: () => ({}),
   computed: {
     outerClasses() {
       const arr = [];
@@ -88,16 +81,7 @@ export default {
       return this.container.design.includes('contained');
     },
   },
-  watch: {
-    widgetsMounted: {
-      handler() {
-        if (this.widgetsMounted === this.container.widgets?.length) {
-          this.$emit('container-mounted', this.container.widgets);
-        }
-      },
-      immediate: true,
-    },
-  },
+  watch: {},
   mounted() {},
   methods: {},
 };

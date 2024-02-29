@@ -1,6 +1,6 @@
 # MixCheckout
 
-All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, udcValid: `false` udcDataSet: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null` frameLoading: `false` forceExternalCheckoutReset: `false`
+All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading: `false`<br> checkoutLoading: `false`<br> checkout: `{}`<br> desiredDeliveryDate: `null`<br> message: `''` pickupPoint: `''`, externalShippingId: `''`, nshiftValid: `false` nshiftDataSet: `false` paymentId: `vm.$config.defaultPaymentId` updateDelay: 150` updateTimeout: `null` activeElement: `null` frameLoading: `false` forceExternalCheckoutReset: `false`
 
 ## Methods
 
@@ -11,8 +11,8 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |updateCart|Updating the cart if the cart is different from the existing cart|cart (Object)|
 |updateCheckoutData|Updating the checkout data received from Carismar Checkout|data (Object)|
 |placeOrder|Placing the order and redirecting to confirm page if completed|-|
-|initUDC|Initialize UDC|zip (String)|
-|setUDCdata|UDC callback handler|data (Object)|
+|initNshift|Initialize Nshift|zip (String)|
+|setNshiftData|Nshift callback handler|data (Object)|
 |paymentSelectionHandler|Handling the payment selection|payment id (Number)|
 |shippingSelectionHandler|Handling the shipping selection|shipping id (Number)|
 |setCheckoutMarket|Handling the checkout market selection|market (String)|
@@ -45,7 +45,7 @@ All functionality for the checkout **Data:**<br> debug: `false`<br> cartLoading:
 |MixIn|
 |---|
 |MixPromiseQueue|
-|MixApolloRefetch|
+|MixFetch|
 
 <!-- @vuese:MixCheckout:mixIns:end -->
 

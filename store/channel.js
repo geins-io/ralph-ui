@@ -32,22 +32,22 @@ export const mutations = {
 };
 
 export const actions = {
-  getMarkets({ commit }) {
-    const client = this.app.apolloProvider.defaultClient;
-    client
-      .query({
-        query: getMarketsQuery,
-      })
-      .then((result) => {
-        if (result?.data?.channel?.markets) {
-          commit('setMarkets', result?.data?.channel?.markets);
-        }
-      })
-      .catch((error) => {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      });
+  async getMarkets({ commit }) {
+    const callback = (result) => {
+      return result?.data?.channel?.markets || [];
+    };
+
+    const markets = await this.app.$fetchData(getMarketsQuery, callback);
+
+    if (markets) {
+      commit('setMarkets', markets);
+    }
   },
-  setCurrentMarket({ commit, dispatch, getters }, alias) {
+  setCurrentMarket({ state, commit, dispatch, getters }, alias) {
+    if (alias === state.currentMarket) {
+      return;
+    }
+
     commit('setCurrentMarket', alias);
     commit('setCheckoutMarket', alias);
     commit('setCurrentCurrency', getters.currentCurrency);
@@ -57,12 +57,11 @@ export const actions = {
       expires: new Date(new Date().getTime() + 31536000000),
     });
 
-    if (process.browser) {
+    if (process.client) {
       const bc = new BroadcastService('ralph_channel');
       bc.postMessage({ type: 'market', data: alias });
+      dispatch('refetchQueries', null, { root: true });
     }
-
-    dispatch('clearAndRefetchApollo', null, { root: true });
   },
   setCheckoutMarket({ commit, dispatch }, alias) {
     commit('setCheckoutMarket', alias);

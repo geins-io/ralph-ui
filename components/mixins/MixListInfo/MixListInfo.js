@@ -3,59 +3,37 @@ import listPageInfoQuery from 'productlist/list-page.graphql';
 
 // @group Mixins
 // @vuese
-// **Data:**<br>
-// exampleVariable: `1`<br>
+// The functionality for the list page information, handles the 404 and switch to canonical<br><br>
+// Returns `listInfo` object with the list page information
 export default {
   name: 'MixListInfo',
   mixins: [MixMetaReplacement],
-  async asyncData({ error, store, app, redirect, req }) {
-    const currentPath = decodeURI(store.state.currentPath);
-
+  async asyncData({ app, store, error, route }) {
     try {
-      const client = app.apolloProvider.defaultClient;
+      const currentPath = decodeURI(store.state.currentPath);
       let listPageInfo = null;
-      const variables = { url: currentPath };
 
-      await client
-        .query({
-          query: listPageInfoQuery,
-          variables,
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          listPageInfo = result?.data?.listPageInfo;
-          if (!listPageInfo || listPageInfo.id === 0) {
-            error({
-              statusCode: 404,
-              message: 'Page not found',
-              url: currentPath,
-            });
-            return;
-          }
-          if (req && listPageInfo.canonicalUrl !== currentPath) {
-            redirect({
-              path: listPageInfo.canonicalUrl,
-              query: req.query,
-            });
-          }
-          store.dispatch('loading/end');
-        })
-        .catch((err) => {
-          error({ statusCode: err.statusCode, message: err });
-        });
+      const variables = { url: currentPath };
+      const callback = (result) => {
+        listPageInfo = result?.data?.listPageInfo;
+        if (!listPageInfo || listPageInfo.id === 0) {
+          app.$error404(currentPath);
+          return;
+        }
+        if (listPageInfo.canonicalUrl !== currentPath) {
+          app.$redirectToCanonical(listPageInfo.canonicalUrl, route?.query);
+        }
+        store.dispatch('loading/end');
+      };
+
+      await app.$fetchData(listPageInfoQuery, callback, variables);
 
       return { listInfo: listPageInfo };
     } catch (err) {
-      // Handle any errors, such as network issues or API failures
-      error(err);
+      error({ statusCode: err.statusCode, message: err });
     }
   },
   props: {},
-  data: () => ({}),
-  computed: {},
-  watch: {},
-  mounted() {},
-  methods: {},
   head() {
     return {
       title: this.metaReplacement(this.listInfo?.meta?.title),
@@ -85,4 +63,9 @@ export default {
       ],
     };
   },
+  data: () => ({}),
+  computed: {},
+  watch: {},
+  mounted() {},
+  methods: {},
 };

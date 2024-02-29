@@ -135,11 +135,13 @@ export default {
       this.widgetLoadedIntervalCount++;
       if (this.widgetLoadedIntervalCount > 40) {
         clearInterval(this.widgetLoadedInterval);
-        console.error('nShift checkout widget script could not be loaded');
+        this.$ralphLogError(
+          'nShift checkout widget script could not be loaded',
+        );
       }
     }, 500);
   },
-  beforeUnmount() {
+  beforeDestroy() {
     clearInterval(this.widgetLoadedInterval);
   },
   methods: {

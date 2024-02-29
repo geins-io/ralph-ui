@@ -37,11 +37,12 @@ export const actions = {
     const event = RalphEvent.createEvent(type, clonedData);
     commit('push', event);
 
-    // Clone event for better log output
-    const logEvent = JSON.parse(JSON.stringify(event));
-
-    // Log event to console
-    this.app.$ralphLog(logEvent.type, logEvent);
+    if (this.app.$config.ralphLog.all || this.$config.ralphLog.events) {
+      // Clone event for better log output
+      const logEvent = JSON.parse(JSON.stringify(event));
+      // Log event to console
+      this.app.$ralphLog(logEvent.type, logEvent);
+    }
   },
 };
 

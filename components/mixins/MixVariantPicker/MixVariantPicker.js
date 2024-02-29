@@ -56,17 +56,17 @@ export default {
     chosenVariant() {
       if (this.variantsLevel === 0) {
         return (
-          this.variants.filter(
+          this.variants.find(
             (i) => i.skuId === this.variantsData.chosenSku.id,
-          )[0] || null
+          ) || null
         );
       } else {
         return this.variants.filter(
           (i) =>
             i.value ===
-            this.variantsData.variantDimensions.filter(
+            this.variantsData.variantDimensions.find(
               (ii) => ii.level === i.level,
-            )[0].value,
+            ).value,
         )[0];
       }
     },
@@ -92,9 +92,10 @@ export default {
     // Get chosen value for specified level
     // @arg level (Number)
     getChosenValue(level) {
-      return this.variantsData.variantDimensions.filter(
-        (i) => i.level === level,
-      )[0].value;
+      return (
+        this.variantsData.variantDimensions.find((i) => i.level === level)
+          ?.value || ''
+      );
     },
     // @vuese
     // Get stock status text for variant provided
@@ -106,9 +107,9 @@ export default {
         variant.level === 1 &&
         !this.variantsData.hasMultipleDimensions
       ) {
-        const skuVariant = variant.variants.filter(
-          (i) => i.value === this.variantsData.chosenSku.value,
-        )[0];
+        const skuVariant = variant.variants.find(
+          (i) => i.skuId === this.variantsData.chosenSku.id,
+        );
         if (skuVariant) {
           return this.getStockStatusText(skuVariant.stock);
         } else {
@@ -132,9 +133,7 @@ export default {
         const productVariant =
           variant.level === 1
             ? variant
-            : variant.variants.filter(
-                (i) => i.value === this.getChosenValue(1),
-              )[0];
+            : variant.variants.find((i) => i.value === this.getChosenValue(1));
 
         const alias = productVariant
           ? productVariant.alias
@@ -155,19 +154,22 @@ export default {
       const chosenClass = this.baseClass + '__choice--chosen';
       const skuClass = this.baseClass + '__choice--sku';
       const classArray = [];
+      const isSku = variant.level === 0;
+
+      if (isSku) {
+        classArray.push(skuClass);
+      }
 
       if (!variant.stock.totalStock) {
         classArray.push(disabledClass);
+        return classArray;
       }
-      if (variant.level === 0) {
-        classArray.push(skuClass);
-        if (variant.value === this.variantsData.chosenSku.value) {
-          classArray.push(chosenClass);
-        }
+      if (isSku && variant.skuId === this.variantsData.chosenSku.id) {
+        classArray.push(chosenClass);
       } else if (!!this.productId && this.productId === variant.productId) {
         classArray.push(chosenClass);
       } else if (
-        variant.value === this.getChosenValue(variant.level) &&
+        variant?.value === this.getChosenValue(variant?.level) &&
         !this.productId
       ) {
         classArray.push(chosenClass);

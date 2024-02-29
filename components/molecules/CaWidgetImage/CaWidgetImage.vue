@@ -6,14 +6,13 @@
   >
     <CaImage
       class="ca-widget-image__image"
-      size="1360w"
       type="pagewidget"
       :alt="altText"
       :banner-image="fullWidth"
       :filename="filename"
       :ratio="currentRatio"
       :sizes="imageSizes"
-      :loading="isParrentFirst"
+      :loading="isParentFirst"
     />
   </component>
 </template>
@@ -34,7 +33,7 @@ export default {
   },
   data: () => ({}),
   computed: {
-    isParrentFirst() {
+    isParentFirst() {
       if (this.isFirst) {
         return 'eager';
       } else {

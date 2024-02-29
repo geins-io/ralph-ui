@@ -87,6 +87,7 @@
 </template>
 <script>
 import postProductReviewMutation from 'product/post-product-review.graphql';
+import MixFetch from 'MixFetch';
 import { mapGetters } from 'vuex';
 
 // @group Molecules
@@ -95,7 +96,7 @@ import { mapGetters } from 'vuex';
 // **SASS-path:** _./styles/components/molecules/ca-review-form.scss_
 export default {
   name: 'CaReviewForm',
-  mixins: [],
+  mixins: [MixFetch],
   props: {
     productAlias: {
       type: String,
@@ -160,37 +161,26 @@ export default {
       this.feedbackMessage = this.$t('FEEDBACK_ALL_INPUTS_REVIEW');
       this.$refs.feedback.show();
     },
-    // TODO: add missing data to api call
     // @vuese
     // API call with handling error or success
-    addReviewAPICall() {
-      this.$apollo
-        .mutate({
-          mutation: postProductReviewMutation,
-          variables: {
-            alias: this.productAlias,
-            author: this.reviewForm.author,
-            comment: this.reviewForm.comment,
-            rating: this.rate,
-          },
-          errorPolicy: 'all',
-          fetchPolicy: 'no-cache',
-        })
-        .then((status) => {
-          if (!status?.errors) {
-            this.success = true;
-            return;
-          }
-          this.showErrorFeedback();
-          this.showForm = true;
-        })
-        .catch((e) => {
-          this.showErrorFeedback();
-        })
-        .finally(() => {
-          this.loading = false;
-          this.isButtonDisabled = false;
-        });
+    async addReviewAPICall() {
+      const variables = {
+        alias: this.productAlias,
+        author: this.reviewForm.author,
+        comment: this.reviewForm.comment,
+        rating: this.rate,
+      };
+      const callback = () => {
+        this.success = true;
+        this.loading = false;
+        this.isButtonDisabled = false;
+      };
+      await this.mutateData(
+        postProductReviewMutation,
+        callback,
+        variables,
+        this.showErrorFeedback,
+      );
     },
     // @vuese
     // Used to hide feedback if field becomes valid after error

@@ -82,8 +82,7 @@ export default {
       if (isFinite(scrollSize)) {
         return scrollSize;
       }
-      // eslint-disable-next-line no-console
-      console.error(
+      this.$ralphLogError(
         `Missing product list scroll size for viewport ${this.$store.getters.viewport}. Check config.`,
       );
       return 1;

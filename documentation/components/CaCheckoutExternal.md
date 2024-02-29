@@ -9,9 +9,7 @@ Renders the external checkout frame from a snippet given by the API. Has built i
 |---|---|---|---|---|
 |data|The external checkout snippet received from the api|`String`|`false`|null|
 |newCheckoutSession|Is it a new checkout session?|`Boolean`|`false`|false|
-|confirm|Is this the confirm page? If set to true this component will fetch the confirm snippet from the api DEPRECATED: Use confirmSnippet instead|`Boolean`|`false`|false|
 |type|What type of payment?|`KLARNA`, `SVEA`, `WALLEY`, `AVARDA`|`true`|-|
-|confirmSnippet|The confirm snippet Available in checkoutConfirmData.htmlSnippet from MixConfirmPage Set prop confirm to false if you want to use this|`String`|`false`|null|
 
 <!-- @vuese:CaCheckoutExternal:props:end -->
 
@@ -25,7 +23,6 @@ Renders the external checkout frame from a snippet given by the API. Has built i
 |initScript|Initializing all scripts|-|
 |suspend|Suspend the checkout|-|
 |resume|Resume the checkout|-|
-|fetchConfirm|Fetch the confirm frame|-|
 
 <!-- @vuese:CaCheckoutExternal:methods:end -->
 

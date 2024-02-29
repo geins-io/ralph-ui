@@ -1,4 +1,5 @@
 import commitResetMutation from 'user/pw-reset-commit.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // // The functionality of the reset password page<br><br>
@@ -11,7 +12,7 @@ import commitResetMutation from 'user/pw-reset-commit.graphql';
 // feedback: `{ passwordChanged: { type: 'success', message: '' }, notValid: { type: 'error', message: '' }, error: { type: 'error', message: '' }, resetKeyNotValid: { type: 'error', message: '' } }`
 export default {
   name: 'MixResetPassword',
-  mixins: [],
+  mixins: [MixFetch],
   props: {},
   data: (vm) => ({
     loading: false,
@@ -58,39 +59,33 @@ export default {
         const password = await this.$store.state.auth.client.digest(
           this.password,
         );
-        this.$apollo
-          .mutate({
-            mutation: commitResetMutation,
-            variables: {
-              resetKey: this.resetKey,
-              password,
-            },
-            errorPolicy: 'all',
-            fetchPolicy: 'no-cache',
-          })
-          .then((result) => {
-            this.loading = false;
+        const variables = {
+          resetKey: this.resetKey,
+          password,
+        };
+        const callback = (result) => {
+          this.loading = false;
+          if (result.data.commitReset) {
+            this.resetFields();
+            this.showFeedback(this.feedback.passwordChanged);
+            setTimeout(() => {
+              window.location.replace(this.$getPath('/?action=login'));
+            }, 1000);
+            return;
+          }
+          this.showFeedback(this.feedback.resetKeyNotValid);
+        };
+        const callbackError = () => {
+          this.loading = false;
+          this.showFeedback(this.feedback.error);
+        };
 
-            if (result.errors) {
-              this.showFeedback(this.feedback.error);
-              return;
-            }
-
-            if (result.data.commitReset) {
-              this.resetFields();
-              this.showFeedback(this.feedback.passwordChanged);
-              setTimeout(() => {
-                window.location.replace(this.$getPath('/?action=login'));
-              }, 1000);
-              return;
-            }
-            // wrong key uuid
-            this.showFeedback(this.feedback.resetKeyNotValid);
-          })
-          .catch((error) => {
-            // pass the error response to the error component
-            this.$nuxt.error({ statusCode: 500, message: error });
-          });
+        await this.mutateData(
+          commitResetMutation,
+          callback,
+          variables,
+          callbackError,
+        );
       } else {
         this.showFeedback(this.feedback.notValid);
       }

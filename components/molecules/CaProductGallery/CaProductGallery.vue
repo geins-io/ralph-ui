@@ -276,7 +276,7 @@ export default {
   },
   watch: {},
   mounted() {},
-  beforeUnmount() {
+  beforeDestroy() {
     this.$ralphBus.$emit('close-modal');
   },
   methods: {

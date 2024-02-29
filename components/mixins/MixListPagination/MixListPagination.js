@@ -9,6 +9,8 @@
 // totalCount: `0`<br>
 // productList: `[]`<br>
 // mainProductList: `true`<br>
+// nextPageLoading: `false`<br>
+// prevPageLoading: `false`<br>
 export default {
   name: 'MixListPagination',
   mixins: [],
@@ -21,6 +23,8 @@ export default {
     totalCount: 0,
     productList: [],
     mainProductList: true,
+    nextPageLoading: false,
+    prevPageLoading: false,
   }),
   computed: {
     // @vuese
@@ -100,11 +104,8 @@ export default {
         Number(this.$route.query?.page) >
           Math.ceil(this.totalCount / this.pageSize)
       ) {
-        this.$nuxt.error({
-          statusCode: 404,
-          message: 'Page not found',
-          url: this.$route.fullPath,
-        });
+        this.$error404(this.$route.fullPath);
+        return;
       }
 
       if (this.pagingPage > 1) {
@@ -117,7 +118,8 @@ export default {
     },
     // @vuese
     // Load next chunk of products
-    loadMore() {
+    async loadMore() {
+      this.nextPageLoading = true;
       if (this.mainProductList) {
         this.userHasPaged = true;
       }
@@ -130,21 +132,27 @@ export default {
 
       this.currentPage = this.currentMaxCount / this.pageSize + 1;
 
-      this.$apollo.queries.products.fetchMore({
-        variables: this.loadMoreQueryVars,
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newProducts = fetchMoreResult.products.products;
-          this.currentMaxCountSet += newProducts.length;
-          this.productList = [...currentProductList, ...newProducts];
-          if (this.mainProductList) {
-            this.pushURLParams();
-          }
-        },
-      });
+      const callback = (result) => {
+        const { products } = result.data;
+        this.currentMaxCountSet += products.products.length;
+        this.productList = [...currentProductList, ...products.products];
+        if (this.mainProductList) {
+          this.pushURLParams();
+        }
+        this.nextPageLoading = false;
+        return products;
+      };
+
+      this.products = await this.fetchData(
+        this.productsQuery,
+        callback,
+        this.loadMoreQueryVars,
+      );
     },
     // @vuese
     // Load previous chunk of products
-    loadPrev() {
+    async loadPrev() {
+      this.prevPageLoading = true;
       this.userHasPaged = true;
       const currentProductList = this.productList;
       const scrollHeight = this.getScrollHeight();
@@ -156,15 +164,20 @@ export default {
         window.scrollBy(0, scrollAmount);
       });
 
-      this.$apollo.queries.products.fetchMore({
-        variables: this.loadPrevQueryVars,
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          const newProducts = fetchMoreResult.products.products;
-          this.currentMinCountSet -= newProducts.length;
-          this.productList = [...newProducts, ...currentProductList];
-          this.pushURLParams();
-        },
-      });
+      const callback = (result) => {
+        const { products } = result.data;
+        this.currentMinCountSet -= products.products.length;
+        this.productList = [...products.products, ...currentProductList];
+        this.pushURLParams();
+        this.prevPageLoading = false;
+        return products;
+      };
+
+      this.products = await this.fetchData(
+        this.productsQuery,
+        callback,
+        this.loadPrevQueryVars,
+      );
     },
   },
 };

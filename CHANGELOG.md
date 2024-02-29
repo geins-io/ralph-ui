@@ -14,7 +14,50 @@ Sections to use
 ### Fixed
 -->
 
-## [21.1.0] - 2024-01-10
+## [22.0.0] - 2024-02-29
+
+This major update will require you to update your storefront to Ralph Storefront v2.2.0.
+
+### Added
+
+- New mixin `MixFetch`, used for fetching and mutating data from the api instead of apollo smart queries in components
+- New global function `$fetchData`, used for fetching data from the api in asyncData or in the store
+- New global function `$error404`, used for redirecting to 404 page
+- New global function `$redirectToCanonical`, used for redirecting to the canonical url
+- A more consistent and reliable way of handling errors
+- New global function `$ralphLogError`, used for logging errors to the console
+- New error events emitted to the store:
+  - `error:api` - data payload: `error`
+  - `error:404` - data payload: `error`
+  - `error:500` - data payload: `error`
+- A way to control what `$ralphLog` logs to the console in debug mode through the $config variable `ralphLog`, see Ralph Storefront v.2.2.0
+- Some missing documentation for components and mixins
+- Improved error feedback for `CaCheckoutInvoice`
+
+### Changed
+
+- All queries and mutations are now using the functionality from `MixFetch` instead of apollo smart queries, and are made in the asyncData or in the fetch hook
+- `CaCheckoutExternal` is refactored and is no longer fetching is own confirm frame, use the one you get in `MixConfirmPage` instead
+- Option to set `refetchQueires` as a param for the `auth/update` action
+- Refactoring of `CaWidgetArea` to use `MixFetch` or to get data from the parent, if it's a page. This to make a better handling of 404 errors amongst other things
+- Refactoring of `MixVariantHandler` and make it work properly when variants has the same value
+
+### Removed
+
+- Removed `MixApolloRefetch` mixin, functionality exists in `MixFetch` instead
+- Removed `CaCheckoutCarismar` component, use `CaCheckoutInvoice` instead
+- Unnecessary `isSign` in auth client
+
+### Fixed
+
+- Correct 404 handling for Pages thorugh `MixContentPage`
+- Suspention of external checkout frame now works properly
+- Prevents refetching of queries on first init auth refresh, it's not needed
+- Latest products and favorites mode in `CaWidgetProductList` now works properly
+- Close product image modal gallery when backing from PDP
+- Added missing `ca-account-header.scss`
+
+## [21.1.0] - 2024-02-12
 
 ### Added
 

@@ -1,6 +1,6 @@
 # MixListInfo
 
-**Data:**<br> exampleVariable: `1`<br>
+The functionality for the list page information, handles the 404 and switch to canonical<br><br> Returns `listInfo` object with the list page information
 
 ## MixIns
 

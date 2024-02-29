@@ -1,61 +1,43 @@
 import MixMetaReplacement from 'MixMetaReplacement';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixAddToCart from 'MixAddToCart';
+import MixVariantHandler from 'MixVariantHandler';
 import productQuery from 'product/product.graphql';
 import relatedProductsQuery from 'product/related-products.graphql';
 // @group Mixins
 // @vuese
 // All functionality for the product page<br><br>
 // **Data:**<br>
+// product: `null`<br>
 // quantity: `1`<br>
 // replaceAlias: `null`<br>
+// currentNotifyVariant: `{}`<br>
+// relatedProducts: `[]`<br>
 export default {
   name: 'MixProductPage',
-  mixins: [MixMetaReplacement, MixApolloRefetch],
-  async asyncData({ error, store, app, redirect, req, params }) {
-    const currentPath = decodeURI(store.state.currentPath);
-    const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
-
-    const variables = {
-      alias: prodAlias,
-    };
-
+  mixins: [MixMetaReplacement, MixAddToCart, MixVariantHandler],
+  async asyncData({ app, store, error, params, route }) {
     try {
-      const client = app.apolloProvider.defaultClient;
-      let product = null;
+      const currentPath = decodeURI(store.state.currentPath);
+      const prodAlias = decodeURI(params.alias?.split('/').pop()) || '';
+      let asyncProduct = null;
 
-      await client
-        .query({
-          query: productQuery,
-          variables,
-          fetchPolicy: 'no-cache',
-        })
-        .then((result) => {
-          product = result?.data?.product;
-          if (!product) {
-            error({
-              statusCode: 404,
-              message: 'Page not found',
-              url: currentPath,
-            });
-            return;
-          }
-          if (req && product.canonicalUrl !== currentPath) {
-            redirect({
-              path: product.canonicalUrl,
-              query: req.query,
-            });
-          }
-        })
-        .catch((err) => {
-          error({
-            statusCode: err.statusCode,
-            message: err.message,
-          });
-        });
+      const variables = { alias: prodAlias };
+      const callback = (result) => {
+        asyncProduct = result?.data?.product;
+        if (!asyncProduct) {
+          app.$error404(currentPath);
+          return;
+        }
+        if (asyncProduct.canonicalUrl !== currentPath) {
+          app.$redirectToCanonical(asyncProduct.canonicalUrl, route?.query);
+        }
+      };
 
-      return { product };
+      await app.$fetchData(productQuery, callback, variables);
+
+      return { asyncProduct };
     } catch (err) {
-      error(err);
+      error({ statusCode: err.statusCode, message: err });
     }
   },
   props: {},
@@ -87,54 +69,55 @@ export default {
       ],
     };
   },
-  apollo: {
-    product: {
-      query: productQuery,
-      variables() {
-        return {
-          alias: this.prodAlias,
-        };
-      },
-      errorPolicy: 'all',
-      result() {
-        this.initProduct();
-      },
-      skip() {
-        return process.server || !this.prodAliasHasChanged;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-    relatedProducts: {
-      query: relatedProductsQuery,
-      variables() {
-        return {
-          alias: this.prodAlias,
-        };
-      },
-      errorPolicy: 'all',
-      result(result) {
-        this.relatedProducts = result?.data?.relatedProducts;
-      },
-      skip() {
-        return !this.$config.productShowRelated;
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
+  async fetch() {
+    if (this.asyncProduct && !this.replaceAlias) {
+      this.product = this.asyncProduct;
+    } else {
+      const callback = (result) => {
+        const product = result?.data?.product;
+        const currentPath = this.$route.path;
+        if (!product) {
+          this.$error404(currentPath);
+          return;
+        }
+        if (currentPath !== product.canonicalUrl) {
+          history.replaceState(null, null, product.canonicalUrl);
+        }
+        return product;
+      };
+
+      this.product = await this.fetchData(productQuery, callback);
+    }
+
+    if (this.replaceAlias) {
+      this.initProduct();
+    }
+
+    if (this.product && this.$config.productShowRelated) {
+      this.relatedProducts = await this.fetchData(
+        relatedProductsQuery,
+        (result) => {
+          return result?.data?.relatedProducts || [];
+        },
+      );
+    }
   },
   data: () => ({
+    product: null,
     quantity: 1,
     replaceAlias: null,
     currentNotifyVariant: {},
-    initVariables: {},
     relatedProducts: [],
-    impressionEventSent: false,
-    prodAliasHasChanged: false,
   }),
   computed: {
+    // @vuese
+    // Variables to be watched by MixFetch
+    // @type Object
+    variables() {
+      return {
+        alias: this.prodAlias,
+      };
+    },
     // @vuese
     // Quick ref to product images
     // @type Array
@@ -232,18 +215,6 @@ export default {
         this.quantity = val;
       }
     },
-    // @vuese
-    // Watching prodAlias to fetch request when alias state change
-    prodAlias() {
-      this.prodAliasHasChanged = true;
-    },
-    // @vuese
-    // Watching productId to send impression event when changing variant
-    'product.productId'(newVal, oldVal) {
-      if (oldVal && newVal !== oldVal) {
-        this.sendImpressionEvent();
-      }
-    },
   },
   mounted() {
     this.initProduct();
@@ -307,7 +278,7 @@ export default {
     replaceProduct(alias) {
       if (alias !== this.prodAlias) {
         this.replaceAlias = alias;
-        history.replaceState(null, null, alias);
+        this.$fetch();
       } else {
         this.$store.dispatch('loading/end');
       }
@@ -329,17 +300,19 @@ export default {
       });
     },
     // @vuese
-    // Switching to canonical url if different from route path
-    switchToCanonical() {
-      if (this.product.canonicalUrl !== this.$route.path) {
-        history.replaceState(null, null, this.product.canonicalUrl);
-      }
-    },
+    // Append product id to latest products cookie
     appendProductToLatest() {
       const COOKIE_NAME = 'ralph-latest-products';
-      const latestProducts = this.$cookies.get(COOKIE_NAME);
+      let latestProducts = this.$cookies.get(COOKIE_NAME);
+
+      // Now going from aliases to productId's, remove all old cookies to not cause trouble
+      if (latestProducts && typeof latestProducts[0] === 'string') {
+        this.$cookies.remove(COOKIE_NAME);
+        latestProducts = null;
+      }
+
       if (!latestProducts) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias], { path: '/' });
+        this.$cookies.set(COOKIE_NAME, [this.product.productId], { path: '/' });
         return;
       }
 
@@ -347,18 +320,26 @@ export default {
         latestProducts.pop();
       }
 
-      if (!latestProducts.includes(this.prodAlias)) {
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/',
-        });
-      } else {
-        const existingAliasIndex = latestProducts.findIndex(
-          (alias) => alias === this.prodAlias,
+      if (!latestProducts.includes(this.product.productId)) {
+        this.$cookies.set(
+          COOKIE_NAME,
+          [this.product.productId, ...latestProducts],
+          {
+            path: '/',
+          },
         );
-        latestProducts.splice(existingAliasIndex, 1);
-        this.$cookies.set(COOKIE_NAME, [this.prodAlias, ...latestProducts], {
-          path: '/',
-        });
+      } else {
+        const existingIdIndex = latestProducts.findIndex(
+          (id) => id === this.product.productId,
+        );
+        latestProducts.splice(existingIdIndex, 1);
+        this.$cookies.set(
+          COOKIE_NAME,
+          [this.product.productId, ...latestProducts],
+          {
+            path: '/',
+          },
+        );
       }
     },
     // @vuese
@@ -373,35 +354,32 @@ export default {
       });
     },
     // @vuese
-    // Sending the product detail impression event
-    sendImpressionEvent() {
-      this.$store.dispatch('events/push', {
-        type: 'product-detail:impression',
-        data: { product: this.product },
-      });
-      this.impressionEventSent = true;
-    },
-    // @vuese
     // Initiate product
     initProduct() {
+      if (!this.product) {
+        return;
+      }
       if (!this.hasSkuVariants) {
         this.setDefaultSku();
       } else if (this.skuIsChosen && !this.chosenSkuVariant) {
         this.resetSku();
       }
-      if (this.product?.variantGroup === null) {
-        this.$ralphLog('WARNING:', 'Product has no variantGroup');
-      }
+      if (this.$config.ralphLog.all || this.$config.ralphLog.warnings) {
+        if (this.product?.variantGroup === null) {
+          this.$ralphLog('WARNING:', 'Product has no variantGroup');
+        }
 
-      if (!this.product?.primaryCategory) {
-        this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+        if (!this.product?.primaryCategory) {
+          this.$ralphLog('WARNING:', 'Product has no primaryCategory');
+        }
       }
 
       this.appendProductToLatest();
 
-      if (!this.impressionEventSent) {
-        this.sendImpressionEvent();
-      }
+      this.$store.dispatch('events/push', {
+        type: 'product-detail:impression',
+        data: { product: this.product },
+      });
 
       this.$store.dispatch('loading/end');
     },

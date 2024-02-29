@@ -1,6 +1,6 @@
 # MixListPage
 
-All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> userSkip: `0`<br> filters: `{}`<br> userSelection: `null`<br> filterParamQuery: `{}`<br> relocateTimeout: `null`<br> URLparamsRead: `false`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
+All functionality for the list page<br><br> **Data:**<br> products: `null`<br> productFilters: `null`<br> baseFilters: `{}`<br> userSkip: `0`<br> filters: `{}`<br> userSelection: `null`<br> relocateTimeout: `null`<br> relocateTries: `10`<br> filtersSet: `false`<br> userHasPaged: `false`<br> productsFetched: `false`<br>
 
 ## Props
 
@@ -23,6 +23,7 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 <!-- @vuese:MixListPage:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
+|getFilters|Fetches the filters for the list page|-|
 |getScrollHeight|Get the current scroll height of the page, used to keep scroll in the right position while loading previous products|-|
 |sortChangeHandler|Update the sort setting|new value (String)|
 |filterChangeHandler|Update the filter selections|new value (Object)|
@@ -33,11 +34,12 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 |relocateProduct|Runned to relocate product on page after back navigating|-|
 |setupUserSelection|Setting up the current user selection from store|-|
 |setupFilters|Setting up all filters|filters (Object)|
+|removeQueryVar|Remove query variables from query|query (Object), fields (Array)|
 |updateFilters|Updating all filters|filters (Object)|
 |setNewCount|Used to set new count of filters|base filters (Array), new filters (Array)|
 |getSortedFilters|Sorting all filters into groups|filters (Object)|
 |getReadableParams|Setting up params for filter in URL|filter selection (Array)|
-|handleFilteredRoutesRouting|Controls routing between filtered paths on the same category/brand etc|-|
+|handleFilteredRoutesRouting|Controls routing between filtered paths on the same category/brand etc|routes (Object)|
 
 <!-- @vuese:MixListPage:methods:end -->
 
@@ -47,6 +49,7 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 <!-- @vuese:MixListPage:computed:start -->
 |Computed|Type|Description|From Store|
 |---|---|---|---|
+|variables|`Object`|All variables used for fetching data, watched for changes through MixFetch|No|
 |urlFilteredList|`Boolean`|Is list filtered by facet in url?|No|
 |hideListInfo|`Boolean`|Determine is CaListTop are visible on page|No|
 |filtersLoaded|`Boolean`|Status of loading filters state|No|
@@ -61,6 +64,7 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 |isSearch|`Boolean`|Is this list page of type search?|No|
 |isAll|`Boolean`|Is this list page of type all?|No|
 |selection|`Object`|Current selection|No|
+|productsQuery|`Object`|The query for fetching products, to be used by other mixins|No|
 |productsQueryFilter|`Object`|Returns the filter object for the productsQueryVars|No|
 |totalFiltersActive|`Number`|Number of total filters active|No|
 |filterSelectionActive|`Boolean`|Is a filter selection made?|No|
@@ -84,7 +88,7 @@ All functionality for the list page<br><br> **Data:**<br> baseFilters: `{}`<br> 
 |MixIn|
 |---|
 |MixListPagination|
-|MixApolloRefetch|
+|MixFetch|
 
 <!-- @vuese:MixListPage:mixIns:end -->
 

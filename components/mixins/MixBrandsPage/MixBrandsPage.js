@@ -1,4 +1,5 @@
 import brandsByProductsQuery from 'brands/brands-by-products.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // The full functionality for the brands page
@@ -10,32 +11,28 @@ import brandsByProductsQuery from 'brands/brands-by-products.graphql';
 // activeGroupFilter: `''`<br>
 export default {
   name: 'MixBrandsPage',
-  mixins: [],
-  apollo: {
-    products: {
-      query: brandsByProductsQuery,
-      errorPolicy: 'all',
-      result(result) {
-        if (result.data && result.data.products.filters) {
-          const facets = result.data.products.filters.facets;
-          const brandFacets = facets.find((facet) => facet.type === 'Brand');
-
-          this.updateBrandsFromFacets(brandFacets);
-          if (!this.brandsTree.length) {
-            this.createBrandsTree();
-          }
-          this.isLoading = false;
-        }
-
-        this.$store.dispatch('loading/end');
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: 500, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch],
   props: {},
+  async fetch() {
+    this.facets = await this.fetchData(brandsByProductsQuery, (result) => {
+      return result?.data?.products?.filters?.facets || null;
+    });
+
+    if (!this.facets) {
+      return;
+    }
+
+    const brandFacets = this.facets.find((facet) => facet.type === 'Brand');
+
+    this.updateBrandsFromFacets(brandFacets);
+    if (!this.brandsTree.length) {
+      this.createBrandsTree();
+    }
+    this.isLoading = false;
+    this.$store.dispatch('loading/end');
+  },
   data: () => ({
+    facets: null,
     brands: [],
     isLoading: true,
     brandsTree: [],

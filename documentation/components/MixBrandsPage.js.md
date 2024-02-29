@@ -27,3 +27,13 @@ The full functionality for the brands page **Data:**<br> brands: `[]`<br> isLoad
 <!-- @vuese:MixBrandsPage.js:computed:end -->
 
 
+## MixIns
+
+<!-- @vuese:MixBrandsPage.js:mixIns:start -->
+|MixIn|
+|---|
+|MixFetch|
+
+<!-- @vuese:MixBrandsPage.js:mixIns:end -->
+
+

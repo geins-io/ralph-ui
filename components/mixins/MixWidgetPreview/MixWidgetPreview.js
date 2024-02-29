@@ -26,8 +26,11 @@ export default {
           maxAge: 3600,
         });
         this.$store.dispatch('auth/update', {
-          username: 'preview-user@geins.io',
-          rememberUser: false,
+          credentials: {
+            username: 'preview-user@geins.io',
+            rememberUser: false,
+          },
+          refetchQueries: true,
         });
         if (this.$route.query.redirect) {
           this.$router.push(this.$getPath('index'));

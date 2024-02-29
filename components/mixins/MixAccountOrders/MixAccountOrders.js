@@ -1,31 +1,25 @@
 import getOrdersQuery from 'user/orders.graphql';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
 // The functionality of the account orders page<br><br>
 // **Data:**<br>
+// fetchPolicy: `'no-cache'`<br>
 // orders: `null`<br>
 // inProgressStatuses: `['received', 'processing']`<br>
 // historyStatuses: `['cancelled', 'completed']`
 export default {
   name: 'MixAccountOrders',
   middleware: 'ralph-authenticated',
+  mixins: [MixFetch],
   transition: 'no-transition',
-  apollo: {
-    getOrders: {
-      query: getOrdersQuery,
-      errorPolicy: 'all',
-      fetchPolicy: 'no-cache',
-      result(result) {
-        if (result.data) {
-          this.orders = result.data.getOrders;
-        }
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: 500, message: error });
-      },
-    },
+  async fetch() {
+    this.orders = await this.fetchData(getOrdersQuery, (result) => {
+      return result?.data?.getOrders || null;
+    });
   },
   data: () => ({
+    fetchPolicy: 'no-cache',
     orders: null,
     inProgressStatuses: ['received', 'processing'],
     historyStatuses: ['cancelled', 'completed'],

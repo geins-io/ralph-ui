@@ -1,33 +1,14 @@
 import menuQuery from 'global/menu.graphql';
-import MixApolloRefetch from 'MixApolloRefetch';
+import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
-// Functionality and endpoint call for menus
+// Functionality and endpoint call for menus<br><br>
 // **Data:**<br>
 // menu: `null`<br>
+// defaultElementTag: `'span'`<br>
 export default {
   name: 'MixMenu',
-  mixins: [MixApolloRefetch],
-  apollo: {
-    getMenuAtLocation: {
-      query: menuQuery,
-      variables() {
-        return {
-          menuLocationId: this.menuLocationId,
-        };
-      },
-      errorPolicy: 'all',
-      result(result) {
-        this.menu = result?.data?.getMenuAtLocation || [];
-      },
-      skip() {
-        return !this.menuLocationId || (!process.client && this.onlyClientSide);
-      },
-      error(error) {
-        this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      },
-    },
-  },
+  mixins: [MixFetch],
   props: {
     // The location id for the menu
     menuLocationId: {
@@ -40,11 +21,25 @@ export default {
       default: false,
     },
   },
+  async fetch() {
+    this.menu = await this.fetchData(menuQuery, (result) => {
+      return result?.data?.getMenuAtLocation || [];
+    });
+  },
   data: () => ({
     menu: null,
     defaultElementTag: 'span',
   }),
-  computed: {},
+  computed: {
+    // @vuese
+    // Variables for the menu query
+    // @type Object
+    variables() {
+      return {
+        menuLocationId: this.menuLocationId,
+      };
+    },
+  },
   watch: {},
   mounted() {},
   methods: {

@@ -10,7 +10,6 @@
   <CaSpinner v-else class="ca-checkout-external__loading" />
 </template>
 <script>
-import getCheckoutQuery from 'checkout/get-checkout.graphql';
 // @group Atoms
 // @vuese
 // Renders the external checkout frame from a snippet given by the API. Has built in support for Klarna, SVEA and Walley Checkout<br><br>
@@ -29,25 +28,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    // Is this the confirm page?
-    // If set to true this component will fetch the confirm snippet from the api
-    // DEPRECATED: Use confirmSnippet instead
-    confirm: {
-      type: Boolean,
-      default: false,
-    },
     // What type of payment?
     type: {
       // `KLARNA`, `SVEA`, `WALLEY`, `AVARDA`
       type: String,
       required: true,
-    },
-    // The confirm snippet
-    // Available in checkoutConfirmData.htmlSnippet from MixConfirmPage
-    // Set prop confirm to false if you want to use this
-    confirmSnippet: {
-      type: String,
-      default: null,
+      validator: (value) =>
+        ['KLARNA', 'SVEA', 'WALLEY', 'AVARDA'].includes(value),
     },
   },
   data: () => ({
@@ -88,24 +75,9 @@ export default {
         this.initialize(true);
       }
     },
-    confirmSnippet(newVal, oldVal) {
-      if (!oldVal && !!newVal) {
-        if (this.frame) {
-          this.frame = null;
-        }
-        this.frame = newVal;
-        this.$nextTick(() => {
-          this.initScript();
-        });
-      }
-    },
   },
   mounted() {
-    if (!this.confirm) {
-      this.initialize();
-    } else {
-      this.fetchConfirm();
-    }
+    this.initialize();
   },
   methods: {
     // @vuese
@@ -154,19 +126,20 @@ export default {
                 api.suspend();
               });
             }
+            this.suspended = true;
             return;
           case 'SVEA':
             if (window.scoApi) {
               window.scoApi.setCheckoutEnabled(false);
             }
+            this.suspended = true;
             return;
           case 'WALLEY':
             if (window.collector) {
               window.collector.checkout.api.suspend();
             }
-            return;
+            this.suspended = true;
         }
-        this.suspended = true;
       }
     },
     // @vuese
@@ -202,33 +175,6 @@ export default {
       } else {
         this.initialize(true);
       }
-    },
-    // @vuese
-    // Fetch the confirm frame
-    fetchConfirm() {
-      if (!this.orderId) {
-        return;
-      }
-      this.$apollo
-        .query({
-          query: getCheckoutQuery,
-          variables: {
-            id: this.orderId,
-            paymentType: this.type,
-          },
-        })
-        .then((result) => {
-          if (this.frame) {
-            this.frame = null;
-          }
-          this.frame = result.data.getCheckout;
-          this.$nextTick(() => {
-            this.initScript();
-          });
-        })
-        .catch((error) => {
-          this.$nuxt.error({ statusCode: error.statusCode, message: error });
-        });
     },
   },
 };
