@@ -4,8 +4,11 @@
   $block: &;
 
   &__button {
+    transition: opacity 200ms ease;
+
     &:disabled {
       pointer-events: none;
+      opacity: 0.4;
     }
   }
 
