@@ -16,7 +16,7 @@
   &__filters {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(6, minmax(10px, 1fr));
     gap: rem-calc(20px) rem-calc(20px);
   }
 }

@@ -73,6 +73,12 @@ export default {
     // @type Array
     valuesWithChildren() {
       const data = this.sortByOrder(this.filterValues);
+
+      data.map((item) => {
+        item.children = data.filter((child) => child.parentId === item.facetId);
+        return item;
+      });
+
       const parentCategories = data.filter((item) => !item.parentId);
 
       return parentCategories;
@@ -118,8 +124,8 @@ export default {
     },
     // @vuese
     // Filter the prodcuts and emit the selection
-    // @arg children (Array), facetId (String), label (String), Selected (Boolean), parentId (String)
-    filterProducts(children, facetId, label, selected, parentId) {
+    // @arg children (Array), facetId (String), label (String), Selected (Boolean)
+    filterProducts(children, facetId, label, selected) {
       if (!selected) {
         this.pushSelection(facetId, label);
 
@@ -128,10 +134,6 @@ export default {
         }
       } else {
         this.removeSelection(facetId);
-
-        if (parentId) {
-          this.removeParentCategories(facetId, parentId);
-        }
 
         if (children && children.length) {
           this.removeChildrenCategories(children, facetId, label, selected);
@@ -183,19 +185,6 @@ export default {
       this.currentSelection = this.currentSelection.filter(
         (item) => item.id !== facetId,
       );
-    },
-    // @vuese
-    // Find the parents of the child category and deselct them
-    // @arg facetId (String), parentId (string)
-    removeParentCategories(facetId, parentId) {
-      const parent = this.valuesWithSelected.find(
-        (item) => item.facetId === parentId,
-      );
-      if (parent) {
-        this.removeSelection(parent.facetId);
-        this.removeParentCategories(parent.parentId);
-      }
-      this.removeSelection(facetId);
     },
   },
 };
