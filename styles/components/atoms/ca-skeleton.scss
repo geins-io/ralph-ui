@@ -19,19 +19,19 @@
     );
     animation: shimmer 2s infinite;
   }
-  
+
   &--radius {
     border-radius: 0.7em;
   }
-  
+
   &--transparent {
     opacity: 0;
   }
-  
-  & + & {
+
+  & + &--margin-top {
     margin-top: $px4;
   }
-  
+
   @keyframes shimmer {
     100% {
       transform: translateX(100%);

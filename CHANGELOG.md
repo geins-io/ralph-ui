@@ -14,6 +14,15 @@ Sections to use
 ### Fixed
 -->
 
+## [22.0.1] - 2024-03-06
+
+### Fixed
+
+- Fixed a bug with `CaFilterMultiTreeView` where no children was added to the item and therefore not showing any sub tree
+- Fixed a CSS bug in `ca-list-filters` making the container too large on smaller screens if having long filter names
+- No longer deselecting parents when deselecting children in `CaFilterMultiTreeView`
+- CSS bug with `CaSkeleton` in `CaListFilters`
+
 ## [22.0.0] - 2024-02-29
 
 This major update will require you to update your storefront to Ralph Storefront v2.2.0.
@@ -38,7 +47,8 @@ This major update will require you to update your storefront to Ralph Storefront
 
 - All queries and mutations are now using the functionality from `MixFetch` instead of apollo smart queries, and are made in the asyncData or in the fetch hook
 - `CaCheckoutExternal` is refactored and is no longer fetching is own confirm frame, use the one you get in `MixConfirmPage` instead
-- Option to set `refetchQueires` as a param for the `auth/update` action
+- Replaced all uses of `eventbus` with `this.$ralphBus`
+- Option to set `refetchQueries` as a param for the `auth/update` action
 - Refactoring of `CaWidgetArea` to use `MixFetch` or to get data from the parent, if it's a page. This to make a better handling of 404 errors amongst other things
 - Refactoring of `MixVariantHandler` and make it work properly when variants has the same value
 
@@ -46,11 +56,11 @@ This major update will require you to update your storefront to Ralph Storefront
 
 - Removed `MixApolloRefetch` mixin, functionality exists in `MixFetch` instead
 - Removed `CaCheckoutCarismar` component, use `CaCheckoutInvoice` instead
-- Unnecessary `isSign` in auth client
+- Unnecessary `isSign` in `AuthClient`
 
 ### Fixed
 
-- Correct 404 handling for Pages thorugh `MixContentPage`
+- Correct 404 handling for Pages through `MixContentPage`
 - Suspention of external checkout frame now works properly
 - Prevents refetching of queries on first init auth refresh, it's not needed
 - Latest products and favorites mode in `CaWidgetProductList` now works properly

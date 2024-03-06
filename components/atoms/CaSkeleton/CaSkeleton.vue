@@ -35,6 +35,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // By default, a skeleton placed after another skeleton has a top margin. This can be disabled by setting this prop to false
+    marginTop: {
+      type: Boolean,
+      default: true,
+    },
   },
   data: () => ({}),
   computed: {
@@ -45,6 +50,7 @@ export default {
       return {
         'ca-skeleton--radius': this.radius,
         'ca-skeleton--transparent': this.transparent,
+        'ca-skeleton--margin-top': this.marginTop,
       };
     },
     styles() {
