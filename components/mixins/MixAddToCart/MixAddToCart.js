@@ -34,11 +34,29 @@ export default {
         return result?.data?.addToCart || null;
       };
 
-      const cart = await this.mutateData(
+      const callbackError = () => {
+        this.addToCartLoading = false;
+      };
+
+      let cart = await this.mutateData(
         addToCartMutation,
         callback,
         variables,
+        callbackError,
       );
+
+      // If no cart, try again after resetting cart
+      if (!cart) {
+        this.addToCartLoading = true;
+        await this.$store.dispatch('cart/reset');
+        variables.id = this.$store.getters['cart/id'];
+        cart = await this.mutateData(
+          addToCartMutation,
+          callback,
+          variables,
+          callbackError,
+        );
+      }
 
       if (cart) {
         this.$store.dispatch('cart/update', cart);
@@ -57,6 +75,12 @@ export default {
         setTimeout(() => {
           this.$store.dispatch('cart/removeAddedNotification');
         }, 30000);
+      } else {
+        this.$store.dispatch('snackbar/trigger', {
+          message: this.$t('FEEDBACK_ERROR'),
+          placement: 'bottom-center',
+          mode: 'error',
+        });
       }
     },
   },

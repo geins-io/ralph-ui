@@ -103,15 +103,8 @@ export default {
     this.$store.commit('setViewportWidth');
     this.$store.dispatch('initResizeListener');
 
-    window.addEventListener('popstate', () => {
-      this.$nextTick(() => {
-        this.$store.commit('list/setBackNavigated', true);
-      });
-    });
-
-    window.addEventListener('beforeunload', () => {
-      this.$store.dispatch('persistStates', this.$config.statesToPersist || []);
-    });
+    window.addEventListener('popstate', this.popStateHandler);
+    window.addEventListener('beforeunload', this.beforeUnloadHandler);
 
     await this.$store.dispatch('auth/initClient');
     if (
@@ -123,7 +116,12 @@ export default {
         this.$cookies.get('ralph-user-type'),
       );
     }
+    this.$store.dispatch('cart/update');
     this.performActions();
+  },
+  beforeDestroy() {
+    window.removeEventListener('popstate', this.popStateHandler);
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   },
   methods: {
     performActions() {
@@ -143,6 +141,14 @@ export default {
             return false;
         }
       }
+    },
+    popStateHandler() {
+      this.$nextTick(() => {
+        this.$store.commit('list/setBackNavigated', true);
+      });
+    },
+    beforeUnloadHandler() {
+      this.$store.dispatch('persistStates', this.$config.statesToPersist || []);
     },
   },
 };

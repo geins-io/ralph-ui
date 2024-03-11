@@ -75,6 +75,11 @@ export default {
         this.initialize(true);
       }
     },
+    data(newVal, oldVal) {
+      if (!oldVal && newVal) {
+        this.initialize(true);
+      }
+    },
   },
   mounted() {
     this.initialize();

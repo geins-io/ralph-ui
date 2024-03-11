@@ -19,6 +19,7 @@ export default {
         return result?.data?.checkout || null;
       },
     );
+
     const completed = this.checkoutConfirmData?.completed;
 
     if (completed !== null && completed === false) {
@@ -33,6 +34,7 @@ export default {
     checkoutConfirmData: null,
     loading: true,
     fetchPolicy: 'no-cache',
+    cartProcessed: false,
   }),
   computed: {
     // @vuese
@@ -115,8 +117,11 @@ export default {
       return this.checkoutConfirmData?.htmlSnippet || '';
     },
   },
-  watch: {},
-  mounted() {},
+  mounted() {
+    if (this.orderCart) {
+      this.processCartCompletion();
+    }
+  },
   methods: {
     // @vuese
     // Performs the complete cart mutation and resets the cart
@@ -135,11 +140,15 @@ export default {
     // @vuese
     // Checks if the cart is completed and if not, calls the complete cart method
     processCartCompletion() {
+      if (this.cartProcessed || process.server) {
+        return;
+      }
       if (!!this.orderCart && !this.orderCart.isCompleted) {
         this.completeCart();
       } else if (this.orderCart?.isCompleted && this.cartShouldReset) {
         this.$store.dispatch('cart/reset');
       }
+      this.cartProcessed = true;
     },
   },
 };
