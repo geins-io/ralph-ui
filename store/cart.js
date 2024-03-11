@@ -40,6 +40,8 @@ export const actions = {
 
     if (cart) {
       dispatch('update', cart);
+    } else {
+      dispatch('reset');
     }
   },
   update({ state, commit }, cart) {
@@ -60,10 +62,10 @@ export const actions = {
       });
     }
   },
-  reset({ commit, dispatch }) {
+  async reset({ commit, dispatch }) {
     commit('setCart', null);
     this.$cookies.remove('ralph-cart', { path: '/' });
-    dispatch('get');
+    await dispatch('get');
   },
   changed({ state }, carts) {
     return (
