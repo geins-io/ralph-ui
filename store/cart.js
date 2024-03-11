@@ -22,7 +22,7 @@ export const actions = {
     }
 
     const variables = {
-      id: id ?? getters.id,
+      id: id || getters.id,
       cartMarketAlias: rootGetters['channel/cartMarketAlias'],
       allowExternalShippingFee:
         rootState.currentRouteName?.includes('checkout'),
@@ -42,18 +42,19 @@ export const actions = {
       dispatch('update', cart);
     }
   },
-  update({ commit }, cart) {
-    commit('setCart', cart);
+  update({ state, commit }, cart) {
+    const cartData = cart || state.data;
+    commit('setCart', cartData);
 
     if (process.server) {
       return;
     }
 
     const bc = new BroadcastService('ralph_channel');
-    bc.postMessage({ type: 'cart', data: cart });
+    bc.postMessage({ type: 'cart', data: cartData });
 
-    if (cart.id) {
-      this.$cookies.set('ralph-cart', cart.id, {
+    if (cartData.id) {
+      this.$cookies.set('ralph-cart', cartData.id, {
         path: '/',
         expires: new Date(new Date().getTime() + 31536000000),
       });
