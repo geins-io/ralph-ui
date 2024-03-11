@@ -1,7 +1,7 @@
 <template>
   <div class="ca-product-gallery">
     <div class="ca-product-gallery__main">
-      <CaSlider
+      <LazyCaSlider
         v-if="isGalleryModeSlider"
         ref="slider"
         class="ca-product-gallery__slider"
@@ -13,7 +13,7 @@
         @slideChange="slideChangeHandler"
       >
         <template #slides="{ slideMeta }">
-          <CaSlide
+          <LazyCaSlide
             v-for="(image, index) in imagesFilenames"
             :key="index"
             :slide-index="index"
@@ -21,7 +21,7 @@
             class="ca-product-gallery__slide"
             @clicked="openModal(index)"
           >
-            <CaImage
+            <LazyCaImage
               class="ca-product-gallery__image"
               type="product"
               :filename="image"
@@ -37,10 +37,10 @@
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
               <CaIcon name="plus" />
             </div>
-          </CaSlide>
+          </LazyCaSlide>
         </template>
-      </CaSlider>
-      <CaClickable
+      </LazyCaSlider>
+      <LazyCaClickable
         v-if="isGalleryModePlain"
         class="ca-product-gallery__image-container ca-product-gallery__image-container--main"
         @clicked="openModal(0)"
@@ -61,14 +61,14 @@
         <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
           <CaIcon name="plus" />
         </div>
-      </CaClickable>
+      </LazyCaClickable>
       <CaCampaigns
         v-if="campaigns"
         class="ca-product-gallery__campaigns"
         :campaigns="campaigns"
       />
     </div>
-    <CaSlider
+    <LazyCaSlider
       v-if="isThumbnailModeSlider"
       ref="navslider"
       class="ca-product-gallery__nav ca-product-gallery__nav--slider"
@@ -76,7 +76,7 @@
       :infinite="false"
     >
       <template #slides="{ slideMeta }">
-        <CaSlide
+        <LazyCaSlide
           v-for="(image, index) in thumbnailImages"
           :key="index"
           :slide-index="index"
@@ -87,7 +87,7 @@
           }"
           @clicked="slideToIndex(index, 'slider')"
         >
-          <CaImage
+          <LazyCaImage
             class="ca-product-gallery__nav-image"
             type="product"
             :filename="image"
@@ -100,9 +100,9 @@
             "
             sizes="85px"
           />
-        </CaSlide>
+        </LazyCaSlide>
       </template>
-    </CaSlider>
+    </LazyCaSlider>
     <div
       v-if="isThumbnailModeGrid"
       class="ca-product-gallery__thumbnails ca-product-gallery__thumbnails--grid"

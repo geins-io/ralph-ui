@@ -15,7 +15,7 @@
             @blur="blurHandler"
             @keyup.enter="goToSearchPage"
           />
-          <CaIconButton
+          <LazyCaIconButton
             v-if="searchString"
             class="ca-search__remove"
             icon-name="x"

@@ -11,7 +11,7 @@
     <div class="ca-mini-cart__wrap">
       <CaIcon :name="cartIcon" class="ca-mini-cart__icon" />
 
-      <CaNotificationBadge
+      <LazyCaNotificationBadge
         v-if="$store.getters['cart/totalQuantity'] > 0"
         class="ca-mini-cart__qty"
         :number="$store.getters['cart/totalQuantity']"

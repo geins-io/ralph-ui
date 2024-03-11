@@ -66,6 +66,11 @@ export default {
           content:
             this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg',
         },
+        {
+          rel: 'preload',
+          as: 'image',
+          href: this.imgSrc,
+        },
       ],
     };
   },

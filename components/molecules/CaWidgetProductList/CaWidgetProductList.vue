@@ -3,13 +3,13 @@
     <h2 v-show="isTitleVisible" class="ca-widget-product-list__title">
       {{ configuration.title }}
     </h2>
-    <CaProductList
+    <LazyCaProductList
       v-if="configuration.slideshowDisabled"
       class="ca-widget-product-list__list"
       :products="productList"
       :page-size="take"
     />
-    <CaProductListSlider
+    <LazyCaProductListSlider
       v-else
       class="ca-widget-product-list__list"
       :products="productList"
@@ -18,7 +18,7 @@
       :dots="configuration.displayNavigationLinks"
       :arrow-icon-name="$config.productListWidgetArrowIconName"
     />
-    <CaListPagination
+    <LazyCaListPagination
       v-if="
         configuration.slideshowDisabled &&
         !configuration.limitNrOfRows &&

@@ -11,7 +11,7 @@
       />
     </div>
     <div v-else>
-      <CaSkeleton
+      <LazyCaSkeleton
         v-if="forceRatio"
         class="ca-image__skeleton"
         :ratio="ratio"
@@ -19,7 +19,7 @@
         :transparent="loaded"
       />
       <transition v-else name="fade">
-        <CaSkeleton
+        <LazyCaSkeleton
           v-if="!loaded"
           class="ca-image__skeleton"
           :ratio="ratio"

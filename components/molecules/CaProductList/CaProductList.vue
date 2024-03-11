@@ -1,6 +1,6 @@
 <template>
   <ul class="ca-product-list" :class="{ 'ca-product-list--empty': isEmpty }">
-    <CaProductCard
+    <LazyCaProductCard
       v-for="(product, index) in allProducts"
       :key="index"
       :product-data="product"

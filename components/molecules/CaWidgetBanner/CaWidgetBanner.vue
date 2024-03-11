@@ -8,7 +8,7 @@
       @click.native="clickHandler"
     >
       <div v-if="hasVideo" class="ca-widget-banner__video-wrap">
-        <CaImage
+        <LazyCaImage
           v-if="!videoLoaded && placeholderImage"
           class="ca-widget-banner__image ca-widget-banner__image--placeholder"
           type="pagewidget"
@@ -35,7 +35,7 @@
         />
       </div>
       <div v-else class="ca-widget-banner__image-wrap">
-        <CaImage
+        <LazyCaImage
           class="ca-widget-banner__image"
           :banner-image="fullWidth"
           type="pagewidget"
@@ -67,14 +67,14 @@
         >
           {{ configuration.text2 }}
         </p>
-        <CaWidgetBannerButton
+        <LazyCaWidgetBannerButton
           v-if="configuration.buttonText"
           class="ca-widget-banner__button"
           :text-color="configuration.textColor"
           :below-image="!fullWidth && textAndButtonPlacement === 0"
         >
           {{ configuration.buttonText }}
-        </CaWidgetBannerButton>
+        </LazyCaWidgetBannerButton>
       </div>
     </component>
   </div>

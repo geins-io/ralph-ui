@@ -9,7 +9,7 @@
     "
   >
     <span class="ca-market-selector-button__inner">
-      <CaFlag
+      <LazyCaFlag
         v-if="showFlag"
         class="ca-market-selector-button__flag"
         :country="selectedCountryCode"

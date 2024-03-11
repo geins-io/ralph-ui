@@ -28,7 +28,7 @@
     </div>
 
     <div v-else-if="showForm && !success" class="ca-review-form__form">
-      <CaStarRating
+      <LazyCaStarRating
         v-if="$config.showStarsInProductReviewForm"
         :show-counter="false"
         :read-only="false"

@@ -1,5 +1,5 @@
 <template>
-  <CaAccordionItem
+  <LazyCaAccordionItem
     v-if="menu && menu.menuItems && menu.menuItems.length"
     class="ca-footer-navigation-accordion"
     :icon-closed="iconClosed"
@@ -26,7 +26,7 @@
         </li>
       </ul>
     </nav>
-  </CaAccordionItem>
+  </LazyCaAccordionItem>
 </template>
 <script>
 import MixMenu from 'MixMenu';

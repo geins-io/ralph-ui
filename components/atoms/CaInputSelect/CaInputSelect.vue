@@ -14,7 +14,7 @@
         {{ selected.label || placeholder }}
         <CaIcon class="ca-input-select__arrow" :name="iconName" />
       </div>
-      <SlideUpDown
+      <LazySlideUpDown
         class="ca-input-select__options"
         tag="ul"
         :active="open"
@@ -28,7 +28,7 @@
         >
           {{ option.label }}
         </li>
-      </SlideUpDown>
+      </LazySlideUpDown>
     </div>
     <div v-else class="ca-input-select__select-wrap">
       <select

@@ -1,6 +1,6 @@
 <template>
   <div class="ca-info-page-menu">
-    <CaAccordionNavigation
+    <LazyCaAccordionNavigation
       v-if="$store.getters.viewport === 'phone' && isAccordion"
       menu-location-id="info-pages"
     />

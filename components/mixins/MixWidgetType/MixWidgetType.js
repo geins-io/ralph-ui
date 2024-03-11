@@ -15,25 +15,25 @@ export default {
       ) {
         return this.$config.widgetRenderTypesComponents[this.type];
       } else if (this.type === 'Image') {
-        return 'CaWidgetImage';
+        return 'LazyCaWidgetImage';
       } else if (this.type === 'Text') {
-        return 'CaWidgetText';
+        return 'LazyCaWidgetText';
       } else if (this.type === 'Buttons') {
-        return 'CaWidgetButtons';
+        return 'LazyCaWidgetButtons';
       } else if (this.type === 'Product list') {
         return 'LazyCaWidgetProductList';
       } else if (this.type === 'Banner') {
-        return 'CaWidgetBanner';
+        return 'LazyCaWidgetBanner';
       } else if (this.type === 'Video') {
-        return 'CaWidgetVideo';
+        return 'LazyCaWidgetVideo';
       } else if (this.type === 'HTML') {
-        return 'CaWidgetHtml';
+        return 'LazyCaWidgetHtml';
       } else if (this.type === 'JSON') {
-        return 'CaWidgetJson';
+        return 'LazyCaWidgetJson';
       } else if (this.type === 'Rich text') {
-        return 'CaWidgetRichText';
+        return 'LazyCaWidgetRichText';
       } else if (this.type === 'Flowbox') {
-        return 'CaWidgetFlowbox';
+        return 'LazyCaWidgetFlowbox';
       } else {
         return '';
       }

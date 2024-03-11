@@ -19,7 +19,7 @@
       </NuxtLink>
     </div>
     <div class="ca-cart-product__info">
-      <CaIconButton
+      <LazyCaIconButton
         v-if="mode === 'default'"
         class="ca-cart-product__remove"
         icon-name="x"
@@ -67,7 +67,7 @@
           class="ca-cart-product__price"
           :price="item.unitPrice"
         />
-        <CaCampaigns
+        <LazyCaCampaigns
           v-if="
             item.campaign &&
             item.campaign.appliedCampaigns &&
@@ -76,7 +76,7 @@
           class="ca-cart-product__campaigns"
           :campaigns="item.campaign.appliedCampaigns"
         />
-        <CaStockDisplay
+        <LazyCaStockDisplay
           v-if="mode === 'default'"
           class="ca-cart-product__stock-display"
           :stock="currentStock"
@@ -85,7 +85,7 @@
         />
       </NuxtLink>
       <div class="ca-cart-product__bottom">
-        <CaProductQuantity
+        <LazyCaProductQuantity
           v-if="mode === 'default'"
           :quantity="item.quantity"
           :max-quantity="skuStock.totalStock"
