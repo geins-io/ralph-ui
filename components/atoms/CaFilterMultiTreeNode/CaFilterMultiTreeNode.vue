@@ -54,15 +54,15 @@
 </template>
 
 <script>
-import SlideUpDown from 'vue-slide-up-down';
-
 // @group Atoms
 // @vuese
 // Tree node child component for the Multi Choise Tree view component<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-filter-multi-tree-node.scss_
 export default {
   name: 'CaFilterMultiTreeNode',
-  components: { SlideUpDown },
+  components: {
+    SlideUpDown: () => import('vue-slide-up-down'),
+  },
   props: {
     // Gets the updated selectable values with children
     value: {

@@ -35,14 +35,15 @@
   </component>
 </template>
 <script>
-import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
 // Toggle content by clicking parent<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-accordion-item.scss_
 export default {
   name: 'CaAccordionItem',
-  components: { SlideUpDown },
+  components: {
+    SlideUpDown: () => import('vue-slide-up-down'),
+  },
   mixins: [],
   props: {
     // Should it be open on page load?

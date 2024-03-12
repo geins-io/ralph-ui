@@ -1,16 +1,5 @@
 <template>
   <div class="ca-filter-range">
-    <!-- <div class="ca-filter-range__current">
-      <span class="ca-filter-range__value ca-filter-range__value--lowest">
-        {{ currentSelection[0] }} kr
-      </span>
-      <span class="ca-filter-range__value">
-        -
-      </span>
-      <span class="ca-filter-range__value ca-filter-range__value--highest">
-        {{ currentSelection[1] }} kr
-      </span>
-    </div> -->
     <VueSlider
       v-if="initValuesSet"
       :key="sliderKey"
@@ -24,17 +13,15 @@
   </div>
 </template>
 <script>
-import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js';
-import 'vue-slider-component/dist-css/vue-slider-component.css';
-// import 'vue-slider-component/theme/material.css';
-
 // @group Molecules
 // @vuese
 // Range type filter<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-filter-range.scss_
 export default {
   name: 'CaFilterRange',
-  components: { VueSlider },
+  components: {
+    VueSlider: () => import('vue-slider-component'),
+  },
   mixins: [],
   props: {
     // The filter values. Object that should hold the keys 'lowest' and 'highest'
