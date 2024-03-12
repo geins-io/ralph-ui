@@ -14,6 +14,15 @@ Sections to use
 ### Fixed
 -->
 
+## [22.0.2] - 2024-03-11
+
+### Fixed
+
+- Fixed an issue with the cart cookie not being removed properly on the confirm page for external checkout
+- Cart ID is now always saved as cookie even before anything is added to the cart
+- External checkout will now init when it has data even if data does not exist at mounted
+- Auto resetting cart if not valid
+
 ## [22.0.1] - 2024-03-06
 
 ### Fixed
