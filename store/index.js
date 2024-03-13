@@ -286,7 +286,7 @@ export const actions = {
 
     // Set cart id from cookie and get cart
     const cartId = parsed['ralph-cart'] || '';
-    dispatch('cart/get', cartId);
+    commit('cart/setCart', { id: cartId });
   },
 };
 

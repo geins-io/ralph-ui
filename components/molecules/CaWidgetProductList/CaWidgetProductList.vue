@@ -53,6 +53,10 @@ export default {
       type: Object,
       required: true,
     },
+    fetchProductsOnServer: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     mainProductList: false,
@@ -71,6 +75,9 @@ export default {
     };
 
     this.productList = await this.fetchData(productsQuery, callback);
+  },
+  fetchOnServer() {
+    return this.fetchProductsOnServer;
   },
   computed: {
     // @vuese

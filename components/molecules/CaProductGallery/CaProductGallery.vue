@@ -13,7 +13,7 @@
         @slideChange="slideChangeHandler"
       >
         <template #slides="{ slideMeta }">
-          <LazyCaSlide
+          <CaSlide
             v-for="(image, index) in imagesFilenames"
             :key="index"
             :slide-index="index"
@@ -21,9 +21,10 @@
             class="ca-product-gallery__slide"
             @clicked="openModal(index)"
           >
-            <LazyCaImage
+            <CaImage
               class="ca-product-gallery__image"
               type="product"
+              :src="preloadedImage"
               :filename="image"
               :ratio="$config.productImageRatio"
               :alt="alt"
@@ -37,7 +38,7 @@
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
               <CaIcon name="plus" />
             </div>
-          </LazyCaSlide>
+          </CaSlide>
         </template>
       </LazyCaSlider>
       <LazyCaClickable
@@ -48,6 +49,7 @@
         <CaImage
           class="ca-product-gallery__image ca-product-gallery__image--main"
           type="product"
+          :src="preloadedImage"
           :filename="imagesFilenames[0]"
           :ratio="$config.productImageRatio"
           :alt="alt"
@@ -76,7 +78,7 @@
       :infinite="false"
     >
       <template #slides="{ slideMeta }">
-        <LazyCaSlide
+        <CaSlide
           v-for="(image, index) in thumbnailImages"
           :key="index"
           :slide-index="index"
@@ -87,7 +89,7 @@
           }"
           @clicked="slideToIndex(index, 'slider')"
         >
-          <LazyCaImage
+          <CaImage
             class="ca-product-gallery__nav-image"
             type="product"
             :filename="image"
@@ -100,7 +102,7 @@
             "
             sizes="85px"
           />
-        </LazyCaSlide>
+        </CaSlide>
       </template>
     </LazyCaSlider>
     <div
@@ -205,6 +207,10 @@ export default {
       type: String,
       default:
         '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw',
+    },
+    preloadedImage: {
+      type: String,
+      default: '',
     },
   },
   data: () => ({
