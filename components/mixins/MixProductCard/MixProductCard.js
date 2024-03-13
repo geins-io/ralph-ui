@@ -107,7 +107,7 @@ export default {
   methods: {
     // @vuese
     // Handling product click
-    productClickHandler() {
+    productClickHandler(clickEvent) {
       this.$store.dispatch('events/push', {
         type: 'product:click',
         data: {
@@ -122,8 +122,11 @@ export default {
         this.$store.commit('list/setRelocatePage', this.pageNumber);
         this.$store.commit('list/setRelocateAlias', this.product.alias);
       }
-
-      this.$router.push(this.product.canonicalUrl);
+      if (clickEvent.ctrlKey || clickEvent.metaKey || clickEvent.which === 2) {
+        window.open(this.product.canonicalUrl, '_blank');
+      } else {
+        this.$router.push(this.product.canonicalUrl);
+      }
     },
     // @vuese
     // Add to cart if skuId is present, otherwise go to product
