@@ -1,15 +1,15 @@
 <template>
   <div v-show="!noProducts" class="ca-widget-product-list">
     <h2 v-show="isTitleVisible" class="ca-widget-product-list__title">
-      {{ configuration.title }}
+      {{ configuration.title + ' ' + $store.state.loading.loading }}
     </h2>
-    <LazyCaProductList
+    <CaProductList
       v-if="configuration.slideshowDisabled"
       class="ca-widget-product-list__list"
       :products="productList"
       :page-size="take"
     />
-    <LazyCaProductListSlider
+    <CaProductListSlider
       v-else
       class="ca-widget-product-list__list"
       :products="productList"

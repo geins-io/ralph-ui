@@ -1,11 +1,11 @@
 <template>
-  <LazyCaContainer
+  <CaContainer
     v-if="container.widgets"
     class="ca-widget-container ca-widget-container--outer"
     :design="outerContainerDesign"
     :class="outerClasses"
   >
-    <LazyCaWidget
+    <CaWidget
       v-for="(widget, index) in container.widgets"
       :key="index"
       :type="widget.name"
@@ -16,7 +16,7 @@
       :widget-area-variables="widgetAreaVariables"
       :fetch-products-on-server="fetchProductsOnServer"
     />
-  </LazyCaContainer>
+  </CaContainer>
 </template>
 <script>
 // @group Molecules

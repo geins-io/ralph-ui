@@ -1,7 +1,7 @@
 <template>
   <div v-if="containers.length" class="ca-widget-area">
     <div class="ca-widget-area__inner">
-      <LazyCaWidgetContainer
+      <CaWidgetContainer
         v-for="(container, index) in containers"
         :key="index"
         :container="container"

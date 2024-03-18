@@ -24,14 +24,15 @@ export default ({ $config, store, app, i18n, error, redirect }, inject) => {
   inject('getPath', getPath);
 
   const ralphLog = (message, ...args) => {
-    if (process.env.NODE_ENV === 'development' && process.client) {
-      if (args) {
-        // eslint-disable-next-line no-console
-        console.log(logTag, logStyle, message, ...args);
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(logTag, logStyle, message);
-      }
+    if ($config.ralphLog.onlyInClient && process.server) {
+      return;
+    }
+    if (args) {
+      // eslint-disable-next-line no-console
+      console.log(logTag, logStyle, message, ...args);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(logTag, logStyle, message);
     }
   };
 
