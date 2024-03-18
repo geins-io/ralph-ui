@@ -1,7 +1,7 @@
 <template>
   <div v-show="!noProducts" class="ca-widget-product-list">
     <h2 v-show="isTitleVisible" class="ca-widget-product-list__title">
-      {{ configuration.title + ' ' + $store.state.loading.loading }}
+      {{ configuration.title }}
     </h2>
     <CaProductList
       v-if="configuration.slideshowDisabled"
