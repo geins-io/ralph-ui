@@ -9,7 +9,7 @@
           class="ca-quick-add-product__image-link"
           :to="product.canonicalUrl"
         >
-          <LazyCaImage
+          <CaImage
             v-if="product.productImages && product.productImages.length > 0"
             class="ca-quick-add-product__image"
             type="product"

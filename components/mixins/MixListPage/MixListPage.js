@@ -740,32 +740,6 @@ export default {
       }
     },
     // @vuese
-    // Remove query variables from query
-    // @arg query (Object), fields (Array)
-    removeQueryVar(query, fields) {
-      const newQuery = JSON.parse(JSON.stringify(query));
-
-      fields.forEach((field) => {
-        const indexQueryVariable =
-          newQuery.definitions[0].variableDefinitions.findIndex(
-            (item) => item.variable.name.value === field,
-          );
-        const indexQueryField =
-          newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-            (item) => item.value.name.value === field,
-          );
-
-        if (![indexQueryVariable, indexQueryField].includes(-1)) {
-          newQuery.definitions[0].variableDefinitions.splice(
-            indexQueryVariable,
-            1,
-          );
-        }
-      });
-
-      return newQuery;
-    },
-    // @vuese
     // Updating all filters
     // @arg filters (Object)
     updateFilters(filters) {

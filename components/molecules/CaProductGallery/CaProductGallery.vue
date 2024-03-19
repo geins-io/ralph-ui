@@ -24,6 +24,7 @@
             <CaImage
               class="ca-product-gallery__image"
               type="product"
+              loading="eager"
               :src="preloadedImage"
               :filename="image"
               :ratio="$config.productImageRatio"
@@ -49,6 +50,7 @@
         <CaImage
           class="ca-product-gallery__image ca-product-gallery__image--main"
           type="product"
+          loading="eager"
           :src="preloadedImage"
           :filename="imagesFilenames[0]"
           :ratio="$config.productImageRatio"
@@ -92,6 +94,7 @@
           <CaImage
             class="ca-product-gallery__nav-image"
             type="product"
+            loading="eager"
             :filename="image"
             :ratio="$config.productImageRatio"
             :alt="alt"
@@ -100,7 +103,7 @@
                 (item) => parseInt(item.descriptor) <= 200,
               )
             "
-            sizes="85px"
+            :sizes="thumbnailSizes"
           />
         </CaSlide>
       </template>
@@ -118,6 +121,7 @@
         <CaImage
           class="ca-product-gallery__thumbnail ca-product-gallery__thumbnail--grid"
           type="product"
+          loading="eager"
           :filename="image"
           :ratio="$config.productImageRatio"
           :alt="alt"
@@ -205,8 +209,7 @@ export default {
     // Sizes attribute for thumbnail image
     thumbnailSizes: {
       type: String,
-      default:
-        '(min-width: 1360px) 255px, (min-width: 1024px) 19vw, (min-width: 768px) 25.5vw, 35vw',
+      default: '80px',
     },
     preloadedImage: {
       type: String,
