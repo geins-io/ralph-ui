@@ -7,6 +7,7 @@ All functionality for the product page<br><br> **Data:**<br> product: `null`<br>
 <!-- @vuese:MixProductPage.js:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
+|imgSrc|Image src used for meta image|size (String)|
 |onQuantityChange|Handler for changing quantity|value (Number)|
 |addToCartClick|Action for clicking the add to cart button|-|
 |replaceProduct|Replace product data without reloading the page. Used for changing between product variants|alias (String)|
@@ -32,7 +33,7 @@ All functionality for the product page<br><br> **Data:**<br> product: `null`<br>
 |relatedProductsRelated|`Array`|Related product with relation RELATED|No|
 |relatedProductsAccessories|`Array`|Related product with relation ACCESSORIES|No|
 |relatedProductsSimilar|`Array`|Related product with relation SIMILAR|No|
-|imgSrc|`[String, Boolean]`|Image src used for meta image|No|
+|preloadedImages|`Array`|Preloaded images for meta, improving LCP|No|
 
 <!-- @vuese:MixProductPage.js:computed:end -->
 
@@ -43,7 +44,8 @@ All functionality for the product page<br><br> **Data:**<br> product: `null`<br>
 |MixIn|
 |---|
 |MixMetaReplacement|
-|MixFetch|
+|MixAddToCart|
+|MixVariantHandler|
 
 <!-- @vuese:MixProductPage.js:mixIns:end -->
 

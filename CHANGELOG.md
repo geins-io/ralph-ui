@@ -33,6 +33,7 @@ This update includes performance improvements and some bug fixes. It is recommen
 ### Fixed
 
 - Ctrl + click to open in new tab now works for prodcut card through `MixProductCard`
+- Routing to other list page from search page bug
 
 ## [22.0.2] - 2024-03-11
 

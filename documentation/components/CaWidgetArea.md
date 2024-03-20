@@ -15,6 +15,7 @@ The area that contains the widget containers and from which the graphql query fo
 |filters|Filters for the area|`Array`|`false`|[]|
 |preview|Set to true for preview mode|`Boolean`|`false`|false|
 |listPageUrl|Url for list page if using /l/ routing and widget area is on list page|`String`|`false`|-|
+|fetchProductsOnServer|-|`Boolean`|`false`|false|
 
 <!-- @vuese:CaWidgetArea:props:end -->
 
