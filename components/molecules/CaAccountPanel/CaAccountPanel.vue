@@ -54,7 +54,7 @@
         @validation="checkValid"
         @keyup.enter="enterHandler"
       />
-      <CaInputText
+      <LazyCaInputText
         v-if="createMode || changeMode"
         id="password-confirm"
         ref="inputPasswordConfirm"
@@ -72,7 +72,7 @@
       />
 
       <div v-if="loginMode" class="ca-account-panel__actions">
-        <CaInputCheckbox
+        <LazyCaInputCheckbox
           id="remember"
           v-model="rememberUser"
           :label="$t('REMEMBER_ME')"
@@ -89,7 +89,7 @@
         v-else-if="createMode"
         class="ca-account-panel__actions ca-account-panel__actions--create"
       >
-        <CaInputCheckbox
+        <LazyCaInputCheckbox
           id="newsletter"
           v-model="newsletterSubscribe"
           :label="$t('NEWSLETTER_SUBSCRIBE_CHOICE')"
@@ -108,7 +108,7 @@
           </NuxtLink>
         </i18n>
       </div>
-      <CaButton
+      <LazyCaButton
         v-if="loginMode"
         class="ca-account-panel__button"
         type="full-width"
@@ -116,8 +116,8 @@
         @clicked="login"
       >
         {{ $t('LOG_IN') }}
-      </CaButton>
-      <CaButton
+      </LazyCaButton>
+      <LazyCaButton
         v-if="loginMode || createMode"
         class="ca-account-panel__button"
         type="full-width"
@@ -126,8 +126,8 @@
         @clicked="createAccountHandler()"
       >
         {{ $t('CREATE_ACCOUNT') }}
-      </CaButton>
-      <CaButton
+      </LazyCaButton>
+      <LazyCaButton
         v-if="resetMode"
         class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
@@ -135,8 +135,8 @@
         @clicked="resetPassword"
       >
         {{ $t('RESET_PASSWORD') }}
-      </CaButton>
-      <CaButton
+      </LazyCaButton>
+      <LazyCaButton
         v-if="changeMode"
         class="ca-account-panel__button ca-account-panel__button--reset"
         type="full-width"
@@ -144,7 +144,7 @@
         @clicked="changePassword"
       >
         {{ $t('CHANGE_PASSWORD') }}
-      </CaButton>
+      </LazyCaButton>
       <button
         v-if="!loginMode && !changeMode"
         type="button"

@@ -56,14 +56,15 @@
   </div>
 </template>
 <script>
-import SlideUpDown from 'vue-slide-up-down';
 // @group Atoms
 // @vuese
 // A select input that works with v-model and has a native behavior on mobile devices<br><br>
 // **SASS-path:** _./styles/components/atoms/ca-input-select.scss_
 export default {
   name: 'CaInputSelect',
-  components: { SlideUpDown },
+  components: {
+    SlideUpDown: () => import('vue-slide-up-down'),
+  },
   mixins: [],
   props: {
     // Should be an array of objects containing 'label' and 'value' for every option

@@ -6,6 +6,7 @@
     :image-sizes="imageSizes"
     :image-ratios="imageRatios"
     :is-first="isFirst"
+    :fetch-products-on-server="fetchProductsOnServer"
   />
 </template>
 <script>
@@ -45,6 +46,10 @@ export default {
     widgetAreaVariables: {
       type: Object,
       required: true,
+    },
+    fetchProductsOnServer: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({}),

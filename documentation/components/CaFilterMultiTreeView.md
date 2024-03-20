@@ -31,12 +31,11 @@ Multi choice tree view filter<br><br> **SASS-path:** _./styles/components/molecu
 |Method|Description|Parameters|
 |---|---|---|
 |sortByOrder|Orders the data by its order prop|data (Array)|
-|filterProducts|Filter the prodcuts and emit the selection|children (Array), facetId (String), label (String), Selected (Boolean), parentId (String)|
+|filterProducts|Filter the prodcuts and emit the selection|children (Array), facetId (String), label (String), Selected (Boolean)|
 |pushSelection|Push the selected filters|facetId (String), itemLabel (string)|
 |selectChildrenCategories|Select the children when a parent is selected|array (Array)|
 |removeChildrenCategories|Remove the children when a parent is deselected|array (Array)|
 |removeSelection|Remove selected filters|facetId (String)|
-|removeParentCategories|Find the parents of the child category and deselct them|facetId (String), parentId (string)|
 
 <!-- @vuese:CaFilterMultiTreeView:methods:end -->
 

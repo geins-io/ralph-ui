@@ -8,7 +8,7 @@
       :key="item.id"
       class="ca-accordion-navigation__inner"
     >
-      <CaAccordionItem
+      <LazyCaAccordionItem
         v-if="item.children.length"
         :icon-closed="iconClosed"
         :icon-open="iconOpen"
@@ -41,7 +41,7 @@
             </component>
           </li>
         </ul>
-      </CaAccordionItem>
+      </LazyCaAccordionItem>
       <component
         :is="getBaseElem(item)"
         v-else

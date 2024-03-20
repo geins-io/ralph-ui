@@ -384,14 +384,15 @@
   </div>
 </template>
 <script>
-import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
 // The invoice checkout frame. Used for paying with manual invoice<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-checkout-invoice.scss_
 export default {
   name: 'CaCheckoutInvoice',
-  components: { SlideUpDown },
+  components: {
+    SlideUpDown: () => import('vue-slide-up-down'),
+  },
   mixins: [],
   props: {
     // The checkout data from the endpoint

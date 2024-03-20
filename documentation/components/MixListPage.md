@@ -34,7 +34,6 @@ All functionality for the list page<br><br> **Data:**<br> products: `null`<br> p
 |relocateProduct|Runned to relocate product on page after back navigating|-|
 |setupUserSelection|Setting up the current user selection from store|-|
 |setupFilters|Setting up all filters|filters (Object)|
-|removeQueryVar|Remove query variables from query|query (Object), fields (Array)|
 |updateFilters|Updating all filters|filters (Object)|
 |setNewCount|Used to set new count of filters|base filters (Array), new filters (Array)|
 |getSortedFilters|Sorting all filters into groups|filters (Object)|
@@ -56,6 +55,7 @@ All functionality for the list page<br><br> **Data:**<br> products: `null`<br> p
 |categoryAlias|`String`|Returns the current category alias|No|
 |skip|`Number`|Current number of products to skip when querying|No|
 |filterURLparams|`Object`|Returns the filter object used to query products based on filters|No|
+|filterParamsKeys|`Array`|Returns the filter object keys that can be used to set URL params|No|
 |modifier|`String`|The modifer class for the list page|No|
 |isList|`Boolean`|Is this list page of type list?|No|
 |isCategory|`Boolean`|Is this list page of type category?|No|

@@ -1,12 +1,12 @@
 <template>
   <div v-if="cartItems.length" class="ca-cart">
-    <CaFeedback
+    <LazyCaFeedback
       v-if="hasOversellable"
       class="ca-cart__feedback"
       :message="$t('OVERSELLABLE_CART_MESSAGE')"
       :constant="true"
     />
-    <CaCartProduct
+    <LazyCaCartProduct
       v-for="(item, index) in cartItems"
       :key="index"
       class="ca-cart__product"
@@ -17,13 +17,13 @@
       @stock-status-change="handleStockStatus"
       @remove="removeHandler"
     />
-    <CaPromoCode
+    <LazyCaPromoCode
       v-if="mode !== 'display' && $config.checkout.promoCodes"
       class="ca-cart__promo-code"
       :active-promo-code="cart.promoCode ? cart.promoCode : ''"
     />
     <div class="ca-cart__summary">
-      <CaCampaigns
+      <LazyCaCampaigns
         v-if="showCampaigns"
         class="ca-cart__campaigns"
         :campaigns="cart.appliedCampaigns"

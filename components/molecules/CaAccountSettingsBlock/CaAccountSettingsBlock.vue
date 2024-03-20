@@ -15,7 +15,7 @@
     </div>
     <div class="ca-account-settings-block__content">
       <slot name="content" :edit-mode="editMode" />
-      <CaButton
+      <LazyCaButton
         v-if="editMode"
         class="ca-account-settings-block__save"
         type="full-width"
@@ -23,7 +23,7 @@
         @clicked="$emit('save')"
       >
         {{ $t('ACCOUNT_SETTINGS_SAVE') }}
-      </CaButton>
+      </LazyCaButton>
     </div>
   </div>
 </template>

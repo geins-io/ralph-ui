@@ -1,4 +1,5 @@
-import brandsByProductsQuery from 'brands/brands-by-products.graphql';
+// import brandsByProductsQuery from 'brands/brands-by-products.graphql';
+import brandsQuery from 'brands/brands.graphql';
 import MixFetch from 'MixFetch';
 // @group Mixins
 // @vuese
@@ -14,17 +15,9 @@ export default {
   mixins: [MixFetch],
   props: {},
   async fetch() {
-    this.facets = await this.fetchData(brandsByProductsQuery, (result) => {
-      return result?.data?.products?.filters?.facets || null;
+    this.brands = await this.fetchData(brandsQuery, (result) => {
+      return result?.data?.brands || [];
     });
-
-    if (!this.facets) {
-      return;
-    }
-
-    const brandFacets = this.facets.find((facet) => facet.type === 'Brand');
-
-    this.updateBrandsFromFacets(brandFacets);
     if (!this.brandsTree.length) {
       this.createBrandsTree();
     }
@@ -32,7 +25,6 @@ export default {
     this.$store.dispatch('loading/end');
   },
   data: () => ({
-    facets: null,
     brands: [],
     isLoading: true,
     brandsTree: [],
@@ -85,20 +77,6 @@ export default {
   watch: {},
   mounted() {},
   methods: {
-    // @vuese
-    // Updates the brands from the facets
-    // @arg facets (Object)
-    updateBrandsFromFacets(facets) {
-      if (facets && facets.values.length) {
-        this.brands = [...facets.values].map((item) => {
-          return {
-            alias: item.label.toUpperCase(),
-            name: item.label,
-            canonicalUrl: item.url,
-          };
-        });
-      }
-    },
     // @vuese
     // Returns all brands by initial character
     // @arg character (String)

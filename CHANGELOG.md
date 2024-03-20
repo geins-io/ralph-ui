@@ -14,6 +14,27 @@ Sections to use
 ### Fixed
 -->
 
+## [22.1.0] - 2024-03-19
+
+This update includes performance improvements and some bug fixes. It is recommended to update your storefront to Ralph Storefront v2.3.0 with this update to really se some performance improvements.
+
+### Added
+
+- Emitting the `PointerEvent` from `CaClickable`
+- Option to set preloaded image sizes for product page through `$config.preLoadedProductImageSizes` (Array). This is good to improve the LCP metric for the product page
+- Prop `fetchProductsOnServer` for `CaWidgetArea` to fetch products server side, which by default is set to `false`
+
+### Changed
+
+- Async and lazy loading for a lot of components
+- Cart is not fetched server side, instead it's fetched in `MixGlobalInit` in `mounted` hook
+- `$ralphLog` will now log both server and client side if active. Option to set `$config.ralphLog.onlyInClient` to turn off SSR logging
+
+### Fixed
+
+- Ctrl + click to open in new tab now works for prodcut card through `MixProductCard`
+- Routing to other list page from search page bug
+
 ## [22.0.2] - 2024-03-11
 
 ### Fixed

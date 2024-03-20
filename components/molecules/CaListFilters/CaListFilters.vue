@@ -73,19 +73,16 @@
     <div v-show="!filtersPopulated" class="ca-list-filters__filters">
       <CaSkeleton
         class="ca-list-filters__filter"
-        width="200px"
         height="40px"
         :margin-top="false"
       />
       <CaSkeleton
         class="ca-list-filters__filter"
-        width="200px"
         height="40px"
         :margin-top="false"
       />
       <CaSkeleton
         class="ca-list-filters__filter"
-        width="200px"
         height="40px"
         :margin-top="false"
       />

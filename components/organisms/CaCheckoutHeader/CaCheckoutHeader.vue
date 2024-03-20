@@ -1,6 +1,6 @@
 <template>
   <div class="ca-checkout-header">
-    <CaIconButton
+    <LazyCaIconButton
       v-if="!$store.getters.viewportComputer"
       class="ca-checkout-header__back"
       :href="$getPath('index')"
@@ -13,14 +13,14 @@
     <h1 class="ca-checkout-header__title">
       {{ title }}
     </h1>
-    <CaButton
+    <LazyCaButton
       v-if="$store.getters.viewportComputer"
       class="ca-checkout-header__button"
       color="secondary"
       :href="$getPath('index')"
     >
       {{ $t('CONTINUE_SHOPPING') }}
-    </CaButton>
+    </LazyCaButton>
   </div>
 </template>
 <script>

@@ -64,8 +64,9 @@ export default {
           hid: 'og:image',
           property: 'og:image',
           content:
-            this.imgSrc || this.$config.baseUrl + '/meta-image-fallback.jpg',
+            this.imgSrc() || this.$config.baseUrl + '/meta-image-fallback.jpg',
         },
+        ...this.preloadedImages,
       ],
     };
   },
@@ -189,19 +190,30 @@ export default {
       return this.relatedProducts.filter((i) => i.relation === 'SIMILAR');
     },
     // @vuese
-    // Image src used for meta image
-    // @type [String, Boolean]
-    imgSrc() {
-      let imgSrc = false;
-      if (this.product?.productImages?.length) {
-        imgSrc =
-          this.$config.imageServer +
-          '/product/' +
-          this.$config.productSchemaOptions.schemaImageSize +
-          '/' +
-          this.product.productImages[0].fileName;
+    // Preloaded images for meta, improving LCP
+    // @type Array
+    preloadedImages() {
+      if (!this.$config.preLoadedProductImageSizes) {
+        return [];
       }
-      return imgSrc;
+      const preloadedImages = [];
+      const base = {
+        rel: 'preload',
+        as: 'image',
+      };
+      this.$config.preLoadedProductImageSizes.forEach((size) => {
+        const obj = { ...base };
+        const src = this.imgSrc(size);
+        if (src) {
+          obj.href = src;
+          preloadedImages.push(obj);
+        }
+      });
+      return preloadedImages;
+    },
+    preloadedImage() {
+      const imgSrc = this.preloadedImages[0]?.href;
+      return imgSrc || this.imgSrc();
     },
   },
   watch: {
@@ -220,28 +232,20 @@ export default {
     this.initProduct();
   },
   methods: {
-    removeQueryVar(query, fields) {
-      const newQuery = JSON.parse(JSON.stringify(query));
-
-      fields.forEach((field) => {
-        const indexQueryVariable =
-          newQuery.definitions[0].variableDefinitions.findIndex(
-            (item) => item.variable.name.value === field,
-          );
-        const indexQueryField =
-          newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-            (item) => item.value.name.value === field,
-          );
-
-        if (![indexQueryVariable, indexQueryField].includes(-1)) {
-          newQuery.definitions[0].variableDefinitions.splice(
-            indexQueryVariable,
-            1,
-          );
-        }
-      });
-
-      return newQuery;
+    // @vuese
+    // Image src used for meta image
+    // @arg size (String)
+    imgSrc(size = this.$config.productSchemaOptions.schemaImageSize) {
+      let imgSrc = false;
+      if (this.product?.productImages?.length) {
+        imgSrc =
+          this.$config.imageServer +
+          '/product/' +
+          size +
+          '/' +
+          this.product.productImages[0].fileName;
+      }
+      return imgSrc;
     },
     // @vuese
     // Handler for changing quantity

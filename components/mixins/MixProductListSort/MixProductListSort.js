@@ -51,7 +51,7 @@ export default {
   },
   watch: {
     sort(newVal, oldVal) {
-      if (oldVal !== null) {
+      if (oldVal !== null && newVal !== oldVal) {
         this.$emit('sortchange', newVal);
       }
     },

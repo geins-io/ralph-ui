@@ -5,7 +5,7 @@
         {{ $t('PRODUCT_REVIEWS') }} ({{ totalReviewsCount }})
       </h3>
       <client-only>
-        <CaStarRating
+        <LazyCaStarRating
           v-if="canShowMainStarRate"
           class="ca-reviews-list__header-counter"
           :default-rate="averageRating"
@@ -22,7 +22,7 @@
       :key="review.author + index"
       class="ca-reviews-list__reviews"
     >
-      <CaStarRating
+      <LazyCaStarRating
         v-if="$config.showStarsInProductReviewForm"
         class="ca-reviews-list__reviews-stars"
         :show-counter="false"

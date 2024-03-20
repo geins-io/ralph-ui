@@ -18,14 +18,15 @@
   </div>
 </template>
 <script>
-import SlideUpDown from 'vue-slide-up-down';
 // @group Molecules
 // @vuese
 // Used to make a filter section in the filter panel<br><br>
 // **SASS-path:** _./styles/components/molecules/ca-filter.scss_
 export default {
   name: 'CaFilter',
-  components: { SlideUpDown },
+  components: {
+    SlideUpDown: () => import('vue-slide-up-down'),
+  },
   mixins: [],
   props: {
     title: {

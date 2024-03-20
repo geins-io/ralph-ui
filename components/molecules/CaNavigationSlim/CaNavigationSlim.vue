@@ -6,7 +6,7 @@
         :key="index"
         class="ca-navigation-slim__item"
       >
-        <CaAccordionItem
+        <LazyCaAccordionItem
           v-if="getSubLevelCategories(category.categoryId).length"
           class="ca-navigation-slim__parent"
         >
@@ -37,7 +37,7 @@
               </NuxtLink>
             </li>
           </ul>
-        </CaAccordionItem>
+        </LazyCaAccordionItem>
         <NuxtLink
           v-else
           class="ca-navigation-slim__link"

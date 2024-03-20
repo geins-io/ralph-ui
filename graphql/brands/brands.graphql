@@ -4,10 +4,5 @@ query brands($channelId: String, $languageId: String, $marketId: String) {
     brandId
     canonicalUrl
     name
-    description
-    secondaryDescription
-    primaryImage
-    backgroundImage
-    logo
   }
 }

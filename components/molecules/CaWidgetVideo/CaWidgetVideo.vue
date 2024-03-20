@@ -5,7 +5,7 @@
       class="ca-widget-video__image-wrap"
       :style="{ paddingBottom: ratioPadding }"
     >
-      <CaImage
+      <LazyCaImage
         v-if="filename"
         class="ca-widget-video__image"
         type="pagewidget"
@@ -24,7 +24,7 @@
         <CaSpinner class="ca-widget-video__spinner" :loading="loading" />
       </button>
     </div>
-    <CaVideo
+    <LazyCaVideo
       v-if="playing && !playInModal"
       class="ca-widget-video__video"
       :class="videoModifiers"

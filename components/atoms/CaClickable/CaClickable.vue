@@ -3,7 +3,11 @@
     class="ca-clickable"
     role="button"
     v-bind="$attrs"
-    @click.prevent="$emit('clicked')"
+    @click.prevent="
+      (e) => {
+        $emit('clicked', e);
+      }
+    "
   >
     <slot />
   </a>

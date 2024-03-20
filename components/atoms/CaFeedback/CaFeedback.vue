@@ -5,7 +5,7 @@
       <div class="ca-feedback__message">
         <slot>{{ message }}</slot>
       </div>
-      <CaIconButton
+      <LazyCaIconButton
         v-if="!constant"
         class="ca-feedback__close"
         icon-name="x"

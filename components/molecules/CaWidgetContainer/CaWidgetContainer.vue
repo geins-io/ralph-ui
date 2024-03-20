@@ -14,6 +14,7 @@
       :image-sizes="imageSizes"
       :is-first="isFirst"
       :widget-area-variables="widgetAreaVariables"
+      :fetch-products-on-server="fetchProductsOnServer"
     />
   </CaContainer>
 </template>
@@ -43,6 +44,10 @@ export default {
     widgetAreaVariables: {
       type: Object,
       required: true,
+    },
+    fetchProductsOnServer: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({}),

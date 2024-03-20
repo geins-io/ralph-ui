@@ -35,13 +35,13 @@
           </transition>
           <div @click="close">
             <CaButton type="full-width" size="m" href="checkout">
-              <CaIconAndText
+              <LazyCaIconAndText
                 v-if="buttonIcon"
                 :icon-name="buttonIcon"
                 icon-position="right"
               >
                 {{ $t('CART_TO_CHECKOUT') }}
-              </CaIconAndText>
+              </LazyCaIconAndText>
               <template v-else>
                 {{ $t('CART_TO_CHECKOUT') }}
               </template>

@@ -13,6 +13,7 @@ Shell for displaying widget component based on type<br><br> **SASS-path:** _./st
 |imageRatios|-|`Array`|`true`|-|
 |isFirst|-|`Boolean`|`false`|false|
 |widgetAreaVariables|-|`Object`|`true`|-|
+|fetchProductsOnServer|-|`Boolean`|`false`|false|
 
 <!-- @vuese:CaWidget:props:end -->
 

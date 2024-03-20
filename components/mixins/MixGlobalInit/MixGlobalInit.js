@@ -98,6 +98,8 @@ export default {
     },
   },
   async mounted() {
+    this.$store.dispatch('cart/get');
+
     this.$store.dispatch('initScrollListener');
 
     this.$store.commit('setViewportWidth');
@@ -116,7 +118,7 @@ export default {
         this.$cookies.get('ralph-user-type'),
       );
     }
-    this.$store.dispatch('cart/update');
+
     this.performActions();
   },
   beforeDestroy() {

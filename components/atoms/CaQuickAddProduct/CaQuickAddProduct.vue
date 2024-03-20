@@ -1,7 +1,7 @@
 <template>
   <div class="ca-quick-add-product">
     <client-only v-if="useProductCard">
-      <CaProductCard :product-data="product" />
+      <LazyCaProductCard :product-data="product" />
     </client-only>
     <div v-else class="ca-quick-add-product__card">
       <div class="ca-quick-add-product__image-wrap">

@@ -8,6 +8,7 @@
         :widget-area-variables="variables"
         :widget-image-sizes="widgetImageSizes"
         :is-first="index === 0"
+        :fetch-products-on-server="fetchProductsOnServer"
       />
     </div>
   </div>
@@ -63,6 +64,10 @@ export default {
     listPageUrl: {
       type: String,
       default: '',
+    },
+    fetchProductsOnServer: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
