@@ -108,6 +108,7 @@ export default {
     filtersSet: false,
     userHasPaged: false,
     productsFetched: false,
+    filtersFetchedFromMounted: false,
   }),
   computed: {
     // @vuese
@@ -504,14 +505,19 @@ export default {
     },
   },
   mounted() {
-    this.getFilters();
+    this.getFilters(true);
   },
   methods: {
     // @vuese
     // Fetches the filters for the list page
-    async getFilters() {
-      if (process.server) {
+    async getFilters(fromMounted = false) {
+      if (process.server || this.filtersFetchedFromMounted) {
+        this.filtersFetchedFromMounted = false;
         return;
+      }
+
+      if (fromMounted) {
+        this.filtersFetchedFromMounted = true;
       }
 
       const callback = (result) => {
@@ -546,6 +552,8 @@ export default {
     // Update the sort setting
     // @arg new value (String)
     sortChangeHandler(newVal) {
+      const noNews = this.selection.sort === newVal;
+
       if (this.userSelection) {
         this.userSelection.sort = newVal;
       } else {
@@ -553,12 +561,17 @@ export default {
         this.$set(selection, 'sort', newVal);
         this.userSelection = selection;
       }
+
       if (
         this.userHasPaged &&
         !this.$store.getters['list/relocateProduct'] &&
         !this.$store.getters['list/backNavigated']
       ) {
         this.resetCurrentPage(false);
+      }
+
+      if (noNews) {
+        return;
       }
       this.pushURLParams();
     },
