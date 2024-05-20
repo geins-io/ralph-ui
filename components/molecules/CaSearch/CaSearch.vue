@@ -151,7 +151,7 @@
                       :alt="product.name"
                       :filename="product.productImages[0].fileName"
                       :ratio="$config.productImageRatio"
-                      sizes="40px"
+                      :sizes="$config.searchProductsImageSizes || '35px'"
                     />
                     <CaImage
                       v-else

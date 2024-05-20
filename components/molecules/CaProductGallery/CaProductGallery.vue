@@ -29,11 +29,7 @@
               :filename="image"
               :ratio="$config.productImageRatio"
               :alt="alt"
-              :size-array="
-                $config.imageSizes.product.filter(
-                  (item) => parseInt(item.descriptor) < 1700,
-                )
-              "
+              :size-array="$config.imageSizes.product"
               :sizes="mainImageSizes"
             />
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
@@ -55,11 +51,7 @@
           :filename="imagesFilenames[0]"
           :ratio="$config.productImageRatio"
           :alt="alt"
-          :size-array="
-            $config.imageSizes.product.filter(
-              (item) => parseInt(item.descriptor) < 1700,
-            )
-          "
+          :size-array="$config.imageSizes.product"
           :sizes="mainImageSizes"
         />
         <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
@@ -98,11 +90,7 @@
             :filename="image"
             :ratio="$config.productImageRatio"
             :alt="alt"
-            :size-array="
-              $config.imageSizes.product.filter(
-                (item) => parseInt(item.descriptor) <= 200,
-              )
-            "
+            :size-array="$config.imageSizes.product"
             :sizes="thumbnailSizes"
           />
         </CaSlide>
@@ -204,7 +192,7 @@ export default {
     mainImageSizes: {
       type: String,
       default:
-        '(min-width: 1360px) 510px, (min-width: 1024px) 38vw, (min-width: 768px) 51vw, 70vw',
+        '(min-width: 1920px) 815px, (min-width: 1024px) 42vw, (min-width: 768px) 600px, 100vw',
     },
     // Sizes attribute for thumbnail image
     thumbnailSizes: {

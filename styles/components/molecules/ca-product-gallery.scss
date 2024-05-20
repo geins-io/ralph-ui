@@ -3,18 +3,18 @@
   $grid-gap: rem-calc(15);
   $minus-margin: calc(-1 * #{$default-spacing}/ 2);
 
-  --slider-item-width: 72%;
+  --slider-item-width: 100%;
 
   margin: 0 $minus-margin;
 
   @include bp(tablet) {
-    --slider-item-width: 53%;
+    --slider-item-width: 600px;
+
+    margin: 0;
   }
 
   @include bp(laptop) {
     --slider-item-width: 100%;
-
-    margin: 0;
   }
 
   &__main {
@@ -51,7 +51,7 @@
   }
 
   &__slide {
-    padding: 0 $px4;
+    padding: 0;
     opacity: 0.6;
     transition: opacity 200ms ease;
     cursor: pointer;
@@ -81,14 +81,6 @@
         opacity: 1;
         font-size: 70px;
       }
-    }
-  }
-
-  &__image {
-    border: $border-light;
-
-    @include bp(laptop) {
-      border: none;
     }
   }
 

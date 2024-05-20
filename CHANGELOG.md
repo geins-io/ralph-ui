@@ -14,9 +14,9 @@ Sections to use
 ### Fixed
 -->
 
-## [22.1.0] - 2024-03-19
+## [22.1.0] - 2024-03-20
 
-This update includes performance improvements and some bug fixes. It is recommended to update your storefront to Ralph Storefront v2.3.0 with this update to really se some performance improvements.
+This update includes performance improvements and some bug fixes. It is recommended to update your storefront to Ralph Storefront v2.3.0 with this update to really see some performance improvements.
 
 ### Added
 

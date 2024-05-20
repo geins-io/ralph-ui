@@ -6,15 +6,13 @@
           v-if="product.productImages && product.productImages.length > 0"
           class="ca-cart-product__image"
           type="product"
-          :size-array="
-            $config.imageSizes.product.filter(
-              (item) => parseInt(item.descriptor) <= 180,
-            )
-          "
+          :size-array="$config.imageSizes.product"
           :alt="product.name"
           :filename="product.productImages[0].fileName"
           :ratio="$config.productImageRatio"
-          sizes="(min-width: 768px) 90px, 60px"
+          :sizes="
+            $config.cart.productImageSizes || '(min-width: 768px) 80px, 53px'
+          "
         />
       </NuxtLink>
     </div>
