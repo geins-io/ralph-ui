@@ -2,8 +2,9 @@
   $block: &;
 
   text-align: center;
-  border: 1px dashed $c-darkest-gray;
+  border: 1px dashed $c-border-dark;
   padding: $px20;
+  border-radius: 3px;
 
   &__title {
     margin-bottom: $px20;
