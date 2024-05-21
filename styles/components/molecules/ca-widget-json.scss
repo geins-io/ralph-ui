@@ -1,3 +1,57 @@
 .ca-widget-json {
   $block: &;
+
+  text-align: center;
+  border: 1px dashed $c-darkest-gray;
+  padding: $px20;
+
+  &__title {
+    margin-bottom: $px20;
+    display: block;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-l;
+  }
+
+  &__info {
+    font-size: $font-size-m;
+    max-width: 600px;
+    margin: 0 auto $px20;
+  }
+
+  &__extra-info {
+    font-size: $font-size-xs;
+    color: $c-text-secondary;
+    max-width: 600px;
+    margin: 0 auto $px20;
+  }
+
+  &__feedback {
+    max-width: 600px;
+    margin: 0 auto $px40;
+  }
+
+  &__link {
+    font-weight: $font-weight-bold;
+    color: $c-accent-color;
+    text-decoration: underline;
+  }
+
+  &__pre {
+    display: block;
+    max-width: 600px;
+    background-color: $c-lightest-gray;
+    text-align: left;
+    margin: 0 auto;
+  }
+
+  &__code {
+    padding: 0 $px20;
+  }
+
+  &__code-title {
+    font-size: $font-size-m;
+    font-weight: $font-weight-bold;
+    padding: 0 $px20 $px16;
+    border-bottom: $border-dark;
+  }
 }
