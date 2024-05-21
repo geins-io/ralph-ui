@@ -64,6 +64,7 @@
     position: absolute;
     transition: all 150ms ease;
     z-index: $z-index-header;
+    box-shadow: 0 5px 10px -3px rgb(0 0 0 / 3%);
   }
 
   &__children-show-all {
