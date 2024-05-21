@@ -8,7 +8,6 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     let currentMarket = store.state.channel.currentMarket;
     const marketInPath = route.params.market;
     const currentLanguage = i18n.localeProperties.code;
-    const startPageName = 'start';
     const query = Object.keys(route.query).length
       ? '?' + route.fullPath.split('?')[1]
       : '';
@@ -99,13 +98,8 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       );
     }
 
-    // If not using start page, redirect to front page
-    if (route.name === startPageName && !$config.useStartPage) {
-      return redirectToPath(app.$getPath('index'));
-    }
-
-    // If other page than start and market is not in path, redirect to url with market in path
-    if (route.name !== startPageName && !marketInPath) {
+    // If market is not in path, redirect to url with market in path
+    if (!marketInPath) {
       return redirectToPath('/' + currentMarket + route.path);
     }
 

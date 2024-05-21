@@ -2,9 +2,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import FrontPage from '~/pages/start/index.vue';
-import StartPage from '~/pages/index.vue';
-
 Vue.use(Router);
 
 export function createRouter(
@@ -26,18 +23,11 @@ export function createRouter(
 
 // Modify routes
 function fixRoutes(defaultRoutes, config) {
-  // Remove start page from routes, since we only want ot use modifed start page
-  const newRoutes = defaultRoutes.filter((route) => {
-    return !route.name.includes('start');
-  });
+  const newRoutes = defaultRoutes;
 
   newRoutes.map((route) => {
     if (route.path.includes('/:market?')) {
       return false;
-    }
-    // Change start page conmponent to front page
-    if (route.name.includes('index')) {
-      route.component = FrontPage;
     }
 
     // Add dynamic param :market param to all routes
@@ -51,14 +41,6 @@ function fixRoutes(defaultRoutes, config) {
 
     return route;
   });
-
-  if (config.marketInPath || config.isMultiLanguage) {
-    newRoutes.push({
-      path: '/',
-      component: StartPage,
-      name: 'start',
-    });
-  }
 
   return newRoutes;
 }

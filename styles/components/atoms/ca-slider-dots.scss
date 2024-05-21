@@ -1,39 +1,34 @@
 .ca-slider-dots {
   $block: &;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 
   &__dot {
-    margin: 0 3px;
-  
-    @include bp(tablet) {
-      margin: 0 4px;
-    }
-  
+    margin: 0 4px;
+
     &--hidden {
       display: none;
     }
   }
-  
+
   &__trigger {
-    width: $px16;
-    height: $px4;
+    width: $px20;
+    height: rem-calc(6px);
     background-color: $c-light-gray;
     border-radius: rem-calc(4px);
     padding: 0;
     transition: background-color 200ms ease;
     text-indent: -100000px;
-  
+
     &--current {
       background-color: var(--accent-color, $c-accent-color);
     }
-  
+
     @include bp(tablet) {
       width: $px24;
-      height: rem-calc(6px);
     }
   }
 }
