@@ -14,6 +14,23 @@ Sections to use
 ### Fixed
 -->
 
+## [23.0.0] - 2024-05-21
+
+This major update will require you to update your storefront to Ralph Storefront v2.6.0.
+
+### Added
+
+- Default markup and style to the JSON widget with info and tips on how to use it
+
+### Changed
+
+- New image sizes for products and cms widgets
+- Some general style improvements
+
+### Removed
+
+- Removed everything related to the `useStartPage` functionality from `plugins/router.js` and `middleware/ralph-default.js` that is never used and produces uneccerary error messages
+
 ## [22.1.0] - 2024-03-20
 
 This update includes performance improvements and some bug fixes. It is recommended to update your storefront to Ralph Storefront v2.3.0 with this update to really see some performance improvements.
