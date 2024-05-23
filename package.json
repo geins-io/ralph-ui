@@ -1,6 +1,6 @@
 {
   "name": "@geins/ralph-ui",
-  "version": "23.0.0",
+  "version": "23.0.1",
   "description": "Core functionality and component library for Ralph Storefront - a PWA Launchpad for Geins Commerce",
   "author": "Geins Commerce",
   "private": false,
