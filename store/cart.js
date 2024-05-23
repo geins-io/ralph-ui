@@ -4,6 +4,7 @@ import getCartQuery from 'cart/get.graphql';
 export const state = () => ({
   data: null,
   added: null,
+  retryAttempts: 5,
 });
 
 export const mutations = {
@@ -12,6 +13,9 @@ export const mutations = {
   },
   setAdded(state, added) {
     state.added = added;
+  },
+  setRetryAttempts(state, attempts) {
+    state.retryAttempts = attempts;
   },
 };
 
@@ -41,7 +45,15 @@ export const actions = {
     if (cart) {
       dispatch('update', cart);
     } else {
+      setTimeout(() => {
+        dispatch('retry');
+      }, 1000);
+    }
+  },
+  retry({ state, commit, dispatch }) {
+    if (state.retryAttempts > 0) {
       dispatch('reset');
+      commit('setRetryAttempts', state.retryAttempts - 1);
     }
   },
   update({ state, commit }, cart) {

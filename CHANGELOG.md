@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [23.0.1] - 2024-05-23
+
+### Fixed
+
+- Fixed so that the cart only attemps to fetch 5 times on error, to not end up with infinite retries
+
 ## [23.0.0] - 2024-05-21
 
 This major update will require you to update your storefront to Ralph Storefront v2.6.0.
