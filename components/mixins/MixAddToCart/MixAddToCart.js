@@ -19,6 +19,10 @@ export default {
     // Add a product to the cart on the server. Performs a graphql mutation
     // @arg sku id (Number), product quantity (Number), product (Object)
     async addToCart(prodSkuId, prodQuantity, product = null) {
+      if (this.$store.getters['cart/id'] === '') {
+        await this.$store.dispatch('cart/get');
+      }
+
       const itemToAdd = {
         skuId: prodSkuId,
         quantity: prodQuantity,

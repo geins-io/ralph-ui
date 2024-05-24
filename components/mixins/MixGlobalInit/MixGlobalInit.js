@@ -98,7 +98,7 @@ export default {
     },
   },
   async mounted() {
-    this.$store.dispatch('cart/get');
+    this.$store.dispatch('cart/update');
 
     this.$store.dispatch('initScrollListener');
 

@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [23.1.0] - 2024-05-24
+
+### Changed
+
+- Getting cart on server if cart id exists, otherwise getting it on first add to cart
+
 ## [23.0.1] - 2024-05-23
 
 ### Fixed
