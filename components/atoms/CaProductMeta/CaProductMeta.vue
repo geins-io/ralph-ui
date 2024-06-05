@@ -22,7 +22,7 @@ export default {
   computed: {
     productSchema() {
       const jsonld = [];
-      const options = this.$config.productSchemaOptions;
+      const options = this.$config.public.productSchemaOptions;
       let productSchema = {};
       let color = [];
 
@@ -75,9 +75,9 @@ export default {
       let imgSrc = false;
       if (this.product.productImages?.length) {
         imgSrc =
-          this.$config.imageServer +
+          this.$config.public.imageServer +
           '/product/' +
-          this.$config.productSchemaOptions.schemaImageSize +
+          this.$config.public.productSchemaOptions.schemaImageSize +
           '/' +
           this.product.productImages[0].fileName;
       }

@@ -50,14 +50,14 @@ This update includes performance improvements and some bug fixes. It is recommen
 ### Added
 
 - Emitting the `PointerEvent` from `CaClickable`
-- Option to set preloaded image sizes for product page through `$config.preLoadedProductImageSizes` (Array). This is good to improve the LCP metric for the product page
+- Option to set preloaded image sizes for product page through `$config.public.preLoadedProductImageSizes` (Array). This is good to improve the LCP metric for the product page
 - Prop `fetchProductsOnServer` for `CaWidgetArea` to fetch products server side, which by default is set to `false`
 
 ### Changed
 
 - Async and lazy loading for a lot of components
 - Cart is not fetched server side, instead it's fetched in `MixGlobalInit` in `mounted` hook
-- `$ralphLog` will now log both server and client side if active. Option to set `$config.ralphLog.onlyInClient` to turn off SSR logging
+- `$ralphLog` will now log both server and client side if active. Option to set `$config.public.ralphLog.onlyInClient` to turn off SSR logging
 
 ### Fixed
 
@@ -98,7 +98,7 @@ This major update will require you to update your storefront to Ralph Storefront
   - `error:api` - data payload: `error`
   - `error:404` - data payload: `error`
   - `error:500` - data payload: `error`
-- A way to control what `$ralphLog` logs to the console in debug mode through the $config variable `ralphLog`, see Ralph Storefront v.2.2.0
+- A way to control what `$ralphLog` logs to the console in debug mode through the $config.public variable `ralphLog`, see Ralph Storefront v.2.2.0
 - Some missing documentation for components and mixins
 - Improved error feedback for `CaCheckoutInvoice`
 
@@ -293,7 +293,7 @@ Note! If you are using GTM and update to this version you will need to implement
 ### Added
 
 - Slot in CaFeedback that can be used instead of message
-- Custom defaultSort for a page via `customSortRoutes` in \$config
+- Custom defaultSort for a page via `customSortRoutes` in \$config.public
 - Improved SEO for pagination
 - Gtin13 option in product schema
 - Enabled product change in product card, passing an array insted of one product
@@ -321,7 +321,7 @@ Note! If you are using GTM and update to this version you will need to implement
 ### Deprecated
 
 - `getCheckout` & `getCheckoutAndOrder` queries, use checkout instead
-- Use of Ralph UI internal GTM - use `@geins/ralph-module-gtm` instead (removing `$config.useExternalGtm` from config)
+- Use of Ralph UI internal GTM - use `@geins/ralph-module-gtm` instead (removing `$config.public.useExternalGtm` from config)
 - The use of `product.images` on ProductType - use `product.productImages` instead
 
 ## [19.5.3] - 2023-06-30
@@ -356,7 +356,7 @@ Note! If you want to use the more SEO-friendly version of the list pagination, y
 
 ### Added
 
-- Option to set `$config.useExternalGtm` to use disable the internal pushes to GTM
+- Option to set `$config.public.useExternalGtm` to use disable the internal pushes to GTM
 - Added `orderCart` and `orderId` to `checkout:purchase` event payload
 
 ### Fixed

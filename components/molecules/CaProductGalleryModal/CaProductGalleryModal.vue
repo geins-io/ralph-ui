@@ -23,10 +23,10 @@
             type="product"
             loading="eager"
             :filename="image"
-            :ratio="$config.productImageRatio"
+            :ratio="$config.public.productImageRatio"
             :alt="alt"
             :size-array="
-              $config.imageSizes.product.filter(
+              $config.public.imageSizes.product.filter(
                 (item) => parseInt(item.descriptor) > 500,
               )
             "

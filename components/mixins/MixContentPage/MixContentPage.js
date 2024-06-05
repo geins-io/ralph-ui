@@ -63,7 +63,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.$config.baseUrl + '/meta-image-fallback.jpg',
+          content: this.$config.public.baseUrl + '/meta-image-fallback.jpg',
         },
       ],
     };

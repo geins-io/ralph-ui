@@ -140,9 +140,11 @@ export default {
     // @type String
     buttonHref() {
       let page =
-        Math.round(this.maxCount / this.$config.productListPageSize) + 1;
+        Math.round(this.maxCount / this.$config.public.productListPageSize) + 1;
       if (this.direction === 'prev') {
-        page = Math.round(this.minCount / this.$config.productListPageSize);
+        page = Math.round(
+          this.minCount / this.$config.public.productListPageSize,
+        );
       }
       if ((this.direction === 'next' && this.allProductsLoaded) || page < 1) {
         return '';

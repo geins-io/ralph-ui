@@ -4,8 +4,8 @@
 // **Data:**<br>
 // currentPage: `1`<br>
 // currentMinCount: `1`,<br>
-// currentMaxCount: `vm.$config.productListPageSize`<br>
-// pageSize: `vm.$config.productListPageSize`<br>
+// currentMaxCount: `vm.$config.public.productListPageSize`<br>
+// pageSize: `vm.$config.public.productListPageSize`<br>
 // totalCount: `0`<br>
 // productList: `[]`<br>
 // mainProductList: `true`<br>
@@ -19,7 +19,7 @@ export default {
     currentPage: 1,
     currentMinCountSet: 0,
     currentMaxCountSet: 0,
-    pageSize: vm.$config.productListPageSize,
+    pageSize: vm.$config.public.productListPageSize,
     totalCount: 0,
     productList: [],
     mainProductList: true,

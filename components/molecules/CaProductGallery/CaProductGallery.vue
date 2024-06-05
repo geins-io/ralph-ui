@@ -27,9 +27,9 @@
               loading="eager"
               :src="preloadedImage"
               :filename="image"
-              :ratio="$config.productImageRatio"
+              :ratio="$config.public.productImageRatio"
               :alt="alt"
-              :size-array="$config.imageSizes.product"
+              :size-array="$config.public.imageSizes.product"
               :sizes="mainImageSizes"
             />
             <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
@@ -49,9 +49,9 @@
           loading="eager"
           :src="preloadedImage"
           :filename="imagesFilenames[0]"
-          :ratio="$config.productImageRatio"
+          :ratio="$config.public.productImageRatio"
           :alt="alt"
-          :size-array="$config.imageSizes.product"
+          :size-array="$config.public.imageSizes.product"
           :sizes="mainImageSizes"
         />
         <div v-if="hasOverlay" class="ca-product-gallery__slide-overlay">
@@ -88,9 +88,9 @@
             type="product"
             loading="eager"
             :filename="image"
-            :ratio="$config.productImageRatio"
+            :ratio="$config.public.productImageRatio"
             :alt="alt"
-            :size-array="$config.imageSizes.product"
+            :size-array="$config.public.imageSizes.product"
             :sizes="thumbnailSizes"
           />
         </CaSlide>
@@ -111,9 +111,9 @@
           type="product"
           loading="eager"
           :filename="image"
-          :ratio="$config.productImageRatio"
+          :ratio="$config.public.productImageRatio"
           :alt="alt"
-          :size-array="$config.imageSizes.product"
+          :size-array="$config.public.imageSizes.product"
           :sizes="thumbnailSizes"
         />
       </CaClickable>
@@ -218,7 +218,7 @@ export default {
         alt: this.alt,
         arrowIconName: this.arrowIconName,
         index: this.modalIndex,
-        ratio: this.$config.productImageRatio,
+        ratio: this.$config.public.productImageRatio,
       };
     },
     hasImages() {

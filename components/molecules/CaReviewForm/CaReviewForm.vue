@@ -29,7 +29,7 @@
 
     <div v-else-if="showForm && !success" class="ca-review-form__form">
       <LazyCaStarRating
-        v-if="$config.showStarsInProductReviewForm"
+        v-if="$config.public.showStarsInProductReviewForm"
         :show-counter="false"
         :read-only="false"
         class="ca-review-form__form-stars"
@@ -126,7 +126,7 @@ export default {
     // @vuese
     // indicate if stars should be validated depending on config value
     shouldValidateCommentInput() {
-      return !this.$config.showStarsInProductReviewForm;
+      return !this.$config.public.showStarsInProductReviewForm;
     },
   },
   watch: {},
@@ -144,7 +144,7 @@ export default {
     // Validate inputs and submit form or show general error message
     confirmReviewForm() {
       const showRatingError =
-        this.$config.showStarsInProductReviewForm && !this.rate;
+        this.$config.public.showStarsInProductReviewForm && !this.rate;
 
       if (showRatingError) {
         this.feedbackMessage = this.$t('REVIEW_FEEDBACK_RATE_REQUIRED');

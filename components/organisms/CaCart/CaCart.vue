@@ -18,7 +18,7 @@
       @remove="removeHandler"
     />
     <LazyCaPromoCode
-      v-if="mode !== 'display' && $config.checkout.promoCodes"
+      v-if="mode !== 'display' && $config.public.checkout.promoCodes"
       class="ca-cart__promo-code"
       :active-promo-code="cart.promoCode ? cart.promoCode : ''"
     />

@@ -1,7 +1,7 @@
 <template>
   <div class="ca-account-settings">
     <CaAccountSettingsBlock
-      v-if="$config.customerTypesToggle"
+      v-if="$config.public.customerTypesToggle"
       ref="settingsAccount"
       :title="$t('ACCOUNT_ACCOUNT_SETTINGS_TITLE')"
       :loading="loading"
@@ -66,7 +66,7 @@
           </p>
         </div>
         <CaInputText
-          v-if="editMode && $config.checkout.identityNumber"
+          v-if="editMode && $config.public.checkout.identityNumber"
           id="personalId"
           v-model="userData.personalId"
           :required="false"
@@ -80,7 +80,7 @@
           "
         />
         <div
-          v-else-if="$config.checkout.identityNumber"
+          v-else-if="$config.public.checkout.identityNumber"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
@@ -199,7 +199,7 @@
         </div>
 
         <div
-          v-if="editMode && $config.user.gender"
+          v-if="editMode && $config.public.user.gender"
           class="ca-account-settings__setting ca-account-settings__setting--edit"
         >
           <h3
@@ -216,7 +216,7 @@
           />
         </div>
         <div
-          v-else-if="$config.user.gender"
+          v-else-if="$config.public.user.gender"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
@@ -342,7 +342,7 @@
         </div>
 
         <CaInputText
-          v-if="editMode && $config.user.country"
+          v-if="editMode && $config.public.user.country"
           id="country"
           v-model="userData.address.country"
           :required="false"
@@ -350,7 +350,7 @@
           :label="$t('LABEL_COUNTRY')"
         />
         <div
-          v-else-if="$config.user.country"
+          v-else-if="$config.public.user.country"
           class="ca-account-settings__setting"
         >
           <h3 class="ca-account-settings__setting-label">
@@ -448,7 +448,7 @@ export default {
     // The customer types available
     // @type Array
     customerTypes() {
-      return this.$config.customerTypes;
+      return this.$config.public.customerTypes;
     },
     // @vuese
     // The current user type

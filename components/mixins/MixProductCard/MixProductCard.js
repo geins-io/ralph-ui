@@ -89,7 +89,7 @@ export default {
                 product: this.product,
                 page: this.pageNumber,
                 index: this.listIndex,
-                pageSize: this.$config.productListPageSize,
+                pageSize: this.$config.public.productListPageSize,
               },
             });
           }
@@ -114,7 +114,7 @@ export default {
           product: this.product,
           page: this.pageNumber,
           index: this.listIndex,
-          pageSize: this.$config.productListPageSize,
+          pageSize: this.$config.public.productListPageSize,
         },
       });
 

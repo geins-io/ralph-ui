@@ -64,7 +64,8 @@ export default {
           hid: 'og:image',
           property: 'og:image',
           content:
-            this.imgSrc() || this.$config.baseUrl + '/meta-image-fallback.jpg',
+            this.imgSrc() ||
+            this.$config.public.baseUrl + '/meta-image-fallback.jpg',
         },
         ...this.preloadedImages,
       ],
@@ -94,7 +95,7 @@ export default {
       this.initProduct();
     }
 
-    if (this.product && this.$config.productShowRelated) {
+    if (this.product && this.$config.public.productShowRelated) {
       this.relatedProducts = await this.fetchData(
         relatedProductsQuery,
         (result) => {
@@ -193,7 +194,7 @@ export default {
     // Preloaded images for meta, improving LCP
     // @type Array
     preloadedImages() {
-      if (!this.$config.preLoadedProductImageSizes) {
+      if (!this.$config.public.preLoadedProductImageSizes) {
         return [];
       }
       const preloadedImages = [];
@@ -201,7 +202,7 @@ export default {
         rel: 'preload',
         as: 'image',
       };
-      this.$config.preLoadedProductImageSizes.forEach((size) => {
+      this.$config.public.preLoadedProductImageSizes.forEach((size) => {
         const obj = { ...base };
         const src = this.imgSrc(size);
         if (src) {
@@ -235,11 +236,11 @@ export default {
     // @vuese
     // Image src used for meta image
     // @arg size (String)
-    imgSrc(size = this.$config.productSchemaOptions.schemaImageSize) {
+    imgSrc(size = this.$config.public.productSchemaOptions.schemaImageSize) {
       let imgSrc = false;
       if (this.product?.productImages?.length) {
         imgSrc =
-          this.$config.imageServer +
+          this.$config.public.imageServer +
           '/product/' +
           size +
           '/' +
@@ -368,7 +369,10 @@ export default {
       } else if (this.skuIsChosen && !this.chosenSkuVariant) {
         this.resetSku();
       }
-      if (this.$config.ralphLog.all || this.$config.ralphLog.warnings) {
+      if (
+        this.$config.public.ralphLog.all ||
+        this.$config.public.ralphLog.warnings
+      ) {
         if (this.product?.variantGroup === null) {
           this.$ralphLog('WARNING:', 'Product has no variantGroup');
         }

@@ -10,8 +10,8 @@
       v-if="
         filters.categories &&
         filters.categories.length &&
-        $config.showCategoryFilter &&
-        $config.showCategoryTreeViewFilter
+        $config.public.showCategoryFilter &&
+        $config.public.showCategoryTreeViewFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'categories'"
@@ -37,8 +37,8 @@
       v-if="
         filters.categories &&
         filters.categories.length &&
-        $config.showCategoryFilter &&
-        !$config.showCategoryTreeViewFilter
+        $config.public.showCategoryFilter &&
+        !$config.public.showCategoryTreeViewFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'categories'"
@@ -61,7 +61,11 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="filters.brands && filters.brands.length && $config.showBrandsFilter"
+      v-if="
+        filters.brands &&
+        filters.brands.length &&
+        $config.public.showBrandsFilter
+      "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'brands'"
     >
@@ -83,7 +87,7 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="filters.skus && filters.skus.length && $config.showSkuFilter"
+      v-if="filters.skus && filters.skus.length && $config.public.showSkuFilter"
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'skus'"
     >
@@ -105,7 +109,9 @@
       />
     </LazyCaAccordionItem>
     <LazyCaAccordionItem
-      v-if="filters.price && filters.price.length && $config.showPriceFilter"
+      v-if="
+        filters.price && filters.price.length && $config.public.showPriceFilter
+      "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'price'"
     >
@@ -155,7 +161,7 @@
       v-if="
         filters.discount &&
         filters.discount.length &&
-        $config.showDiscountFilter
+        $config.public.showDiscountFilter
       "
       class="ca-filter-panel__toggle"
       :open-on-init="contentpanel.frame === 'discount'"

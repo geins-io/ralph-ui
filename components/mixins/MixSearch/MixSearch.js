@@ -35,7 +35,9 @@ export default {
     searchUrl() {
       const index =
         this.$getPath('index') === '/' ? '' : this.$getPath('index');
-      return index + this.$config.routePaths.search + '/' + this.searchString;
+      return (
+        index + this.$config.public.routePaths.search + '/' + this.searchString
+      );
     },
     searchResultsVisible() {
       return this.$store.getters.viewport === 'phone' ? 5 : 10;

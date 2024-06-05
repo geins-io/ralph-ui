@@ -15,13 +15,13 @@
         class="ca-variant-picker-image__image"
         type="product"
         :size-array="
-          $config.imageSizes.product.filter(
+          $config.public.imageSizes.product.filter(
             (item) => parseInt(item.descriptor) <= 180,
           )
         "
         :alt="variant.alias"
         :filename="variant.primaryImage"
-        :ratio="$config.productImageRatio"
+        :ratio="$config.public.productImageRatio"
         sizes="(min-width: 768px) 90px, 60px"
       />
     </button>

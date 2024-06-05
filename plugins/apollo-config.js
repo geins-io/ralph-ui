@@ -29,9 +29,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     market = $store.value.channel.currentMarket,
     locale = i18n.localeProperties.code,
   ) => {
-    const marketPath = $config.marketInPath ? `/${market}` : '';
+    const marketPath = $config.public.marketInPath ? `/${market}` : '';
     const localePath =
-      $config.marketInPath && i18n.localePath(path, locale) === '/'
+      $config.public.marketInPath && i18n.localePath(path, locale) === '/'
         ? ''
         : i18n.localePath(path, locale);
     return marketPath + localePath;
@@ -40,7 +40,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   provide('getPath', getPath);
 
   const ralphLog = (message, ...args) => {
-    if ($config.ralphLog.onlyInClient && process.server) {
+    if ($config.public.ralphLog.onlyInClient && process.server) {
       return;
     }
     console.log(logTag, logStyle, message, ...args);
@@ -68,7 +68,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         variables,
         fetchPolicy,
       });
-      if ($config.ralphLog.all || $config.ralphLog.api) {
+      if ($config.public.ralphLog.all || $config.public.ralphLog.api) {
         ralphLog('api query', result?.data);
       }
       return callback(result);

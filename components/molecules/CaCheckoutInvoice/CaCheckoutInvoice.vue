@@ -43,7 +43,7 @@
         />
       </div>
       <div
-        v-if="!isOrganization && $config.checkout.identityNumber"
+        v-if="!isOrganization && $config.public.checkout.identityNumber"
         class="ca-checkout-invoice__row"
       >
         <CaInputText
@@ -59,7 +59,7 @@
         />
       </div>
       <div
-        v-else-if="$config.checkout.identityNumber"
+        v-else-if="$config.public.checkout.identityNumber"
         class="ca-checkout-invoice__row"
       >
         <CaInputText
@@ -156,7 +156,10 @@
           @validation="checkValid"
         />
       </div>
-      <div v-if="$config.checkout.entryCode" class="ca-checkout-invoice__row">
+      <div
+        v-if="$config.public.checkout.entryCode"
+        class="ca-checkout-invoice__row"
+      >
         <CaInputText
           id="entryCodeBilling"
           v-model="checkoutData.billingAddress.entryCode"
@@ -165,7 +168,10 @@
           :required="false"
         />
       </div>
-      <div v-if="$config.checkout.message" class="ca-checkout-invoice__row">
+      <div
+        v-if="$config.public.checkout.message"
+        class="ca-checkout-invoice__row"
+      >
         <CaInputTextarea
           id="message"
           v-model="checkoutData.message"
@@ -176,7 +182,7 @@
         />
       </div>
       <div
-        v-if="$config.checkout.shippingAddress"
+        v-if="$config.public.checkout.shippingAddress"
         class="ca-checkout-invoice__row"
       >
         <CaInputCheckbox
@@ -282,7 +288,10 @@
           @validation="checkValid"
         />
       </div>
-      <div v-if="$config.checkout.entryCode" class="ca-checkout-invoice__row">
+      <div
+        v-if="$config.public.checkout.entryCode"
+        class="ca-checkout-invoice__row"
+      >
         <CaInputText
           id="entryCodeShipping"
           v-model="checkoutData.shippingAddress.entryCode"

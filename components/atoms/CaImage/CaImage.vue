@@ -162,10 +162,10 @@ export default {
       }
       const array = this.sizeArray?.length
         ? this.sizeArray
-        : this.$config.imageSizes[this.type];
+        : this.$config.public.imageSizes[this.type];
       const srcset = array.map((item) => {
         const src =
-          this.$config.imageServer +
+          this.$config.public.imageServer +
           '/' +
           this.type +
           '/' +
@@ -207,12 +207,12 @@ export default {
 
     getSrc(qualityIndex) {
       return (
-        this.$config.imageServer +
+        this.$config.public.imageServer +
         '/' +
         this.type +
         '/' +
         (this.sizeArray?.[qualityIndex]?.folder ??
-          this.$config.imageSizes?.[this.type]?.[qualityIndex]?.folder) +
+          this.$config.public.imageSizes?.[this.type]?.[qualityIndex]?.folder) +
         '/' +
         this.encodedFilename
       );

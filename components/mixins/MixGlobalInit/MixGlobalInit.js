@@ -42,7 +42,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.$config.baseUrl + '/meta-image-fallback.jpg',
+          content: this.$config.public.baseUrl + '/meta-image-fallback.jpg',
         },
         ...i18nHead.meta,
       ],
@@ -111,7 +111,7 @@ export default {
     await this.$store.dispatch('auth/initClient');
     if (
       this.$store.getters['auth/authenticated'] &&
-      this.$config.customerTypesToggle
+      this.$config.public.customerTypesToggle
     ) {
       this.$store.dispatch(
         'changeCustomerType',
@@ -150,7 +150,10 @@ export default {
       });
     },
     beforeUnloadHandler() {
-      this.$store.dispatch('persistStates', this.$config.statesToPersist || []);
+      this.$store.dispatch(
+        'persistStates',
+        this.$config.public.statesToPersist || [],
+      );
     },
   },
 };

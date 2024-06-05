@@ -41,7 +41,7 @@ export default {
           },
           refetchQueries: true,
         });
-        if (this.$config.customerTypesToggle) {
+        if (this.$config.public.customerTypesToggle) {
           const type = await this.fetchData(getUserQuery, (result) => {
             return result?.data?.getUser?.customerType || null;
           });

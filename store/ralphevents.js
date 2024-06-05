@@ -37,7 +37,10 @@ export const actions = {
     const event = RalphEvent.createEvent(type, clonedData);
     commit('push', event);
 
-    if (this.app.$config.ralphLog.all || this.$config.ralphLog.events) {
+    if (
+      this.app.$config.public.ralphLog.all ||
+      this.$config.public.ralphLog.events
+    ) {
       // Clone event for better log output
       const logEvent = JSON.parse(JSON.stringify(event));
       // Log event to console

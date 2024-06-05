@@ -141,8 +141,8 @@ export default {
     },
     textColorHex() {
       return this.configuration.textColor === 0
-        ? this.$config.bannerWidgetPrimaryColor
-        : this.$config.bannerWidgetSecondaryColor;
+        ? this.$config.public.bannerWidgetPrimaryColor
+        : this.$config.public.bannerWidgetSecondaryColor;
     },
     textColor() {
       return this.configuration.textColor === 0

@@ -6,12 +6,13 @@
           v-if="product.productImages && product.productImages.length > 0"
           class="ca-cart-product__image"
           type="product"
-          :size-array="$config.imageSizes.product"
+          :size-array="$config.public.imageSizes.product"
           :alt="product.name"
           :filename="product.productImages[0].fileName"
-          :ratio="$config.productImageRatio"
+          :ratio="$config.public.productImageRatio"
           :sizes="
-            $config.cart.productImageSizes || '(min-width: 768px) 80px, 53px'
+            $config.public.cart.productImageSizes ||
+            '(min-width: 768px) 80px, 53px'
           "
         />
       </NuxtLink>
@@ -32,7 +33,9 @@
           name-tag="h3"
         />
         <p
-          v-if="skuValue && !$config.cart.hiddenSkuValues.includes(skuValue)"
+          v-if="
+            skuValue && !$config.public.cart.hiddenSkuValues.includes(skuValue)
+          "
           class="ca-cart-product__variant"
         >
           {{ skuValue }}

@@ -23,7 +23,7 @@
       class="ca-reviews-list__reviews"
     >
       <LazyCaStarRating
-        v-if="$config.showStarsInProductReviewForm"
+        v-if="$config.public.showStarsInProductReviewForm"
         class="ca-reviews-list__reviews-stars"
         :show-counter="false"
         :default-rate="review.rating"
@@ -138,7 +138,9 @@ export default {
     // indicates if total product review count should be displayed
     // @type Boolean
     canShowMainStarRate() {
-      return !!this.averageRating && this.$config.showStarsInProductReviewForm;
+      return (
+        !!this.averageRating && this.$config.public.showStarsInProductReviewForm
+      );
     },
   },
   mounted() {},

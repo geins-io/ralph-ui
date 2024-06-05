@@ -8,7 +8,7 @@
       class="ca-customer-type-toggle__toggles"
     >
       <CaClickable
-        v-for="(type, index) in $config.customerTypes"
+        v-for="(type, index) in $config.public.customerTypes"
         :key="index"
         class="ca-customer-type-toggle__link"
         :class="getActiveClass(type.type)"
@@ -36,7 +36,7 @@ export default {
   data: () => ({}),
   computed: {
     currentType() {
-      return this.$config.customerTypes.find(
+      return this.$config.public.customerTypes.find(
         (i) => i.type === this.$store.state.customerType,
       );
     },

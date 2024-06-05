@@ -144,19 +144,19 @@
                       class="ca-search__item-image"
                       type="product"
                       :size-array="
-                        $config.imageSizes.product.filter(
+                        $config.public.imageSizes.product.filter(
                           (item) => parseInt(item.descriptor) < 100,
                         )
                       "
                       :alt="product.name"
                       :filename="product.productImages[0].fileName"
-                      :ratio="$config.productImageRatio"
-                      :sizes="$config.searchProductsImageSizes || '35px'"
+                      :ratio="$config.public.productImageRatio"
+                      :sizes="$config.public.searchProductsImageSizes || '35px'"
                     />
                     <CaImage
                       v-else
                       class="ca-search__item-image"
-                      :ratio="$config.productImageRatio"
+                      :ratio="$config.public.productImageRatio"
                       :src="
                         require('~/assets/placeholders/product-image-square.png')
                       "

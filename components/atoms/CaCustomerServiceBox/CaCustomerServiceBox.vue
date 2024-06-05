@@ -8,18 +8,18 @@
     </p>
     <a
       class="ca-customer-service-box__contact"
-      :href="'tel:' + $config.customerServicePhone"
+      :href="'tel:' + $config.public.customerServicePhone"
     >
       <CaIconAndText icon-name="phone">
-        {{ $config.customerServicePhone }}
+        {{ $config.public.customerServicePhone }}
       </CaIconAndText>
     </a>
     <a
       class="ca-customer-service-box__contact"
-      :href="'mailto:' + $config.customerServiceEmail"
+      :href="'mailto:' + $config.public.customerServiceEmail"
     >
       <CaIconAndText icon-name="mail">
-        {{ $config.customerServiceEmail }}
+        {{ $config.public.customerServiceEmail }}
       </CaIconAndText>
     </a>
   </div>

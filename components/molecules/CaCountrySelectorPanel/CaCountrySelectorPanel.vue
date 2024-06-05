@@ -81,7 +81,7 @@ export default {
       return code;
     },
     getLink(id, alias) {
-      const market = this.$config.marketInPath ? '/' + alias : '';
+      const market = this.$config.public.marketInPath ? '/' + alias : '';
       const language = this.getCodeFromId(id);
       return `${market}/${language}`;
     },

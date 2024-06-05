@@ -77,7 +77,7 @@ export default {
             '@type': 'ListItem',
             position,
             name: this.parents[i].name,
-            item: this.$config.baseUrl + this.parents[i].canonicalUrl,
+            item: this.$config.public.baseUrl + this.parents[i].canonicalUrl,
           });
         }
       }
@@ -90,7 +90,7 @@ export default {
         name: this.current.name,
       };
       if (this.productName) {
-        current.item = this.$config.baseUrl + this.current.canonical;
+        current.item = this.$config.public.baseUrl + this.current.canonical;
       }
       jsonld.itemListElement.push(current);
 
@@ -121,7 +121,7 @@ export default {
     // Gets the stripped url to be used with NuxtLink
     // @arg url (String)
     getUrl(url) {
-      const strippedUrl = url.replace(this.$config.baseUrl, '');
+      const strippedUrl = url.replace(this.$config.public.baseUrl, '');
       return strippedUrl === '' ? this.$getPath('index') : strippedUrl;
     },
     // Sets all parents for current category, if category

@@ -93,7 +93,7 @@ export default {
         return 'STATIC';
       } else if (
         stock.inStock > 0 &&
-        stock.inStock < this.$config.productStockFewLeftLimit
+        stock.inStock < this.$config.public.productStockFewLeftLimit
       ) {
         return 'FEW_LEFT';
       } else {

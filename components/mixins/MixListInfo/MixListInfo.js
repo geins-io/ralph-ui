@@ -58,7 +58,7 @@ export default {
           property: 'og:image',
           content:
             this.listInfo?.primaryImage ||
-            this.$config.baseUrl + '/meta-image-fallback.jpg',
+            this.$config.public.baseUrl + '/meta-image-fallback.jpg',
         },
       ],
     };

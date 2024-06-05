@@ -481,13 +481,15 @@ export default {
       return this.isSearch ? this.productList.length !== 0 : true;
     },
     // @vuese
-    // Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config
+    // Default sort option, will return "RELEVANCE" if on search page, otherwise will return the `productListDefaultSort` from $config.public
     // @type String
     defaultSort() {
       if (this.customDefaultSort) {
         return this.customDefaultSort;
       }
-      return this.isSearch ? 'RELEVANCE' : this.$config.productListDefaultSort;
+      return this.isSearch
+        ? 'RELEVANCE'
+        : this.$config.public.productListDefaultSort;
     },
     ...mapState(['list']),
     ...mapGetters({

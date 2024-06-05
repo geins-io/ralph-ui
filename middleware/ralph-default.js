@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   $store.commit('setCurrentRouteName', to.name);
   $store.commit('setCurrentPath', to.path);
 
-  if ($config.marketInPath) {
+  if ($config.public.marketInPath) {
     let currentMarket = $store.state.channel.currentMarket;
     const marketInPath = to.params.market;
     const currentLanguage = i18n.localeProperties.code;
@@ -79,9 +79,12 @@ export default defineNuxtRouteMiddleware((to, from) => {
       // Change to fallback market if market in path doesn't exist
       const fallbackPath = to.path.replace(
         marketInPath,
-        $config.fallbackMarketAlias,
+        $config.public.fallbackMarketAlias,
       );
-      $store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
+      $store.dispatch(
+        'channel/setCurrentMarket',
+        $config.public.fallbackMarketAlias,
+      );
 
       return redirectToPath(fallbackPath);
     }
@@ -115,7 +118,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     checkIfLanguageAllowed(currentMarket);
   }
 
-  const fullUrl = $config.baseUrl + to.fullPath;
+  const fullUrl = $config.public.baseUrl + to.fullPath;
   if (!isSamePath) {
     // Dispatch page impression event
     const { name, meta, path, hash, query, params, fullPath } = to;

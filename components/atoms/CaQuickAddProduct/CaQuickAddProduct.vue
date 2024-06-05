@@ -14,13 +14,13 @@
             class="ca-quick-add-product__image"
             type="product"
             :size-array="
-              $config.imageSizes.product.filter(
+              $config.public.imageSizes.product.filter(
                 (item) => parseInt(item.descriptor) <= 180,
               )
             "
             :alt="product.name"
             :filename="product.productImages[0].fileName"
-            :ratio="$config.productImageRatio"
+            :ratio="$config.public.productImageRatio"
             sizes="(min-width: 768px) 90px, 60px"
           />
         </NuxtLink>

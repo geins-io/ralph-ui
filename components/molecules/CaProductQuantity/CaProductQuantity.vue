@@ -73,7 +73,7 @@ export default {
       // `default`, `round`, `stacked`
       type: String,
       default() {
-        return this.$config?.cart?.quantityChangerType || 'default';
+        return this.$config.public?.cart?.quantityChangerType || 'default';
       },
       validate(value) {
         return ['default', 'round', 'stacked'].includes(value);

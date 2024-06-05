@@ -78,7 +78,7 @@ export default {
     },
     slidesToScroll() {
       const scrollSize =
-        this.$config.productListScrollSize[this.$store.getters.viewport];
+        this.$config.public.productListScrollSize[this.$store.getters.viewport];
       if (isFinite(scrollSize)) {
         return scrollSize;
       }

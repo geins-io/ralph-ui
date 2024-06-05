@@ -16,7 +16,7 @@
       :page-size="take"
       :arrows="configuration.displayNavigationArrows"
       :dots="configuration.displayNavigationLinks"
-      :arrow-icon-name="$config.productListWidgetArrowIconName"
+      :arrow-icon-name="$config.public.productListWidgetArrowIconName"
     />
     <LazyCaListPagination
       v-if="
@@ -124,8 +124,8 @@ export default {
     // @type Number
     take() {
       return this.configuration.limitNrOfRows
-        ? this.configuration.pageCount * this.$config.productListRowSize
-        : this.$config.productListPageSize;
+        ? this.configuration.pageCount * this.$config.public.productListRowSize
+        : this.$config.public.productListPageSize;
     },
     // @vuese
     // Returns the variable object for loading more products

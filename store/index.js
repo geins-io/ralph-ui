@@ -240,7 +240,7 @@ export const actions = {
   },
   nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
     commit('setHostName', req.headers.host);
-    commit('setConfig', this.$config);
+    commit('setConfig', this.$config.public);
     commit('setCurrentRouteName', route.name);
 
     dispatch('list/saveQuerySelection', {
@@ -262,11 +262,12 @@ export const actions = {
 
     // Set current market from cookie if exists, otherwise fallback market
     const currentMarket =
-      parsed['ralph-selected-market'] ?? this.$config.fallbackMarketAlias;
+      parsed['ralph-selected-market'] ??
+      this.$config.public.fallbackMarketAlias;
     const checkoutMarket = parsed['ralph-checkout-market'] ?? currentMarket;
 
     // Set fallback markets for first routing (before API call is done)
-    // commit('channel/setMarkets', this.$config.fallbackMarkets || []);
+    // commit('channel/setMarkets', this.$config.public.fallbackMarkets || []);
     // Get markets from API
     // dispatch('channel/getMarkets');
     // Set current market

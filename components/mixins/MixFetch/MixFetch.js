@@ -57,7 +57,10 @@ export default {
               this.logErrors(result.errors);
               return callbackError(result.errors);
             }
-            if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
+            if (
+              this.$config.public.ralphLog.all ||
+              this.$config.public.ralphLog.api
+            ) {
               this.$ralphLog('api query', result?.data);
             }
             return callback(result);
@@ -89,7 +92,10 @@ export default {
               this.logErrors(result.errors);
               return callbackError(result.errors);
             }
-            if (this.$config.ralphLog.all || this.$config.ralphLog.api) {
+            if (
+              this.$config.public.ralphLog.all ||
+              this.$config.public.ralphLog.api
+            ) {
               this.$ralphLog('api mutation', result?.data);
             }
             return callback(result);

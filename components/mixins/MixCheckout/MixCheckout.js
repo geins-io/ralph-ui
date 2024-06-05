@@ -18,7 +18,7 @@ import MixFetch from 'MixFetch';
 // externalShippingId: `''`,
 // nshiftValid: `false`
 // nshiftDataSet: `false`
-// paymentId: `vm.$config.defaultPaymentId`
+// paymentId: `vm.$config.public.defaultPaymentId`
 // updateDelay: 150`
 // updateTimeout: `null`
 // activeElement: `null`
@@ -39,8 +39,8 @@ export default {
     externalShippingId: '',
     nshiftValid: false,
     nshiftDataSet: false,
-    paymentId: vm.$config.checkout.defaultPaymentId,
-    shippingId: vm.$config.checkout.defaultShippingId,
+    paymentId: vm.$config.public.checkout.defaultPaymentId,
+    shippingId: vm.$config.public.checkout.defaultShippingId,
     updateDelay: 150,
     updateTimeout: null,
     activeElement: null,
@@ -62,7 +62,7 @@ export default {
     checkoutInput() {
       const obj = {};
 
-      if (this.$config.customerTypesToggle) {
+      if (this.$config.public.customerTypesToggle) {
         obj.customerType = this.$store.state.customerType;
       }
       if (this.paymentId) {
@@ -206,7 +206,7 @@ export default {
       }
     },
     customerType(newVal, oldVal) {
-      if (newVal !== oldVal && this.$config.customerTypesToggle) {
+      if (newVal !== oldVal && this.$config.public.customerTypesToggle) {
         this.shippingLoading = true;
         this.cartLoading = true;
         this.checkoutLoading = true;
@@ -263,7 +263,10 @@ export default {
           this.cartLoading = false;
           return;
         }
-        if (this.$config.ralphLog.all || this.$config.ralphLog.checkout) {
+        if (
+          this.$config.public.ralphLog.all ||
+          this.$config.public.ralphLog.checkout
+        ) {
           this.$ralphLog('checkout:', reason.toUpperCase());
         }
         this.updateDelay = 150;
@@ -337,10 +340,10 @@ export default {
     updateCheckoutData(data) {
       this.checkout.billingAddress = data.billingAddress;
       this.checkout.email = data.email;
-      if (this.$config.checkout.identityNumber) {
+      if (this.$config.public.checkout.identityNumber) {
         this.checkout.identityNumber = data.identityNumber;
       }
-      if (this.$config.checkout.message) {
+      if (this.$config.public.checkout.message) {
         this.message = data.message;
       }
       this.checkout.shippingAddress = data.addShippingAddress

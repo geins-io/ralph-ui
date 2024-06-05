@@ -340,7 +340,7 @@ export default {
           this.$store.dispatch('events/push', {
             type: 'user:login',
           });
-          if (this.$config.customerTypesToggle) {
+          if (this.$config.public.customerTypesToggle) {
             const type = await this.fetchData(getUserQuery, (result) => {
               return result?.data?.getUser?.customerType;
             });
@@ -384,7 +384,7 @@ export default {
             });
             this.closePanelAfterDelay('account-settings');
             this.showFeedback(this.feedback.accountCreated);
-            if (this.$config.customerTypesToggle) {
+            if (this.$config.public.customerTypesToggle) {
               this.$store.dispatch(
                 'setCustomerTypeCookie',
                 this.$store.state.customerType,

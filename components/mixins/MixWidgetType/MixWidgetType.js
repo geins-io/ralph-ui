@@ -10,10 +10,10 @@ export default {
     currentWidget() {
       // First check if the widget type is defined in the config
       if (
-        this.$config.widgetRenderTypesComponents &&
-        this.$config.widgetRenderTypesComponents[this.type]
+        this.$config.public.widgetRenderTypesComponents &&
+        this.$config.public.widgetRenderTypesComponents[this.type]
       ) {
-        return this.$config.widgetRenderTypesComponents[this.type];
+        return this.$config.public.widgetRenderTypesComponents[this.type];
       } else if (this.type === 'Image') {
         return 'CaWidgetImage';
       } else if (this.type === 'Text') {
