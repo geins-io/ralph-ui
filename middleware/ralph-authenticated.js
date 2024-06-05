@@ -1,7 +1,11 @@
-export default function ({ store, redirect, route, app }) {
-  if (!store.getters['auth/authenticated']) {
-    if (!route.query.loginToken) {
-      return redirect(app.$getPath('index'));
+import { useNuxtApp, defineNuxtRouteMiddleware } from '#app';
+
+export default defineNuxtRouteMiddleware((to, from) => {
+  const { $store, $getPath } = useNuxtApp();
+  if (!$store.getters['auth/authenticated']) {
+    if (!to.query.loginToken) {
+      // eslint-disable-next-line no-undef
+      return navigateTo($getPath('index'));
     }
   }
-}
+});

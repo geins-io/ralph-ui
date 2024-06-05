@@ -1,98 +1,93 @@
-import Vue from 'vue';
-const ralphBus = new Vue();
+import { reactive, readonly } from 'vue';
+import {
+  defineNuxtPlugin,
+  useNuxtApp,
+  useRuntimeConfig,
+  useI18n,
+  useError,
+  useRouter,
+} from '#app';
+
 const logTag = '%cRALPH';
 const logStyle =
   'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
 
-export default ({ $config, store, app, i18n, error, redirect }, inject) => {
-  inject('ralphBus', ralphBus);
+export default defineNuxtPlugin((nuxtApp) => {
+  const { provide, vueApp } = nuxtApp;
+  const { $config } = useRuntimeConfig();
+  const { $store } = useNuxtApp();
+  const i18n = useI18n();
+  const error = useError();
+  const router = useRouter();
+
+  // Create reactive event bus using Vue's reactivity system
+  const ralphBus = reactive({});
+  provide('ralphBus', readonly(ralphBus));
 
   const getPath = (
     path,
-    market = store.state.channel.currentMarket,
+    market = $store.value.channel.currentMarket,
     locale = i18n.localeProperties.code,
   ) => {
     const marketPath = $config.marketInPath ? `/${market}` : '';
     const localePath =
-      $config.marketInPath && app.localePath(path, locale) === '/'
+      $config.marketInPath && i18n.localePath(path, locale) === '/'
         ? ''
-        : app.localePath(path, locale);
-    const newPath = marketPath + localePath;
-    return newPath;
+        : i18n.localePath(path, locale);
+    return marketPath + localePath;
   };
 
-  inject('getPath', getPath);
+  provide('getPath', getPath);
 
   const ralphLog = (message, ...args) => {
     if ($config.ralphLog.onlyInClient && process.server) {
       return;
     }
-    if (args) {
-      // eslint-disable-next-line no-console
-      console.log(logTag, logStyle, message, ...args);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log(logTag, logStyle, message);
-    }
+    console.log(logTag, logStyle, message, ...args);
   };
 
-  inject('ralphLog', ralphLog);
+  provide('ralphLog', ralphLog);
 
   const ralphLogError = (message, ...args) => {
-    if (args) {
-      // eslint-disable-next-line no-console
-      console.error(logTag, logStyle, message, ...args);
-    } else {
-      // eslint-disable-next-line no-console
-      console.error(logTag, logStyle, message);
-    }
+    console.error(logTag, logStyle, message, ...args);
   };
 
-  inject('ralphLogError', ralphLogError);
+  provide('ralphLogError', ralphLogError);
 
-  // Global function to fetch data from the API. Made to be used from asyncData or in the store. For use in components, use the MixFetch mixin
   const fetchData = async (
     query,
     callback,
     variables = {},
     fetchPolicy = 'cache-first',
   ) => {
-    const client = app.apolloProvider.defaultClient;
-    return await client
-      .query({
+    const apolloClient =
+      vueApp.config.globalProperties.$apolloProvider.defaultClient;
+    try {
+      const result = await apolloClient.query({
         query,
         variables,
         fetchPolicy,
-      })
-      .then((result) => {
-        if ($config.ralphLog.all || $config.ralphLog.api) {
-          ralphLog('api query', result?.data);
-        }
-        return callback(result);
-      })
-      .catch((err) => {
-        error({ statusCode: err.statusCode, message: err });
       });
+      if ($config.ralphLog.all || $config.ralphLog.api) {
+        ralphLog('api query', result?.data);
+      }
+      return callback(result);
+    } catch (err) {
+      error({ statusCode: err.statusCode, message: err });
+    }
   };
 
-  inject('fetchData', fetchData);
+  provide('fetchData', fetchData);
 
   const error404 = (path) => {
-    error({
-      statusCode: 404,
-      message: 'Page not found',
-      url: path,
-    });
+    error({ statusCode: 404, message: 'Page not found', url: path });
   };
 
-  inject('error404', error404);
+  provide('error404', error404);
 
   const redirectToCanonical = (canonicalUrl, query) => {
-    redirect({
-      path: canonicalUrl,
-      query,
-    });
+    router.replace({ path: canonicalUrl, query });
   };
 
-  inject('redirectToCanonical', redirectToCanonical);
-};
+  provide('redirectToCanonical', redirectToCanonical);
+});

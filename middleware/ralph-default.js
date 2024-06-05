@@ -1,26 +1,37 @@
-export default ({ redirect, route, $config, app, store, i18n }) => {
-  const isSamePath = store.state.currentPath === route.path;
+import {
+  useNuxtApp,
+  defineNuxtRouteMiddleware,
+  useRuntimeConfig,
+  useI18n,
+} from '#app';
 
-  store.commit('setCurrentRouteName', route.name);
-  store.commit('setCurrentPath', route.path);
+export default defineNuxtRouteMiddleware((to, from) => {
+  const { $config } = useRuntimeConfig();
+  const { $store, $ralphBus } = useNuxtApp();
+  const i18n = useI18n();
+  const isSamePath = $store.state.currentPath === to.path;
+
+  $store.commit('setCurrentRouteName', to.name);
+  $store.commit('setCurrentPath', to.path);
 
   if ($config.marketInPath) {
-    let currentMarket = store.state.channel.currentMarket;
-    const marketInPath = route.params.market;
+    let currentMarket = $store.state.channel.currentMarket;
+    const marketInPath = to.params.market;
     const currentLanguage = i18n.localeProperties.code;
-    const query = Object.keys(route.query).length
-      ? '?' + route.fullPath.split('?')[1]
+    const query = Object.keys(to.query).length
+      ? '?' + to.fullPath.split('?')[1]
       : '';
-    const hash = route.hash ? '#' + route.hash : '';
+    const hash = to.hash ? '#' + to.hash : '';
 
     const redirectToPath = (path) => {
       const redirectPath = path + query.replace(hash, '') + hash;
-      return redirect(redirectPath);
+      // eslint-disable-next-line no-undef
+      return navigateTo(redirectPath);
     };
 
     // Function to check if language is allowed for a market and redirect otherwise
     const checkIfLanguageAllowed = (market) => {
-      const marketObj = store.state.channel.markets.find(
+      const marketObj = $store.state.channel.markets.find(
         (m) => m.alias === market,
       );
 
@@ -41,10 +52,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
         allowedLanguages.length &&
         !allowedLanguages.includes(currentLanguage)
       ) {
-        const fallbackPath = route.path.replace(
-          currentLanguage,
-          defaultLanguage,
-        );
+        const fallbackPath = to.path.replace(currentLanguage, defaultLanguage);
         return redirectToPath(fallbackPath);
       }
     };
@@ -52,14 +60,14 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     // If market in path is different from current market, set current market to match
     // If market in path is not in markets, redirect to fallback market
     if (marketInPath && marketInPath !== currentMarket) {
-      const marketAliases = store.state.channel.markets.map(
+      const marketAliases = $store.state.channel.markets.map(
         ({ alias }) => alias,
       );
 
       // If market exists
       if (marketAliases.includes(marketInPath)) {
-        store.dispatch('channel/setCurrentMarket', marketInPath);
-        currentMarket = store.state.channel.currentMarket;
+        $store.dispatch('channel/setCurrentMarket', marketInPath);
+        currentMarket = $store.state.channel.currentMarket;
 
         // Check if current language is allowed on this market and redirect otherwise
         checkIfLanguageAllowed(currentMarket);
@@ -69,49 +77,49 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
       }
 
       // Change to fallback market if market in path doesn't exist
-      const fallbackPath = route.path.replace(
+      const fallbackPath = to.path.replace(
         marketInPath,
         $config.fallbackMarketAlias,
       );
-      store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
+      $store.dispatch('channel/setCurrentMarket', $config.fallbackMarketAlias);
 
       return redirectToPath(fallbackPath);
     }
 
     // If i18n redirects wrong, redirect to correct path
-    if (route.path === '/' + currentLanguage + '/' + currentMarket) {
+    if (to.path === '/' + currentLanguage + '/' + currentMarket) {
       return redirectToPath('/' + currentMarket + '/' + currentLanguage);
     }
 
     // If no route matching, strip path from market, rebuild it and redirect
-    if (!route.name) {
-      const splitPath = route.path.split('/');
+    if (!to.name) {
+      const splitPath = to.path.split('/');
       if (splitPath[1] === currentMarket && splitPath[2] === currentLanguage) {
         return;
       }
 
-      const strippedPath = route.path
+      const strippedPath = to.path
         .replace('/' + currentMarket, '')
         .replace('/' + currentLanguage, '');
       return redirectToPath(
-        '/' + currentMarket + app.localePath('index') + strippedPath,
+        '/' + currentMarket + i18n.localePath('index') + strippedPath,
       );
     }
 
     // If market is not in path, redirect to url with market in path
     if (!marketInPath) {
-      return redirectToPath('/' + currentMarket + route.path);
+      return redirectToPath('/' + currentMarket + to.path);
     }
 
     // Check if current language is allowed on this market and redirect otherwise
     checkIfLanguageAllowed(currentMarket);
   }
 
-  const fullUrl = $config.baseUrl + route.fullPath;
+  const fullUrl = $config.baseUrl + to.fullPath;
   if (!isSamePath) {
     // Dispatch page impression event
-    const { name, meta, path, hash, query, params, fullPath } = route;
-    store.dispatch('events/push', {
+    const { name, meta, path, hash, query, params, fullPath } = to;
+    $store.dispatch('events/push', {
       type: 'page:impression',
       data: {
         route: { name, meta, path, hash, query, params, fullPath },
@@ -121,9 +129,9 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     });
 
     // Start global loading state
-    store.dispatch('loading/start');
+    $store.dispatch('loading/start');
 
     // Emit route change event on $ralphBus
-    app.$ralphBus.$emit('route-change');
+    $ralphBus.$emit('route-change');
   }
-};
+});

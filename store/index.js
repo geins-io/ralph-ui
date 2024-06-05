@@ -239,9 +239,6 @@ export const actions = {
     });
   },
   nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
-    this.$appInsights?.trackTrace({
-      message: 'nuxtServerInit',
-    });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     commit('setCurrentRouteName', route.name);
@@ -269,9 +266,9 @@ export const actions = {
     const checkoutMarket = parsed['ralph-checkout-market'] ?? currentMarket;
 
     // Set fallback markets for first routing (before API call is done)
-    commit('channel/setMarkets', this.$config.fallbackMarkets);
+    // commit('channel/setMarkets', this.$config.fallbackMarkets || []);
     // Get markets from API
-    dispatch('channel/getMarkets');
+    // dispatch('channel/getMarkets');
     // Set current market
     commit('channel/setCurrentMarket', currentMarket);
     commit('channel/setCheckoutMarket', checkoutMarket);

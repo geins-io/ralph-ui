@@ -1,6 +1,11 @@
-export default ({ store, $config }) => {
-  const channelId = store.state.channel.id;
-  const currentChannelSettings = $config.channelSettings.find(
+import { useNuxtApp, defineNuxtPlugin } from '#app';
+
+export default defineNuxtPlugin(({ useRuntimeConfig }) => {
+  const { $store } = useNuxtApp();
+  const { channelSettings } = useRuntimeConfig();
+
+  const channelId = $store.channel.id;
+  const currentChannelSettings = channelSettings.find(
     (i) => i.channelId === channelId,
   );
   const currentTheme = currentChannelSettings?.theme || null;
@@ -15,4 +20,4 @@ export default ({ store, $config }) => {
       currentTheme[setting],
     );
   });
-};
+});

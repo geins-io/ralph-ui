@@ -1,56 +1,93 @@
-import { HttpLink } from 'apollo-link-http';
-import fetch from 'cross-fetch';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, concat } from 'apollo-link';
+import { reactive, readonly } from 'vue';
+import {
+  defineNuxtPlugin,
+  useNuxtApp,
+  useRuntimeConfig,
+  useI18n,
+  useError,
+  useRouter,
+} from '#app';
 
-export default (ctx) => {
-  const httpLink = new HttpLink({
-    uri: ctx.$config.apiEndpoint,
-    headers: {
-      'X-ApiKey': ctx.$config.apiKey,
-    },
-    fetch,
-  });
+const logTag = '%cRALPH';
+const logStyle =
+  'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
 
-  const authMiddleware = new ApolloLink((operation, forward) => {
-    if (ctx.$cookies.get('ralph-auth')) {
-      operation.setContext(({ headers }) => {
-        return {
-          headers: {
-            ...headers,
-            Authorization: `Bearer ${ctx.$cookies.get('ralph-auth')}`,
-          },
-        };
-      });
-    }
+export default defineNuxtPlugin((nuxtApp) => {
+  const { provide, vueApp } = nuxtApp;
+  const { $config } = useRuntimeConfig();
+  const { $store } = useNuxtApp();
+  const i18n = useI18n();
+  const error = useError();
+  const router = useRouter();
 
-    if (ctx.store.state.channel.id) {
-      operation.variables = {
-        ...operation.variables,
-        channelId: ctx.store.state.channel.id,
-      };
-    }
-    if (ctx.store.state.channel.currentMarket) {
-      operation.variables = {
-        ...operation.variables,
-        marketId: ctx.store.state.channel.currentMarket,
-      };
-    }
-    if (ctx.i18n.localeProperties.iso) {
-      operation.variables = {
-        ...operation.variables,
-        languageId: ctx.i18n.localeProperties.iso,
-      };
-    }
+  // Create reactive event bus using Vue's reactivity system
+  const ralphBus = reactive({});
+  provide('ralphBus', readonly(ralphBus));
 
-    return forward(operation);
-  });
-
-  const cache = new InMemoryCache();
-
-  return {
-    link: concat(authMiddleware, httpLink),
-    cache,
-    defaultHttpLink: false,
+  const getPath = (
+    path,
+    market = $store.value.channel.currentMarket,
+    locale = i18n.localeProperties.code,
+  ) => {
+    const marketPath = $config.marketInPath ? `/${market}` : '';
+    const localePath =
+      $config.marketInPath && i18n.localePath(path, locale) === '/'
+        ? ''
+        : i18n.localePath(path, locale);
+    return marketPath + localePath;
   };
-};
+
+  provide('getPath', getPath);
+
+  const ralphLog = (message, ...args) => {
+    if ($config.ralphLog.onlyInClient && process.server) {
+      return;
+    }
+    console.log(logTag, logStyle, message, ...args);
+  };
+
+  provide('ralphLog', ralphLog);
+
+  const ralphLogError = (message, ...args) => {
+    console.error(logTag, logStyle, message, ...args);
+  };
+
+  provide('ralphLogError', ralphLogError);
+
+  const fetchData = async (
+    query,
+    callback,
+    variables = {},
+    fetchPolicy = 'cache-first',
+  ) => {
+    const apolloClient =
+      vueApp.config.globalProperties.$apolloProvider.defaultClient;
+    try {
+      const result = await apolloClient.query({
+        query,
+        variables,
+        fetchPolicy,
+      });
+      if ($config.ralphLog.all || $config.ralphLog.api) {
+        ralphLog('api query', result?.data);
+      }
+      return callback(result);
+    } catch (err) {
+      error({ statusCode: err.statusCode, message: err });
+    }
+  };
+
+  provide('fetchData', fetchData);
+
+  const error404 = (path) => {
+    error({ statusCode: 404, message: 'Page not found', url: path });
+  };
+
+  provide('error404', error404);
+
+  const redirectToCanonical = (canonicalUrl, query) => {
+    router.replace({ path: canonicalUrl, query });
+  };
+
+  provide('redirectToCanonical', redirectToCanonical);
+});
