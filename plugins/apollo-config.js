@@ -1,93 +1,77 @@
-import { reactive, readonly } from 'vue';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 import {
-  defineNuxtPlugin,
-  useNuxtApp,
-  useRuntimeConfig,
-  useI18n,
-  useError,
-  useRouter,
-} from '#app';
-
-const logTag = '%cRALPH';
-const logStyle =
-  'background-color: #e8452c; color: #FFFFFF; padding: 2px 5px; border-radius: 5px; font-weight: bold;';
+  DefaultApolloClient,
+  ApolloLink,
+  onError,
+  from,
+} from '@vue/apollo-composable';
+import { defineNuxtPlugin } from '#app';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { provide, vueApp } = nuxtApp;
-  const { $config } = useRuntimeConfig();
-  const { $store } = useNuxtApp();
-  const i18n = useI18n();
-  const error = useError();
-  const router = useRouter();
+  const httpLink = new HttpLink({
+    uri: nuxtApp.$config.apiEndpoint,
+    headers: {
+      'X-ApiKey': nuxtApp.$config.apiKey,
+    },
+    fetch,
+  });
 
-  // Create reactive event bus using Vue's reactivity system
-  const ralphBus = reactive({});
-  provide('ralphBus', readonly(ralphBus));
-
-  const getPath = (
-    path,
-    market = $store.value.channel.currentMarket,
-    locale = i18n.localeProperties.code,
-  ) => {
-    const marketPath = $config.public.marketInPath ? `/${market}` : '';
-    const localePath =
-      $config.public.marketInPath && i18n.localePath(path, locale) === '/'
-        ? ''
-        : i18n.localePath(path, locale);
-    return marketPath + localePath;
-  };
-
-  provide('getPath', getPath);
-
-  const ralphLog = (message, ...args) => {
-    if ($config.public.ralphLog.onlyInClient && process.server) {
-      return;
-    }
-    console.log(logTag, logStyle, message, ...args);
-  };
-
-  provide('ralphLog', ralphLog);
-
-  const ralphLogError = (message, ...args) => {
-    console.error(logTag, logStyle, message, ...args);
-  };
-
-  provide('ralphLogError', ralphLogError);
-
-  const fetchData = async (
-    query,
-    callback,
-    variables = {},
-    fetchPolicy = 'cache-first',
-  ) => {
-    const apolloClient =
-      vueApp.config.globalProperties.$apolloProvider.defaultClient;
-    try {
-      const result = await apolloClient.query({
-        query,
-        variables,
-        fetchPolicy,
+  const authMiddleware = new ApolloLink((operation, forward) => {
+    if (nuxtApp.$cookies.get('ralph-auth')) {
+      operation.setContext(({ headers }) => {
+        return {
+          headers: {
+            ...headers,
+            Authorization: `Bearer ${nuxtApp.$cookies.get('ralph-auth')}`,
+          },
+        };
       });
-      if ($config.public.ralphLog.all || $config.public.ralphLog.api) {
-        ralphLog('api query', result?.data);
-      }
-      return callback(result);
-    } catch (err) {
-      error({ statusCode: err.statusCode, message: err });
     }
-  };
 
-  provide('fetchData', fetchData);
+    if (nuxtApp.store.state.channel.id) {
+      operation.variables = {
+        ...operation.variables,
+        channelId: nuxtApp.store.state.channel.id,
+      };
+    }
+    if (nuxtApp.store.state.channel.currentMarket) {
+      operation.variables = {
+        ...operation.variables,
+        marketId: nuxtApp.store.state.channel.currentMarket,
+      };
+    }
+    if (nuxtApp.i18n.localeProperties.iso) {
+      operation.variables = {
+        ...operation.variables,
+        languageId: nuxtApp.i18n.localeProperties.iso,
+      };
+    }
 
-  const error404 = (path) => {
-    error({ statusCode: 404, message: 'Page not found', url: path });
-  };
+    return forward(operation);
+  });
 
-  provide('error404', error404);
+  const cache = new InMemoryCache();
 
-  const redirectToCanonical = (canonicalUrl, query) => {
-    router.replace({ path: canonicalUrl, query });
-  };
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        nuxtApp.$ralphLogError(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        );
+      });
+    }
+    if (networkError) {
+      nuxtApp.$ralphLogError(`[Network error]: ${networkError}`);
+    }
+  });
 
-  provide('redirectToCanonical', redirectToCanonical);
+  const link = from([authMiddleware, errorLink, httpLink]);
+
+  const apolloClient = new ApolloClient({
+    cache,
+    link,
+    defaultHttpLink: false,
+  });
+
+  nuxtApp.vueApp.provide(DefaultApolloClient, apolloClient);
 });

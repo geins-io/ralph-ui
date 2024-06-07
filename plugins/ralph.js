@@ -3,7 +3,6 @@ import {
   defineNuxtPlugin,
   useNuxtApp,
   useRuntimeConfig,
-  useI18n,
   useError,
   useRouter,
 } from '#app';
@@ -15,8 +14,7 @@ const logStyle =
 export default defineNuxtPlugin((nuxtApp) => {
   const { provide, vueApp } = nuxtApp;
   const { $config } = useRuntimeConfig();
-  const { $store } = useNuxtApp();
-  const i18n = useI18n();
+  const { $store, $i18n } = useNuxtApp();
   const error = useError();
   const router = useRouter();
 
@@ -27,13 +25,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   const getPath = (
     path,
     market = $store.value.channel.currentMarket,
-    locale = i18n.localeProperties.code,
+    locale = $i18n.localeProperties.code,
   ) => {
     const marketPath = $config.public.marketInPath ? `/${market}` : '';
     const localePath =
-      $config.public.marketInPath && i18n.localePath(path, locale) === '/'
+      $config.public.marketInPath && $i18n.localePath(path, locale) === '/'
         ? ''
-        : i18n.localePath(path, locale);
+        : $i18n.localePath(path, locale);
     return marketPath + localePath;
   };
 

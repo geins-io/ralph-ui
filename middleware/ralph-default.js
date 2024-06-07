@@ -1,14 +1,8 @@
-import {
-  useNuxtApp,
-  defineNuxtRouteMiddleware,
-  useRuntimeConfig,
-  useI18n,
-} from '#app';
+import { useNuxtApp, defineNuxtRouteMiddleware, useRuntimeConfig } from '#app';
 
 export default defineNuxtRouteMiddleware((to, from) => {
   const { $config } = useRuntimeConfig();
-  const { $store, $ralphBus } = useNuxtApp();
-  const i18n = useI18n();
+  const { $store, $ralphBus, $i18n } = useNuxtApp();
   const isSamePath = $store.state.currentPath === to.path;
 
   $store.commit('setCurrentRouteName', to.name);
@@ -17,7 +11,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if ($config.public.marketInPath) {
     let currentMarket = $store.state.channel.currentMarket;
     const marketInPath = to.params.market;
-    const currentLanguage = i18n.localeProperties.code;
+    const currentLanguage = $i18n.localeProperties.code;
     const query = Object.keys(to.query).length
       ? '?' + to.fullPath.split('?')[1]
       : '';
@@ -105,7 +99,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
         .replace('/' + currentMarket, '')
         .replace('/' + currentLanguage, '');
       return redirectToPath(
-        '/' + currentMarket + i18n.localePath('index') + strippedPath,
+        '/' + currentMarket + $i18n.localePath('index') + strippedPath,
       );
     }
 
