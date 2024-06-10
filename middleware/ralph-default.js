@@ -1,17 +1,19 @@
 import { useNuxtApp, defineNuxtRouteMiddleware, useRuntimeConfig } from '#app';
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  const { $config } = useRuntimeConfig();
-  const { $store, $ralphBus, $i18n } = useNuxtApp();
-  const isSamePath = $store.state.currentPath === to.path;
+  const $config = useRuntimeConfig();
+  const { nuxt2Context, $nuxt } = useNuxtApp();
+  const { store, i18n, localePath } = nuxt2Context.app;
+  const isSamePath = store.state.currentPath === to.path;
+  console.log('🚀 ~ defineNuxtRouteMiddleware ~ to:', to);
 
-  $store.commit('setCurrentRouteName', to.name);
-  $store.commit('setCurrentPath', to.path);
+  store.commit('setCurrentRouteName', to.name);
+  store.commit('setCurrentPath', to.path);
 
   if ($config.public.marketInPath) {
-    let currentMarket = $store.state.channel.currentMarket;
+    let currentMarket = store.state.channel.currentMarket;
     const marketInPath = to.params.market;
-    const currentLanguage = $i18n.localeProperties.code;
+    const currentLanguage = i18n?.localeProperties?.code;
     const query = Object.keys(to.query).length
       ? '?' + to.fullPath.split('?')[1]
       : '';
@@ -25,7 +27,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     // Function to check if language is allowed for a market and redirect otherwise
     const checkIfLanguageAllowed = (market) => {
-      const marketObj = $store.state.channel.markets.find(
+      const marketObj = store.state.channel?.markets?.find(
         (m) => m.alias === market,
       );
 
@@ -54,14 +56,14 @@ export default defineNuxtRouteMiddleware((to, from) => {
     // If market in path is different from current market, set current market to match
     // If market in path is not in markets, redirect to fallback market
     if (marketInPath && marketInPath !== currentMarket) {
-      const marketAliases = $store.state.channel.markets.map(
+      const marketAliases = store.state.channel.markets.map(
         ({ alias }) => alias,
       );
 
       // If market exists
       if (marketAliases.includes(marketInPath)) {
-        $store.dispatch('channel/setCurrentMarket', marketInPath);
-        currentMarket = $store.state.channel.currentMarket;
+        store.dispatch('channel/setCurrentMarket', marketInPath);
+        currentMarket = store.state.channel.currentMarket;
 
         // Check if current language is allowed on this market and redirect otherwise
         checkIfLanguageAllowed(currentMarket);
@@ -75,7 +77,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
         marketInPath,
         $config.public.fallbackMarketAlias,
       );
-      $store.dispatch(
+      store.dispatch(
         'channel/setCurrentMarket',
         $config.public.fallbackMarketAlias,
       );
@@ -99,7 +101,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
         .replace('/' + currentMarket, '')
         .replace('/' + currentLanguage, '');
       return redirectToPath(
-        '/' + currentMarket + $i18n.localePath('index') + strippedPath,
+        '/' + currentMarket + localePath('index') + strippedPath,
       );
     }
 
@@ -116,7 +118,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (!isSamePath) {
     // Dispatch page impression event
     const { name, meta, path, hash, query, params, fullPath } = to;
-    $store.dispatch('events/push', {
+    store.dispatch('events/push', {
       type: 'page:impression',
       data: {
         route: { name, meta, path, hash, query, params, fullPath },
@@ -126,9 +128,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
     });
 
     // Start global loading state
-    $store.dispatch('loading/start');
+    store.dispatch('loading/start');
 
-    // Emit route change event on $ralphBus
-    $ralphBus.$emit('route-change');
+    // Emit route change event on $nuxt
+    $nuxt.$emit('route-change');
   }
 });

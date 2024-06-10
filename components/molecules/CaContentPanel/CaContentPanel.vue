@@ -147,14 +147,14 @@ export default {
       }
     },
     activateEventbusListeners() {
-      this.$ralphBus.$on('close-content-panel', () => {
+      this.$nuxt.$on('close-content-panel', () => {
         this.close();
       });
-      this.$ralphBus.$on('route-change', this.close);
+      this.$nuxt.$on('route-change', this.close);
     },
     deactivateEventbusListeners() {
-      this.$ralphBus.$off('route-change');
-      this.$ralphBus.$off('close-content-panel');
+      this.$nuxt.$off('route-change');
+      this.$nuxt.$off('close-content-panel');
     },
   },
 };

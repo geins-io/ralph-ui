@@ -92,12 +92,12 @@ export default {
     this.$nextTick(() => {
       this.selectChildren(this.value, false);
     });
-    this.$ralphBus.$on('close-content-panel', () => {
+    this.$nuxt.$on('close-content-panel', () => {
       this.close();
     });
   },
   beforeDestroy() {
-    this.$ralphBus.$off('close-content-panel');
+    this.$nuxt.$off('close-content-panel');
   },
   methods: {
     // @vuese

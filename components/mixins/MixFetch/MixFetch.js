@@ -27,12 +27,12 @@ export default {
     },
   },
   mounted() {
-    this.$ralphBus.$on('refetch-queries', () => {
+    this.$nuxt.$on('refetch-queries', () => {
       this.refetch();
     });
   },
   beforeDestroy() {
-    this.$ralphBus.$off('refetch-queries');
+    this.$nuxt.$off('refetch-queries');
   },
   methods: {
     // @vuese

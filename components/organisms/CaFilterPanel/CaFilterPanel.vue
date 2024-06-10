@@ -269,7 +269,7 @@ export default {
       this.$emit('reset');
     },
     closeContentPanel() {
-      this.$ralphBus.$emit('close-content-panel');
+      this.$nuxt.$emit('close-content-panel');
     },
     updateSelection(selection, type, group = null) {
       if (group) {

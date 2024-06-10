@@ -81,12 +81,12 @@ export default {
     },
   },
   mounted() {
-    this.$ralphBus.$on('close-modal', this.closeModal);
-    this.$ralphBus.$on('route-change', this.closeModal);
+    this.$nuxt.$on('close-modal', this.closeModal);
+    this.$nuxt.$on('route-change', this.closeModal);
   },
   beforeDestroy() {
-    this.$ralphBus.$off('close-modal');
-    this.$ralphBus.$off('route-change');
+    this.$nuxt.$off('close-modal');
+    this.$nuxt.$off('route-change');
   },
   methods: {
     onReady() {

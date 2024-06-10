@@ -81,16 +81,18 @@ export const actions = {
 
 export const getters = {
   currentCurrency: (state) => {
-    const currency = state.markets.find(
+    const currency = state.markets?.find(
       (market) => market.alias === state.currentMarket,
     )?.currency.code;
     return currency || 'Currency not found for this market';
   },
   currentMarketObj: (state) => {
-    return state.markets.find((market) => market.alias === state.currentMarket);
+    return state.markets?.find(
+      (market) => market.alias === state.currentMarket,
+    );
   },
   checkoutMarketObj: (state) => {
-    return state.markets.find(
+    return state.markets?.find(
       (market) => market.alias === state.checkoutMarket,
     );
   },

@@ -186,7 +186,7 @@ export const actions = {
   },
   refetchQueries({ dispatch }) {
     this.app.apolloProvider.defaultClient.cache.reset();
-    this.app.$ralphBus.$emit('refetch-queries');
+    this.app.$nuxt.$emit('refetch-queries');
     dispatch('cart/get');
   },
   persistStates({ state }, statesToPersist) {

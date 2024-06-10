@@ -85,10 +85,10 @@ export default {
   },
   watch: {},
   mounted() {
-    this.$ralphBus.$on('route-change', this.close);
+    this.$nuxt.$on('route-change', this.close);
   },
   beforeDestroy() {
-    this.$ralphBus.$off('route-change');
+    this.$nuxt.$off('route-change');
   },
   methods: {
     // @vuese

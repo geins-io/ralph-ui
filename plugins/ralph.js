@@ -1,4 +1,3 @@
-import { reactive, readonly } from 'vue';
 import {
   defineNuxtPlugin,
   useNuxtApp,
@@ -13,26 +12,25 @@ const logStyle =
 
 export default defineNuxtPlugin((nuxtApp) => {
   const { provide, vueApp } = nuxtApp;
-  const { $config } = useRuntimeConfig();
-  const { $store, $i18n } = useNuxtApp();
+  console.log('🚀 ~ defineNuxtPlugin ~ vueApp:', vueApp);
+  const { nuxt2Context } = useNuxtApp();
+  const { store, i18n, localePath } = nuxt2Context.app;
+  const $config = useRuntimeConfig();
+
   const error = useError();
   const router = useRouter();
 
-  // Create reactive event bus using Vue's reactivity system
-  const ralphBus = reactive({});
-  provide('ralphBus', readonly(ralphBus));
-
   const getPath = (
     path,
-    market = $store.value.channel.currentMarket,
-    locale = $i18n.localeProperties.code,
+    market = store?.channel?.currentMarket || 'se',
+    locale = i18n?.localeProperties?.code || 'sv',
   ) => {
     const marketPath = $config.public.marketInPath ? `/${market}` : '';
-    const localePath =
-      $config.public.marketInPath && $i18n.localePath(path, locale) === '/'
+    const locPath =
+      $config.public.marketInPath && localePath(path, locale) === '/'
         ? ''
-        : $i18n.localePath(path, locale);
-    return marketPath + localePath;
+        : localePath(path, locale);
+    return marketPath + locPath;
   };
 
   provide('getPath', getPath);

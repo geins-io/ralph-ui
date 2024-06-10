@@ -541,7 +541,7 @@ export default {
     // @vuese
     // Delete the account
     async deleteAccount() {
-      this.$ralphBus.$emit('close-modal');
+      this.$nuxt.$emit('close-modal');
       this.$store.dispatch('loading/start');
 
       const callback = async () => {

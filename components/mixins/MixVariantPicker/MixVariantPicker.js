@@ -122,7 +122,7 @@ export default {
     // Choose variant. Emits relpaceProduct for non sku variants and changeSku for sku variants
     // @arg variant (Object)
     chooseVariant(variant) {
-      this.$ralphBus.$emit('close-content-panel');
+      this.$nuxt.$emit('close-content-panel');
       if (variant.level === 0) {
         // @vuese
         // Sku variant is changed

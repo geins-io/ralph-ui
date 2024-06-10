@@ -274,7 +274,7 @@ export default {
   watch: {},
   mounted() {},
   beforeDestroy() {
-    this.$ralphBus.$emit('close-modal');
+    this.$nuxt.$emit('close-modal');
   },
   methods: {
     // @vuese
