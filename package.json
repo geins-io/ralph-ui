@@ -1,5 +1,5 @@
 {
-  "name": "@ralph/ralph-ui",
+  "name": "@geins/ralph-ui",
   "module": "./index.js",
   "version": "18.1.2",
   "description": "Component library for Carismar Commerce Storefront ",
