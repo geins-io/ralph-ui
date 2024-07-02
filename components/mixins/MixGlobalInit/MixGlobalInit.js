@@ -1,5 +1,5 @@
 import categoriesQuery from 'global/categories.graphql';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 import listPageInfo from 'global/list-page-info.graphql';
 import MixApolloRefetch from 'MixApolloRefetch';
 // @group Mixins
@@ -22,15 +22,15 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
+      },
     },
     listPageInfo: {
       query: listPageInfo,
       errorPolicy: 'all',
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
-    }
+      },
+    },
   },
   props: {},
   head() {
@@ -42,35 +42,35 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.listPageInfo?.meta?.description
+          content: this.listPageInfo?.meta?.description,
         },
         {
           hid: 'og:title',
           name: 'og:title',
-          content: this.listPageInfo?.meta?.title
+          content: this.listPageInfo?.meta?.title,
         },
         {
           hid: 'og:description',
           name: 'og:description',
-          content: this.listPageInfo?.meta?.description
+          content: this.listPageInfo?.meta?.description,
         },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.$config.baseUrl + '/meta-image-fallback.jpg'
-        }
-      ]
+          content: this.$config.baseUrl + '/meta-image-fallback.jpg',
+        },
+      ],
     };
   },
   data: () => ({
     error: false,
     apolloLoading: false,
-    loadingTimeout: undefined
+    loadingTimeout: undefined,
   }),
   computed: {
     globalLoading() {
       return this.apolloLoading || this.$store.state.loading.loading;
-    }
+    },
   },
   watch: {
     $route(to, from) {
@@ -90,7 +90,7 @@ export default {
         clearTimeout(this.loadingTimeout);
         this.apolloLoading = false;
       }
-    }
+    },
   },
   async mounted() {
     this.$store.dispatch('initScrollListener');
@@ -114,7 +114,7 @@ export default {
     ) {
       this.$store.dispatch(
         'changeCustomerType',
-        this.$cookies.get('ralph-user-type')
+        this.$cookies.get('ralph-user-type'),
       );
     }
     this.performActions();
@@ -126,13 +126,13 @@ export default {
           case 'login':
             this.$store.commit('contentpanel/open', {
               name: 'account',
-              frame: 'login'
+              frame: 'login',
             });
             break;
           default:
             return false;
         }
       }
-    }
-  }
+    },
+  },
 };

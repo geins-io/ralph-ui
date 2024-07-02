@@ -1,5 +1,5 @@
 import MixStockHandler from 'MixStockHandler';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 export default {
@@ -9,21 +9,21 @@ export default {
     // A list of variants (VariantType from the API)
     variants: {
       type: Array,
-      required: true
+      required: true,
     },
     // Variants picker data. A object consisting of variantDimensions, chosenSku and hasMultipleDimensions passed from MixVariantHandler
     variantsData: {
       type: Object,
-      required: true
+      required: true,
     },
     // The title for the picker
     title: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    baseClass: ''
+    baseClass: '',
   }),
   computed: {
     // @vuese
@@ -53,16 +53,16 @@ export default {
       if (this.variantsLevel === 0) {
         return (
           this.variants.filter(
-            i => i.skuId === this.variantsData.chosenSku.id
+            (i) => i.skuId === this.variantsData.chosenSku.id,
           )[0] || null
         );
       } else {
         return this.variants.filter(
-          i =>
+          (i) =>
             i.value ===
             this.variantsData.variantDimensions.filter(
-              ii => ii.level === i.level
-            )[0].value
+              (ii) => ii.level === i.level,
+            )[0].value,
         )[0];
       }
     },
@@ -79,7 +79,7 @@ export default {
     // @type Object
     chosenSku() {
       return this.variantsData.chosenSku;
-    }
+    },
   },
   watch: {},
   mounted() {},
@@ -89,7 +89,7 @@ export default {
     // @arg level (Number)
     getChosenValue(level) {
       return this.variantsData.variantDimensions.filter(
-        i => i.level === level
+        (i) => i.level === level,
       )[0].value;
     },
     // @vuese
@@ -103,7 +103,7 @@ export default {
         !this.variantsData.hasMultipleDimensions
       ) {
         const skuVariant = variant.variants.filter(
-          i => i.value === this.variantsData.chosenSku.value
+          (i) => i.value === this.variantsData.chosenSku.value,
         )[0];
         if (skuVariant) {
           return this.getStockStatusText(skuVariant.stock);
@@ -129,7 +129,7 @@ export default {
           variant.level === 1
             ? variant
             : variant.variants.filter(
-                i => i.value === this.getChosenValue(1)
+                (i) => i.value === this.getChosenValue(1),
               )[0];
 
         const alias = productVariant
@@ -165,6 +165,6 @@ export default {
       }
 
       return classArray;
-    }
-  }
+    },
+  },
 };

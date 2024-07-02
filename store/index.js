@@ -1,4 +1,4 @@
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 const cookie = process.server ? require('cookie') : undefined;
 
 export const state = () => ({
@@ -12,7 +12,7 @@ export const state = () => ({
   ancientBrowser: false,
   categoryTree: [],
   headerHidden: false,
-  currentRouteName: ''
+  currentRouteName: '',
 });
 
 export const mutations = {
@@ -62,7 +62,7 @@ export const mutations = {
   },
   setCurrentRouteName(state, name) {
     state.currentRouteName = name;
-  }
+  },
 };
 
 export const actions = {
@@ -76,7 +76,7 @@ export const actions = {
           window.cancelAnimationFrame(timeout);
         }
         // Setup the new requestAnimationFrame()
-        timeout = window.requestAnimationFrame(function() {
+        timeout = window.requestAnimationFrame(function () {
           // Set scroll top
           const startScrollTop = context.state.scrollTop;
           context.commit('setScrollTop');
@@ -89,10 +89,10 @@ export const actions = {
 
             const stopScrollTop = context.state.scrollTop;
             const mainLayout = document.querySelector(
-              '.ca-layout-default__main'
+              '.ca-layout-default__main',
             );
             const mainLayoutOffset = parseInt(
-              getComputedStyle(mainLayout).paddingTop
+              getComputedStyle(mainLayout).paddingTop,
             );
             const isHeaderHidden =
               startScrollTop > mainLayoutOffset &&
@@ -101,7 +101,7 @@ export const actions = {
           }
         });
       },
-      { passive: true }
+      { passive: true },
     );
   },
   initResizeListener(context) {
@@ -114,12 +114,12 @@ export const actions = {
           window.cancelAnimationFrame(timeout);
         }
         // Setup the new requestAnimationFrame()
-        timeout = window.requestAnimationFrame(function() {
+        timeout = window.requestAnimationFrame(function () {
           // Run resize functions
           context.commit('setViewportWidth');
         });
       },
-      { passive: true }
+      { passive: true },
     );
   },
   // Set scrollbar width, used to keep gap when disabeling body scroll
@@ -128,7 +128,7 @@ export const actions = {
       window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.style.setProperty(
       '--scrollbar-width',
-      scrollbarWidth + 'px'
+      scrollbarWidth + 'px',
     );
   },
   // Set viewport height, used to know the actual viewpoer height on mobile
@@ -143,7 +143,7 @@ export const actions = {
   changeCustomerType({ state, commit }, type) {
     const currentType = type ?? 'PERSON';
     const typeObj = state.config.customerTypes.find(
-      i => i.type === currentType
+      (i) => i.type === currentType,
     );
     commit('setCustomerType', typeObj.type);
     commit('setVatIncluded', typeObj.vat);
@@ -152,7 +152,7 @@ export const actions = {
     if (customerType) {
       this.$cookies.set('ralph-user-type', customerType, {
         path: '/',
-        expires: new Date(new Date().getTime() + 31536000000)
+        expires: new Date(new Date().getTime() + 31536000000),
       });
     }
   },
@@ -163,7 +163,7 @@ export const actions = {
   },
   nuxtServerInit({ commit, dispatch, getters, state }, { req, route, app }) {
     this.$appInsights?.trackTrace({
-      message: 'nuxtServerInit'
+      message: 'nuxtServerInit',
     });
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
@@ -171,7 +171,7 @@ export const actions = {
 
     dispatch('list/saveQuerySelection', {
       query: route.query,
-      setPage: true
+      setPage: true,
     });
 
     if (this.$ua.deviceType() === 'pc') {
@@ -201,17 +201,17 @@ export const actions = {
     // Set cart id from cookie and get cart
     const cartId = parsed['ralph-cart'] || '';
     dispatch('cart/get', cartId);
-  }
+  },
 };
 
 export const getters = {
-  siteIsAtTop: state => {
+  siteIsAtTop: (state) => {
     return state.scrollTop <= state.config.siteTopThreshold;
   },
-  viewportComputer: state => {
+  viewportComputer: (state) => {
     return state.viewportWidth >= state.config.breakpoints.laptop;
   },
-  viewport: state => {
+  viewport: (state) => {
     if (state.viewportWidth < state.config.breakpoints.tablet) {
       return 'phone';
     } else if (state.viewportWidth < state.config.breakpoints.laptop) {
@@ -224,20 +224,20 @@ export const getters = {
       return 'desktopBig';
     }
   },
-  isFavorite: state => prodAlias => {
+  isFavorite: (state) => (prodAlias) => {
     return state.favorites.includes(prodAlias);
   },
-  getSellingPrice: state => price => {
+  getSellingPrice: (state) => (price) => {
     return state.vatIncluded
       ? price.sellingPriceIncVatFormatted
       : price.sellingPriceExVatFormatted;
   },
-  getRegularPrice: state => price => {
+  getRegularPrice: (state) => (price) => {
     return state.vatIncluded
       ? price.regularPriceIncVatFormatted
       : price.regularPriceExVatFormatted;
   },
-  getGtmProductsKey: state => {
+  getGtmProductsKey: (state) => {
     return state.config.gtmIsProductsKeyItems ? 'items' : 'products';
-  }
+  },
 };

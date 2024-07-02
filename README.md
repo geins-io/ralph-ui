@@ -1,4 +1,4 @@
-# @ralph/ralph-ui
+# @geins/ralph-ui
 
 > Component library for Carismar
 

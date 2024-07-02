@@ -23,7 +23,7 @@
   </CaSlider>
 </template>
 <script>
-import CaSlide from '@ralph/ralph-ui/components/atoms/CaSlide/CaSlide.vue';
+import CaSlide from '@geins/ralph-ui/components/atoms/CaSlide/CaSlide.vue';
 import CaProductCard from '@/components/organisms/CaProductCard/CaProductCard.vue';
 
 // @group Molecules
@@ -34,35 +34,35 @@ export default {
   name: 'CaProductListSlider',
   components: {
     CaProductCard,
-    CaSlide
+    CaSlide,
   },
   mixins: [],
   props: {
     // Array of products
     products: {
       type: Array,
-      required: true
+      required: true,
     },
     // Current page size
     pageSize: {
       type: Number,
-      required: true
+      required: true,
     },
     // Should dots be displayed?
     dots: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Should arrows be displayed?
     arrows: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // First part of icon name for the arrows. Will add '-left', '-right', '-up' or '-down' as fitting
     arrowIconName: {
       type: String,
-      default: 'chevron'
-    }
+      default: 'chevron',
+    },
   },
   data: () => ({}),
   computed: {
@@ -77,21 +77,20 @@ export default {
       return prodArray;
     },
     slidesToScroll() {
-      const scrollSize = this.$config.productListScrollSize[
-        this.$store.getters.viewport
-      ];
+      const scrollSize =
+        this.$config.productListScrollSize[this.$store.getters.viewport];
       if (isFinite(scrollSize)) {
         return scrollSize;
       }
       console.error(
-        `Missing product list scroll size for viewport ${this.$store.getters.viewport}. Check config.`
+        `Missing product list scroll size for viewport ${this.$store.getters.viewport}. Check config.`,
       );
       return 1;
-    }
+    },
   },
   watch: {},
   mounted() {},
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss">
