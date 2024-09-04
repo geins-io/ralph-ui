@@ -1,4 +1,4 @@
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 
 export default {
   name: 'MixApolloRefetch',
@@ -10,11 +10,11 @@ export default {
   mounted() {
     eventbus.$on('refetch-apollo-queries', () => {
       this.isInitialRequest = true;
-      Object.values(this.$apollo.queries).forEach(query => query.refetch());
+      Object.values(this.$apollo.queries).forEach((query) => query.refetch());
     });
   },
   beforeDestroy() {
     eventbus.$off('refetch-apollo-queries');
   },
-  methods: {}
+  methods: {},
 };

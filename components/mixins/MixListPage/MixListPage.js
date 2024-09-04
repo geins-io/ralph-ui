@@ -4,7 +4,7 @@ import filtersQuery from 'productlist/list-filters.graphql';
 import productsQuery from 'productlist/products.graphql';
 import nostoRecommendationsQuery from 'productlist/nosto-recommendations.graphql';
 import { mapState, mapGetters } from 'vuex';
-import eventbus from '@ralph/ralph-ui/plugins/eventbus.js';
+import eventbus from '@geins/ralph-ui/plugins/eventbus.js';
 // @group Mixins
 // @vuese
 // All functionality for the list page<br><br>
@@ -48,7 +48,7 @@ export default {
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
+      },
     },
     productFilters: {
       query() {
@@ -68,13 +68,13 @@ export default {
           }
         }
       },
-      update: data => data.products.filters,
+      update: (data) => data.products.filters,
       skip() {
         return !process.client;
       },
       error(error) {
         this.$nuxt.error({ statusCode: error.statusCode, message: error });
-      }
+      },
     },
     nostoProducts: {
       client: 'nosto',
@@ -97,8 +97,8 @@ export default {
         this.productsFetched = true;
         this.$store.dispatch('loading/end');
       },
-      update: data => data.session?.recos?.category?.primary
-    }
+      update: (data) => data.session?.recos?.category?.primary,
+    },
   },
   props: {
     // @vuese
@@ -107,22 +107,22 @@ export default {
       // 'list', 'category', 'brand', 'search', 'favorites', 'all'
       type: String,
       default: 'list',
-      validator: value => {
+      validator: (value) => {
         return [
           'list',
           'category',
           'brand',
           'search',
           'favorites',
-          'all'
+          'all',
         ].includes(value);
-      }
+      },
     },
     // @vuese
     // Current alias for the page
     currentAlias: {
       type: String,
-      default: ''
+      default: '',
     },
     // @vuese
     // Current url path for the page
@@ -130,34 +130,34 @@ export default {
       type: String,
       default() {
         return decodeURI(this.$route.path);
-      }
+      },
     },
     // @vuese
     // Base filters for this page
     filtersVars: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     // @vuese
     // Automatically applied parameters, added through routing. Can be used for section style routing. See Ekotextil for implementation example.
     implicitFacets: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // @vuese
     // Exclude facets by facet ids
     excludeFacets: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // @vuese
     // The list info object, either static or fetched from the API. Must contain at least name, meta title and meta description like so: `{ name: '', meta: { title: '', description: ''} }`
     listInfo: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
-  data: vm => ({
+  data: (vm) => ({
     baseFilters: {},
     userSkip: 0,
     widgetData: {},
@@ -169,7 +169,7 @@ export default {
     URLparamsRead: false,
     filtersSet: false,
     userHasPaged: false,
-    productsFetched: false
+    productsFetched: false,
   }),
   computed: {
     // @vuese
@@ -252,7 +252,7 @@ export default {
         for (const group in this.selection.parameters) {
           if (this.selection.parameters[group].length) {
             queryObj['p-' + group] = this.getReadableParams(
-              this.selection.parameters[group]
+              this.selection.parameters[group],
             );
           }
         }
@@ -320,7 +320,7 @@ export default {
         return this.userSelection;
       } else {
         const querySelection = JSON.parse(
-          JSON.stringify(this.list.querySelection)
+          JSON.stringify(this.list.querySelection),
         );
         if (!querySelection.sort) {
           querySelection.sort = this.$route.query.sort
@@ -336,18 +336,18 @@ export default {
     productsQueryFilter() {
       const obj = {};
 
-      const categories = this.selection.categories.map(i => i.id);
-      const brands = this.selection.brands.map(i => i.id);
-      const skus = this.selection.skus.map(i => i.id);
-      const price = this.selection.price.map(i => i.id);
-      const discount = this.selection.discount.map(i => i.id);
+      const categories = this.selection.categories.map((i) => i.id);
+      const brands = this.selection.brands.map((i) => i.id);
+      const skus = this.selection.skus.map((i) => i.id);
+      const price = this.selection.price.map((i) => i.id);
+      const discount = this.selection.discount.map((i) => i.id);
       const parameters = [];
       for (const group in this.selection.parameters) {
-        const selection = this.selection.parameters[group].map(i => i.id);
-        selection.forEach(i => parameters.push(i));
+        const selection = this.selection.parameters[group].map((i) => i.id);
+        selection.forEach((i) => parameters.push(i));
       }
       const facets = categories.concat(
-        brands.concat(skus.concat(price.concat(discount.concat(parameters))))
+        brands.concat(skus.concat(price.concat(discount.concat(parameters)))),
       );
 
       this.$set(obj, 'facets', facets.concat(this.implicitFacets));
@@ -359,7 +359,7 @@ export default {
       this.$set(
         obj,
         'sort',
-        this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort
+        this.selection.sort === 'BEST_MATCH' ? 'LATEST' : this.selection.sort,
       );
 
       this.$set(obj, 'filterMode', facets.length ? 'BY_GROUP' : 'CURRENT');
@@ -404,7 +404,7 @@ export default {
         ...this.filtersVars,
         skip: this.skip,
         take: this.pageSize,
-        filter: this.productsQueryFilter
+        filter: this.productsQueryFilter,
       };
       if (this.isList) {
         this.$set(varsObj, 'url', this.currentPath);
@@ -420,7 +420,7 @@ export default {
       const varsObj = {
         ...this.productsQueryVars,
         skip: 0,
-        take: 0
+        take: 0,
       };
 
       if (!this.urlFilteredList || this.filtersSet) {
@@ -429,7 +429,7 @@ export default {
 
       return {
         ...varsObj,
-        filter: null
+        filter: null,
       };
     },
     // @vuese
@@ -438,12 +438,12 @@ export default {
     infoQueryVars() {
       if (this.isList) {
         return {
-          url: this.currentPath
+          url: this.currentPath,
         };
       }
       if (!(this.isSearch || this.isAll)) {
         return {
-          alias: this.currentAlias
+          alias: this.currentAlias,
         };
       }
       return {};
@@ -455,7 +455,7 @@ export default {
       const varsObj = {
         skip: this.currentMaxCount,
         take: this.pageSize,
-        filter: this.productsQueryFilter
+        filter: this.productsQueryFilter,
       };
       if (this.isList) {
         this.$set(varsObj, 'url', this.currentPath);
@@ -471,7 +471,7 @@ export default {
       const varsObj = {
         skip: this.currentMinCount - 1 - this.pageSize,
         take: this.pageSize,
-        filter: this.productsQueryFilter
+        filter: this.productsQueryFilter,
       };
       if (this.isList) {
         this.$set(varsObj, 'url', this.currentPath);
@@ -499,7 +499,7 @@ export default {
       }
       const filtersArray = [];
       const filterObj = {
-        value: this.currentAlias
+        value: this.currentAlias,
       };
       if (this.isCategory) {
         filterObj.key = 'Category';
@@ -524,7 +524,7 @@ export default {
             alias: currentAlias,
             canonical: this.listInfo.canonicalUrl,
             id: this.listInfo.id,
-            type: this.type
+            type: this.type,
           }
         : {};
     },
@@ -545,18 +545,18 @@ export default {
     },
     ...mapState(['list']),
     ...mapGetters({
-      customDefaultSort: 'list/customDefaultSort'
-    })
+      customDefaultSort: 'list/customDefaultSort',
+    }),
   },
   watch: {
     userSelection(newVal, oldVal) {
       if (newVal && oldVal === null) {
         this.$store.commit('list/resetQuerySelection');
       }
-    }
+    },
   },
   mounted() {
-    eventbus.$on('route-change', routes => {
+    eventbus.$on('route-change', (routes) => {
       this.handleFilteredRoutesRouting(routes);
     });
   },
@@ -569,7 +569,7 @@ export default {
       const {
         totalPrimaryCount: count,
         primary: products,
-        resultId
+        resultId,
       } = data?.session?.recos?.category;
 
       const createObjectNode = (indexKey, keys, acc, value) => {
@@ -585,7 +585,7 @@ export default {
         createObjectNode(indexKey + 1, keys, acc[keys[indexKey]], value);
       };
 
-      const mappedAttributesProducts = products.map(product => ({
+      const mappedAttributesProducts = products.map((product) => ({
         ...product,
         ...product.attributes.reduce((acc, { key, value }) => {
           const keys = key.split('_');
@@ -594,38 +594,32 @@ export default {
             return acc;
           }
           return { ...acc, [keys[0]]: value };
-        }, {})
+        }, {}),
       }));
 
-      const formattedProduct = mappedAttributesProducts.map(product => ({
+      const formattedProduct = mappedAttributesProducts.map((product) => ({
         ...product,
         nostoResultId: resultId,
-        productImages: product.images.split(',').map(i => {
+        productImages: product.images.split(',').map((i) => {
           return {
-            fileName: i
+            fileName: i,
           };
         }),
         skus: [
           {
             skuId: product?.primarySku?.id,
-            productId: product.productId
-          }
+            productId: product.productId,
+          },
         ],
         totalStock: {
           ...product.totalStock,
-          totalStock: product.totalStock.sellable
+          totalStock: product.totalStock.sellable,
         },
-        canonicalUrl: `/${product.canonicalUrl
-          .split('/')
-          .slice(3)
-          .join('/')}`,
-        alias: product.canonicalUrl
-          .split('/')
-          .slice(-1)
-          .join(''),
+        canonicalUrl: `/${product.canonicalUrl.split('/').slice(3).join('/')}`,
+        alias: product.canonicalUrl.split('/').slice(-1).join(''),
         discountCampaigns: product.discountCampaigns
           ? [product.discountCampaigns.split(',')]
-          : []
+          : [],
       }));
 
       return { count, products: formattedProduct };
@@ -635,11 +629,11 @@ export default {
         ...this.filtersVars,
         filters: {
           customFields: [
-            { attribute: 'Facets', values: this.productsQueryFilter.facets }
-          ]
+            { attribute: 'Facets', values: this.productsQueryFilter.facets },
+          ],
         },
         excludeFilters: {
-          availability: 'InStock'
+          availability: 'InStock',
         },
         customerId:
           this.$store.getters['nosto/getSessionToken'] ||
@@ -648,7 +642,7 @@ export default {
         preview: false,
         category: this.categoryAlias,
         limit: this.pageSize,
-        skipPages
+        skipPages,
       };
     },
     // @vuese
@@ -660,7 +654,7 @@ export default {
         document.body.offsetHeight,
         document.documentElement.offsetHeight,
         document.body.clientHeight,
-        document.documentElement.clientHeight
+        document.documentElement.clientHeight,
       );
     },
     // @vuese
@@ -731,7 +725,7 @@ export default {
       ) {
         this.$router
           .replace({
-            query: this.filterURLparams
+            query: this.filterURLparams,
           })
           .catch(() => {});
       }
@@ -761,7 +755,7 @@ export default {
     relocateProduct() {
       clearTimeout(this.relocateTimeout);
       const product = document.querySelector(
-        '[data-alias="' + this.list.relocateAlias + '"]'
+        '[data-alias="' + this.list.relocateAlias + '"]',
       );
       if (product !== null) {
         this.$nextTick(() => {
@@ -781,7 +775,7 @@ export default {
       const selection = {};
       await this.$store.dispatch('list/saveQuerySelection', {
         query: this.$route.query,
-        setPage: false
+        setPage: false,
       });
       if (this.selection.categories) {
         this.$set(selection, 'categories', this.selection.categories);
@@ -826,7 +820,7 @@ export default {
       this.$set(
         this.filters,
         'categories',
-        sortedFilters.categories?.values || []
+        sortedFilters.categories?.values || [],
       );
       this.$set(this.filters, 'brands', sortedFilters.brands?.values || []);
       this.$set(this.filters, 'skus', sortedFilters.skus?.values || []);
@@ -848,18 +842,20 @@ export default {
     removeQueryVar(query, fields) {
       const newQuery = JSON.parse(JSON.stringify(query));
 
-      fields.forEach(field => {
-        const indexQueryVariable = newQuery.definitions[0].variableDefinitions.findIndex(
-          item => item.variable.name.value === field
-        );
-        const indexQueryField = newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
-          item => item.value.name.value === field
-        );
+      fields.forEach((field) => {
+        const indexQueryVariable =
+          newQuery.definitions[0].variableDefinitions.findIndex(
+            (item) => item.variable.name.value === field,
+          );
+        const indexQueryField =
+          newQuery.definitions[0].selectionSet.selections[0].arguments.findIndex(
+            (item) => item.value.name.value === field,
+          );
 
         if (![indexQueryVariable, indexQueryField].includes(-1)) {
           newQuery.definitions[0].variableDefinitions.splice(
             indexQueryVariable,
-            1
+            1,
           );
         }
       });
@@ -874,38 +870,38 @@ export default {
 
       this.filters.categories = this.setNewCount(
         this.filters.categories,
-        sortedFilters.categories
+        sortedFilters.categories,
       );
 
       this.filters.brands = this.setNewCount(
         this.filters.brands,
-        sortedFilters.brands
+        sortedFilters.brands,
       );
 
       this.filters.skus = this.setNewCount(
         this.filters.skus,
-        sortedFilters.skus
+        sortedFilters.skus,
       );
 
       this.filters.price = this.setNewCount(
         this.filters.price,
-        sortedFilters.price
+        sortedFilters.price,
       );
 
       this.filters.discount = this.setNewCount(
         this.filters.discount,
-        sortedFilters.discount
+        sortedFilters.discount,
       );
 
-      this.filters.parameters = this.filters.parameters.map(filter => {
+      this.filters.parameters = this.filters.parameters.map((filter) => {
         const newFilter = sortedFilters.parameters.find(
-          i => i.filterId === filter.filterId
+          (i) => i.filterId === filter.filterId,
         );
         let filterClone = JSON.parse(JSON.stringify(filter));
 
         filterClone = {
           ...filterClone,
-          values: this.setNewCount(filter.values, newFilter)
+          values: this.setNewCount(filter.values, newFilter),
         };
 
         return filterClone;
@@ -921,20 +917,20 @@ export default {
       const baseFiltersClone = JSON.parse(JSON.stringify(baseFilters));
 
       if (!newFilters) {
-        return baseFiltersClone.map(i => ({ ...i, count: 0 }));
+        return baseFiltersClone.map((i) => ({ ...i, count: 0 }));
       }
 
       const newFiltersClone = JSON.parse(JSON.stringify(newFilters));
 
-      const array = baseFiltersClone.map(i => {
+      const array = baseFiltersClone.map((i) => {
         const existsInNewFilters = newFiltersClone?.values.findIndex(
-          ii => ii.facetId === i.facetId
+          (ii) => ii.facetId === i.facetId,
         );
         if (existsInNewFilters === -1) {
           i.count = 0;
         } else {
           const newCount = newFiltersClone?.values.find(
-            ii => ii.facetId === i.facetId
+            (ii) => ii.facetId === i.facetId,
           ).count;
           i.count = newCount || 0;
         }
@@ -946,19 +942,19 @@ export default {
     // Sorting all filters into groups
     // @arg filters (Object)
     getSortedFilters(filters) {
-      const categories = filters.facets.find(i => i.type === 'Category');
-      const brands = filters.facets.find(i => i.type === 'Brand');
-      const skus = filters.facets.find(i => i.type === 'Sku');
-      const price = filters.facets.find(i => i.type === 'Price');
-      const discount = filters.facets.find(i => i.type === 'Discount');
-      const parameters = filters.facets.filter(i => i.type === 'Parameter');
+      const categories = filters.facets.find((i) => i.type === 'Category');
+      const brands = filters.facets.find((i) => i.type === 'Brand');
+      const skus = filters.facets.find((i) => i.type === 'Sku');
+      const price = filters.facets.find((i) => i.type === 'Price');
+      const discount = filters.facets.find((i) => i.type === 'Discount');
+      const parameters = filters.facets.filter((i) => i.type === 'Parameter');
       return { categories, brands, skus, price, discount, parameters };
     },
     // @vuese
     // Setting up params for filter in URL
     // @arg filter selection (Array)
     getReadableParams(array) {
-      const readableParams = array.map(i => i.label + '~' + i.id);
+      const readableParams = array.map((i) => i.label + '~' + i.id);
       return readableParams.join();
     },
     // @vuese
@@ -971,7 +967,7 @@ export default {
         const fixRouting = async () => {
           await this.$store.dispatch('list/saveQuerySelection', {
             query: routes.to.query,
-            setPage: false
+            setPage: false,
           });
           let resetSelectionFromQuery = false;
           const userSelectionExists = !!this.userSelection;
@@ -985,7 +981,7 @@ export default {
                 price: [],
                 discount: [],
                 parameters: {},
-                sort: this.defaultSort
+                sort: this.defaultSort,
               };
 
           for (const [key, value] of Object.entries(this.list.querySelection)) {
@@ -1010,6 +1006,6 @@ export default {
         };
         fixRouting();
       }
-    }
-  }
+    },
+  },
 };
