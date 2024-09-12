@@ -7,6 +7,20 @@ export default class AuthClient {
     this.signAccount = signEndpoint;
   }
 
+  // Reads headers from response and sets refresh token if available
+  readHeaders(response) {
+    const refreshToken = response.headers.get('x-auth-refresh-token');
+    if (refreshToken) {
+      this.setRefreshToken(refreshToken);
+    }
+    return response;
+  }
+
+  // Sets refresh token
+  setRefreshToken(refreshToken) {
+    this.refreshToken = refreshToken;
+  }
+
   // Sets token and token max age
   setTokenData(data) {
     this.token = data.token;
@@ -33,6 +47,14 @@ export default class AuthClient {
       fetchOptions.body = JSON.stringify(auth);
     }
 
+    const addRefreshToken = () => {
+      if (this.refreshToken) {
+        fetchOptions.headers.Cookie = `refresh=${this.refreshToken}`;
+      }
+    };
+
+    addRefreshToken();
+
     // Function that adds signature, password and other options to auth request body
     const addCredentials = async (sign) => {
       auth.signature = await this.signAccount(sign);
@@ -44,14 +66,17 @@ export default class AuthClient {
         auth.sessionLifetime = 30;
       }
       fetchOptions.body = JSON.stringify(auth);
+      addRefreshToken();
     };
 
     let data = await fetch(url, fetchOptions)
+      .then((response) => this.readHeaders(response))
       .then((response) => response.json())
       .catch(() => {});
     if (data?.sign) {
       await addCredentials(data.sign);
       data = await fetch(url, fetchOptions)
+        .then((response) => this.readHeaders(response))
         .then((response) => response.json())
         .then((data) => {
           if (data?.token) {

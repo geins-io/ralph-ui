@@ -30,6 +30,10 @@ export const actions = {
         rootState.config.authEndpoint,
       );
       commit('setClient', client);
+      const refreshToken = this.$cookies.get('ralph-auth-refresh');
+      if (refreshToken) {
+        state.client.setRefreshToken(refreshToken);
+      }
       await dispatch('refresh');
     }
   },
@@ -81,20 +85,24 @@ export const actions = {
         path: '/',
         maxAge: state.client.maxAge,
       });
-      let maxage = 604800;
+      let maxAge = 604800;
       if (credentials) {
-        maxage = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
-      } else if (this.$cookies.get('ralph-user-maxage')) {
-        maxage = this.$cookies.get('ralph-user-maxage');
+        maxAge = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
+      } else if (this.$cookies.get('ralph-user-maxAge')) {
+        maxAge = this.$cookies.get('ralph-user-maxAge');
       }
       commit('setUser', username);
       this.$cookies.set('ralph-user', username, {
         path: '/',
-        maxAge: maxage,
+        maxAge,
       });
-      this.$cookies.set('ralph-user-maxage', maxage, {
+      this.$cookies.set('ralph-user-maxage', maxAge, {
         path: '/',
-        maxAge: maxage,
+        maxAge,
+      });
+      this.$cookies.set('ralph-auth-refresh', state.client.refreshToken, {
+        path: '/',
+        maxAge,
       });
     } else if (state.user !== null) {
       username = null;
@@ -104,6 +112,7 @@ export const actions = {
       this.$cookies.remove('ralph-user', { path: '/' });
       this.$cookies.remove('ralph-user-maxage', { path: '/' });
       this.$cookies.remove('ralph-user-type', { path: '/' });
+      this.$cookies.remove('ralph-auth-refresh', { path: '/' });
     } else {
       // No login, no logout, no need to refetch queries or broadcast
       refetchQueries = false;
