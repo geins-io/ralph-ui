@@ -88,8 +88,8 @@ export const actions = {
       let maxAge = 604800;
       if (credentials) {
         maxAge = credentials.rememberUser ? 604800 : 1800; // 7 days or 30 minutes - This is matching the lifetime of the refresh cookie from the auth service
-      } else if (this.$cookies.get('ralph-user-maxAge')) {
-        maxAge = this.$cookies.get('ralph-user-maxAge');
+      } else if (this.$cookies.get('ralph-user-maxage')) {
+        maxAge = this.$cookies.get('ralph-user-maxage');
       }
       commit('setUser', username);
       this.$cookies.set('ralph-user', username, {
