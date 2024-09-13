@@ -49,7 +49,7 @@ export default class AuthClient {
 
     const addRefreshToken = () => {
       if (this.refreshToken) {
-        fetchOptions.headers.Cookie = `refresh=${this.refreshToken}`;
+        fetchOptions.headers['x-auth-refresh-token'] = this.refreshToken;
       }
     };
 
