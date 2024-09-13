@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [23.2.0] - 2024-09-13
+
+### Added
+
+- Support for authentication refresh via headers instead of third party cookies, since they are being blocked by browsers.
+
 ## [23.1.0] - 2024-05-24
 
 ### Changed
