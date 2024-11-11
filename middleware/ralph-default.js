@@ -79,7 +79,7 @@ export default ({ redirect, route, $config, app, store, i18n }) => {
     }
 
     // If i18n redirects wrong, redirect to correct path
-    if (route.path === '/' + currentLanguage + '/' + currentMarket) {
+    if (route.path === '/' + currentLanguage + '/' + currentMarket && currentLanguage !== currentMarket) {
       return redirectToPath('/' + currentMarket + '/' + currentLanguage);
     }
 
