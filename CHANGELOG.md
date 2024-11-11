@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [23.2.1] - 2024-11-11
+
+### Fixed
+
+- Safe guard from redirect loop when market alias and language is the same
+
 ## [23.2.0] - 2024-09-13
 
 ### Added
