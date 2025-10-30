@@ -67,6 +67,8 @@ export default {
     apolloLoading: false,
     loadingTimeout: undefined,
     listPageInfo: null,
+    persistStateUnsubscribe: undefined,
+    persistStateThrottleTimeout: undefined,
   }),
   computed: {
     globalLoading() {
@@ -105,6 +107,19 @@ export default {
     this.$store.commit('setViewportWidth');
     this.$store.dispatch('initResizeListener');
 
+    this.persistStateUnsubscribe = this.$store.subscribe((mutation, state) => {
+      if (state.restoringState || this.persistStateThrottleTimeout) {
+        return;
+      }
+
+      this.persistStateThrottleTimeout = setTimeout(() => {
+        this.persistStateThrottleTimeout = null;
+        this.$store.dispatch(
+          'persistStates',
+          this.$config.statesToPersist || [],
+        );
+      }, 1000);
+    });
     window.addEventListener('popstate', this.popStateHandler);
     window.addEventListener('beforeunload', this.beforeUnloadHandler);
 
@@ -122,6 +137,9 @@ export default {
     this.performActions();
   },
   beforeDestroy() {
+    if (this.persistStateUnsubscribe) {
+      this.persistStateUnsubscribe();
+    }
     window.removeEventListener('popstate', this.popStateHandler);
     window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   },

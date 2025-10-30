@@ -13,6 +13,7 @@ export const state = () => ({
   headerHidden: false,
   currentRouteName: '',
   currentPath: '',
+  restoringState: false,
 });
 
 export const mutations = {
@@ -71,6 +72,9 @@ export const mutations = {
   },
   setCurrentPath(state, path) {
     state.currentPath = path;
+  },
+  setRestoringState(state, isRestoring) {
+    state.restoringState = isRestoring;
   },
 };
 
@@ -242,6 +246,8 @@ export const actions = {
     this.$appInsights?.trackTrace({
       message: 'nuxtServerInit',
     });
+    commit('setRestoringState', true);
+
     commit('setHostName', req.headers.host);
     commit('setConfig', this.$config);
     commit('setCurrentRouteName', route.name);
@@ -291,6 +297,8 @@ export const actions = {
     } else {
       commit('cart/setCart', { id: cartId });
     }
+
+    commit('setRestoringState', false);
   },
 };
 
