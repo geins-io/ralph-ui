@@ -14,6 +14,12 @@ Sections to use
 ### Fixed
 -->
 
+## [23.2.2] - 2025-11-03
+
+### Fixed
+
+- Continuous state persistence since it is not persisted on iOS
+
 ## [23.2.1] - 2024-11-11
 
 ### Fixed
